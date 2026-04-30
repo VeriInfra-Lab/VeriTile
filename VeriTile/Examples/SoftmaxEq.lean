@@ -70,10 +70,10 @@ Region names are kernel parameters; both kernels share the input region
 /-- Naive softmax: `y = exp(x) / sum(exp(x))`. -/
 def naiveSoftmaxKernel (xReg yReg : RegionName) (blockSize : Nat) : Kernel := triton {
   pid  := tl.program_id(0)
-  offs := pid * $(blockSize) + tl.arange($(blockSize))
+  offs := pid * $(blockSize) + tl.arange(0, $(blockSize))
   x    := tl.load($(xReg) + offs)
   e    := tl.exp(x)
-  s    := tl.sum(e)
+  s    := tl.sum(e, axis=0)
   y    := e / s
   tl.store($(yReg) + offs, y)
 }
@@ -81,11 +81,11 @@ def naiveSoftmaxKernel (xReg yReg : RegionName) (blockSize : Nat) : Kernel := tr
 /-- Stable softmax: subtract the max before exponentiating. -/
 def stableSoftmaxKernel (xReg yReg : RegionName) (blockSize : Nat) : Kernel := triton {
   pid  := tl.program_id(0)
-  offs := pid * $(blockSize) + tl.arange($(blockSize))
+  offs := pid * $(blockSize) + tl.arange(0, $(blockSize))
   x    := tl.load($(xReg) + offs)
-  m    := tl.max(x)
+  m    := tl.max(x, axis=0)
   e    := tl.exp(x - m)
-  s    := tl.sum(e)
+  s    := tl.sum(e, axis=0)
   y    := e / s
   tl.store($(yReg) + offs, y)
 }
@@ -146,7 +146,7 @@ noncomputable def naiveSpec {blockSize : Nat} (xs : Fin blockSize → ℝ) (i : 
 noncomputable def stableSpec {blockSize : Nat} (xs : Fin blockSize → ℝ) (m : ℝ) (i : Fin blockSize) : ℝ :=
   Real.exp (xs i - m) / ∑ j, Real.exp (xs j - m)
 
-/-- Max of a non-empty tile, in `Value.reduceMax`'s form. -/
+/-- Max of a non-empty tile, in `Tile.reduceMax`'s form. -/
 noncomputable def tileMax {blockSize : Nat} (h : 0 < blockSize) (xs : Fin blockSize → ℝ) : ℝ :=
   match blockSize, h, xs with
   | _ + 1, _, xs => Finset.univ.sup' Finset.univ_nonempty xs
@@ -170,21 +170,20 @@ theorem softmax_naive_correct
       observeAt (exec (naiveSoftmaxKernel xReg yReg blockSize) s) yReg blockSize s.pid i
         = some (naiveSpec xs i) := by
   intro i
-  -- The output offsets `s.pid * blockSize + k.val` are injective in `k`.
-  have h_inj : Function.Injective (fun k : Fin blockSize => s.pid * blockSize + k.val) := by
-    intro a b hab
-    exact Fin.ext (Nat.add_left_cancel hab)
-  -- Reduce the kernel via the operational semantics. `writeMem` is left
-  -- unfolded so the resulting `foldl` matches the shape required by
-  -- `scatter_readback`. Post-RP2 the offset arithmetic stays in `Nat` end
-  -- to end, so no `hcast` lemma is needed.
-  simp [observeAt, exec, naiveSoftmaxKernel, stepStmts, stepStmt, evalOp, Value.bop,
-        Value.uop, Value.reduceSum, BlockState.setReg, BlockState.readMem, naiveSpec]
-  -- Substitute the loaded input cells with `xs`.
+  have h_inj : Function.Injective
+      (fun idx : TileIndex [blockSize] => s.pid * blockSize + idx.1.val) := by
+    rintro ⟨a, _⟩ ⟨b, _⟩ hab
+    obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
+    rfl
+  simp [observeAt, exec, naiveSoftmaxKernel, stepStmts, stepStmt, evalOp,
+        Tile.bop, Tile.uop, Tile.reduceSum, Tile.reduceSumDrop,
+        TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
+        NumericDType.add, NumericDType.mul, NumericDType.div,
+        BlockState.setReg, BlockState.readMem, naiveSpec]
   unfold InputLoadedAt at _h_x
-  simp_rw [_h_x]
-  -- The remaining goal is exactly the readback of an injective scatter store.
-  exact BlockState.scatter_readback _ _ _ h_inj i
+  rw [BlockState.scatter_readback_nd _ _ _ h_inj (i, PUnit.unit)]
+  simp [_h_x]
+  rfl
 
 /-- **Stable softmax kernel correctness.** Same scheme as above with the
     max-shift formula as the closed form. P2 polish. -/
@@ -195,24 +194,23 @@ theorem softmax_stable_correct
     ∀ i : Fin blockSize,
       observeAt (exec (stableSoftmaxKernel xReg yReg blockSize) s) yReg blockSize s.pid i
         = some (stableSpec xs (tileMax hN xs) i) := by
-  -- Case-split `blockSize = n + 1` so that `Value.reduceMax` and `tileMax` reduce.
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
   intro i
-  -- The output offsets `s.pid * (n+1) + k.val` are injective in `k`.
-  have h_inj : Function.Injective (fun k : Fin (n + 1) => s.pid * (n + 1) + k.val) := by
-    intro a b hab
-    exact Fin.ext (Nat.add_left_cancel hab)
-  -- Reduce the kernel via the operational semantics. `writeMem` is left
-  -- unfolded so the resulting `foldl` matches the shape required by
-  -- `scatter_readback`. Post-RP2: address arithmetic in `Nat`, no `hcast`.
-  simp [observeAt, exec, stableSoftmaxKernel, stepStmts, stepStmt, evalOp, Value.bop,
-        Value.uop, Value.reduceSum, Value.reduceMax, BlockState.setReg, BlockState.readMem,
-        stableSpec, tileMax]
-  -- Substitute the loaded input cells with `xs`.
+  have h_inj : Function.Injective
+      (fun idx : TileIndex [n + 1] => s.pid * (n + 1) + idx.1.val) := by
+    rintro ⟨a, _⟩ ⟨b, _⟩ hab
+    obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
+    rfl
+  simp [observeAt, exec, stableSoftmaxKernel, stepStmts, stepStmt, evalOp,
+        Tile.bop, Tile.uop, Tile.reduceSum, Tile.reduceSumDrop,
+        Tile.reduceMax, Tile.reduceMaxDrop,
+        TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
+        NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
+        BlockState.setReg, BlockState.readMem, stableSpec, tileMax]
   unfold InputLoadedAt at _h_x
-  simp_rw [_h_x]
-  -- The remaining goal is exactly the readback of an injective scatter store.
-  exact BlockState.scatter_readback _ _ _ h_inj i
+  rw [BlockState.scatter_readback_nd _ _ _ h_inj (i, PUnit.unit)]
+  simp [_h_x]
+  rfl
 
 /-- **Refinement: `naiveSoftmaxKernel` and `stableSoftmaxKernel` produce the
     same `Y`-region memory.**

@@ -20,22 +20,34 @@ Agent.
 - [Other Examples](#other-examples)
 - [More Documentation](#more-documentation)
 - [Research Problems](#research-problems)
+- [Architecture](#architecture)
 - [Repository Layout](#repository-layout)
 - [Roadmap](#roadmap)
 - [License](#license)
 
 ## Status
 
-Phase A is complete. See release
-[`v0.1-tier1`](https://github.com/Lizn-zn/VeriTile/releases/tag/v0.1-tier1).
+Phase B is complete. See release
+[`v0.2-tier2`](https://github.com/Lizn-zn/VeriTile/releases/tag/v0.2-tier2)
+(prior milestone: [`v0.1-tier1`](https://github.com/Lizn-zn/VeriTile/releases/tag/v0.1-tier1)).
 
-Included in Phase A:
+Included through Phase B:
 
-- 3 closed Tier 1 kernel-pair refinement theorems.
-- A `triton { ... }` Lean macro for the current Triton subset.
-- Operational semantics for gather/scatter tile loads and stores.
-- A held-out LLM proof-evaluation harness.
-- A FlashAttention forward feasibility study.
+- 6 closed kernel-pair refinement theorems (Tier 1 × 3 + Tier 2 × 3).
+- `forLoop` operational semantics + `forLoop_inv` master induction lemma.
+- Online softmax recurrence ≡ batch softmax (paper centerpiece, no input
+  range precondition).
+- Welford online recurrence ≡ two-pass mean/variance.
+- LayerNorm fused single-pass kernel ≡ two-pass kernel.
+- Typed `Op : TileDType → TileShape → Type` with end-to-end typed
+  `evalOp`/`stepStmt` and a typed register file.
+- `WithBot ℝ` carrier: `tl.full((), -inf)` lowers to true `⊥`, so kernels
+  using `-inf` as a max-accumulator seed need no input-range hypothesis.
+- Triton-faithful mask semantics: `tl.load(p, mask=m, other=o)` lowers to
+  separate AST forms; `other=None` is modeled non-deterministically via
+  a per-state `undef` oracle.
+- 6 comparison operators (`<`, `<=`, `==`, `>`, `>=`, `!=`) over the
+  `.real`/`.nat` channels, producing the `.bool` channel.
 
 ## Environment
 
@@ -166,6 +178,87 @@ recommendation, and notes when to revisit. Index here; full discussion in
   (address) channels? Resolved: bifurcated; `realToNat` deleted; ~40 lines
   of `hcast` boilerplate dropped from kernel proofs.
   → [research_problem_address_typing.md](./Notes/research_problem_address_typing.md)
+
+## Architecture
+
+The type system is the backbone of VeriTile's soundness guarantee. Every layer
+is fully typed end-to-end — there is no dynamically-tagged runtime value or
+existential wrapper anywhere in the pipeline.
+
+```text
+TileDType              TileShape                TileIndex
+(.real/.nat/.bool)     (.scalar/.vec n/.mat m n) (PUnit / Fin n / Fin m × Fin n)
+       │                       │                          │
+   TileCarrier                 │                          │
+   (ℝ / Nat / Bool)            │                          │
+       │                       │                          │
+       ▼                       ▼                          ▼
+  ┌──────────────────────────────────────────────────────────┐
+  │  structure Tile (dtype : TileDType) (shape : TileShape)  │
+  │    data : TileIndex shape → TileCarrier dtype            │
+  │  ────────────────────────────────────────────────────── │
+  │  smart ctors: Tile.scalar x, Tile.vec f, Tile.mat f      │
+  └──────────────────────────────────────────────────────────┘
+                           │
+           ┌───────────────┼───────────────┐
+           ▼               ▼               ▼
+      Tile.bop        Tile.uop        Tile.cop
+   (add/sub/mul/div)  (exp/log/σ/√)  (lt/le/eq/gt/ge/ne)
+   NumericDType dtype                  → Tile .bool out
+   Broadcast a b out
+
+  ══════════════════ AST layer ══════════════════
+
+  inductive Op : TileDType → TileShape → Type    ← indexed by dtype & shape
+    .const ℝ           : Op .real .scalar
+    .constNat Nat      : Op .nat  .scalar
+    .arange n          : Op .nat  (.vec n)
+    .add NumDType Broadcast Op Op  : Op dtype out
+    .lt  CmpDType Broadcast Op Op  : Op .bool out
+    .load region (Op .nat shape)   : Op .real shape
+    ...
+
+  inductive Stmt : Type                           ← existential boundary
+    .assign (dtype) (shape) RegName (Op dtype shape)
+    .store  region  (shape) (Op .nat shape) (Op .real shape)
+    .forLoop idx n (List Stmt)
+
+  ══════════════════ Runtime layer ══════════════════
+
+  abbrev RegFile :=
+    (dtype : TileDType) → (shape : TileShape) → RegName
+      → Option (Tile dtype shape)           ← typed lookup, no tag dispatch
+
+  structure BlockState
+    mem   : RegionName → Nat → ℝ            ← flat memory (ℝ only)
+    regs  : RegFile                          ← typed register file
+    pid   : Nat                              ← program_id
+    undef : RegionName → Nat → ℝ            ← masked-load oracle (other=None)
+
+  evalOp    : Op dtype shape → BlockState → Option (Tile dtype shape)
+  stepStmt  : Stmt → BlockState → Option BlockState     ┐
+  stepStmts : List Stmt → ...                            │ mutual
+  stepForLoopAux : ...                                   ┘
+  exec      : Kernel → BlockState → Option BlockState
+
+  ══════════════════ DSL layer ══════════════════
+
+  triton { ... }  macro
+    │  expands tritonExpr / tritonStmt syntax
+    │  into typed Op / Stmt / Kernel terms
+    │  kwargs: mask=, other=, axis=, keep_dims=
+    ▼
+  Kernel { inputs, outputs, body : List Stmt }
+```
+
+**Data-flow summary.** The DSL macro elaborates Triton-like surface syntax into
+typed `Op dtype shape` terms. `evalOp` evaluates an `Op` against a
+`BlockState` and returns `Option (Tile dtype shape)` — the same type indices
+flow through. `stepStmt` pattern-matches `Stmt` (which existentially quantifies
+`dtype` and `shape` in each constructor), immediately recovers the concrete
+indices, and calls `evalOp`. The result is stored in `RegFile`, a
+dependently-typed function indexed by `(dtype, shape, name)`. No erase-and-recover
+step is needed anywhere.
 
 ## Repository Layout
 
