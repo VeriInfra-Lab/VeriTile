@@ -1,89 +1,240 @@
 /-
 VeriTile.Triton.Semantics
 
-Operational semantics for the P1 Triton subset.
+Typed operational semantics for the Triton subset.
 
-We give a small-step state-threaded interpreter:
-* `evalOp : Op → BlockState → Option Value` -- pure expression evaluation.
-* `stepStmt : Stmt → BlockState → Option BlockState` -- statement execution.
-* `exec : Kernel → BlockState → Option BlockState` -- full kernel run.
-
-The `Option` is for runtime errors (undefined ref, shape mismatch, etc.).
-
-Floating-point is modelled in `ℝ`. This is a deliberate simplification;
-IEEE-754 fidelity is out of scope for VeriTile (covered by differential
-testing in P5+).
-
-Several helpers below carry explicit `sorry` to indicate where future
-P1 work will land. Each is annotated with `-- TODO(P1):`.
+The runtime value layer is intentionally absent: expression types carry their
+dtype and shape, and evaluation returns `Tile dtype shape` directly.
 -/
 
 import Mathlib.Data.Real.Basic
+import Mathlib.Data.Real.Sqrt
 import Mathlib.Analysis.SpecialFunctions.Exp
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Analysis.SpecialFunctions.Sigmoid
+import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 import VeriTile.Triton.Core
 
 namespace VeriTile.Triton
 
-/--
-A Triton runtime value, bifurcated into `ℝ` (data) and `Nat` (address)
-channels. Tile lengths are existential (packed in the constructor) for
-simplicity; type-level shape tracking is a later extension if needed.
+namespace Tile
 
-* `scalar`     — `ℝ` data scalar (e.g. an `exp`/`div` result, an accumulator).
-* `scalarNat`  — `Nat` address scalar (e.g. `pid`, a tile size, a stride).
-* `tile`       — `ℝ` data tile (e.g. `tl.exp(x)`, `tl.load(...)` from a data buffer).
-* `tileNat`    — `Nat` offset tile (e.g. `tl.arange(N)`, computed offsets).
+@[simp] theorem scalar_data {dtype : TileDType} (x : TileCarrier dtype) :
+    (Tile.scalar x).data PUnit.unit = x := rfl
 
-The bifurcation eliminates the prior `realToNat` round-trip cast and
-removes one class of permissive typing (`exp(pid)` no longer evaluates).
-See RP2 (`Notes/research_problem_address_typing.md`).
--/
-inductive Value : Type where
-  | scalar    : ℝ   → Value
-  | scalarNat : Nat → Value
-  | tile      : (n : Nat) → (Fin n → ℝ)   → Value
-  | tileNat   : (n : Nat) → (Fin n → Nat) → Value
+@[simp] theorem scalar_data_index {dtype : TileDType}
+    (x : TileCarrier dtype) (i : TileIndex []) :
+    (Tile.scalar x).data i = x := by
+  cases i
+  rfl
 
-instance : Inhabited Value := ⟨.scalar 0⟩
+@[simp] theorem scalar_eta {dtype : TileDType} (x : TileCarrier dtype) :
+    ({ data := fun _ : TileIndex [] => x } : Tile dtype []) =
+      Tile.scalar x := rfl
+
+@[simp] theorem vec_data {dtype : TileDType} {n : Nat}
+    (f : Fin n → TileCarrier dtype) (i : TileIndex [n]) :
+    (Tile.vec f).data i = f i.1 := rfl
+
+@[simp] theorem vec_data_fin {dtype : TileDType} {n : Nat}
+    (f : Fin n → TileCarrier dtype) (i : Fin n) :
+    (Tile.vec f).data (i, PUnit.unit) = f i := rfl
+
+end Tile
+
+/-- `⊥`-propagating arithmetic on `WithBot ℝ`.
+
+`Option.map₂ f` returns `none` if either argument is `none`, and `some (f a b)`
+on two `some` values. This gives uniform ⊥-propagation for sub/mul/div without
+having to chase Mathlib's `WithBot` typeclass instances (which don't always
+align with our intended IEEE-style propagation — e.g. Mathlib's `WithBot.Mul`
+defines `0 * ⊥ = 0`, but we want `0 * ⊥ = ⊥`). -/
+@[simp] def WithBot.realAdd : WithBot ℝ → WithBot ℝ → WithBot ℝ := Option.map₂ (· + ·)
+@[simp] def WithBot.realSub : WithBot ℝ → WithBot ℝ → WithBot ℝ := Option.map₂ (· - ·)
+@[simp] def WithBot.realMul : WithBot ℝ → WithBot ℝ → WithBot ℝ := Option.map₂ (· * ·)
+@[simp] noncomputable def WithBot.realDiv : WithBot ℝ → WithBot ℝ → WithBot ℝ := Option.map₂ (· / ·)
+
+namespace NumericDType
+
+def add : NumericDType dtype → TileCarrier dtype → TileCarrier dtype → TileCarrier dtype
+  | .real, x, y => WithBot.realAdd x y
+  | .nat, x, y => x + y
+
+def sub : NumericDType dtype → TileCarrier dtype → TileCarrier dtype → TileCarrier dtype
+  | .real, x, y => WithBot.realSub x y
+  | .nat, x, y => x - y
+
+def mul : NumericDType dtype → TileCarrier dtype → TileCarrier dtype → TileCarrier dtype
+  | .real, x, y => WithBot.realMul x y
+  | .nat, x, y => x * y
+
+noncomputable def div : NumericDType dtype → TileCarrier dtype → TileCarrier dtype → TileCarrier dtype
+  | .real, x, y => WithBot.realDiv x y
+  | .nat, x, y => x / y
+
+end NumericDType
+
+namespace ComparableDType
+
+noncomputable def lt :
+    ComparableDType dtype → TileCarrier dtype → TileCarrier dtype → Bool
+  | .real, x, y => decide (x < y)
+  | .nat, x, y => decide (x < y)
+
+noncomputable def le :
+    ComparableDType dtype → TileCarrier dtype → TileCarrier dtype → Bool
+  | .real, x, y => decide (x ≤ y)
+  | .nat, x, y => decide (x ≤ y)
+
+noncomputable def eq :
+    ComparableDType dtype → TileCarrier dtype → TileCarrier dtype → Bool
+  | .real, x, y => decide (x = y)
+  | .nat, x, y => decide (x = y)
+
+noncomputable def gt :
+    ComparableDType dtype → TileCarrier dtype → TileCarrier dtype → Bool
+  | .real, x, y => decide (x > y)
+  | .nat, x, y => decide (x > y)
+
+noncomputable def ge :
+    ComparableDType dtype → TileCarrier dtype → TileCarrier dtype → Bool
+  | .real, x, y => decide (x ≥ y)
+  | .nat, x, y => decide (x ≥ y)
+
+noncomputable def ne :
+    ComparableDType dtype → TileCarrier dtype → TileCarrier dtype → Bool
+  | .real, x, y => decide (x ≠ y)
+  | .nat, x, y => decide (x ≠ y)
+
+end ComparableDType
+
+/-- Cast a typed tile across definitional dtype/shape equalities. -/
+def castTile {dtype shape dtype' shape'}
+    (hd : dtype = dtype') (hs : shape = shape')
+    (v : Tile dtype' shape') : Tile dtype shape := by
+  subst dtype'
+  subst shape'
+  exact v
+
+@[simp] theorem castTile_self {dtype shape}
+    (hd : dtype = dtype) (hs : shape = shape) (v : Tile dtype shape) :
+    castTile hd hs v = v := by
+  cases hd
+  cases hs
+  rfl
+
+/-- A typed register file. The same register name can only be observed at the
+    dtype/shape requested by the typed AST node that references it. -/
+abbrev RegFile :=
+  (dtype : TileDType) → (shape : TileShape) → RegName → Option (Tile dtype shape)
 
 /--
 A block-level execution state.
 
-* `mem` is the memory abstraction: each region (`String`) has an
-  offset-indexed (`Nat`) map to `ℝ`. Regions are disjoint by name.
-* `regs` is the named register file. `none` means the register is
-  not currently defined.
-* `pid` is the value of `tl.program_id(0)` for this block.
+`regs` is typed directly; there is no dynamically tagged runtime value.
+`undef` models Triton's masked load with `other=None`.
 -/
 structure BlockState where
-  mem  : RegionName → Nat → ℝ
-  regs : RegName → Option Value
-  pid  : Nat
+  mem   : RegionName → Nat → ℝ
+  regs  : RegFile
+  pid   : Nat
+  undef : RegionName → Nat → ℝ := fun _ _ => 0
 
 instance : Inhabited BlockState :=
-  ⟨{ mem  := fun _ _ => 0
-   , regs := fun _ => none
-   , pid  := 0 }⟩
+  ⟨{ mem := fun _ _ => 0
+   , regs := fun _ _ _ => none
+   , pid := 0
+   , undef := fun _ _ => 0 }⟩
 
 namespace BlockState
 
-/-- Update a single register. -/
-def setReg (s : BlockState) (name : RegName) (v : Value) : BlockState :=
-  { s with regs := fun n => if n = name then some v else s.regs n }
+@[ext] theorem ext {s t : BlockState}
+    (hmem : ∀ region offset, s.mem region offset = t.mem region offset)
+    (hregs : ∀ dtype shape name, s.regs dtype shape name = t.regs dtype shape name)
+    (hpid : s.pid = t.pid)
+    (hundef : ∀ region offset, s.undef region offset = t.undef region offset) :
+    s = t := by
+  cases s
+  cases t
+  simp only at hmem hregs hpid hundef
+  subst_vars
+  congr
+  · exact funext fun region => funext fun offset => hmem region offset
+  · exact funext fun dtype => funext fun shape => funext fun name => hregs dtype shape name
+  · exact funext fun region => funext fun offset => hundef region offset
+
+/-- Update a single typed register. -/
+def setReg (s : BlockState) (name : RegName)
+    (dtype : TileDType) (shape : TileShape) (v : Tile dtype shape) : BlockState :=
+  { s with regs := fun dtype' shape' name' =>
+      if hd : dtype' = dtype then
+        if hs : shape' = shape then
+          if name' = name then some (castTile hd hs v) else s.regs dtype' shape' name'
+        else s.regs dtype' shape' name'
+      else s.regs dtype' shape' name' }
+
+@[simp] theorem setReg_same (s : BlockState) (name : RegName)
+    (dtype : TileDType) (shape : TileShape) (v : Tile dtype shape) :
+    (s.setReg name dtype shape v).regs dtype shape name = some v := by
+  simp [setReg]
+
+@[simp] theorem setReg_ne_name (s : BlockState) (name name' : RegName)
+    (dtype dtype' : TileDType) (shape shape' : TileShape) (v : Tile dtype shape)
+    (h : name' ≠ name) :
+    (s.setReg name dtype shape v).regs dtype' shape' name' =
+      s.regs dtype' shape' name' := by
+  simp [setReg, h]
+
+@[simp] theorem setReg_ne_dtype (s : BlockState) (name name' : RegName)
+    (dtype dtype' : TileDType) (shape shape' : TileShape) (v : Tile dtype shape)
+    (h : dtype' ≠ dtype) :
+    (s.setReg name dtype shape v).regs dtype' shape' name' =
+      s.regs dtype' shape' name' := by
+  simp [setReg, h]
+
+@[simp] theorem setReg_ne_shape (s : BlockState) (name name' : RegName)
+    (dtype dtype' : TileDType) (shape shape' : TileShape) (v : Tile dtype shape)
+    (h : shape' ≠ shape) :
+    (s.setReg name dtype shape v).regs dtype' shape' name' =
+      s.regs dtype' shape' name' := by
+  simp [setReg, h]
+
+@[simp] theorem setReg_mem (s : BlockState) (name : RegName)
+    (dtype : TileDType) (shape : TileShape) (v : Tile dtype shape)
+    (region : RegionName) (offset : Nat) :
+    (s.setReg name dtype shape v).mem region offset = s.mem region offset := rfl
+
+@[simp] theorem setReg_pid (s : BlockState) (name : RegName)
+    (dtype : TileDType) (shape : TileShape) (v : Tile dtype shape) :
+    (s.setReg name dtype shape v).pid = s.pid := rfl
+
+@[simp] theorem setReg_undef (s : BlockState) (name : RegName)
+    (dtype : TileDType) (shape : TileShape) (v : Tile dtype shape)
+    (region : RegionName) (offset : Nat) :
+    (s.setReg name dtype shape v).undef region offset = s.undef region offset := rfl
 
 /-- Write a single scalar to memory. -/
 def writeMem (s : BlockState) (region : RegionName) (offset : Nat) (v : ℝ) : BlockState :=
   { s with mem := fun r o =>
       if r = region ∧ o = offset then v else s.mem r o }
 
+@[simp] theorem writeMem_regs (s : BlockState) (region : RegionName)
+    (offset : Nat) (v : ℝ) (dtype : TileDType) (shape : TileShape)
+    (name : RegName) :
+    (s.writeMem region offset v).regs dtype shape name = s.regs dtype shape name := rfl
+
+@[simp] theorem writeMem_pid (s : BlockState) (region : RegionName)
+    (offset : Nat) (v : ℝ) :
+    (s.writeMem region offset v).pid = s.pid := rfl
+
+@[simp] theorem writeMem_undef (s : BlockState) (region : RegionName)
+    (offset : Nat) (v : ℝ) (r : RegionName) (o : Nat) :
+    (s.writeMem region offset v).undef r o = s.undef r o := rfl
+
 /-- Read a single scalar from memory. -/
 @[inline] def readMem (s : BlockState) (region : RegionName) (offset : Nat) : ℝ :=
   s.mem region offset
 
-/-- A `foldl` of `writeMem` writes preserves any cell whose offset is missed by
-    every step. The workhorse lemma behind `scatter_readback`. -/
 private theorem foldl_writeMem_preserves {α : Type} {region : RegionName}
     (offsetFn : α → Nat) (valueFn : α → ℝ) (o : Nat) (l : List α) :
     ∀ (s : BlockState), (∀ k ∈ l, offsetFn k ≠ o) →
@@ -104,25 +255,15 @@ private theorem foldl_writeMem_preserves {α : Type} {region : RegionName}
     rintro ⟨_, h_eq⟩
     exact hhd h_eq.symm
 
-/-- After writing `valueFn k` to address `offsetFn k` for each `k ∈ Fin n`,
-    reading at `offsetFn i` returns `valueFn i`, provided the offset function
-    is injective (so writes don't shadow each other). The "readback" property
-    of the scatter store.
-
-    Proof: split `List.finRange n = l₁ ++ i :: l₂` (since `i ∈ List.finRange n`).
-    The head-of-tail write puts `valueFn i` at `offsetFn i`. Subsequent writes
-    in `l₂` have offsets `offsetFn k` with `k ≠ i` (because `Nodup` forces
-    `i ∉ l₂`), so by injectivity `offsetFn k ≠ offsetFn i`, and
-    `foldl_writeMem_preserves` shows they leave the cell alone. -/
-theorem scatter_readback {region : RegionName} {n : Nat}
-    (s : BlockState) (offsetFn : Fin n → Nat) (valueFn : Fin n → ℝ)
-    (h_inj : Function.Injective offsetFn) (i : Fin n) :
-    ((List.finRange n).foldl
+theorem scatter_readback_list {α : Type} {region : RegionName}
+    (l : List α) (s : BlockState) (offsetFn : α → Nat) (valueFn : α → ℝ)
+    (i : α) (h_nodup : l.Nodup) (h_mem : i ∈ l)
+    (h_inj : Function.Injective offsetFn) :
+    (l.foldl
        (fun acc k => acc.writeMem region (offsetFn k) (valueFn k)) s).mem
         region (offsetFn i)
     = valueFn i := by
-  have h_nodup : (List.finRange n).Nodup := List.nodup_finRange n
-  obtain ⟨l₁, l₂, hl⟩ := List.append_of_mem (List.mem_finRange i)
+  obtain ⟨l₁, l₂, hl⟩ := List.append_of_mem h_mem
   rw [hl] at h_nodup
   rw [List.nodup_append, List.nodup_cons] at h_nodup
   obtain ⟨_, ⟨hi_notin_l2, _⟩, _⟩ := h_nodup
@@ -136,10 +277,146 @@ theorem scatter_readback {region : RegionName} {n : Nat}
       = valueFn i
   exact if_pos ⟨rfl, rfl⟩
 
-/-- **Cross-region frame property.** A scatter store to `region` does not
-    touch any other named region. The named-region disjointness from RP1
-    makes this `rfl` after unfolding, but we package it here as a reusable
-    lemma for multi-kernel pipeline proofs. -/
+theorem scatter_readback {region : RegionName} {n : Nat}
+    (s : BlockState) (offsetFn : Fin n → Nat) (valueFn : Fin n → ℝ)
+    (h_inj : Function.Injective offsetFn) (i : Fin n) :
+    ((List.finRange n).foldl
+       (fun acc k => acc.writeMem region (offsetFn k) (valueFn k)) s).mem
+        region (offsetFn i)
+      = valueFn i := by
+  exact scatter_readback_list (List.finRange n) s offsetFn valueFn
+    i (List.nodup_finRange n) (List.mem_finRange i) h_inj
+
+theorem scatter_readback_nd {region : RegionName} {shape : TileShape}
+    (s : BlockState) (offsetFn : TileIndex shape → Nat)
+    (valueFn : TileIndex shape → ℝ)
+    (h_inj : Function.Injective offsetFn) (i : TileIndex shape) :
+    ((TileShape.allIndices shape).foldl
+       (fun acc k => acc.writeMem region (offsetFn k) (valueFn k)) s).mem
+        region (offsetFn i)
+    = valueFn i :=
+  scatter_readback_list (TileShape.allIndices shape) s offsetFn valueFn
+    i (TileShape.allIndices_nodup shape) (TileShape.mem_allIndices shape i) h_inj
+
+private theorem foldl_writeMem_masked_preserves {α : Type} {region : RegionName}
+    (offsetFn : α → Nat) (valueFn : α → ℝ) (mask : α → Bool) (o : Nat) (l : List α) :
+    ∀ (s : BlockState), (∀ k ∈ l, mask k = true → offsetFn k ≠ o) →
+      ((l.foldl
+          (fun acc k =>
+            if mask k then acc.writeMem region (offsetFn k) (valueFn k) else acc) s).mem
+        region o)
+      = s.mem region o := by
+  induction l with
+  | nil => intros; rfl
+  | cons hd tl ih =>
+    intro s h
+    rw [List.foldl_cons]
+    have htl : ∀ k ∈ tl, mask k = true → offsetFn k ≠ o :=
+      fun k hk hmk => h k (List.mem_cons_of_mem hd hk) hmk
+    by_cases hmaskhd : mask hd = true
+    · have hhd : offsetFn hd ≠ o := h hd (List.mem_cons_self) hmaskhd
+      simp only [hmaskhd, if_true]
+      rw [ih _ htl]
+      show (if region = region ∧ o = offsetFn hd then valueFn hd else s.mem region o)
+          = s.mem region o
+      rw [if_neg]
+      rintro ⟨_, h_eq⟩
+      exact hhd h_eq.symm
+    · have hmaskhd' : mask hd = false := by
+        rcases hmaskFalse : mask hd
+        · rfl
+        · exact absurd hmaskFalse hmaskhd
+      simp only [hmaskhd', if_false, Bool.false_eq_true]
+      exact ih _ htl
+
+theorem scatter_readback_masked_list {α : Type} {region : RegionName}
+    (l : List α) (s : BlockState)
+    (offsetFn : α → Nat) (valueFn : α → ℝ) (mask : α → Bool)
+    (i : α) (h_nodup : l.Nodup) (h_mem : i ∈ l)
+    (h_inj : Function.Injective offsetFn) :
+    (l.foldl
+       (fun acc k =>
+         if mask k then acc.writeMem region (offsetFn k) (valueFn k) else acc) s).mem
+        region (offsetFn i)
+    = if mask i then valueFn i else s.mem region (offsetFn i) := by
+  obtain ⟨l₁, l₂, hl⟩ := List.append_of_mem h_mem
+  rw [hl] at h_nodup
+  rw [List.nodup_append, List.nodup_cons] at h_nodup
+  obtain ⟨_, ⟨hi_notin_l2, _⟩, hl1_disj⟩ := h_nodup
+  rw [hl, List.foldl_append, List.foldl_cons]
+  have h_l1_not_in : ∀ k ∈ l₁, mask k = true → offsetFn k ≠ offsetFn i := by
+    intro k hk _hmk heq
+    have hki : k = i := h_inj heq
+    rw [hki] at hk
+    exact (hl1_disj i hk i (List.mem_cons_self)) rfl
+  have h_l2_not_in : ∀ k ∈ l₂, mask k = true → offsetFn k ≠ offsetFn i := by
+    intro k hk _hmk heq
+    have hki : k = i := h_inj heq
+    subst hki
+    exact hi_notin_l2 hk
+  rw [foldl_writeMem_masked_preserves offsetFn valueFn mask (offsetFn i) l₂ _ h_l2_not_in]
+  by_cases hmi : mask i = true
+  · simp only [hmi, if_true]
+    show (if region = region ∧ offsetFn i = offsetFn i then valueFn i else _)
+        = valueFn i
+    exact if_pos ⟨rfl, rfl⟩
+  · have hmi' : mask i = false := by
+      rcases hmiFalse : mask i
+      · rfl
+      · exact absurd hmiFalse hmi
+    simp only [hmi', if_false, Bool.false_eq_true]
+    rw [foldl_writeMem_masked_preserves offsetFn valueFn mask (offsetFn i) l₁ _ h_l1_not_in]
+
+theorem scatter_readback_masked {region : RegionName} {n : Nat}
+    (s : BlockState) (offsetFn : Fin n → Nat) (valueFn : Fin n → ℝ)
+    (mask : Fin n → Bool)
+    (h_inj : Function.Injective offsetFn) (i : Fin n) :
+    ((List.finRange n).foldl
+       (fun acc k =>
+         if mask k then acc.writeMem region (offsetFn k) (valueFn k) else acc) s).mem
+        region (offsetFn i)
+    = if mask i then valueFn i else s.mem region (offsetFn i) :=
+  scatter_readback_masked_list (List.finRange n) s offsetFn valueFn mask
+    i (List.nodup_finRange n) (List.mem_finRange i) h_inj
+
+theorem scatter_readback_masked_nd {region : RegionName} {shape : TileShape}
+    (s : BlockState) (offsetFn : TileIndex shape → Nat)
+    (valueFn : TileIndex shape → ℝ) (mask : TileIndex shape → Bool)
+    (h_inj : Function.Injective offsetFn) (i : TileIndex shape) :
+    ((TileShape.allIndices shape).foldl
+       (fun acc k =>
+         if mask k then acc.writeMem region (offsetFn k) (valueFn k) else acc) s).mem
+        region (offsetFn i)
+    = if mask i then valueFn i else s.mem region (offsetFn i) :=
+  scatter_readback_masked_list (TileShape.allIndices shape) s offsetFn valueFn mask
+    i (TileShape.allIndices_nodup shape) (TileShape.mem_allIndices shape i) h_inj
+
+theorem scatter_readback_prop_masked {region : RegionName} {n : Nat}
+    (s : BlockState) (offsetFn : Fin n → Nat) (valueFn : Fin n → ℝ)
+    (P : Fin n → Prop) [DecidablePred P]
+    (h_inj : Function.Injective offsetFn) (i : Fin n) :
+    ((List.finRange n).foldl
+       (fun acc k => if P k then acc.writeMem region (offsetFn k) (valueFn k) else acc) s).mem
+        region (offsetFn i)
+    = if P i then valueFn i else s.mem region (offsetFn i) := by
+  have h := scatter_readback_masked (region := region) s offsetFn valueFn
+              (fun k => decide (P k)) h_inj i
+  simp only [decide_eq_true_eq] at h
+  exact h
+
+theorem scatter_readback_prop_masked_nd {region : RegionName} {shape : TileShape}
+    (s : BlockState) (offsetFn : TileIndex shape → Nat)
+    (valueFn : TileIndex shape → ℝ) (P : TileIndex shape → Prop) [DecidablePred P]
+    (h_inj : Function.Injective offsetFn) (i : TileIndex shape) :
+    ((TileShape.allIndices shape).foldl
+       (fun acc k => if P k then acc.writeMem region (offsetFn k) (valueFn k) else acc) s).mem
+        region (offsetFn i)
+    = if P i then valueFn i else s.mem region (offsetFn i) := by
+  have h := scatter_readback_masked_nd (region := region) s offsetFn valueFn
+              (fun k => decide (P k)) h_inj i
+  simp only [decide_eq_true_eq] at h
+  exact h
+
 theorem scatter_preserves_other_region {α : Type}
     (region : RegionName) (offsetFn : α → Nat) (valueFn : α → ℝ)
     (R : RegionName) (h_ne : R ≠ region) (off : Nat) :
@@ -161,258 +438,709 @@ theorem scatter_preserves_other_region {α : Type}
     rintro ⟨h_R, _⟩
     exact h_ne h_R
 
+theorem foldl_writeMem_pid {α : Type}
+    (region : RegionName) (offsetFn : α → Nat) (valueFn : α → ℝ)
+    (l : List α) (s : BlockState) :
+    ((l.foldl (fun acc k => acc.writeMem region (offsetFn k) (valueFn k)) s).pid)
+      = s.pid := by
+  induction l generalizing s with
+  | nil => rfl
+  | cons hd tl ih =>
+      rw [List.foldl_cons, ih]
+      simp
+
+theorem foldl_writeMem_masked_pid {α : Type}
+    (region : RegionName) (offsetFn : α → Nat) (valueFn : α → ℝ)
+    (mask : α → Bool) (l : List α) (s : BlockState) :
+    ((l.foldl
+        (fun acc k =>
+          if mask k then acc.writeMem region (offsetFn k) (valueFn k) else acc) s).pid)
+      = s.pid := by
+  induction l generalizing s with
+  | nil => rfl
+  | cons hd tl ih =>
+      rw [List.foldl_cons, ih]
+      by_cases hmask : mask hd
+      · simp [hmask]
+      · simp [hmask]
+
 end BlockState
 
-namespace Value
+def Tile.bop {dtype a b out}
+    (op : TileCarrier dtype → TileCarrier dtype → TileCarrier dtype)
+    (bc : Broadcast a b out) (x : Tile dtype a) (y : Tile dtype b) :
+    Tile dtype out :=
+  ⟨fun i => op (x.data (bc.leftIndex i)) (y.data (bc.rightIndex i))⟩
 
-/-- Coerce a Value to an `ℝ` scalar; fails (`none`) on tiles or `Nat` values. -/
-def asScalar : Value → Option ℝ
-  | .scalar a => some a
-  | _         => none
+def Tile.cop {dtype a b out}
+    (op : TileCarrier dtype → TileCarrier dtype → Bool)
+    (bc : Broadcast a b out) (x : Tile dtype a) (y : Tile dtype b) :
+    Tile .bool out :=
+  ⟨fun i => op (x.data (bc.leftIndex i)) (y.data (bc.rightIndex i))⟩
 
-/-- Coerce a Value to a `Nat` scalar; fails (`none`) on tiles or `ℝ` values. -/
-def asScalarNat : Value → Option Nat
-  | .scalarNat n => some n
-  | _            => none
+def Tile.uop {shape} (op : WithBot ℝ → WithBot ℝ) (x : Tile .real shape) : Tile .real shape :=
+  ⟨fun i => op (x.data i)⟩
 
-/-- Pointwise lift of a binary scalar op, dispatched by carrier type.
+/-! ### Lifted unary functions on `WithBot ℝ`
 
-    * Two `ℝ` operands (any combination of `scalar`/`tile`) → `opR`
-    * Two `Nat` operands (any combination of `scalarNat`/`tileNat`) → `opN`
-    * Mixed `ℝ`/`Nat` operands → `none` (semantic error)
+`exp(-∞) = 0` and `sigmoid(-∞) = 0` are the IEEE-faithful values; this is what
+makes the OnlineSoftmax `m`-seed flow correctly: with `m_0 = ⊥`, the first
+iteration's `exp(m_0 - m_1) * l_0 = exp(⊥) * 0 = 0 * 0 = 0`, recovering the
+correct base-case `l_1 = exp(x_0 - x_0) = 1`. -/
 
-    Tile/tile of mismatched lengths → `none`. -/
-def bop (opR : ℝ → ℝ → ℝ) (opN : Nat → Nat → Nat) :
-    Value → Value → Option Value
-  -- ℝ × ℝ
-  | .scalar a, .scalar b      => some (.scalar (opR a b))
-  | .scalar a, .tile n f      => some (.tile n (fun i => opR a (f i)))
-  | .tile n f, .scalar b      => some (.tile n (fun i => opR (f i) b))
-  | .tile n f, .tile m g      =>
-      if h : n = m then
-        some (.tile n (fun i => opR (f i) (g (Fin.cast h i))))
-      else none
-  -- Nat × Nat
-  | .scalarNat a, .scalarNat b   => some (.scalarNat (opN a b))
-  | .scalarNat a, .tileNat n f   => some (.tileNat n (fun i => opN a (f i)))
-  | .tileNat n f, .scalarNat b   => some (.tileNat n (fun i => opN (f i) b))
-  | .tileNat n f, .tileNat m g   =>
-      if h : n = m then
-        some (.tileNat n (fun i => opN (f i) (g (Fin.cast h i))))
-      else none
-  -- mixed ℝ / Nat → semantic error
-  | _, _ => none
+noncomputable def WithBot.realExp : WithBot ℝ → WithBot ℝ
+  | none   => some 0           -- exp(-∞) = 0
+  | some r => some (Real.exp r)
 
-/-- Pointwise lift of a unary `ℝ` op (e.g. `Real.exp`, `Real.log`) to a
-    `Value`. Returns `none` on `Nat` carriers — applying `exp`/`log` to an
-    address value is rejected at the semantics layer. -/
-def uop (op : ℝ → ℝ) : Value → Option Value
-  | .scalar a   => some (.scalar (op a))
-  | .tile n f   => some (.tile n (fun i => op (f i)))
-  | _           => none
+noncomputable def WithBot.realLog : WithBot ℝ → WithBot ℝ
+  | none   => none
+  | some r => some (Real.log r)
 
-/-- `tl.sum(x, axis=0)` semantics: sum over the tile via Mathlib `Finset.sum`.
-    Defined only on `ℝ` tiles; `Nat` tiles or scalars return `none`. -/
-noncomputable def reduceSum : Value → Option Value
-  | .tile _ f => some (.scalar (∑ i, f i))
-  | _         => none
+noncomputable def WithBot.realSigmoid : WithBot ℝ → WithBot ℝ
+  | none   => some 0           -- sigmoid(-∞) = 0
+  | some r => some (Real.sigmoid r)
 
-/-- `tl.max(x, axis=0)` semantics: max over a non-empty `ℝ` tile via
-    `Finset.sup'`. Empty tiles, `Nat` tiles, and scalars all return `none`. -/
-noncomputable def reduceMax : Value → Option Value
-  | .tile (n+1) f =>
-      some (.scalar ((Finset.univ : Finset (Fin (n+1))).sup' Finset.univ_nonempty f))
-  | _ => none
+noncomputable def WithBot.realSqrt : WithBot ℝ → WithBot ℝ
+  | none   => none             -- sqrt(-∞) undefined
+  | some r => some (Real.sqrt r)
 
-end Value
+@[simp] theorem WithBot.realExp_some (r : ℝ) :
+    WithBot.realExp (some r) = some (Real.exp r) := rfl
+@[simp] theorem WithBot.realLog_some (r : ℝ) :
+    WithBot.realLog (some r) = some (Real.log r) := rfl
+@[simp] theorem WithBot.realSigmoid_some (r : ℝ) :
+    WithBot.realSigmoid (some r) = some (Real.sigmoid r) := rfl
+@[simp] theorem WithBot.realSqrt_some (r : ℝ) :
+    WithBot.realSqrt (some r) = some (Real.sqrt r) := rfl
 
-/--
-Evaluate an `Op` against a `BlockState`.
+@[simp] theorem WithBot.realExp_bot :
+    WithBot.realExp (⊥ : WithBot ℝ) = ((0 : ℝ) : WithBot ℝ) := rfl
+@[simp] theorem WithBot.realSigmoid_bot :
+    WithBot.realSigmoid (⊥ : WithBot ℝ) = ((0 : ℝ) : WithBot ℝ) := rfl
 
-Returns `none` on type / shape errors (e.g. dividing tiles of different
-lengths, dereferencing an undefined register). Returns `some v` otherwise.
+@[simp] theorem WithBot.realExp_coe (r : ℝ) :
+    WithBot.realExp ((r : ℝ) : WithBot ℝ) = (((Real.exp r : ℝ)) : WithBot ℝ) := rfl
+@[simp] theorem WithBot.realLog_coe (r : ℝ) :
+    WithBot.realLog ((r : ℝ) : WithBot ℝ) = (((Real.log r : ℝ)) : WithBot ℝ) := rfl
+@[simp] theorem WithBot.realSigmoid_coe (r : ℝ) :
+    WithBot.realSigmoid ((r : ℝ) : WithBot ℝ) = (((Real.sigmoid r : ℝ)) : WithBot ℝ) := rfl
+@[simp] theorem WithBot.realSqrt_coe (r : ℝ) :
+    WithBot.realSqrt ((r : ℝ) : WithBot ℝ) = (((Real.sqrt r : ℝ)) : WithBot ℝ) := rfl
 
-`noncomputable` because `Real` arithmetic (`/`, `Real.exp`) is noncomputable.
-Lean accepts this as structural recursion on `Op`.
--/
-noncomputable def evalOp : Op → BlockState → Option Value
-  | .const c, _      => some (.scalar c)
-  | .constNat n, _   => some (.scalarNat n)
-  | .negInf, _       =>
-      -- TODO(P1): replace with a proper `⊥`/`-∞` sentinel that interacts
-      -- correctly with `max`. -1e38 is a finite stand-in.
-      some (.scalar (-1e38))
-  | .programId, s    => some (.scalarNat s.pid)
-  | .ref name, s     => s.regs name
-  | .arange n, _     => some (.tileNat n (fun i => i.val))
-  | .broadcast e n, s =>
-      match evalOp e s with
-      | some (.scalar c)    => some (.tile n (fun _ => c))
-      | some (.scalarNat c) => some (.tileNat n (fun _ => c))
-      | _ => none
-  | .full n e, s =>
-      match evalOp e s with
-      | some (.scalar c)    => some (.tile n (fun _ => c))
-      | some (.scalarNat c) => some (.tileNat n (fun _ => c))
-      | _ => none
-  | .add a b, s =>
-      match evalOp a s, evalOp b s with
-      | some va, some vb => va.bop (· + ·) (· + ·) vb
-      | _, _ => none
-  | .sub a b, s =>
-      match evalOp a s, evalOp b s with
-      | some va, some vb => va.bop (· - ·) (· - ·) vb
-      | _, _ => none
-  | .mul a b, s =>
-      match evalOp a s, evalOp b s with
-      | some va, some vb => va.bop (· * ·) (· * ·) vb
-      | _, _ => none
-  | .div a b, s =>
-      match evalOp a s, evalOp b s with
-      | some va, some vb => va.bop (· / ·) (· / ·) vb
-      | _, _ => none
-  | .exp a, s =>
-      match evalOp a s with
-      | some va => va.uop Real.exp
-      | none => none
-  | .log a, s =>
-      match evalOp a s with
-      | some va => va.uop Real.log
-      | none => none
-  | .sigmoid a, s =>
-      match evalOp a s with
-      | some va => va.uop Real.sigmoid
-      | none => none
-  | .max2 a b, s =>
-      match evalOp a s, evalOp b s with
-      | some va, some vb => va.bop max max vb
-      | _, _ => none
-  | .reduceMax a, s =>
-      match evalOp a s with
-      | some va => va.reduceMax
-      | none => none
-  | .reduceSum a, s =>
-      match evalOp a s with
-      | some va => va.reduceSum
-      | none => none
-  | .load region off, s =>
-      match evalOp off s with
-      | some (.scalarNat n) =>
-          -- Scalar offset: single-cell read at the given Nat address.
-          some (.scalar (s.readMem region n))
-      | some (.tileNat n f) =>
-          -- Tile-valued offset: gather. Each output cell `i` reads the cell
-          -- at memory address `f i`.
-          some (.tile n (fun i => s.readMem region (f i)))
-      | _ => none
+/-! ### Algebraic simp lemmas on `WithBot ℝ` arithmetic helpers -/
 
--- Execute one statement.
---
--- `assign` evaluates RHS and stores the value in the named register.
--- `store` writes a scalar or contiguous tile to memory.
--- `forLoop` is a known gap in P1: bounded-loop operational semantics requires
--- mutual recursion with `stepStmts` and a non-trivial termination measure
--- combining list size and the loop counter. We leave it as `sorry` for P1
--- skeleton and complete it as the first piece of P2 work.
+@[simp] theorem WithBot.realAdd_coe_coe (a b : ℝ) :
+    WithBot.realAdd ((a : ℝ) : WithBot ℝ) ((b : ℝ) : WithBot ℝ)
+      = (((a + b : ℝ)) : WithBot ℝ) := rfl
+@[simp] theorem WithBot.realSub_coe_coe (a b : ℝ) :
+    WithBot.realSub ((a : ℝ) : WithBot ℝ) ((b : ℝ) : WithBot ℝ)
+      = (((a - b : ℝ)) : WithBot ℝ) := rfl
+@[simp] theorem WithBot.realMul_coe_coe (a b : ℝ) :
+    WithBot.realMul ((a : ℝ) : WithBot ℝ) ((b : ℝ) : WithBot ℝ)
+      = (((a * b : ℝ)) : WithBot ℝ) := rfl
+@[simp] theorem WithBot.realDiv_coe_coe (a b : ℝ) :
+    WithBot.realDiv ((a : ℝ) : WithBot ℝ) ((b : ℝ) : WithBot ℝ)
+      = (((a / b : ℝ)) : WithBot ℝ) := rfl
+
+/-- `realSub ⊥ x = ⊥` (and symmetrically). The corresponding `realAdd` and
+`realMul` propagate `⊥` for the same reason — but only `Sub` is needed for the
+OnlineSoftmax L proof at iter 0 (`exp(M_0 - M_1) = exp(⊥ - ↑x₀) = exp(⊥) = 0`). -/
+@[simp] theorem WithBot.realSub_bot_left (x : WithBot ℝ) :
+    WithBot.realSub (⊥ : WithBot ℝ) x = (⊥ : WithBot ℝ) := by
+  cases x <;> rfl
+@[simp] theorem WithBot.realSub_bot_right (x : WithBot ℝ) :
+    WithBot.realSub x (⊥ : WithBot ℝ) = (⊥ : WithBot ℝ) := by
+  cases x <;> rfl
+
+@[simp] theorem WithBot.realMul_coe_zero (a : ℝ) :
+    WithBot.realMul ((a : ℝ) : WithBot ℝ) (((0 : ℝ)) : WithBot ℝ)
+      = (((0 : ℝ)) : WithBot ℝ) := by
+  show ((a * 0 : ℝ) : WithBot ℝ) = _
+  simp
+
+/-- `↑a + ↑b = ↑(a + b)` for `WithBot ℝ`. Reverse of Mathlib's `WithBot.coe_add`.
+NOT marked `@[simp]` to avoid loop with the forward direction; use as `←` rewrite
+where consolidating coe outward is desired. -/
+theorem WithBot.coe_add_coe_eq (a b : ℝ) :
+    ((a : ℝ) : WithBot ℝ) + ((b : ℝ) : WithBot ℝ) = (((a + b : ℝ)) : WithBot ℝ) :=
+  (WithBot.coe_add a b).symm
+
+/-- `Option.map f ↑x = ↑(f x)` for `WithBot ℝ`. -/
+@[simp] theorem WithBot.coe_map_coe_eq {α} (f : ℝ → α) (a : ℝ) :
+    Option.map f ((a : ℝ) : WithBot ℝ) = some (f a) := rfl
+
+/-- Reduce-sum with `keep_dims = false` along an arbitrary Triton axis. -/
+noncomputable def Tile.reduceSumDrop {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Tile .real (TileShape.eraseAxis shape axis) :=
+  ⟨fun outIdx =>
+    @Finset.sum (Fin (TileShape.axisDim shape axis)) (WithBot ℝ) _ Finset.univ
+      (fun k => x.data (TileShape.insertAxisIndex shape axis outIdx k))⟩
+
+/-- Reduce-sum with `keep_dims = true` along an arbitrary Triton axis. -/
+noncomputable def Tile.reduceSumKeep {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Tile .real (TileShape.setAxisOne shape axis) :=
+  ⟨fun outIdx =>
+    @Finset.sum (Fin (TileShape.axisDim shape axis)) (WithBot ℝ) _ Finset.univ
+      (fun k => x.data (TileShape.replaceAxisIndex shape axis outIdx k))⟩
+
+/-- Reduce-sum along an arbitrary Triton axis. -/
+noncomputable def Tile.reduceSum {shape : TileShape}
+    (axis : Fin shape.length) (keepDims : Bool) (x : Tile .real shape) :
+    Tile .real (TileShape.reduceShape shape axis keepDims) := by
+  cases keepDims
+  · exact Tile.reduceSumDrop axis x
+  · exact Tile.reduceSumKeep axis x
+
+/-! ### `simp` lemmas for the structural cases of reduceSum -/
+
+@[simp] theorem Tile.reduceSum_false {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Tile.reduceSum axis false x = Tile.reduceSumDrop axis x := rfl
+
+@[simp] theorem Tile.reduceSum_true {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Tile.reduceSum axis true x = Tile.reduceSumKeep axis x := rfl
+
+/-- Body of `reduceSumDrop` at an output index. Lets `simp` push past the
+opaque `Tile` constructor so kernel proofs can reach the `Finset.sum` form. -/
+@[simp] theorem Tile.reduceSumDrop_data {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape)
+    (outIdx : TileIndex (TileShape.eraseAxis shape axis)) :
+    (Tile.reduceSumDrop axis x).data outIdx =
+      @Finset.sum (Fin (TileShape.axisDim shape axis)) (WithBot ℝ) _ Finset.univ
+        (fun k => x.data (TileShape.insertAxisIndex shape axis outIdx k)) := rfl
+
+@[simp] theorem Tile.reduceSumKeep_data {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape)
+    (outIdx : TileIndex (TileShape.setAxisOne shape axis)) :
+    (Tile.reduceSumKeep axis x).data outIdx =
+      @Finset.sum (Fin (TileShape.axisDim shape axis)) (WithBot ℝ) _ Finset.univ
+        (fun k => x.data (TileShape.replaceAxisIndex shape axis outIdx k)) := rfl
+
+/-! ### `simp` helpers for the `WithBot ℝ` boundary
+
+A typical kernel proof reduces `tl.sum(x)` to `∑ i, (some (xs i) : WithBot ℝ)`,
+then `tl.store` demotes via `Option.getD … 0`. Mathlib's `WithBot.coe_sum`
+gives us `↑(∑ f i) = ∑ ↑(f i)` (for `WithBot.coe = some`); read backwards, it
+collapses the sum-of-`some`s to a `some` of the sum, which then evaluates the
+`getD`. -/
+
+/-- `WithBot.unbotD` on a `some _` projects out the value. Same as
+`WithBot.unbotD_coe` but stated in the `some`-form `evalOp` produces. -/
+@[simp] theorem WithBot.unbotD_some {α} (d a : α) :
+    WithBot.unbotD d (some a : WithBot α) = a := rfl
+
+/-- `Option.map₂` on two `some`-lifted values produces a `some`-lifted result.
+Required because `Tile.bop` for `.real` arithmetic uses `Option.map₂`. -/
+@[simp] theorem Option.map₂_some_some (f : ℝ → ℝ → ℝ) (a b : ℝ) :
+    Option.map₂ f (some a : WithBot ℝ) (some b : WithBot ℝ)
+      = (some (f a b) : WithBot ℝ) := rfl
+
+@[simp] theorem Option.map_some_real (f : ℝ → ℝ) (a : ℝ) :
+    Option.map f (some a : WithBot ℝ) = (some (f a) : WithBot ℝ) := rfl
+
+/-- `↑`-form: when proofs land on the coe view of `WithBot ℝ`, the same
+reductions apply. Simp matches syntactically, so we need both forms. -/
+@[simp] theorem Option.map₂_coe_coe (f : ℝ → ℝ → ℝ) (a b : ℝ) :
+    Option.map₂ f ((a : ℝ) : WithBot ℝ) ((b : ℝ) : WithBot ℝ)
+      = ((f a b : ℝ) : WithBot ℝ) := rfl
+
+@[simp] theorem Option.map_coe_real (f : ℝ → ℝ) (a : ℝ) :
+    Option.map f ((a : ℝ) : WithBot ℝ) = ((f a : ℝ) : WithBot ℝ) := rfl
+
+/-- Mixed-form: `some` on left, `↑` on right (and vice versa). Both forms appear
+in goals after partial simp normalization. -/
+@[simp] theorem Option.map₂_some_coe (f : ℝ → ℝ → ℝ) (a b : ℝ) :
+    Option.map₂ f (some a : WithBot ℝ) ((b : ℝ) : WithBot ℝ)
+      = (some (f a b) : WithBot ℝ) := rfl
+
+@[simp] theorem Option.map₂_coe_some (f : ℝ → ℝ → ℝ) (a b : ℝ) :
+    Option.map₂ f ((a : ℝ) : WithBot ℝ) (some b : WithBot ℝ)
+      = (some (f a b) : WithBot ℝ) := rfl
+
+
+@[simp] theorem WithBot.sum_some_eq_some {ι} (s : Finset ι) (f : ι → ℝ) :
+    (∑ i ∈ s, ((f i : ℝ) : WithBot ℝ)) = (((∑ i ∈ s, f i) : ℝ) : WithBot ℝ) :=
+  (WithBot.coe_sum s f).symm
+
+/-- `some`-form companion to `WithBot.sum_some_eq_some`. The explicit
+`AddCommMonoid (WithBot ℝ)` ascription via `@Finset.sum` is what makes the
+typeclass resolution fire — bare `some _ : WithBot ℝ` ascription elaborates
+to `Option ℝ` for typeclass purposes. -/
+@[simp] theorem WithBot.sum_someTerm_eq_some {ι} (s : Finset ι) (f : ι → ℝ) :
+    @Finset.sum ι (WithBot ℝ) _ s (fun i => (some (f i) : WithBot ℝ))
+      = (some (∑ i ∈ s, f i) : WithBot ℝ) := by
+  show @Finset.sum ι (WithBot ℝ) _ s (fun i => ((f i : ℝ) : WithBot ℝ)) = _
+  rw [WithBot.sum_some_eq_some]
+  rfl
+
+
+/-- After a `tl.sum` reduce on a `some`-lifted tile, demoting via `unbotD 0`
+(used by `tl.store`) recovers the underlying ℝ-valued sum.
+
+Stated in the `some`-form (rather than `↑`) because that's what `evalOp`
+produces — `tl.load` lifts via `some (s.readMem ...)` and `tl.sum` on a tile
+of `some`-values gives `∑ some (xs i)` literally. -/
+@[simp] theorem WithBot.unbotD_sum_some {ι} (s : Finset ι) (f : ι → ℝ) :
+    WithBot.unbotD (0 : ℝ) (∑ i ∈ s, (some (f i) : WithBot ℝ)) = ∑ i ∈ s, f i := by
+  show WithBot.unbotD (0 : ℝ) (∑ i ∈ s, ((f i : ℝ) : WithBot ℝ)) = ∑ i ∈ s, f i
+  rw [WithBot.sum_some_eq_some]
+  rfl
+
+/-- `sup'` over `↑`-lifted values equals `↑` of the `sup'`. -/
+theorem WithBot.sup'_coe {ι} [LinearOrder ι] (s : Finset ι) (h : s.Nonempty)
+    (f : ι → ℝ) :
+    s.sup' h (fun i => ((f i : ℝ) : WithBot ℝ)) = ((s.sup' h f : ℝ) : WithBot ℝ) := by
+  refine h.cons_induction ?_ ?_
+  · intro a; rfl
+  · intro a s' ha hne ih
+    rw [Finset.sup'_cons hne, Finset.sup'_cons hne, ih]
+    rfl
+
+/-- `some`-form of `WithBot.sup'_coe`. Required because `evalOp` produces
+literal `some _` calls, not `↑`. The `@Finset.sup' (WithBot ℝ) ι` ascription
+forces typeclass resolution to use `SemilatticeSup (WithBot ℝ)` rather than
+the elaborated `Option ℝ`. -/
+@[simp] theorem WithBot.sup'_someTerm_eq_some {ι} [LinearOrder ι]
+    (s : Finset ι) (h : s.Nonempty) (f : ι → ℝ) :
+    @Finset.sup' (WithBot ℝ) ι _ s h (fun i => (some (f i) : WithBot ℝ))
+      = (some (s.sup' h f) : WithBot ℝ) := by
+  show @Finset.sup' (WithBot ℝ) ι _ s h (fun i => ((f i : ℝ) : WithBot ℝ)) = _
+  rw [WithBot.sup'_coe]; rfl
+
+/-- Companion to `WithBot.sup'_coe`: store-side demote on a max reduce. -/
+@[simp] theorem WithBot.unbotD_sup'_some {ι} [LinearOrder ι] (s : Finset ι)
+    (h : s.Nonempty) (f : ι → ℝ) :
+    WithBot.unbotD (0 : ℝ) (s.sup' h (fun i => (some (f i) : WithBot ℝ)))
+      = s.sup' h f := by
+  show WithBot.unbotD (0 : ℝ) (s.sup' h (fun i => ((f i : ℝ) : WithBot ℝ))) = _
+  rw [WithBot.sup'_coe]; rfl
+
+/-! ### Reduce-max along an arbitrary axis
+
+Returns `none` only when the reduced dimension is `0` (empty `sup'`
+undefined). -/
+
+noncomputable def Tile.reduceMaxDrop {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Option (Tile .real (TileShape.eraseAxis shape axis)) :=
+  if h : 0 < TileShape.axisDim shape axis then
+    some ⟨fun outIdx =>
+      (Finset.univ : Finset (Fin (TileShape.axisDim shape axis))).sup'
+        (by exact ⟨⟨0, h⟩, Finset.mem_univ _⟩)
+        (fun k => x.data (TileShape.insertAxisIndex shape axis outIdx k))⟩
+  else
+    none
+
+noncomputable def Tile.reduceMaxKeep {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Option (Tile .real (TileShape.setAxisOne shape axis)) :=
+  if h : 0 < TileShape.axisDim shape axis then
+    some ⟨fun outIdx =>
+      (Finset.univ : Finset (Fin (TileShape.axisDim shape axis))).sup'
+        (by exact ⟨⟨0, h⟩, Finset.mem_univ _⟩)
+        (fun k => x.data (TileShape.replaceAxisIndex shape axis outIdx k))⟩
+  else
+    none
+
+noncomputable def Tile.reduceMax {shape : TileShape}
+    (axis : Fin shape.length) (keepDims : Bool) (x : Tile .real shape) :
+    Option (Tile .real (TileShape.reduceShape shape axis keepDims)) := by
+  cases keepDims
+  · exact Tile.reduceMaxDrop axis x
+  · exact Tile.reduceMaxKeep axis x
+
+/-! ### `simp` lemmas for the structural cases of reduceMax -/
+
+@[simp] theorem Tile.reduceMax_false {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Tile.reduceMax axis false x = Tile.reduceMaxDrop axis x := rfl
+
+@[simp] theorem Tile.reduceMax_true {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Tile.reduceMax axis true x = Tile.reduceMaxKeep axis x := rfl
+
+def Tile.natToReal {shape} (x : Tile .nat shape) : Tile .real shape :=
+  ⟨fun i => some ((x.data i : ℝ))⟩
+
+/-- Block-level (possibly batched) matrix multiply (Triton's `tl.dot`):
+`c[…, m, n] = ∑_k a[…, m, k] * b[…, k, n]`.
+
+Operates on the trailing two dims; any batch prefix `batch : TileShape` is
+broadcast pointwise. Structural recursion on the batch fixes one outer
+index per level and recurses on the remaining batch.
+
+`⊥`-propagating: if any factor in any pair is `⊥` the corresponding
+summand is `⊥`, and `Finset.sum` over `WithBot ℝ` propagates `⊥` through
+the whole entry. Well-formed kernels load real (non-`⊥`) values into the
+operands, so the dot product collapses to a regular `↑(∑ a*b)` term and
+the `tl.store` demotion via `unbotD 0` recovers the underlying ℝ value. -/
+noncomputable def Tile.dot : (batch : TileShape) → {M K N : Nat} →
+    Tile .real (batch ++ [M, K]) → Tile .real (batch ++ [K, N]) →
+    Tile .real (batch ++ [M, N])
+  | [], _, K, _, a, b =>
+      ⟨fun (m, n, _) =>
+        @Finset.sum (Fin K) (WithBot ℝ) _ Finset.univ
+          (fun k => Option.map₂ (· * ·)
+                      (a.data (m, k, PUnit.unit))
+                      (b.data (k, n, PUnit.unit)))⟩
+  | _ :: rest, M, K, N, a, b =>
+      ⟨fun (i, restIdx) =>
+        (Tile.dot rest (M := M) (K := K) (N := N)
+            ⟨fun rIdx => a.data (i, rIdx)⟩
+            ⟨fun rIdx => b.data (i, rIdx)⟩).data restIdx⟩
+
+/-- Body of `Tile.dot` at the rank-2 base case (`batch = []`); lets `simp`
+expose the `Finset.sum` form for kernel proofs. -/
+@[simp] theorem Tile.dot_nil_data {M K N : Nat}
+    (a : Tile .real [M, K]) (b : Tile .real [K, N])
+    (m : Fin M) (n : Fin N) (rest : TileIndex []) :
+    (Tile.dot [] a b).data (m, n, rest) =
+      @Finset.sum (Fin K) (WithBot ℝ) _ Finset.univ
+        (fun k => Option.map₂ (· * ·)
+                    (a.data (m, k, PUnit.unit))
+                    (b.data (k, n, PUnit.unit))) := rfl
+
+/-- Recursive step: `(Tile.dot (b :: rest) a b').data (i, restIdx)` slices
+each operand at outer index `i` and recurses on the remaining batch. -/
+@[simp] theorem Tile.dot_cons_data {b : Nat} {rest : TileShape} {M K N : Nat}
+    (a : Tile .real ((b :: rest) ++ [M, K]))
+    (b' : Tile .real ((b :: rest) ++ [K, N]))
+    (i : Fin b) (restIdx : TileIndex (rest ++ [M, N])) :
+    (Tile.dot (b :: rest) a b').data (i, restIdx) =
+      (Tile.dot rest (M := M) (K := K) (N := N)
+          ⟨fun rIdx => a.data (i, rIdx)⟩
+          ⟨fun rIdx => b'.data (i, rIdx)⟩).data restIdx := rfl
+
+/-- Trailing-two-axes transpose (`Tile.dot`-style framework: matrix dims
+are the trailing two, leading dims are an unchanged `batch` prefix). -/
+def Tile.transpose : {dtype : TileDType} → (batch : TileShape) →
+    {M N : Nat} →
+    Tile dtype (batch ++ [M, N]) → Tile dtype (batch ++ [N, M])
+  | _, [],         _, _, x =>
+      ⟨fun (n, m, _) => x.data (m, n, PUnit.unit)⟩
+  | _, _ :: rest,  _, _, x =>
+      ⟨fun (i, restIdx) =>
+        (Tile.transpose rest
+            ⟨fun rIdx => x.data (i, rIdx)⟩).data restIdx⟩
+
+/-- Body of `Tile.transpose` at the rank-2 base case: swap `(m, n) ↔ (n, m)`. -/
+@[simp] theorem Tile.transpose_nil_data {dtype : TileDType} {M N : Nat}
+    (x : Tile dtype [M, N]) (n : Fin N) (m : Fin M) (rest : TileIndex []) :
+    (Tile.transpose [] x).data (n, m, rest) =
+      x.data (m, n, PUnit.unit) := rfl
+
+/-- Recursive step: `(Tile.transpose (b :: rest) x).data (i, restIdx)`
+slices at outer index `i` and recurses on the remaining batch. -/
+@[simp] theorem Tile.transpose_cons_data {dtype : TileDType}
+    {b : Nat} {rest : TileShape} {M N : Nat}
+    (x : Tile dtype ((b :: rest) ++ [M, N]))
+    (i : Fin b) (restIdx : TileIndex (rest ++ [N, M])) :
+    (Tile.transpose (b :: rest) x).data (i, restIdx) =
+      (Tile.transpose rest (M := M) (N := N)
+          ⟨fun rIdx => x.data (i, rIdx)⟩).data restIdx := rfl
+
+/-- Insert a unit-size axis at position `axis`. The output index is
+projected back to the input by `dropInsertedIndex`, which throws away
+the inserted slot's `Fin 1` coordinate. -/
+def Tile.expandDim {dtype : TileDType} {shape : TileShape}
+    (axis : Fin (shape.length + 1)) (x : Tile dtype shape) :
+    Tile dtype (TileShape.insertAxis shape axis 1) :=
+  ⟨fun idx => x.data (TileShape.dropInsertedIndex shape axis 1 idx)⟩
+
+@[simp] theorem Tile.expandDim_data {dtype : TileDType} {shape : TileShape}
+    (axis : Fin (shape.length + 1)) (x : Tile dtype shape)
+    (idx : TileIndex (TileShape.insertAxis shape axis 1)) :
+    (Tile.expandDim axis x).data idx =
+      x.data (TileShape.dropInsertedIndex shape axis 1 idx) := rfl
+
+/-- Lift a plain ℝ-valued tile-shaped function into a `Tile .real`. Useful
+at the spec / boundary layer: `BlockState.mem` reads ℝ, never `⊥`, so a
+`tl.load`-fed kernel input is naturally a `TileIndex shape → ℝ`. The
+`⊥` sentinel of `WithBot ℝ` is reserved for `-inf` / masked-off /
+`tl.full(_, -inf)` values introduced *inside* a kernel; spec-level
+inputs and outputs should round-trip through `ofReal` / `unbotD 0`. -/
+def Tile.ofReal {shape : TileShape} (x : TileIndex shape → ℝ) :
+    Tile .real shape :=
+  ⟨fun i => some (x i)⟩
+
+@[simp] theorem Tile.ofReal_data {shape : TileShape}
+    (x : TileIndex shape → ℝ) (i : TileIndex shape) :
+    (Tile.ofReal x).data i = some (x i) := rfl
+
+/-- Element-wise select (`tl.where(cond, a, b)`): per-cell, pick from `a`
+when `cond` is `true`, else from `b`. Same-shape; broadcast lifting is
+done at the DSL layer. Named `select` to avoid the Lean `where` keyword
+in definition position; the AST constructor `Op.where` and DSL surface
+`tl.where(...)` keep the user-facing Triton spelling. -/
+def Tile.select {dtype : TileDType} {shape : TileShape}
+    (c : Tile .bool shape) (a b : Tile dtype shape) :
+    Tile dtype shape :=
+  ⟨fun idx => if c.data idx then a.data idx else b.data idx⟩
+
+@[simp] theorem Tile.select_data {dtype : TileDType} {shape : TileShape}
+    (c : Tile .bool shape) (a b : Tile dtype shape) (idx : TileIndex shape) :
+    (Tile.select c a b).data idx = if c.data idx then a.data idx else b.data idx := rfl
+
+noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype shape)
+  | .const c, _ => some (Tile.scalar (some c : WithBot ℝ))
+  | .constNat n, _ => some (Tile.scalar n)
+  | .constBool b, _ => some (Tile.scalar b)
+  | .negInf, _ => some (Tile.scalar (none : WithBot ℝ))
+  | .programId, s => some (Tile.scalar s.pid)
+  | .ref dtype shape name, s => s.regs dtype shape name
+  | .arange n, _ => some (Tile.vec (fun i => i.val))
+  | .broadcast e shape, s => do
+      let v ← evalOp e s
+      some ⟨fun _ => v.data PUnit.unit⟩
+  | .full shape e, s => do
+      let v ← evalOp e s
+      some ⟨fun _ => v.data PUnit.unit⟩
+  | .add h bc a b, s => do
+      let va ← evalOp a s
+      let vb ← evalOp b s
+      some (Tile.bop h.add bc va vb)
+  | .sub h bc a b, s => do
+      let va ← evalOp a s
+      let vb ← evalOp b s
+      some (Tile.bop h.sub bc va vb)
+  | .mul h bc a b, s => do
+      let va ← evalOp a s
+      let vb ← evalOp b s
+      some (Tile.bop h.mul bc va vb)
+  | .div h bc a b, s => do
+      let va ← evalOp a s
+      let vb ← evalOp b s
+      some (Tile.bop h.div bc va vb)
+  | .exp a, s => return Tile.uop WithBot.realExp (← evalOp a s)
+  | .log a, s => return Tile.uop WithBot.realLog (← evalOp a s)
+  | .sigmoid a, s => return Tile.uop WithBot.realSigmoid (← evalOp a s)
+  | .sqrt a, s => return Tile.uop WithBot.realSqrt (← evalOp a s)
+  | .lt h bc a b, s => return Tile.cop h.lt bc (← evalOp a s) (← evalOp b s)
+  | .le h bc a b, s => return Tile.cop h.le bc (← evalOp a s) (← evalOp b s)
+  | .eq h bc a b, s => return Tile.cop h.eq bc (← evalOp a s) (← evalOp b s)
+  | .gt h bc a b, s => return Tile.cop h.gt bc (← evalOp a s) (← evalOp b s)
+  | .ge h bc a b, s => return Tile.cop h.ge bc (← evalOp a s) (← evalOp b s)
+  | .ne h bc a b, s => return Tile.cop h.ne bc (← evalOp a s) (← evalOp b s)
+  | .max2 bc a b, s => do
+      let va ← evalOp a s
+      let vb ← evalOp b s
+      some (Tile.bop max bc va vb)
+  | .reduceMax axis keepDims a, s => do
+      let va ← evalOp a s
+      Tile.reduceMax axis keepDims va
+  | .reduceSum axis keepDims a, s => return Tile.reduceSum axis keepDims (← evalOp a s)
+  | .dot (batch := batch) a b, s => do
+      let va ← evalOp a s
+      let vb ← evalOp b s
+      some (Tile.dot batch va vb)
+  | .expandDim axis a, s => return Tile.expandDim axis (← evalOp a s)
+  | .where c a b, s => do
+      let vc ← evalOp c s
+      let va ← evalOp a s
+      let vb ← evalOp b s
+      some (Tile.select vc va vb)
+  | .transpose (batch := batch) a, s => do
+      let va ← evalOp a s
+      some (Tile.transpose batch va)
+  | .load region off, s => do
+      let offsets ← evalOp off s
+      some ⟨fun i => some (s.readMem region (offsets.data i))⟩
+  | .loadMask region off mask, s => do
+      let offsets ← evalOp off s
+      let masks ← evalOp mask s
+      some ⟨fun i =>
+        let addr := offsets.data i
+        if masks.data i then some (s.readMem region addr) else some (s.undef region addr)⟩
+  | .loadMaskOther region off mask other, s => do
+      let offsets ← evalOp off s
+      let masks ← evalOp mask s
+      let others ← evalOp other s
+      some ⟨fun i =>
+        let addr := offsets.data i
+        if masks.data i then some (s.readMem region addr) else others.data i⟩
+  | .natToReal a, s => return Tile.natToReal (← evalOp a s)
+
+mutual
+
 noncomputable def stepStmt : Stmt → BlockState → Option BlockState
-  | .assign name e, s =>
-      match evalOp e s with
-      | some v => some (s.setReg name v)
-      | none   => none
-  | .store region off val, s =>
-      match evalOp off s, evalOp val s with
-      | some voff, some vval =>
-          match voff with
-          | .scalarNat coff =>
-              -- Scalar offset (Nat): contiguous store starting at `coff`.
-              match vval with
-              | .scalar c =>
-                  some (s.writeMem region coff c)
-              | .tile n f =>
-                  some ((List.finRange n).foldl
-                          (fun acc i =>
-                            acc.writeMem region (coff + i.val) (f i))
-                          s)
-              | _ => none
-          | .tileNat n offs =>
-              -- Tile-valued offset (Nat): scatter. Iteration `i` writes
-              -- `vals i` to address `offs i`. Requires the value tile to
-              -- have the same length as the offset tile.
-              match vval with
-              | .tile m vals =>
-                  if h : n = m then
-                    some ((List.finRange n).foldl
-                            (fun acc i =>
-                              acc.writeMem region (offs i)
-                                          (vals (Fin.cast h i)))
-                            s)
-                  else none
-              | _ => none
-          | _ => none  -- ℝ-valued offset is rejected
-      | _, _ => none
-  | .forLoop _idx _n _body, _s =>
-      -- TODO(P2): bounded-loop operational semantics. Plan: turn `Stmt` into
-      -- a `mutual` block with `stepStmts : List Stmt → ...` and
-      -- `stepForLoopAux : ... → Nat → ... → Option BlockState`, with explicit
-      -- lex `termination_by` measure `(sizeOf body + 1, n - i)`. See
-      -- Notes/MacroOptions.md for the worked-out measure.
-      -- For now we return `none` ("this case is not supported yet") rather
-      -- than `sorry` so the operational semantics remains a total function
-      -- and downstream proofs about non-loop kernels do not transitively
-      -- inherit a `sorry` dependency.
-      none
+  | .assign dtype shape name e, s => do
+      let v ← evalOp e s
+      some (s.setReg name dtype shape v)
+  | .store region shape off val, s => do
+      let offsets ← evalOp off s
+      let values ← evalOp val s
+      -- `mem : RegionName → Nat → ℝ`; demote `WithBot ℝ → ℝ` via `unbotD 0`.
+      -- Well-formed kernels never store `⊥`, so the default value is unobservable.
+      some ((TileShape.allIndices shape).foldl
+        (fun acc i => acc.writeMem region (offsets.data i)
+                        ((values.data i).unbotD 0)) s)
+  | .storeMask region shape off val mask, s => do
+      let offsets ← evalOp off s
+      let values ← evalOp val s
+      let masks ← evalOp mask s
+      some ((TileShape.allIndices shape).foldl
+        (fun acc i =>
+          if masks.data i then acc.writeMem region (offsets.data i)
+                                ((values.data i).unbotD 0)
+          else acc) s)
+  | .forLoop idx n body, s =>
+      stepForLoopAux idx 0 n body s
+termination_by st _ => (sizeOf st, 0)
+decreasing_by
+  simp_wf
+  have h : 0 < sizeOf idx := by
+    cases idx; simp
+  omega
 
-/-- Sequence a list of statements, threading state. Structural on `List`. -/
 noncomputable def stepStmts : List Stmt → BlockState → Option BlockState
   | [], s => some s
   | st :: rest, s =>
       match stepStmt st s with
       | some s' => stepStmts rest s'
-      | none    => none
+      | none => none
+termination_by l _ => (sizeOf l, 0)
+decreasing_by all_goals (simp_wf; omega)
 
-/-- Execute a kernel from an initial state to a final state (or `none` on error). -/
+noncomputable def stepForLoopAux
+    (idx : RegName) (start n : Nat) (body : List Stmt) :
+    BlockState → Option BlockState
+  | s =>
+      if start < n then
+        match stepStmts body (s.setReg idx .nat [] (Tile.scalar start)) with
+        | some s' => stepForLoopAux idx (start + 1) n body s'
+        | none => none
+      else some s
+termination_by _ => (sizeOf body + 1, n - start)
+decreasing_by all_goals omega
+
+end
+
+namespace stepStmts
+
+@[simp] theorem nil {s : BlockState} :
+    stepStmts [] s = some s := by
+  unfold stepStmts
+  rfl
+
+end stepStmts
+
+namespace stepForLoopAux
+
+@[simp] theorem step_ge {idx} {start n} {body} {s} (h : n ≤ start) :
+    stepForLoopAux idx start n body s = some s := by
+  unfold stepForLoopAux
+  simp [Nat.not_lt.mpr h]
+
+@[simp] theorem step_eq_self {idx} {n} {body} (s) :
+    stepForLoopAux idx n n body s = some s :=
+  step_ge (le_refl n)
+
+@[simp] theorem step_lt {idx} {start n} {body} {s} (h : start < n) :
+    stepForLoopAux idx start n body s
+      = (stepStmts body (s.setReg idx .nat [] (Tile.scalar start))).bind
+          (stepForLoopAux idx (start + 1) n body) := by
+  conv_lhs => unfold stepForLoopAux
+  simp [h]
+  cases hbody : stepStmts body (s.setReg idx .nat [] (Tile.scalar start)) <;> rfl
+
+@[simp] theorem forLoop_unfold {idx} {n} {body} {s} :
+    stepStmt (.forLoop idx n body) s
+      = stepForLoopAux idx 0 n body s := by
+  unfold stepStmt
+  rfl
+
+end stepForLoopAux
+
 noncomputable def exec (k : Kernel) (s : BlockState) : Option BlockState :=
   stepStmts k.body s
 
--- ────────────── Sanity checks ──────────────
--- These are intentionally tiny: they confirm the framework is alive
--- (definitions reduce, simp/norm_num apply, register-binding works)
--- before we attempt anything substantive in P2.
+mutual
 
--- Pure structural reduction: an `ℝ` constant evaluates to a `Value.scalar`.
-example : evalOp (.const 5) default = some (Value.scalar 5) := by
-  unfold evalOp; rfl
+theorem stepStmt_pid {st : Stmt} {s s' : BlockState}
+    (h : stepStmt st s = some s') :
+    s'.pid = s.pid := by
+  cases st
+  case assign dtype shape name e =>
+    cases hv : evalOp e s with
+    | none =>
+        simp [stepStmt, hv] at h
+    | some v =>
+        simp [stepStmt, hv] at h
+        cases h
+        rfl
+  case store region shape off val =>
+    cases hoff : evalOp off s <;> simp [stepStmt, hoff] at h
+    rename_i offsets
+    cases hval : evalOp val s <;> simp [hval] at h
+    rename_i values
+    cases h
+    simp [BlockState.foldl_writeMem_pid]
+  case storeMask region shape off val mask =>
+    cases hoff : evalOp off s <;> simp [stepStmt, hoff] at h
+    rename_i offsets
+    cases hval : evalOp val s <;> simp [hval] at h
+    rename_i values
+    cases hmask : evalOp mask s <;> simp [hmask] at h
+    rename_i masks
+    cases h
+    simp [BlockState.foldl_writeMem_masked_pid]
+  case forLoop idx n body =>
+    simp at h
+    exact stepForLoopAux_pid h
 
--- A `Nat` constant evaluates to a `Value.scalarNat`.
-example : evalOp (.constNat 7) default = some (Value.scalarNat 7) := by
-  unfold evalOp; rfl
+theorem stepStmts_pid {body : List Stmt} {s s' : BlockState}
+    (h : stepStmts body s = some s') :
+    s'.pid = s.pid := by
+  cases body with
+  | nil =>
+      simp at h
+      simp_all
+  | cons st rest =>
+      unfold stepStmts at h
+      cases hst : stepStmt st s <;> simp [hst] at h
+      rename_i mid
+      exact (stepStmts_pid h).trans (stepStmt_pid hst)
 
--- `programId` reads `BlockState.pid` as a `Nat`; default state has `pid = 0`.
-example : evalOp .programId default = some (Value.scalarNat 0) := by
-  unfold evalOp; rfl
+theorem stepForLoopAux_pid {idx : RegName} {start n : Nat}
+    {body : List Stmt} {s s' : BlockState}
+    (h : stepForLoopAux idx start n body s = some s') :
+    s'.pid = s.pid := by
+  by_cases hlt : start < n
+  · rw [stepForLoopAux.step_lt hlt] at h
+    cases hbody : stepStmts body (s.setReg idx .nat [] (Tile.scalar start)) <;>
+      simp [hbody] at h
+    rename_i mid
+    exact (stepForLoopAux_pid h).trans
+      ((stepStmts_pid hbody).trans (BlockState.setReg_pid s idx .nat [] (Tile.scalar start)))
+  · have hge : n ≤ start := Nat.le_of_not_gt hlt
+    rw [stepForLoopAux.step_ge hge] at h
+    simp_all
 
--- Trivial `ℝ` arithmetic: `(1 + 2 : ℝ) = 3` lifts through `evalOp`.
-example : evalOp (.add (.const 1) (.const 2)) default = some (Value.scalar 3) := by
-  show some (Value.scalar ((1 : ℝ) + 2)) = some (Value.scalar 3)
-  norm_num
+end
 
--- Trivial `Nat` address arithmetic: `(2 + 3 : Nat) = 5` stays `Nat`.
-example : evalOp (.add (.constNat 2) (.constNat 3)) default
-            = some (Value.scalarNat 5) := by
-  unfold evalOp Value.bop; rfl
+theorem exec_pid {k : Kernel} {s s' : BlockState}
+    (h : exec k s = some s') :
+    s'.pid = s.pid := by
+  exact stepStmts_pid h
 
--- Mixing ℝ and Nat in arithmetic is a semantic error.
-example : evalOp (.add (.const 1) (.constNat 2)) default = none := by
-  unfold evalOp Value.bop; rfl
+example : evalOp (.const 5) default = some (Tile.scalar (some 5)) := by
+  unfold evalOp
+  rfl
 
--- `exp` on a `Nat` value is rejected.
-example : evalOp (.exp .programId) default = none := by
-  unfold evalOp Value.uop; rfl
+example : evalOp (.constNat 7) default = some (Tile.scalar 7) := by
+  unfold evalOp
+  rfl
 
--- `assign` writes to the register file.
-example (s : BlockState) :
-    stepStmt (.assign "x" (.const 7)) s
-      = some (s.setReg "x" (Value.scalar 7)) := by
-  unfold stepStmt evalOp; rfl
+example : evalOp .programId default = some (Tile.scalar 0) := by
+  unfold evalOp
+  rfl
+
+example : evalOp (.add .nat .nil (.constNat 2) (.constNat 3)) default
+    = some (Tile.scalar 5) := by
+  unfold evalOp Tile.bop NumericDType.add
+  rfl
 
 end VeriTile.Triton

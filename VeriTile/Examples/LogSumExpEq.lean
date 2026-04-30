@@ -6,8 +6,37 @@ log-sum-exp kernel. The math identity `log_sum_exp_shift_invariant` is the
 load-bearing fact; the kernel-level theorem composes operational walk-throughs
 of both kernels with this identity.
 
-Status (Phase A Task 1.1.A): infrastructure laid; math lemma and kernel
-theorems sorry'd, to be closed by subsequent subagents (1.1.B, 1.1.C).
+Status: math identity and kernel-level refinement are closed over the typed
+tile semantics.
+
+Source Triton (`.py` reference, single-block-per-row flavour):
+
+```python
+@triton.jit
+def direct_lse_kernel(x_ptr, y_ptr, BLOCK_SIZE: tl.constexpr):
+    pid = tl.program_id(axis=0)
+    offs = pid * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
+
+    x = tl.load(x_ptr + offs)
+    e = tl.exp(x)
+    s = tl.sum(e, axis=0)
+    y = tl.log(s)
+
+    tl.store(y_ptr + pid, y)
+
+@triton.jit
+def stable_lse_kernel(x_ptr, y_ptr, BLOCK_SIZE: tl.constexpr):
+    pid = tl.program_id(axis=0)
+    offs = pid * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)
+
+    x = tl.load(x_ptr + offs)
+    m = tl.max(x, axis=0)
+    e = tl.exp(x - m)
+    s = tl.sum(e, axis=0)
+    y = m + tl.log(s)
+
+    tl.store(y_ptr + pid, y)
+```
 -/
 
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
@@ -26,22 +55,22 @@ open VeriTile.Triton
 /-- Direct log-sum-exp kernel: y = log(Σ exp(x)). -/
 def directLSEKernel (xReg yReg : RegionName) (blockSize : Nat) : Kernel := triton {
   pid  := tl.program_id(0)
-  offs := pid * $(blockSize) + tl.arange($(blockSize))
+  offs := pid * $(blockSize) + tl.arange(0, $(blockSize))
   x    := tl.load($(xReg) + offs)
   e    := tl.exp(x)
-  s    := tl.sum(e)
+  s    := tl.sum(e, axis=0)
   y    := tl.log(s)
   tl.store($(yReg) + pid, y)
 }
 
 /-- Shift-trick LSE kernel: y = m + log(Σ exp(x - m)) where m = max(x). -/
-def stableLSEKernel (xReg yReg : RegionName) (N : Nat) : Kernel := triton {
+def stableLSEKernel (xReg yReg : RegionName) (blockSize : Nat) : Kernel := triton {
   pid  := tl.program_id(0)
-  offs := pid * $(N) + tl.arange($(N))
+  offs := pid * $(blockSize) + tl.arange(0, $(blockSize))
   x    := tl.load($(xReg) + offs)
-  m    := tl.max(x)
+  m    := tl.max(x, axis=0)
   e    := tl.exp(x - m)
-  s    := tl.sum(e)
+  s    := tl.sum(e, axis=0)
   y    := m + tl.log(s)
   tl.store($(yReg) + pid, y)
 }
@@ -88,13 +117,15 @@ theorem direct_lse_correct
     (_h_x : InputLoadedAt s xReg N xs) :
     observeLSE (exec (directLSEKernel xReg yReg N) s) yReg s.pid
       = some (directLSESpec xs) := by
-  -- Post-RP2: address arithmetic stays in `Nat`, no `hcast` needed.
   simp [observeLSE, exec, directLSEKernel, stepStmts, stepStmt, evalOp,
-        Value.bop, Value.uop, Value.reduceSum,
-        BlockState.setReg, BlockState.readMem, BlockState.writeMem,
-        directLSESpec]
+        Tile.bop, Tile.uop, Tile.reduceSum, Tile.reduceSumDrop,
+        TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
+        NumericDType.add, NumericDType.mul,
+        BlockState.setReg, BlockState.readMem,
+        BlockState.writeMem, directLSESpec]
   unfold InputLoadedAt at _h_x
   simp_rw [_h_x]
+  rfl
 
 /-- **Stable LSE kernel correctness.** Single-cell observation; closed form
     is `m + log(Σ exp(x - m))` where `m = tileMax xs`. -/
@@ -105,13 +136,16 @@ theorem stable_lse_correct
     observeLSE (exec (stableLSEKernel xReg yReg N) s) yReg s.pid
       = some (stableLSESpec xs (tileMax hN xs)) := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
-  -- Post-RP2: address arithmetic stays in `Nat`, no `hcast` needed.
   simp [observeLSE, exec, stableLSEKernel, stepStmts, stepStmt, evalOp,
-        Value.bop, Value.uop, Value.reduceSum, Value.reduceMax,
+        Tile.bop, Tile.uop, Tile.reduceSum, Tile.reduceSumDrop,
+        Tile.reduceMax, Tile.reduceMaxDrop,
+        TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
+        NumericDType.add, NumericDType.mul, NumericDType.sub,
         BlockState.setReg, BlockState.readMem, BlockState.writeMem,
         stableLSESpec, tileMax]
   unfold InputLoadedAt at _h_x
   simp_rw [_h_x]
+  rfl
 
 /-- **Refinement: `directLSEKernel` and `stableLSEKernel` produce the same
     `Y[pid]` value.** Composes the two correctness lemmas via the math

@@ -22,13 +22,13 @@ open VeriTile.Triton
 
 /-- Stable softmax with precomputed reciprocal. Saves N-1 divisions vs
     the per-element-divide form (`stableSoftmaxKernel`). -/
-def softmaxRecipKernel (xReg yReg : RegionName) (N : Nat) : Kernel := triton {
+def softmaxRecipKernel (xReg yReg : RegionName) (blockSize : Nat) : Kernel := triton {
   pid    := tl.program_id(0)
-  offs   := pid * $(N) + tl.arange($(N))
+  offs   := pid * $(blockSize) + tl.arange(0, $(blockSize))
   x      := tl.load($(xReg) + offs)
-  m      := tl.max(x)
+  m      := tl.max(x, axis=0)
   e      := tl.exp(x - m)
-  s      := tl.sum(e)
+  s      := tl.sum(e, axis=0)
   inv_s  := 1 / s
   y      := e * inv_s
   tl.store($(yReg) + offs, y)
@@ -52,18 +52,19 @@ theorem softmax_recip_correct
         = some (stableRecipSpec xs (tileMax hN xs) i) := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
   intro i
-  -- The output offsets `s.pid * (n+1) + k.val` are injective in `k`.
-  have h_inj : Function.Injective (fun k : Fin (n + 1) => s.pid * (n + 1) + k.val) := by
-    intro a b hab
-    exact Fin.ext (Nat.add_left_cancel hab)
-  -- Post-RP2: address arithmetic stays in `Nat`, no `hcast` needed.
+  have h_inj : Function.Injective
+      (fun idx : TileIndex [n + 1] => s.pid * (n + 1) + idx.1.val) :=
+    injective_offset_singleton (s.pid * (n + 1))
   simp [observeAt, exec, softmaxRecipKernel, stepStmts, stepStmt, evalOp,
-        Value.bop, Value.uop, Value.reduceSum, Value.reduceMax,
-        BlockState.setReg, BlockState.readMem,
-        stableRecipSpec, tileMax]
+        Tile.bop, Tile.uop, Tile.reduceSum, Tile.reduceSumDrop,
+        Tile.reduceMax, Tile.reduceMaxDrop,
+        TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
+        NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
+        BlockState.setReg, BlockState.readMem, stableRecipSpec, tileMax]
   unfold InputLoadedAt at _h_x
-  simp_rw [_h_x]
-  exact BlockState.scatter_readback _ _ _ h_inj i
+  rw [BlockState.scatter_readback_nd _ _ _ h_inj (i, PUnit.unit)]
+  simp [_h_x]
+  rfl
 
 /-- **Refinement: stable softmax with per-element division ≡ stable softmax
     with precomputed reciprocal.** Composes via `div_eq_mul_inv_real`. -/
