@@ -25,7 +25,7 @@ Triton kernel pair 的等价性.
 
 ## 当前状态
 
-Phase B 已完成。见 release
+Phase B 已完成,核心 Phase C 栈也已经落到 `main`。见 release
 [`v0.2-tier2`](https://github.com/Lizn-zn/VeriTile/releases/tag/v0.2-tier2)
 (前一里程碑:[`v0.1-tier1`](https://github.com/Lizn-zn/VeriTile/releases/tag/v0.1-tier1))。
 
@@ -44,6 +44,24 @@ Phase B 截止包含:
   `other=None` 通过 per-state `undef` oracle 非确定性建模。
 - 6 个比较算子(`<`、`<=`、`==`、`>`、`>=`、`!=`)在 `.real`/`.nat` 通道上,
   产生 `.bool` 通道。
+
+`main` 上已有的核心 Phase C 增量:
+
+- ND tile shape 与 ND broadcast,以及 typed `Op : TileDType → TileShape → Type`。
+- `tl.dot`、trailing-axis transpose、`tl.where`、`tl.sqrt`、reduction
+  `axis` / `keep_dims`、multi-axis `tl.program_id`、strided-offset memory helper。
+- 4D strided Q/K/V/O tensor view 上的 FA-1 v0/full-tile forward 证明:
+  `fa1_forward_correct_4D_views` 与
+  `fa1_forward_correct_4D_causal_views`。
+  Boundary-masked FA-1 v1 kernel 和 recurrence scaffold 已有,但最终 correctness
+  theorem 仍在推进中。
+- CI 中的 artifact gate:`scripts/check-artifact.sh`,检查 `lake build`、无
+  `sorry`、axiom whitelist、关键 theorem surface、README/example 漂移。
+
+当前支持的 Triton 子集和已知语义 gap 见
+[`documents/TritonSubset_zh.md`](./documents/TritonSubset_zh.md)。重要未建模部分包括
+完整 IEEE-754 语义、block pointer、`boundary_check`、atomic、async copy 和 whole-grid
+launch semantics。
 
 ## 环境配置
 
@@ -99,13 +117,16 @@ def stableSoftmaxKernel (xReg yReg : RegionName) (N : Nat) : Kernel := triton {
 #### 3. 在 Lean 中写出两个 kernel 的等价定理, 先把证明留给 LLM Agent:
 
 ```lean
-theorem softmax_kernels_refinement
+theorem softmax_kernels_refinement_view
     (xReg yReg : RegionName)
     (N : Nat) (hN : 0 < N) (s : BlockState) (xs : Fin N -> Real)
-    (h_x : InputLoadedAt s xReg N xs) :
-    forall i : Fin N,
-      observeAt (exec (naiveSoftmaxKernel  xReg yReg N) s) yReg N s.pid i =
-      observeAt (exec (stableSoftmaxKernel xReg yReg N) s) yReg N s.pid i := by
+    (h_x : TensorView.loaded s (programTileView s xReg N)
+      (fun idx : TileIndex [N] => xs idx.1)) :
+    forall idx : TileIndex [N],
+      TensorView.observe (exec (naiveSoftmaxKernel  xReg yReg N) s)
+          (programTileView s yReg N) idx =
+      TensorView.observe (exec (stableSoftmaxKernel xReg yReg N) s)
+          (programTileView s yReg N) idx := by
   sorry
 ```
 
@@ -118,20 +139,17 @@ scripts/prove.sh path/to/your_refinement_theorem.lean --max-cycles 5
 对 softmax refinement, 生成后的证明会把两边分别化简到各自的 specification, 再调用数学恒等式:
 
 ```lean
-theorem softmax_kernels_refinement
+theorem softmax_kernels_refinement_view
     (xReg yReg : RegionName)
     (N : Nat) (hN : 0 < N) (s : BlockState) (xs : Fin N -> Real)
-    (h_x : InputLoadedAt s xReg N xs) :
-    forall i : Fin N,
-      observeAt (exec (naiveSoftmaxKernel  xReg yReg N) s) yReg N s.pid i =
-      observeAt (exec (stableSoftmaxKernel xReg yReg N) s) yReg N s.pid i := by
-  intro i
-  rw [softmax_naive_correct  xReg yReg N hN s xs h_x i,
-      softmax_stable_correct xReg yReg N hN s xs h_x i]
-  congr 1
-  unfold naiveSpec stableSpec
-  have h := naive_eq_stable xs (tileMax hN xs)
-  simp only [] at h
+    (h_x : TensorView.loaded s (programTileView s xReg N)
+      (fun idx : TileIndex [N] => xs idx.1)) :
+    forall idx : TileIndex [N],
+      TensorView.observe (exec (naiveSoftmaxKernel  xReg yReg N) s)
+          (programTileView s yReg N) idx =
+      TensorView.observe (exec (stableSoftmaxKernel xReg yReg N) s)
+          (programTileView s yReg N) idx := by
+  exact softmax_kernels_refinement_view xReg yReg N hN s xs h_x
   exact congrFun h i
 ```
 
@@ -148,11 +166,13 @@ theorem softmax_kernels_refinement
 | [`VeriTile/Examples/SoftmaxReciprocal.lean`](./VeriTile/Examples/SoftmaxReciprocal.lean) | stable softmax 除法 vs 预计算倒数 |
 | [`VeriTile/Examples/VectorAdd.lean`](./VeriTile/Examples/VectorAdd.lean) | 逐元素加法(multi-buffer kernel ↔ math 正确性) |
 | [`VeriTile/Examples/FusedSiLU.lean`](./VeriTile/Examples/FusedSiLU.lean) | 融合 sigmoid MLP block vs 手动展开 `1/(1+exp(-z))`(kernel-pair refinement)|
-| [`VeriTile/Examples/WelfordMath.lean`](./VeriTile/Examples/WelfordMath.lean) | Phase B 准备用的 Welford 恒等式 |
+| [`VeriTile/Examples/WelfordKernels.lean`](./VeriTile/Examples/WelfordKernels.lean) | Online Welford vs two-pass mean/variance |
+| [`VeriTile/Examples/FlashAttention1.lean`](./VeriTile/Examples/FlashAttention1.lean) | FA-1 v0/full-tile forward correctness,4D strided layout,含 non-causal 与 causal |
 
 ## 更多文档
 
-- [支持的 Triton 子集](./documents/TritonSubset_zh.md)
+- [支持的 Triton 子集与语义 gap](./documents/TritonSubset_zh.md)
+- [FA-1 Step 2 boundary-mask 计划](./documents/FA1_Step2_BoundaryMasks.md)
 - [LLM 证明 Wrapper](./scripts/README.md)
 - [LLM benchmark 协议](./bench/llm_eval/README.md)
 
@@ -260,16 +280,19 @@ VeriTile/
   Triton/
     Core.lean          Kernel AST
     Semantics.lean     操作语义
+    Memory.lean        memory contract、offset、tensor view
     DSL.lean           `triton { ... }` 宏
     Examples.lean      直接构造子形式示例
   Examples/
     SoftmaxEq.lean
     LogSumExpEq.lean
     SoftmaxReciprocal.lean
-    WelfordMath.lean
+    WelfordKernels.lean
+    FlashAttention1.lean
 
 bench/llm_eval/        Held-out 证明评测 harness
 scripts/               证明 wrapper 脚本
+documents/             项目文档
 Notes/                 Proposal, 实现笔记, 可行性研究
 PLAN_zh.md             项目路线图
 VeriTile.lean          Lean library 顶层入口
@@ -280,9 +303,11 @@ lean-toolchain         锁定的 Lean toolchain
 ## 路线图
 
 - **Phase A:** Tier 1 refinement 示例, LLM proof wrapper, T3 scouting. 已完成.
-- **Phase B:** `forLoop` 语义, Tier 2 kernel, differential testing.
-- **Phase C:** `tl.dot`, masking, 2D tile, FlashAttention forward 证明.
-- **Phase D:** multi-block 执行, FA-1 vs FA-2, 论文 artifact.
+- **Phase B:** `forLoop` 语义, Tier 2 kernel, differential testing. 已完成.
+- **Phase C:** ND tile、masking、`tl.dot`、strided memory、FA-1 forward
+  correctness。核心 non-causal / causal 4D theorem 已在 `main`。
+- **Phase D:** 收敛剩余语义 gap:block pointer、`boundary_check`、IEEE-754
+  保真、whole-grid launch semantics、FA-1 vs FA-2、论文 artifact packaging。
 
 完整计划见 [`PLAN_zh.md`](./PLAN_zh.md).
 

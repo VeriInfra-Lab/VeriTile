@@ -45,7 +45,7 @@ example : evalOp
     (Op.loadMask "X" (Op.constNat 0)
       (Op.lt ComparableDType.nat Broadcast.nil (Op.constNat 0) (Op.constNat 0)))
     { mem := fun _ _ => 100, regs := fun _ _ _ => none
-    , pid := 0, undef := fun _ _ => 42 }
+    , pids := fun _ => 0, undef := fun _ _ => 42 }
     = some (Tile.scalar 42) := by
   rfl
 
@@ -53,10 +53,10 @@ example : evalOp
 example :
     let s1 : BlockState :=
       { mem := fun _ _ => 0, regs := fun _ _ _ => none
-      , pid := 0, undef := fun _ _ => 42 }
+      , pids := fun _ => 0, undef := fun _ _ => 42 }
     let s2 : BlockState :=
       { mem := fun _ _ => 0, regs := fun _ _ _ => none
-      , pid := 0, undef := fun _ _ => 99 }
+      , pids := fun _ => 0, undef := fun _ _ => 99 }
     let maskFalse : Op .bool [] :=
       Op.lt ComparableDType.nat Broadcast.nil (Op.constNat 0) (Op.constNat 0)
     evalOp (Op.loadMask "X" (Op.constNat 0) maskFalse) s1
@@ -196,6 +196,48 @@ example :
     r.data (⟨0, by decide⟩, PUnit.unit) = some (1 : ℝ) ∧
     r.data (⟨1, by decide⟩, PUnit.unit) = some (2 : ℝ) := by
   refine ⟨?_, ?_⟩ <;> simp [Tile.select, Tile.vec]
+
+/-! ### `tl.if` block-skipping shape (issue #29)
+
+FA-2's block-skipping pattern `if start_n + BLOCK_N <= start_m: continue`
+rewrites to `tl.if not_skippable { ...work... }`. Scalar bool condition
+is required; element-wise masking still goes through `tl.where`. -/
+
+/-- Block-skip skeleton: pid-gated store. The `tl.if` body runs only
+when `pid < $(P)` evaluates true; otherwise the kernel is a no-op for
+that program instance. Exercises the DSL surface + macro lowering. -/
+def ifThenSmoke (xReg outReg : RegionName) (N P : Nat) :
+    Kernel := triton {
+  pid  := tl.program_id(0)
+  tl.if pid < $(P) {
+    offs := pid * $(N) + tl.arange(0, $(N))
+    x    := tl.load($(xReg) + offs)
+    tl.store($(outReg) + offs, x)
+  }
+}
+
+example :
+    let s : BlockState :=
+      { mem := fun _ _ => 0, regs := fun _ _ _ => none
+      , pids := fun _ => 0, undef := fun _ _ => 0 }
+    let cond : Op .bool [] :=
+      Op.lt ComparableDType.nat Broadcast.nil (Op.constNat 0) (Op.constNat 1)
+    let body : List Stmt := [Stmt.assign .real [] "x" (Op.const 7)]
+    (stepStmt (Stmt.ifThen cond body) s).bind
+        (fun s' => s'.regs .real [] "x")
+      = some (Tile.scalar (some (7 : ℝ) : WithBot ℝ)) := by
+  norm_num [stepStmt, stepStmts, evalOp, Tile.cop, ComparableDType.lt,
+    BlockState.setReg]
+
+example :
+    let s : BlockState :=
+      { mem := fun _ _ => 0, regs := fun _ _ _ => none
+      , pids := fun _ => 0, undef := fun _ _ => 0 }
+    let cond : Op .bool [] :=
+      Op.lt ComparableDType.nat Broadcast.nil (Op.constNat 1) (Op.constNat 1)
+    let body : List Stmt := [Stmt.assign .real [] "x" (Op.const 7)]
+    stepStmt (Stmt.ifThen cond body) s = some s := by
+  norm_num [stepStmt, evalOp, Tile.cop, ComparableDType.lt]
 
 /-! ### `tl.trans` / transpose (issue #36)
 

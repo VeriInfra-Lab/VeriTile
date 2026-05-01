@@ -361,7 +361,7 @@ theorem online_softmax_correct
     simpa [onlineSoftmaxLoopBody] using hLoopAux
   have hExec : exec (onlineSoftmaxKernel xReg yReg N) s = some sLoop := by
     -- Walk through each pre-loop statement explicitly, then forLoop via hLoop.
-    have hpid : stepStmt (.assign .nat [] "pid" .programId) s
+    have hpid : stepStmt (.assign .nat [] "pid" (.programId 0)) s
                   = some (s.setReg "pid" .nat [] (Tile.scalar s.pid)) := by
       simp [stepStmt, evalOp]
     have hm0 : stepStmt (.assign .real [] "m" .negInf)
@@ -390,7 +390,7 @@ theorem online_softmax_correct
       conv_lhs => unfold stepStmts
     show stepStmts (onlineSoftmaxKernel xReg yReg N).body s = some sLoop
     show stepStmts
-        [ .assign .nat [] "pid" .programId
+        [ .assign .nat [] "pid" (.programId 0)
         , .assign .real [] "m" .negInf
         , .assign .real [] "l" (.const 0)
         , .forLoop "i" N (onlineSoftmaxLoopBody xReg N) ] s = some sLoop
@@ -404,5 +404,20 @@ theorem online_softmax_correct
     simp [hm]
   · rw [hExec]
     simp [hl]
+
+/-- View-level surface for `online_softmax_correct`. -/
+theorem online_softmax_correct_view
+    (xReg yReg : RegionName) (N : Nat) (hN : 0 < N)
+    (s : BlockState) (xs : Fin N → ℝ)
+    (h_x : TensorView.loaded s (programTileView s xReg N)
+      (fun idx : TileIndex [N] => xs idx.1)) :
+    let final := exec (onlineSoftmaxKernel xReg yReg N) s
+    final.bind (fun s' => (s'.regs .real [] "m").map (fun t => t.data PUnit.unit))
+        = some (onlineSoftmaxM xs N)
+    ∧ final.bind (fun s' => (s'.regs .real [] "l").map (fun t => t.data PUnit.unit))
+        = some (onlineSoftmaxL xs N) := by
+  have hx := inputLoadedAt_of_programTileView_loaded (s := s) (region := xReg)
+    (N := N) (xs := xs) h_x
+  exact online_softmax_correct xReg yReg N hN s xs hx
 
 end VeriTile.Examples

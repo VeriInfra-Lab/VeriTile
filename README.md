@@ -27,7 +27,7 @@ Agent.
 
 ## Status
 
-Phase B is complete. See release
+Phase B is complete and the core Phase C stack has landed on `main`. See release
 [`v0.2-tier2`](https://github.com/Lizn-zn/VeriTile/releases/tag/v0.2-tier2)
 (prior milestone: [`v0.1-tier1`](https://github.com/Lizn-zn/VeriTile/releases/tag/v0.1-tier1)).
 
@@ -48,6 +48,26 @@ Included through Phase B:
   a per-state `undef` oracle.
 - 6 comparison operators (`<`, `<=`, `==`, `>`, `>=`, `!=`) over the
   `.real`/`.nat` channels, producing the `.bool` channel.
+
+Core Phase C additions on `main`:
+
+- ND tile shapes and ND broadcasting, with typed `Op : TileDType → TileShape → Type`.
+- `tl.dot`, trailing-axis transpose, `tl.where`, `tl.sqrt`, reduction
+  `axis` / `keep_dims`, multi-axis `tl.program_id`, and strided-offset
+  memory helpers.
+- FA-1 v0/full-tile forward proofs over 4D strided Q/K/V/O layouts:
+  `fa1_forward_correct_4D_views` and
+  `fa1_forward_correct_4D_causal_views`.
+  Boundary-masked FA-1 v1 kernels and recurrence scaffolding are present, but
+  their final correctness theorem is still in progress.
+- Artifact gate in CI via `scripts/check-artifact.sh`: `lake build`, no
+  `sorry`, axiom whitelist, key theorem surface, and README/example drift
+  checks.
+
+The currently supported Triton subset and known semantic gaps are documented in
+[`documents/TritonSubset.md`](./documents/TritonSubset.md). Important open gaps
+include full IEEE-754 semantics, block pointers, `boundary_check`, atomics,
+async copy, and whole-grid launch semantics.
 
 ## Environment
 
@@ -103,13 +123,16 @@ def stableSoftmaxKernel (xReg yReg : RegionName) (N : Nat) : Kernel := triton {
 #### 3. State the Lean equivalence theorem, initially leaving the proof to the LLM Agent:
 
 ```lean
-theorem softmax_kernels_refinement
+theorem softmax_kernels_refinement_view
     (xReg yReg : RegionName)
     (N : Nat) (hN : 0 < N) (s : BlockState) (xs : Fin N -> Real)
-    (h_x : InputLoadedAt s xReg N xs) :
-    forall i : Fin N,
-      observeAt (exec (naiveSoftmaxKernel  xReg yReg N) s) yReg N s.pid i =
-      observeAt (exec (stableSoftmaxKernel xReg yReg N) s) yReg N s.pid i := by
+    (h_x : TensorView.loaded s (programTileView s xReg N)
+      (fun idx : TileIndex [N] => xs idx.1)) :
+    forall idx : TileIndex [N],
+      TensorView.observe (exec (naiveSoftmaxKernel  xReg yReg N) s)
+          (programTileView s yReg N) idx =
+      TensorView.observe (exec (stableSoftmaxKernel xReg yReg N) s)
+          (programTileView s yReg N) idx := by
   sorry
 ```
 
@@ -123,18 +146,17 @@ For the softmax refinement, the generated proof reduces both sides to their
 specifications and then applies the math identity:
 
 ```lean
-theorem softmax_kernels_refinement
+theorem softmax_kernels_refinement_view
     (xReg yReg : RegionName)
     (N : Nat) (hN : 0 < N) (s : BlockState) (xs : Fin N -> Real)
-    (h_x : InputLoadedAt s xReg N xs) :
-    forall i : Fin N,
-      observeAt (exec (naiveSoftmaxKernel  xReg yReg N) s) yReg N s.pid i =
-      observeAt (exec (stableSoftmaxKernel xReg yReg N) s) yReg N s.pid i := by
-  intro i
-  rw [softmax_naive_correct  xReg yReg N hN s xs h_x i,
-      softmax_stable_correct xReg yReg N hN s xs h_x i]
-  congr 1
-  unfold naiveSpec stableSpec
+    (h_x : TensorView.loaded s (programTileView s xReg N)
+      (fun idx : TileIndex [N] => xs idx.1)) :
+    forall idx : TileIndex [N],
+      TensorView.observe (exec (naiveSoftmaxKernel  xReg yReg N) s)
+          (programTileView s yReg N) idx =
+      TensorView.observe (exec (stableSoftmaxKernel xReg yReg N) s)
+          (programTileView s yReg N) idx := by
+  exact softmax_kernels_refinement_view xReg yReg N hN s xs h_x
   have h := naive_eq_stable xs (tileMax hN xs)
   simp only [] at h
   exact congrFun h i
@@ -152,11 +174,13 @@ See the full softmax example in
 | [`VeriTile/Examples/SoftmaxReciprocal.lean`](./VeriTile/Examples/SoftmaxReciprocal.lean) | Stable softmax division vs precomputed reciprocal |
 | [`VeriTile/Examples/VectorAdd.lean`](./VeriTile/Examples/VectorAdd.lean) | Elementwise add (multi-buffer kernel ↔ math correctness) |
 | [`VeriTile/Examples/FusedSiLU.lean`](./VeriTile/Examples/FusedSiLU.lean) | Fused-sigmoid MLP block vs manually-expanded `1/(1+exp(-z))` (kernel-pair refinement) |
-| [`VeriTile/Examples/WelfordMath.lean`](./VeriTile/Examples/WelfordMath.lean) | Welford identity used to prepare Phase B |
+| [`VeriTile/Examples/WelfordKernels.lean`](./VeriTile/Examples/WelfordKernels.lean) | Online Welford vs two-pass mean/variance |
+| [`VeriTile/Examples/FlashAttention1.lean`](./VeriTile/Examples/FlashAttention1.lean) | FA-1 v0/full-tile forward correctness, non-causal and causal, over 4D strided layouts |
 
 ## More Documentation
 
-- [Supported Triton subset](./documents/TritonSubset.md)
+- [Supported Triton subset and semantic gaps](./documents/TritonSubset.md)
+- [FA-1 Step 2 boundary-mask plan](./documents/FA1_Step2_BoundaryMasks.md)
 - [LLM proof wrapper](./scripts/README.md)
 - [LLM benchmark protocol](./bench/llm_eval/README.md)
 
@@ -267,13 +291,15 @@ VeriTile/
   Triton/
     Core.lean          Kernel AST
     Semantics.lean     Operational semantics
+    Memory.lean        Memory contracts, offsets, tensor views
     DSL.lean           `triton { ... }` macro
     Examples.lean      Constructor-form example
   Examples/
     SoftmaxEq.lean
     LogSumExpEq.lean
     SoftmaxReciprocal.lean
-    WelfordMath.lean
+    WelfordKernels.lean
+    FlashAttention1.lean
 
 bench/llm_eval/        Held-out proof-evaluation harness
 scripts/               Proof wrapper scripts
@@ -288,9 +314,12 @@ lean-toolchain         Pinned Lean toolchain
 ## Roadmap
 
 - **Phase A:** Tier 1 refinement examples, LLM proof wrapper, T3 scouting. Done.
-- **Phase B:** `forLoop` semantics, Tier 2 kernels, differential testing.
-- **Phase C:** `tl.dot`, masking, 2D tiles, FlashAttention forward proof.
-- **Phase D:** multi-block execution, FA-1 vs FA-2, paper artifact.
+- **Phase B:** `forLoop` semantics, Tier 2 kernels, differential testing. Done.
+- **Phase C:** ND tiles, masking, `tl.dot`, strided memory, FA-1 forward
+  correctness. Core non-causal and causal 4D theorems are on `main`.
+- **Phase D:** close the remaining semantic gaps: block pointers,
+  `boundary_check`, IEEE-754 fidelity, whole-grid launch semantics, FA-1 vs
+  FA-2, and paper artifact packaging.
 
 See [`PLAN.md`](./PLAN.md) for the full plan.
 
