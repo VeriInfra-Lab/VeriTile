@@ -296,7 +296,7 @@ theorem fused_layernorm_correct
       intro st rest s s' h
       conv_lhs => unfold stepStmts
       rw [h]
-    have hpid : stepStmt (.assign .nat [] "pid" .programId) s
+    have hpid : stepStmt (.assign .nat [] "pid" (.programId 0)) s
                   = some (s.setReg "pid" .nat [] (Tile.scalar s.pid)) := by
       simp [stepStmt, evalOp]
     have hM0 : stepStmt (.assign .real [] "M" (.const 0))
@@ -315,7 +315,7 @@ theorem fused_layernorm_correct
         = stepStmts (layerNormAffineTailKernel xReg γReg βReg yReg N ε).body sLoop
     -- Unfold kernel body literals so stmts_cons can match `:: pattern`
     simp only [show (fusedLayerNormKernel xReg γReg βReg yReg N ε).body =
-        ([ .assign .nat [] "pid" .programId
+        ([ .assign .nat [] "pid" (.programId 0)
          , .assign .real [] "M" (.const 0)
          , .assign .real [] "S" (.const 0)
          , .forLoop "i" N (onlineWelfordLoopBody xReg N)
@@ -359,5 +359,33 @@ theorem layernorm_kernels_refinement
       fused_layernorm_correct
         xReg γReg βReg yReg N _hN ε s xs γs βs
         _h_x _h_γ _h_β _h_yx _h_yγ _h_yβ i]
+
+/-- View-level surface for `layernorm_kernels_refinement`. -/
+theorem layernorm_kernels_refinement_view
+    (xReg γReg βReg yReg : RegionName) (N : Nat) (hN : 0 < N) (ε : ℝ)
+    (s : BlockState) (xs γs βs : Fin N → ℝ)
+    (h_x : TensorView.loaded s (programTileView s xReg N)
+      (fun idx : TileIndex [N] => xs idx.1))
+    (h_γ : TensorView.loaded s (featureView γReg N)
+      (fun idx : TileIndex [N] => γs idx.1))
+    (h_β : TensorView.loaded s (featureView βReg N)
+      (fun idx : TileIndex [N] => βs idx.1))
+    (h_yx : yReg ≠ xReg) (h_yγ : yReg ≠ γReg) (h_yβ : yReg ≠ βReg) :
+    ∀ idx : TileIndex [N],
+      TensorView.observe (exec (twoPassLayerNormKernel xReg γReg βReg yReg N ε) s)
+          (programTileView s yReg N) idx
+        = TensorView.observe (exec (fusedLayerNormKernel xReg γReg βReg yReg N ε) s)
+          (programTileView s yReg N) idx := by
+  intro idx
+  have hx := inputLoadedAt_of_programTileView_loaded (s := s) (region := xReg)
+    (N := N) (xs := xs) h_x
+  have hγ := inputFeatureLoadedAt_of_featureView_loaded (s := s) (region := γReg)
+    (N := N) (xs := γs) h_γ
+  have hβ := inputFeatureLoadedAt_of_featureView_loaded (s := s) (region := βReg)
+    (N := N) (xs := βs) h_β
+  simpa [TensorView.observe, observeTileAt, programTileView,
+         TensorView.offset, Offset.strided, observeAt]
+    using layernorm_kernels_refinement xReg γReg βReg yReg N hN ε s xs γs βs
+      hx hγ hβ h_yx h_yγ h_yβ idx.1
 
 end VeriTile.Examples
