@@ -80,9 +80,12 @@ def layerNormAffineTailKernel
           (.add .nat .scalarL
             (.mul .nat .nil (.ref .nat [] "pid") (.constNat N))
             (.arange N))
-      , .assign .real [N] "x" (.load xReg (.ref .nat [N] "offs"))
-      , .assign .real [N] "γ" (.load γReg (.arange N))
-      , .assign .real [N] "β" (.load βReg (.arange N))
+      , .assign .real [N] "x"
+          (.load .real (MemAccess.region xReg (.ref .nat [N] "offs")) MaskOpt.none)
+      , .assign .real [N] "γ"
+          (.load .real (MemAccess.region γReg (.arange N)) MaskOpt.none)
+      , .assign .real [N] "β"
+          (.load .real (MemAccess.region βReg (.arange N)) MaskOpt.none)
       , .assign .real [N] "y"
           (.add .real (.consSame .nil)
             (.mul .real (.consSame .nil)
@@ -91,7 +94,8 @@ def layerNormAffineTailKernel
                 (.ref .real [] "σ_inv"))
               (.ref .real [N] "γ"))
             (.ref .real [N] "β"))
-      , .store yReg [N] (.ref .nat [N] "offs") (.ref .real [N] "y")
+      , .store .real [N] (MemAccess.region yReg (.ref .nat [N] "offs"))
+          (.ref .real [N] "y") MaskOpt.none
       ] }
 
 /-- LayerNorm spec: `y_i = (x_i − μ) / √(var + ε) · γ_i + β_i`. -/
@@ -122,7 +126,7 @@ private theorem layernorm_welford_step
         (s.setReg "i" .nat [] (Tile.scalar i)) = some s' ∧
       P_layernorm xs γs βs xReg γReg βReg origPid (i + 1) s' := by
   rcases hP with ⟨hM, hS, hpidReg, hpid, hX, hγ, hβ⟩
-  let xi : ℝ := s.mem xReg (origPid * N + i)
+  let xi : ℝ := s.readMem xReg (origPid * N + i)
   have hxi : xi = xs ⟨i, hi⟩ := by
     have hx := hX ⟨i, hi⟩
     rw [hpid] at hx
@@ -143,10 +147,9 @@ private theorem layernorm_welford_step
   refine ⟨s', ?_, ?_⟩
   · simp [onlineWelfordLoopBody, stepStmts, stepStmt, evalOp, Tile.bop,
       Tile.natToReal, NumericDType.add, NumericDType.mul, NumericDType.sub,
-      NumericDType.div, BlockState.readMem, hM, hS, hpidReg,
+      NumericDType.div, hM, hS, hpidReg,
       xi, m, ssum, delta, m', delta2, ssum', s',
-      WithBot.realAdd, WithBot.realSub, WithBot.realMul, WithBot.realDiv,
-      BlockState.setReg]
+      WithBot.realAdd, WithBot.realSub, WithBot.realMul, WithBot.realDiv]
     rfl
   · simp [P_layernorm, s', InputLoadedAt, InputFeatureLoadedAt, welfordMean,
       welfordS, hi, xi, m, ssum, delta, m', delta2, ssum', hpidReg, hpid, hxi]
@@ -200,8 +203,7 @@ private theorem layernorm_affine_tail_correct
     injective_offset_singleton (s.pid * N)
   simp [observeAt, exec, layerNormAffineTailKernel, stepStmts, stepStmt, evalOp,
         Tile.bop, Tile.uop, Tile.natToReal,
-        NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
-        BlockState.setReg, BlockState.readMem, layerNormSpec,
+        NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div, layerNormSpec,
         hM, hS, hpidReg, hMean, hSEq]
   unfold InputLoadedAt at hX
   unfold InputFeatureLoadedAt at hγ hβ
@@ -228,8 +230,7 @@ theorem twopass_layernorm_correct
         Tile.bop, Tile.uop, Tile.reduceSum, Tile.reduceSumDrop,
         TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
         Tile.natToReal,
-        NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
-        BlockState.setReg, BlockState.readMem, layerNormSpec, twoPassMean,
+        NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div, layerNormSpec, twoPassMean,
         twoPassS]
   unfold InputLoadedAt at _h_x
   unfold InputFeatureLoadedAt at _h_γ _h_β
@@ -262,11 +263,11 @@ theorem fused_layernorm_correct
   have hLoopAuxExpanded :
       stepForLoopAux "i" 0 N
         [Stmt.assign .real [] "xi"
-            (Op.load xReg
+            (Op.load .real (MemAccess.region xReg
               (Op.add .nat .nil
                 (Op.mul .nat .nil (Op.ref .nat [] "pid")
                   (Op.constNat N))
-                (Op.ref .nat [] "i"))),
+                (Op.ref .nat [] "i"))) MaskOpt.none),
           Stmt.assign .real [] "delta"
             (Op.sub .real .nil (Op.ref .real [] "xi")
               (Op.ref .real [] "M")),
@@ -290,12 +291,6 @@ theorem fused_layernorm_correct
     -- The fused kernel's body is `[pid; M:=0; S:=0; forLoop body; tail...]`.
     -- The affine tail kernel's body is the same `tail...`. Therefore:
     -- exec fused s = stepStmts (tail) sLoop = exec affineTail sLoop.
-    have stmts_cons : ∀ (st : Stmt) (rest : List Stmt) (s s' : BlockState),
-        stepStmt st s = some s' →
-        stepStmts (st :: rest) s = stepStmts rest s' := by
-      intro st rest s s' h
-      conv_lhs => unfold stepStmts
-      rw [h]
     have hpid : stepStmt (.assign .nat [] "pid" (.programId 0)) s
                   = some (s.setReg "pid" .nat [] (Tile.scalar s.pid)) := by
       simp [stepStmt, evalOp]
@@ -313,7 +308,7 @@ theorem fused_layernorm_correct
       rfl
     show stepStmts (fusedLayerNormKernel xReg γReg βReg yReg N ε).body s
         = stepStmts (layerNormAffineTailKernel xReg γReg βReg yReg N ε).body sLoop
-    -- Unfold kernel body literals so stmts_cons can match `:: pattern`
+    -- Unfold kernel body literals so `stepStmts.cons_some` can match `::`.
     simp only [show (fusedLayerNormKernel xReg γReg βReg yReg N ε).body =
         ([ .assign .nat [] "pid" (.programId 0)
          , .assign .real [] "M" (.const 0)
@@ -325,10 +320,10 @@ theorem fused_layernorm_correct
     rw [show ∀ (a b c d : Stmt) (rest : List Stmt) (s : BlockState),
         stepStmts ([a, b, c, d] ++ rest) s
           = stepStmts (a :: b :: c :: d :: rest) s from fun _ _ _ _ _ _ => rfl]
-    rw [stmts_cons _ _ _ _ hpid]
-    rw [stmts_cons _ _ _ _ hM0]
-    rw [stmts_cons _ _ _ _ hS0]
-    rw [stmts_cons _ _ _ _ hLoop]
+    rw [stepStmts.cons_some hpid]
+    rw [stepStmts.cons_some hM0]
+    rw [stepStmts.cons_some hS0]
+    rw [stepStmts.cons_some hLoop]
   rw [h_exec_tail]
   have hpidLoop : sLoop.pid = s.pid := by
     exact hPloop.2.2.2.1

@@ -25,7 +25,7 @@ def castFin {n k : Nat} (h : k ≤ n) (i : Fin k) : Fin n :=
 /-- Region `region` holds tile `xs` at offsets `[pid*N, pid*N + N - 1]`. -/
 def InputLoadedAt (s : BlockState) (region : RegionName)
     (N : Nat) (xs : Fin N → ℝ) : Prop :=
-  ∀ i : Fin N, s.mem region (s.pid * N + i.val) = xs i
+  ∀ i : Fin N, s.readMem region (s.pid * N + i.val) = xs i
 
 /-- Canonical 1D tensor view for the tile owned by the current
 `program_id(0)`: offsets `[s.pid * N, s.pid * N + N)`.
@@ -66,7 +66,7 @@ theorem inputLoadedAt_of_programTileView_loaded
     `pid * N + tl.arange(0, N)`. -/
 def InputFeatureLoadedAt (s : BlockState) (region : RegionName)
     (N : Nat) (xs : Fin N → ℝ) : Prop :=
-  ∀ i : Fin N, s.mem region i.val = xs i
+  ∀ i : Fin N, s.readMem region i.val = xs i
 
 theorem inputFeatureLoadedAt_of_featureView_loaded
     {s : BlockState} {region : RegionName} {N : Nat} {xs : Fin N → ℝ}
@@ -91,7 +91,7 @@ noncomputable def observeAt
     `[s.pid * rowStride, s.pid * rowStride + blockSize)`. -/
 def InputRowLoadedAt (s : BlockState) (region : RegionName)
     (rowStride blockSize : Nat) (xs : Fin blockSize → ℝ) : Prop :=
-  ∀ i : Fin blockSize, s.mem region (s.pid * rowStride + i.val) = xs i
+  ∀ i : Fin blockSize, s.readMem region (s.pid * rowStride + i.val) = xs i
 
 theorem inputRowLoadedAt_of_rowTileView_loaded
     {s : BlockState} {region : RegionName}
@@ -106,7 +106,7 @@ theorem inputRowLoadedAt_of_rowTileView_loaded
 
 /-- Read region `region` at the single cell `basePid` from the optional
     final `BlockState` of an `exec` call. Models the
-    *single-scalar-per-block* output pattern (`tl.store($(yReg) + row, _)`)
+    *single-scalar-per-block* output pattern (`tl.store(tl.ptr($(yReg)) + row, _)`)
     distinct from the tile-scatter pattern observed by `observeAt`. -/
 noncomputable def observeRowAt
     (sf : Option BlockState) (region : RegionName) (basePid : Nat) : Option ℝ :=

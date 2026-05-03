@@ -36,7 +36,7 @@ theorem_exists() {
 run_build_no_sorry() {
   local out
   out="$(mktemp)"
-  if lake build >"${out}" 2>&1; then
+  if lake build VeriTile VeriTileFull >"${out}" 2>&1; then
     if grep -qiE "declaration uses 'sorry'|uses sorry|sorryAx" "${out}"; then
       fail "lake build passed but emitted sorry warnings"
       tail -n 40 "${out}" >&2

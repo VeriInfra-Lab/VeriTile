@@ -157,7 +157,7 @@ After running `naiveSoftmaxKernel blockSize` on a state with input properly load
 in region `"X"`, the `Y` region at observable offsets equals the naive softmax
 of the input.
 
-Proof outline (P2 work to discharge the `sorry`): the kernel has 7 statements
+Proof outline: the kernel has 7 statements
 (`assign × 6` then `store × 1`); each `assign` updates one register, the final
 `store` does a tile-tile scatter to `"Y"`. Walking through them with `simp` on
 `exec / stepStmts / stepStmt / evalOp / writeMem` yields the closed form.
@@ -178,8 +178,7 @@ theorem softmax_naive_correct
   simp [observeAt, exec, naiveSoftmaxKernel, stepStmts, stepStmt, evalOp,
         Tile.bop, Tile.uop, Tile.reduceSum, Tile.reduceSumDrop,
         TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
-        NumericDType.add, NumericDType.mul, NumericDType.div,
-        BlockState.setReg, BlockState.readMem, naiveSpec]
+        NumericDType.add, NumericDType.mul, NumericDType.div, naiveSpec]
   unfold InputLoadedAt at _h_x
   rw [BlockState.scatter_readback_nd _ _ _ h_inj (i, PUnit.unit)]
   simp [_h_x]
@@ -205,8 +204,7 @@ theorem softmax_stable_correct
         Tile.bop, Tile.uop, Tile.reduceSum, Tile.reduceSumDrop,
         Tile.reduceMax, Tile.reduceMaxDrop,
         TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
-        NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
-        BlockState.setReg, BlockState.readMem, stableSpec, tileMax]
+        NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div, stableSpec, tileMax]
   unfold InputLoadedAt at _h_x
   rw [BlockState.scatter_readback_nd _ _ _ h_inj (i, PUnit.unit)]
   simp [_h_x]
@@ -235,7 +233,6 @@ theorem softmax_kernels_refinement
   congr 1
   unfold naiveSpec stableSpec
   have h := naive_eq_stable xs (tileMax hN xs)
-  simp only [] at h
   exact congrFun h i
 
 /-- View-level surface for `softmax_kernels_refinement`. -/

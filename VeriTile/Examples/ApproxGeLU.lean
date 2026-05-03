@@ -210,8 +210,8 @@ lemma abs_approxGeLUScalar_sub_exactGeLUScalar_le_abs (x : ℝ) :
 
 For `x ≥ √2`, the approximation error is dominated by a quantitative
 exponential tail. This is the structural step that, combined with concrete
-numerics on a single (large) value of `x`, would close the
-`approx_gelu_error_bound_large` sorry on the half-line `[T, ∞)` for any
+numerics on a single (large) value of `x`, would close
+`approx_gelu_error_bound_large` on the half-line `[T, ∞)` for any
 `T ≥ √2` chosen large enough that the RHS is `≤ 1/1000`. -/
 
 private lemma c_pos : (7978845608028654 / 10000000000000000 : ℝ) > 0 := by norm_num
@@ -3251,8 +3251,7 @@ theorem approx_gelu_kernel_correct
     injective_offset_singleton (s.pid * blockSize)
   simp [observeAt, exec, approxGeLUKernel, stepStmts, stepStmt, evalOp,
         Tile.bop, Tile.uop, NumericDType.add, NumericDType.mul,
-        NumericDType.sub, NumericDType.div, BlockState.setReg,
-        BlockState.readMem, approxGeLUSpec, approxGeLUScalar]
+        NumericDType.sub, NumericDType.div, approxGeLUSpec, approxGeLUScalar]
   unfold InputLoadedAt at _h_x
   rw [BlockState.scatter_readback_nd _ _ _ h_inj (i, PUnit.unit)]
   simp [_h_x]

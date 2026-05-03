@@ -26,6 +26,9 @@ Stmt : Type
   运行时状态保存 `pids : Nat → Nat`,所以任意 axis 都有定义。
 - `tl.for i in $(n) { ... }` 与 `tl.for i in N { ... }`。
   loop 有操作语义,证明通过 `forLoop_inv`。
+- `tl.static_range i in $(n) { ... }` 与 `tl.static_range i in N { ... }`
+  是同一个 bounded-loop AST 的 surface alias。当前不建模 unroll / pipeline
+  属性。
 - `tl.if cond { ... }` 支持 scalar bool 条件(`Op .bool []`)。
   当前没有 `else`、`break` 或 `continue`;Triton 的 block-skipping pattern
   应该通过取反 skip 条件并包住有效 body 来表示。逐元素条件选择仍使用 `tl.where`。
@@ -39,10 +42,20 @@ Stmt : Type
 - Real 反引用: `$ℝ(x)`,把 Lean `ℝ` 项降到 `.real` channel。
 - `-inf` 降到 `Op.negInf`,内部表示为 `⊥ : WithBot ℝ`。
 - `tl.toReal(x)` 把 `.nat` 标量/tile 转成 `.real`。
+- `tl.cast(x, tl.float64|tl.float32|tl.float16|tl.bfloat16)` 改变浮点
+  dtype index。当前语义里它保留底层 `WithBot ℝ` 值,不建模 rounding。
+- `(x).to(tl.float64|tl.float32|tl.float16|tl.bfloat16)` 也支持,作为
+  method-style cast spelling。裸 identifier 需要加括号,避免 Lean 把 `x.to`
+  解析成一个 hierarchical identifier。
 
 当前 channel:
 
 - `.real`: 用 `WithBot ℝ` 建模,主要为了表达 `-inf`。
+- `.fp32`, `.fp16`, `.bf16`: 显式浮点 dtype channel,当前和 `.real` 一样
+  使用 `WithBot ℝ` 数学 carrier。
+- `.int`: AST 层 signed mathematical-integer channel,已有算术/比较语义。
+  `tl.int32` 和 `tl.int64` 都映射到这里;bit width、overflow 和 signed cast
+  fidelity 还没建模。
 - `.nat`: 用于 offset、loop counter、size 和地址算术。
 - `.bool`: 由比较产生,用于 mask 和 `tl.where`。
 
@@ -51,22 +64,48 @@ Stmt : Type
 - `tl.arange(n)` 与 `tl.arange(start, end)`。
   双参数形式降为 `start + tl.arange(end - start)`;
   `tl.arange(0, end)` 会折叠成 `tl.arange(end)`。
+  两个 bound 都支持数字字面量和 `$(...)` Lean `Nat` meta-expression。
 - `tl.full([dims...], value)`。
 - `tl.zeros([dims...])`,是 `tl.full([dims...], 0)` 的糖。
 - rank-1 输入上的 `e[:, None]` 和 `e[None, :]`。
   它们降到 `Op.expandDim`。
+- `tl.expand_dims(e, axis=N)` 与 `tl.expand_dims(e, N)` 在 literal axis
+  位置插入 unit axis,支持任意 macro-known rank。
 - `tl.trans(e)` 交换最后两个 axis,前面的 axis 作为 batch prefix 保持不变。
 
 ### 算术、比较与 broadcast
 
-- 算术: `+`, `-`, `*`, `/`,作用于 `.real` 或 `.nat`。
+- 算术: `+`, `-`, `*`, `/`,作用于 numeric channel。
   混合 channel 算术会被 DSL 拒绝。
+- 整数 floor division / remainder: `.nat` / `.int` 上的 `//` 与 `%`。
+- `.nat` 上的 `tl.cdiv(x, y)`,当前降为 `(x + y - 1) / y`。
 - 点态比较: `<`, `<=`, `==`, `>`, `>=`, `!=`,作用于 `.real` 或 `.nat`,
   结果是 `.bool`。
+- Bool operator: `.bool` 上的 `tl.logical_and`、`tl.logical_or`、
+  `tl.logical_not`,以及 mask 常用写法 `a & b`、`a | b`、`~a`。
+- Nat bitwise operator: `.nat` channel 上的 `&`, `|`, `^`, `<<`, `>>`。`.nat`
+  上不建模 `~`,因为数学自然数没有固定 bit width;signed/fixed-width
+  bitwise 语义留给 fixed-width integer model。
 - 双参数 `tl.max(a, b)` 作为 `.real` 上的点态 max。
+- `tl.maximum(a, b)` 与 `tl.minimum(a, b)` 是基于 comparison + `tl.where`
+  的点态选择 sugar,支持 comparable channel。分支 broadcast 当前限于
+  scalar-to-tile lifting,与 `tl.where` 一致。
+- Prefix scan: `.real` tile 上的 `tl.cumsum`、`tl.cumprod` 和
+  `tl.associative_scan(x, op, axis=N)`。支持的 associative op 是闭合枚举
+  `sum`、`prod`、`max`、`min`;不把任意用户函数塞进 AST。
+- Index/order op: `.real` tile 上的 `tl.argmax`、`tl.argmin`、`tl.sort`,
+  需要静态 `axis=N`。arg tie 返回最小 axis index;sort 沿所选 axis 升序。
+- Shape/view op: `tl.reshape`、`tl.view`、`tl.ravel`、`tl.permute`、
+  `tl.flip`、`tl.join` 和 projection 形式的 `tl.split(x, 0|1)`。View
+  语义是 row-major reshape 或 typed index remap。`tl.split` 暂时暴露成两个
+  projection,因为 Lean DSL 还没有 `a, b = tl.split(x)` 这种 tuple destructuring。
 - Broadcast 是 ND 的:同维度、scalar-to-tile、或维度 `1` 扩到另一边。
   DSL 通过语法构造 broadcast proof,所以语义等价但写法不同的维度表达式,
   可能仍需要写成一致形式。
+- 逐元素选择: `tl.where(cond, a, b)`。
+  条件必须是 `.bool`,两个分支 dtype 必须一致,并支持 scalar-to-tile lifting。
+  非 scalar 操作数必须已经有相同 surface shape;需要时先用当前支持的 unit-axis
+  slicer 把 shape 对齐。
 
 ### 一元数学函数
 
@@ -74,8 +113,19 @@ Stmt : Type
 - `tl.log`
 - `tl.sigmoid`
 - `tl.sqrt`
+- `tl.tanh`
+- `tl.sin`
+- `tl.cos`
+- `tl.tan`
+- `tl.atan`
+- `tl.cosh`
+- `tl.sinh`
+- `tl.log2`(Real 语义为 `tl.log(x) / log(2)`)
+- `tl.exp2`(Real 语义为 `tl.exp(x * log(2))`)
+- `tl.abs`
 
-这些都作用于 `.real` channel。
+这些都作用于 `.real` channel。`tl.abs(x)` 当前在实数语义里降为
+`tl.where(x < 0, 0 - x, x)`。
 
 ### Reduction
 
@@ -106,18 +156,30 @@ bit-level / precision 语义。
 
 - `tl.load($(region))`
 - `tl.load($(region) + offset)`
+- `ptrs := $(region) + offset; tl.load(ptrs)`
 - `tl.load(ptr, mask=mask)`
 - `tl.load(ptr, mask=mask, other=other)`
 - `tl.load(ptr, other=other, mask=mask)`
+- `tl.load(ptr, dtype=tl.float32|tl.float16|tl.bfloat16|tl.int32|tl.int64|tl.uint32|tl.uint64)`
+- `tl.load(ptr, mask=mask, other=other, dtype=...)`
+- `bp := tl.make_block_ptr($(region), base=$(base), shape=[...],
+  strides=[...], offsets=[...], block_shape=[...])`
+- `bp2 := tl.advance(bp, [deltas...])`
+- `tl.load(bp, boundary_check=([axes...] : List Nat), padding_option="zero")`
 
 支持的 store:
 
 - `tl.store($(region), value)`
 - `tl.store($(region) + offset, value)`
+- `ptrs := $(region) + offset; tl.store(ptrs, value)`
 - `tl.store(ptr, value, mask=mask)`
+- `tl.store(ptr, value, dtype=...)`,其中 `dtype` 必须和 value dtype 一致。
+  不写 `dtype=` 时,store 从 `value` 推断 dtype。
+- `tl.store(bp, value, boundary_check=([axes...] : List Nat))`
 
-未知 kwarg 会报错。特别地,`tl.load(..., boundary_check=...)` 和
-`tl.store(..., boundary_check=...)` 不会被静默忽略。
+未知 kwarg 会报错。对 block pointer 来说,`boundary_check` 只支持在
+block-pointer `tl.load` / `tl.store` 上使用,不能和 `mask` / `other` 混用。
+当前唯一建模的 `padding_option` 是 `"zero"`。
 
 masked load 语义:
 
@@ -133,18 +195,65 @@ masked store 语义:
 
 ## Memory model
 
-VeriTile 不建模 first-class Triton/CUDA pointer。surface syntax 看起来像 pointer:
+VeriTile 用一个窄版 first-class pointer value 建模 pointer:
 
 ```lean
-tl.load($(xReg) + offs)
-tl.store($(outReg) + offs, value)
+RegionName × Nat
 ```
 
-但 `$(xReg)` 是 Lean `RegionName`,不是 pointer value。内存模型是:
+runtime memory model 在 cell 边界是 typed:
 
 ```lean
-RegionName → Nat → ℝ
+RegionName → Nat → MemCell
 ```
+
+proof-facing 的 Real 兼容 API 仍然是 `BlockState.readMem` /
+`BlockState.writeMem`,所以现有数学正确性 theorem 继续暴露 Real-valued
+observation surface。换句话说,旧的 theorem-facing `RegionName → Nat → ℝ`
+view 仍然作为 API 层存在,但它不再是 runtime storage representation。
+
+Region dtype contract 单独放在 `VeriTile.Triton.MemoryTyping`:
+
+```lean
+RegionTyping := RegionName → TileDType
+Kernel.RespectsRegionTyping Γ k
+```
+
+这是轻量静态层。它检查 named-region load/store 是否使用 `Γ` 声明的 dtype,
+执行语义则写入 typed `MemCell`。对于 pointer-valued load/store,静态可见的
+`$(region)` pointer base 会按 `Γ` 检查;pointer register 在这一层先视为
+dynamic/external value。
+
+可选 executable checker 在不替代 proof-side contract 的前提下,补诊断和 pointer
+provenance tracking:
+
+```lean
+RegionEnv := RegionName → Option TileDType
+Kernel.check Γ k
+Kernel.checkStrict Γ k
+```
+
+`Kernel.check` 是 lax mode,未声明 region 会跳过;`checkStrict` 会把未声明 region
+报错。checker 跟踪 register dtype/shape 一致性、pointer / block-pointer
+provenance、直接和 pointer-derived load/store dtype mismatch,以及基本 block-pointer
+metadata sanity。它刻意不证明 bounds、alias、launch coverage、page ownership 或
+IEEE/hardware dtype fidelity。
+
+pointer value 可以 inline 使用、赋值和复用:
+
+```lean
+ptrs := $(xReg) + offs
+x := tl.load(ptrs)
+ptrs2 := ptrs + stride
+```
+
+这个模型故意比 CUDA/Triton pointer 窄:目前支持从 `RegionName` 创建 pointer base、
+pointer 加 `.nat` offset、以及通过 pointer-valued register 做 load/store。它也把
+block pointer 建模为 first-class `.blockPtr` tile value,携带 base region、base
+offset、parent shape、block shape、strides 和 logical offsets。block-pointer
+load/store 会逐 lane 计算地址;checked 维度越界的 load lane 返回 zero,checked 维度
+越界的 store lane 不写内存。pointer cast、pointer comparison、硬件/TMA block-pointer
+行为、typed address space 还没有建模。
 
 Offset 是显式 `.nat` 表达式。高维 tensor 通过用户写出的 strided offset 公式表示,
 例如:
@@ -156,8 +265,7 @@ b * stride_b + h * stride_h + i * stride_s + d * stride_d
 公开 theorem surface 用 `TensorView.loaded` / `TensorView.observe` 把这些 offset
 公式连接到数学 tensor slice。证明内部仍可使用更底层的 `InputAt` escape hatch
 表示任意 offset map,再把结果封装成 `TensorView`。aliasing 通过选择相同或不同的
-`RegionName` 表示;pointer value、pointer cast、pointer comparison、block pointer
-都还没有建模。
+`RegionName` 表示;这些 named region 之外的通用 pointer alias analysis 还没有建模。
 
 ## 浮点模型
 
@@ -172,25 +280,113 @@ b * stride_b + h * stride_h + i * stride_s + d * stride_d
 rounding、NaN、signed zero、overflow、underflow、denormal、exception flag、
 硬件 dot precision、fast-math rewrite 都未建模。
 
+core AST 现在使用统一的 dtype-indexed memory form:
+
+```lean
+Op.load    : TileDType → MemAccess shape → MaskOpt dtype shape → Op ...
+Stmt.store : TileDType → MemAccess shape → Op ... → MaskOpt dtype shape → Stmt
+```
+
+公开 DSL 的 `tl.load` 默认仍是 `.real`,但支持
+`dtype=tl.float32|tl.float16|tl.bfloat16|tl.int32|tl.int64|tl.uint32|tl.uint64`,
+用于生成 typed memory node。`tl.uint64` 和 `tl.uint32` 映射到 VeriTile 的
+`.nat` channel,用于非负 index/block-table value。`tl.int32` 和 `tl.int64`
+映射到 VeriTile 的 `.int` channel,这是数学 signed-integer abstraction,没有
+bit-width 或 overflow 语义。`tl.store` 从写入的 value 推断 dtype,也支持可选的、
+必须匹配 value dtype 的 `dtype=` surface spelling。
+
+Float theorem policy: 算法正确性 / refinement theorem 通过
+`Kernel.AlgorithmCorrect` 和 `Kernel.AlgorithmRefine` 证明在擦除后的 `.real`
+kernel 上。面向 float 的 theorem 使用 `k.eraseFloat = realK` 这类 erasure
+等式,为带 dtype 标注的 kernel 暴露 theorem,但不在每个浮点 channel 里重新证明
+算法。计算正确性 / refinement 由 `Kernel.ComputeCorrectAt?` 和
+`Kernel.ComputeRefineAt?` 单独表示,它们是对观测输出的 epsilon-bound
+predicate。当前这一层由 smoke / differential tests 支撑,不是 IEEE-754 proof。
+这些定义放在 `VeriTile.Triton.Float`。
+
+## Operator / syntax 覆盖 checklist
+
+这个表是 GitHub issue #15 当前的 operator-coverage contract。`Supported`
+表示已有 Lean AST 构造或 DSL lowering、操作语义,并且覆盖当前 examples 需要的证明
+surface。`Limited` 表示 VeriTile 有意只支持 Triton 特性的窄子集。`Gap` 表示使用该
+特性的 kernel 目前不在语义契约内。
+
+| Area | Status | Coverage |
+| --- | --- | --- |
+| scalar/tile 常量 | Supported | 实数字面量、`$(n)`、`$ℝ(x)`、`-inf`、register ref |
+| program id | Limited | literal 或 antiquoted `Nat` axis 的 `tl.program_id(axis)`;可通过 `GridIndex` / `Kernel.ForAllPrograms` 做 ND grid 量化,但没有 launch executor |
+| loop | Supported | bounded `tl.for`;`tl.static_range` alias 降到同一个 loop AST |
+| conditional | Limited | 只有 `tl.if cond { ... }`;没有 `else`、`break`、`continue` |
+| arithmetic | Supported | 同 channel numeric 上的 `+`, `-`, `*`, `/`;integer `//` / `%`;`.nat` `tl.cdiv`;pointer offset 支持 `ptr + nat` |
+| comparison | Supported | `.real` 或 `.nat` 上的 `<`, `<=`, `==`, `>`, `>=`, `!=` |
+| bool op | Supported | `tl.logical_and`、`tl.logical_or`、`tl.logical_not`,以及 `&`、`|`、`~` mask spelling |
+| Nat bitwise op | Limited | `.nat` 上的 `&`, `|`, `^`, `<<`, `>>`;暂不支持 `.nat ~` 和 signed fixed-width bitwise 语义 |
+| pointwise select | Supported | `tl.where(cond, a, b)`,支持 scalar lifting,非 scalar shape 需一致 |
+| unary math | Supported | `tl.exp`, `tl.exp2`, `tl.log`, `tl.log2`, `tl.sigmoid`, `tl.sqrt`, `tl.tanh`, `tl.sin`, `tl.cos`, `tl.tan`, `tl.atan`, `tl.cosh`, `tl.sinh` |
+| reduction | Supported | `.real` tile 上的 `tl.sum`, `tl.max`,可带 `axis` / `keep_dims` |
+| prefix scan | Limited | `.real` tile 上的 `tl.cumsum`, `tl.cumprod`, `tl.associative_scan(x, sum/prod/max/min, axis=N)`;不支持 arbitrary combine function |
+| index/order op | Limited | `.real` tile 上的 `tl.argmax`, `tl.argmin`, `tl.sort`,需要静态 `axis=N`;arg tie 返回最小 axis index,sort 升序 |
+| broadcast | Supported | ND same-dim、scalar-to-tile、dimension-`1` expansion |
+| shape construction | Limited | `tl.arange`, `tl.full`, `tl.zeros`,rank-1 `[:, None]` / `[None, :]`,literal-axis `tl.expand_dims` |
+| shape/view op | Limited | `tl.reshape`, `tl.view`, `tl.ravel`, `tl.permute`, `tl.flip`, `tl.join`,projection-form `tl.split(x, 0|1)` |
+| transpose | Supported | `tl.trans(e)` 交换最后两个 axis;任意静态 permutation 用 `tl.permute(e, [axes])` |
+| matrix multiply | Supported | 数学 `ℝ` 模型下的 `tl.dot(a, b)` 和 `tl.dot(a, b, acc)` |
+| load | Limited | pointer-expression load,可带 `mask` / `other` / float/int32/int64/uint32/uint64 `dtype=`;block-pointer load 支持 `boundary_check` 和 `padding_option="zero"` |
+| store | Limited | pointer-expression store,可带 `mask`;dtype 从 value 推断,也可写匹配的 `dtype=`;block-pointer store 支持 `boundary_check` |
+| tensor view | Supported | theorem surface 的 strided `TensorView.loaded` / `TensorView.observe` wrapper |
+| integer memory | Limited | typed cell 加 typed load/store 支持 Nat/index 和数学 signed-Int HBM value;还没有更完整的 signed/unsigned width lattice |
+| randomness | Gap | 还没有 `tl.rand` 或 RNG state model (#41) |
+| indirection | Limited | typed index load 可以参与 pointer arithmetic,表达 gather / paged-KV 风格 data-dependent address (#42);还没有 alias/bounds/page-ownership proof layer |
+| block pointer | Limited | `tl.make_block_ptr`、`tl.advance`、带 checked-axis zero padding / store skip 的 block-pointer load/store;没有硬件/TMA 行为 |
+| atomic / async / barrier | Gap | 还没有 `tl.atomic_*`、async copy、TMA、barrier 或 scheduling semantics (#12) |
+| floating-point fidelity | Gap | 只有 real-valued model;没有 IEEE-754 或 mixed-precision hardware semantics (#11) |
+
+## 表达力矩阵
+
+这个矩阵回答的是另一个问题:如果用户从一个真实 Triton kernel 出发,当前 Lean DSL
+会卡在哪一类 gap 上?
+
+| Pattern | Status | Gap type | Practical impact |
+| --- | --- | --- | --- |
+| dense elementwise kernel | Mostly supported | proof/theorem surface | 点态算术、mask、cast、pointer value 和 TensorView observation 都有;更强 dtype/memory claim 仍走 real abstraction。 |
+| softmax / reduction / LayerNorm / Welford | Supported for current examples | proof engineering | reduction、loop、mask、TensorView wrapper 都已有;新 kernel 主要是 invariant 和 theorem packaging。 |
+| FlashAttention-style dense tiled kernel | Supported for FA-1 forward subset | proof engineering + limited semantics | dot、transpose、causal/boundary mask、D-tail、4D view 已覆盖;async/shared-memory/hardware dot fidelity 仍不在当前范围内。 |
+| first-class pointer expression | Limited | surface + lightweight semantics | 支持 `ptrs := $(r) + offs`、pointer register、pointer load/store、pointer offset update;没有 pointer cast/comparison/alias analysis。 |
+| block pointer / `boundary_check` | Limited | surface + sequential semantics | 支持 `tl.make_block_ptr`、`tl.advance`、zero-padded checked load、checked store-skip;没有 `order`、非 zero padding、TMA 或硬件行为。 |
+| typed floating memory | Limited | semantic abstraction | `dtype=tl.float32/fp16/bf16` 会生成 typed floating node,算法证明擦除到 real;没有 IEEE rounding。 |
+| integer / bool tensor memory | Limited | dtype coverage | typed cell 加 typed load/store 支持 Nat/index 和数学 signed-Int HBM value;还没有完整 Triton integer-width lattice。 |
+| indirect / gather addressing | Limited | surface + view semantics (#42) | typed index tensor load 可以驱动 pointer arithmetic 和普通 masked load;alias analysis、bounds proof、page ownership、paged FA-1 等价还没建模。 |
+| RNG / dropout | Gap | state/probabilistic semantics (#41) | 阻塞 faithful dropout 和随机 kernel。 |
+| atomics / async / shared memory / barriers | Gap | concurrency semantics (#12) | 阻塞 production-style backward kernel、shared-memory phase reduction、async/TMA pipeline、race/scheduling reasoning。 |
+| whole-grid launch semantics | Limited | ND grid theorem surface (#5) | `GridIndex`、`BlockState.withGridIndex`、`Kernel.ForAllPrograms`、`ForAllProgramsSome` 支持 arbitrary-rank grid 上的 per-program correctness 量化;没有 launch executor、memory merge、race、atomic 或 scheduling。 |
+| Python/Triton source ingestion | Gap | front-end/lifter (#10) | 用户必须写 Lean `triton { ... }`;decorator、Python-side constexpr execution、一般 Python control flow 还不能解析。 |
+| type checking / pointer provenance | Limited | optional checker (#46) | `Kernel.check` / `checkStrict` 跟踪 register dtype/shape、pointer 和 block-pointer provenance、dtype mismatch、基本 block-pointer metadata;不证明 bounds、alias、launch 或 page ownership。 |
+
+近期表达力优先级应先消除 core semantic gap,再做完整 Python lifter:RNG/dropout
+(#41)、atomics/async/concurrency (#12)、bounds/memory-safety assumption (#48)。
+如果 kernel 的操作本身还不可表达,lifter 提早做收益不大。
+
 ## 尚不支持或尚未真实建模
 
 - 完整 IEEE-754 浮点语义。
-- Triton block pointer 以及 block-pointer-only 限制。
-- `boundary_check` / `padding_option`。
-- first-class pointer 与 pointer-valued expression。
+- block-pointer 硬件/TMA 行为,以及 `"zero"` 之外的 padding option。
+- `RegionName × Nat` pointer value 之外的完整 CUDA/Triton pointer 语义。
 - named-region equality 之外的通用 pointer alias analysis。
 - 完整 Python/Triton JIT 语义、decorator、meta-parameter execution,
   以及 `triton { ... }` 块外的 Python control flow。
 - atomic operations。
 - async copy / TMA / shared-memory staging。
 - barrier、跨 program 或跨 warp synchronization。
-- grid launch semantics。当前 theorem 描述一个带 `BlockState.pids` 的符号 program
-  instance;整个 grid 的覆盖性需要手动对合法 program id 量化。
+- 完整 grid launch execution。`GridIndex` / `Kernel.ForAllPrograms` 提供
+  ND grid 上每个 program instance 的 theorem surface,但 VeriTile 仍不建模
+  sequential/concurrent launch executor、global memory merge、overlapping
+  writes、race、atomic 或 scheduling。
 - cache/performance hint,例如 `cache_modifier`, `eviction_policy`, `volatile`,
   `is_volatile`。
-- 任意 axis permutation。`tl.trans` 只交换最后两个 axis。
-- 高 rank surface slicing。目前只支持 rank-1 的 `[:, None]` / `[None, :]`。
-- integer width、overflow、signedness。`.nat` channel 是数学 `Nat`。
+- 高 rank bracket slicing。目前只支持 rank-1 的 `[:, None]` / `[None, :]`;
+  显式插入 unit axis 请用 `tl.expand_dims(e, axis=N)`。
+- integer width、overflow、signedness 和 signed bitwise 行为。`.nat`
+  channel 是数学 `Nat`。
 
 ## 文档自动生成
 

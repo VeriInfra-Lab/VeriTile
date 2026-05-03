@@ -8,13 +8,18 @@
 
 import VeriTile.Triton.Core
 import VeriTile.Triton.Semantics
+import VeriTile.Triton.Float
+import VeriTile.Triton.MemoryTyping
 import VeriTile.Triton.Memory
+import VeriTile.Triton.Launch
 import VeriTile.Triton.LoopInvariant
-import VeriTile.Triton.Examples
+import VeriTile.Examples.TritonSmoke
+import VeriTile.Examples.LoopInvariant
 import VeriTile.Examples.SoftmaxEq
 import VeriTile.Examples.LogSumExpEq
 import VeriTile.Examples.SoftmaxReciprocal
 import VeriTile.Examples.VectorAdd
+import VeriTile.Examples.FloatDType
 import VeriTile.Examples.FusedSiLU
 import VeriTile.Examples.RowWise
 import VeriTile.Examples.WelfordKernels

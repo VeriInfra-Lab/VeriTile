@@ -58,15 +58,17 @@ Core Phase C additions on `main`:
 - FA-1 v0/full-tile forward proofs over 4D strided Q/K/V/O layouts:
   `fa1_forward_correct_4D_views` and
   `fa1_forward_correct_4D_causal_views`.
-  Boundary-masked FA-1 v1 kernels and recurrence scaffolding are present, but
-  their final correctness theorem is still in progress.
+  Boundary-masked FA-1 v1 adds sequence-boundary, causal-boundary, D-tail,
+  and naive-reference refinement surfaces, including
+  `fa1_boundaryD_refines_naive_reference_views` and
+  `fa1_causal_boundaryD_refines_naive_reference_views`.
 - Artifact gate in CI via `scripts/check-artifact.sh`: `lake build`, no
   `sorry`, axiom whitelist, key theorem surface, and README/example drift
   checks.
 
 The currently supported Triton subset and known semantic gaps are documented in
 [`documents/TritonSubset.md`](./documents/TritonSubset.md). Important open gaps
-include full IEEE-754 semantics, block pointers, `boundary_check`, atomics,
+include full IEEE-754 semantics, block-pointer hardware/TMA behavior, atomics,
 async copy, and whole-grid launch semantics.
 
 ## Environment
@@ -85,11 +87,13 @@ async copy, and whole-grid launch semantics.
 
 > **Note on the DSL:** Triton kernels in VeriTile are *region-polymorphic* — every
 > kernel takes its memory regions as `RegionName` parameters and uses
-> Triton-like pointer-plus-offset syntax: `tl.load($(xReg) + offs)` /
+> first-class pointer expressions: `tl.load($(xReg) + offs)` /
 > `tl.store($(yReg) + offs, y)`. This means the same kernel can be instantiated
 > with arbitrary buffer names, and the correctness theorem applies uniformly to
-> all instantiations. There is no bare-ident shortcut (`tl.load(X + offs)` will not parse); see
-> [RP1](./Notes/research_problem_pointer_vs_named_region.md) for the rationale.
+> all instantiations. A memory base must be created with `$(region)`
+> or come from a pointer-valued register; raw region names are not pointer
+> expressions. See [RP1](./Notes/research_problem_pointer_vs_named_region.md)
+> for the rationale.
 
 #### 1. Start with an original Triton kernel. For example, naive softmax:
 
@@ -175,11 +179,16 @@ See the full softmax example in
 | [`VeriTile/Examples/VectorAdd.lean`](./VeriTile/Examples/VectorAdd.lean) | Elementwise add (multi-buffer kernel ↔ math correctness) |
 | [`VeriTile/Examples/FusedSiLU.lean`](./VeriTile/Examples/FusedSiLU.lean) | Fused-sigmoid MLP block vs manually-expanded `1/(1+exp(-z))` (kernel-pair refinement) |
 | [`VeriTile/Examples/WelfordKernels.lean`](./VeriTile/Examples/WelfordKernels.lean) | Online Welford vs two-pass mean/variance |
-| [`VeriTile/Examples/FlashAttention1.lean`](./VeriTile/Examples/FlashAttention1.lean) | FA-1 v0/full-tile forward correctness, non-causal and causal, over 4D strided layouts |
+| [`VeriTile/Examples/FlashAttention1/V0.lean`](./VeriTile/Examples/FlashAttention1/V0.lean) | FA-1 v0/full-tile forward correctness, non-causal and causal, over 4D strided layouts |
+| [`VeriTile/Examples/FlashAttention1/V1Boundary.lean`](./VeriTile/Examples/FlashAttention1/V1Boundary.lean) | FA-1 v1 boundary-mask and D-tail correctness over 4D strided layouts |
+| [`VeriTile/Examples/FlashAttention1/ScoreVariants.lean`](./VeriTile/Examples/FlashAttention1/ScoreVariants.lean) | Score-level FA-1 realism references and DSL smoke kernels for ALiBi, sliding window, and softcap |
+| [`VeriTile/Examples/FlashAttention1/NaiveKernel.lean`](./VeriTile/Examples/FlashAttention1/NaiveKernel.lean) | Executable naive FA-1 boundary kernels, correctness, and kernel-pair refinement |
+| [`VeriTile/Examples/FlashAttention1/NaiveRefinement.lean`](./VeriTile/Examples/FlashAttention1/NaiveRefinement.lean) | FA-1 v1 boundary/D-tail refinement aliases to the naive direct-attention reference |
 
 ## More Documentation
 
 - [Supported Triton subset and semantic gaps](./documents/TritonSubset.md)
+- [GPU memory modeling scope](./documents/GpuMemoryModel.md)
 - [FA-1 Step 2 boundary-mask plan](./documents/FA1_Step2_BoundaryMasks.md)
 - [LLM proof wrapper](./scripts/README.md)
 - [LLM benchmark protocol](./bench/llm_eval/README.md)
@@ -317,9 +326,14 @@ lean-toolchain         Pinned Lean toolchain
 - **Phase B:** `forLoop` semantics, Tier 2 kernels, differential testing. Done.
 - **Phase C:** ND tiles, masking, `tl.dot`, strided memory, FA-1 forward
   correctness. Core non-causal and causal 4D theorems are on `main`.
-- **Phase D:** close the remaining semantic gaps: block pointers,
-  `boundary_check`, IEEE-754 fidelity, whole-grid launch semantics, FA-1 vs
-  FA-2, and paper artifact packaging.
+- **Float policy:** VeriTile can state float-facing theorems for dtype-annotated
+  kernels, but algorithmic proofs stay over the erased mathematical `.real`
+  kernel. The Real↔float bridge is a trusted abstraction boundary, supported by
+  smoke/differential tests rather than IEEE-754 proof.
+- **Phase D:** close the remaining in-scope semantic gaps: block-pointer
+  hardware/TMA behavior, whole-grid launch semantics, FA-1 vs FA-2, float-facing
+  theorem tests, and paper artifact packaging. IEEE-754 fidelity remains an
+  explicit out-of-scope gap.
 
 See [`PLAN.md`](./PLAN.md) for the full plan.
 
