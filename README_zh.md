@@ -53,8 +53,10 @@ Phase B 截止包含:
 - 4D strided Q/K/V/O tensor view 上的 FA-1 v0/full-tile forward 证明:
   `fa1_forward_correct_4D_views` 与
   `fa1_forward_correct_4D_causal_views`。
-  Boundary-masked FA-1 v1 kernel 和 recurrence scaffold 已有,但最终 correctness
-  theorem 仍在推进中。
+  Boundary-masked FA-1 v1 已覆盖 sequence-boundary、causal-boundary、D-tail
+  和 naive-reference refinement surface,包括
+  `fa1_boundaryD_refines_naive_reference_views` 与
+  `fa1_causal_boundaryD_refines_naive_reference_views`。
 - CI 中的 artifact gate:`scripts/check-artifact.sh`,检查 `lake build`、无
   `sorry`、axiom whitelist、关键 theorem surface、README/example 漂移。
 
@@ -78,11 +80,12 @@ launch semantics。
 ## 快速开始
 
 > **关于 DSL 的约定:** VeriTile 里的 Triton kernel 是 *region-多态* 的——每个
-> kernel 都把 buffer region 作为 `RegionName` 参数,并使用接近 Triton 的
-> pointer-plus-offset 语法: `tl.load($(xReg) + offs)` /
-> `tl.store($(yReg) + offs, y)`。这意味着同一个 kernel 可以用任意 buffer
-> 名实例化,正确性定理对所有实例化都成立。**不允许** `tl.load(X + offs)` 这种
-> 裸标识符简写形式(会解析失败);设计动机见
+> kernel 都把 buffer region 作为 `RegionName` 参数,并使用 first-class pointer
+> expression: `tl.load(tl.ptr($(xReg)) + offs)` /
+> `tl.store(tl.ptr($(yReg)) + offs, y)`。这意味着同一个 kernel 可以用任意 buffer
+> 名实例化,正确性定理对所有实例化都成立。memory base 必须用 `tl.ptr($(region))`
+> 创建,或者来自 pointer-valued register;裸 `RegionName` 不是 pointer expression。
+> 设计动机见
 > [RP1](./Notes/research_problem_pointer_vs_named_region.md)。
 
 #### 1. 给定一个原始 Triton kernel. 例如 naive softmax:
@@ -91,11 +94,11 @@ launch semantics。
 def naiveSoftmaxKernel (xReg yReg : RegionName) (N : Nat) : Kernel := triton {
   pid  := tl.program_id(0)
   offs := pid * $(N) + tl.arange($(N))
-  x    := tl.load($(xReg) + offs)
+  x    := tl.load(tl.ptr($(xReg)) + offs)
   e    := tl.exp(x)
   s    := tl.sum(e)
   y    := e / s
-  tl.store($(yReg) + offs, y)
+  tl.store(tl.ptr($(yReg)) + offs, y)
 }
 ```
 
@@ -105,12 +108,12 @@ def naiveSoftmaxKernel (xReg yReg : RegionName) (N : Nat) : Kernel := triton {
 def stableSoftmaxKernel (xReg yReg : RegionName) (N : Nat) : Kernel := triton {
   pid  := tl.program_id(0)
   offs := pid * $(N) + tl.arange($(N))
-  x    := tl.load($(xReg) + offs)
+  x    := tl.load(tl.ptr($(xReg)) + offs)
   m    := tl.max(x)
   e    := tl.exp(x - m)
   s    := tl.sum(e)
   y    := e / s
-  tl.store($(yReg) + offs, y)
+  tl.store(tl.ptr($(yReg)) + offs, y)
 }
 ```
 
@@ -167,11 +170,16 @@ theorem softmax_kernels_refinement_view
 | [`VeriTile/Examples/VectorAdd.lean`](./VeriTile/Examples/VectorAdd.lean) | 逐元素加法(multi-buffer kernel ↔ math 正确性) |
 | [`VeriTile/Examples/FusedSiLU.lean`](./VeriTile/Examples/FusedSiLU.lean) | 融合 sigmoid MLP block vs 手动展开 `1/(1+exp(-z))`(kernel-pair refinement)|
 | [`VeriTile/Examples/WelfordKernels.lean`](./VeriTile/Examples/WelfordKernels.lean) | Online Welford vs two-pass mean/variance |
-| [`VeriTile/Examples/FlashAttention1.lean`](./VeriTile/Examples/FlashAttention1.lean) | FA-1 v0/full-tile forward correctness,4D strided layout,含 non-causal 与 causal |
+| [`VeriTile/Examples/FlashAttention1/V0.lean`](./VeriTile/Examples/FlashAttention1/V0.lean) | FA-1 v0/full-tile forward correctness,4D strided layout,含 non-causal 与 causal |
+| [`VeriTile/Examples/FlashAttention1/V1Boundary.lean`](./VeriTile/Examples/FlashAttention1/V1Boundary.lean) | FA-1 v1 boundary-mask 与 D-tail correctness,覆盖 4D strided layout |
+| [`VeriTile/Examples/FlashAttention1/ScoreVariants.lean`](./VeriTile/Examples/FlashAttention1/ScoreVariants.lean) | ALiBi、sliding window、softcap 的 FA-1 score-level realism reference 与 DSL smoke kernel |
+| [`VeriTile/Examples/FlashAttention1/NaiveKernel.lean`](./VeriTile/Examples/FlashAttention1/NaiveKernel.lean) | executable naive FA-1 boundary kernel、correctness 与 kernel-pair refinement |
+| [`VeriTile/Examples/FlashAttention1/NaiveRefinement.lean`](./VeriTile/Examples/FlashAttention1/NaiveRefinement.lean) | FA-1 v1 boundary/D-tail 到 naive direct-attention reference 的 refinement alias |
 
 ## 更多文档
 
 - [支持的 Triton 子集与语义 gap](./documents/TritonSubset_zh.md)
+- [GPU memory modeling scope](./documents/GpuMemoryModel.md)
 - [FA-1 Step 2 boundary-mask 计划](./documents/FA1_Step2_BoundaryMasks.md)
 - [LLM 证明 Wrapper](./scripts/README.md)
 - [LLM benchmark 协议](./bench/llm_eval/README.md)
@@ -306,8 +314,13 @@ lean-toolchain         锁定的 Lean toolchain
 - **Phase B:** `forLoop` 语义, Tier 2 kernel, differential testing. 已完成.
 - **Phase C:** ND tile、masking、`tl.dot`、strided memory、FA-1 forward
   correctness。核心 non-causal / causal 4D theorem 已在 `main`。
-- **Phase D:** 收敛剩余语义 gap:block pointer、`boundary_check`、IEEE-754
-  保真、whole-grid launch semantics、FA-1 vs FA-2、论文 artifact packaging。
+- **Float policy:** VeriTile 可以为 dtype-annotated kernel 表达面向 float 的
+  theorem,但算法证明保持在擦除后的数学 `.real` kernel 上。Real↔float bridge
+  是 trusted abstraction boundary,通过 smoke/differential tests 支撑,不做
+  IEEE-754 证明。
+- **Phase D:** 收敛剩余 in-scope 语义 gap:block pointer、`boundary_check`、
+  whole-grid launch semantics、FA-1 vs FA-2、float-facing theorem tests、论文
+  artifact packaging。IEEE-754 保真仍是明确 out-of-scope gap。
 
 完整计划见 [`PLAN_zh.md`](./PLAN_zh.md).
 

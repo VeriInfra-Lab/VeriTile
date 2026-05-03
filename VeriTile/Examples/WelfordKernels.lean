@@ -286,11 +286,11 @@ theorem welford_eq_two_pass {n : Nat} (hn : 0 < n) (x : Fin n → ℝ) :
 
 def onlineWelfordLoopBody (xReg : RegionName) (blockSize : Nat) : List Stmt :=
   [Stmt.assign .real [] "xi"
-      (Op.load xReg
+      (Op.load .real (MemAccess.region xReg
         (Op.add .nat .nil
           (Op.mul .nat .nil (Op.ref .nat [] "pid")
             (Op.constNat blockSize))
-          (Op.ref .nat [] "i"))),
+          (Op.ref .nat [] "i"))) MaskOpt.none),
     Stmt.assign .real [] "delta"
       (Op.sub .real .nil (Op.ref .real [] "xi")
         (Op.ref .real [] "M")),
@@ -329,7 +329,6 @@ theorem twopass_welford_correct
         TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
         Tile.natToReal, NumericDType.add,
         NumericDType.mul, NumericDType.sub, NumericDType.div,
-        BlockState.setReg, BlockState.readMem, BlockState.writeMem,
         welfordMeanSpec, twoPassMean]
     unfold InputLoadedAt at _h_x
     simp_rw [_h_x]
@@ -340,7 +339,6 @@ theorem twopass_welford_correct
         TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
         Tile.natToReal, NumericDType.add,
         NumericDType.mul, NumericDType.sub, NumericDType.div,
-        BlockState.setReg, BlockState.readMem, BlockState.writeMem,
         welfordVarSpec, twoPassS, twoPassMean]
     unfold InputLoadedAt at _h_x
     simp_rw [_h_x]
@@ -368,7 +366,7 @@ theorem online_welford_step
         (s.setReg "i" .nat [] (Tile.scalar i)) = some s' ∧
       P_welford xs xReg origPid (i + 1) s' := by
   rcases hP with ⟨hM, hS, hpidReg, hpid, hX⟩
-  let xi : ℝ := s.mem xReg (origPid * N + i)
+  let xi : ℝ := s.readMem xReg (origPid * N + i)
   have hxi : xi = xs ⟨i, hi⟩ := by
     have hx := hX ⟨i, hi⟩
     rw [hpid] at hx
@@ -438,11 +436,11 @@ theorem online_welford_correct
   have hLoopAuxExpanded :
       stepForLoopAux "i" 0 blockSize
         [Stmt.assign .real [] "xi"
-            (Op.load xReg
+            (Op.load .real (MemAccess.region xReg
               (Op.add .nat .nil
                 (Op.mul .nat .nil (Op.ref .nat [] "pid")
                   (Op.constNat blockSize))
-                (Op.ref .nat [] "i"))),
+                (Op.ref .nat [] "i"))) MaskOpt.none),
           Stmt.assign .real [] "delta"
             (Op.sub .real .nil (Op.ref .real [] "xi")
               (Op.ref .real [] "M")),
@@ -465,14 +463,6 @@ theorem online_welford_correct
         some ((sLoop.writeMem meanReg 0 (welfordMean xs blockSize)).writeMem
           varReg 0 (welfordS xs blockSize / blockSize)) := by
     -- Walk through pre-loop assigns, forLoop, post-loop stores explicitly.
-    have stmts_cons : ∀ (st : Stmt) (rest : List Stmt) (s s' : BlockState),
-        stepStmt st s = some s' →
-        stepStmts (st :: rest) s = stepStmts rest s' := by
-      intro st rest s s' h
-      conv_lhs => unfold stepStmts
-      rw [h]
-    have stmts_nil : ∀ (s : BlockState), stepStmts [] s = some s := by
-      intro s; conv_lhs => unfold stepStmts
     have hpid : stepStmt (.assign .nat [] "pid" (.programId 0)) s
                   = some (s.setReg "pid" .nat [] (Tile.scalar s.pid)) := by
       simp [stepStmt, evalOp]
@@ -489,7 +479,7 @@ theorem online_welford_correct
       simp [stepStmt, evalOp, s0]
       rfl
     have hMeanStore : stepStmt
-        (.store meanReg [] (.constNat 0) (.ref .real [] "M")) sLoop
+        (.store .real [] (MemAccess.region meanReg (.constNat 0)) (.ref .real [] "M") MaskOpt.none) sLoop
         = some (sLoop.writeMem meanReg 0 (welfordMean xs blockSize)) := by
       simp [stepStmt, evalOp, hM]
     set sMean : BlockState := sLoop.writeMem meanReg 0 (welfordMean xs blockSize)
@@ -498,9 +488,9 @@ theorem online_welford_correct
       show sLoop.regs .real [] "S" = _
       exact hS
     have hVarStore : stepStmt
-        (.store varReg [] (.constNat 0)
+        (.store .real [] (MemAccess.region varReg (.constNat 0))
             (.div .real .nil (.ref .real [] "S")
-              (.natToReal (.constNat blockSize)))) sMean
+              (.natToReal (.constNat blockSize))) MaskOpt.none) sMean
         = some (sMean.writeMem varReg 0 (welfordS xs blockSize / blockSize)) := by
       simp [stepStmt, evalOp, hSat_S, Tile.bop, NumericDType.div, Tile.natToReal,
             WithBot.realDiv]
@@ -511,18 +501,18 @@ theorem online_welford_correct
         , .assign .real [] "M" (.const 0)
         , .assign .real [] "S" (.const 0)
         , .forLoop "i" blockSize (onlineWelfordLoopBody xReg blockSize)
-        , .store meanReg [] (.constNat 0) (.ref .real [] "M")
-        , .store varReg [] (.constNat 0)
+        , .store .real [] (MemAccess.region meanReg (.constNat 0)) (.ref .real [] "M") MaskOpt.none
+        , .store .real [] (MemAccess.region varReg (.constNat 0))
             (.div .real .nil (.ref .real [] "S")
-              (.natToReal (.constNat blockSize)))
+              (.natToReal (.constNat blockSize))) MaskOpt.none
         ] s = _
-    rw [stmts_cons _ _ _ _ hpid]
-    rw [stmts_cons _ _ _ _ hM0]
-    rw [stmts_cons _ _ _ _ hS0]
-    rw [stmts_cons _ _ _ _ hLoop]
-    rw [stmts_cons _ _ _ _ hMeanStore]
-    rw [stmts_cons _ _ _ _ hVarStore]
-    exact stmts_nil _
+    rw [stepStmts.cons_some hpid]
+    rw [stepStmts.cons_some hM0]
+    rw [stepStmts.cons_some hS0]
+    rw [stepStmts.cons_some hLoop]
+    rw [stepStmts.cons_some hMeanStore]
+    rw [stepStmts.cons_some hVarStore]
+    exact stepStmts.nil
   constructor
   · rw [hExec]
     simp [BlockState.readMem, BlockState.writeMem, h_mv, welfordMeanSpec,
