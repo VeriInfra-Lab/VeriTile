@@ -53,8 +53,8 @@ Not modeled yet:
   alias/page-ownership, and paged FA-1 equivalence proofs are still future
   consumer work; see issue #42.
 - Rich signed/unsigned integer dtype lattice. The current typed HBM model
-  supports `.nat` (`tl.uint32` / `tl.uint64`) and mathematical `.int`
-  (`tl.int32` / `tl.int64`), enough for index/block-table cells, but not
+  supports `.nat` (`tl.uint8/uint16/uint32/uint64`) and mathematical `.int`
+  (`tl.int8/int16/int32/int64`), enough for index/block-table cells, but not
   bit-width-specific integer semantics.
 
 ## Sequential Consistency
@@ -72,6 +72,14 @@ execution is only modeled as a theorem surface: `GridIndex` instantiates
 over every program instance in an ND grid. VeriTile does not yet model a
 sequential or concurrent launch executor, global memory merge, overlapping
 writes, races, atomics, or scheduling.
+
+Layer-2a frame reasoning is modeled as a predicate-level proof contract:
+`WriteFootprint := (RegionName × Nat) → Prop` and `BlockState.WriteWithin`
+state that a single-program execution changed only the cells inside a supplied
+footprint. Layer-2b adds `Kernel.mergeFrames`: an extensional, disjoint
+whole-grid merge over explicit per-program `Kernel.ExecFrame`s. This is still
+not a concurrent/interleaved executor; overlapping writes, atomics, scheduling,
+barriers, async, and shared memory remain outside the model.
 
 ## Not Modeled
 
@@ -93,14 +101,31 @@ properties or CUDA memory-system fidelity.
 
 ## Extension Path
 
-The current model is intentionally small. The likely extension points are:
+The current model is intentionally small. The landed memory-proof layers are:
 
-- **Memory safety / bounds (#48):** add region sizes and checked launch-level
-  bounds assumptions on top of the current typed storage layer.
+- **Memory safety / bounds (#48):** active-lane region-bounds contracts on top
+  of the current typed storage layer.
+- **Write footprints / frame (#60):** predicate-level `WriteFootprint` and
+  `BlockState.WriteWithin` contracts for single-program frame reasoning.
+- **Disjoint whole-grid composition (#49):** `Kernel.mergeFrames` merges
+  explicit per-program `Kernel.ExecFrame`s when their write footprints are
+  pairwise disjoint.
+
+The next proof-ergonomics layer is:
+
+- **Structured footprint extraction (#61):** `WriteFootprint.tileImage`,
+  `activeTileImage`, and address-image helpers derive predicate footprints from
+  common direct, masked, checked block-pointer, and regular store patterns.
+- **Unrelated-frame helpers (#62):** convenience lemmas prove that cells or
+  whole regions outside a single-program or grid footprint are preserved.
+
+Longer-term extension points remain:
+
 - **Paged KV / indirect addressing (#42):** extend the current `IndirectView`
   smoke/proof surface into paged-attention-specific logical views and
   consumer-side equivalence theorems.
-- **Async and concurrency (#12):** introduce shared-memory state, barriers,
-  atomics, and an explicit scheduling or trace model.
+- **Async and concurrency (#12):** `ConcurrencySemantics.md` defines the
+  boundary for shared-memory state, barriers, atomics, async/TMA, and explicit
+  scheduling or trace models.
 - **Floating-point fidelity (#11):** replace or refine the `R` abstraction with
   IEEE / mixed-precision semantics where needed.

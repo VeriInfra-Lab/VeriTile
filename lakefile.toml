@@ -15,6 +15,9 @@ globs = [
   "VeriTile.Triton.+",
   "VeriTile.Examples.Common",
   "VeriTile.Examples.TritonSmoke",
+  "VeriTile.Examples.MemorySafety",
+  "VeriTile.Examples.MemoryFrame",
+  "VeriTile.Examples.GridComposition",
   "VeriTile.Examples.LoopInvariant",
   "VeriTile.Examples.SoftmaxEq",
   "VeriTile.Examples.LogSumExpEq",
@@ -25,6 +28,7 @@ globs = [
   "VeriTile.Examples.WelfordKernels",
   "VeriTile.Examples.LayerNormKernels",
   "VeriTile.Examples.OnlineSoftmax",
+  "VeriTile.Examples.HyperConnections.+",
   "VeriTile.Examples.FlashAttention1",
   "VeriTile.Examples.FlashAttention1.+",
 ]
@@ -40,4 +44,7 @@ globs = ["VeriTile.Math.+"]
 # GeLU error bound or before any release tagging.
 [[lean_lib]]
 name = "VeriTileFull"
-globs = ["VeriTile.Examples.ApproxGeLU"]
+globs = [
+  "VeriTile.Examples.ApproxGeLU",
+  "VeriTile.Examples.ApproxGeLU.+",
+]

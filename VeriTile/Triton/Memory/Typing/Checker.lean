@@ -1,10 +1,10 @@
 /-
-VeriTile.Triton.MemoryTyping.Checker
+VeriTile.Triton.Memory.Typing.Checker
 
 Optional well-formedness checker for Triton kernels.
 -/
 
-import VeriTile.Triton.MemoryTyping.Region
+import VeriTile.Triton.Memory.Typing.Region
 
 namespace VeriTile.Triton
 
@@ -121,6 +121,7 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .const _ => .ok ()
   | .constFloat _ _ => .ok ()
   | .constNat _ => .ok ()
+  | .constInt _ => .ok ()
   | .constBool _ => .ok ()
   | .negInf => .ok ()
   | .programId _ => .ok ()
@@ -287,12 +288,22 @@ def Stmt.check (ctx : CheckCtx) : Stmt → Except CheckError CheckCtx
       mask.check ctx
       mem.check ctx dtype
       .ok ctx
+  | @Stmt.atomicAdd dtype _ _ mem val mask => do
+      val.check ctx
+      mask.check ctx
+      mem.check ctx dtype
+      .ok ctx
   | .forLoop idx _ body => do
       let ctx' ← ctx.setReg idx (pointerEntry .nat [] none none)
       StmtList.check ctx' body
   | .ifThen cond body => do
       cond.check ctx
       StmtList.check ctx body
+  | .ifThenElse cond thenBody elseBody => do
+      cond.check ctx
+      let _ ← StmtList.check ctx thenBody
+      let _ ← StmtList.check ctx elseBody
+      .ok ctx
 termination_by st => sizeOf st
 decreasing_by all_goals (simp_wf; try omega)
 
