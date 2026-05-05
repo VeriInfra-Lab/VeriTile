@@ -29,9 +29,10 @@ Stmt : Type
 - `tl.static_range i in $(n) { ... }` 与 `tl.static_range i in N { ... }`
   是同一个 bounded-loop AST 的 surface alias。当前不建模 unroll / pipeline
   属性。
-- `tl.if cond { ... }` 支持 scalar bool 条件(`Op .bool []`)。
-  当前没有 `else`、`break` 或 `continue`;Triton 的 block-skipping pattern
-  应该通过取反 skip 条件并包住有效 body 来表示。逐元素条件选择仍使用 `tl.where`。
+- `tl.if cond { ... }` 和 `tl.if cond { ... } else { ... }` 支持 scalar
+  bool 条件(`Op .bool []`)。当前没有 `break` 或 `continue`;Triton 的
+  block-skipping pattern 应该通过取反 skip 条件并包住有效 body 来表示。逐元素条件选择仍使用
+  `tl.where`。
 - 寄存器赋值:
   `x := expr`。
 
@@ -47,6 +48,10 @@ Stmt : Type
 - `(x).to(tl.float64|tl.float32|tl.float16|tl.bfloat16)` 也支持,作为
   method-style cast spelling。裸 identifier 需要加括号,避免 Lean 把 `x.to`
   解析成一个 hierarchical identifier。
+- `tl.bitcast(x, tl.uint32|tl.int32|tl.float32)` 在 compute AST 里表示
+  32-bit payload reinterpretation。常量 uint32 bit pattern 可以投影到算法层
+  `.nat`、`.int` 或 finite-normal `.real`;runtime bitcast 可以表达,但仍是
+  compute-only,会让 `ComputeKernel.toAlgorithm?` 失败。
 
 当前 channel:
 
@@ -54,8 +59,8 @@ Stmt : Type
 - `.fp32`, `.fp16`, `.bf16`: 显式浮点 dtype channel,当前和 `.real` 一样
   使用 `WithBot ℝ` 数学 carrier。
 - `.int`: AST 层 signed mathematical-integer channel,已有算术/比较语义。
-  `tl.int32` 和 `tl.int64` 都映射到这里;bit width、overflow 和 signed cast
-  fidelity 还没建模。
+  `tl.int8`、`tl.int16`、`tl.int32` 和 `tl.int64` 都映射到这里;bit width、
+  overflow 和 signed cast fidelity 还没建模。
 - `.nat`: 用于 offset、loop counter、size 和地址算术。
 - `.bool`: 由比较产生,用于 mask 和 `tl.where`。
 
@@ -160,7 +165,7 @@ bit-level / precision 语义。
 - `tl.load(ptr, mask=mask)`
 - `tl.load(ptr, mask=mask, other=other)`
 - `tl.load(ptr, other=other, mask=mask)`
-- `tl.load(ptr, dtype=tl.float32|tl.float16|tl.bfloat16|tl.int32|tl.int64|tl.uint32|tl.uint64)`
+- `tl.load(ptr, dtype=tl.float32|tl.float16|tl.bfloat16|tl.int8|tl.int16|tl.int32|tl.int64|tl.uint8|tl.uint16|tl.uint32|tl.uint64)`
 - `tl.load(ptr, mask=mask, other=other, dtype=...)`
 - `bp := tl.make_block_ptr($(region), base=$(base), shape=[...],
   strides=[...], offsets=[...], block_shape=[...])`
@@ -212,7 +217,7 @@ proof-facing 的 Real 兼容 API 仍然是 `BlockState.readMem` /
 observation surface。换句话说,旧的 theorem-facing `RegionName → Nat → ℝ`
 view 仍然作为 API 层存在,但它不再是 runtime storage representation。
 
-Region dtype contract 单独放在 `VeriTile.Triton.MemoryTyping`:
+Region dtype contract 单独放在 `VeriTile.Triton.Memory.Typing`:
 
 ```lean
 RegionTyping := RegionName → TileDType
@@ -288,21 +293,23 @@ Stmt.store : TileDType → MemAccess shape → Op ... → MaskOpt dtype shape �
 ```
 
 公开 DSL 的 `tl.load` 默认仍是 `.real`,但支持
-`dtype=tl.float32|tl.float16|tl.bfloat16|tl.int32|tl.int64|tl.uint32|tl.uint64`,
-用于生成 typed memory node。`tl.uint64` 和 `tl.uint32` 映射到 VeriTile 的
-`.nat` channel,用于非负 index/block-table value。`tl.int32` 和 `tl.int64`
+`dtype=tl.float32|tl.float16|tl.bfloat16|tl.int*/tl.uint*`,
+用于生成 typed memory node。所有 `tl.uint*` spelling 映射到 VeriTile 的
+`.nat` channel,用于非负 index/block-table value。所有 `tl.int*` spelling
 映射到 VeriTile 的 `.int` channel,这是数学 signed-integer abstraction,没有
 bit-width 或 overflow 语义。`tl.store` 从写入的 value 推断 dtype,也支持可选的、
 必须匹配 value dtype 的 `dtype=` surface spelling。
 
-Float theorem policy: 算法正确性 / refinement theorem 通过
-`Kernel.AlgorithmCorrect` 和 `Kernel.AlgorithmRefine` 证明在擦除后的 `.real`
-kernel 上。面向 float 的 theorem 使用 `k.eraseFloat = realK` 这类 erasure
-等式,为带 dtype 标注的 kernel 暴露 theorem,但不在每个浮点 channel 里重新证明
-算法。计算正确性 / refinement 由 `Kernel.ComputeCorrectAt?` 和
-`Kernel.ComputeRefineAt?` 单独表示,它们是对观测输出的 epsilon-bound
-predicate。当前这一层由 smoke / differential tests 支撑,不是 IEEE-754 proof。
-这些定义放在 `VeriTile.Triton.Float`。
+Float theorem policy: 算法正确性 / refinement theorem 证明在擦除后的 `.real`
+kernel 上。面向 DSL 的 compute surface 是 `ComputeKernel`;
+`ComputeKernel.ComputeCorrect` 和 `ComputeKernel.ComputeRefine` 通过
+`toAlgorithm?` 把可擦除的 compute kernel 投影到算法层,并可用可选的
+`GapPolicy` 记录外部检查过的 compute-to-algorithm gap contract。已有
+float-facing theorem 仍可使用 `k.eraseDType = realK` 这类 erasure 等式,为带 dtype
+标注的 algorithm kernel 复用 Real proof。数值 compute correctness/refinement 仍由
+外部 gap contract 和 differential tests 单独支撑,不是 IEEE-754 proof。这些定义放在
+`VeriTile.Triton.Float`;compute / algorithm split 和 bitcast policy 见
+`documents/EraseDType.md`。
 
 ## Operator / syntax 覆盖 checklist
 
@@ -316,7 +323,7 @@ surface。`Limited` 表示 VeriTile 有意只支持 Triton 特性的窄子集。
 | scalar/tile 常量 | Supported | 实数字面量、`$(n)`、`$ℝ(x)`、`-inf`、register ref |
 | program id | Limited | literal 或 antiquoted `Nat` axis 的 `tl.program_id(axis)`;可通过 `GridIndex` / `Kernel.ForAllPrograms` 做 ND grid 量化,但没有 launch executor |
 | loop | Supported | bounded `tl.for`;`tl.static_range` alias 降到同一个 loop AST |
-| conditional | Limited | 只有 `tl.if cond { ... }`;没有 `else`、`break`、`continue` |
+| conditional | Limited | scalar `tl.if cond { ... }` 与 `tl.if cond { ... } else { ... }`;没有 `break`、`continue` |
 | arithmetic | Supported | 同 channel numeric 上的 `+`, `-`, `*`, `/`;integer `//` / `%`;`.nat` `tl.cdiv`;pointer offset 支持 `ptr + nat` |
 | comparison | Supported | `.real` 或 `.nat` 上的 `<`, `<=`, `==`, `>`, `>=`, `!=` |
 | bool op | Supported | `tl.logical_and`、`tl.logical_or`、`tl.logical_not`,以及 `&`、`|`、`~` mask spelling |
@@ -331,14 +338,18 @@ surface。`Limited` 表示 VeriTile 有意只支持 Triton 特性的窄子集。
 | shape/view op | Limited | `tl.reshape`, `tl.view`, `tl.ravel`, `tl.permute`, `tl.flip`, `tl.join`,projection-form `tl.split(x, 0|1)` |
 | transpose | Supported | `tl.trans(e)` 交换最后两个 axis;任意静态 permutation 用 `tl.permute(e, [axes])` |
 | matrix multiply | Supported | 数学 `ℝ` 模型下的 `tl.dot(a, b)` 和 `tl.dot(a, b, acc)` |
-| load | Limited | pointer-expression load,可带 `mask` / `other` / float/int32/int64/uint32/uint64 `dtype=`;block-pointer load 支持 `boundary_check` 和 `padding_option="zero"` |
+| bitcast | Limited | 32-bit compute payload `tl.uint32` / `tl.int32` / `tl.float32`;常量 uint32 pattern 可投影到算法值,runtime bitcast 可表达但 compute-only |
+| load | Limited | pointer-expression load,可带 `mask` / `other` / float/int*/uint* spelling-only integer `dtype=`;block-pointer load 支持 `boundary_check` 和 `padding_option="zero"` |
 | store | Limited | pointer-expression store,可带 `mask`;dtype 从 value 推断,也可写匹配的 `dtype=`;block-pointer store 支持 `boundary_check` |
+| memory bounds safety | Limited | `Kernel.MemorySafe` / `ComputeKernel.MemorySafe` 证明 direct、pointer、block-pointer memory op 的 active-lane region bounds;不包含 alias、race、frame 或 permission model |
+| memory frame contract | Limited | predicate-level `WriteFootprint`、`BlockState.WriteWithin`、`Stmt.StoreAddressesWithin` 和 `Kernel.ExecFrame`,用于 single-program write-frame reasoning;`tileImage` / `activeTileImage` helper 可提取 direct、masked、checked block-pointer store footprint, unrelated-region preservation helper 覆盖常见 frame readback 目标 |
+| disjoint grid composition | Limited | `Kernel.GridFrames`、`GridWritesDisjoint` 和 `mergeFrames` 能合并 pairwise-disjoint write footprint 的 explicit per-program frame;没有 overlapping write 或 scheduling semantics |
 | tensor view | Supported | theorem surface 的 strided `TensorView.loaded` / `TensorView.observe` wrapper |
 | integer memory | Limited | typed cell 加 typed load/store 支持 Nat/index 和数学 signed-Int HBM value;还没有更完整的 signed/unsigned width lattice |
 | randomness | Gap | 还没有 `tl.rand` 或 RNG state model (#41) |
 | indirection | Limited | typed index load 可以参与 pointer arithmetic,表达 gather / paged-KV 风格 data-dependent address (#42);还没有 alias/bounds/page-ownership proof layer |
 | block pointer | Limited | `tl.make_block_ptr`、`tl.advance`、带 checked-axis zero padding / store skip 的 block-pointer load/store;没有硬件/TMA 行为 |
-| atomic / async / barrier | Gap | 还没有 `tl.atomic_*`、async copy、TMA、barrier 或 scheduling semantics (#12) |
+| atomic / async / barrier | Limited | `tl.atomic_add` 已有 AlgKernel `Stmt.atomicAdd` marker、单程序顺序语义、trace payload 词汇和 Real grid-merge sum theorem;其他 `tl.atomic_*`、`tl.async_copy`、`tl.async_wait`、`tl.debug_barrier` 目前只会 lowering 到 compute-facing failure marker;async/TMA discipline 仍只是文档 contract,没有实现;还没有完整 scheduler、可执行 barrier、可执行 async copy 语义、TMA AST 或 IEEE atomic 语义 (#12/#67/#68/#69/#71/#72/#76) |
 | floating-point fidelity | Gap | 只有 real-valued model;没有 IEEE-754 或 mixed-precision hardware semantics (#11) |
 
 ## 表达力矩阵
@@ -356,9 +367,11 @@ surface。`Limited` 表示 VeriTile 有意只支持 Triton 特性的窄子集。
 | typed floating memory | Limited | semantic abstraction | `dtype=tl.float32/fp16/bf16` 会生成 typed floating node,算法证明擦除到 real;没有 IEEE rounding。 |
 | integer / bool tensor memory | Limited | dtype coverage | typed cell 加 typed load/store 支持 Nat/index 和数学 signed-Int HBM value;还没有完整 Triton integer-width lattice。 |
 | indirect / gather addressing | Limited | surface + view semantics (#42) | typed index tensor load 可以驱动 pointer arithmetic 和普通 masked load;alias analysis、bounds proof、page ownership、paged FA-1 等价还没建模。 |
+| active-lane memory bounds | Limited | Lean proof predicate (#48) | `Kernel.MemorySafe` 按 `RegionBounds` 检查 direct region offset、dynamic pointer address、mask activeness 和 `boundary_check` block-pointer lane;没有 race freedom、frame theorem 或 permission accounting。 |
+| single-program write footprint/frame | Limited | predicate-level frame contract + extraction helpers (#60/#61) | `WriteFootprint := (RegionName × Nat) → Prop` 和 `BlockState.WriteWithin` 表达一次 execution 只修改 supplied footprint 内的 cell;`tileImage` / `activeTileImage` helper 可提取 direct、masked、checked block-pointer store footprint。 |
 | RNG / dropout | Gap | state/probabilistic semantics (#41) | 阻塞 faithful dropout 和随机 kernel。 |
-| atomics / async / shared memory / barriers | Gap | concurrency semantics (#12) | 阻塞 production-style backward kernel、shared-memory phase reduction、async/TMA pipeline、race/scheduling reasoning。 |
-| whole-grid launch semantics | Limited | ND grid theorem surface (#5) | `GridIndex`、`BlockState.withGridIndex`、`Kernel.ForAllPrograms`、`ForAllProgramsSome` 支持 arbitrary-rank grid 上的 per-program correctness 量化;没有 launch executor、memory merge、race、atomic 或 scheduling。 |
+| atomics / async / shared memory / barriers | Limited | atomic-add slice + concurrency boundary (#12) | `tl.atomic_add` 已有 proof-facing marker 和 Real trace/grid-sum theorem;不支持的 atomic family 成员和 async/barrier surface 会显式 projection failure;async/TMA、shared memory、barrier、完整 scheduling、IEEE atomic 行为仍是 gap。 |
+| whole-grid launch semantics | Limited | ND grid theorem surface + disjoint/atomic merge (#5/#49/#12) | `GridIndex`、`BlockState.withGridIndex`、`Kernel.ForAllPrograms`、`ForAllProgramsSome` 支持 per-program correctness 量化;`Kernel.mergeFrames` 处理 pairwise-disjoint footprint,`Kernel.mergeFramesWithAtomic` 处理选定 Real atomic-add contribution;没有完整 race/scheduler/interleaved executor。 |
 | Python/Triton source ingestion | Gap | front-end/lifter (#10) | 用户必须写 Lean `triton { ... }`;decorator、Python-side constexpr execution、一般 Python control flow 还不能解析。 |
 | type checking / pointer provenance | Limited | optional checker (#46) | `Kernel.check` / `checkStrict` 跟踪 register dtype/shape、pointer 和 block-pointer provenance、dtype mismatch、基本 block-pointer metadata;不证明 bounds、alias、launch 或 page ownership。 |
 

@@ -4,6 +4,7 @@ VeriTile.Triton.Core.Ast
 Typed expression, statement, and kernel AST definitions for the Triton core.
 -/
 
+import Mathlib.Data.Rat.Defs
 import VeriTile.Triton.Core.Shape
 
 namespace VeriTile.Triton
@@ -62,6 +63,7 @@ inductive Op : TileDType → TileShape → Type where
   | const     : ℝ → Op .real []
   | constFloat : (dtype : FloatDType) → ℝ → Op dtype.toTileDType []
   | constNat  : Nat → Op .nat []
+  | constInt  : Int → Op .int []
   | constBool : Bool → Op .bool []
   | negInf    : Op .real []
   | programId : (axis : Nat) → Op .nat []
@@ -233,21 +235,28 @@ P1 Triton statements (mutating constructs).
   starting at `offset`. With `mask = none`, every lane is written. With
   `mask = some m`, lanes where `m` evaluates `false` are **left untouched**
   (Triton `tl.store` semantics — no `other` parameter on store side).
+* `atomicAdd h mem value mask` is a proof-facing read-modify-write marker for
+  `tl.atomic_add`. It is restricted by `NumericDType` so non-additive channels
+  such as Bool and pointers cannot be represented as atomic additions.
 * `forLoop i n body` runs `body` `n` times, with the scalar register `i` bound
   to the iteration index.
 * `ifThen cond body` runs `body` when the scalar `cond` evaluates `true`, and
-  is a no-op when `false`. This is a VeriTile DSL-level scalar conditional
-  used to model Triton block-level control-flow patterns. It has no `else`;
-  the FA-2 block-skipping pattern `if start_n + BLOCK_N <= start_m: continue`
-  rewrites to `if not skippable { ...work... }`.
+  is a no-op when `false`.
+* `ifThenElse cond thenBody elseBody` runs one of two scalar-gated statement
+  blocks. This models Triton block-level `if ... else ...` control flow without
+  early-exit effects such as `break` or `continue`.
 -/
 inductive Stmt : Type where
   | assign  : (dtype : TileDType) → (shape : TileShape) → RegName → Op dtype shape → Stmt
   | store   : (dtype : TileDType) → (shape : TileShape) →
               MemAccess shape → (value : Op dtype shape) →
               (mask : MaskOpt dtype shape) → Stmt
+  | atomicAdd : NumericDType dtype → (shape : TileShape) →
+              MemAccess shape → (value : Op dtype shape) →
+              (mask : MaskOpt dtype shape) → Stmt
   | forLoop : (idx : RegName) → (n : Nat) → (body : List Stmt) → Stmt
   | ifThen  : (cond : Op .bool []) → (body : List Stmt) → Stmt
+  | ifThenElse : (cond : Op .bool []) → (thenBody elseBody : List Stmt) → Stmt
 
 instance : Inhabited Stmt :=
   ⟨.assign .real [] "" (.const 0)⟩
@@ -274,5 +283,491 @@ structure Kernel where
   outputs : List RegionName
   body    : List Stmt
   deriving Inhabited
+
+/-! ## Compute-facing kernel wrapper -/
+
+/-- Long-term name for the algorithm-layer dtype universe. -/
+abbrev AlgDType := TileDType
+
+/-- Long-term name for the algorithm-layer expression AST. -/
+abbrev AlgOp := Op
+
+/-- Long-term name for the algorithm-layer kernel AST. -/
+abbrev AlgKernel := Kernel
+
+/-- Error type for compute-kernel features that cannot be projected into the
+algorithm layer. -/
+inductive EraseDTypeError where
+  | requiresComputeSemantics (op : String)
+  | requiresEffectProjection (op : String)
+  | unsupportedBitcast (reason : String)
+  deriving Repr, BEq
+
+/-! ## Compute-facing dtype/op skeleton -/
+
+structure UInt32Bits where
+  bits : BitVec 32
+  deriving Repr, BEq, DecidableEq
+
+structure Int32Bits where
+  bits : BitVec 32
+  deriving Repr, BEq, DecidableEq
+
+structure Float32Bits where
+  bits : BitVec 32
+  deriving Repr, BEq, DecidableEq
+
+namespace UInt32Bits
+
+def toNat (x : UInt32Bits) : Nat :=
+  x.bits.toNat
+
+end UInt32Bits
+
+namespace Int32Bits
+
+def toInt (x : Int32Bits) : Int :=
+  let n := x.bits.toNat
+  if n < 2^31 then
+    Int.ofNat n
+  else
+    Int.ofNat n - Int.ofNat (2^32)
+
+end Int32Bits
+
+namespace Float32Bits
+
+private def pow2 (n : Nat) : Rat :=
+  (2 : Rat) ^ n
+
+private def scalePow2 (q : Rat) (e : Int) : Rat :=
+  if _h : 0 ≤ e then
+    q * pow2 e.toNat
+  else
+    q / pow2 (-e).toNat
+
+/--
+Computable finite-normal IEEE-754 binary32 decode to `Rat`.
+
+This initial algorithm bridge intentionally supports only finite normal values.
+Zeros, subnormals, infinities, and NaNs return `none` until the compute-correct
+IEEE model is widened.
+-/
+def decodeRat (x : Float32Bits) : Option Rat :=
+  let n := x.bits.toNat
+  let sign := n / 2^31
+  let exp := (n / 2^23) % 256
+  let frac := n % 2^23
+  if exp = 0 ∨ exp = 255 then
+    none
+  else
+    let significand : Rat := (2^23 + frac : Nat)
+    let signed := if sign = 0 then significand else -significand
+    some (scalePow2 signed (Int.ofNat exp - 150))
+
+noncomputable def decodeReal (x : Float32Bits) : WithBot ℝ :=
+  match decodeRat x with
+  | some q => some (q : ℝ)
+  | none => none
+
+end Float32Bits
+
+inductive ComputeDType where
+  | uint32
+  | int32
+  | fp32
+  deriving Repr, BEq, DecidableEq
+
+namespace ComputeDType
+
+def eraseDType : ComputeDType → AlgDType
+  | .uint32 => .nat
+  | .int32 => .int
+  | .fp32 => .real
+
+def width : ComputeDType → Nat
+  | .uint32 => 32
+  | .int32 => 32
+  | .fp32 => 32
+
+end ComputeDType
+
+def ComputeCarrier : ComputeDType → Type
+  | .uint32 => UInt32Bits
+  | .int32 => Int32Bits
+  | .fp32 => Float32Bits
+
+inductive ComputeOp : ComputeDType → TileShape → Type where
+  | alg : (dtype : ComputeDType) →
+      Op dtype.eraseDType shape →
+      ComputeOp dtype shape
+  | const : ComputeCarrier dtype → ComputeOp dtype []
+  | bitcast :
+      (src dst : ComputeDType) →
+      src.width = dst.width →
+      ComputeOp src shape →
+      ComputeOp dst shape
+
+namespace ComputeOp
+
+def bitcastPayload (src dst : ComputeDType) :
+    ComputeCarrier src → Option (ComputeCarrier dst) :=
+  match src, dst with
+  | .uint32, .uint32 => fun x => some x
+  | .uint32, .int32 => fun x => some ({ bits := x.bits } : Int32Bits)
+  | .uint32, .fp32 => fun x => some ({ bits := x.bits } : Float32Bits)
+  | .int32, .uint32 => fun x => some ({ bits := x.bits } : UInt32Bits)
+  | .int32, .int32 => fun x => some x
+  | .int32, .fp32 => fun x => some ({ bits := x.bits } : Float32Bits)
+  | .fp32, .uint32 => fun x => some ({ bits := x.bits } : UInt32Bits)
+  | .fp32, .int32 => fun x => some ({ bits := x.bits } : Int32Bits)
+  | .fp32, .fp32 => fun x => some x
+
+def constPayload? : ComputeOp dtype [] → Option (ComputeCarrier dtype)
+  | .alg _ _ => none
+  | .const value => some value
+  | .bitcast src dst _ e =>
+      match constPayload? e with
+      | some value => bitcastPayload src dst value
+      | none => none
+
+def constToAlgorithm? :
+    (dtype : ComputeDType) → ComputeCarrier dtype →
+      Except EraseDTypeError (Op dtype.eraseDType [])
+  | .uint32, value => Except.ok (Op.constNat value.toNat)
+  | .int32, value => Except.ok (Op.constInt value.toInt)
+  | .fp32, value =>
+      match Float32Bits.decodeRat value with
+      | some q => Except.ok (Op.const (q : ℝ))
+      | none => Except.error (.unsupportedBitcast "unsupported fp32 decode")
+
+def constOpToAlgorithm? (op : ComputeOp dtype []) :
+    Except EraseDTypeError (Op dtype.eraseDType []) :=
+  match constPayload? op with
+  | some value => constToAlgorithm? dtype value
+  | none => Except.error (.requiresComputeSemantics "runtime bitcast")
+
+def toAlgorithm? : (op : ComputeOp dtype shape) →
+    Except EraseDTypeError (Op dtype.eraseDType shape)
+  | .alg _ e => Except.ok e
+  | .const value => constToAlgorithm? _ value
+  | .bitcast src dst h e =>
+      match shape with
+      | [] => constOpToAlgorithm? (.bitcast src dst h e)
+      | _ => Except.error (.requiresComputeSemantics "non-scalar runtime bitcast")
+
+end ComputeOp
+
+inductive ComputeExpr : AlgDType → TileShape → Type where
+  | alg : Op dtype shape → ComputeExpr dtype shape
+  | compute : ComputeOp cdtype shape → ComputeExpr cdtype.eraseDType shape
+
+namespace ComputeExpr
+
+def toAlgorithm? : ComputeExpr dtype shape → Except EraseDTypeError (Op dtype shape)
+  | .alg e => Except.ok e
+  | .compute e => ComputeOp.toAlgorithm? e
+
+@[simp] theorem toAlgorithm?_alg (e : Op dtype shape) :
+    (ComputeExpr.alg e).toAlgorithm? = Except.ok e := rfl
+
+end ComputeExpr
+
+inductive ComputeStmt : Type where
+  | alg : Stmt → ComputeStmt
+  | assign : (dtype : AlgDType) → (shape : TileShape) → RegName →
+      ComputeExpr dtype shape → ComputeStmt
+  | store : (dtype : AlgDType) → (shape : TileShape) →
+      MemAccess shape → ComputeExpr dtype shape → MaskOpt dtype shape → ComputeStmt
+  | atomicAdd : NumericDType dtype → (shape : TileShape) →
+      MemAccess shape → ComputeExpr dtype shape → MaskOpt dtype shape → ComputeStmt
+  | effectMarker : (op : String) → ComputeStmt
+  | forLoop : (idx : RegName) → (n : Nat) → (body : List ComputeStmt) → ComputeStmt
+  | ifThen : (cond : Op .bool []) → (body : List ComputeStmt) → ComputeStmt
+  | ifThenElse : (cond : Op .bool []) →
+      (thenBody elseBody : List ComputeStmt) → ComputeStmt
+
+namespace ComputeStmt
+
+mutual
+
+def toAlgorithm? : ComputeStmt → Except EraseDTypeError Stmt
+  | .alg st => Except.ok st
+  | .assign dtype shape name e => do
+      Except.ok (.assign dtype shape name (← e.toAlgorithm?))
+  | .store dtype shape mem value mask => do
+      Except.ok (.store dtype shape mem (← value.toAlgorithm?) mask)
+  | .atomicAdd h shape mem value mask => do
+      Except.ok (.atomicAdd h shape mem (← value.toAlgorithm?) mask)
+  | .effectMarker op =>
+      Except.error (.requiresEffectProjection op)
+  | .forLoop idx n body => do
+      Except.ok (.forLoop idx n (← listToAlgorithm? body))
+  | .ifThen cond body => do
+      Except.ok (.ifThen cond (← listToAlgorithm? body))
+  | .ifThenElse cond thenBody elseBody => do
+      Except.ok (.ifThenElse cond (← listToAlgorithm? thenBody) (← listToAlgorithm? elseBody))
+
+def listToAlgorithm? : List ComputeStmt → Except EraseDTypeError (List Stmt)
+  | [] => Except.ok []
+  | st :: rest => do
+      let st' ← toAlgorithm? st
+      let rest' ← listToAlgorithm? rest
+      Except.ok (st' :: rest')
+
+end
+
+@[simp] theorem toAlgorithm?_alg (st : Stmt) :
+    ComputeStmt.toAlgorithm? (ComputeStmt.alg st) = Except.ok st := rfl
+
+@[simp] theorem toAlgorithm?_assign_alg
+    (dtype : AlgDType) (shape : TileShape) (name : RegName)
+    (e : Op dtype shape) :
+    ComputeStmt.toAlgorithm?
+        (ComputeStmt.assign dtype shape name (ComputeExpr.alg e)) =
+      Except.ok (Stmt.assign dtype shape name e) := rfl
+
+@[simp] theorem toAlgorithm?_store_alg
+    (dtype : AlgDType) (shape : TileShape)
+    (mem : MemAccess shape) (value : Op dtype shape) (mask : MaskOpt dtype shape) :
+    ComputeStmt.toAlgorithm?
+        (ComputeStmt.store dtype shape mem (ComputeExpr.alg value) mask) =
+      Except.ok (Stmt.store dtype shape mem value mask) := rfl
+
+@[simp] theorem toAlgorithm?_atomicAdd_alg
+    {dtype : AlgDType} (h : NumericDType dtype) (shape : TileShape)
+    (mem : MemAccess shape) (value : Op dtype shape) (mask : MaskOpt dtype shape) :
+    ComputeStmt.toAlgorithm?
+        (ComputeStmt.atomicAdd h shape mem (ComputeExpr.alg value) mask) =
+      Except.ok (Stmt.atomicAdd h shape mem value mask) := rfl
+
+@[simp] theorem listToAlgorithm?_nil :
+    ComputeStmt.listToAlgorithm? [] = Except.ok [] := rfl
+
+@[simp] theorem listToAlgorithm?_cons_alg (st : Stmt) (rest : List ComputeStmt) :
+    ComputeStmt.listToAlgorithm? (ComputeStmt.alg st :: rest) =
+      match ComputeStmt.listToAlgorithm? rest with
+      | Except.ok rest' => Except.ok (st :: rest')
+      | Except.error e => Except.error e := by
+  change Except.bind (Except.ok st)
+      (fun st' => Except.bind (ComputeStmt.listToAlgorithm? rest)
+        (fun rest' => Except.ok (st' :: rest'))) =
+    match ComputeStmt.listToAlgorithm? rest with
+    | Except.ok rest' => Except.ok (st :: rest')
+    | Except.error e => Except.error e
+  cases ComputeStmt.listToAlgorithm? rest <;> rfl
+
+@[simp] theorem listToAlgorithm?_cons_assign_alg
+    (dtype : AlgDType) (shape : TileShape) (name : RegName)
+    (e : Op dtype shape) (rest : List ComputeStmt) :
+    ComputeStmt.listToAlgorithm?
+        (ComputeStmt.assign dtype shape name (ComputeExpr.alg e) :: rest) =
+      match ComputeStmt.listToAlgorithm? rest with
+      | Except.ok rest' => Except.ok (Stmt.assign dtype shape name e :: rest')
+      | Except.error e => Except.error e := by
+  change Except.bind (Except.ok (Stmt.assign dtype shape name e))
+      (fun st' => Except.bind (ComputeStmt.listToAlgorithm? rest)
+        (fun rest' => Except.ok (st' :: rest'))) =
+    match ComputeStmt.listToAlgorithm? rest with
+    | Except.ok rest' => Except.ok (Stmt.assign dtype shape name e :: rest')
+    | Except.error e => Except.error e
+  cases ComputeStmt.listToAlgorithm? rest <;> rfl
+
+@[simp] theorem listToAlgorithm?_cons_store_alg
+    (dtype : AlgDType) (shape : TileShape)
+    (mem : MemAccess shape) (value : Op dtype shape) (mask : MaskOpt dtype shape)
+    (rest : List ComputeStmt) :
+    ComputeStmt.listToAlgorithm?
+        (ComputeStmt.store dtype shape mem (ComputeExpr.alg value) mask :: rest) =
+      match ComputeStmt.listToAlgorithm? rest with
+      | Except.ok rest' => Except.ok (Stmt.store dtype shape mem value mask :: rest')
+      | Except.error e => Except.error e := by
+  change Except.bind (Except.ok (Stmt.store dtype shape mem value mask))
+      (fun st' => Except.bind (ComputeStmt.listToAlgorithm? rest)
+        (fun rest' => Except.ok (st' :: rest'))) =
+    match ComputeStmt.listToAlgorithm? rest with
+    | Except.ok rest' => Except.ok (Stmt.store dtype shape mem value mask :: rest')
+    | Except.error e => Except.error e
+  cases ComputeStmt.listToAlgorithm? rest <;> rfl
+
+@[simp] theorem listToAlgorithm?_cons_atomicAdd_alg
+    {dtype : AlgDType} (h : NumericDType dtype) (shape : TileShape)
+    (mem : MemAccess shape) (value : Op dtype shape) (mask : MaskOpt dtype shape)
+    (rest : List ComputeStmt) :
+    ComputeStmt.listToAlgorithm?
+        (ComputeStmt.atomicAdd h shape mem (ComputeExpr.alg value) mask :: rest) =
+      match ComputeStmt.listToAlgorithm? rest with
+      | Except.ok rest' => Except.ok (Stmt.atomicAdd h shape mem value mask :: rest')
+      | Except.error e => Except.error e := by
+  change Except.bind (Except.ok (Stmt.atomicAdd h shape mem value mask))
+      (fun st' => Except.bind (ComputeStmt.listToAlgorithm? rest)
+        (fun rest' => Except.ok (st' :: rest'))) =
+    match ComputeStmt.listToAlgorithm? rest with
+    | Except.ok rest' => Except.ok (Stmt.atomicAdd h shape mem value mask :: rest')
+    | Except.error e => Except.error e
+  cases ComputeStmt.listToAlgorithm? rest <;> rfl
+
+@[simp] theorem listToAlgorithm?_append :
+    ∀ xs ys : List ComputeStmt,
+      ComputeStmt.listToAlgorithm? (xs ++ ys) =
+        match ComputeStmt.listToAlgorithm? xs, ComputeStmt.listToAlgorithm? ys with
+        | Except.ok xs', Except.ok ys' => Except.ok (xs' ++ ys')
+        | Except.error e, _ => Except.error e
+        | _, Except.error e => Except.error e
+  | [], ys => by
+      cases hys : ComputeStmt.listToAlgorithm? ys <;> simp [hys]
+  | x :: xs, ys => by
+      cases hx : ComputeStmt.toAlgorithm? x <;> simp [ComputeStmt.listToAlgorithm?, hx]
+      · rfl
+      · rw [listToAlgorithm?_append xs ys]
+        cases ComputeStmt.listToAlgorithm? xs <;>
+          cases ComputeStmt.listToAlgorithm? ys <;> rfl
+
+@[simp] theorem listToAlgorithm?_map_alg :
+    ∀ body : List Stmt,
+      ComputeStmt.listToAlgorithm? (body.map ComputeStmt.alg) = Except.ok body
+  | [] => rfl
+  | st :: rest => by
+      change (do
+          let st' ← ComputeStmt.toAlgorithm? (ComputeStmt.alg st)
+          let rest' ← ComputeStmt.listToAlgorithm? (rest.map ComputeStmt.alg)
+          Except.ok (st' :: rest')) = Except.ok (st :: rest)
+      rw [toAlgorithm?_alg, listToAlgorithm?_map_alg rest]
+      rfl
+
+end ComputeStmt
+
+/--
+Compute-facing kernel surface.
+
+Pure algorithm statements are represented as `ComputeStmt.alg`; compute-only
+statements use the other `ComputeStmt` constructors. Every kernel projects
+through the same `ComputeStmt.listToAlgorithm?` traversal.
+-/
+inductive ComputeKernel where
+  | mk : (inputs outputs : List RegionName) → (body : List ComputeStmt) → ComputeKernel
+  deriving Inhabited
+
+namespace ComputeKernel
+
+/-- Build a compute-facing kernel from an already-constructed algorithm body. -/
+def fromAlgBody (inputs outputs : List RegionName) (body : List Stmt) : ComputeKernel :=
+  ComputeKernel.mk inputs outputs (body.map ComputeStmt.alg)
+
+/-- Fallible projection from the compute-facing kernel surface to the algorithm
+kernel surface. -/
+def toAlgorithm? : ComputeKernel → Except EraseDTypeError AlgKernel
+  | .mk inputs outputs body => do
+      Except.ok (Kernel.mk inputs outputs (← ComputeStmt.listToAlgorithm? body))
+
+@[simp] theorem toAlgorithm?_mk
+    (inputs outputs : List RegionName) (body : List ComputeStmt) :
+    (ComputeKernel.mk inputs outputs body).toAlgorithm? =
+      match ComputeStmt.listToAlgorithm? body with
+      | Except.ok body' => Except.ok (Kernel.mk inputs outputs body')
+      | Except.error e => Except.error e := by
+  change Except.bind (ComputeStmt.listToAlgorithm? body)
+      (fun body' => Except.ok (Kernel.mk inputs outputs body')) =
+    match ComputeStmt.listToAlgorithm? body with
+    | Except.ok body' => Except.ok (Kernel.mk inputs outputs body')
+    | Except.error e => Except.error e
+  cases ComputeStmt.listToAlgorithm? body <;> rfl
+
+@[simp] theorem toAlgorithm?_mk_map_alg
+    (inputs outputs : List RegionName) (body : List Stmt) :
+    (ComputeKernel.mk inputs outputs (body.map ComputeStmt.alg)).toAlgorithm? =
+      Except.ok (Kernel.mk inputs outputs body) := by
+  change (do
+      let body' ← ComputeStmt.listToAlgorithm? (body.map ComputeStmt.alg)
+      Except.ok (Kernel.mk inputs outputs body')) =
+    Except.ok (Kernel.mk inputs outputs body)
+  rw [ComputeStmt.listToAlgorithm?_map_alg]
+  rfl
+
+@[simp] theorem toAlgorithm?_fromAlgBody
+    (inputs outputs : List RegionName) (body : List Stmt) :
+    (ComputeKernel.fromAlgBody inputs outputs body).toAlgorithm? =
+      Except.ok (Kernel.mk inputs outputs body) := by
+  simp [ComputeKernel.fromAlgBody]
+
+/--
+Legacy coercion used by existing examples whose definitions are still annotated
+as `Kernel`. New proof-facing code should use `ComputeKernel.toAlgorithm?` or
+`ComputeKernel.ComputeCorrect` so failed compute projection is explicit.
+-/
+def toAlgKernel (ck : ComputeKernel) : AlgKernel :=
+  match ck.toAlgorithm? with
+  | Except.ok k => k
+  | Except.error _ => default
+
+@[simp] theorem toAlgKernel_mk
+    (inputs outputs : List RegionName) (body : List ComputeStmt) :
+    (ComputeKernel.mk inputs outputs body).toAlgKernel =
+      match ComputeStmt.listToAlgorithm? body with
+      | Except.ok body' => Kernel.mk inputs outputs body'
+      | Except.error _ => default := by
+  change
+    (match Except.bind (ComputeStmt.listToAlgorithm? body)
+        (fun body' => Except.ok (Kernel.mk inputs outputs body')) with
+      | Except.ok k => k
+      | Except.error _ => default) =
+    match ComputeStmt.listToAlgorithm? body with
+    | Except.ok body' => Kernel.mk inputs outputs body'
+    | Except.error _ => default
+  cases ComputeStmt.listToAlgorithm? body <;> rfl
+
+@[simp] theorem toAlgKernel_mk_map_alg
+    (inputs outputs : List RegionName) (body : List Stmt) :
+    (ComputeKernel.mk inputs outputs (body.map ComputeStmt.alg)).toAlgKernel =
+      Kernel.mk inputs outputs body := by
+  simp [toAlgKernel]
+
+@[simp] theorem toAlgKernel_fromAlgBody
+    (inputs outputs : List RegionName) (body : List Stmt) :
+    (ComputeKernel.fromAlgBody inputs outputs body).toAlgKernel =
+      Kernel.mk inputs outputs body := by
+  simp [ComputeKernel.fromAlgBody]
+
+instance : Coe ComputeKernel AlgKernel where
+  coe := toAlgKernel
+
+/-- Projected algorithm inputs for compatibility with existing proof scripts. -/
+abbrev inputs (ck : ComputeKernel) : List RegionName :=
+  ck.toAlgKernel.inputs
+
+/-- Projected algorithm outputs for compatibility with existing proof scripts. -/
+abbrev outputs (ck : ComputeKernel) : List RegionName :=
+  ck.toAlgKernel.outputs
+
+/-- Projected algorithm body for compatibility with existing proof scripts. -/
+abbrev body (ck : ComputeKernel) : List Stmt :=
+  ck.toAlgKernel.body
+
+@[simp] theorem body_mk
+    (inputs outputs : List RegionName) (body : List ComputeStmt) :
+    (ComputeKernel.mk inputs outputs body).body =
+      match ComputeStmt.listToAlgorithm? body with
+      | Except.ok body' => body'
+      | Except.error _ => (default : AlgKernel).body := by
+  cases h : ComputeStmt.listToAlgorithm? body <;>
+    simp [ComputeKernel.body, h]
+
+@[simp] theorem body_mk_map_alg
+    (inputs outputs : List RegionName) (body : List Stmt) :
+    (ComputeKernel.mk inputs outputs (body.map ComputeStmt.alg)).body = body := by
+  simp [ComputeKernel.body]
+
+@[simp] theorem body_fromAlgBody
+    (inputs outputs : List RegionName) (body : List Stmt) :
+    (ComputeKernel.fromAlgBody inputs outputs body).body = body := by
+  simp [ComputeKernel.fromAlgBody]
+
+@[simp] theorem toAlgKernel_body_mk_map_alg
+    (inputs outputs : List RegionName) (body : List Stmt) :
+    (ComputeKernel.mk inputs outputs (body.map ComputeStmt.alg)).toAlgKernel.body =
+      body := by
+  exact body_mk_map_alg inputs outputs body
+
+end ComputeKernel
 
 end VeriTile.Triton

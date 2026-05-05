@@ -32,10 +32,11 @@ values have shape `[]`; a matrix `[M, D]` has index shape
 - `tl.static_range i in $(n) { ... }` and `tl.static_range i in N { ... }`
   are surface aliases for the same bounded-loop AST. Unroll and pipeline
   attributes are not modeled.
-- `tl.if cond { ... }` for scalar boolean conditions (`Op .bool []`).
-  There is no `else`, `break`, or `continue`; Triton block-skipping patterns
-  should be written by negating the skip condition and wrapping the useful
-  body. Elementwise conditional selection remains `tl.where`.
+- `tl.if cond { ... }` and `tl.if cond { ... } else { ... }` for scalar
+  boolean conditions (`Op .bool []`). There is no `break` or `continue`;
+  Triton block-skipping patterns should be written by negating the skip
+  condition and wrapping the useful body. Elementwise conditional selection
+  remains `tl.where`.
 - Register assignment:
   `x := expr`.
 
@@ -52,6 +53,10 @@ values have shape `[]`; a matrix `[M, D]` has index shape
 - `(x).to(tl.float64|tl.float32|tl.float16|tl.bfloat16)` is accepted as the
   method-style cast spelling. Parentheses around bare identifiers avoid
   Lean's hierarchical-name parser treating `x.to` as one identifier.
+- `tl.bitcast(x, tl.uint32|tl.int32|tl.float32)` is modeled in the compute AST
+  for 32-bit payload reinterpretation. Constant uint32 bit patterns can project
+  to the algorithm layer (`.nat`, `.int`, or finite-normal `.real`); runtime
+  bitcasts remain compute-only and make `ComputeKernel.toAlgorithm?` fail.
 
 Supported channels:
 
@@ -59,8 +64,9 @@ Supported channels:
 - `.fp32`, `.fp16`, `.bf16`: explicit floating dtype channels, currently
   backed by the same `WithBot ℝ` mathematical carrier as `.real`.
 - `.int`: AST-level signed mathematical-integer channel with
-  arithmetic/comparison semantics. `tl.int32` and `tl.int64` both map here;
-  bit width, overflow, and signed cast fidelity are not modeled yet.
+  arithmetic/comparison semantics. `tl.int8`, `tl.int16`, `tl.int32`, and
+  `tl.int64` all map here; bit width, overflow, and signed cast fidelity are
+  not modeled yet.
 - `.nat`: used for offsets, loop counters, sizes, and address arithmetic.
 - `.bool`: produced by comparisons and consumed by masks / `tl.where`.
 
@@ -176,7 +182,7 @@ Supported loads:
 - `tl.load(ptr, mask=mask)`
 - `tl.load(ptr, mask=mask, other=other)`
 - `tl.load(ptr, other=other, mask=mask)`
-- `tl.load(ptr, dtype=tl.float32|tl.float16|tl.bfloat16|tl.int32|tl.int64|tl.uint32|tl.uint64)`
+- `tl.load(ptr, dtype=tl.float32|tl.float16|tl.bfloat16|tl.int8|tl.int16|tl.int32|tl.int64|tl.uint8|tl.uint16|tl.uint32|tl.uint64)`
 - `tl.load(ptr, mask=mask, other=other, dtype=...)`
 - `bp := tl.make_block_ptr($(region), base=$(base), shape=[...],
   strides=[...], offsets=[...], block_shape=[...])`
@@ -229,7 +235,7 @@ Real-valued observation surface. In other words, the old theorem-facing
 `RegionName → Nat → ℝ` view still exists as an API layer, but it is no longer
 the runtime storage representation.
 
-Region dtype contracts are modeled separately in `VeriTile.Triton.MemoryTyping`:
+Region dtype contracts are modeled separately in `VeriTile.Triton.Memory.Typing`:
 
 ```lean
 RegionTyping := RegionName → TileDType
@@ -316,22 +322,28 @@ Stmt.store : TileDType → MemAccess shape → Op ... → MaskOpt dtype shape �
 
 The public DSL defaults `tl.load` to `.real`, but accepts `dtype=...` with
 `tl.float32`, `tl.float16`, `tl.bfloat16`, `tl.int32`, `tl.int64`, `tl.uint32`,
-or `tl.uint64` to produce typed memory nodes. `tl.uint64` and `tl.uint32` map
-to VeriTile's `.nat` channel for nonnegative index/block-table values.
-`tl.int32` and `tl.int64` map to VeriTile's `.int` channel, a mathematical
-signed-integer abstraction with no bit-width or overflow semantics. `tl.store`
+or `tl.uint64` to produce typed memory nodes. The narrower spellings
+`tl.int8`, `tl.int16`, `tl.uint8`, and `tl.uint16` are also accepted.
+All `tl.uint*` spellings map to VeriTile's `.nat` channel for nonnegative
+index/block-table values. All `tl.int*` spellings map to VeriTile's `.int`
+channel, a mathematical signed-integer abstraction with no bit-width or
+overflow semantics. `tl.store`
 infers its dtype from the value being stored, with optional matching `dtype=`
 syntax for Triton-like surface spelling.
 
 Float theorem policy: algorithmic correctness/refinement theorems are proved
-over erased `.real` kernels via `Kernel.AlgorithmCorrect` and
-`Kernel.AlgorithmRefine`. A float-facing theorem uses erasure equations such as
-`k.eraseFloat = realK` to expose a theorem for dtype-annotated kernels without
-re-proving the algorithm in each floating channel. Computational
-correctness/refinement is represented separately by `Kernel.ComputeCorrectAt?`
-and `Kernel.ComputeRefineAt?`, epsilon-bound predicates over observed outputs.
-That layer is currently supported by smoke and differential tests rather than
-IEEE-754 proof. These definitions live in `VeriTile.Triton.Float`.
+over erased `.real` kernels. The compute-facing DSL surface is
+`ComputeKernel`; `ComputeKernel.ComputeCorrect` and
+`ComputeKernel.ComputeRefine` project successful compute kernels to the
+algorithm layer through `toAlgorithm?`, with an optional `GapPolicy` for
+recording externally checked compute-to-algorithm gap contracts. Existing
+float-facing theorems can still use erasure equations such as
+`k.eraseDType = realK` to reuse Real proofs for dtype-annotated algorithm
+kernels. Numeric compute correctness/refinement is represented separately by
+external gap contracts and differential tests rather than IEEE-754 proof. These
+definitions live in `VeriTile.Triton.Float`; see `documents/EraseDType.md` for
+the compute/algorithm split and bitcast
+policy.
 
 ## Operator and Syntax Coverage Checklist
 
@@ -347,7 +359,7 @@ current semantic contract.
 | Scalar/tile constants | Supported | Real literals, `$(n)`, `$ℝ(x)`, `-inf`, register refs |
 | Program IDs | Limited | `tl.program_id(axis)` for literal or antiquoted `Nat` axes; ND grid quantification is available through `GridIndex` / `Kernel.ForAllPrograms`, but no launch executor is modeled |
 | Loops | Supported | Bounded `tl.for`; `tl.static_range` alias backed by the same loop AST |
-| Conditionals | Limited | `tl.if cond { ... }` only; no `else`, `break`, or `continue` |
+| Conditionals | Limited | Scalar `tl.if cond { ... }` and `tl.if cond { ... } else { ... }`; no `break` or `continue` |
 | Arithmetic | Supported | `+`, `-`, `*`, `/` on same-channel numeric operands; `//`, `%` on integer channels; `tl.cdiv` on `.nat`; `ptr + nat` for pointer offsets |
 | Comparisons | Supported | `<`, `<=`, `==`, `>`, `>=`, `!=` on `.real` or `.nat` |
 | Boolean ops | Supported | `tl.logical_and`, `tl.logical_or`, `tl.logical_not`, plus `&`, `|`, `~` mask spellings |
@@ -362,14 +374,18 @@ current semantic contract.
 | Shape/view ops | Limited | `tl.reshape`, `tl.view`, `tl.ravel`, `tl.permute`, `tl.flip`, `tl.join`, projection-form `tl.split(x, 0|1)` |
 | Transpose | Supported | `tl.trans(e)` swaps trailing two axes; arbitrary static permutations use `tl.permute(e, [axes])` |
 | Matrix multiply | Supported | `tl.dot(a, b)` and accumulator form `tl.dot(a, b, acc)` over mathematical `ℝ` |
-| Loads | Limited | Pointer-expression load, optional `mask`, optional `other`, optional `dtype=` for float/int32/int64/uint32/uint64; block-pointer load with `boundary_check` and `padding_option="zero"` |
+| Bitcast | Limited | 32-bit compute payloads `tl.uint32` / `tl.int32` / `tl.float32`; constant uint32 patterns project to algorithm values, runtime bitcast is expressible but compute-only |
+| Loads | Limited | Pointer-expression load, optional `mask`, optional `other`, optional `dtype=` for float/int*/uint* spelling-only integer channels; block-pointer load with `boundary_check` and `padding_option="zero"` |
 | Stores | Limited | Pointer-expression store, optional `mask`, dtype inferred from value with optional matching `dtype=`; block-pointer store with `boundary_check` |
+| Memory bounds safety | Limited | `Kernel.MemorySafe` / `ComputeKernel.MemorySafe` prove active-lane region bounds for direct, pointer, and block-pointer memory operations; no alias, race, frame, or permission model |
+| Memory frame contracts | Limited | Predicate-level `WriteFootprint`, `BlockState.WriteWithin`, `Stmt.StoreAddressesWithin`, and `Kernel.ExecFrame` surface for single-program write-frame reasoning; `tileImage` / `activeTileImage` helpers cover common store footprints, and unrelated-region preservation helpers cover common frame readback goals |
+| Disjoint grid composition | Limited | `Kernel.GridFrames`, `GridWritesDisjoint`, and `mergeFrames` merge explicit per-program frames with pairwise-disjoint write footprints; no overlapping writes or scheduling semantics |
 | Tensor views | Supported | Strided `TensorView.loaded` / `TensorView.observe` wrappers for theorem statements |
 | Integer memory | Limited | Typed cells plus typed load/store support Nat/index and mathematical signed-Int HBM values; no richer signed/unsigned width lattice yet |
 | Randomness | Gap | No `tl.rand` or RNG state model yet (#41) |
 | Indirection | Limited | Typed index loads can feed pointer arithmetic for gather/paged-KV style data-dependent addresses (#42); no alias/bounds/page-ownership proof layer yet |
 | Block pointers | Limited | `tl.make_block_ptr`, `tl.advance`, block-pointer load/store with checked-axis zero padding / store skip; no hardware/TMA behavior |
-| Atomics / async / barriers | Gap | No `tl.atomic_*`, async copy, TMA, barriers, or scheduling semantics (#12) |
+| Atomics / async / barriers | Limited | `tl.atomic_add` has an AlgKernel `Stmt.atomicAdd` marker, sequential single-program semantics, trace payload vocabulary, and a Real grid-merge sum theorem; other `tl.atomic_*`, `tl.async_copy`, `tl.async_wait`, and `tl.debug_barrier` lower to compute-facing failure markers only; async/TMA discipline remains documented but not implemented; no full scheduler, executable barriers, executable async copy semantics, TMA AST, or IEEE atomic semantics (#12/#67/#68/#69/#71/#72/#76) |
 | Floating point fidelity | Gap | Real-valued model only; no IEEE-754 or mixed-precision hardware semantics (#11) |
 
 ## Expressiveness Matrix
@@ -388,9 +404,11 @@ faithfully in the current Lean DSL?
 | Typed floating memory | Limited | Semantic abstraction | `dtype=tl.float32/fp16/bf16` creates typed floating nodes and erases to real for algorithm proofs; IEEE rounding is not modeled. |
 | Integer / bool tensor memory | Limited | Dtype coverage | Typed cells plus typed load/store support Nat/index and mathematical signed-Int HBM values; no complete Triton integer-width lattice yet. |
 | Indirect / gather addressing | Limited | Surface + view semantics (#42) | Typed index tensor loads can drive pointer arithmetic and ordinary masked loads; alias analysis, bounds proof, page ownership, and paged FA-1 equivalence are not modeled yet. |
+| Active-lane memory bounds | Limited | Lean proof predicate (#48) | `Kernel.MemorySafe` checks direct region offsets, dynamic pointer addresses, mask activeness, and `boundary_check` block-pointer lanes against `RegionBounds`; no race freedom, frame theorem, or permission accounting. |
+| Single-program write footprint/frame | Limited | Predicate-level frame contract + extraction helpers (#60/#61) | `WriteFootprint := (RegionName × Nat) → Prop` and `BlockState.WriteWithin` state that an execution only modified cells inside a supplied footprint; `tileImage` / `activeTileImage` helpers extract direct, masked, and checked block-pointer store footprints. |
 | RNG / dropout | Gap | State/probabilistic semantics (#41) | Blocks faithful dropout and stochastic kernels. |
-| Atomics / async / shared memory / barriers | Gap | Concurrency semantics (#12) | Blocks production-style backward kernels, reductions using shared memory phases, async/TMA pipelines, and race/scheduling reasoning. |
-| Whole-grid launch semantics | Limited | ND grid theorem surface (#5) | `GridIndex`, `BlockState.withGridIndex`, `Kernel.ForAllPrograms`, and `ForAllProgramsSome` quantify per-program correctness over arbitrary-rank grids; no launch executor, memory merge, races, atomics, or scheduling. |
+| Atomics / async / shared memory / barriers | Limited | Atomic-add slice + concurrency boundary (#12) | `tl.atomic_add` has a proof-facing marker and Real trace/grid-sum theorem; unsupported atomic family members and async/barrier surfaces fail projection explicitly; async/TMA, shared memory, barriers, full scheduling, and IEEE atomic behavior remain gaps. |
+| Whole-grid launch semantics | Limited | ND grid theorem surface + disjoint/atomic merge (#5/#49/#12) | `GridIndex`, `BlockState.withGridIndex`, `Kernel.ForAllPrograms`, and `ForAllProgramsSome` quantify per-program correctness; `Kernel.mergeFrames` handles pairwise-disjoint footprints and `Kernel.mergeFramesWithAtomic` handles selected Real atomic-add contributions. No full race/scheduler/interleaved executor. |
 | Python/Triton source ingestion | Gap | Front-end/lifter (#10) | Users must write Lean `triton { ... }`; decorators, Python-side constexpr execution, and general Python control flow are not parsed. |
 | Type checking / pointer provenance | Limited | Optional checker (#46) | `Kernel.check` / `checkStrict` track register dtype/shape, pointer and block-pointer provenance, dtype mismatches, and basic block-pointer metadata; no bounds, alias, launch, or page-ownership proof. |
 

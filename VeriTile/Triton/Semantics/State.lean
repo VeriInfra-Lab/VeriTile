@@ -42,7 +42,7 @@ def readAs (cell : MemCell) (dtype : TileDType) : Option (TileCarrier dtype) :=
     (MemCell.of dtype value).readAs dtype = some value := by
   cases dtype <;> rfl
 
-def eraseFloat : MemCell → MemCell
+def eraseDType : MemCell → MemCell
   | ⟨.real, value⟩ => of .real value
   | ⟨.fp32, value⟩ => of .real (FloatDType.fp32.toWithBot value)
   | ⟨.fp16, value⟩ => of .real (FloatDType.fp16.toWithBot value)
@@ -56,8 +56,8 @@ def eraseFloat : MemCell → MemCell
 @[simp] theorem readAs_real_real (value : ℝ) :
     (MemCell.real value).readAs .real = some (some value : WithBot ℝ) := rfl
 
-@[simp] theorem eraseFloat_real (value : ℝ) :
-    (MemCell.real value).eraseFloat = MemCell.real value := rfl
+@[simp] theorem eraseDType_real (value : ℝ) :
+    (MemCell.real value).eraseDType = MemCell.real value := rfl
 
 end MemCell
 
@@ -688,6 +688,31 @@ theorem scatter_preserves_other_region {α : Type}
     rintro ⟨h_R, _⟩
     exact h_ne h_R
 
+@[simp] theorem foldl_writeMem_regs {α : Type}
+    (region : RegionName) (offsetFn : α → Nat) (valueFn : α → ℝ)
+    (l : List α) (s : BlockState) (dtype : TileDType) (shape : TileShape)
+    (name : RegName) :
+    ((l.foldl (fun acc k => acc.writeMem region (offsetFn k) (valueFn k)) s).regs
+      dtype shape name) = s.regs dtype shape name := by
+  induction l generalizing s with
+  | nil => rfl
+  | cons hd tl ih =>
+      rw [List.foldl_cons, ih]
+      rfl
+
+@[simp] theorem foldl_writeMem_dependent_regs {α : Type}
+    (region : RegionName) (offsetFn : α → Nat)
+    (valueFn : BlockState → α → ℝ)
+    (l : List α) (s : BlockState) (dtype : TileDType) (shape : TileShape)
+    (name : RegName) :
+    ((l.foldl (fun acc k => acc.writeMem region (offsetFn k) (valueFn acc k)) s).regs
+      dtype shape name) = s.regs dtype shape name := by
+  induction l generalizing s with
+  | nil => rfl
+  | cons hd tl ih =>
+      rw [List.foldl_cons, ih]
+      rfl
+
 theorem foldl_writeMem_pid {α : Type}
     (region : RegionName) (offsetFn : α → Nat) (valueFn : α → ℝ)
     (l : List α) (s : BlockState) :
@@ -808,6 +833,37 @@ theorem foldl_writeMemTyped_pid {α : Type} (dtype : TileDType)
       rw [List.foldl_cons, ih]
       simp
 
+theorem foldl_writeMem_masked_regs {α : Type}
+    (region : RegionName) (offsetFn : α → Nat)
+    (valueFn : α → ℝ)
+    (mask : α → Bool) (l : List α) (s : BlockState)
+    (dtype : TileDType) (shape : TileShape) (name : RegName) :
+    ((l.foldl
+        (fun acc k => if mask k then acc.writeMem region (offsetFn k) (valueFn k) else acc) s).regs
+        dtype shape name)
+      = s.regs dtype shape name := by
+  induction l generalizing s with
+  | nil => rfl
+  | cons hd tl ih =>
+      rw [List.foldl_cons, ih]
+      by_cases hmask : mask hd
+      · simp [hmask]
+      · simp [hmask]
+
+theorem foldl_writeMemTyped_regs {α : Type} (dtype : TileDType)
+    (region : RegionName) (offsetFn : α → Nat)
+    (valueFn : α → TileCarrier dtype)
+    (l : List α) (s : BlockState)
+    (dtype' : TileDType) (shape : TileShape) (name : RegName) :
+    ((l.foldl (fun acc k => acc.writeMemTyped dtype region (offsetFn k) (valueFn k)) s).regs
+        dtype' shape name)
+      = s.regs dtype' shape name := by
+  induction l generalizing s with
+  | nil => rfl
+  | cons hd tl ih =>
+      rw [List.foldl_cons, ih]
+      simp
+
 theorem foldl_writeMemTyped_masked_pid {α : Type} (dtype : TileDType)
     (region : RegionName) (offsetFn : α → Nat)
     (valueFn : α → TileCarrier dtype)
@@ -816,6 +872,24 @@ theorem foldl_writeMemTyped_masked_pid {α : Type} (dtype : TileDType)
         (fun acc k =>
           if mask k then acc.writeMemTyped dtype region (offsetFn k) (valueFn k) else acc) s).pid)
       = s.pid := by
+  induction l generalizing s with
+  | nil => rfl
+  | cons hd tl ih =>
+      rw [List.foldl_cons, ih]
+      by_cases hmask : mask hd
+      · simp [hmask]
+      · simp [hmask]
+
+theorem foldl_writeMemTyped_masked_regs {α : Type} (dtype : TileDType)
+    (region : RegionName) (offsetFn : α → Nat)
+    (valueFn : α → TileCarrier dtype)
+    (mask : α → Bool) (l : List α) (s : BlockState)
+    (dtype' : TileDType) (shape : TileShape) (name : RegName) :
+    ((l.foldl
+        (fun acc k =>
+          if mask k then acc.writeMemTyped dtype region (offsetFn k) (valueFn k) else acc) s).regs
+        dtype' shape name)
+      = s.regs dtype' shape name := by
   induction l generalizing s with
   | nil => rfl
   | cons hd tl ih =>

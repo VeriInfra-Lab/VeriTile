@@ -53,6 +53,7 @@ syntax "tl.minimum(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.where(" tritonExpr ", " tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.toReal(" tritonExpr ")" : tritonExpr
 syntax "tl.cast(" tritonExpr ", " tritonDType ")" : tritonExpr
+syntax "tl.bitcast(" tritonExpr ", " tritonDType ")" : tritonExpr
 syntax:max (name := tritonMethodCast) tritonExpr:max noWs "." "to" "(" tritonDType ")" : tritonExpr
 syntax "-inf" : tritonExpr
 
@@ -60,8 +61,12 @@ syntax "tl.float64" : tritonDType
 syntax "tl.float32" : tritonDType
 syntax "tl.float16" : tritonDType
 syntax "tl.bfloat16" : tritonDType
+syntax "tl.int8" : tritonDType
+syntax "tl.int16" : tritonDType
 syntax "tl.int32" : tritonDType
 syntax "tl.int64" : tritonDType
+syntax "tl.uint8" : tritonDType
+syntax "tl.uint16" : tritonDType
 syntax "tl.uint32" : tritonDType
 syntax "tl.uint64" : tritonDType
 
@@ -138,11 +143,23 @@ syntax:70 tritonExpr:70 " % " tritonExpr:71 : tritonExpr
 -- Statements
 syntax ident " := " tritonExpr : tritonStmt
 syntax "tl.store(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" : tritonStmt
+syntax "tl.atomic_add(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" : tritonStmt
+syntax "tl.atomic_max(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" : tritonStmt
+syntax "tl.atomic_min(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" : tritonStmt
+syntax "tl.atomic_and(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" : tritonStmt
+syntax "tl.atomic_or(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" : tritonStmt
+syntax "tl.atomic_xor(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" : tritonStmt
+syntax "tl.atomic_xchg(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" : tritonStmt
+syntax "tl.atomic_cas(" tritonExpr ", " tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" : tritonStmt
+syntax "tl.async_copy(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" : tritonStmt
+syntax "tl.async_wait()" : tritonStmt
+syntax "tl.debug_barrier()" : tritonStmt
 syntax "tl.for " ident " in " "$(" term ")" " { " tritonStmt* " }" : tritonStmt
 syntax "tl.for " ident " in " num " { " tritonStmt* " }" : tritonStmt
 syntax "tl.static_range " ident " in " "$(" term ")" " { " tritonStmt* " }" : tritonStmt
 syntax "tl.static_range " ident " in " num " { " tritonStmt* " }" : tritonStmt
 syntax "tl.if " tritonExpr " { " tritonStmt* " }" : tritonStmt
+syntax "tl.if " tritonExpr " { " tritonStmt* " }" " else " " { " tritonStmt* " }" : tritonStmt
 
 -- Block (the user-facing entry point)
 syntax (name := tritonBlock) "triton " "{" tritonStmt* "}" : term

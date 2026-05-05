@@ -1,10 +1,10 @@
 /-
-VeriTile.Triton.MemoryTyping.Contracts
+VeriTile.Triton.Memory.Typing.Contracts
 
 Lightweight region-dtype contract predicates for Triton kernels.
 -/
 
-import VeriTile.Triton.MemoryTyping.Region
+import VeriTile.Triton.Memory.Typing.Region
 
 namespace VeriTile.Triton
 
@@ -83,6 +83,7 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .const _ => True
   | .constFloat _ _ => True
   | .constNat _ => True
+  | .constInt _ => True
   | .constBool _ => True
   | .negInf => True
   | .programId _ => True
@@ -161,9 +162,16 @@ def Stmt.RespectsRegionTyping (Γ : RegionTyping) : Stmt → Prop
   | .store dtype _ mem val mask =>
       mem.RespectsRegionTyping Γ dtype ∧
       val.RespectsRegionTyping Γ ∧ mask.RespectsRegionTyping Γ
+  | @Stmt.atomicAdd dtype _ _ mem val mask =>
+      mem.RespectsRegionTyping Γ dtype ∧
+      val.RespectsRegionTyping Γ ∧ mask.RespectsRegionTyping Γ
   | .forLoop _ _ body => StmtList.RespectsRegionTyping Γ body
   | .ifThen cond body =>
       cond.RespectsRegionTyping Γ ∧ StmtList.RespectsRegionTyping Γ body
+  | .ifThenElse cond thenBody elseBody =>
+      cond.RespectsRegionTyping Γ ∧
+      StmtList.RespectsRegionTyping Γ thenBody ∧
+      StmtList.RespectsRegionTyping Γ elseBody
 termination_by st => sizeOf st
 decreasing_by all_goals (simp_wf; try omega)
 

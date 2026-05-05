@@ -803,28 +803,26 @@ def fa1NaiveVerifiedForwardKernelStridedBoundaryD
     (M Bd S_q S D : Nat)
     (sQB sQH sQS sQD : Nat) (sKB sKH sKN sKD : Nat)
     (sVB sVH sVN sVD : Nat) (sOB sOH sOM sOD : Nat)
-    (scale : ℝ) : Kernel :=
-  { inputs := [qReg, kReg, vReg]
-    outputs := [outReg]
-    body :=
-      fa1NaivePreBoundaryD qReg kReg vReg M S Bd S_q D
-        sQB sQH sQS sQD sKB sKH sKN sKD sVB sVH sVN sVD sOB sOH ++
-      fa1NaiveComputeBoundaryD M S Bd scale ++
-      fa1NaiveStoreBoundaryD outReg M Bd S_q D sOM sOD }
+    (scale : ℝ) : ComputeKernel :=
+  let body : List Stmt :=
+    fa1NaivePreBoundaryD qReg kReg vReg M S Bd S_q D
+      sQB sQH sQS sQD sKB sKH sKN sKD sVB sVH sVN sVD sOB sOH ++
+    fa1NaiveComputeBoundaryD M S Bd scale ++
+    fa1NaiveStoreBoundaryD outReg M Bd S_q D sOM sOD
+  ComputeKernel.fromAlgBody [qReg, kReg, vReg] [outReg] body
 
 def fa1NaiveVerifiedForwardKernelStridedCausalBoundaryD
     (qReg kReg vReg outReg : RegionName)
     (M Bd S_q S D : Nat)
     (sQB sQH sQS sQD : Nat) (sKB sKH sKN sKD : Nat)
     (sVB sVH sVN sVD : Nat) (sOB sOH sOM sOD : Nat)
-    (scale : ℝ) : Kernel :=
-  { inputs := [qReg, kReg, vReg]
-    outputs := [outReg]
-    body :=
-      fa1NaivePreBoundaryD qReg kReg vReg M S Bd S_q D
-        sQB sQH sQS sQD sKB sKH sKN sKD sVB sVH sVN sVD sOB sOH ++
-      fa1NaiveComputeCausalBoundaryD M S Bd scale ++
-      fa1NaiveStoreBoundaryD outReg M Bd S_q D sOM sOD }
+    (scale : ℝ) : ComputeKernel :=
+  let body : List Stmt :=
+    fa1NaivePreBoundaryD qReg kReg vReg M S Bd S_q D
+      sQB sQH sQS sQD sKB sKH sKN sKD sVB sVH sVN sVD sOB sOH ++
+    fa1NaiveComputeCausalBoundaryD M S Bd scale ++
+    fa1NaiveStoreBoundaryD outReg M Bd S_q D sOM sOD
+  ComputeKernel.fromAlgBody [qReg, kReg, vReg] [outReg] body
 
 theorem fa1_naive_forward_correct_strided_boundaryD
     {M S D Bd S_q : Nat}
