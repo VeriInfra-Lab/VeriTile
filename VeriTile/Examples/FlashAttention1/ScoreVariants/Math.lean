@@ -5,6 +5,7 @@ Score-variant Real specs and online score recurrence lemmas.
 -/
 
 import VeriTile.Examples.FlashAttention1.ScoreVariants.Kernels
+import VeriTile.Examples.FlashAttention1.Backward.Math
 
 namespace VeriTile.Examples
 
@@ -160,6 +161,268 @@ noncomputable def oFreeScore {M S D : Nat}
 
 def allVisible {M S : Nat} : Fin M → Fin S → Bool :=
   fun _ _ => Bool.true
+
+/-! ## Score-variant backward references
+
+These definitions expose the backward Real semantics for score transforms.  The
+generic surface takes an explicit score, visibility predicate, and derivative
+of the score transform with respect to the raw scaled-dot score.  Additive
+score variants such as ALiBi and sliding-window masks use derivative `1`;
+softcap contributes the usual `1 - tanh(raw / softcap)^2` factor.
+-/
+
+/-- Mask-aware probability for an already materialized score and LSE row. -/
+noncomputable def probabilityScore {M S : Nat}
+    (visible : Fin M → Fin S → Bool)
+    (score : Fin M → Fin S → ℝ)
+    (LSE : Fin M → ℝ) (i : Fin M) (j : Fin S) : ℝ :=
+  if visible i j then Real.exp (score i j - LSE i) else 0
+
+/-- Score-variant `dP = dO · Vᵀ`. -/
+noncomputable def dPScore {M S D : Nat}
+    (V : TileIndex [S, D] → ℝ) (dO : TileIndex [M, D] → ℝ)
+    (i : Fin M) (j : Fin S) : ℝ :=
+  Finset.univ.sum fun d : Fin D =>
+    dO (i, d, PUnit.unit) * V (j, d, PUnit.unit)
+
+/-- Score-variant row correction `D_i = Σ_j P_ij · dP_ij`. -/
+noncomputable def rowCorrectionScore {M S D : Nat}
+    (visible : Fin M → Fin S → Bool)
+    (score : Fin M → Fin S → ℝ)
+    (V : TileIndex [S, D] → ℝ) (dO : TileIndex [M, D] → ℝ)
+    (LSE : Fin M → ℝ) (i : Fin M) : ℝ :=
+  Finset.univ.sum fun j : Fin S =>
+    probabilityScore visible score LSE i j * dPScore V dO i j
+
+/-- Score-variant softmax JVP:
+`dS_ij = P_ij · (dP_ij - D_i)`.
+-/
+noncomputable def dSScore {M S D : Nat}
+    (visible : Fin M → Fin S → Bool)
+    (score : Fin M → Fin S → ℝ)
+    (V : TileIndex [S, D] → ℝ) (dO : TileIndex [M, D] → ℝ)
+    (LSE : Fin M → ℝ) (i : Fin M) (j : Fin S) : ℝ :=
+  probabilityScore visible score LSE i j *
+    (dPScore V dO i j - rowCorrectionScore visible score V dO LSE i)
+
+/-- Generic score-transform backward spec.  `scoreGrad i j` is the derivative
+of the transformed score with respect to the raw scaled dot-product score for
+the `(i,j)` entry. -/
+noncomputable def attentionBackwardRealScoreVariant {M S D : Nat}
+    (visible : Fin M → Fin S → Bool)
+    (score : Fin M → Fin S → ℝ)
+    (scoreGrad : Fin M → Fin S → ℝ)
+    (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [S, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ) :
+    FA1Backward.Grads M S D :=
+  { dQ := fun (i, d, _) =>
+      scale * Finset.univ.sum fun j : Fin S =>
+        dSScore visible score V dO LSE i j * scoreGrad i j *
+          K (j, d, PUnit.unit)
+    dK := fun (j, d, _) =>
+      scale * Finset.univ.sum fun i : Fin M =>
+        dSScore visible score V dO LSE i j * scoreGrad i j *
+          Q (i, d, PUnit.unit)
+    dV := fun (j, d, _) =>
+      Finset.univ.sum fun i : Fin M =>
+        probabilityScore visible score LSE i j * dO (i, d, PUnit.unit) }
+
+def unitScoreGrad {M S : Nat} : Fin M → Fin S → ℝ :=
+  fun _ _ => 1
+
+theorem attentionBackwardRealScoreVariant_dotScore_eq_masked {M S D : Nat}
+    (visible : Fin M → Fin S → Bool)
+    (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [S, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ) :
+    attentionBackwardRealScoreVariant visible (dotScore Q K scale) unitScoreGrad
+        Q K V dO LSE scale =
+      FA1Backward.attentionBackwardRealMasked visible Q K V dO LSE scale := by
+  simp [attentionBackwardRealScoreVariant, FA1Backward.attentionBackwardRealMasked,
+    dSScore, FA1Backward.dSMasked, rowCorrectionScore, FA1Backward.rowCorrectionMasked,
+    probabilityScore, FA1Backward.probabilityMasked, dPScore, FA1Backward.dP,
+    FA1Backward.probability, dotScore, unitScoreGrad, FA1Math.scaledScore]
+
+/-- Derivative of `softcap * tanh(raw / softcap)` with respect to `raw`. -/
+noncomputable def softcapScoreGrad {M S D : Nat}
+    (softcap : ℝ)
+    (Q : TileIndex [M, D] → ℝ) (K : TileIndex [S, D] → ℝ)
+    (scale : ℝ) : Fin M → Fin S → ℝ :=
+  fun i j => 1 - (Real.tanh (dotScore Q K scale i j / softcap)) ^ 2
+
+/-- Derivative of `softcap * tanh(score / softcap)` with respect to a supplied
+pre-softcap score. -/
+noncomputable def softcapScoreGradOf
+    (softcap : ℝ) (score : Fin M → Fin S → ℝ) : Fin M → Fin S → ℝ :=
+  fun i j => 1 - (Real.tanh (score i j / softcap)) ^ 2
+
+noncomputable def attentionBackwardRealAlibi {M S D : Nat}
+    (qStart : Nat) (slope : ℝ)
+    (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [S, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ) :
+    FA1Backward.Grads M S D :=
+  attentionBackwardRealScoreVariant allVisible
+    (alibiScore qStart slope Q K scale) unitScoreGrad Q K V dO LSE scale
+
+noncomputable def attentionBackwardRealSlidingWindow {M S D : Nat}
+    (qStart window : Nat)
+    (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [S, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ) :
+    FA1Backward.Grads M S D :=
+  attentionBackwardRealScoreVariant (slidingVisible window qStart)
+    (dotScore Q K scale) unitScoreGrad Q K V dO LSE scale
+
+noncomputable def attentionBackwardRealSoftcap {M S D : Nat}
+    (softcap : ℝ)
+    (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [S, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ) :
+    FA1Backward.Grads M S D :=
+  attentionBackwardRealScoreVariant allVisible
+    (softcapDotScore softcap Q K scale) (softcapScoreGrad softcap Q K scale)
+    Q K V dO LSE scale
+
+noncomputable def attentionBackwardRealAlibiSlidingSoftcap {M S D : Nat}
+    (qStart window : Nat) (slope softcap : ℝ)
+    (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [S, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ) :
+    FA1Backward.Grads M S D :=
+  let baseScore := alibiScore qStart slope Q K scale
+  attentionBackwardRealScoreVariant (slidingVisible window qStart)
+    (fun i j => softcapScore softcap (baseScore i j))
+    (softcapScoreGradOf softcap baseScore) Q K V dO LSE scale
+
+theorem attentionBackwardRealAlibi_eq_scoreVariant {M S D : Nat}
+    (qStart : Nat) (slope : ℝ)
+    (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [S, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ) :
+    attentionBackwardRealAlibi qStart slope Q K V dO LSE scale =
+      attentionBackwardRealScoreVariant allVisible
+        (alibiScore qStart slope Q K scale) unitScoreGrad Q K V dO LSE scale := rfl
+
+theorem attentionBackwardRealSlidingWindow_eq_scoreVariant {M S D : Nat}
+    (qStart window : Nat)
+    (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [S, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ) :
+    attentionBackwardRealSlidingWindow qStart window Q K V dO LSE scale =
+      attentionBackwardRealScoreVariant (slidingVisible window qStart)
+        (dotScore Q K scale) unitScoreGrad Q K V dO LSE scale := rfl
+
+theorem attentionBackwardRealSoftcap_eq_scoreVariant {M S D : Nat}
+    (softcap : ℝ)
+    (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [S, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ) :
+    attentionBackwardRealSoftcap softcap Q K V dO LSE scale =
+      attentionBackwardRealScoreVariant allVisible
+        (softcapDotScore softcap Q K scale) (softcapScoreGrad softcap Q K scale)
+        Q K V dO LSE scale := rfl
+
+theorem attentionBackwardRealAlibiSlidingSoftcap_eq_scoreVariant {M S D : Nat}
+    (qStart window : Nat) (slope softcap : ℝ)
+    (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [S, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ) :
+    attentionBackwardRealAlibiSlidingSoftcap qStart window slope softcap
+        Q K V dO LSE scale =
+      (let baseScore := alibiScore qStart slope Q K scale
+       attentionBackwardRealScoreVariant (slidingVisible window qStart)
+        (fun i j => softcapScore softcap (baseScore i j))
+        (softcapScoreGradOf softcap baseScore) Q K V dO LSE scale) := rfl
+
+/-! ### Score-variant multi-block `dQ` bridges -/
+
+/-- Score-variant contribution to `dQ` from one KV block. -/
+noncomputable def dQBlockContributionScoreVariant {M D Bk numKVBlocks : Nat}
+    (visible : Fin M → Fin (Bk * numKVBlocks) → Bool)
+    (score : Fin M → Fin (Bk * numKVBlocks) → ℝ)
+    (scoreGrad : Fin M → Fin (Bk * numKVBlocks) → ℝ)
+    (K V : TileIndex [Bk * numKVBlocks, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ)
+    (block : Fin numKVBlocks) (idx : TileIndex [M, D]) : ℝ :=
+  scale * Finset.univ.sum fun jLocal : Fin Bk =>
+    let j : Fin (Bk * numKVBlocks) :=
+      FA1Math.blockIndex Bk numKVBlocks block.val
+        (by have := block.isLt; omega) jLocal
+    dSScore visible score V dO LSE idx.1 j * scoreGrad idx.1 j *
+      K (j, idx.2.1, PUnit.unit)
+
+/-- Summing score-variant block-local `dQ` contributions over all KV blocks
+recovers the score-variant closed-form `dQ`. -/
+theorem dQBlockContributionScoreVariant_sum_eq_attentionBackwardRealScoreVariant
+    {M D Bk numKVBlocks : Nat}
+    (visible : Fin M → Fin (Bk * numKVBlocks) → Bool)
+    (score : Fin M → Fin (Bk * numKVBlocks) → ℝ)
+    (scoreGrad : Fin M → Fin (Bk * numKVBlocks) → ℝ)
+    (Q : TileIndex [M, D] → ℝ)
+    (K V : TileIndex [Bk * numKVBlocks, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ)
+    (idx : TileIndex [M, D]) :
+    (Finset.univ.sum fun block : Fin numKVBlocks =>
+      dQBlockContributionScoreVariant visible score scoreGrad K V dO LSE scale
+        block idx) =
+      (attentionBackwardRealScoreVariant visible score scoreGrad
+        Q K V dO LSE scale).dQ idx := by
+  simp only [dQBlockContributionScoreVariant]
+  cases idx with
+  | mk i rest =>
+      cases rest with
+      | mk d tail =>
+          cases tail
+          simp only [attentionBackwardRealScoreVariant]
+          rw [← Finset.mul_sum]
+          congr 1
+          rw [← Finset.sum_product', Finset.univ_product_univ]
+          refine (Finset.sum_equiv (FA1Math.blockIndexEquiv Bk numKVBlocks) ?_ ?_).symm
+          · intro _; simp
+          · intro j _
+            rw [FA1Math.blockIndex_blockIndexEquiv]
+
+theorem dQBlockContributionAlibi_sum_eq_attentionBackwardRealAlibi
+    {M D Bk numKVBlocks : Nat}
+    (qStart : Nat) (slope : ℝ)
+    (Q : TileIndex [M, D] → ℝ)
+    (K V : TileIndex [Bk * numKVBlocks, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ)
+    (idx : TileIndex [M, D]) :
+    (Finset.univ.sum fun block : Fin numKVBlocks =>
+      dQBlockContributionScoreVariant allVisible
+        (alibiScore qStart slope Q K scale) unitScoreGrad K V dO LSE scale
+        block idx) =
+      (attentionBackwardRealAlibi qStart slope Q K V dO LSE scale).dQ idx := by
+  simpa [attentionBackwardRealAlibi] using
+    dQBlockContributionScoreVariant_sum_eq_attentionBackwardRealScoreVariant
+      allVisible (alibiScore qStart slope Q K scale) unitScoreGrad
+      Q K V dO LSE scale idx
+
+theorem dQBlockContributionSlidingWindow_sum_eq_attentionBackwardRealSlidingWindow
+    {M D Bk numKVBlocks : Nat}
+    (qStart window : Nat)
+    (Q : TileIndex [M, D] → ℝ)
+    (K V : TileIndex [Bk * numKVBlocks, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ)
+    (idx : TileIndex [M, D]) :
+    (Finset.univ.sum fun block : Fin numKVBlocks =>
+      dQBlockContributionScoreVariant (slidingVisible window qStart)
+        (dotScore Q K scale) unitScoreGrad K V dO LSE scale block idx) =
+      (attentionBackwardRealSlidingWindow qStart window Q K V dO LSE scale).dQ idx := by
+  simpa [attentionBackwardRealSlidingWindow] using
+    dQBlockContributionScoreVariant_sum_eq_attentionBackwardRealScoreVariant
+      (slidingVisible window qStart) (dotScore Q K scale) unitScoreGrad
+      Q K V dO LSE scale idx
+
+theorem dQBlockContributionSoftcap_sum_eq_attentionBackwardRealSoftcap
+    {M D Bk numKVBlocks : Nat}
+    (softcap : ℝ)
+    (Q : TileIndex [M, D] → ℝ)
+    (K V : TileIndex [Bk * numKVBlocks, D] → ℝ)
+    (dO : TileIndex [M, D] → ℝ) (LSE : Fin M → ℝ) (scale : ℝ)
+    (idx : TileIndex [M, D]) :
+    (Finset.univ.sum fun block : Fin numKVBlocks =>
+      dQBlockContributionScoreVariant allVisible
+        (softcapDotScore softcap Q K scale) (softcapScoreGrad softcap Q K scale)
+        K V dO LSE scale block idx) =
+      (attentionBackwardRealSoftcap softcap Q K V dO LSE scale).dQ idx := by
+  simpa [attentionBackwardRealSoftcap] using
+    dQBlockContributionScoreVariant_sum_eq_attentionBackwardRealScoreVariant
+      allVisible (softcapDotScore softcap Q K scale) (softcapScoreGrad softcap Q K scale)
+      Q K V dO LSE scale idx
 
 theorem oFreeScore_div_lFreeScore_eq_attentionRealMaskedScore {M S D : Nat}
     (visible : Fin M → Fin S → Bool)

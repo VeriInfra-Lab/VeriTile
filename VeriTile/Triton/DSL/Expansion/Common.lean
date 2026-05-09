@@ -23,6 +23,47 @@ structure EOut where
   computeTerm : Option (TSyntax `term) := none
   deriving Inhabited
 
+def expandLeanAntiquoteAs? (dtype : DInfo) (e : TSyntax `tritonExpr) :
+    MacroM (Option EOut) := do
+  match e with
+  | `(tritonExpr| $($t:term)) =>
+      let out ←
+        match dtype with
+        | .real => pure (← `(Op.const $t), .real)
+        | .nat => pure (← `(Op.constNat $t), .nat)
+        | .int => pure (← `(Op.constInt $t), .int)
+        | .bool => pure (← `(Op.constBool $t), .bool)
+        | _ =>
+            Macro.throwError
+              "$(...): Lean antiquotation can only be inferred as real/nat/int/bool in the current context"
+      pure (some ⟨out.1, out.2, SInfo.scalar, none⟩)
+  | _ => pure none
+
+def expandLeanAntiquoteAs (dtype : DInfo) (e : TSyntax `tritonExpr) :
+    MacroM EOut := do
+  match ← expandLeanAntiquoteAs? dtype e with
+  | some out => pure out
+  | none => Macro.throwError "$(...): expected a Lean antiquotation"
+
+def realMathTerm (ctx : String) (e : EOut) : MacroM (TSyntax `term) := do
+  match e.dtype with
+  | .real => pure e.term
+  | .fp32 | .fp16 | .bf16 =>
+      let srcProof ← e.dtype.floatProof
+      pure (← `(Op.castFloat $srcProof FloatDType.real $e.term))
+  | _ =>
+      ensureDType .real e.dtype ctx
+      pure e.term
+
+def coerceRealArithOperands (ctx : String) (a b : EOut) : MacroM (EOut × EOut) := do
+  match a.dtype, b.dtype with
+  | .real, .fp32 | .real, .fp16 | .real, .bf16 =>
+      pure (a, { b with term := ← realMathTerm (ctx ++ " rhs") b, dtype := .real })
+  | .fp32, .real | .fp16, .real | .bf16, .real =>
+      pure ({ a with term := ← realMathTerm (ctx ++ " lhs") a, dtype := .real }, b)
+  | _, _ =>
+      pure (a, b)
+
 inductive CInfo where
   | uint32
   | int32

@@ -104,6 +104,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .atan a => .atan a.eraseDType
   | .cosh a => .cosh a.eraseDType
   | .sinh a => .sinh a.eraseDType
+  | .erf a => .erf a.eraseDType
   | .lt h bc a b => .lt h.eraseDType bc a.eraseDType b.eraseDType
   | .le h bc a b => .le h.eraseDType bc a.eraseDType b.eraseDType
   | .eq h bc a b => .eq h.eraseDType bc a.eraseDType b.eraseDType
@@ -163,6 +164,9 @@ def Stmt.eraseDType : Stmt → Stmt
       .store (VeriTile.Triton.eraseDType dtype) shape mem.eraseDType val.eraseDType mask.eraseDType
   | .atomicAdd h shape mem val mask =>
       .atomicAdd h.eraseDType shape mem.eraseDType val.eraseDType mask.eraseDType
+  | .atomicRMW op dtype shape mem input extraInput mask dest =>
+      .atomicRMW op (VeriTile.Triton.eraseDType dtype) shape mem.eraseDType
+        input.eraseDType (extraInput.map Op.eraseDType) mask.eraseDType dest
   | .forLoop idx n body =>
       .forLoop idx n (Stmt.eraseDTypeList body)
   | .ifThen cond body =>
@@ -267,6 +271,16 @@ end
     (mask : MaskOpt dtype shape) :
     (Stmt.atomicAdd h shape mem val mask).eraseDType =
       Stmt.atomicAdd h.eraseDType shape mem.eraseDType val.eraseDType mask.eraseDType := by
+  rw [Stmt.eraseDType.eq_def]
+
+@[simp] theorem Stmt.eraseDType_atomicRMW
+    (op : RMWOp) (dtype : TileDType) (shape : TileShape)
+    (mem : MemAccess shape) (input : Op dtype shape)
+    (extraInput : Option (Op dtype shape)) (mask : MaskOpt dtype shape)
+    (dest : Option RegName) :
+    (Stmt.atomicRMW op dtype shape mem input extraInput mask dest).eraseDType =
+      Stmt.atomicRMW op (VeriTile.Triton.eraseDType dtype) shape mem.eraseDType
+        input.eraseDType (extraInput.map Op.eraseDType) mask.eraseDType dest := by
   rw [Stmt.eraseDType.eq_def]
 
 namespace Kernel

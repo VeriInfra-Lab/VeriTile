@@ -91,6 +91,7 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
   | .atan a => a.MemorySafe bounds
   | .cosh a => a.MemorySafe bounds
   | .sinh a => a.MemorySafe bounds
+  | .erf a => a.MemorySafe bounds
   | .lt _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .le _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .eq _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
@@ -223,6 +224,14 @@ def MemorySafe (bounds : RegionBounds) : Stmt → Prop
   | .atomicAdd _ _ mem value mask =>
       mem.MemorySafe bounds ∧
       value.MemorySafe bounds ∧
+      mask.MemorySafe bounds ∧
+      ∀ s, mem.ActiveAddressSafe bounds s (mask.Active s)
+  | .atomicRMW _ _ _ mem input extraInput mask _ =>
+      mem.MemorySafe bounds ∧
+      input.MemorySafe bounds ∧
+      (match extraInput with
+        | none => True
+        | some extra => extra.MemorySafe bounds) ∧
       mask.MemorySafe bounds ∧
       ∀ s, mem.ActiveAddressSafe bounds s (mask.Active s)
   | .forLoop _ _ body => MemorySafeList bounds body

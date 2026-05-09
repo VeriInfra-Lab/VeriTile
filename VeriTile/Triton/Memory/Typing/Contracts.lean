@@ -116,6 +116,7 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .atan a => a.RespectsRegionTyping Γ
   | .cosh a => a.RespectsRegionTyping Γ
   | .sinh a => a.RespectsRegionTyping Γ
+  | .erf a => a.RespectsRegionTyping Γ
   | .lt _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .le _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .eq _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
@@ -165,6 +166,13 @@ def Stmt.RespectsRegionTyping (Γ : RegionTyping) : Stmt → Prop
   | @Stmt.atomicAdd dtype _ _ mem val mask =>
       mem.RespectsRegionTyping Γ dtype ∧
       val.RespectsRegionTyping Γ ∧ mask.RespectsRegionTyping Γ
+  | .atomicRMW _ dtype _ mem input extraInput mask _ =>
+      mem.RespectsRegionTyping Γ dtype ∧
+      input.RespectsRegionTyping Γ ∧
+      (match extraInput with
+        | none => True
+        | some extra => extra.RespectsRegionTyping Γ) ∧
+      mask.RespectsRegionTyping Γ
   | .forLoop _ _ body => StmtList.RespectsRegionTyping Γ body
   | .ifThen cond body =>
       cond.RespectsRegionTyping Γ ∧ StmtList.RespectsRegionTyping Γ body

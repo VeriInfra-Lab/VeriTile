@@ -14,12 +14,13 @@ import VeriTile.Triton.Core
 import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
+import VeriTile.Triton.Math.Softmax
 import VeriTile.Examples.Common
 import VeriTile.Examples.SoftmaxEq
 
 namespace VeriTile.Examples
 
-open VeriTile.Triton
+open VeriTile.Triton VeriTile.Triton.TiledSoftmax
 
 /-- Stable softmax with precomputed reciprocal. Saves N-1 divisions vs
     the per-element-divide form (`stableSoftmaxKernel`). -/
@@ -114,22 +115,20 @@ theorem softmax_reciprocal_refinement_view
     (N : Nat) (hN : 0 < N) (s : BlockState) (xs : Fin N → ℝ)
     (h_x : TensorView.loaded s (programTileView s xReg N)
       (fun idx : TileIndex [N] => xs idx.1)) :
-    ComputeKernel.ComputeRefine
-      ((stableSoftmaxKernel xReg yReg N))
-      ((softmaxRecipKernel xReg yReg N))
-      (fun s0 lhs' rhs' =>
-        s0 = s →
-        ∀ idx : TileIndex [N],
-          TensorView.observe (some lhs')
-              (programTileView s yReg N) idx =
-          TensorView.observe (some rhs')
-              (programTileView s yReg N) idx) := by
+    ComputeRefine.Realizes
+      (lhs := stableSoftmaxKernel xReg yReg N)
+      (rhs := softmaxRecipKernel xReg yReg N)
+      (initialState := s)
+      (lhsWrite := ComputeCorrect.WriteMap.ofTensorView (programTileView s yReg N))
+      (rhsWrite := ComputeCorrect.WriteMap.ofTensorView (programTileView s yReg N))
+      (relation := fun (_ : TileIndex [N]) (lhs rhs : ℝ) => lhs = rhs) := by
   apply ComputeKernel.computeRefine_of_toAlgKernel rfl rfl
   intro s0 lhs' rhs' hL hR hs0
   subst s0
   intro idx
   have hview := softmax_reciprocal_refinement_exec_view xReg yReg N hN s xs h_x idx
   rw [hL, hR] at hview
-  simpa using hview
+  simpa [ComputeCorrect.WriteMap.ofTensorView, TensorView.observe,
+    observeTileAt] using hview
 
 end VeriTile.Examples

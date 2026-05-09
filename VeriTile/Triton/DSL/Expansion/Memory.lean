@@ -15,7 +15,7 @@ partial def expandLoad (expandExpr : ExprExpander)
     (p : TSyntax `tritonExpr) (kwargs : TSyntaxArray `tritonMemKwarg) :
     MacroM EOut := do
   let mut maskTerm : Option (TSyntax `term × SInfo) := none
-  let mut otherTerm : Option (TSyntax `term × DInfo × SInfo) := none
+  let mut otherSyntax : Option (TSyntax `tritonExpr) := none
   let mut dtype? : Option DInfo := none
   let mut boundaryCheck? : Option (TSyntax `term) := none
   let mut padding : TSyntax `term ← `(PaddingOption.zero)
@@ -27,37 +27,50 @@ partial def expandLoad (expandExpr : ExprExpander)
         boundaryCheck? := some axes
     | `(tritonMemKwarg| padding_option="zero") =>
         padding := ← `(PaddingOption.zero)
-    | `(tritonMemKwarg| $name:ident = $val:tritonExpr) =>
-        let val' ← expandExpr env val
-        match name.getId.toString with
-        | "mask"  =>
-            ensureDType .bool val'.dtype "tl.load mask"
-            maskTerm := some (val'.term, val'.shape)
-        | "other" =>
-            otherTerm := some (val'.term, val'.dtype, val'.shape)
-        | unknown =>
-            let msg : String :=
-              "tl.load: unknown kwarg `" ++ unknown ++
-              "`. Only `mask`, `other`, `dtype`, `boundary_check`, and `padding_option` are recognized."
-            Macro.throwError msg
     | `(tritonMemKwarg| $name:ident = $dt:tritonDType) =>
-        unless name.getId.toString == "dtype" do
+        unless name.getId.getString! == "dtype" do
           Macro.throwError
             ("tl.load: unknown kwarg `" ++ name.getId.toString ++
              "`. Only `mask`, `other`, `dtype`, `boundary_check`, and `padding_option` are recognized.")
         if dtype?.isSome then
           Macro.throwError "tl.load: duplicate `dtype=` kwarg"
         dtype? := some (← expandDType dt)
+    | `(tritonMemKwarg| $name:ident = $val:tritonExpr) =>
+        match name.getId.getString! with
+        | "mask"  =>
+            let val' ← expandExpr env val
+            ensureDType .bool val'.dtype "tl.load mask"
+            maskTerm := some (val'.term, val'.shape)
+        | "other" =>
+            otherSyntax := some val
+        | "dtype" =>
+            if dtype?.isSome then
+              Macro.throwError "tl.load: duplicate `dtype=` kwarg"
+            dtype? := some (← expandDTypeExpr val)
+        | unknown =>
+            let msg : String :=
+              "tl.load: unknown kwarg `" ++ unknown ++
+              "`. Only `mask`, `other`, `dtype`, `boundary_check`, and `padding_option` are recognized."
+            Macro.throwError msg
     | _ => Macro.throwUnsupported
   let outDType := dtype?.getD .real
   if let some boundaryCheck := boundaryCheck? then
-    if maskTerm.isSome || otherTerm.isSome then
+    if maskTerm.isSome || otherSyntax.isSome then
       Macro.throwError "tl.load: block-pointer `boundary_check` cannot be combined with `mask` or `other`"
     let p' ← expandExpr env p
     ensureDType .blockPtr p'.dtype "tl.load block pointer"
     let dt ← outDType.term
     return ⟨← `(Op.load $dt (MemAccess.blockPtr $p'.term $boundaryCheck) MaskOpt.none),
       outDType, p'.shape, none⟩
+  let otherTerm ←
+    match otherSyntax with
+    | none => pure none
+    | some other => do
+        let other' ←
+          match ← expandLeanAntiquoteAs? outDType other with
+          | some out => pure out
+          | none => expandExpr env other
+        pure (some (other'.term, other'.dtype, other'.shape))
   if let some (_, otherDType, _) := otherTerm then
     unless otherDType == outDType do
       Macro.throwError "tl.load other: dtype must match load result dtype"
@@ -71,9 +84,13 @@ partial def expandLoad (expandExpr : ExprExpander)
           pure ⟨← `(Op.load $dt (MemAccess.region $r $off) MaskOpt.none), outDType, sp.shape, none⟩
       | none =>
           let p' ← expandExpr env p
-          ensureDType .ptr p'.dtype "tl.load pointer"
           let dt ← outDType.term
-          pure ⟨← `(Op.load $dt (MemAccess.ptr $p'.term) MaskOpt.none), outDType, p'.shape, none⟩
+          if p'.dtype == .blockPtr then
+            pure ⟨← `(Op.load $dt (MemAccess.blockPtr $p'.term ([] : List Nat)) MaskOpt.none),
+              outDType, p'.shape, none⟩
+          else
+            ensureDType .ptr p'.dtype "tl.load pointer"
+            pure ⟨← `(Op.load $dt (MemAccess.ptr $p'.term) MaskOpt.none), outDType, p'.shape, none⟩
   | some (m, mShape), none =>
       match ← expandStaticPtrExpr env p with
       | some sp =>
@@ -123,27 +140,35 @@ partial def expandStore (expandExpr : ExprExpander)
         boundaryCheck? := some axes
     | `(tritonMemKwarg| padding_option="zero") =>
         Macro.throwError "tl.store: `padding_option` is only valid on tl.load"
-    | `(tritonMemKwarg| $name:ident = $kval:tritonExpr) =>
-        let kval' ← expandExpr env kval
-        match name.getId.toString with
-        | "mask"  =>
-            ensureDType .bool kval'.dtype "tl.store mask"
-            maskTerm := some (kval'.term, kval'.shape)
-        | unknown =>
-            let msg : String :=
-              "tl.store: unknown kwarg `" ++ unknown ++
-              "`. Only `mask`, `dtype`, and `boundary_check` are recognized (Triton's tl.store has no `other`; see issue #16)."
-            Macro.throwError msg
     | `(tritonMemKwarg| $name:ident = $dt:tritonDType) =>
-        unless name.getId.toString == "dtype" do
+        unless name.getId.getString! == "dtype" do
           Macro.throwError
             ("tl.store: unknown kwarg `" ++ name.getId.toString ++
              "`. Only `mask`, `dtype`, and `boundary_check` are recognized (Triton's tl.store has no `other`; see issue #16).")
         if dtype?.isSome then
           Macro.throwError "tl.store: duplicate `dtype=` kwarg"
         dtype? := some (← expandDType dt)
+    | `(tritonMemKwarg| $name:ident = $kval:tritonExpr) =>
+        match name.getId.getString! with
+        | "mask"  =>
+            let kval' ← expandExpr env kval
+            ensureDType .bool kval'.dtype "tl.store mask"
+            maskTerm := some (kval'.term, kval'.shape)
+        | "dtype" =>
+            if dtype?.isSome then
+              Macro.throwError "tl.store: duplicate `dtype=` kwarg"
+            dtype? := some (← expandDTypeExpr kval)
+        | unknown =>
+            let msg : String :=
+              "tl.store: unknown kwarg `" ++ unknown ++
+              "`. Only `mask`, `dtype`, and `boundary_check` are recognized (Triton's tl.store has no `other`; see issue #16)."
+            Macro.throwError msg
     | _ => Macro.throwUnsupported
-  let v' ← expandExpr env v
+  let storeExpected := dtype?.getD .real
+  let v' ←
+    match ← expandLeanAntiquoteAs? storeExpected v with
+    | some out => pure out
+    | none => expandExpr env v
   let valueExpr ←
     match v'.computeTerm with
     | some ce => pure ce
@@ -238,26 +263,34 @@ partial def expandAtomicAdd (expandExpr : ExprExpander)
         Macro.throwError "tl.atomic_add: `boundary_check=` is not supported; block-pointer atomics are deferred"
     | `(tritonMemKwarg| padding_option="zero") =>
         Macro.throwError "tl.atomic_add: `padding_option` is only valid on tl.load"
-    | `(tritonMemKwarg| $name:ident = $kval:tritonExpr) =>
-        let kval' ← expandExpr env kval
-        match name.getId.toString with
-        | "mask" =>
-            ensureDType .bool kval'.dtype "tl.atomic_add mask"
-            maskTerm := some (kval'.term, kval'.shape)
-        | unknown =>
-            Macro.throwError
-              ("tl.atomic_add: unknown kwarg `" ++ unknown ++
-               "`. Only `mask` and `dtype` are recognized.")
     | `(tritonMemKwarg| $name:ident = $dt:tritonDType) =>
-        unless name.getId.toString == "dtype" do
+        unless name.getId.getString! == "dtype" do
           Macro.throwError
             ("tl.atomic_add: unknown kwarg `" ++ name.getId.toString ++
              "`. Only `mask` and `dtype` are recognized.")
         if dtype?.isSome then
           Macro.throwError "tl.atomic_add: duplicate `dtype=` kwarg"
         dtype? := some (← expandDType dt)
+    | `(tritonMemKwarg| $name:ident = $kval:tritonExpr) =>
+        match name.getId.getString! with
+        | "mask" =>
+            let kval' ← expandExpr env kval
+            ensureDType .bool kval'.dtype "tl.atomic_add mask"
+            maskTerm := some (kval'.term, kval'.shape)
+        | "dtype" =>
+            if dtype?.isSome then
+              Macro.throwError "tl.atomic_add: duplicate `dtype=` kwarg"
+            dtype? := some (← expandDTypeExpr kval)
+        | unknown =>
+            Macro.throwError
+              ("tl.atomic_add: unknown kwarg `" ++ unknown ++
+               "`. Only `mask` and `dtype` are recognized.")
     | _ => Macro.throwUnsupported
-  let v' ← expandExpr env v
+  let atomicExpected := dtype?.getD .real
+  let v' ←
+    match ← expandLeanAntiquoteAs? atomicExpected v with
+    | some out => pure out
+    | none => expandExpr env v
   let valueExpr ←
     match v'.computeTerm with
     | some ce => pure ce

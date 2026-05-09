@@ -95,7 +95,7 @@ fast-math、exception flag)**永久不在 Lean 证明范围内**。这不是延�
 Real 算法正确性到 floating computation 的 trusted bridge **是 external gap checker**,
 不是 Lean 定理。
 
-## 状态(2026-05-05)
+## 状态(2026-05-09)
 
 ### Tier 1 — Loop-free kernel pairs ✅(`v0.1-tier1`)
 
@@ -117,17 +117,104 @@ Real 算法正确性到 floating computation 的 trusted bridge **是 external g
   `(dtype, shape, name)` 索引)、`WithBot ℝ` 通道载体(`Op.negInf` 求值为真正的 `⊥`
   而非 `-1e38` stand-in)
 
-### Tier 3-A — FA-1 forward 全套 ✅(待打 `v0.3-tier3a`)
+### Tier 3-A — FA-1 forward 全套 ✅(`v0.3-tier3a`)
 
 - `fa1_forward_correct`(non-causal,single-block 推理)
 - `fa1_forward_correct_strided`(任意 stride layout)
 - `fa1_forward_correct_strided_causal`
 - `fa1_forward_correct_4D` / `fa1_forward_correct_4D_causal`(`batch × heads × seq × dim`)
-- `V1Boundary.lean`:boundary-mask 与 boundaryD 的 8 个变体定理(部分 KV 块、
+- `Boundary.lean`:boundary-mask 与 boundaryD 的 8 个变体定理(部分 KV 块、
   部分头维)
 - `ScoreVariants.lean`:softcap / ALiBi / sliding-window / 三合一组合,
   4 个 forward 变体定理
-- 共 ~16k 行 FA-1 forward 证明(V0 + V1Boundary + ScoreVariants + Common)
+- 共 ~16k 行 FA-1 forward 证明(Core + Boundary + ScoreVariants + Common)
+
+### Tier 3-B — FA-2 forward + headline 推论 ✅
+
+- 数学恒等式:`fa2_delayed_rescale_sum_eq` /
+  `fa2_delayed_rescale_weighted_sum_eq`(分子/分母代数)、
+  `fa2_two_fragment_*_merge_eq_flat`(两段合并)、
+  `fa2_masked_*_zero_of_all_invisible`(全 mask block-skip)
+- Producer-consumer kernel 链:
+  `fa2ScalarScoreMaxKernel` → `fa2ScalarMergedMaxKernel` →
+  `fa2ScalarValueFragmentKernel` → `fa2ScalarFragmentSummaryKernel` →
+  `fa2ScoreFragmentKernel` → `fa2ScalarTwoBlockForwardKernel`,各自带
+  `_correct_view` 与 state-parametric `_loaded_of_agrees` handoff lemmas
+- 两 block forward 桥:`fa2_two_block_forward_eq_attentionReal`(tile 层)、
+  `_attentionReal4D`(4D slice)、grid 面向的
+  `_forAll_attentionReal4D_view`
+- Merge 阶段可执行 surface:`fa2ScalarTwoFragmentMergeKernel_correct_view`
+  与 `_attentionReal_view`
+- **Headline 推论 `fa1_eq_fa2_two_block_forward4D`** —— flat
+  `attentionReal4D` 等于两段延迟 rescale FA-2 输出(在两 block KV 域上)
+
+### Tier 3-C — FA-1 backward + FA-2 backward 全套 ✅
+
+*FA-1 backward 具体 kernel:*
+
+- Stripped 主定理:`fa1BackwardStrippedKernel_correct`(无 mask、无 multi-block、
+  单 program-id)
+- Multi-block atomic `dQ` 合成 —— non-causal:
+  `fa1BackwardAtomicDQKernel_gridLaunched_dQ_correct` 与全三输出
+  `fa1BackwardAtomicDQKernel_gridLaunched_backward_correct`
+- Multi-block atomic `dQ` 合成 —— causal:
+  `fa1BackwardAtomicDQCausalKernel_gridLaunched_dQ_correct` 与
+  `fa1BackwardAtomicDQCausalKernel_gridLaunched_backward_correct`
+- Boundary backward 变体(对偶 Tier 3-A boundary forward):
+  `fa1BackwardAtomicDQBoundaryKernel_gridLaunched_backward_correct`、
+  `fa1BackwardAtomicDQCausalBoundaryKernel_gridLaunched_backward_correct`、
+  `fa1BackwardAtomicDQBoundaryDKernel_gridLaunched_backward_correct`、
+  `fa1BackwardAtomicDQCausalBoundaryDKernel_gridLaunched_backward_correct`
+- Score-variants backward(对偶 `ScoreVariants.lean` forward):
+  `gridLaunchedAtomic_alibi_backward_correct`、
+  `gridLaunchedAtomic_softcap_backward_correct`、
+  `gridLaunchedAtomic_slidingWindow_backward_correct`、
+  `gridLaunchedAtomic_scoreVariant_backward_correct`(通用)、
+  `gridLaunchedAtomic_alibiSlidingSoftcap_backward_correct`(三合一组合)
+- Strided backward surface:
+  `fa1BackwardStrippedKernelStrided_realizes`,直接从 strided input tensor
+  推出 stride-aware load、math suffix 与最终 `dQ` / `dK` / `dV` 写入。
+  output address 注入性与三 output region 两两不同是显式假设。
+- 4D backward 切片:
+  `fa1BackwardStrippedKernelStrided_realizes_4D_fullSequence`
+  (`M = S_q` / 单 query block) 与
+  `fa1BackwardStrippedKernelStrided_realizes_4D_queryBlock`
+  (任意 query block 索引)
+- 通用 kernel-agnostic launcher-facing surface:
+  `gridLaunchedAtomic_masked_dQ_correct`、
+  `gridLaunchedAtomic_causal_dQ_correct`、
+  `gridLaunchedAtomic_masked_backward_correct`(任意 mask
+  `dQ`/`dK`/`dV` 完整合成)
+
+*FA-2 backward 具体 kernel:*
+
+- `fa2BackwardAtomicDQKernel_gridLaunched_backward_correct`(单 block,non-causal)
+- `fa2BackwardAtomicDQTwoBlockKernel_gridLaunched_backward_correct`
+  (两 block partition,non-causal)
+- `fa2BackwardAtomicDQCausalKernel_gridLaunched_backward_correct`
+  (causal,单 block)
+- `fa2BackwardAtomicDQCausalTwoBlockKernel_gridLaunched_backward_correct`
+  (causal,两 block)
+
+*Headline backward 推论:*
+
+- **`fa1_backward_eq_fa2_backward`** —— FA-1 与 FA-2 backward 共享同一
+  Real 数学目标,只在工作分配上不同
+- **`fa1_backward_eq_fa2_backward4D`** —— 同等价的 4D 对偶
+
+*数学层:* `streamingLSE_eq_lseReal`、
+`attentionBackwardReal_eq_reverseMode`、
+`attentionBackwardRealMasked_allVisible`、
+`dQBlockContributionMasked_sum_eq_attentionBackwardRealMasked`(及 causal
+对偶)、`attentionBackwardReal4DMasked_slice`、probability / `dP =
+dO · Vᵀ` / row correction `D_i` / `dS = P * (dP - corr[:, None])` /
+`dV = Pᵀ · dO` / `dQ = dS · K · scale` / `dK = dSᵀ · Q · scale` 张量桥、
+`softmax_jvp_identity`、`causalBackward_tile_bridges_complete`、
+block-local 任意 mask `_block_*` 对偶;
+`dQBlockContributionScoreVariant_sum_eq_attentionBackwardRealScoreVariant`;
+打包为 `strippedBackward_tile_bridges_complete`、
+`maskedBackward_block_tile_bridges_complete`、
+`causalBackward_block_tile_bridges_complete`。
 
 ### 横向 infra ✅(超出原 PLAN scope,与 Tier 推进并行)
 
@@ -156,67 +243,55 @@ Real 算法正确性到 floating computation 的 trusted bridge **是 external g
 
 ### 数据
 
-- 80 个 `.lean` 文件,~42.7k 行
-- 全库 0 sorry(除 `FlashAttention1/Backward.lean` 1 个,正在做)
+- `VeriTile/` 下 113 个 `.lean` 文件(~58.6k 行);包含 `bench/` 时 145 个 `.lean` 文件(~63.2k 行)
+- 全库 0 sorry
 - `lake build` 干净
+- `bench/check_ports.sh` 32/32 ok
 
 ## 进行中
 
-### FA-1 backward
+### Tier 3 收尾的 ergonomic 改进
 
-原 PLAN 把 backward 列为 P3+ 永远不做;重定向后进 in-scope(见 §决策日志 9)。
+所有 FA-1 / FA-2 forward 与 backward 主定理(具体 kernel + headline 推论)
+均已闭合(见 §状态)。剩下的工作是 ergonomic,不是功能空缺:
 
-`VeriTile/Examples/FlashAttention1/Backward.lean`(495 行,1 个 `sorry`):
-
-- `streamingLSE_eq_lseReal` —— forward LSE store 用 `m_i + tl.log(l_i)` 等于
-  unshifted log-sum-exp(backward 重建 P 的关键桥)
-- `attentionBackwardReal_eq_reverseMode` —— closed-form reverse-mode FA-1 backward
-- 数学层 tile bridges:probability、`dP = dO · Vᵀ`、row correction
-  `D_i = Σⱼ P_ij · dP_ij`、`dS = P * (dP - corr[:, None])`、`dV = Pᵀ · dO`、
-  `dQ = dS · K · scale`、`dK = dSᵀ · Q · scale`
-- `softmax_jvp_identity` —— softmax JVP 形式
-- `strippedBackward_tile_bridges_complete` —— bundled 数学层 surface
-- `fa1BackwardStrippedKernel_correct` —— 主定理(stripped:无 mask、无 multi-block、
-  单 program-id),sub-2b 执行 wiring 是当前 sorry
-
-下一步:闭合 sub-2b → 加 mask → 加 multi-block → causal backward → FA-2 backward。
+- 把 causal `GridLaunchedAtomic` witness 从 raw DSL 输入构造得更顺手,
+  让用户能直接到达
+  `fa1BackwardAtomicDQCausalKernel_gridLaunched_backward_correct`
+  (以及 boundary / score-variant / FA-2 对偶 launcher),不必手动穿引
+  trace-extraction 引理。
+- backward 输出的用户面 `Realizes`-风格 surface,前提是 whole-grid
+  `launchExec` 落地(见 §路线图 中期)。
+- 两 block FA-2 forward / backward 桥在 `multiBlockExec` 落地后泛化到
+  任意 block 数。
 
 ## 路线图(优先级排序,无固定时间窗口)
 
-### 近期 — Tier 3-A 收口与 backward 第一阶段
+### 近期 — Tier 3 release 与 Tier 4 prerequisite
 
-- 闭合 FA-1 backward stripped 主定理(剩 1 个 sorry)
-- 打 `v0.3-tier3a` tag(forward 全套已就位)
-- FA-1 backward 加 mask
-- FA-1 backward 接入 multi-block(等中期 multi-block 语义)
+- 切 `v0.3-tier3` release,覆盖 FA-1 forward(3-A)、FA-2 forward + headline
+  推论 `fa1_eq_fa2_two_block_forward4D`(3-B)、FA-1/FA-2 backward + headline
+  推论 `fa1_backward_eq_fa2_backward(_4D)`(3-C)
+- Pre-Tier-4 cleanup checklist(已闭合:见 issue #108)
+- causal launcher-witness 的 ergonomic 改进(§进行中)
+- 流式 reduction helper 抽取 —— Tier 4 prerequisite,#108 的延伸 issue
 
-### 中期 — Tier 3-B FA-2 forward + headline corollary
+### 中期 — Whole-grid `multiBlockExec` 与任意 block 数提升
 
-*语义扩展:*
+Tier 3-B/C 已在两 block 层级闭合(见 §状态)。剩下的工作把
+producer-consumer 链泛化到任意 block 数,并把 grid 执行统一到一个 launch
+primitive 之下:
 
-- `multiBlockExec : Kernel → InitMem → Grid → FinalMem` 模型 —— 跑遍所有 program_id
-  (3D grid:`batch × heads × Q-blocks`),组合各 program 的写入
-- Stride / layout 模型(每 program_id 行优先连续;通用 layout 系统不做)
-- Disjoint-writes 引理 —— 无 atomic 的纯前向 kernel,各 program 输出区域不相交,
-  可独立分析后再组合
-
-*Kernel 与定理:*
-
-- FA-2 kernel 通过 `triton { ... }` 嵌入(多轴 program_id、延迟 rescale 路径、
-  mask-skip 路径)
-- `fa_2_forward_correct` —— 类似 FA-1 forward 的:(a) 序列长度并行化、
-  (b) 延迟 rescaling、(c) 全 mask 块跳过
-  - 延迟 rescale 等价:`O_final / l_final` 不依赖中间 `O` 是否每步 rescale
-    (`delayed_rescale_eq` helper)
-  - 块跳过正确性:全 mask 块对递推贡献为 0
-  - Tier 3-A single-program invariant 工具大量复用
-- **Headline corollary `fa1_eq_fa2`** —— ~30 行,通过 spec 传递性导出
-
-### 中期 — Tier 3-C FA backward 全套
-
-- FA-1 backward + mask + causal + multi-block(在 stripped 单块闭合后展开)
-- FA-2 backward(沿用 multi-block 语义)
-- Headline corollary `fa1_backward_eq_fa2_backward`(对偶于 forward)
+- `multiBlockExec : Kernel → InitMem → Grid → FinalMem` 模型 —— 跑遍所有
+  program_id(3D grid:`batch × heads × Q-blocks`),组合各 program 的写入;
+  把当前 `Kernel.ForAllProgramsSome` 的 retrofit 升级为一等 final-state
+  semantics
+- 把 `fa2_two_block_forward_eq_attentionReal` 从两 block 推广到任意 block
+  数(`fa_2_forward_correct`,含 block-skip + delayed rescale 收口)
+- 把 headline 推论 `fa1_eq_fa2_two_block_forward4D` 与
+  `fa1_backward_eq_fa2_backward(_4D)` 提升到任意 block 数,形成 forward
+  侧的 `fa1_eq_fa2` 与 backward 侧的 `fa1_backward_eq_fa2_backward`(在
+  arbitrary-block FA-2 spec 之上)
 
 ### 中期 — Tier 4 Production kernel 第二批
 
@@ -264,7 +339,7 @@ Real 算法正确性到 floating computation 的 trusted bridge **是 external g
 
 | Risk | 触发信号 | Mitigation |
 |---|---|---|
-| FA-1 backward `sub-2b` 执行 wiring 长期卡住 | sorry 持续 ≥ 2 周 | `/lean4:autoprove --deep=stuck`;失败则切成更小 stripped sublemma |
+| FA-2 backward 推广卡住 | proof split 卡住 ≥ 2 周 | 复用已闭合的 FA-1 backward atomic-`dQ` 机器;失败则切成更小 stripped sublemma |
 | `multiBlockExec` 形式模型超预期复杂 | 起草 disjoint-writes 不变量时 | 限定为"每 program_id 行优先连续";通用 layout 系统不做 |
 | FA-2 multi-block 抽象超预期复杂 | 起草 `multiBlockExec` 时暴露隐藏复杂度 | 先 stripped FA-2(单 program,无 mask-skip);完整版作为后续 |
 | `tl.dot` 在 `Value.tile2D` 上 simp 表现糟糕 | FA 证明卡 simp | 自定义 simp 引理;或改 `unfold + induction` 风格 |
@@ -334,7 +409,7 @@ PyTorch 量级)。
 
 - 主仓库:`github.com/Lizn-zn/VeriTile`(已公开)
 - 主分支恒可构建
-- Tier 完成时打 tag(已有 `v0.1-tier1`、`v0.2-tier2`;待打 `v0.3-tier3a`,
+- Tier 完成时打 tag(已有 `v0.1-tier1`、`v0.2-tier2`;`v0.3-tier3a`,
   之后随路线图增长)
 - 每个 release 配 release notes(新定理、新语义、benchmark 数据、scope 变化)
 - README 持续维护双语(英 + 中)
@@ -391,8 +466,11 @@ PyTorch 量级)。
 9. **2026-05-05** —— **Backward pass、Python lifter、并发原语证明 移出 P3+,
    进入 in-scope**。
 
-   - **FA-1 backward** 已经在做(`Backward.lean` 495 行,1 sorry),作为近期
-     收口目标
+   - **FA-1 backward** 已进入近期路线图;截至 2026-05-09,完整 FA-1
+     backward(stripped + non-causal/causal multi-block atomic-dQ +
+     boundary × 4 + score-variants × 5)与 FA-2 backward(× 4 具体 kernel)
+     以及 headline 推论 `fa1_backward_eq_fa2_backward(_4D)` 全部闭合
+     (§状态 Tier 3-C)
    - **Python lifter** 从 P3+ 推进到中远期 —— Triton 用户友好度需要 paste-in 表面,
      不止文档对应
    - **并发原语证明** 当前是 failure markers + projection 边界(已搭),下一步是
@@ -402,15 +480,8 @@ PyTorch 量级)。
    Triton 工程师日常 ship backward;production kernel 大量使用 atomic / async;
    不接受 paste-in 的 DSL 没有 user。
 
-## 各 Tier 的 implementation plan
+## Implementation plan
 
-新路线图按 Tier 推进,无固定时间窗口。每个新 Tier 启动时通过 `writing-plans` 流程
-编写 implementation plan,文档放在 `Notes/` 下,文件名 `YYYY-MM-DD-tier-X-implementation.md`。
-当前已有:
-
-- `Notes/2026-04-26-phase-a-implementation.md`(Tier 1)
-- `Notes/2026-04-29-phase-b-implementation.md`(Tier 2)
-- `Notes/2026-04-29-forloop-inv-design.md`
-- `Notes/T3_scouting.md`(Tier 3 全套 scouting,含 mask 决议、FA-1/FA-2 算法分析)
-
-每个 implementation plan 应回引本文档相关章节作为 context。
+主线执行追踪在 pinned roadmap issue #91(分层)+ 各 per-task issue。跨 phase
+仍有价值的长文档归到 [`documents/`](./documents) 下;阶段已关闭的设计笔记
+归入 [`documents/archive/`](./documents/archive/)。

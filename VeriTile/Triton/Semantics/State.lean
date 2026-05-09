@@ -61,6 +61,162 @@ def eraseDType : MemCell → MemCell
 
 end MemCell
 
+/-- Extensible read-modify-write event payload used by atomic traces and
+single-cell RMW semantics. -/
+structure RMWEvent where
+  cell : RegionName × Nat
+  op : RMWOp
+  input : MemCell
+  extraInput : Option MemCell := none
+  observed : Option MemCell := none
+  result : Option MemCell := none
+
+namespace RMWEvent
+
+def region (event : RMWEvent) : RegionName :=
+  event.cell.1
+
+def offset (event : RMWEvent) : Nat :=
+  event.cell.2
+
+def value (event : RMWEvent) : MemCell :=
+  event.input
+
+def withObservedResult (event : RMWEvent) (old : MemCell) : RMWEvent :=
+  { event with observed := some old, result := some old }
+
+end RMWEvent
+
+namespace RMWOp
+
+/--
+Apply one linearized single-cell RMW event.
+
+This is algorithm-layer semantics. In particular, CAS compares `MemCell`s by
+mathematical equality, not by a hardware bit-pattern predicate. Bit-level
+fidelity stays in the compute-gap/testing layer.
+-/
+noncomputable def apply : RMWOp → MemCell → RMWEvent → Option (MemCell × RMWEvent) := by
+  classical
+  intro op old event
+  cases op with
+  | xchg =>
+      exact some (event.input, event.withObservedResult old)
+  | cas =>
+      match event.extraInput with
+      | none => exact none
+      | some replacement =>
+          let event' := event.withObservedResult old
+          if old = event.input then
+            exact some (replacement, event')
+          else
+            exact some (old, event')
+  | add => exact none
+  | max => exact none
+  | min => exact none
+
+@[simp] theorem apply_xchg (old input : MemCell) (cell : RegionName × Nat) :
+    RMWOp.apply .xchg old
+        { cell := cell, op := .xchg, input := input } =
+      some (input,
+        { cell := cell, op := .xchg, input := input,
+          observed := some old, result := some old }) := rfl
+
+@[simp] theorem apply_cas_missing_replacement
+    (old cmp : MemCell) (cell : RegionName × Nat) :
+    RMWOp.apply .cas old
+        { cell := cell, op := .cas, input := cmp } = none := rfl
+
+theorem apply_cas_success
+    (old replacement : MemCell) (cell : RegionName × Nat) :
+    RMWOp.apply .cas old
+        { cell := cell, op := .cas, input := old,
+          extraInput := some replacement } =
+      some (replacement,
+        { cell := cell, op := .cas, input := old,
+          extraInput := some replacement,
+          observed := some old, result := some old }) := by
+  simp [apply, RMWEvent.withObservedResult]
+
+theorem apply_cas_failure
+    (old cmp replacement : MemCell) (cell : RegionName × Nat)
+    (h : old ≠ cmp) :
+    RMWOp.apply .cas old
+        { cell := cell, op := .cas, input := cmp,
+          extraInput := some replacement } =
+      some (old,
+        { cell := cell, op := .cas, input := cmp,
+          extraInput := some replacement,
+          observed := some old, result := some old }) := by
+  simp [apply, RMWEvent.withObservedResult, if_neg h]
+
+end RMWOp
+
+namespace RMWTrace
+
+/--
+Apply a per-cell linearization list.
+
+The input list is the chosen linearization order. The returned list is in the
+same order, with `observed` / `result` fields filled by `RMWOp.apply`.
+-/
+noncomputable def applyLinearized :
+    MemCell → List RMWEvent → Option (MemCell × List RMWEvent)
+  | initial, [] => some (initial, [])
+  | initial, event :: events => do
+      let (cell', event') ← RMWOp.apply event.op initial event
+      let (final, events') ← applyLinearized cell' events
+      some (final, event' :: events')
+
+@[simp] theorem applyLinearized_nil (initial : MemCell) :
+    applyLinearized initial [] = some (initial, []) := rfl
+
+@[simp] theorem applyLinearized_cons
+    (initial next final : MemCell)
+    (event event' : RMWEvent) (events events' : List RMWEvent)
+    (hStep : RMWOp.apply event.op initial event = some (next, event'))
+    (hTail : applyLinearized next events = some (final, events')) :
+    applyLinearized initial (event :: events) =
+      some (final, event' :: events') := by
+  simp [applyLinearized, hStep, hTail]
+
+theorem applyLinearized_xchg_two
+    (old first second : MemCell) (cell : RegionName × Nat) :
+    applyLinearized old
+        [ { cell := cell, op := .xchg, input := first }
+        , { cell := cell, op := .xchg, input := second } ] =
+      some (second,
+        [ { cell := cell, op := .xchg, input := first,
+            observed := some old, result := some old }
+        , { cell := cell, op := .xchg, input := second,
+            observed := some first, result := some first } ]) := by
+  simp [applyLinearized]
+
+theorem applyLinearized_cas_success
+    (old replacement : MemCell) (cell : RegionName × Nat) :
+    applyLinearized old
+        [ { cell := cell, op := .cas, input := old,
+            extraInput := some replacement } ] =
+      some (replacement,
+        [ { cell := cell, op := .cas, input := old,
+            extraInput := some replacement,
+            observed := some old, result := some old } ]) := by
+  simp [applyLinearized, RMWOp.apply_cas_success]
+
+theorem applyLinearized_cas_failure
+    (old cmp replacement : MemCell) (cell : RegionName × Nat)
+    (h : old ≠ cmp) :
+    applyLinearized old
+        [ { cell := cell, op := .cas, input := cmp,
+            extraInput := some replacement } ] =
+      some (old,
+        [ { cell := cell, op := .cas, input := cmp,
+            extraInput := some replacement,
+            observed := some old, result := some old } ]) := by
+  simp [applyLinearized, RMWOp.apply_cas_failure, h]
+
+end RMWTrace
+
 /--
 A block-level execution state.
 
@@ -201,6 +357,26 @@ def writeMemTyped (s : BlockState) (dtype : TileDType)
       { s with mem := fun r o =>
           if r = region ∧ o = offset then MemCell.of .blockPtr v else s.mem r o }
 
+/-- Write a dynamically typed cell exactly. Used by order-sensitive atomics
+whose replacement value is already packaged as a `MemCell`. -/
+def writeCell (s : BlockState) (region : RegionName) (offset : Nat)
+    (cell : MemCell) : BlockState :=
+  { s with mem := fun r o =>
+      if r = region ∧ o = offset then cell else s.mem r o }
+
+@[simp] theorem writeCell_regs (s : BlockState) (region : RegionName)
+    (offset : Nat) (cell : MemCell) (dtype : TileDType) (shape : TileShape)
+    (name : RegName) :
+    (s.writeCell region offset cell).regs dtype shape name = s.regs dtype shape name := rfl
+
+@[simp] theorem writeCell_pids (s : BlockState) (region : RegionName)
+    (offset : Nat) (cell : MemCell) :
+    (s.writeCell region offset cell).pids = s.pids := rfl
+
+@[simp] theorem writeCell_pid (s : BlockState) (region : RegionName)
+    (offset : Nat) (cell : MemCell) :
+    (s.writeCell region offset cell).pid = s.pid := rfl
+
 @[simp] theorem writeMem_regs (s : BlockState) (region : RegionName)
     (offset : Nat) (v : ℝ) (dtype : TileDType) (shape : TileShape)
     (name : RegName) :
@@ -294,6 +470,48 @@ def defaultCarrier : (dtype : TileDType) → TileCarrier dtype
       { region := "", baseOffset := 0, parentShape := [], blockShape := [],
         strides := [], offsets := [] }
 
+def rmwReturnedValue (dtype : TileDType) (event : RMWEvent) : TileCarrier dtype :=
+  match event.result with
+  | some cell =>
+      match cell.readAs dtype with
+      | some value => value
+      | none => defaultCarrier dtype
+  | none => defaultCarrier dtype
+
+/-- Apply one order-sensitive RMW to a concrete memory cell, returning the
+updated state, returned old value, and populated event. -/
+noncomputable def atomicRMWAt (s : BlockState) (op : RMWOp) (dtype : TileDType)
+    (region : RegionName) (offset : Nat)
+    (input : TileCarrier dtype) (extraInput : Option (TileCarrier dtype)) :
+    Option (BlockState × TileCarrier dtype × RMWEvent) := do
+  let event : RMWEvent :=
+    { cell := (region, offset)
+      op := op
+      input := MemCell.of dtype input
+      extraInput := extraInput.map (MemCell.of dtype) }
+  let (nextCell, event') ← RMWOp.apply op (s.mem region offset) event
+  let ret := rmwReturnedValue dtype event'
+  some (s.writeCell region offset nextCell, ret, event')
+
+theorem atomicRMWAt_pid
+    {s s' : BlockState} {op : RMWOp} {dtype : TileDType}
+    {region : RegionName} {offset : Nat}
+    {input : TileCarrier dtype} {extraInput : Option (TileCarrier dtype)}
+    {ret : TileCarrier dtype} {event : RMWEvent}
+    (h : s.atomicRMWAt op dtype region offset input extraInput =
+      some (s', ret, event)) :
+    s'.pid = s.pid := by
+  unfold atomicRMWAt at h
+  cases hApply : RMWOp.apply op (s.mem region offset)
+      { cell := (region, offset), op := op, input := MemCell.of dtype input,
+        extraInput := extraInput.map (MemCell.of dtype) } with
+  | none => simp [hApply] at h
+  | some out =>
+      rcases out with ⟨nextCell, event'⟩
+      simp [hApply] at h
+      rcases h with ⟨rfl, _hret, _hevent⟩
+      simp
+
 /-- Read a typed scalar for operational `tl.load`. Floating channels keep the
 current finite-fallback semantics; non-floating channels read exact typed cells
 and use the dtype default on mismatch. -/
@@ -379,6 +597,17 @@ and use the dtype default on mismatch. -/
         simp [h]
         change some value = some value
         rfl
+
+@[simp] theorem writeMemTyped_nat_readMemValue_nat (s : BlockState)
+    (region : RegionName) (offset : Nat) (v : TileCarrier TileDType.nat)
+    (r : RegionName) (o : Nat) :
+    (s.writeMemTyped .nat region offset v).readMemValue .nat r o =
+      if r = region ∧ o = offset then v else s.readMemValue .nat r o := by
+  unfold writeMemTyped readMemValue readMemTyped
+  by_cases h : r = region ∧ o = offset
+  · rcases h with ⟨rfl, rfl⟩
+    simp
+  · simp [h]
 
 @[simp] theorem writeMem_readMem (s : BlockState) (region : RegionName)
     (offset : Nat) (v : ℝ) (r : RegionName) (o : Nat) :
@@ -604,6 +833,128 @@ theorem scatter_readback_prop_masked_nd {region : RegionName} {shape : TileShape
   simp only [decide_eq_true_eq] at h
   exact h
 
+private theorem foldl_writeMemTyped_nat_masked_preserves {α : Type} {region : RegionName}
+    (offsetFn : α → Nat) (valueFn : α → Nat) (mask : α → Bool) (o : Nat) (l : List α) :
+    ∀ (s : BlockState), (∀ k ∈ l, mask k = true → offsetFn k ≠ o) →
+      BlockState.readMemValue ((l.foldl
+          (fun acc k =>
+            if mask k then acc.writeMemTyped .nat region (offsetFn k) (valueFn k) else acc) s))
+          .nat region o
+      = s.readMemValue .nat region o := by
+  induction l with
+  | nil => intros; rfl
+  | cons hd tl ih =>
+    intro s h
+    rw [List.foldl_cons]
+    have htl : ∀ k ∈ tl, mask k = true → offsetFn k ≠ o :=
+      fun k hk hmk => h k (List.mem_cons_of_mem hd hk) hmk
+    by_cases hmaskhd : mask hd = true
+    · have hhd : offsetFn hd ≠ o := h hd (List.mem_cons_self) hmaskhd
+      simp only [hmaskhd, if_true]
+      rw [ih _ htl]
+      rw [writeMemTyped_nat_readMemValue_nat]
+      show (if region = region ∧ o = offsetFn hd then valueFn hd
+          else s.readMemValue TileDType.nat region o) =
+        s.readMemValue TileDType.nat region o
+      rw [if_neg]
+      rintro ⟨_, h_eq⟩
+      exact hhd h_eq.symm
+    · have hmaskhd' : mask hd = false := by
+        rcases hmaskFalse : mask hd
+        · rfl
+        · exact absurd hmaskFalse hmaskhd
+      simp only [hmaskhd', if_false, Bool.false_eq_true]
+      exact ih _ htl
+
+theorem scatter_readback_nat_prop_masked_nd {region : RegionName} {shape : TileShape}
+    (s : BlockState) (offsetFn : TileIndex shape → Nat)
+    (valueFn : TileIndex shape → Nat) (P : TileIndex shape → Prop) [DecidablePred P]
+    (h_inj : Function.Injective offsetFn) (i : TileIndex shape) :
+    BlockState.readMemValue ((TileShape.allIndices shape).foldl
+       (fun acc k =>
+         if P k then acc.writeMemTyped .nat region (offsetFn k) (valueFn k) else acc) s)
+      .nat region (offsetFn i)
+    = if P i then valueFn i else s.readMemValue .nat region (offsetFn i) := by
+  let l := TileShape.allIndices shape
+  obtain ⟨l₁, l₂, hl⟩ := List.append_of_mem (TileShape.mem_allIndices shape i)
+  have h_nodup := TileShape.allIndices_nodup shape
+  change BlockState.readMemValue ((l.foldl
+       (fun acc k =>
+         if P k then acc.writeMemTyped .nat region (offsetFn k) (valueFn k) else acc) s))
+      .nat region (offsetFn i)
+    = if P i then valueFn i else s.readMemValue .nat region (offsetFn i)
+  rw [hl] at h_nodup
+  rw [List.nodup_append, List.nodup_cons] at h_nodup
+  obtain ⟨_, ⟨hi_notin_l2, _⟩, hl1_disj⟩ := h_nodup
+  have hl' : l = l₁ ++ i :: l₂ := by
+    simpa [l] using hl
+  rw [hl', List.foldl_append, List.foldl_cons]
+  have h_l1_not_in : ∀ k ∈ l₁, decide (P k) = true → offsetFn k ≠ offsetFn i := by
+    intro k hk _hmk heq
+    have hki : k = i := h_inj heq
+    rw [hki] at hk
+    exact (hl1_disj i hk i (List.mem_cons_self)) rfl
+  have h_l2_not_in : ∀ k ∈ l₂, decide (P k) = true → offsetFn k ≠ offsetFn i := by
+    intro k hk _hmk heq
+    have hki : k = i := h_inj heq
+    subst hki
+    exact hi_notin_l2 hk
+  have hstep :
+      (fun (acc : BlockState) k =>
+        if P k then acc.writeMemTyped .nat region (offsetFn k) (valueFn k) else acc)
+        =
+      (fun (acc : BlockState) k =>
+        if decide (P k) then acc.writeMemTyped .nat region (offsetFn k) (valueFn k) else acc) := by
+    funext acc k
+    by_cases hk : P k <;> simp [hk]
+  rw [hstep]
+  rw [foldl_writeMemTyped_nat_masked_preserves offsetFn valueFn (fun k => decide (P k))
+    (offsetFn i) l₂ _ h_l2_not_in]
+  by_cases hPi : P i
+  · simp only [hPi, if_true]
+    rw [writeMemTyped_nat_readMemValue_nat]
+    show (if region = region ∧ offsetFn i = offsetFn i then valueFn i else _) = valueFn i
+    exact if_pos ⟨rfl, rfl⟩
+  · simp only [hPi, if_false]
+    rw [foldl_writeMemTyped_nat_masked_preserves offsetFn valueFn (fun k => decide (P k))
+      (offsetFn i) l₁]
+    exact h_l1_not_in
+
+theorem foldl_writeMemTyped_natAt_prop_masked_readMem_other_region {α : Type}
+    (regionFn : α → RegionName) (offsetFn : α → Nat) (valueFn : α → Nat)
+    (P : α → Prop) [DecidablePred P] (l : List α) (s : BlockState)
+    (R : RegionName) (off : Nat)
+    (h_other : ∀ k, k ∈ l → P k → R ≠ regionFn k) :
+    BlockState.readMem ((l.foldl
+        (fun acc k =>
+          if P k then acc.writeMemTyped .nat (regionFn k) (offsetFn k) (valueFn k) else acc) s))
+      R off
+      = s.readMem R off := by
+  induction l generalizing s with
+  | nil => rfl
+  | cons hd tl ih =>
+      rw [List.foldl_cons]
+      have htl : ∀ k, k ∈ tl → P k → R ≠ regionFn k :=
+        fun k hk hPk => h_other k (List.mem_cons_of_mem hd hk) hPk
+      by_cases hhd : P hd
+      · simp only [hhd, if_true]
+        rw [ih _ htl]
+        unfold readMem
+        change (match
+            (if R = regionFn hd ∧ off = offsetFn hd then
+              MemCell.of TileDType.nat (valueFn hd)
+            else s.mem R off).readAs TileDType.real with
+          | some (some value) => value
+          | _ => 0) =
+          match (s.mem R off).readAs TileDType.real with
+          | some (some value) => value
+          | _ => 0
+        rw [if_neg]
+        rintro ⟨hR, _⟩
+        exact (h_other hd (List.mem_cons_self) hhd) hR
+      · simp only [hhd, if_false]
+        exact ih _ htl
+
 theorem scatter_readback_prop_masked_list_of_true {α : Type} {region : RegionName}
     (l : List α) (s : BlockState)
     (offsetFn : α → Nat) (valueFn : α → ℝ) (P : α → Prop) [DecidablePred P]
@@ -687,6 +1038,30 @@ theorem scatter_preserves_other_region {α : Type}
     rw [if_neg]
     rintro ⟨h_R, _⟩
     exact h_ne h_R
+
+theorem scatter_prop_masked_preserves_other_region {α : Type}
+    (region : RegionName) (offsetFn : α → Nat) (valueFn : α → ℝ)
+    (P : α → Prop) [DecidablePred P]
+    (R : RegionName) (h_ne : R ≠ region) (off : Nat) :
+    ∀ (l : List α) (s : BlockState),
+      ((l.foldl
+        (fun acc k => if P k then acc.writeMem region (offsetFn k) (valueFn k) else acc)
+        s).readMem R off) = s.readMem R off := by
+  intro l
+  induction l with
+  | nil => intros; rfl
+  | cons hd tl ih =>
+    intro s
+    rw [List.foldl_cons, ih]
+    by_cases hP : P hd
+    · simp only [hP, if_true]
+      rw [writeMem_readMem]
+      show (if R = region ∧ off = offsetFn hd then valueFn hd else s.readMem R off)
+          = s.readMem R off
+      rw [if_neg]
+      rintro ⟨h_R, _⟩
+      exact h_ne h_R
+    · simp [hP]
 
 @[simp] theorem foldl_writeMem_regs {α : Type}
     (region : RegionName) (offsetFn : α → Nat) (valueFn : α → ℝ)
@@ -833,7 +1208,7 @@ theorem foldl_writeMemTyped_pid {α : Type} (dtype : TileDType)
       rw [List.foldl_cons, ih]
       simp
 
-theorem foldl_writeMem_masked_regs {α : Type}
+@[simp] theorem foldl_writeMem_masked_regs {α : Type}
     (region : RegionName) (offsetFn : α → Nat)
     (valueFn : α → ℝ)
     (mask : α → Bool) (l : List α) (s : BlockState)
@@ -850,7 +1225,24 @@ theorem foldl_writeMem_masked_regs {α : Type}
       · simp [hmask]
       · simp [hmask]
 
-theorem foldl_writeMemTyped_regs {α : Type} (dtype : TileDType)
+@[simp] theorem foldl_writeMem_prop_masked_regs {α : Type}
+    (region : RegionName) (offsetFn : α → Nat)
+    (valueFn : α → ℝ)
+    (P : α → Prop) [DecidablePred P] (l : List α) (s : BlockState)
+    (dtype : TileDType) (shape : TileShape) (name : RegName) :
+    ((l.foldl
+        (fun acc k => if P k then acc.writeMem region (offsetFn k) (valueFn k) else acc) s).regs
+        dtype shape name)
+      = s.regs dtype shape name := by
+  induction l generalizing s with
+  | nil => rfl
+  | cons hd tl ih =>
+      rw [List.foldl_cons, ih]
+      by_cases hmask : P hd
+      · simp [hmask]
+      · simp [hmask]
+
+@[simp] theorem foldl_writeMemTyped_regs {α : Type} (dtype : TileDType)
     (region : RegionName) (offsetFn : α → Nat)
     (valueFn : α → TileCarrier dtype)
     (l : List α) (s : BlockState)
@@ -880,7 +1272,7 @@ theorem foldl_writeMemTyped_masked_pid {α : Type} (dtype : TileDType)
       · simp [hmask]
       · simp [hmask]
 
-theorem foldl_writeMemTyped_masked_regs {α : Type} (dtype : TileDType)
+@[simp] theorem foldl_writeMemTyped_masked_regs {α : Type} (dtype : TileDType)
     (region : RegionName) (offsetFn : α → Nat)
     (valueFn : α → TileCarrier dtype)
     (mask : α → Bool) (l : List α) (s : BlockState)
@@ -918,6 +1310,24 @@ theorem foldl_writeMemTypedAt_masked_pid {α : Type} (dtype : TileDType)
         (fun acc k =>
           if mask k then acc.writeMemTyped dtype (regionFn k) (offsetFn k) (valueFn k) else acc) s).pid)
       = s.pid := by
+  induction l generalizing s with
+  | nil => rfl
+  | cons hd tl ih =>
+      rw [List.foldl_cons, ih]
+      by_cases hmask : mask hd
+      · simp [hmask]
+      · simp [hmask]
+
+@[simp] theorem foldl_writeMemTypedAt_masked_regs {α : Type} (dtype : TileDType)
+    (regionFn : α → RegionName) (offsetFn : α → Nat)
+    (valueFn : α → TileCarrier dtype)
+    (mask : α → Bool) (l : List α) (s : BlockState)
+    (dtype' : TileDType) (shape : TileShape) (name : RegName) :
+    ((l.foldl
+        (fun acc k =>
+          if mask k then acc.writeMemTyped dtype (regionFn k) (offsetFn k) (valueFn k) else acc) s).regs
+        dtype' shape name)
+      = s.regs dtype' shape name := by
   induction l generalizing s with
   | nil => rfl
   | cons hd tl ih =>

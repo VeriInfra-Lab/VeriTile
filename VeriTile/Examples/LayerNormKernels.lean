@@ -34,7 +34,7 @@ def twoPassLayerNormKernel
   v      := s_d2 / tl.toReal($(N))
   γ      := tl.load($(γReg) + tl.arange($(N)))
   β      := tl.load($(βReg) + tl.arange($(N)))
-  σ_inv  := 1 / tl.sqrt(v + $ℝ(ε))
+  σ_inv  := 1 / tl.sqrt(v + $(ε))
   y      := (x - μ) * σ_inv * γ + β
   tl.store($(yReg) + offs, y)
 }
@@ -54,7 +54,7 @@ def fusedLayerNormKernel
   }
   μ       := M
   v       := S / tl.toReal($(N))
-  σ_inv   := 1 / tl.sqrt(v + $ℝ(ε))
+  σ_inv   := 1 / tl.sqrt(v + $(ε))
   -- Second pass to compute Y. The "fused" gain is that μ/var were
   -- computed in a single pass over `x`; the residual `(x − μ)` still
   -- needs the second read of x.
@@ -394,16 +394,13 @@ theorem layernorm_kernels_refinement_view
     (h_β : TensorView.loaded s (featureView βReg N)
       (fun idx : TileIndex [N] => βs idx.1))
     (h_yx : yReg ≠ xReg) (h_yγ : yReg ≠ γReg) (h_yβ : yReg ≠ βReg) :
-    ComputeKernel.ComputeRefine
-      ((twoPassLayerNormKernel xReg γReg βReg yReg N ε))
-      ((fusedLayerNormKernel xReg γReg βReg yReg N ε))
-      (fun s0 lhs' rhs' =>
-        s0 = s →
-        ∀ idx : TileIndex [N],
-          TensorView.observe (some lhs')
-              (programTileView s yReg N) idx
-            = TensorView.observe (some rhs')
-              (programTileView s yReg N) idx) := by
+    ComputeRefine.Realizes
+      (lhs := twoPassLayerNormKernel xReg γReg βReg yReg N ε)
+      (rhs := fusedLayerNormKernel xReg γReg βReg yReg N ε)
+      (initialState := s)
+      (lhsWrite := ComputeCorrect.WriteMap.ofTensorView (programTileView s yReg N))
+      (rhsWrite := ComputeCorrect.WriteMap.ofTensorView (programTileView s yReg N))
+      (relation := fun (_ : TileIndex [N]) (lhs rhs : ℝ) => lhs = rhs) := by
   apply ComputeKernel.computeRefine_of_toAlgKernel rfl rfl
   intro s0 lhs' rhs' hL hR hs0
   subst s0
@@ -411,6 +408,7 @@ theorem layernorm_kernels_refinement_view
   have hview := layernorm_kernels_refinement_exec_view xReg γReg βReg yReg N hN ε
     s xs γs βs h_x h_γ h_β h_yx h_yγ h_yβ idx
   rw [hL, hR] at hview
-  simpa using hview
+  simpa [ComputeCorrect.WriteMap.ofTensorView, TensorView.observe,
+    observeTileAt] using hview
 
 end VeriTile.Examples
