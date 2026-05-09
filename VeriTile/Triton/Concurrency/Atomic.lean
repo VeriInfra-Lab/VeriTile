@@ -58,6 +58,35 @@ def atomicTraceEvent (tid : ThreadId) (region : RegionName) (offset : Nat)
         op := .add
         input := MemCell.of dtype value } }
 
+def atomicRMWTraceEvent (tid : ThreadId) (event : RMWEvent) : TraceEvent :=
+  { tid := tid, event := .rmw event }
+
+private noncomputable def foldAtomicRMWTraceIndices
+    {dtype : TileDType} {shape : TileShape}
+    (tid : ThreadId) (op : RMWOp)
+    (regionFn : TileIndex shape → RegionName)
+    (offsetFn : TileIndex shape → Nat)
+    (inputFn : TileIndex shape → TileCarrier dtype)
+    (extraFn : Option (TileIndex shape → TileCarrier dtype))
+    (active : TileIndex shape → Bool)
+    (indices : List (TileIndex shape))
+    (s : BlockState) : Option (BlockState × Trace) := by
+  classical
+  induction indices generalizing s with
+  | nil =>
+      exact some (s, [])
+  | cons i rest ih =>
+      if active i then
+        let extra := extraFn.map (fun f => f i)
+        match s.atomicRMWAt op dtype (regionFn i) (offsetFn i) (inputFn i) extra with
+        | none => exact none
+        | some (s', _, event) =>
+            match ih s' with
+            | none => exact none
+            | some (final, tail) => exact some (final, atomicRMWTraceEvent tid event :: tail)
+      else
+        exact ih s
+
 /--
 Trace events emitted by one statement in one state.
 
@@ -93,6 +122,34 @@ noncomputable def atomicTraceEvents (tid : ThreadId) (s : BlockState) : Stmt →
               some (atomicTraceEvent tid bp.region (bp.address idx) dtype (values.data i))
             else
               none
+  | @Stmt.atomicRMW op _ shape mem input extraInput mask _ => do
+      let inputs ← evalOp input s
+      let extras ←
+        match extraInput with
+        | none => some none
+        | some extra => (evalOp extra s).map some
+      let active ← evalMask s mask
+      let extraFn := extras.map fun extraTile => fun i : TileIndex shape => extraTile.data i
+      let (_, trace) ←
+        match mem with
+        | .region region off => do
+            let offsets ← evalOp off s
+            foldAtomicRMWTraceIndices tid op (fun _ => region) (fun i => offsets.data i)
+              (fun i => inputs.data i) extraFn active (TileShape.allIndices shape) s
+        | .ptr ptr => do
+            let ptrs ← evalOp ptr s
+            foldAtomicRMWTraceIndices tid op (fun i => (ptrs.data i).1) (fun i => (ptrs.data i).2)
+              (fun i => inputs.data i) extraFn active (TileShape.allIndices shape) s
+        | .blockPtr ptr boundaryCheck => do
+            let ptrs ← evalOp ptr s
+            foldAtomicRMWTraceIndices tid op
+              (fun i => (ptrs.data i).region)
+              (fun i => (ptrs.data i).address (TileShape.indexToList shape i))
+              (fun i => inputs.data i) extraFn
+              (fun i =>
+                active i && (ptrs.data i).inBounds (TileShape.indexToList shape i) boundaryCheck)
+              (TileShape.allIndices shape) s
+      some trace
   | _ => some []
 
 /-- Relational wrapper for statement-level atomic trace extraction. -/
@@ -111,6 +168,22 @@ theorem atomicTraceEvents_atomicAdd_region_none
       some ((TileShape.allIndices shape).filterMap fun i =>
         some (Stmt.atomicTraceEvent tid region (offsets.data i) dtype (values.data i))) := by
   simp [atomicTraceEvents, evalMask, hOffsets, hValues]
+
+theorem atomicTraceEvents_atomicRMW_xchg_real_scalar_const
+    (tid : ThreadId) (s : BlockState) (region : RegionName)
+    (input : ℝ) :
+    Stmt.atomicTraceEvents tid s
+        (Stmt.atomicRMW .xchg .real []
+          (MemAccess.region region (Op.constNat 0))
+          (Op.const input) none MaskOpt.none none) =
+      some
+        [Stmt.atomicRMWTraceEvent tid
+          { cell := (region, 0)
+            op := .xchg
+            input := MemCell.real input
+            observed := some (s.mem region 0)
+            result := some (s.mem region 0) }] := by
+  rfl
 
 /-- Trace emitted by an unmasked region-addressed `atomic_add` whose offset and
 payload tiles are read from registers. -/
@@ -133,6 +206,28 @@ theorem atomicTraceEvents_atomicAdd_region_none_of_reg_refs
     (offsets := offsets) (values := values)
   · simp [evalOp, hOffsets]
   · simp [evalOp, hValues]
+
+/-- Trace emitted by a masked region-addressed `atomic_add` whose offset,
+payload, and mask tiles are read from registers. -/
+theorem atomicTraceEvents_atomicAdd_region_mask_of_reg_refs
+    {dtype : TileDType} (hnum : NumericDType dtype) {shape : TileShape}
+    (tid : ThreadId) (s : BlockState) (region : RegionName)
+    (ptrName valueName maskName : RegName)
+    (offsets : Tile .nat shape) (values : Tile dtype shape) (masks : Tile .bool shape)
+    (hOffsets : s.regs .nat shape ptrName = some offsets)
+    (hValues : s.regs dtype shape valueName = some values)
+    (hMasks : s.regs .bool shape maskName = some masks) :
+    Stmt.atomicTraceEvents tid s
+        (Stmt.atomicAdd hnum shape
+          (MemAccess.region region (Op.ref .nat shape ptrName))
+          (Op.ref dtype shape valueName)
+          (MaskOpt.mask (Op.ref .bool shape maskName))) =
+      some ((TileShape.allIndices shape).filterMap fun i =>
+        if masks.data i then
+          some (Stmt.atomicTraceEvent tid region (offsets.data i) dtype (values.data i))
+        else
+          none) := by
+  simp [atomicTraceEvents, evalMask, evalOp, hOffsets, hValues, hMasks]
 
 end Stmt
 
@@ -295,6 +390,31 @@ theorem AtomicTraceStatefulList_empty_of_stepStmts
           have hTail := ih hTailNoAtomic hStep
           simp [AtomicTraceStatefulList, hHeadTrace, hStepHead, hTail]
 
+/-- If a statement emits a known atomic trace and the remaining tail emits no
+atomic events, the stateful trace of the whole list is exactly the head trace.
+
+This is the common shape for proof-oriented kernels whose tail is
+`atomic_add; store; store`. -/
+theorem AtomicTraceStatefulList_traceHead_then_empty_of_stepStmts
+    {tid : ThreadId} {head : Stmt} {tail : List Stmt} {s final : BlockState}
+    {traceHead : Trace}
+    (hTraceHead : Stmt.atomicTraceEvents tid s head = some traceHead)
+    (hNoAtomicTail :
+      ∀ st ∈ tail, ∀ s0, Stmt.atomicTraceEvents tid s0 st = some [])
+    (hStep : stepStmts (head :: tail) s = some final) :
+    AtomicTraceStatefulList tid (head :: tail) s = some (traceHead, final) := by
+  conv at hStep => lhs; unfold stepStmts
+  cases hStepHead : stepStmt head s with
+  | none =>
+      simp [hStepHead] at hStep
+  | some s' =>
+      simp [hStepHead] at hStep
+      have hTailTrace :=
+        AtomicTraceStatefulList_empty_of_stepStmts
+          (tid := tid) (body := tail) (s := s') (final := final)
+          hNoAtomicTail hStep
+      simp [AtomicTraceStatefulList, hTraceHead, hStepHead, hTailTrace]
+
 theorem AtomicTraceStateful_final_eq_exec
     {k : Kernel} {tid : ThreadId} {s final : BlockState} {trace : Trace}
     (hTrace : Kernel.AtomicTraceStateful k tid s trace final) :
@@ -316,6 +436,21 @@ theorem h_exec {k : Kernel} {g : Grid} {s : BlockState}
     {idx : GridIndex g} (run : Kernel.ProgramRun k g s idx) :
     exec k (s.withGridIndex idx) = some run.final :=
   Kernel.AtomicTraceStateful_final_eq_exec run.h_trace
+
+/-- Package a uniform per-program stateful trace theorem into the `runs` field
+expected by `GridLaunchedAtomic`. -/
+def of_uniform {k : Kernel} {g : Grid} {s : BlockState}
+    (trace : GridIndex g → Trace)
+    (final : GridIndex g → BlockState)
+    (hTrace :
+      ∀ idx,
+        Kernel.AtomicTraceStateful k (Kernel.threadIdOf idx)
+          (s.withGridIndex idx) (trace idx) (final idx)) :
+    (idx : GridIndex g) → Kernel.ProgramRun k g s idx :=
+  fun idx =>
+    { trace := trace idx
+      final := final idx
+      h_trace := hTrace idx }
 
 end ProgramRun
 
@@ -393,6 +528,68 @@ theorem mergeFramesWithAtomic_atomicAdd_eq_finsetSum {k : Kernel} {g : Grid}
   unfold Kernel.mergeFramesWithAtomic Kernel.atomicContributionRealSum
   simp [hNoOrdinaryWrite, BlockState.readMem]
 
+noncomputable def gridRMWEvents {k : Kernel} {g : Grid} {s : BlockState}
+    (runs : (idx : GridIndex g) → Kernel.ProgramRun k g s idx)
+    (contributors : Finset (GridIndex g)) (cell : MemCellAddr) :
+    List RMWEvent :=
+  contributors.toList.flatMap fun idx => (runs idx).trace.rmwEventsAt cell
+
+/--
+Merge ordinary disjoint frame writes with one order-sensitive RMW cell.
+
+The RMW cell is supplied by a chosen per-cell linearization. Other ordinary
+frame writes still use the #49 merge behavior, and unrelated cells keep the
+initial memory.
+-/
+noncomputable def mergeFramesWithRMW {k : Kernel} (g : Grid) (s : BlockState)
+    (frames : Kernel.GridFrames k g s)
+    (cell : MemCellAddr) (finalCell : MemCell) : BlockState := by
+  classical
+  exact { s with mem := fun region offset =>
+    (by
+      if hCell : (region, offset) = cell then
+        exact finalCell
+      else if h : Kernel.GridWriteFootprint frames (region, offset) then
+        exact (Kernel.mergeFrames g s frames).mem region offset
+      else
+        exact s.mem region offset) }
+
+theorem mergeFramesWithRMW_mem_cell {k : Kernel} {g : Grid} {s : BlockState}
+    (frames : Kernel.GridFrames k g s) (cell : MemCellAddr)
+    (finalCell : MemCell) :
+    (Kernel.mergeFramesWithRMW g s frames cell finalCell).mem cell.1 cell.2 =
+      finalCell := by
+  classical
+  unfold Kernel.mergeFramesWithRMW
+  simp
+
+theorem mergeFramesWithRMW_mem_written_of_ne {k : Kernel} {g : Grid}
+    {s : BlockState} {frames : Kernel.GridFrames k g s}
+    (hDisjoint : Kernel.GridWritesDisjoint frames)
+    (cell : MemCellAddr) (finalCell : MemCell)
+    (idx : GridIndex g) (region : RegionName) (offset : Nat)
+    (hNe : (region, offset) ≠ cell)
+    (hWrite : (frames idx).writes (region, offset)) :
+    (Kernel.mergeFramesWithRMW g s frames cell finalCell).mem region offset =
+      (frames idx).final.mem region offset := by
+  classical
+  unfold Kernel.mergeFramesWithRMW
+  dsimp
+  have hWritten : Kernel.GridWriteFootprint frames (region, offset) := ⟨idx, hWrite⟩
+  simp [hNe, hWritten, Kernel.mergeFrames_mem_written hDisjoint idx region offset hWrite]
+
+theorem mergeFramesWithRMW_mem_unwritten_of_ne {k : Kernel} {g : Grid}
+    {s : BlockState} {frames : Kernel.GridFrames k g s}
+    (cell : MemCellAddr) (finalCell : MemCell)
+    (region : RegionName) (offset : Nat)
+    (hNe : (region, offset) ≠ cell)
+    (hNotWritten : ¬ Kernel.GridWriteFootprint frames (region, offset)) :
+    (Kernel.mergeFramesWithRMW g s frames cell finalCell).mem region offset =
+      s.mem region offset := by
+  classical
+  unfold Kernel.mergeFramesWithRMW
+  simp [hNe, hNotWritten]
+
 /-- Relational whole-grid launch surface for kernels with atomic-add
 contributions.
 
@@ -456,6 +653,77 @@ theorem observeAtomicCell_of_sum_eq {k : Kernel} {g : Grid}
   rw [h.observeAtomicCell region offset hNoOrdinaryWrite, hSum]
 
 end GridLaunchedAtomic
+
+/-- Relational whole-grid launch surface for one order-sensitive RMW cell.
+
+This is the #82 launcher hook for `atomic_xchg` / `atomic_cas`: callers provide
+per-program stateful traces, an explicit contributor set, and a per-cell
+linearization list.  The final cell is produced by `RMWTrace.applyLinearized`.
+No global scheduler or multi-cell transaction semantics are chosen here. -/
+structure GridLaunchedRMW (k : Kernel) (g : Grid)
+    (s sFinal : BlockState) where
+  runs : (idx : GridIndex g) → Kernel.ProgramRun k g s idx
+  frames : Kernel.GridFrames k g s
+  h_frame_final : ∀ idx, (frames idx).final = (runs idx).final
+  h_disjoint : Kernel.GridWritesDisjoint frames
+  contributors : Finset (GridIndex g)
+  cell : MemCellAddr
+  linearization : List RMWEvent
+  finalCell : MemCell
+  linearizedEvents : List RMWEvent
+  h_no_ordinary : ¬ Kernel.GridWriteFootprint frames cell
+  h_events :
+    linearization.Perm (Kernel.gridRMWEvents runs contributors cell)
+  h_apply :
+    RMWTrace.applyLinearized (s.mem cell.1 cell.2) linearization =
+      some (finalCell, linearizedEvents)
+  h_final :
+    sFinal = Kernel.mergeFramesWithRMW g s frames cell finalCell
+
+namespace GridLaunchedRMW
+
+theorem observeRMWCell {k : Kernel} {g : Grid} {s sFinal : BlockState}
+    (h : Kernel.GridLaunchedRMW k g s sFinal) :
+    sFinal.mem h.cell.1 h.cell.2 = h.finalCell := by
+  rcases h with
+    ⟨runs, frames, hFrameFinal, hDisjoint, contributors, cell, linearization,
+      finalCell, linearizedEvents, hNoOrdinary, hEvents, hApply, hFinal⟩
+  subst sFinal
+  exact Kernel.mergeFramesWithRMW_mem_cell frames cell finalCell
+
+theorem observeOrdinaryCell {k : Kernel} {g : Grid} {s sFinal : BlockState}
+    (h : Kernel.GridLaunchedRMW k g s sFinal)
+    (idx : GridIndex g) (region : RegionName) (offset : Nat)
+    (hNe : (region, offset) ≠ h.cell)
+    (hWrite : (h.frames idx).writes (region, offset)) :
+    sFinal.mem region offset = (h.frames idx).final.mem region offset := by
+  rcases h with
+    ⟨runs, frames, hFrameFinal, hDisjoint, contributors, cell, linearization,
+      finalCell, linearizedEvents, hNoOrdinary, hEvents, hApply, hFinal⟩
+  subst sFinal
+  exact Kernel.mergeFramesWithRMW_mem_written_of_ne hDisjoint cell finalCell
+    idx region offset hNe hWrite
+
+theorem observeUnwrittenCell {k : Kernel} {g : Grid} {s sFinal : BlockState}
+    (h : Kernel.GridLaunchedRMW k g s sFinal)
+    (region : RegionName) (offset : Nat)
+    (hNe : (region, offset) ≠ h.cell)
+    (hNotWritten : ¬ Kernel.GridWriteFootprint h.frames (region, offset)) :
+    sFinal.mem region offset = s.mem region offset := by
+  rcases h with
+    ⟨runs, frames, hFrameFinal, hDisjoint, contributors, cell, linearization,
+      finalCell, linearizedEvents, hNoOrdinary, hEvents, hApply, hFinal⟩
+  subst sFinal
+  exact Kernel.mergeFramesWithRMW_mem_unwritten_of_ne cell finalCell
+    region offset hNe hNotWritten
+
+theorem applyLinearized {k : Kernel} {g : Grid} {s sFinal : BlockState}
+    (h : Kernel.GridLaunchedRMW k g s sFinal) :
+    RMWTrace.applyLinearized (s.mem h.cell.1 h.cell.2) h.linearization =
+      some (h.finalCell, h.linearizedEvents) :=
+  h.h_apply
+
+end GridLaunchedRMW
 
 end Kernel
 

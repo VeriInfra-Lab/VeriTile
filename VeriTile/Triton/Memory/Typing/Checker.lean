@@ -156,6 +156,7 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .atan a => a.check ctx
   | .cosh a => a.check ctx
   | .sinh a => a.check ctx
+  | .erf a => a.check ctx
   | .lt _ _ a b => a.check ctx *> b.check ctx
   | .le _ _ a b => a.check ctx *> b.check ctx
   | .eq _ _ a b => a.check ctx *> b.check ctx
@@ -293,6 +294,16 @@ def Stmt.check (ctx : CheckCtx) : Stmt → Except CheckError CheckCtx
       mask.check ctx
       mem.check ctx dtype
       .ok ctx
+  | .atomicRMW _ dtype shape mem input extraInput mask dest => do
+      input.check ctx
+      match extraInput with
+      | none => pure ()
+      | some extra => extra.check ctx
+      mask.check ctx
+      mem.check ctx dtype
+      match dest with
+      | none => .ok ctx
+      | some name => ctx.setReg name (pointerEntry dtype shape none none)
   | .forLoop idx _ body => do
       let ctx' ← ctx.setReg idx (pointerEntry .nat [] none none)
       StmtList.check ctx' body

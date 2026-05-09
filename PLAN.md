@@ -108,7 +108,7 @@ Required compute gaps are and remain test-backed.
 The trusted bridge from Real-algorithm correctness to floating computation
 **is the external gap checker**, not a Lean theorem.
 
-## Status (2026-05-05)
+## Status (2026-05-09)
 
 ### Tier 1 — Loop-free kernel pairs ✅ (`v0.1-tier1`)
 
@@ -133,19 +133,111 @@ The trusted bridge from Real-algorithm correctness to floating computation
   `(dtype, shape, name)`); `WithBot ℝ` carrier (`Op.negInf` lowers to true
   `⊥` rather than `-1e38` stand-in)
 
-### Tier 3-A — FA-1 forward full coverage ✅ (`v0.3-tier3a` pending)
+### Tier 3-A — FA-1 forward full coverage ✅ (`v0.3-tier3a`)
 
 - `fa1_forward_correct` (non-causal, single-block reasoning)
 - `fa1_forward_correct_strided` (arbitrary stride layout)
 - `fa1_forward_correct_strided_causal`
 - `fa1_forward_correct_4D` / `fa1_forward_correct_4D_causal` (`batch ×
   heads × seq × dim`)
-- `V1Boundary.lean`: 8 boundary-mask / boundaryD variants (partial KV
+- `Boundary.lean`: 8 boundary-mask / boundaryD variants (partial KV
   blocks, partial head dims)
 - `ScoreVariants.lean`: softcap / ALiBi / sliding-window / 3-way
   composition, 4 forward variant theorems
-- ~16k lines of FA-1 forward proof (V0 + V1Boundary + ScoreVariants +
+- ~16k lines of FA-1 forward proof (Core + Boundary + ScoreVariants +
   Common)
+
+### Tier 3-B — FA-2 forward + headline corollary ✅
+
+- Math identities: `fa2_delayed_rescale_sum_eq` /
+  `fa2_delayed_rescale_weighted_sum_eq` (denominator/numerator algebra),
+  `fa2_two_fragment_*_merge_eq_flat` (two-fragment merge),
+  `fa2_masked_*_zero_of_all_invisible` (full-mask block-skip)
+- Producer-consumer kernel chain:
+  `fa2ScalarScoreMaxKernel` → `fa2ScalarMergedMaxKernel` →
+  `fa2ScalarValueFragmentKernel` → `fa2ScalarFragmentSummaryKernel` →
+  `fa2ScoreFragmentKernel` → `fa2ScalarTwoBlockForwardKernel`,
+  each with `_correct_view` and state-parametric `_loaded_of_agrees`
+  handoff lemmas
+- Two-block forward bridges:
+  `fa2_two_block_forward_eq_attentionReal` (tile-level),
+  `_attentionReal4D` (4D slice), and grid-facing
+  `_forAll_attentionReal4D_view`
+- Merge-stage executable surface: `fa2ScalarTwoFragmentMergeKernel_correct_view`
+  and `_attentionReal_view`
+- **Headline corollary `fa1_eq_fa2_two_block_forward4D`** — flat
+  `attentionReal4D` equals delayed-rescale two-fragment FA-2 output for a
+  two-block KV domain
+
+### Tier 3-C — FA-1 backward + FA-2 backward full coverage ✅
+
+*FA-1 backward concrete kernels:*
+
+- Stripped main theorem: `fa1BackwardStrippedKernel_correct` (no mask, no
+  multi-block, single program-id)
+- Multi-block atomic `dQ` composition — non-causal:
+  `fa1BackwardAtomicDQKernel_gridLaunched_dQ_correct` and full three-output
+  `fa1BackwardAtomicDQKernel_gridLaunched_backward_correct`
+- Multi-block atomic `dQ` composition — causal:
+  `fa1BackwardAtomicDQCausalKernel_gridLaunched_dQ_correct` and
+  `fa1BackwardAtomicDQCausalKernel_gridLaunched_backward_correct`
+- Boundary backward variants (parity with Tier 3-A boundary forwards):
+  `fa1BackwardAtomicDQBoundaryKernel_gridLaunched_backward_correct`,
+  `fa1BackwardAtomicDQCausalBoundaryKernel_gridLaunched_backward_correct`,
+  `fa1BackwardAtomicDQBoundaryDKernel_gridLaunched_backward_correct`,
+  `fa1BackwardAtomicDQCausalBoundaryDKernel_gridLaunched_backward_correct`
+- Score-variants backward (parity with `ScoreVariants.lean` forwards):
+  `gridLaunchedAtomic_alibi_backward_correct`,
+  `gridLaunchedAtomic_softcap_backward_correct`,
+  `gridLaunchedAtomic_slidingWindow_backward_correct`,
+  `gridLaunchedAtomic_scoreVariant_backward_correct` (generic),
+  `gridLaunchedAtomic_alibiSlidingSoftcap_backward_correct` (3-way composition)
+- Strided backward surface:
+  `fa1BackwardStrippedKernelStrided_realizes`, deriving stride-aware input
+  loads, math suffix, and final `dQ` / `dK` / `dV` writes directly from
+  strided input tensors. Output-address injectivity and pairwise-distinct
+  output regions are explicit hypotheses.
+- 4D backward slices:
+  `fa1BackwardStrippedKernelStrided_realizes_4D_fullSequence`
+  (`M = S_q` / single query block) and
+  `fa1BackwardStrippedKernelStrided_realizes_4D_queryBlock`
+  (arbitrary query block index)
+- Generic kernel-agnostic launcher-facing surfaces:
+  `gridLaunchedAtomic_masked_dQ_correct`,
+  `gridLaunchedAtomic_causal_dQ_correct`,
+  `gridLaunchedAtomic_masked_backward_correct` (full arbitrary-mask
+  `dQ`/`dK`/`dV` composition)
+
+*FA-2 backward concrete kernels:*
+
+- `fa2BackwardAtomicDQKernel_gridLaunched_backward_correct` (single-block,
+  non-causal)
+- `fa2BackwardAtomicDQTwoBlockKernel_gridLaunched_backward_correct`
+  (two-block partition, non-causal)
+- `fa2BackwardAtomicDQCausalKernel_gridLaunched_backward_correct`
+  (causal single-block)
+- `fa2BackwardAtomicDQCausalTwoBlockKernel_gridLaunched_backward_correct`
+  (causal two-block)
+
+*Headline backward corollary:*
+
+- **`fa1_backward_eq_fa2_backward`** — FA-1 and FA-2 backward share the
+  same Real mathematical target; they differ only in work partitioning
+- **`fa1_backward_eq_fa2_backward4D`** — 4D dual of the same equivalence
+
+*Math layer:* `streamingLSE_eq_lseReal`,
+`attentionBackwardReal_eq_reverseMode`,
+`attentionBackwardRealMasked_allVisible`,
+`dQBlockContributionMasked_sum_eq_attentionBackwardRealMasked` (and causal
+counterpart), `attentionBackwardReal4DMasked_slice`, probability / `dP =
+dO · Vᵀ` / row correction `D_i` / `dS = P * (dP - corr[:, None])` /
+`dV = Pᵀ · dO` / `dQ = dS · K · scale` / `dK = dSᵀ · Q · scale` tile
+bridges, `softmax_jvp_identity`, `causalBackward_tile_bridges_complete`,
+block-local arbitrary-mask `_block_*` counterparts;
+`dQBlockContributionScoreVariant_sum_eq_attentionBackwardRealScoreVariant`;
+bundled as `strippedBackward_tile_bridges_complete`,
+`maskedBackward_block_tile_bridges_complete`,
+`causalBackward_block_tile_bridges_complete`.
 
 ### Horizontal infra ✅ (beyond original PLAN scope, in parallel with Tiers)
 
@@ -180,78 +272,58 @@ The trusted bridge from Real-algorithm correctness to floating computation
 
 ### Numbers
 
-- 80 `.lean` files, ~42.7k lines
-- Whole library 0 sorry (except `FlashAttention1/Backward.lean` × 1, in
-  progress)
+- 113 `.lean` files under `VeriTile/` (~58.6k lines); 145 `.lean` files including `bench/` (~63.2k lines)
+- Whole library 0 sorry
 - `lake build` clean
+- `bench/check_ports.sh` 32/32 ok
 
 ## In progress
 
-### FA-1 backward
+### Tier 3 ergonomic follow-ups
 
-The original PLAN listed backward as P3+ "never"; the redirect moves it
-in-scope (see §Decision log entry 9).
+All FA-1 / FA-2 forward and backward main theorems (concrete kernels +
+headline corollaries) are closed (see §Status). The remaining work is
+ergonomic, not functional:
 
-`VeriTile/Examples/FlashAttention1/Backward.lean` (495 lines, 1 `sorry`):
-
-- `streamingLSE_eq_lseReal` — the forward LSE store using `m_i + tl.log(l_i)`
-  equals unshifted log-sum-exp (the key bridge for backward to reconstruct P)
-- `attentionBackwardReal_eq_reverseMode` — closed-form reverse-mode FA-1
-  backward
-- Math-layer tile bridges: probability, `dP = dO · Vᵀ`, row correction
-  `D_i = Σⱼ P_ij · dP_ij`, `dS = P * (dP - corr[:, None])`,
-  `dV = Pᵀ · dO`, `dQ = dS · K · scale`, `dK = dSᵀ · Q · scale`
-- `softmax_jvp_identity` — softmax JVP form
-- `strippedBackward_tile_bridges_complete` — bundled math-layer surface
-- `fa1BackwardStrippedKernel_correct` — main theorem (stripped: no mask, no
-  multi-block, single program-id); the sub-2b execution wiring is the
-  current sorry
-
-Next: close sub-2b → add mask → add multi-block → causal backward →
-FA-2 backward.
+- More ergonomic construction of causal `GridLaunchedAtomic` witnesses from
+  raw DSL inputs, so end users can reach
+  `fa1BackwardAtomicDQCausalKernel_gridLaunched_backward_correct` (and the
+  boundary / score-variant / FA-2 dual launchers) without threading the
+  trace-extraction lemmas by hand.
+- A user-facing `Realizes`-style surface for backward outputs, gated on the
+  whole-grid `launchExec` landing (see §Roadmap mid-term).
+- Two-block FA-2 forward / backward bridges generalize to arbitrary block
+  counts once `multiBlockExec` lands.
 
 ## Roadmap (priority-ordered, no fixed time windows)
 
-### Near-term — Tier 3-A wrap-up and backward stage 1
+### Near-term — Tier 3 release + Tier 4 prerequisites
 
-- Close FA-1 backward stripped main theorem (last sorry)
-- Tag `v0.3-tier3a` (forward full coverage already in place)
-- Add mask to FA-1 backward
-- Wire FA-1 backward to multi-block (after mid-term multi-block semantics)
+- Cut `v0.3-tier3` release covering FA-1 forward (3-A), FA-2 forward + the
+  `fa1_eq_fa2_two_block_forward4D` headline corollary (3-B), and FA-1/FA-2
+  backward + `fa1_backward_eq_fa2_backward(_4D)` headline corollary (3-C)
+- Pre-Tier-4 cleanup checklist (closed: see issue #108)
+- Causal launcher-witness ergonomics (§In progress)
+- Streaming reduction helper extraction — Tier 4 prerequisite, follow-up
+  issue from #108
 
-### Mid-term — Tier 3-B FA-2 forward + headline corollary
+### Mid-term — Whole-grid `multiBlockExec` and arbitrary-block lift
 
-*Semantic extensions:*
+Tier 3-B/C are closed at the two-block level (see §Status). The remaining
+work generalizes the producer-consumer chain to arbitrary block counts and
+unifies grid execution under a single launch primitive:
 
 - `multiBlockExec : Kernel → InitMem → Grid → FinalMem` model — runs every
-  program_id (3D grid: `batch × heads × Q-blocks`), composing each
-  program's writes
-- Stride / layout model (per program_id row-major contiguous; no general
-  layout system)
-- Disjoint-writes lemma — for atomic-free pure-forward kernels, each
-  program's output region is disjoint, so per-program local correctness
-  composes
-
-*Kernel and theorems:*
-
-- FA-2 kernel embedded via `triton { ... }` (multi-axis program_id, delayed
-  rescale path, mask-skip path)
-- `fa_2_forward_correct` — like FA-1 forward, with: (a) sequence-length
-  parallelization, (b) delayed rescaling, (c) full-mask block skip
-  - Delayed rescale equivalence: `O_final / l_final` does not depend on
-    whether intermediate `O` is rescaled each step (`delayed_rescale_eq`
-    helper)
-  - Block-skip correctness: full-mask blocks contribute 0 to the recurrence
-  - Heavily reuses Tier 3-A single-program invariant tooling
-- **Headline corollary `fa1_eq_fa2`** — ~30 lines via spec transitivity
-  through `standardAttentionMath`
-
-### Mid-term — Tier 3-C FA backward full coverage
-
-- FA-1 backward + mask + causal + multi-block (after stripped single-block
-  closes)
-- FA-2 backward (reuses multi-block semantics)
-- Headline corollary `fa1_backward_eq_fa2_backward` (dual to forward)
+  program_id (3D grid: `batch × heads × Q-blocks`), composing each program's
+  writes; promotes today's `Kernel.ForAllProgramsSome` retrofit into a
+  first-class final-state semantics
+- Generalize `fa2_two_block_forward_eq_attentionReal` from two blocks to
+  arbitrary block counts (`fa_2_forward_correct` with block-skip + delayed
+  rescale closure)
+- Lift the headline corollaries `fa1_eq_fa2_two_block_forward4D` and
+  `fa1_backward_eq_fa2_backward(_4D)` to arbitrary block counts as
+  `fa1_eq_fa2` (forward) and `fa1_backward_eq_fa2_backward` over the
+  arbitrary-block FA-2 spec
 
 ### Mid-term — Tier 4 production kernel batch 2
 
@@ -309,7 +381,7 @@ have **moved out** of the original PLAN's P3+ list and into the roadmap
 
 | Risk | Trigger signal | Mitigation |
 |---|---|---|
-| FA-1 backward `sub-2b` execution wiring stuck long-term | sorry persists ≥ 2 weeks | `/lean4:autoprove --deep=stuck`; if that fails, split into smaller stripped sublemmas |
+| FA-2 backward generalization stalls | proof split stalls ≥ 2 weeks | reuse the FA-1 backward atomic-`dQ` machinery already closed; if that fails, split into smaller stripped sublemmas |
 | `multiBlockExec` formal model more complex than expected | drafting the disjoint-writes invariant | restrict to "per program_id row-major contiguous"; no general layout system |
 | FA-2 multi-block abstraction more complex than expected | drafting `multiBlockExec` reveals hidden complexity | start with stripped FA-2 (single-program, no mask-skip); full version later |
 | `tl.dot` over `Value.tile2D` simp behaves badly | FA proof stuck on simp | custom simp lemmas; or switch to `unfold + induction` style |
@@ -466,8 +538,11 @@ To make the close-rate metric reproducible:
 9. **2026-05-05** — **Backward pass, Python lifter, and concurrency-
    primitive proofs moved out of P3+ and into in-scope.**
 
-   - **FA-1 backward** is already in progress (`Backward.lean` 495 lines,
-     1 sorry); near-term wrap-up target
+   - **FA-1 backward** entered the near-term roadmap; as of 2026-05-09 the
+     full FA-1 backward(stripped + non-causal/causal multi-block atomic-dQ
+     + boundary × 4 + score-variants × 5)and FA-2 backward(× 4 concrete
+     kernels)plus the headline corollary `fa1_backward_eq_fa2_backward(_4D)`
+     are all closed (§Status Tier 3-C)
    - **Python lifter** moved from P3+ to mid/long-term — Triton-user
      friendliness requires a paste-in surface, not just documentation
      correspondence
@@ -480,18 +555,9 @@ To make the close-rate metric reproducible:
    backward every day; production kernels heavily use atomic / async; a
    DSL that does not accept paste-in has no users.
 
-## Per-Tier implementation plans
+## Implementation plans
 
-The new roadmap advances by Tier with no fixed time window. Each new Tier
-opens with an implementation plan written via the `writing-plans` flow,
-filed under `Notes/` as `YYYY-MM-DD-tier-X-implementation.md`. Existing
-ones:
-
-- `Notes/2026-04-26-phase-a-implementation.md` (Tier 1)
-- `Notes/2026-04-29-phase-b-implementation.md` (Tier 2)
-- `Notes/2026-04-29-forloop-inv-design.md`
-- `Notes/T3_scouting.md` (full Tier 3 scouting, including mask resolution
-  and FA-1 / FA-2 algorithm analysis)
-
-Every implementation plan should reference the relevant section of this
-document for context.
+Active execution is tracked in pinned roadmap issue #91 (layered) and the
+linked per-task issues. Long-form design documents that survive an
+implementation phase are filed under [`documents/`](./documents); closed-phase
+design notes live in [`documents/archive/`](./documents/archive/).

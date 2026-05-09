@@ -25,27 +25,38 @@ values have shape `[]`; a matrix `[M, D]` has index shape
 
 ### Control and Program IDs
 
-- `tl.program_id(axis)` where `axis` is a numeric literal or `$(n)`.
-  The runtime state stores `pids : Nat → Nat`, so every axis is total.
+- `tl.program_id(axis)` and `tl.program_id(axis=axis)` where `axis` is a
+  numeric literal or `$(n)`. The runtime state stores `pids : Nat → Nat`,
+  so every axis is total.
 - `tl.for i in $(n) { ... }` and `tl.for i in N { ... }`.
   The loop is operationally modeled and proved through `forLoop_inv`.
 - `tl.static_range i in $(n) { ... }` and `tl.static_range i in N { ... }`
   are surface aliases for the same bounded-loop AST. Unroll and pipeline
   attributes are not modeled.
-- `tl.if cond { ... }` and `tl.if cond { ... } else { ... }` for scalar
-  boolean conditions (`Op .bool []`). There is no `break` or `continue`;
-  Triton block-skipping patterns should be written by negating the skip
-  condition and wrapping the useful body. Elementwise conditional selection
-  remains `tl.where`.
+- Block conditional, in two equivalent surface spellings:
+  - `if cond { ... }` and `if cond { ... } else { ... }` (Python-style; the
+    `if` token here is the DSL conditional, distinct from Lean's term-level `if`).
+  - `tl.if cond { ... }` and `tl.if cond { ... } else { ... }` (explicit
+    `tl.` prefix, also accepted).
+
+  The condition must be a scalar boolean (`Op .bool []`). There is no
+  `break` or `continue`; Triton block-skipping patterns should be written
+  by negating the skip condition and wrapping the useful body.
+  Elementwise conditional selection remains `tl.where`.
 - Register assignment:
-  `x := expr`.
+  - `x = expr` and `x := expr` (single binding)
+  - `x, y = e1, e2` and `x, y := e1, e2` (parallel multi-assign);
+    the comma-list lengths must match
+  - `value, index = tl.max(..., return_indices=True)`
+    (tuple-returning op binding)
 
 ### Constants and Dtypes
 
 - Real literals: `0`, `1`, `3.5`, etc. lower to the `.real` channel.
-- Nat antiquotation: `$(n)` lowers to the `.nat` channel.
-- Real antiquotation: `$ℝ(x)` lowers a Lean `ℝ` term to the `.real` channel.
-- `-inf` lowers to `Op.negInf`, represented internally by `⊥ : WithBot ℝ`.
+- Lean antiquotation: `$(x)` is context-sensitive. Address/shape/index contexts
+  lower it to `.nat`; data/scalar contexts lower it to the algorithm data channel.
+- `-inf` and the Lean-source spelling `-float("inf")` lower to `Op.negInf`,
+  represented internally by `⊥ : WithBot ℝ`.
 - `tl.toReal(x)` converts a `.nat` scalar/tile to `.real`.
 - `tl.cast(x, tl.float64|tl.float32|tl.float16|tl.bfloat16)` changes the
   floating dtype index. In the current semantic model this preserves the
@@ -135,26 +146,37 @@ Supported channels:
 - `tl.sigmoid`
 - `tl.sqrt`
 - `tl.tanh`
-- `tl.sin`
+- `tl.sin`, `tl.math.sin`
 - `tl.cos`
 - `tl.tan`
 - `tl.atan`
 - `tl.cosh`
 - `tl.sinh`
+- `tl.erf`
+- `tl.extra.cuda.libdevice.erf`
 - `tl.log2` (Real semantics: `tl.log(x) / log(2)`)
 - `tl.exp2` (Real semantics: `tl.exp(x * log(2))`)
 - `tl.abs`
 
 These operate on the `.real` channel. `tl.abs(x)` is desugared to
 `tl.where(x < 0, 0 - x, x)` in the current real-valued semantics.
+The `tl.math.*` namespace and `tl.extra.cuda.libdevice.*` aliases lower to
+the same mathematical operator at the algorithm layer; they are not proofs
+of CUDA libdevice's bit-level approximation, which belongs to the
+ComputeCorrect gap contract path (#59).
 
 ### Reductions
 
 - `tl.sum(x)`
 - `tl.max(x)`
-- `tl.sum(x, axis=N)`
-- `tl.max(x, axis=N)`
+- `tl.sum(x, axis=N)` and the positional spelling `tl.sum(x, N)`
+- `tl.max(x, axis=N)` and the positional spelling `tl.max(x, N)`
 - `keep_dims=true|false`
+- `tl.max(x, axis=N, return_indices=True)` returns a (value, index) tuple
+  consumable only via the multi-assign binding form
+  `vmax, imax = tl.max(x, axis=N, return_indices=True)`. Use
+  [`ComputeCorrect.OutputPairWhere`](./CorrectnessSurfaces.md) for the
+  paired-channel correctness surface.
 
 Omitted `axis` follows Triton's `axis=None` behavior: reduce over all
 dimensions. Explicit `axis=N` reduces one axis. Reductions are currently over
@@ -356,19 +378,20 @@ current semantic contract.
 
 | Area | Status | Coverage |
 | --- | --- | --- |
-| Scalar/tile constants | Supported | Real literals, `$(n)`, `$ℝ(x)`, `-inf`, register refs |
-| Program IDs | Limited | `tl.program_id(axis)` for literal or antiquoted `Nat` axes; ND grid quantification is available through `GridIndex` / `Kernel.ForAllPrograms`, but no launch executor is modeled |
+| Scalar/tile constants | Supported | Real literals, context-sensitive `$(x)`, `-inf` / `-float("inf")`, register refs |
+| Program IDs | Limited | `tl.program_id(axis)` and `tl.program_id(axis=axis)` for literal or antiquoted `Nat` axes; ND grid quantification is available through `GridIndex` / `Kernel.ForAllPrograms`, but no launch executor is modeled |
 | Loops | Supported | Bounded `tl.for`; `tl.static_range` alias backed by the same loop AST |
-| Conditionals | Limited | Scalar `tl.if cond { ... }` and `tl.if cond { ... } else { ... }`; no `break` or `continue` |
+| Conditionals | Limited | Scalar `if cond { ... }` and `tl.if cond { ... }` (and `... else { ... }`); no `break` or `continue` |
+| Multi-assign | Supported | `x, y = e1, e2` parallel binding; `value, index = tl.max(..., return_indices=True)` tuple-op binding |
 | Arithmetic | Supported | `+`, `-`, `*`, `/` on same-channel numeric operands; `//`, `%` on integer channels; `tl.cdiv` on `.nat`; `ptr + nat` for pointer offsets |
 | Comparisons | Supported | `<`, `<=`, `==`, `>`, `>=`, `!=` on `.real` or `.nat` |
 | Boolean ops | Supported | `tl.logical_and`, `tl.logical_or`, `tl.logical_not`, plus `&`, `|`, `~` mask spellings |
 | Nat bitwise ops | Limited | `&`, `|`, `^`, `<<`, `>>` on `.nat`; no `.nat ~` and no signed fixed-width bitwise semantics yet |
 | Pointwise select | Supported | `tl.where(cond, a, b)` with scalar lifting and matching non-scalar shapes |
-| Unary math | Supported | `tl.exp`, `tl.exp2`, `tl.log`, `tl.log2`, `tl.sigmoid`, `tl.sqrt`, `tl.tanh`, `tl.sin`, `tl.cos`, `tl.tan`, `tl.atan`, `tl.cosh`, `tl.sinh` |
-| Reductions | Supported | `tl.sum`, `tl.max`, optional `axis`, optional `keep_dims` over `.real` tiles |
-| Prefix scans | Limited | `tl.cumsum`, `tl.cumprod`, `tl.associative_scan(x, sum/prod/max/min, axis=N)` over `.real` tiles; no arbitrary combine functions |
-| Index/order ops | Limited | `tl.argmax`, `tl.argmin`, `tl.sort` over `.real` tiles with static `axis=N`; arg ties return the smallest axis index, sort is ascending |
+| Unary math | Supported | `tl.exp`, `tl.exp2`, `tl.log`, `tl.log2`, `tl.sigmoid`, `tl.sqrt`, `tl.tanh`, `tl.sin`, `tl.cos`, `tl.tan`, `tl.atan`, `tl.cosh`, `tl.sinh`, `tl.erf`, `tl.extra.cuda.libdevice.erf`; floating dtype tags project to `.real` for algorithm proofs |
+| Reductions | Supported | `tl.sum`, `tl.max` with optional `axis=` (or positional axis) and `keep_dims` over `.real` or floating-tagged tiles; floating tags project to `.real`; `tl.max(..., return_indices=True)` returns a value/index tuple via multi-assign |
+| Prefix scans | Limited | `tl.cumsum`, `tl.cumprod`, `tl.associative_scan(x, sum/prod/max/min, axis=N)` over `.real` or floating-tagged tiles; no arbitrary combine functions |
+| Index/order ops | Limited | `tl.argmax`, `tl.argmin`, `tl.sort` over `.real` or floating-tagged tiles with static `axis=N`; arg ties return the smallest axis index, sort is ascending |
 | Broadcast | Supported | ND same-dim, scalar-to-tile, and dimension-`1` expansion |
 | Shape construction | Limited | `tl.arange`, `tl.full`, `tl.zeros`, rank-1 `[:, None]` / `[None, :]`, literal-axis `tl.expand_dims` |
 | Shape/view ops | Limited | `tl.reshape`, `tl.view`, `tl.ravel`, `tl.permute`, `tl.flip`, `tl.join`, projection-form `tl.split(x, 0|1)` |
@@ -385,7 +408,7 @@ current semantic contract.
 | Randomness | Gap | No `tl.rand` or RNG state model yet (#41) |
 | Indirection | Limited | Typed index loads can feed pointer arithmetic for gather/paged-KV style data-dependent addresses (#42); no alias/bounds/page-ownership proof layer yet |
 | Block pointers | Limited | `tl.make_block_ptr`, `tl.advance`, block-pointer load/store with checked-axis zero padding / store skip; no hardware/TMA behavior |
-| Atomics / async / barriers | Limited | `tl.atomic_add` has an AlgKernel `Stmt.atomicAdd` marker, sequential single-program semantics, trace payload vocabulary, and a Real grid-merge sum theorem; other `tl.atomic_*`, `tl.async_copy`, `tl.async_wait`, and `tl.debug_barrier` lower to compute-facing failure markers only; async/TMA discipline remains documented but not implemented; no full scheduler, executable barriers, executable async copy semantics, TMA AST, or IEEE atomic semantics (#12/#67/#68/#69/#71/#72/#76) |
+| Atomics / async / barriers | Limited | `tl.atomic_add` has an AlgKernel `Stmt.atomicAdd` marker, sequential single-program semantics, trace payload vocabulary, and a Real grid-merge sum theorem. `tl.atomic_xchg` / `tl.atomic_cas` now project to return-valued `Stmt.atomicRMW` markers and have single-cell RMW fold semantics, executable statement semantics, stateful trace emission, and a single-cell grid launcher relation with an explicit linearization witness. Other `tl.atomic_*`, `tl.async_copy`, `tl.async_wait`, and `tl.debug_barrier` lower to compute-facing failure markers only; async/TMA discipline remains documented but not implemented; no full scheduler, executable barriers, executable async copy semantics, TMA AST, or IEEE atomic semantics (#12/#67/#68/#69/#71/#72/#76/#82) |
 | Floating point fidelity | Gap | Real-valued model only; no IEEE-754 or mixed-precision hardware semantics (#11) |
 
 ## Expressiveness Matrix
@@ -398,7 +421,7 @@ faithfully in the current Lean DSL?
 | --- | --- | --- | --- |
 | Dense elementwise kernels | Mostly supported | Proof/theorem surface | Pointwise arithmetic, masks, casts, pointer values, and TensorView observation are available; richer dtype/memory claims still use the real abstraction. |
 | Softmax / reductions / LayerNorm / Welford | Supported for current examples | Proof engineering | Core reductions, loops, masks, and TensorView wrappers exist; new kernels mainly need invariants and theorem packaging. |
-| FlashAttention-style dense tiled kernels | Supported for FA-1 forward subset | Proof engineering + limited semantics | Dot, transpose, causal/boundary masks, D-tail, and 4D views are covered; async/shared-memory/hardware dot fidelity remain out of scope. |
+| FlashAttention-style dense tiled kernels | Supported for FA-1 forward and FA-1 backward core surfaces | Proof engineering + limited semantics | Dot, transpose, causal/boundary masks, D-tail, 4D views, Real backward math, atomic-`dQ` launcher composition, strided stripped backward, and a 4D full-sequence backward wrapper are covered; async/shared-memory/hardware dot fidelity remain out of scope. |
 | First-class pointer expressions | Limited | Surface + lightweight semantics | `ptrs := $(r) + offs`, pointer registers, pointer load/store, and pointer offset updates work for `RegionName × Nat`; no pointer casts/comparison/alias analysis. |
 | Block pointers / `boundary_check` | Limited | Surface + sequential semantics | `tl.make_block_ptr`, `tl.advance`, zero-padded checked loads, and checked store-skip work; no `order`, non-zero padding, TMA, or hardware behavior. |
 | Typed floating memory | Limited | Semantic abstraction | `dtype=tl.float32/fp16/bf16` creates typed floating nodes and erases to real for algorithm proofs; IEEE rounding is not modeled. |
@@ -407,8 +430,8 @@ faithfully in the current Lean DSL?
 | Active-lane memory bounds | Limited | Lean proof predicate (#48) | `Kernel.MemorySafe` checks direct region offsets, dynamic pointer addresses, mask activeness, and `boundary_check` block-pointer lanes against `RegionBounds`; no race freedom, frame theorem, or permission accounting. |
 | Single-program write footprint/frame | Limited | Predicate-level frame contract + extraction helpers (#60/#61) | `WriteFootprint := (RegionName × Nat) → Prop` and `BlockState.WriteWithin` state that an execution only modified cells inside a supplied footprint; `tileImage` / `activeTileImage` helpers extract direct, masked, and checked block-pointer store footprints. |
 | RNG / dropout | Gap | State/probabilistic semantics (#41) | Blocks faithful dropout and stochastic kernels. |
-| Atomics / async / shared memory / barriers | Limited | Atomic-add slice + concurrency boundary (#12) | `tl.atomic_add` has a proof-facing marker and Real trace/grid-sum theorem; unsupported atomic family members and async/barrier surfaces fail projection explicitly; async/TMA, shared memory, barriers, full scheduling, and IEEE atomic behavior remain gaps. |
-| Whole-grid launch semantics | Limited | ND grid theorem surface + disjoint/atomic merge (#5/#49/#12) | `GridIndex`, `BlockState.withGridIndex`, `Kernel.ForAllPrograms`, and `ForAllProgramsSome` quantify per-program correctness; `Kernel.mergeFrames` handles pairwise-disjoint footprints and `Kernel.mergeFramesWithAtomic` handles selected Real atomic-add contributions. No full race/scheduler/interleaved executor. |
+| Atomics / async / shared memory / barriers | Limited | Atomic-add slice + concurrency boundary (#12/#82) | `tl.atomic_add` has a proof-facing marker and Real trace/grid-sum theorem; `tl.atomic_xchg` / `tl.atomic_cas` have return-valued algorithm markers, single-cell RMW fold semantics, executable statement/trace integration, and a single-cell grid launcher relation; remaining unsupported atomic family members and async/barrier surfaces fail projection explicitly; async/TMA, shared memory, barriers, full scheduling, and IEEE atomic behavior remain gaps. |
+| Whole-grid launch semantics | Limited | ND grid theorem surface + disjoint/atomic merge (#5/#49/#12) | `GridIndex`, `BlockState.withGridIndex`, `Kernel.ForAllPrograms`, and `ForAllProgramsSome` quantify per-program correctness; `Kernel.mergeFrames` handles pairwise-disjoint footprints, `Kernel.mergeFramesWithAtomic` handles selected Real atomic-add contributions, and `Kernel.GridLaunchedRMW` handles one order-sensitive RMW cell with an explicit linearization witness. No full race/scheduler/interleaved executor. |
 | Python/Triton source ingestion | Gap | Front-end/lifter (#10) | Users must write Lean `triton { ... }`; decorators, Python-side constexpr execution, and general Python control flow are not parsed. |
 | Type checking / pointer provenance | Limited | Optional checker (#46) | `Kernel.check` / `checkStrict` track register dtype/shape, pointer and block-pointer provenance, dtype mismatches, and basic block-pointer metadata; no bounds, alias, launch, or page-ownership proof. |
 

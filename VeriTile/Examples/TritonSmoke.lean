@@ -38,8 +38,8 @@ example (xReg yReg : RegionName) :
 
 example (xReg yReg : RegionName)
     (post : BlockState → BlockState → Prop)
-    (h : ComputeKernel.ComputeCorrect (scalarCopyKernel xReg yReg) post) :
-    ComputeKernel.ComputeCorrect (scalarCopyComputeKernel xReg yReg) post :=
+    (h : ComputeCorrect.General (scalarCopyKernel xReg yReg) post) :
+    ComputeCorrect.General (scalarCopyComputeKernel xReg yReg) post :=
   by
     simpa [scalarCopyComputeKernel, scalarCopyKernel] using h
 
@@ -91,15 +91,28 @@ def atomicXorFailureSmoke (outReg : RegionName) : ComputeKernel := triton {
   tl.atomic_xor($(outReg), x)
 }
 
-def atomicXchgFailureSmoke (outReg : RegionName) : ComputeKernel := triton {
+def atomicXchgSmoke (outReg : RegionName) : ComputeKernel := triton {
   x := 1
   tl.atomic_xchg($(outReg), x)
 }
 
-def atomicCasFailureSmoke (outReg : RegionName) : ComputeKernel := triton {
+def atomicCasSmoke (outReg : RegionName) : ComputeKernel := triton {
   cmp := 0
   x := 1
   tl.atomic_cas($(outReg), cmp, x)
+}
+
+def atomicXchgReturnSmoke (outReg : RegionName) : ComputeKernel := triton {
+  x := 1
+  old := tl.atomic_xchg($(outReg), x)
+  tl.store($(outReg) + $(1), old)
+}
+
+def atomicCasReturnSmoke (outReg : RegionName) : ComputeKernel := triton {
+  cmp := 0
+  x := 1
+  old := tl.atomic_cas($(outReg), cmp, x)
+  tl.store($(outReg) + $(1), old)
 }
 
 example (outReg : RegionName) :
@@ -128,13 +141,59 @@ example (outReg : RegionName) :
   rfl
 
 example (outReg : RegionName) :
-    (atomicXchgFailureSmoke outReg).toAlgorithm? =
-      Except.error (.requiresEffectProjection "tl.atomic_xchg") := by
+    (atomicXchgSmoke outReg).toAlgorithm? =
+      Except.ok
+        { inputs := []
+        , outputs := [outReg]
+        , body :=
+            [ Stmt.assign .real [] "x" (Op.const 1)
+            , Stmt.atomicRMW RMWOp.xchg .real []
+                (MemAccess.region outReg (Op.constNat 0))
+                (Op.ref .real [] "x") none MaskOpt.none none ] } := by
   rfl
 
 example (outReg : RegionName) :
-    (atomicCasFailureSmoke outReg).toAlgorithm? =
-      Except.error (.requiresEffectProjection "tl.atomic_cas") := by
+    (atomicCasSmoke outReg).toAlgorithm? =
+      Except.ok
+        { inputs := []
+        , outputs := [outReg]
+        , body :=
+            [ Stmt.assign .real [] "cmp" (Op.const 0)
+            , Stmt.assign .real [] "x" (Op.const 1)
+            , Stmt.atomicRMW RMWOp.cas .real []
+                (MemAccess.region outReg (Op.constNat 0))
+                (Op.ref .real [] "cmp") (some (Op.ref .real [] "x"))
+                MaskOpt.none none ] } := by
+  rfl
+
+example (outReg : RegionName) :
+    (atomicXchgReturnSmoke outReg).toAlgorithm? =
+      Except.ok
+        { inputs := [outReg]
+        , outputs := [outReg]
+        , body :=
+            [ Stmt.assign .real [] "x" (Op.const 1)
+            , Stmt.atomicRMW RMWOp.xchg .real []
+                (MemAccess.region outReg (Op.constNat 0))
+                (Op.ref .real [] "x") none MaskOpt.none (some "old")
+            , Stmt.store .real [] (MemAccess.region outReg (Op.constNat 1))
+                (Op.ref .real [] "old") MaskOpt.none ] } := by
+  rfl
+
+example (outReg : RegionName) :
+    (atomicCasReturnSmoke outReg).toAlgorithm? =
+      Except.ok
+        { inputs := [outReg]
+        , outputs := [outReg]
+        , body :=
+            [ Stmt.assign .real [] "cmp" (Op.const 0)
+            , Stmt.assign .real [] "x" (Op.const 1)
+            , Stmt.atomicRMW RMWOp.cas .real []
+                (MemAccess.region outReg (Op.constNat 0))
+                (Op.ref .real [] "cmp") (some (Op.ref .real [] "x"))
+                MaskOpt.none (some "old")
+            , Stmt.store .real [] (MemAccess.region outReg (Op.constNat 1))
+                (Op.ref .real [] "old") MaskOpt.none ] } := by
   rfl
 
 def effectMarkerSmoke : ComputeKernel :=
@@ -146,7 +205,7 @@ example :
   rfl
 
 example (post : ComputeKernel.AlgSpec) :
-    ¬ ComputeKernel.ComputeCorrect effectMarkerSmoke post :=
+    ¬ ComputeCorrect.General effectMarkerSmoke post :=
   ComputeKernel.not_computeCorrect_of_toAlgorithm_error rfl
 
 def asyncCopySurfaceSmoke (srcReg dstReg : RegionName) : ComputeKernel := triton {
@@ -159,7 +218,7 @@ example (srcReg dstReg : RegionName) :
   rfl
 
 example (srcReg dstReg : RegionName) (post : ComputeKernel.AlgSpec) :
-    ¬ ComputeKernel.ComputeCorrect (asyncCopySurfaceSmoke srcReg dstReg) post :=
+    ¬ ComputeCorrect.General (asyncCopySurfaceSmoke srcReg dstReg) post :=
   ComputeKernel.not_computeCorrect_of_toAlgorithm_error rfl
 
 def asyncWaitSurfaceSmoke : ComputeKernel := triton {
@@ -172,7 +231,7 @@ example :
   rfl
 
 example (post : ComputeKernel.AlgSpec) :
-    ¬ ComputeKernel.ComputeCorrect asyncWaitSurfaceSmoke post :=
+    ¬ ComputeCorrect.General asyncWaitSurfaceSmoke post :=
   ComputeKernel.not_computeCorrect_of_toAlgorithm_error rfl
 
 def debugBarrierSurfaceSmoke : ComputeKernel := triton {
@@ -185,7 +244,7 @@ example :
   rfl
 
 example (post : ComputeKernel.AlgSpec) :
-    ¬ ComputeKernel.ComputeCorrect debugBarrierSurfaceSmoke post :=
+    ¬ ComputeCorrect.General debugBarrierSurfaceSmoke post :=
   ComputeKernel.not_computeCorrect_of_toAlgorithm_error rfl
 
 /-- Vector-add kernel with explicit boundary mask. -/
@@ -228,6 +287,8 @@ def unaryMathOpsSmoke (xReg : RegionName) (N : Nat) : ComputeKernel := triton {
   atanv := tl.atan(x)
   ch   := tl.cosh(x)
   sh   := tl.sinh(x)
+  erfv := tl.erf(x)
+  erfLibdevice := tl.extra.cuda.libdevice.erf(x)
   l2   := tl.log2(e)
   e2   := tl.exp2(x)
   a    := tl.abs(x)
@@ -620,7 +681,7 @@ theorem argmax2_index_store_exec_correct
 
 theorem argmax2_index_store_correct_view
     (xReg outReg : RegionName) (s : BlockState) :
-    ComputeKernel.ComputeCorrect
+    ComputeCorrect.General
       ((argmax2IndexStoreCoreKernel xReg outReg))
       (fun s0 s' =>
         s0 = s →
@@ -643,7 +704,7 @@ theorem nat_load_store_exec_correct
 
 theorem nat_load_store_correct_view
     (idxReg outReg : RegionName) (s : BlockState) :
-    ComputeKernel.ComputeCorrect
+    ComputeCorrect.General
       ((natLoadStoreCoreKernel idxReg outReg))
       (fun s0 s' =>
         s0 = s →
@@ -688,7 +749,7 @@ theorem indirect_load_correct_exec_view
 theorem indirect_load_correct_view
     (idxReg dataReg outReg : RegionName) (N stride : Nat)
     (s : BlockState) (i : TileIndex [N]) :
-    ComputeKernel.ComputeCorrect
+    ComputeCorrect.General
       ((indirectLoadCoreKernel idxReg dataReg outReg N stride))
       (fun s0 s' =>
         s0 = s →
@@ -1136,9 +1197,9 @@ def ifThenElseSmoke (outReg : RegionName) (P : Nat) :
     Kernel := triton {
   pid := tl.program_id(0)
   tl.if pid < $(P) {
-    tl.store($(outReg) + $(0), $ℝ(1))
+    tl.store($(outReg) + $(0), $(1))
   } else {
-    tl.store($(outReg) + $(0), $ℝ(2))
+    tl.store($(outReg) + $(0), $(2))
   }
 }
 
@@ -1268,6 +1329,13 @@ def pointerValueMaskedStoreSmoke (xReg outReg : RegionName) (N : Nat) : ComputeK
 def blockPointerBoundaryCopySmoke (xReg outReg : RegionName) (N B : Nat) : ComputeKernel := triton {
   xBp := tl.make_block_ptr($(xReg), base=$(0), shape=[$(N)], strides=[1], offsets=[0], block_shape=[$(B)])
   x   := tl.load(xBp, boundary_check=([0] : List Nat), padding_option="zero")
+  yBp := tl.make_block_ptr($(outReg), base=$(0), shape=[$(N)], strides=[1], offsets=[0], block_shape=[$(B)])
+  tl.store(yBp, x, boundary_check=([0] : List Nat))
+}
+
+def blockPointerLoadNoBoundarySmoke (xReg outReg : RegionName) (N B : Nat) : ComputeKernel := triton {
+  xBp := tl.make_block_ptr($(xReg), base=$(0), shape=[$(N)], strides=[1], offsets=[0], block_shape=[$(B)])
+  x   := tl.load(xBp)
   yBp := tl.make_block_ptr($(outReg), base=$(0), shape=[$(N)], strides=[1], offsets=[0], block_shape=[$(B)])
   tl.store(yBp, x, boundary_check=([0] : List Nat))
 }

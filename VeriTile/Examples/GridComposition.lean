@@ -70,10 +70,14 @@ def gridConstStoreFrames (outReg : RegionName) (n : Nat) (s : BlockState) :
 theorem gridConstStoreFrames_disjoint
     (outReg : RegionName) (n : Nat) (s : BlockState) :
     Kernel.GridWritesDisjoint (gridConstStoreFrames outReg n s) := by
-  intro idx₁ idx₂ hne
-  apply WriteFootprint.disjoint_tileImage_of_image_disjoint
-  intro _ _ hEq
-  exact hne (grid1_ext hEq)
+  apply Kernel.GridWritesDisjoint.of_tileImage
+    (frames := gridConstStoreFrames outReg n s)
+    (shape := []) (region := outReg)
+    (offset := fun idx _ => (idx ⟨0, by simp [Grid.rank]⟩).val)
+  · intro idx
+    rfl
+  · intro idx₁ idx₂ hne _ _ hEq
+    exact hne (grid1_ext hEq)
 
 /-- Canonical ordinary launch witness for the one-dimensional disjoint store smoke. -/
 def gridConstStoreLaunched (outReg : RegionName) (n : Nat) (s : BlockState) :
@@ -93,6 +97,16 @@ theorem gridConstStore_launched_observe_written
         (grid1Index i ⟨0, by simp [Grid.rank]⟩).val) (outReg, i.val)
   simp [WriteFootprint.tileImage]
   exact (grid1Index_zero i).symm
+
+theorem gridConstStore_launched_unrelated
+    (outReg otherReg : RegionName) (n : Nat) (s : BlockState) (offset : Nat)
+    (hOther : otherReg ≠ outReg) :
+    (Kernel.mergeFrames (Grid1 n) s (gridConstStoreFrames outReg n s)).mem otherReg offset =
+      s.mem otherReg offset := by
+  apply (gridConstStoreLaunched outReg n s).observeUnwrittenCell
+  apply Kernel.GridWriteFootprint.not_region_of_forall_frames
+  intro idx offset
+  exact WriteFootprint.not_tileImage_of_region_ne hOther
 
 theorem gridConstStore_merge_unrelated
     (outReg otherReg : RegionName) (n : Nat) (s : BlockState) (offset : Nat)
@@ -130,6 +144,23 @@ def splitKAtomicTrace {n : Nat} (outReg : RegionName)
       contrib idx := by
   simp [splitKAtomicTrace]
 
+/-- Example consumer for `ProgramRun.of_uniform`: package a uniform trace
+theorem over all split-K program ids into the launcher `runs` field. -/
+def splitKAtomicRuns_of_uniform
+    (outReg : RegionName) (n : Nat) (s : BlockState)
+    (contrib : GridIndex (Grid1 n) → ℝ)
+    (final : GridIndex (Grid1 n) → BlockState)
+    (hTrace :
+      ∀ idx,
+        Kernel.AtomicTraceStateful (splitKAtomicAddKernel outReg)
+          (Kernel.threadIdOf idx) (s.withGridIndex idx)
+          (splitKAtomicTrace outReg contrib idx) (final idx)) :
+    (idx : GridIndex (Grid1 n)) →
+      Kernel.ProgramRun (splitKAtomicAddKernel outReg) (Grid1 n) s idx :=
+  Kernel.ProgramRun.of_uniform
+    (k := splitKAtomicAddKernel outReg) (g := Grid1 n) (s := s)
+    (trace := splitKAtomicTrace outReg contrib) (final := final) hTrace
+
 /-- Minimal atomic-grid composition theorem.
 
 This is the second consumer of the generic `mergeFramesWithAtomic` theorem
@@ -151,8 +182,35 @@ theorem splitKAtomicAdd_launched_sum
   classical
   rw [hLaunch.observeAtomicCell outReg 0 hNoOrdinaryWrite]
   congr 1
-  apply Finset.sum_congr rfl
-  intro idx hidx
-  exact hContrib idx hidx
+  exact Finset.sum_congr rfl (by
+    intro idx hidx
+    exact hContrib idx hidx)
+
+/-- Order-sensitive atomic launcher smoke.
+
+If a `GridLaunchedRMW` witness linearizes two `atomic_xchg` events at one cell,
+the final cell is the second exchanged value.  This is intentionally stated over
+the generic launcher witness: kernel-specific proofs only need to construct the
+per-program runs, ordinary frames, and linearization list. -/
+theorem gridLaunchedRMW_xchg_two_final
+    {k : Kernel} {g : Grid} {s sFinal : BlockState}
+    (h : Kernel.GridLaunchedRMW k g s sFinal)
+    (cell : MemCellAddr) (old first second : MemCell)
+    (hCell : h.cell = cell)
+    (hInitial : s.mem cell.1 cell.2 = old)
+    (hLinearization :
+      h.linearization =
+        [ { cell := cell, op := RMWOp.xchg, input := first }
+        , { cell := cell, op := RMWOp.xchg, input := second } ]) :
+    sFinal.mem cell.1 cell.2 = second := by
+  have hApply := h.applyLinearized
+  rw [hCell, hInitial, hLinearization] at hApply
+  rw [RMWTrace.applyLinearized_xchg_two old first second cell] at hApply
+  injection hApply with hFinalCell
+  have hFinal : h.finalCell = second := by
+    simpa using congrArg Prod.fst hFinalCell.symm
+  have hObs := h.observeRMWCell
+  rw [hCell] at hObs
+  exact hObs.trans hFinal
 
 end VeriTile.Examples.GridComposition

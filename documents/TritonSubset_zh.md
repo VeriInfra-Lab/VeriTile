@@ -22,26 +22,33 @@ Stmt : Type
 
 ### 控制流与 program id
 
-- `tl.program_id(axis)`,其中 `axis` 是数字字面量或 `$(n)`。
+- `tl.program_id(axis)` 与 `tl.program_id(axis=axis)`,其中 `axis` 是数字字面量或 `$(n)`。
   运行时状态保存 `pids : Nat → Nat`,所以任意 axis 都有定义。
 - `tl.for i in $(n) { ... }` 与 `tl.for i in N { ... }`。
   loop 有操作语义,证明通过 `forLoop_inv`。
 - `tl.static_range i in $(n) { ... }` 与 `tl.static_range i in N { ... }`
   是同一个 bounded-loop AST 的 surface alias。当前不建模 unroll / pipeline
   属性。
-- `tl.if cond { ... }` 和 `tl.if cond { ... } else { ... }` 支持 scalar
-  bool 条件(`Op .bool []`)。当前没有 `break` 或 `continue`;Triton 的
-  block-skipping pattern 应该通过取反 skip 条件并包住有效 body 来表示。逐元素条件选择仍使用
-  `tl.where`。
+- 块条件,两种等价 surface 写法:
+  - `if cond { ... }` 与 `if cond { ... } else { ... }`(Python 风格,这里的
+    `if` 是 DSL 块条件 token,跟 Lean term 层的 `if` 不冲突)。
+  - `tl.if cond { ... }` 与 `tl.if cond { ... } else { ... }`(显式 `tl.` 前缀,也接受)。
+
+  条件必须是 scalar bool(`Op .bool []`)。当前没有 `break` / `continue`;
+  Triton 的 block-skipping pattern 应通过取反条件并包住有效 body 表示。
+  逐元素条件选择仍用 `tl.where`。
 - 寄存器赋值:
-  `x := expr`。
+  - `x = expr` / `x := expr`(单一绑定)
+  - `x, y = e1, e2` / `x, y := e1, e2`(并行多重赋值);左右逗号项数必须一致
+  - `value, index = tl.max(..., return_indices=True)`(多返回 op 解构)
 
 ### 常量与 dtype
 
 - 实数字面量: `0`, `1`, `3.5` 等,降到 `.real` channel。
-- Nat 反引用: `$(n)`,降到 `.nat` channel。
-- Real 反引用: `$ℝ(x)`,把 Lean `ℝ` 项降到 `.real` channel。
-- `-inf` 降到 `Op.negInf`,内部表示为 `⊥ : WithBot ℝ`。
+- Lean 反引用: `$(x)` 是 context-sensitive。地址/shape/index context 降到 `.nat`;
+  data/scalar context 降到算法 data channel。
+- `-inf` 和 Lean source 里可写的 `-float("inf")` 降到 `Op.negInf`,内部表示为
+  `⊥ : WithBot ℝ`。
 - `tl.toReal(x)` 把 `.nat` 标量/tile 转成 `.real`。
 - `tl.cast(x, tl.float64|tl.float32|tl.float16|tl.bfloat16)` 改变浮点
   dtype index。当前语义里它保留底层 `WithBot ℝ` 值,不建模 rounding。
@@ -119,26 +126,35 @@ Stmt : Type
 - `tl.sigmoid`
 - `tl.sqrt`
 - `tl.tanh`
-- `tl.sin`
+- `tl.sin`、`tl.math.sin`
 - `tl.cos`
 - `tl.tan`
 - `tl.atan`
 - `tl.cosh`
 - `tl.sinh`
+- `tl.erf`
+- `tl.extra.cuda.libdevice.erf`
 - `tl.log2`(Real 语义为 `tl.log(x) / log(2)`)
 - `tl.exp2`(Real 语义为 `tl.exp(x * log(2))`)
 - `tl.abs`
 
 这些都作用于 `.real` channel。`tl.abs(x)` 当前在实数语义里降为
-`tl.where(x < 0, 0 - x, x)`。
+`tl.where(x < 0, 0 - x, x)`。`tl.math.*` 命名空间和
+`tl.extra.cuda.libdevice.*` alias 在算法层降到同一个数学算子;它们不是
+CUDA libdevice bit-level 近似实现的证明,后者属于 ComputeCorrect gap
+contract 路径(#59)。
 
 ### Reduction
 
 - `tl.sum(x)`
 - `tl.max(x)`
-- `tl.sum(x, axis=N)`
-- `tl.max(x, axis=N)`
+- `tl.sum(x, axis=N)`、位置参形式 `tl.sum(x, N)`
+- `tl.max(x, axis=N)`、位置参形式 `tl.max(x, N)`
 - `keep_dims=true|false`
+- `tl.max(x, axis=N, return_indices=True)` 返回 (value, index) 对,只能通过
+  多重赋值绑定 `vmax, imax = tl.max(x, axis=N, return_indices=True)` 消费。
+  对应的 paired-channel 正确性 surface 用
+  [`ComputeCorrect.OutputPairWhere`](./CorrectnessSurfaces.md)。
 
 省略 `axis` 时遵循 Triton 的 `axis=None`:对所有维度做 reduction。
 显式 `axis=N` 时只 reduce 一个 axis。当前 reduction 作用于 `.real` tile。
@@ -320,19 +336,20 @@ surface。`Limited` 表示 VeriTile 有意只支持 Triton 特性的窄子集。
 
 | Area | Status | Coverage |
 | --- | --- | --- |
-| scalar/tile 常量 | Supported | 实数字面量、`$(n)`、`$ℝ(x)`、`-inf`、register ref |
-| program id | Limited | literal 或 antiquoted `Nat` axis 的 `tl.program_id(axis)`;可通过 `GridIndex` / `Kernel.ForAllPrograms` 做 ND grid 量化,但没有 launch executor |
+| scalar/tile 常量 | Supported | 实数字面量、context-sensitive `$(x)`、`-inf` / `-float("inf")`、register ref |
+| program id | Limited | literal 或 antiquoted `Nat` axis 的 `tl.program_id(axis)` 与 `tl.program_id(axis=axis)`;可通过 `GridIndex` / `Kernel.ForAllPrograms` 做 ND grid 量化,但没有 launch executor |
 | loop | Supported | bounded `tl.for`;`tl.static_range` alias 降到同一个 loop AST |
-| conditional | Limited | scalar `tl.if cond { ... }` 与 `tl.if cond { ... } else { ... }`;没有 `break`、`continue` |
+| conditional | Limited | scalar `if cond { ... }` 与 `tl.if cond { ... }`(及 `... else { ... }`);没有 `break`、`continue` |
+| 多重赋值 | Supported | `x, y = e1, e2` 并行绑定;`value, index = tl.max(..., return_indices=True)` 多返回 op 解构 |
 | arithmetic | Supported | 同 channel numeric 上的 `+`, `-`, `*`, `/`;integer `//` / `%`;`.nat` `tl.cdiv`;pointer offset 支持 `ptr + nat` |
 | comparison | Supported | `.real` 或 `.nat` 上的 `<`, `<=`, `==`, `>`, `>=`, `!=` |
 | bool op | Supported | `tl.logical_and`、`tl.logical_or`、`tl.logical_not`,以及 `&`、`|`、`~` mask spelling |
 | Nat bitwise op | Limited | `.nat` 上的 `&`, `|`, `^`, `<<`, `>>`;暂不支持 `.nat ~` 和 signed fixed-width bitwise 语义 |
 | pointwise select | Supported | `tl.where(cond, a, b)`,支持 scalar lifting,非 scalar shape 需一致 |
-| unary math | Supported | `tl.exp`, `tl.exp2`, `tl.log`, `tl.log2`, `tl.sigmoid`, `tl.sqrt`, `tl.tanh`, `tl.sin`, `tl.cos`, `tl.tan`, `tl.atan`, `tl.cosh`, `tl.sinh` |
-| reduction | Supported | `.real` tile 上的 `tl.sum`, `tl.max`,可带 `axis` / `keep_dims` |
-| prefix scan | Limited | `.real` tile 上的 `tl.cumsum`, `tl.cumprod`, `tl.associative_scan(x, sum/prod/max/min, axis=N)`;不支持 arbitrary combine function |
-| index/order op | Limited | `.real` tile 上的 `tl.argmax`, `tl.argmin`, `tl.sort`,需要静态 `axis=N`;arg tie 返回最小 axis index,sort 升序 |
+| unary math | Supported | `tl.exp`, `tl.exp2`, `tl.log`, `tl.log2`, `tl.sigmoid`, `tl.sqrt`, `tl.tanh`, `tl.sin`, `tl.cos`, `tl.tan`, `tl.atan`, `tl.cosh`, `tl.sinh`, `tl.erf`, `tl.extra.cuda.libdevice.erf`;浮点 dtype tag 会在算法证明层投影到 `.real` |
+| reduction | Supported | `.real` 或浮点 tag tile 上的 `tl.sum`, `tl.max`,可带 `axis=`(或位置参 axis)和 `keep_dims`;浮点 tag 会投影到 `.real`;`tl.max(..., return_indices=True)` 通过多重赋值返回 value/index 对 |
+| prefix scan | Limited | `.real` 或浮点 tag tile 上的 `tl.cumsum`, `tl.cumprod`, `tl.associative_scan(x, sum/prod/max/min, axis=N)`;不支持 arbitrary combine function |
+| index/order op | Limited | `.real` 或浮点 tag tile 上的 `tl.argmax`, `tl.argmin`, `tl.sort`,需要静态 `axis=N`;arg tie 返回最小 axis index,sort 升序 |
 | broadcast | Supported | ND same-dim、scalar-to-tile、dimension-`1` expansion |
 | shape construction | Limited | `tl.arange`, `tl.full`, `tl.zeros`,rank-1 `[:, None]` / `[None, :]`,literal-axis `tl.expand_dims` |
 | shape/view op | Limited | `tl.reshape`, `tl.view`, `tl.ravel`, `tl.permute`, `tl.flip`, `tl.join`,projection-form `tl.split(x, 0|1)` |
@@ -349,7 +366,7 @@ surface。`Limited` 表示 VeriTile 有意只支持 Triton 特性的窄子集。
 | randomness | Gap | 还没有 `tl.rand` 或 RNG state model (#41) |
 | indirection | Limited | typed index load 可以参与 pointer arithmetic,表达 gather / paged-KV 风格 data-dependent address (#42);还没有 alias/bounds/page-ownership proof layer |
 | block pointer | Limited | `tl.make_block_ptr`、`tl.advance`、带 checked-axis zero padding / store skip 的 block-pointer load/store;没有硬件/TMA 行为 |
-| atomic / async / barrier | Limited | `tl.atomic_add` 已有 AlgKernel `Stmt.atomicAdd` marker、单程序顺序语义、trace payload 词汇和 Real grid-merge sum theorem;其他 `tl.atomic_*`、`tl.async_copy`、`tl.async_wait`、`tl.debug_barrier` 目前只会 lowering 到 compute-facing failure marker;async/TMA discipline 仍只是文档 contract,没有实现;还没有完整 scheduler、可执行 barrier、可执行 async copy 语义、TMA AST 或 IEEE atomic 语义 (#12/#67/#68/#69/#71/#72/#76) |
+| atomic / async / barrier | Limited | `tl.atomic_add` 已有 AlgKernel `Stmt.atomicAdd` marker、单程序顺序语义、trace payload 词汇和 Real grid-merge sum theorem;`tl.atomic_xchg` / `tl.atomic_cas` 现在会 project 到 return-valued `Stmt.atomicRMW` marker,并已有 single-cell RMW fold 语义、可执行 statement 语义、stateful trace emission 和带 explicit linearization witness 的 single-cell grid launcher relation;其他 `tl.atomic_*`、`tl.async_copy`、`tl.async_wait`、`tl.debug_barrier` 目前只会 lowering 到 compute-facing failure marker;async/TMA discipline 仍只是文档 contract,没有实现;还没有完整 scheduler、可执行 barrier、可执行 async copy 语义、TMA AST 或 IEEE atomic 语义 (#12/#67/#68/#69/#71/#72/#76/#82) |
 | floating-point fidelity | Gap | 只有 real-valued model;没有 IEEE-754 或 mixed-precision hardware semantics (#11) |
 
 ## 表达力矩阵
@@ -361,7 +378,7 @@ surface。`Limited` 表示 VeriTile 有意只支持 Triton 特性的窄子集。
 | --- | --- | --- | --- |
 | dense elementwise kernel | Mostly supported | proof/theorem surface | 点态算术、mask、cast、pointer value 和 TensorView observation 都有;更强 dtype/memory claim 仍走 real abstraction。 |
 | softmax / reduction / LayerNorm / Welford | Supported for current examples | proof engineering | reduction、loop、mask、TensorView wrapper 都已有;新 kernel 主要是 invariant 和 theorem packaging。 |
-| FlashAttention-style dense tiled kernel | Supported for FA-1 forward subset | proof engineering + limited semantics | dot、transpose、causal/boundary mask、D-tail、4D view 已覆盖;async/shared-memory/hardware dot fidelity 仍不在当前范围内。 |
+| FlashAttention-style dense tiled kernel | Supported for FA-1 forward and FA-1 backward core surfaces | proof engineering + limited semantics | dot、transpose、causal/boundary mask、D-tail、4D view、Real backward math、atomic-`dQ` launcher composition、strided stripped backward 和 4D full-sequence backward wrapper 已覆盖;async/shared-memory/hardware dot fidelity 仍不在当前范围内。 |
 | first-class pointer expression | Limited | surface + lightweight semantics | 支持 `ptrs := $(r) + offs`、pointer register、pointer load/store、pointer offset update;没有 pointer cast/comparison/alias analysis。 |
 | block pointer / `boundary_check` | Limited | surface + sequential semantics | 支持 `tl.make_block_ptr`、`tl.advance`、zero-padded checked load、checked store-skip;没有 `order`、非 zero padding、TMA 或硬件行为。 |
 | typed floating memory | Limited | semantic abstraction | `dtype=tl.float32/fp16/bf16` 会生成 typed floating node,算法证明擦除到 real;没有 IEEE rounding。 |
@@ -370,8 +387,8 @@ surface。`Limited` 表示 VeriTile 有意只支持 Triton 特性的窄子集。
 | active-lane memory bounds | Limited | Lean proof predicate (#48) | `Kernel.MemorySafe` 按 `RegionBounds` 检查 direct region offset、dynamic pointer address、mask activeness 和 `boundary_check` block-pointer lane;没有 race freedom、frame theorem 或 permission accounting。 |
 | single-program write footprint/frame | Limited | predicate-level frame contract + extraction helpers (#60/#61) | `WriteFootprint := (RegionName × Nat) → Prop` 和 `BlockState.WriteWithin` 表达一次 execution 只修改 supplied footprint 内的 cell;`tileImage` / `activeTileImage` helper 可提取 direct、masked、checked block-pointer store footprint。 |
 | RNG / dropout | Gap | state/probabilistic semantics (#41) | 阻塞 faithful dropout 和随机 kernel。 |
-| atomics / async / shared memory / barriers | Limited | atomic-add slice + concurrency boundary (#12) | `tl.atomic_add` 已有 proof-facing marker 和 Real trace/grid-sum theorem;不支持的 atomic family 成员和 async/barrier surface 会显式 projection failure;async/TMA、shared memory、barrier、完整 scheduling、IEEE atomic 行为仍是 gap。 |
-| whole-grid launch semantics | Limited | ND grid theorem surface + disjoint/atomic merge (#5/#49/#12) | `GridIndex`、`BlockState.withGridIndex`、`Kernel.ForAllPrograms`、`ForAllProgramsSome` 支持 per-program correctness 量化;`Kernel.mergeFrames` 处理 pairwise-disjoint footprint,`Kernel.mergeFramesWithAtomic` 处理选定 Real atomic-add contribution;没有完整 race/scheduler/interleaved executor。 |
+| atomics / async / shared memory / barriers | Limited | atomic-add slice + concurrency boundary (#12/#82) | `tl.atomic_add` 已有 proof-facing marker 和 Real trace/grid-sum theorem;`tl.atomic_xchg` / `tl.atomic_cas` 有 return-valued algorithm marker、single-cell RMW fold 语义、statement/trace 集成和 single-cell grid launcher relation;剩余不支持的 atomic family 成员和 async/barrier surface 会显式 projection failure;async/TMA、shared memory、barrier、完整 scheduling、IEEE atomic 行为仍是 gap。 |
+| whole-grid launch semantics | Limited | ND grid theorem surface + disjoint/atomic merge (#5/#49/#12) | `GridIndex`、`BlockState.withGridIndex`、`Kernel.ForAllPrograms`、`ForAllProgramsSome` 支持 per-program correctness 量化;`Kernel.mergeFrames` 处理 pairwise-disjoint footprint,`Kernel.mergeFramesWithAtomic` 处理选定 Real atomic-add contribution,`Kernel.GridLaunchedRMW` 用 explicit linearization witness 处理一个 order-sensitive RMW cell;没有完整 race/scheduler/interleaved executor。 |
 | Python/Triton source ingestion | Gap | front-end/lifter (#10) | 用户必须写 Lean `triton { ... }`;decorator、Python-side constexpr execution、一般 Python control flow 还不能解析。 |
 | type checking / pointer provenance | Limited | optional checker (#46) | `Kernel.check` / `checkStrict` 跟踪 register dtype/shape、pointer 和 block-pointer provenance、dtype mismatch、基本 block-pointer metadata;不证明 bounds、alias、launch 或 page ownership。 |
 
