@@ -390,6 +390,139 @@ def dtypeMaskedLoadStoreSmoke (xReg outReg : RegionName) (N : Nat) : ComputeKern
   tl.store($(outReg) + offs, x, mask=mask)
 }
 
+/-- `tl.zeros(..., dtype=tl.float32)` preserves an fp32 compute node while
+projecting to a Real algorithm tile. -/
+def zerosFp32ComputeSmoke (N : Nat) : ComputeKernel := triton {
+  z := tl.zeros([$(N)], dtype=tl.float32)
+}
+
+def fullFp32ComputeSmoke (N : Nat) : ComputeKernel := triton {
+  z := tl.full([$(N)], 1, dtype=tl.float32)
+}
+
+def fp32AccumulatorArithSmoke (N : Nat) : ComputeKernel := triton {
+  z := tl.zeros([$(N)], dtype=tl.float32)
+  y := z + 1
+}
+
+def fp32CastComputeSmoke (N : Nat) : ComputeKernel := triton {
+  z := tl.full([$(N)], 1)
+  y := tl.cast(z, tl.float32)
+}
+
+def fp32ToComputeSmoke (N : Nat) : ComputeKernel := triton {
+  z := tl.full([$(N)], 1)
+  y := (z).to(tl.float32)
+}
+
+def fp32LoadComputeSmoke (xReg : RegionName) (N : Nat) : ComputeKernel := triton {
+  offs := tl.arange(0, $(N))
+  x := tl.load($(xReg) + offs, dtype=tl.float32)
+}
+
+example (N : Nat) :
+    zerosFp32ComputeSmoke N =
+      ComputeKernel.mk [] []
+        [ComputeStmt.assign .real [N] "z"
+          (ComputeExpr.compute
+            (ComputeOp.full [N] (ComputeOp.alg .fp32 (Op.const 0))))] := by
+  rfl
+
+example (N : Nat) :
+    (zerosFp32ComputeSmoke N).toAlgorithm? =
+      Except.ok
+        (Kernel.mk [] []
+          [Stmt.assign .real [N] "z" (Op.full [N] (Op.const 0))]) := by
+  simp [zerosFp32ComputeSmoke, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+  rfl
+
+example (N : Nat) :
+    fullFp32ComputeSmoke N =
+      ComputeKernel.mk [] []
+        [ComputeStmt.assign .real [N] "z"
+          (ComputeExpr.compute
+            (ComputeOp.full [N] (ComputeOp.alg .fp32 (Op.const 1))))] := by
+  rfl
+
+example (N : Nat) :
+    (fullFp32ComputeSmoke N).toAlgorithm? =
+      Except.ok
+        (Kernel.mk [] []
+          [Stmt.assign .real [N] "z" (Op.full [N] (Op.const 1))]) := by
+  simp [fullFp32ComputeSmoke, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+  rfl
+
+example (N : Nat) :
+    fp32AccumulatorArithSmoke N =
+      ComputeKernel.mk [] []
+        [ ComputeStmt.assign .real [N] "z"
+            (ComputeExpr.compute
+              (ComputeOp.full [N] (ComputeOp.alg .fp32 (Op.const 0))))
+        , ComputeStmt.assign .real [N] "y"
+            (ComputeExpr.compute
+              (ComputeOp.alg .fp32
+                (Op.add NumericDType.real Broadcast.scalarR
+                  (Op.ref .real [N] "z") (Op.const 1))))] := by
+  rfl
+
+example (N : Nat) :
+    (fp32AccumulatorArithSmoke N).toAlgorithm? =
+      Except.ok
+        (Kernel.mk [] []
+          [ Stmt.assign .real [N] "z" (Op.full [N] (Op.const 0))
+          , Stmt.assign .real [N] "y"
+              (Op.add NumericDType.real Broadcast.scalarR
+                (Op.ref .real [N] "z") (Op.const 1))]) := by
+  simp [fp32AccumulatorArithSmoke, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+  constructor <;> rfl
+
+example (N : Nat) :
+    fp32CastComputeSmoke N =
+      ComputeKernel.mk [] []
+        [ ComputeStmt.assign .real [N] "z"
+            (ComputeExpr.alg (Op.full [N] (Op.const 1)))
+        , ComputeStmt.assign .real [N] "y"
+            (ComputeExpr.compute
+              (ComputeOp.alg .fp32
+                (Op.castFloat FloatDType.real FloatDType.real
+                  (Op.ref .real [N] "z"))))] := by
+  rfl
+
+example (N : Nat) :
+    fp32ToComputeSmoke N =
+      ComputeKernel.mk [] []
+        [ ComputeStmt.assign .real [N] "z"
+            (ComputeExpr.alg (Op.full [N] (Op.const 1)))
+        , ComputeStmt.assign .real [N] "y"
+            (ComputeExpr.compute
+              (ComputeOp.alg .fp32
+                (Op.castFloat FloatDType.real FloatDType.real
+                  (Op.ref .real [N] "z"))))] := by
+  rfl
+
+example (xReg : RegionName) (N : Nat) :
+    fp32LoadComputeSmoke xReg N =
+      ComputeKernel.mk [xReg] []
+        [ ComputeStmt.assign .nat [N] "offs"
+            (ComputeExpr.alg (Op.arange N))
+        , ComputeStmt.assign .real [N] "x"
+            (ComputeExpr.compute
+              (ComputeOp.load .fp32
+                (MemAccess.region xReg (Op.ref .nat [N] "offs"))
+                MaskOpt.none))] := by
+  rfl
+
+example (xReg : RegionName) (N : Nat) :
+    (fp32LoadComputeSmoke xReg N).toAlgorithm? =
+      Except.ok
+        (Kernel.mk [xReg] []
+          [ Stmt.assign .nat [N] "offs" (Op.arange N)
+          , Stmt.assign .real [N] "x"
+              (Op.load ComputeDType.fp32.eraseDType
+                (MemAccess.region xReg (Op.ref .nat [N] "offs"))
+                MaskOpt.none)]) := by
+  simp [fp32LoadComputeSmoke, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+
 /-- Constant bit reinterpretation is accepted only when it can be projected to
 an algorithm-layer value by the computable decoder. -/
 def bitcastConstantSmoke (outReg : RegionName) : ComputeKernel := triton {
@@ -540,6 +673,26 @@ def natLoadStoreKernel (idxReg outReg : RegionName) : ComputeKernel := triton {
   tl.store($(outReg), idx)
 }
 
+/-- Typed region surface: the `.nat` annotation on the region supplies the
+`tl.load` dtype, so no explicit `dtype=tl.uint64` is needed. -/
+def typedNatRegionLoadStoreKernel (idxReg : Region .nat) (outReg : RegionName) :
+    ComputeKernel := triton {
+  idx := tl.load($((idxReg : Region .nat)))
+  tl.store($(outReg), idx)
+}
+
+example (idxReg : Region .nat) (outReg : RegionName) :
+    typedNatRegionLoadStoreKernel idxReg outReg =
+      ComputeKernel.mk [idxReg] [outReg]
+        [ ComputeStmt.assign .nat [] "idx"
+            (ComputeExpr.alg
+              (Op.load .nat
+                (MemAccess.region idxReg.name (Op.constNat 0))
+                MaskOpt.none))
+        , ComputeStmt.store .nat [] (MemAccess.region outReg (Op.constNat 0))
+            (ComputeExpr.alg (Op.ref .nat [] "idx")) MaskOpt.none ] := by
+  rfl
+
 /-- `tl.uint32` is also an index-like HBM dtype and maps to VeriTile `.nat`. -/
 def uint32LoadStoreSmoke (idxReg outReg : RegionName) : ComputeKernel := triton {
   idx := tl.load($(idxReg), dtype=tl.uint32)
@@ -566,6 +719,17 @@ def int8Int16LoadStoreSmoke (idx8Reg idx16Reg out8Reg out16Reg : RegionName) : C
   idx16 := tl.load($(idx16Reg), dtype=tl.int16)
   tl.store($(out8Reg), idx8)
   tl.store($(out16Reg), idx16)
+}
+
+/-- Nat index expression cast into the signed `.int` value channel inside `tl.where`.
+This covers argmax-style `tl.int64` index accumulators whose source indices are
+nonnegative Nat lanes. -/
+def natToIntWhereSmoke (outReg : Region .int) (N : Nat) : ComputeKernel := triton {
+  offs := tl.arange(0, $(N))
+  zeros := tl.full([$(N)], dtype=tl.int64, value=$(0))
+  take := offs < $(N)
+  idx := tl.where(take, (offs).to(tl.int64), zeros)
+  tl.store($((outReg : Region .int)) + offs, idx)
 }
 
 /-- Masked integer HBM load with a Nat `other=` value. -/
@@ -802,7 +966,8 @@ def registerConflictKernel : ComputeKernel :=
 def pointerWhereConflictKernel : ComputeKernel :=
   let body : List Stmt :=
     [ Stmt.assign .ptr [] "p"
-        (Op.where (Op.constBool Bool.true) (Op.ptrBase "x") (Op.ptrBase "y")) ]
+        (Op.where (Op.constBool Bool.true)
+          (Op.ptrBase (d := .real) "x") (Op.ptrBase (d := .real) "y")) ]
   ComputeKernel.fromAlgBody [] [] body
 
 def checkerValidPointerStoreKernel (xReg outReg : RegionName) : ComputeKernel :=
@@ -1390,5 +1555,50 @@ theorem blockPointerOobStore_observe_unchanged (outReg : RegionName)
         ({ region := outReg, base := 0, strides := [] } : TensorView [])
         PUnit.unit := by
   simp [blockPointerOobStore_skips]
+
+/-! ### `for ... in range(start, stop, step)` smoke tests -/
+
+def rangeAccumKernel (xReg : RegionName) (N BLOCK_SIZE : Nat) :
+    ComputeKernel := triton {
+  pid = tl.program_id(0)
+  acc = 0
+  for off in range(0, $(N), $(BLOCK_SIZE)) {
+    x = tl.load(xReg + off)
+    acc = acc + x
+  }
+  tl.store(xReg + pid, acc)
+}
+
+def mulAssignKernel (xReg : RegionName) (scale N : Nat) :
+    ComputeKernel := triton {
+  pid = tl.program_id(0)
+  x = tl.load(xReg + pid)
+  x *= $(scale)
+  tl.store(xReg + pid * $(N), x)
+}
+
+#check rangeAccumKernel
+#check mulAssignKernel
+
+/-! ### `dtype=tl.float32` on `tl.zeros` / `tl.full` smoke tests -/
+
+def fp32ZerosKernel (xReg : RegionName) (_N BLOCK_SIZE : Nat) :
+    ComputeKernel := triton {
+  pid = tl.program_id(0)
+  _var = tl.zeros([$(BLOCK_SIZE)], dtype=tl.float32)
+  x = tl.load(xReg + pid * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))).to(tl.float32)
+  _var = _var + x * x
+  tl.store(xReg + pid, tl.sum(_var, axis=0))
+}
+
+def fp32FullKernel (outReg : RegionName) (N : Nat) :
+    ComputeKernel := triton {
+  pid = tl.program_id(0)
+  v = tl.full([$(N)], 1.0, dtype=tl.float32)
+  tl.store(outReg + pid * $(N) + tl.arange(0, $(N)), v)
+}
+
+#check fp32ZerosKernel
+#check fp32FullKernel
 
 end VeriTile.Examples.TritonSmoke

@@ -28,6 +28,9 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
   | .castFloat src dst a, s => do
       let va ← evalOp a s
       some ⟨fun i => src.cast dst (va.data i)⟩
+  | .castNatToInt a, s => do
+      let va ← evalOp a s
+      some ⟨fun i => Int.ofNat (va.data i)⟩
   | .add h bc a b, s => do
       let va ← evalOp a s
       let vb ← evalOp b s
@@ -63,6 +66,7 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
   | .log2 a, s => return Tile.uop WithBot.realLog2 (← evalOp a s)
   | .sigmoid a, s => return Tile.uop WithBot.realSigmoid (← evalOp a s)
   | .sqrt a, s => return Tile.uop WithBot.realSqrt (← evalOp a s)
+  | .rsqrt a, s => return Tile.uop WithBot.realRsqrt (← evalOp a s)
   | .tanh a, s => return Tile.uop WithBot.realTanh (← evalOp a s)
   | .sin a, s => return Tile.uop WithBot.realSin (← evalOp a s)
   | .cos a, s => return Tile.uop WithBot.realCos (← evalOp a s)
@@ -117,15 +121,24 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
   | .remap _ map a, s => return Tile.remap map (← evalOp a s)
   | .join a b, s => return Tile.join (← evalOp a s) (← evalOp b s)
   | .split side a, s => return Tile.split side (← evalOp a s)
-  | .ptrBase region, _ => some (Tile.scalar (region, 0))
+  | .ptrBase region, _ => some (Tile.scalar (Region.cast region, 0))
   | .ptrAdd bc ptr off, s => do
       let ptrs ← evalOp ptr s
       let offs ← evalOp off s
       some (Tile.ptrAdd bc ptrs offs)
   | .makeBlockPtr region baseOffset parentShape blockShape strides offsets, _ =>
       some ⟨fun _ =>
-        { region := region
+        { region := Region.cast region
         , baseOffset := baseOffset
+        , parentShape := parentShape
+        , blockShape := blockShape
+        , strides := strides
+        , offsets := offsets }⟩
+  | .makeBlockPtrDyn region baseOffset parentShape blockShape strides offsets, s => do
+      let base ← evalOp baseOffset s
+      some ⟨fun _ =>
+        { region := region
+        , baseOffset := base.data PUnit.unit
         , parentShape := parentShape
         , blockShape := blockShape
         , strides := strides
@@ -134,11 +147,11 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
       let p ← evalOp ptr s
       some ⟨fun i => (p.data i).advance deltas⟩
   | .load dtype mem mask, s => do
-      let addr ←
+      let addr : TileIndex shape → RegionName × Nat × Bool ←
         match mem with
         | .region region off => do
             let offsets ← evalOp off s
-            some fun i => (region, offsets.data i, true)
+            some fun i => (Region.cast region, offsets.data i, true)
         | .ptr ptr => do
             let ptrs ← evalOp ptr s
             some fun i =>

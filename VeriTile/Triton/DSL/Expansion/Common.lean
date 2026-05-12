@@ -16,11 +16,28 @@ namespace VeriTile.Triton.DSL
 def identAsStr (i : TSyntax `ident) : MacroM (TSyntax `term) :=
   pure (Syntax.mkStrLit i.getId.toString)
 
+/-- Extract a static region's identifier name from the term emitted by
+`expandStaticPtrExpr`. Returns `none` for `$(R)` antiquotes (which are
+arbitrary Lean terms, not syntactic region idents). Used by the region-
+dtype lookup in `expandLoad` / `expandStore`. -/
+def regionTermName (regionTerm : TSyntax `term) : Option String :=
+  let rec go (fuel : Nat) (stx : Syntax) : Option String :=
+    match fuel with
+    | 0 => none
+    | fuel + 1 =>
+        if stx.isIdent then
+          some stx.getId.toString
+        else
+          let args := stx.getArgs
+          if args.size == 1 then go fuel args[0]! else none
+  go 16 regionTerm.raw
+
 structure EOut where
   term : TSyntax `term
   dtype : DInfo
   shape : SInfo
   computeTerm : Option (TSyntax `term) := none
+  computeDType? : Option DInfo := none
   deriving Inhabited
 
 def expandLeanAntiquoteAs? (dtype : DInfo) (e : TSyntax `tritonExpr) :
@@ -30,13 +47,16 @@ def expandLeanAntiquoteAs? (dtype : DInfo) (e : TSyntax `tritonExpr) :
       let out ←
         match dtype with
         | .real => pure (← `(Op.const $t), .real)
+        | .fp32 => pure (← `(Op.constFloat FloatDType.fp32 $t), .fp32)
+        | .fp16 => pure (← `(Op.constFloat FloatDType.fp16 $t), .fp16)
+        | .bf16 => pure (← `(Op.constFloat FloatDType.bf16 $t), .bf16)
         | .nat => pure (← `(Op.constNat $t), .nat)
         | .int => pure (← `(Op.constInt $t), .int)
         | .bool => pure (← `(Op.constBool $t), .bool)
         | _ =>
             Macro.throwError
-              "$(...): Lean antiquotation can only be inferred as real/nat/int/bool in the current context"
-      pure (some ⟨out.1, out.2, SInfo.scalar, none⟩)
+              "$(...): Lean antiquotation can only be inferred as real/nat/int/bool/float in the current context"
+      pure (some ⟨out.1, out.2, SInfo.scalar, none, none⟩)
   | _ => pure none
 
 def expandLeanAntiquoteAs (dtype : DInfo) (e : TSyntax `tritonExpr) :
@@ -72,6 +92,7 @@ inductive CInfo where
 
 structure StaticPtrOut where
   region : TSyntax `term
+  regionDType? : Option DInfo := none
   offset : TSyntax `term
   shape : SInfo
   baseOnly : Bool
@@ -85,7 +106,8 @@ abbrev StmtExpansion := TSyntax `term × TSyntax `term × Env × Bool
 def methodCast? (stx : TSyntax `tritonExpr) :
     Option (TSyntax `tritonExpr × TSyntax `tritonDType) :=
   let k := stx.raw.getKind
-  if k == ``tritonMethodCast then
+  if k == ``tritonMethodCast || k == ``tritonIdentMethodCast ||
+      k == ``tritonIdentMethodCastSpaced then
     let args := stx.raw.getArgs
     if h : args.size = 5 then
       some (⟨args[0]⟩, ⟨args[3]⟩)
@@ -105,6 +127,9 @@ def natDimTerm (ctx : String) (d : TSyntax `tritonExpr) :
   match d with
   | `(tritonExpr| $($t:term)) => `(($t : Nat))
   | `(tritonExpr| $n:num) => `(($n : Nat))
+  | `(tritonExpr| $i:ident) =>
+      let t : TSyntax `term := ⟨i.raw⟩
+      `(($t : Nat))
   | _ => Macro.throwError (ctx ++ ": each entry must be a numeric literal or `$(t)` antiquote")
 
 def natListTerm (ctx : String) (dims : Array (TSyntax `tritonExpr)) :
@@ -171,6 +196,18 @@ def inferComputeSourceDType (ctx : String) (dtype : DInfo) : MacroM CInfo := do
   | _ =>
       Macro.throwError
         (ctx ++ ": source dtype must erase from a modeled 32-bit payload (`tl.uint32`, `tl.int32`, `tl.float32`)")
+
+def fp32ComputeExpr (term : TSyntax `term) : MacroM (TSyntax `term) :=
+  `(ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 $term))
+
+def fp32ComputeLoadExpr (mem mask : TSyntax `term) : MacroM (TSyntax `term) :=
+  `(ComputeExpr.compute (ComputeOp.load ComputeDType.fp32 $mem $mask))
+
+def computeAnnotated? (dtype : DInfo) (term : TSyntax `term) :
+    MacroM (Option (TSyntax `term) × Option DInfo) := do
+  match dtype with
+  | .fp32 => pure (some (← fp32ComputeExpr term), some .fp32)
+  | _ => pure (none, none)
 
 def computeLiteralPayloadTerm (dtype : CInfo) (bits : Nat) :
     MacroM (TSyntax `term) := do

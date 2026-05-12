@@ -37,7 +37,7 @@ private noncomputable def foldAtomicRMWIndices
 
 private noncomputable def stepAtomicRMWRaw
     (op : RMWOp) (dtype : TileDType) (shape : TileShape)
-    (mem : MemAccess shape) (input : Op dtype shape)
+    (mem : MemAccess dtype shape) (input : Op dtype shape)
     (extraInput : Option (Op dtype shape)) (mask : MaskOpt dtype shape)
     (dest : Option RegName) (s : BlockState) : Option BlockState := do
   let inputs ← evalOp input s
@@ -58,7 +58,7 @@ private noncomputable def stepAtomicRMWRaw
     match mem with
     | .region region off => do
         let offsets ← evalOp off s
-        foldAtomicRMWIndices op (fun _ => region) (fun i => offsets.data i)
+        foldAtomicRMWIndices op (fun _ => Region.cast region) (fun i => offsets.data i)
           (fun i => inputs.data i) extraFn active (TileShape.allIndices shape) s
           (fun _ => BlockState.defaultCarrier dtype)
     | .ptr ptr => do
@@ -82,7 +82,7 @@ private noncomputable def stepAtomicRMWRaw
 
 private noncomputable def stepAtomicRMW
     (op : RMWOp) (dtype : TileDType) (shape : TileShape)
-    (mem : MemAccess shape) (input : Op dtype shape)
+    (mem : MemAccess dtype shape) (input : Op dtype shape)
     (extraInput : Option (Op dtype shape)) (mask : MaskOpt dtype shape)
     (dest : Option RegName) (s : BlockState) : Option BlockState :=
   (stepAtomicRMWRaw op dtype shape mem input extraInput mask dest s).map
@@ -90,7 +90,7 @@ private noncomputable def stepAtomicRMW
 
 private theorem stepAtomicRMW_pid
     {op : RMWOp} {dtype : TileDType} {shape : TileShape}
-    {mem : MemAccess shape} {input : Op dtype shape}
+    {mem : MemAccess dtype shape} {input : Op dtype shape}
     {extraInput : Option (Op dtype shape)} {mask : MaskOpt dtype shape}
     {dest : Option RegName} {s s' : BlockState}
     (h : stepAtomicRMW op dtype shape mem input extraInput mask dest s = some s') :
@@ -123,7 +123,7 @@ noncomputable def stepStmt : Stmt → BlockState → Option BlockState
           let offsets ← evalOp off s
           some ((TileShape.allIndices shape).foldl
             (fun acc i =>
-              if active i then acc.writeMemTyped dtype region (offsets.data i) (writeValue i)
+              if active i then acc.writeMemTyped dtype (Region.cast region) (offsets.data i) (writeValue i)
               else acc) s)
       | .ptr ptr => do
           let ptrs ← evalOp ptr s
@@ -160,8 +160,8 @@ noncomputable def stepStmt : Stmt → BlockState → Option BlockState
           some ((TileShape.allIndices shape).foldl
             (fun acc i =>
               if active i then
-                acc.writeMemTyped dtype region (offsets.data i)
-                  (atomicValue acc region (offsets.data i) i)
+                acc.writeMemTyped dtype (Region.cast region) (offsets.data i)
+                  (atomicValue acc (Region.cast region) (offsets.data i) i)
               else acc) s)
       | .ptr ptr => do
           let ptrs ← evalOp ptr s
@@ -185,6 +185,14 @@ noncomputable def stepStmt : Stmt → BlockState → Option BlockState
       stepAtomicRMW op dtype shape mem input extraInput mask dest s
   | .forLoop idx n body, s =>
       stepForLoopAux idx 0 n body s
+  | .forRange idx start stop step body, s =>
+      stepForRangeAux idx start stop step body s
+  | .forRangeDyn idx start stop step body, s => do
+      let start' ← evalOp start s
+      let stop' ← evalOp stop s
+      let step' ← evalOp step s
+      stepForRangeAux idx (start'.data PUnit.unit) (stop'.data PUnit.unit)
+        (step'.data PUnit.unit) body s
   | .ifThen cond body, s => do
       let c ← evalOp cond s
       if c.data PUnit.unit then stepStmts body s else some s
@@ -193,11 +201,10 @@ noncomputable def stepStmt : Stmt → BlockState → Option BlockState
       if c.data PUnit.unit then stepStmts thenBody s else stepStmts elseBody s
 termination_by st _ => (sizeOf st, 0)
 decreasing_by
-  all_goals (try (simp_wf; omega))
-  simp_wf
-  have h : 0 < sizeOf idx := by
-    cases idx; simp
-  omega
+  all_goals simp_wf
+  all_goals (try omega)
+  all_goals (have : 0 < sizeOf idx := by cases idx; simp)
+  all_goals omega
 
 noncomputable def stepStmts : List Stmt → BlockState → Option BlockState
   | [], s => some s
@@ -218,6 +225,19 @@ noncomputable def stepForLoopAux
         | none => none
       else some s
 termination_by _ => (sizeOf body + 1, n - start)
+decreasing_by all_goals omega
+
+noncomputable def stepForRangeAux
+    (idx : RegName) (cur stop step : Nat) (body : List Stmt) :
+    BlockState → Option BlockState
+  | s =>
+      if step = 0 then some s
+      else if cur < stop then
+        match stepStmts body (s.setReg idx .nat [] (Tile.scalar cur)) with
+        | some s' => stepForRangeAux idx (cur + step) stop step body s'
+        | none => none
+      else some s
+termination_by _ => (sizeOf body + 1, stop - cur)
 decreasing_by all_goals omega
 
 end
@@ -283,11 +303,51 @@ namespace stepForLoopAux
 
 end stepForLoopAux
 
+namespace stepForRangeAux
+
+@[simp] theorem step_zero_step {idx} {cur stop} {body} {s} :
+    stepForRangeAux idx cur stop 0 body s = some s := by
+  unfold stepForRangeAux
+  simp
+
+@[simp] theorem step_ge {idx} {cur stop step} {body} {s}
+    (hstep : step ≠ 0) (h : stop ≤ cur) :
+    stepForRangeAux idx cur stop step body s = some s := by
+  unfold stepForRangeAux
+  simp [hstep, Nat.not_lt.mpr h]
+
+@[simp] theorem step_lt {idx} {cur stop step} {body} {s}
+    (hstep : step ≠ 0) (h : cur < stop) :
+    stepForRangeAux idx cur stop step body s
+      = (stepStmts body (s.setReg idx .nat [] (Tile.scalar cur))).bind
+          (stepForRangeAux idx (cur + step) stop step body) := by
+  conv_lhs => unfold stepForRangeAux
+  simp [hstep, h]
+  cases hbody : stepStmts body (s.setReg idx .nat [] (Tile.scalar cur)) <;> rfl
+
+@[simp] theorem forRange_unfold {idx} {start stop step} {body} {s} :
+    stepStmt (.forRange idx start stop step body) s
+      = stepForRangeAux idx start stop step body s := by
+  unfold stepStmt
+  rfl
+
+@[simp] theorem forRangeDyn_unfold {idx} {start stop step} {body} {s} :
+    stepStmt (.forRangeDyn idx start stop step body) s
+      = (evalOp start s).bind (fun start' =>
+          (evalOp stop s).bind (fun stop' =>
+            (evalOp step s).bind (fun step' =>
+              stepForRangeAux idx (start'.data PUnit.unit) (stop'.data PUnit.unit)
+                (step'.data PUnit.unit) body s))) := by
+  unfold stepStmt
+  rfl
+
+end stepForRangeAux
+
 noncomputable def exec (k : Kernel) (s : BlockState) : Option BlockState :=
   stepStmts k.body s
 
 theorem stepStmt_atomicAdd_regs {dtype : TileDType} (hnum : NumericDType dtype)
-    {shape : TileShape} {mem : MemAccess shape} {val : Op dtype shape}
+    {shape : TileShape} {mem : MemAccess dtype shape} {val : Op dtype shape}
     {mask : MaskOpt dtype shape} {s s' : BlockState}
     (h : stepStmt (Stmt.atomicAdd hnum shape mem val mask) s = some s')
     (dtype' : TileDType) (shape' : TileShape) (name : RegName) :
@@ -307,7 +367,7 @@ theorem stepStmt_atomicAdd_regs {dtype : TileDType} (hnum : NumericDType dtype)
           cases h
           simpa using
             foldl_atomicAddAt_regs dtype hnum
-              (fun _ : TileIndex shape => region)
+              (fun _ : TileIndex shape => Region.cast region)
               (fun i : TileIndex shape => offsets.data i)
               (fun _ i => values.data i)
               (fun _ : TileIndex shape => true)
@@ -345,7 +405,7 @@ theorem stepStmt_atomicAdd_regs {dtype : TileDType} (hnum : NumericDType dtype)
           cases h
           simpa using
             foldl_atomicAddAt_regs dtype hnum
-              (fun _ : TileIndex shape => region)
+              (fun _ : TileIndex shape => Region.cast region)
               (fun i : TileIndex shape => offsets.data i)
               (fun _ i => values.data i)
               (fun i : TileIndex shape => masks.data i)
@@ -383,7 +443,7 @@ theorem stepStmt_atomicAdd_regs {dtype : TileDType} (hnum : NumericDType dtype)
           cases h
           simpa using
             foldl_atomicAddAt_regs dtype hnum
-              (fun _ : TileIndex shape => region)
+              (fun _ : TileIndex shape => Region.cast region)
               (fun i : TileIndex shape => offsets.data i)
               (fun _ i => values.data i)
               (fun i : TileIndex shape => masks.data i)
@@ -422,7 +482,7 @@ Used by FA-style backward kernels (`fa1BackwardAtomicDQ*`,
 `k_block_ptrs`, `dK_block`, `dV_block`, etc.) need to be lifted past the
 leading atomic dQ store before the tail dK/dV stores can use them. -/
 theorem stepStmt_atomicAdd_lift_regs {dtype : TileDType} (hnum : NumericDType dtype)
-    {shape : TileShape} {mem : MemAccess shape} {val : Op dtype shape}
+    {shape : TileShape} {mem : MemAccess dtype shape} {val : Op dtype shape}
     {mask : MaskOpt dtype shape} {s s' : BlockState}
     (h : stepStmt (Stmt.atomicAdd hnum shape mem val mask) s = some s')
     {dtype' : TileDType} {shape' : TileShape} {name : RegName}
@@ -459,7 +519,7 @@ theorem stepStmt_pid {st : Stmt} {s s' : BlockState}
             rename_i offsets
             cases h
             simpa [BlockState.pid] using
-              BlockState.foldl_writeMemTyped_pid dtype region
+              BlockState.foldl_writeMemTyped_pid dtype (Region.cast region)
                 (fun i : TileIndex shape => offsets.data i)
                 (fun i : TileIndex shape => values.data i)
                 (TileShape.allIndices shape) s
@@ -494,7 +554,7 @@ theorem stepStmt_pid {st : Stmt} {s s' : BlockState}
             rename_i offsets
             cases h
             simpa [BlockState.pid] using
-              BlockState.foldl_writeMemTyped_masked_pid dtype region
+              BlockState.foldl_writeMemTyped_masked_pid dtype (Region.cast region)
                 (fun i : TileIndex shape => offsets.data i)
                 (fun i : TileIndex shape => values.data i)
                 (fun i : TileIndex shape => masks.data i)
@@ -531,7 +591,7 @@ theorem stepStmt_pid {st : Stmt} {s s' : BlockState}
             rename_i offsets
             cases h
             simpa [BlockState.pid] using
-              BlockState.foldl_writeMemTyped_masked_pid dtype region
+              BlockState.foldl_writeMemTyped_masked_pid dtype (Region.cast region)
                 (fun i : TileIndex shape => offsets.data i)
                 (fun i : TileIndex shape => values.data i)
                 (fun i : TileIndex shape => masks.data i)
@@ -575,7 +635,7 @@ theorem stepStmt_pid {st : Stmt} {s s' : BlockState}
             cases h
             simpa [BlockState.pid] using
               foldl_atomicAddAt_pid dtype hnum
-                (fun _ : TileIndex shape => region)
+                (fun _ : TileIndex shape => Region.cast region)
                 (fun i : TileIndex shape => offsets.data i)
                 (fun _ i => values.data i)
                 (fun _ : TileIndex shape => true)
@@ -613,7 +673,7 @@ theorem stepStmt_pid {st : Stmt} {s s' : BlockState}
             cases h
             simpa [BlockState.pid] using
               foldl_atomicAddAt_pid dtype hnum
-                (fun _ : TileIndex shape => region)
+                (fun _ : TileIndex shape => Region.cast region)
                 (fun i : TileIndex shape => offsets.data i)
                 (fun _ i => values.data i)
                 (fun i : TileIndex shape => masks.data i)
@@ -651,7 +711,7 @@ theorem stepStmt_pid {st : Stmt} {s s' : BlockState}
             cases h
             simpa [BlockState.pid] using
               foldl_atomicAddAt_pid dtype hnum
-                (fun _ : TileIndex shape => region)
+                (fun _ : TileIndex shape => Region.cast region)
                 (fun i : TileIndex shape => offsets.data i)
                 (fun _ i => values.data i)
                 (fun i : TileIndex shape => masks.data i)
@@ -686,6 +746,21 @@ theorem stepStmt_pid {st : Stmt} {s s' : BlockState}
   case forLoop idx n body =>
     simp at h
     exact stepForLoopAux_pid h
+  case forRange idx start stop step body =>
+    simp at h
+    exact stepForRangeAux_pid h
+  case forRangeDyn idx start stop step body =>
+    cases hstart : evalOp start s with
+    | none => simp [hstart] at h
+    | some startTile =>
+      cases hstop : evalOp stop s with
+      | none => simp [hstart, hstop] at h
+      | some stopTile =>
+        cases hstep : evalOp step s with
+        | none => simp [hstart, hstop, hstep] at h
+        | some stepTile =>
+          simp [hstart, hstop, hstep] at h
+          exact stepForRangeAux_pid h
   case ifThen cond body =>
     cases hcond : evalOp cond s with
     | none => simp [stepStmt, hcond] at h
@@ -734,6 +809,25 @@ theorem stepForLoopAux_pid {idx : RegName} {start n : Nat}
   · have hge : n ≤ start := Nat.le_of_not_gt hlt
     rw [stepForLoopAux.step_ge hge] at h
     simp_all
+
+theorem stepForRangeAux_pid {idx : RegName} {cur stop step : Nat}
+    {body : List Stmt} {s s' : BlockState}
+    (h : stepForRangeAux idx cur stop step body s = some s') :
+    s'.pid = s.pid := by
+  by_cases hstep : step = 0
+  · subst hstep
+    rw [stepForRangeAux.step_zero_step] at h
+    simp_all
+  · by_cases hlt : cur < stop
+    · rw [stepForRangeAux.step_lt hstep hlt] at h
+      cases hbody : stepStmts body (s.setReg idx .nat [] (Tile.scalar cur)) <;>
+        simp [hbody] at h
+      rename_i mid
+      exact (stepForRangeAux_pid h).trans
+        ((stepStmts_pid hbody).trans (BlockState.setReg_pid s idx .nat [] (Tile.scalar cur)))
+    · have hge : stop ≤ cur := Nat.le_of_not_gt hlt
+      rw [stepForRangeAux.step_ge hstep hge] at h
+      simp_all
 
 end
 

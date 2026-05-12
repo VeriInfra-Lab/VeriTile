@@ -9,6 +9,8 @@ import VeriTile.Triton.Core.Shape
 
 namespace VeriTile.Triton
 
+set_option linter.unusedVariables false
+
 /-
 P1 Triton expressions.
 
@@ -82,6 +84,7 @@ inductive Op : TileDType → TileShape → Type where
   | broadcast : Op dtype [] → (shape : TileShape) → Op dtype shape
   | full      : (shape : TileShape) → Op dtype [] → Op dtype shape
   | castFloat : (src dst : FloatDType) → Op src.toTileDType shape → Op dst.toTileDType shape
+  | castNatToInt : Op .nat shape → Op .int shape
   | add       : NumericDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
   | sub       : NumericDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
   | mul       : NumericDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
@@ -99,6 +102,7 @@ inductive Op : TileDType → TileShape → Type where
   | log2      : Op .real shape → Op .real shape
   | sigmoid   : Op .real shape → Op .real shape
   | sqrt      : Op .real shape → Op .real shape
+  | rsqrt     : Op .real shape → Op .real shape
   | tanh      : Op .real shape → Op .real shape
   | sin       : Op .real shape → Op .real shape
   | cos       : Op .real shape → Op .real shape
@@ -204,22 +208,31 @@ inductive Op : TileDType → TileShape → Type where
                 (axis : Fin (shape.length + 1)) →
                 Op dtype shape →
                 Op dtype (TileShape.insertAxis shape axis 1)
-  | ptrBase   : (region : RegionName) → Op .ptr []
+  | ptrBase   : {d : TileDType} → (region : Region d) → Op .ptr []
   | ptrAdd    : Broadcast a b out → Op .ptr a → Op .nat b → Op .ptr out
-  | makeBlockPtr : (region : RegionName) → (baseOffset : Nat) →
+  | makeBlockPtr : {d : TileDType} → (region : Region d) → (baseOffset : Nat) →
+                (parentShape : List Nat) → (blockShape : TileShape) →
+                (strides offsets : List Nat) →
+                Op .blockPtr blockShape
+  | makeBlockPtrDyn : (region : RegionName) → (baseOffset : Op .nat []) →
                 (parentShape : List Nat) → (blockShape : TileShape) →
                 (strides offsets : List Nat) →
                 Op .blockPtr blockShape
   | advanceBlockPtr : Op .blockPtr shape → (offsetDeltas : List Nat) → Op .blockPtr shape
-  | load      : (dtype : TileDType) → MemAccess shape →
+  | load      : (dtype : TileDType) → MemAccess dtype shape →
                 MaskOpt dtype shape → Op dtype shape
   | natToReal : Op .nat shape → Op .real shape
 
-/-- Memory address form shared by load and store nodes. -/
-inductive MemAccess : TileShape → Type where
-  | region : (region : RegionName) → (offset : Op .nat shape) → MemAccess shape
-  | ptr : Op .ptr shape → MemAccess shape
-  | blockPtr : Op .blockPtr shape → (boundaryCheck : List Nat) → MemAccess shape
+/-- Memory address form shared by load and store nodes.
+
+The `d` index records the access's element dtype (the channel `Op.load`
+returns / `Stmt.store` writes). Direct regions carry the same phantom dtype.
+Pointer and block-pointer carriers keep their flat runtime dtype tags, but
+their constructors carry the element dtype as an implicit phantom argument. -/
+inductive MemAccess : (d : TileDType) → TileShape → Type where
+  | region : (region : Region d) → (offset : Op .nat shape) → MemAccess d shape
+  | ptr : {d : TileDType} → Op .ptr shape → MemAccess d shape
+  | blockPtr : {d : TileDType} → Op .blockPtr shape → (boundaryCheck : List Nat) → MemAccess d shape
 
 /-- Optional mask/other clause for Triton memory operations. -/
 inductive MaskOpt : TileDType → TileShape → Type where
@@ -256,6 +269,8 @@ P1 Triton statements (mutating constructs).
   concurrency trace layer, not by pretending these operations are commutative.
 * `forLoop i n body` runs `body` `n` times, with the scalar register `i` bound
   to the iteration index.
+  start+2*step, ...` while `i < stop`. This models Python
+  `for i in range(start, stop, step)`.
 * `ifThen cond body` runs `body` when the scalar `cond` evaluates `true`, and
   is a no-op when `false`.
 * `ifThenElse cond thenBody elseBody` runs one of two scalar-gated statement
@@ -265,16 +280,18 @@ P1 Triton statements (mutating constructs).
 inductive Stmt : Type where
   | assign  : (dtype : TileDType) → (shape : TileShape) → RegName → Op dtype shape → Stmt
   | store   : (dtype : TileDType) → (shape : TileShape) →
-              MemAccess shape → (value : Op dtype shape) →
+              MemAccess dtype shape → (value : Op dtype shape) →
               (mask : MaskOpt dtype shape) → Stmt
   | atomicAdd : NumericDType dtype → (shape : TileShape) →
-              MemAccess shape → (value : Op dtype shape) →
+              MemAccess dtype shape → (value : Op dtype shape) →
               (mask : MaskOpt dtype shape) → Stmt
   | atomicRMW : RMWOp → (dtype : TileDType) → (shape : TileShape) →
-              MemAccess shape → (input : Op dtype shape) →
+              MemAccess dtype shape → (input : Op dtype shape) →
               (extraInput : Option (Op dtype shape)) →
               (mask : MaskOpt dtype shape) → (dest : Option RegName) → Stmt
   | forLoop : (idx : RegName) → (n : Nat) → (body : List Stmt) → Stmt
+  | forRange : (idx : RegName) → (start stop step : Nat) → (body : List Stmt) → Stmt
+  | forRangeDyn : (idx : RegName) → (start stop step : Op .nat []) → (body : List Stmt) → Stmt
   | ifThen  : (cond : Op .bool []) → (body : List Stmt) → Stmt
   | ifThenElse : (cond : Op .bool []) → (thenBody elseBody : List Stmt) → Stmt
 
@@ -422,6 +439,12 @@ inductive ComputeOp : ComputeDType → TileShape → Type where
       Op dtype.eraseDType shape →
       ComputeOp dtype shape
   | const : ComputeCarrier dtype → ComputeOp dtype []
+  | full : (shape : TileShape) → ComputeOp dtype [] → ComputeOp dtype shape
+  | load :
+      (dtype : ComputeDType) →
+      MemAccess dtype.eraseDType shape →
+      MaskOpt dtype.eraseDType shape →
+      ComputeOp dtype shape
   | bitcast :
       (src dst : ComputeDType) →
       src.width = dst.width →
@@ -446,6 +469,8 @@ def bitcastPayload (src dst : ComputeDType) :
 def constPayload? : ComputeOp dtype [] → Option (ComputeCarrier dtype)
   | .alg _ _ => none
   | .const value => some value
+  | .full _ _ => none
+  | .load _ _ _ => none
   | .bitcast src dst _ e =>
       match constPayload? e with
       | some value => bitcastPayload src dst value
@@ -471,10 +496,28 @@ def toAlgorithm? : (op : ComputeOp dtype shape) →
     Except EraseDTypeError (Op dtype.eraseDType shape)
   | .alg _ e => Except.ok e
   | .const value => constToAlgorithm? _ value
+  | .full shape value =>
+      match toAlgorithm? value with
+      | Except.ok value' => Except.ok (Op.full shape value')
+      | Except.error err => Except.error err
+  | .load dtype mem mask => Except.ok (Op.load dtype.eraseDType mem mask)
   | .bitcast src dst h e =>
       match shape with
       | [] => constOpToAlgorithm? (.bitcast src dst h e)
       | _ => Except.error (.requiresComputeSemantics "non-scalar runtime bitcast")
+
+@[simp] theorem toAlgorithm?_full_alg
+    (dtype : ComputeDType) (shape : TileShape)
+    (value : Op dtype.eraseDType []) :
+    ComputeOp.toAlgorithm?
+        (ComputeOp.full shape (ComputeOp.alg dtype value)) =
+      Except.ok (Op.full shape value) := rfl
+
+@[simp] theorem toAlgorithm?_load
+    (dtype : ComputeDType) (mem : MemAccess dtype.eraseDType shape)
+    (mask : MaskOpt dtype.eraseDType shape) :
+    ComputeOp.toAlgorithm? (ComputeOp.load dtype mem mask) =
+      Except.ok (Op.load dtype.eraseDType mem mask) := rfl
 
 end ComputeOp
 
@@ -491,6 +534,13 @@ def toAlgorithm? : ComputeExpr dtype shape → Except EraseDTypeError (Op dtype 
 @[simp] theorem toAlgorithm?_alg (e : Op dtype shape) :
     (ComputeExpr.alg e).toAlgorithm? = Except.ok e := rfl
 
+@[simp] theorem toAlgorithm?_compute_full_alg
+    (cdtype : ComputeDType) (shape : TileShape)
+    (value : Op cdtype.eraseDType []) :
+    (ComputeExpr.compute
+        (ComputeOp.full shape (ComputeOp.alg cdtype value))).toAlgorithm? =
+      Except.ok (Op.full shape value) := rfl
+
 end ComputeExpr
 
 inductive ComputeStmt : Type where
@@ -498,15 +548,18 @@ inductive ComputeStmt : Type where
   | assign : (dtype : AlgDType) → (shape : TileShape) → RegName →
       ComputeExpr dtype shape → ComputeStmt
   | store : (dtype : AlgDType) → (shape : TileShape) →
-      MemAccess shape → ComputeExpr dtype shape → MaskOpt dtype shape → ComputeStmt
+      MemAccess dtype shape → ComputeExpr dtype shape → MaskOpt dtype shape → ComputeStmt
   | atomicAdd : NumericDType dtype → (shape : TileShape) →
-      MemAccess shape → ComputeExpr dtype shape → MaskOpt dtype shape → ComputeStmt
+      MemAccess dtype shape → ComputeExpr dtype shape → MaskOpt dtype shape → ComputeStmt
   | atomicRMW : RMWOp → (dtype : AlgDType) → (shape : TileShape) →
-      MemAccess shape → ComputeExpr dtype shape →
+      MemAccess dtype shape → ComputeExpr dtype shape →
       Option (ComputeExpr dtype shape) → MaskOpt dtype shape →
       Option RegName → ComputeStmt
   | effectMarker : (op : String) → ComputeStmt
   | forLoop : (idx : RegName) → (n : Nat) → (body : List ComputeStmt) → ComputeStmt
+  | forRange : (idx : RegName) → (start stop step : Nat) → (body : List ComputeStmt) → ComputeStmt
+  | forRangeDyn : (idx : RegName) → (start stop step : Op .nat []) →
+      (body : List ComputeStmt) → ComputeStmt
   | ifThen : (cond : Op .bool []) → (body : List ComputeStmt) → ComputeStmt
   | ifThenElse : (cond : Op .bool []) →
       (thenBody elseBody : List ComputeStmt) → ComputeStmt
@@ -534,6 +587,10 @@ def toAlgorithm? : ComputeStmt → Except EraseDTypeError Stmt
       Except.error (.requiresEffectProjection op)
   | .forLoop idx n body => do
       Except.ok (.forLoop idx n (← listToAlgorithm? body))
+  | .forRange idx start stop step body => do
+      Except.ok (.forRange idx start stop step (← listToAlgorithm? body))
+  | .forRangeDyn idx start stop step body => do
+      Except.ok (.forRangeDyn idx start stop step (← listToAlgorithm? body))
   | .ifThen cond body => do
       Except.ok (.ifThen cond (← listToAlgorithm? body))
   | .ifThenElse cond thenBody elseBody => do
@@ -560,21 +617,21 @@ end
 
 @[simp] theorem toAlgorithm?_store_alg
     (dtype : AlgDType) (shape : TileShape)
-    (mem : MemAccess shape) (value : Op dtype shape) (mask : MaskOpt dtype shape) :
+    (mem : MemAccess dtype shape) (value : Op dtype shape) (mask : MaskOpt dtype shape) :
     ComputeStmt.toAlgorithm?
         (ComputeStmt.store dtype shape mem (ComputeExpr.alg value) mask) =
       Except.ok (Stmt.store dtype shape mem value mask) := rfl
 
 @[simp] theorem toAlgorithm?_atomicAdd_alg
     {dtype : AlgDType} (h : NumericDType dtype) (shape : TileShape)
-    (mem : MemAccess shape) (value : Op dtype shape) (mask : MaskOpt dtype shape) :
+    (mem : MemAccess dtype shape) (value : Op dtype shape) (mask : MaskOpt dtype shape) :
     ComputeStmt.toAlgorithm?
         (ComputeStmt.atomicAdd h shape mem (ComputeExpr.alg value) mask) =
       Except.ok (Stmt.atomicAdd h shape mem value mask) := rfl
 
 @[simp] theorem toAlgorithm?_atomicRMW_alg
     (op : RMWOp) (dtype : AlgDType) (shape : TileShape)
-    (mem : MemAccess shape) (input : Op dtype shape)
+    (mem : MemAccess dtype shape) (input : Op dtype shape)
     (extraInput : Option (Op dtype shape)) (mask : MaskOpt dtype shape)
     (dest : Option RegName) :
     ComputeStmt.toAlgorithm?
@@ -615,9 +672,22 @@ end
     | Except.error e => Except.error e
   cases ComputeStmt.listToAlgorithm? rest <;> rfl
 
+@[simp] theorem listToAlgorithm?_cons_assign_compute
+    (dtype : AlgDType) (shape : TileShape) (name : RegName)
+    (e : ComputeExpr dtype shape) (rest : List ComputeStmt) :
+    ComputeStmt.listToAlgorithm?
+        (ComputeStmt.assign dtype shape name e :: rest) =
+      match e.toAlgorithm?, ComputeStmt.listToAlgorithm? rest with
+      | Except.ok e', Except.ok rest' => Except.ok (Stmt.assign dtype shape name e' :: rest')
+      | Except.error err, _ => Except.error err
+      | _, Except.error err => Except.error err := by
+  simp only [ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?]
+  cases e.toAlgorithm? <;>
+    cases ComputeStmt.listToAlgorithm? rest <;> rfl
+
 @[simp] theorem listToAlgorithm?_cons_store_alg
     (dtype : AlgDType) (shape : TileShape)
-    (mem : MemAccess shape) (value : Op dtype shape) (mask : MaskOpt dtype shape)
+    (mem : MemAccess dtype shape) (value : Op dtype shape) (mask : MaskOpt dtype shape)
     (rest : List ComputeStmt) :
     ComputeStmt.listToAlgorithm?
         (ComputeStmt.store dtype shape mem (ComputeExpr.alg value) mask :: rest) =
@@ -632,9 +702,24 @@ end
     | Except.error e => Except.error e
   cases ComputeStmt.listToAlgorithm? rest <;> rfl
 
+@[simp] theorem listToAlgorithm?_cons_store_compute
+    (dtype : AlgDType) (shape : TileShape)
+    (mem : MemAccess dtype shape) (value : ComputeExpr dtype shape)
+    (mask : MaskOpt dtype shape) (rest : List ComputeStmt) :
+    ComputeStmt.listToAlgorithm?
+        (ComputeStmt.store dtype shape mem value mask :: rest) =
+      match value.toAlgorithm?, ComputeStmt.listToAlgorithm? rest with
+      | Except.ok value', Except.ok rest' =>
+          Except.ok (Stmt.store dtype shape mem value' mask :: rest')
+      | Except.error err, _ => Except.error err
+      | _, Except.error err => Except.error err := by
+  simp only [ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?]
+  cases value.toAlgorithm? <;>
+    cases ComputeStmt.listToAlgorithm? rest <;> rfl
+
 @[simp] theorem listToAlgorithm?_cons_atomicAdd_alg
     {dtype : AlgDType} (h : NumericDType dtype) (shape : TileShape)
-    (mem : MemAccess shape) (value : Op dtype shape) (mask : MaskOpt dtype shape)
+    (mem : MemAccess dtype shape) (value : Op dtype shape) (mask : MaskOpt dtype shape)
     (rest : List ComputeStmt) :
     ComputeStmt.listToAlgorithm?
         (ComputeStmt.atomicAdd h shape mem (ComputeExpr.alg value) mask :: rest) =
@@ -651,7 +736,7 @@ end
 
 @[simp] theorem listToAlgorithm?_cons_atomicRMW_alg
     (op : RMWOp) (dtype : AlgDType) (shape : TileShape)
-    (mem : MemAccess shape) (input : Op dtype shape)
+    (mem : MemAccess dtype shape) (input : Op dtype shape)
     (extraInput : Option (Op dtype shape)) (mask : MaskOpt dtype shape)
     (dest : Option RegName) (rest : List ComputeStmt) :
     ComputeStmt.listToAlgorithm?
@@ -683,6 +768,20 @@ end
   cases ComputeStmt.listToAlgorithm? body <;>
     cases ComputeStmt.listToAlgorithm? rest <;> rfl
 
+@[simp] theorem listToAlgorithm?_cons_forRangeDyn
+    (idx : RegName) (start stop step : Op .nat [])
+    (body : List ComputeStmt) (rest : List ComputeStmt) :
+    ComputeStmt.listToAlgorithm?
+        (ComputeStmt.forRangeDyn idx start stop step body :: rest) =
+      match ComputeStmt.listToAlgorithm? body, ComputeStmt.listToAlgorithm? rest with
+      | Except.ok body', Except.ok rest' =>
+          Except.ok (Stmt.forRangeDyn idx start stop step body' :: rest')
+      | Except.error e, _ => Except.error e
+      | _, Except.error e => Except.error e := by
+  simp only [ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?]
+  cases ComputeStmt.listToAlgorithm? body <;>
+    cases ComputeStmt.listToAlgorithm? rest <;> rfl
+
 @[simp] theorem listToAlgorithm?_cons_ifThenElse
     (cond : Op .bool []) (thenBody elseBody : List ComputeStmt)
     (rest : List ComputeStmt) :
@@ -697,8 +796,33 @@ end
       | _, _, Except.error e => Except.error e := by
   simp only [ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?]
   cases ComputeStmt.listToAlgorithm? thenBody <;>
-    cases ComputeStmt.listToAlgorithm? elseBody <;>
+      cases ComputeStmt.listToAlgorithm? elseBody <;>
       cases ComputeStmt.listToAlgorithm? rest <;> rfl
+
+@[simp] theorem listToAlgorithm?_cons_forLoop
+    (idx : RegName) (n : Nat) (body : List ComputeStmt) (rest : List ComputeStmt) :
+    ComputeStmt.listToAlgorithm? (ComputeStmt.forLoop idx n body :: rest) =
+      match ComputeStmt.listToAlgorithm? body, ComputeStmt.listToAlgorithm? rest with
+      | Except.ok body', Except.ok rest' => Except.ok (Stmt.forLoop idx n body' :: rest')
+      | Except.error e, _ => Except.error e
+      | _, Except.error e => Except.error e := by
+  simp only [ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?]
+  cases ComputeStmt.listToAlgorithm? body <;>
+    cases ComputeStmt.listToAlgorithm? rest <;> rfl
+
+@[simp] theorem listToAlgorithm?_cons_forRange
+    (idx : RegName) (start stop step : Nat)
+    (body : List ComputeStmt) (rest : List ComputeStmt) :
+    ComputeStmt.listToAlgorithm?
+        (ComputeStmt.forRange idx start stop step body :: rest) =
+      match ComputeStmt.listToAlgorithm? body, ComputeStmt.listToAlgorithm? rest with
+      | Except.ok body', Except.ok rest' =>
+          Except.ok (Stmt.forRange idx start stop step body' :: rest')
+      | Except.error e, _ => Except.error e
+      | _, Except.error e => Except.error e := by
+  simp only [ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?]
+  cases ComputeStmt.listToAlgorithm? body <;>
+    cases ComputeStmt.listToAlgorithm? rest <;> rfl
 
 @[simp] theorem listToAlgorithm?_append :
     ∀ xs ys : List ComputeStmt,

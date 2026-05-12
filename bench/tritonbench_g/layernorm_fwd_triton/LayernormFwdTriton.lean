@@ -10,44 +10,48 @@ open VeriTile.Triton
 set_option maxHeartbeats 5000000
 set_option linter.unusedSimpArgs false
 
-/-- Proof-oriented one-block slice of `layernorm_fwd_triton.py`'s
+/-- Faithful transcription of `layernorm_fwd_triton.py`'s
 `_layer_norm_fwd_kernel`.
 
-The upstream kernel loops over `range(0, N, BLOCK_SIZE)` for mean, variance,
-and output. This slice specializes to the single-block case while keeping the
-two-dimensional `Seq`/`H` program ids, base pointer arithmetic, masked loads,
-mean/variance/rstd computation, W multiply, and masked Y store.
-
 Allowed mechanical Lean-syntax-only changes:
-- Python pointer mutation is written using explicit base pointer registers.
-- Python `.to(...)` casts are omitted at the algorithm layer.
-- Python `N: tl.constexpr` / `BLOCK_SIZE: tl.constexpr` -> Lean `Nat`
-  parameters.
+- Python `N` / `BLOCK_SIZE: tl.constexpr` → Lean `Nat` parameters.
 - The Python `stride_x_hd`, `stride_y_hd`, and `stride_w_hd` parameters are not
-  used by the source kernel body, so this proof slice omits them. -/
-def layernorm_fwd_triton_one_block
+  used by the source kernel body, so this translation omits them. -/
+def layernorm_fwd_triton
     (X W Y : RegionName)
     (stride_x_N stride_x_hn stride_y_N stride_y_hn stride_w_hn : Nat)
     (N BLOCK_SIZE : Nat) (eps : ℝ) :
-    ComputeKernel := triton {
+  ComputeKernel := triton {
   Seq = tl.program_id(0)
   H = tl.program_id(1)
-  X_base = X + Seq * $(stride_x_N) + H * $(stride_x_hn)
-  Y_base = Y + Seq * $(stride_y_N) + H * $(stride_y_hn)
-  W_base = W + H * $(stride_w_hn)
-  cols = tl.arange(0, $(BLOCK_SIZE))
-  a = tl.load(X_base + cols, mask=cols < $(N), other=0.0)
-  mean = tl.sum(a, axis=0) / tl.toReal($(N))
-  x_for_var = tl.load(X_base + cols, mask=cols < $(N), other=0.0)
-  centered_for_var = tl.where(cols < $(N), x_for_var - mean, 0.0)
-  var = tl.sum(centered_for_var * centered_for_var, axis=0) / tl.toReal($(N))
+  X += Seq * $(stride_x_N) + H * $(stride_x_hn)
+  Y += Seq * $(stride_y_N) + H * $(stride_y_hn)
+  W += H * $(stride_w_hn)
+  _mean = tl.zeros([$(BLOCK_SIZE)], dtype=tl.float32)
+  for off in range(0, $(N), $(BLOCK_SIZE)) {
+    cols = off + tl.arange(0, $(BLOCK_SIZE))
+    a = tl.load(X + cols, mask=cols < $(N), other=0.0).to(tl.float32)
+    _mean += a
+  }
+  mean = tl.sum(_mean, axis=0) / $(N)
+  _var = tl.zeros([$(BLOCK_SIZE)], dtype=tl.float32)
+  for off in range(0, $(N), $(BLOCK_SIZE)) {
+    cols = off + tl.arange(0, $(BLOCK_SIZE))
+    x = tl.load(X + cols, mask=cols < $(N), other=0.0).to(tl.float32)
+    x = tl.where(cols < $(N), x - mean, 0.0)
+    _var += x * x
+  }
+  var = tl.sum(_var, axis=0) / $(N)
   rstd = 1 / tl.sqrt(var + $(eps))
-  mask = cols < $(N)
-  w = tl.load(W_base + cols, mask=mask)
-  x = tl.load(X_base + cols, mask=mask, other=0.0)
-  x_hat = (x - mean) * rstd
-  y = x_hat * w
-  tl.store(Y_base + cols, y, mask=mask)
+  for off in range(0, $(N), $(BLOCK_SIZE)) {
+    cols = off + tl.arange(0, $(BLOCK_SIZE))
+    mask = cols < $(N)
+    w = tl.load(W + cols, mask=mask).to(tl.float32)
+    x = tl.load(X + cols, mask=mask, other=0.0).to(tl.float32)
+    x_hat = (x - mean) * rstd
+    y = x_hat * w
+    tl.store(Y + cols, (y).to(X.dtype.element_ty), mask=mask)
+  }
 }
 
 def xOffset
@@ -74,11 +78,10 @@ noncomputable def layernormMeanCarrier
     (s : BlockState) (X : RegionName)
     (stride_x_N stride_x_hn N BLOCK_SIZE : Nat) :
     WithBot ℝ :=
-  Option.map₂ (fun a n => a / n)
+  Option.map (fun a => a / (N : ℝ))
     ((Tile.reduceSum (shape := [BLOCK_SIZE]) ⟨0, by simp⟩ Bool.false
       (layernormInputTile s X stride_x_N stride_x_hn N BLOCK_SIZE)).data
         PUnit.unit)
-    ((Tile.scalar N).natToReal.data PUnit.unit)
 
 noncomputable def layernormCenteredTile
     (s : BlockState) (X : RegionName)
@@ -97,13 +100,12 @@ noncomputable def layernormVarCarrier
     (s : BlockState) (X : RegionName)
     (stride_x_N stride_x_hn N BLOCK_SIZE : Nat) :
     WithBot ℝ :=
-  Option.map₂ (fun a n => a / n)
+  Option.map (fun a => a / (N : ℝ))
     ((Tile.reduceSum (shape := [BLOCK_SIZE]) ⟨0, by simp⟩ Bool.false
       (Tile.bop (NumericDType.mul .real) (Broadcast.consSame Broadcast.nil)
         (layernormCenteredTile s X stride_x_N stride_x_hn N BLOCK_SIZE)
         (layernormCenteredTile s X stride_x_N stride_x_hn N BLOCK_SIZE))).data
         PUnit.unit)
-    ((Tile.scalar N).natToReal.data PUnit.unit)
 
 noncomputable def layernormInvVarCarrier
     (s : BlockState) (X : RegionName)
@@ -128,14 +130,15 @@ noncomputable def layernormYSpec
       (some (s.readMem W (wOffset s stride_w_hn i))))
 
 /-- Algorithm-layer correctness for the one-block layernorm forward slice. -/
-theorem layernorm_fwd_triton_one_block_correct
+theorem layernorm_fwd_triton_correct
     (X W Y : RegionName)
     (stride_x_N stride_x_hn stride_y_N stride_y_hn stride_w_hn
       N BLOCK_SIZE : Nat)
     (eps : ℝ) (s s' : BlockState)
+    (hNpos : 0 < N) (hNle : N ≤ BLOCK_SIZE)
     (hOutInj : Function.Injective
       (fun i : Fin BLOCK_SIZE => yOffset s stride_y_N stride_y_hn i))
-    (hExec : exec (layernorm_fwd_triton_one_block X W Y
+    (hExec : exec (layernorm_fwd_triton X W Y
         stride_x_N stride_x_hn stride_y_N stride_y_hn stride_w_hn
         N BLOCK_SIZE eps) s = some s') :
     ∀ i : Fin BLOCK_SIZE,
@@ -158,34 +161,40 @@ theorem layernorm_fwd_triton_one_block_correct
     cases hab
     rfl
   by_cases hB : 0 < BLOCK_SIZE
-  · simp [exec, layernorm_fwd_triton_one_block, stepStmts, stepStmt, evalOp,
+  · have hStep : BLOCK_SIZE ≠ 0 := Nat.ne_of_gt hB
+    simp [exec, layernorm_fwd_triton, stepStmts, stepStmt, evalOp,
+          ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+          stepForRangeAux.step_lt, stepForRangeAux.step_ge,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
           Tile.reduceSumDrop, Tile.select, TileShape.axisDim, TileShape.eraseAxis,
-          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
-          NumericDType.sub, NumericDType.div, ComparableDType.lt] at hExec
+          TileShape.insertAxisIndex, NumericDType.add, NumericDType.sub,
+          NumericDType.mul, NumericDType.div, ComparableDType.lt, hNpos, hNle,
+          Nat.not_lt.mpr hNle, hStep] at hExec
     subst s'
     simp only [yOffset]
     rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _ h_inj (i, PUnit.unit)]
     by_cases hi : i.val < N
-    · simp [hi, layernormYSpec, layernormInvVarCarrier, layernormVarCarrier,
+    · simp only [hi, ↓reduceIte]
+      simp [hi, layernormYSpec, layernormInvVarCarrier, layernormVarCarrier,
             layernormCenteredTile, layernormMeanCarrier, layernormInputTile,
             xOffset, wOffset, Tile.reduceSum, Tile.reduceSumDrop, Tile.select,
             TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
-            WithBot.realSqrt, NumericDType.mul]
+            WithBot.realSqrt, NumericDType.add, NumericDType.sub,
+            NumericDType.mul, NumericDType.div, FloatDType.cast]
       rfl
     · simp [hi]
   · exact False.elim (hB (Nat.lt_of_le_of_lt (Nat.zero_le _) i.isLt))
-
 /-- Compute-facing correctness for the one-block layernorm forward slice. -/
-theorem layernorm_fwd_triton_one_block_compute_correct
+theorem layernorm_fwd_triton_compute_correct
     (X W Y : RegionName)
     (stride_x_N stride_x_hn stride_y_N stride_y_hn stride_w_hn
       N BLOCK_SIZE : Nat)
     (eps : ℝ) (s : BlockState)
+    (hNpos : 0 < N) (hNle : N ≤ BLOCK_SIZE)
     (hOutInj : Function.Injective
       (fun i : Fin BLOCK_SIZE => yOffset s stride_y_N stride_y_hn i)) :
     ComputeCorrect.Realizes
-      (kernel := layernorm_fwd_triton_one_block X W Y
+      (kernel := layernorm_fwd_triton X W Y
         stride_x_N stride_x_hn stride_y_N stride_y_hn stride_w_hn
         N BLOCK_SIZE eps)
       (initialState := s)
@@ -197,13 +206,12 @@ theorem layernorm_fwd_triton_one_block_compute_correct
           N BLOCK_SIZE eps i) := by
   rw [ComputeCorrect.realizes_writeIf_iff]
   apply ComputeKernel.computeCorrect_of_toAlgKernel
-  · simp [layernorm_fwd_triton_one_block]
+  · simp [layernorm_fwd_triton, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
   intro s0 s' hExec hs0
   subst s0
   intro i hActive
-  have h := layernorm_fwd_triton_one_block_correct X W Y
-    stride_x_N stride_x_hn stride_y_N stride_y_hn stride_w_hn N BLOCK_SIZE eps
-    s s' hOutInj hExec i
+  have h := layernorm_fwd_triton_correct X W Y
+    stride_x_N stride_x_hn stride_y_N stride_y_hn stride_w_hn
+    N BLOCK_SIZE eps s s' hNpos hNle hOutInj hExec i
   simpa [hActive] using h
-
 end VeriTile.Bench.TritonBenchG.LayernormFwdTriton
