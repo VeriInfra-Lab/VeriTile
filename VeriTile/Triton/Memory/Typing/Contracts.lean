@@ -19,7 +19,7 @@ values in this lightweight layer, so they impose no region constraint here.
 -/
 def Op.PointerRegionsHaveDType (Γ : RegionTyping) (dtype : TileDType) :
     Op exprDType shape → Prop
-  | .ptrBase region => Γ region = dtype
+  | .ptrBase region => Γ (Region.cast region) = dtype
   | .ptrAdd _ ptr off =>
       ptr.PointerRegionsHaveDType Γ dtype ∧ off.RespectsRegionTyping Γ
   | .broadcast ptr _ =>
@@ -45,7 +45,9 @@ lightweight layer, like pointer registers.
 -/
 def Op.BlockPointerRegionHasDType (Γ : RegionTyping) (dtype : TileDType) :
     Op exprDType shape → Prop
-  | .makeBlockPtr region _ _ _ _ _ => Γ region = dtype
+  | .makeBlockPtr region _ _ _ _ _ => Γ (Region.cast region) = dtype
+  | .makeBlockPtrDyn region base _ _ _ _ =>
+      Γ region = dtype ∧ base.RespectsRegionTyping Γ
   | .advanceBlockPtr ptr _ => ptr.BlockPointerRegionHasDType Γ dtype
   | .broadcast ptr _ => ptr.BlockPointerRegionHasDType Γ dtype
   | .full _ ptr => ptr.BlockPointerRegionHasDType Γ dtype
@@ -61,8 +63,8 @@ decreasing_by all_goals (simp_wf; try omega)
 
 /-- Memory-region dtype contract for memory address forms. -/
 def MemAccess.RespectsRegionTyping (Γ : RegionTyping) (dtype : TileDType) :
-    MemAccess shape → Prop
-  | .region region off => Γ region = dtype ∧ off.RespectsRegionTyping Γ
+    MemAccess dtype shape → Prop
+  | .region region off => Γ (Region.cast region) = dtype ∧ off.RespectsRegionTyping Γ
   | .ptr ptr =>
       ptr.RespectsRegionTyping Γ ∧ ptr.PointerRegionsHaveDType Γ dtype
   | .blockPtr ptr _ =>
@@ -92,6 +94,7 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .broadcast e _ => e.RespectsRegionTyping Γ
   | .full _ e => e.RespectsRegionTyping Γ
   | .castFloat _ _ e => e.RespectsRegionTyping Γ
+  | .castNatToInt e => e.RespectsRegionTyping Γ
   | .add _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .sub _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .mul _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
@@ -109,6 +112,7 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .log2 a => a.RespectsRegionTyping Γ
   | .sigmoid a => a.RespectsRegionTyping Γ
   | .sqrt a => a.RespectsRegionTyping Γ
+  | .rsqrt a => a.RespectsRegionTyping Γ
   | .tanh a => a.RespectsRegionTyping Γ
   | .sin a => a.RespectsRegionTyping Γ
   | .cos a => a.RespectsRegionTyping Γ
@@ -146,6 +150,7 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .ptrAdd _ ptr off =>
       ptr.RespectsRegionTyping Γ ∧ off.RespectsRegionTyping Γ
   | .makeBlockPtr _ _ _ _ _ _ => True
+  | .makeBlockPtrDyn _ base _ _ _ _ => base.RespectsRegionTyping Γ
   | .advanceBlockPtr ptr _ => ptr.RespectsRegionTyping Γ
   | .load dtype mem mask =>
       mem.RespectsRegionTyping Γ dtype ∧ mask.RespectsRegionTyping Γ
@@ -174,6 +179,10 @@ def Stmt.RespectsRegionTyping (Γ : RegionTyping) : Stmt → Prop
         | some extra => extra.RespectsRegionTyping Γ) ∧
       mask.RespectsRegionTyping Γ
   | .forLoop _ _ body => StmtList.RespectsRegionTyping Γ body
+  | .forRange _ _ _ _ body => StmtList.RespectsRegionTyping Γ body
+  | .forRangeDyn _ start stop step body =>
+      start.RespectsRegionTyping Γ ∧ stop.RespectsRegionTyping Γ ∧
+        step.RespectsRegionTyping Γ ∧ StmtList.RespectsRegionTyping Γ body
   | .ifThen cond body =>
       cond.RespectsRegionTyping Γ ∧ StmtList.RespectsRegionTyping Γ body
   | .ifThenElse cond thenBody elseBody =>

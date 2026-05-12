@@ -67,6 +67,7 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
   | .broadcast e _ => e.MemorySafe bounds
   | .full _ e => e.MemorySafe bounds
   | .castFloat _ _ e => e.MemorySafe bounds
+  | .castNatToInt e => e.MemorySafe bounds
   | .add _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .sub _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
   | .mul _ _ a b => a.MemorySafe bounds ∧ b.MemorySafe bounds
@@ -84,6 +85,7 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
   | .log2 a => a.MemorySafe bounds
   | .sigmoid a => a.MemorySafe bounds
   | .sqrt a => a.MemorySafe bounds
+  | .rsqrt a => a.MemorySafe bounds
   | .tanh a => a.MemorySafe bounds
   | .sin a => a.MemorySafe bounds
   | .cos a => a.MemorySafe bounds
@@ -119,6 +121,7 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
   | .ptrBase _ => True
   | .ptrAdd _ ptr off => ptr.MemorySafe bounds ∧ off.MemorySafe bounds
   | .makeBlockPtr _ _ _ _ _ _ => True
+  | .makeBlockPtrDyn _ base _ _ _ _ => base.MemorySafe bounds
   | .advanceBlockPtr ptr _ => ptr.MemorySafe bounds
   | .load _ mem mask =>
       (match mem with
@@ -133,7 +136,7 @@ def Op.MemorySafe (bounds : RegionBounds) : Op dtype shape → Prop
         match mem with
         | .region region off =>
             ∀ offsets, evalOp off s = some offsets →
-              ∀ i : TileIndex shape, mask.Active s i → offsets.data i < bounds region
+              ∀ i : TileIndex shape, mask.Active s i → offsets.data i < bounds (Region.cast region)
         | .ptr ptr =>
             ∀ ptrs, evalOp ptr s = some ptrs →
               ∀ i : TileIndex shape,
@@ -163,13 +166,15 @@ def Op.PointerAddressesSafe (bounds : RegionBounds) (ptr : Op .ptr shape) : Prop
       ∀ i : TileIndex shape, (ptrs.data i).2 < bounds (ptrs.data i).1
 
 /-- Child expressions inside a memory address form are memory-safe. -/
-def memAccessMemorySafe (bounds : RegionBounds) : MemAccess shape → Prop
+def memAccessMemorySafe {dtype : TileDType} (bounds : RegionBounds) :
+    MemAccess dtype shape → Prop
   | .region _ off => off.MemorySafe bounds
   | .ptr ptr => ptr.MemorySafe bounds
   | .blockPtr ptr _ => ptr.MemorySafe bounds
 
 /-- Namespace-facing wrapper for memory-address safety. -/
-abbrev MemAccess.MemorySafe (bounds : RegionBounds) (mem : MemAccess shape) : Prop :=
+abbrev MemAccess.MemorySafe {dtype : TileDType} (bounds : RegionBounds)
+    (mem : MemAccess dtype shape) : Prop :=
   memAccessMemorySafe bounds mem
 
 /-- Active memory addresses produced by a memory address form are in bounds.
@@ -177,12 +182,13 @@ abbrev MemAccess.MemorySafe (bounds : RegionBounds) (mem : MemAccess shape) : Pr
 For checked block pointers, only lanes whose `BlockPtr.inBounds` predicate is
 true need an address bound: checked OOB lanes are inactive at the memory layer
 and are handled by padding/no-op semantics. -/
-def memAccessActiveAddressSafe (bounds : RegionBounds) (mem : MemAccess shape)
-    (s : BlockState) (active : TileIndex shape → Prop) : Prop :=
+def memAccessActiveAddressSafe {dtype : TileDType} (bounds : RegionBounds)
+    (mem : MemAccess dtype shape) (s : BlockState)
+    (active : TileIndex shape → Prop) : Prop :=
   match mem with
   | .region region off =>
       ∀ offsets, evalOp off s = some offsets →
-        ∀ i : TileIndex shape, active i → offsets.data i < bounds region
+        ∀ i : TileIndex shape, active i → offsets.data i < bounds (Region.cast region)
   | .ptr ptr =>
       Op.PointerAddressesSafeOn bounds ptr s active
   | .blockPtr ptr boundaryCheck =>
@@ -196,8 +202,9 @@ def memAccessActiveAddressSafe (bounds : RegionBounds) (mem : MemAccess shape)
               bp.address idx < bounds bp.region
 
 /-- Namespace-facing wrapper for active address bounds. -/
-abbrev MemAccess.ActiveAddressSafe (bounds : RegionBounds) (mem : MemAccess shape)
-    (s : BlockState) (active : TileIndex shape → Prop) : Prop :=
+abbrev MemAccess.ActiveAddressSafe {dtype : TileDType} (bounds : RegionBounds)
+    (mem : MemAccess dtype shape) (s : BlockState)
+    (active : TileIndex shape → Prop) : Prop :=
   memAccessActiveAddressSafe bounds mem s active
 namespace MaskOpt
 
@@ -235,6 +242,10 @@ def MemorySafe (bounds : RegionBounds) : Stmt → Prop
       mask.MemorySafe bounds ∧
       ∀ s, mem.ActiveAddressSafe bounds s (mask.Active s)
   | .forLoop _ _ body => MemorySafeList bounds body
+  | .forRange _ _ _ _ body => MemorySafeList bounds body
+  | .forRangeDyn _ start stop step body =>
+      start.MemorySafe bounds ∧ stop.MemorySafe bounds ∧ step.MemorySafe bounds ∧
+        MemorySafeList bounds body
   | .ifThen cond body => cond.MemorySafe bounds ∧ MemorySafeList bounds body
   | .ifThenElse cond thenBody elseBody =>
       cond.MemorySafe bounds ∧

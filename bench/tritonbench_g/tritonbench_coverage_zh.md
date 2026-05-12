@@ -300,7 +300,7 @@ RNG + concurrency + FP8 + int4 + FP4 全部落地,剩下 28 个 Hard 降到 ≤ 
 | `matrix_reduction.py` | OK | — | — |
 | `matrix_transpose.py` | OK | — | — |
 | `max_reduction.py` | OK | — | autotune, heuristics |
-| `mean_reduction.py` | OK | — | — |
+| `mean_reduction.py` | Soft | proof_blocker: 行内 forRange 求和不变量 | — |
 | `mul_exponent_compensator.py` | OK | — | — |
 | `nested_loops_processing.py` | OK | — | — |
 | `sin_computation.py` | OK | — | — |
@@ -318,7 +318,7 @@ RNG + concurrency + FP8 + int4 + FP4 全部落地,剩下 28 个 Hard 降到 ≤ 
 | `destindex_copy.py` | OK | — | num_stages |
 | `destindex_copy_kv1.py` | OK | — | num_stages |
 | `destindex_copy_kv2.py` | OK | — | num_stages |
-| `embedding_triton_kernel.py` | OK | — | num_stages, contig_hint |
+| `embedding_triton_kernel.py` | Soft | proof_blocker: forRange embedding 写入映射不变量 | num_stages, contig_hint |
 | `index_select_bwd.py` | OK | — | — |
 | `index_select_cat.py` | OK | — | — |
 | `kcache_copy_triton.py` | OK | — | — |
@@ -358,7 +358,7 @@ RNG + concurrency + FP8 + int4 + FP4 全部落地,剩下 28 个 Hard 降到 ≤ 
 | `int8_matmul_kernel.py` | Soft | int_dot | autotune, num_stages, static_print |
 | `int8_matmul_quantization.py` | Soft | atomic_add, int_dot | autotune, num_stages |
 | `int_scaled_matmul.py` | Soft | int_dot | num_stages, tf32_hint, contig_hint |
-| `batched_vecmat_mult.py` | OK | — | num_stages |
+| `batched_vecmat_mult.py` | Soft | surface_blocker: 不支持 tl.broadcast/rank-3 insertion；仅有单行证明切片 | num_stages |
 | `bgmv_expand_slice.py` | OK | — | — |
 | `bmm_chunk_bwd.py` | OK | — | autotune, num_stages |
 | `bmm_chunk_fwd.py` | OK | — | autotune, num_stages |
@@ -448,7 +448,7 @@ RNG + concurrency + FP8 + int4 + FP4 全部落地,剩下 28 个 Hard 降到 ≤ 
 | `chunk_gla_simple.py` | OK | — | autotune, tf32_hint |
 | `chunked_cumsum_fwd.py` | OK | — | autotune |
 | `decay_cumsum.py` | OK | — | — |
-| `diag_ssm_triton.py` | OK | — | autotune |
+| `diag_ssm_triton.py` | Soft | proof_blocker: 递推不变量 | autotune |
 | `fused_recurrent_hgrn.py` | OK | — | autotune |
 | `fused_rwkv6_kernel.py` | OK | — | num_stages |
 | `reversed_cumsum.py` | OK | — | autotune, tf32_hint |

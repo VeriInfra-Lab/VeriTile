@@ -132,6 +132,7 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .broadcast e _ => e.check ctx
   | .full _ e => e.check ctx
   | .castFloat _ _ e => e.check ctx
+  | .castNatToInt e => e.check ctx
   | .add _ _ a b => a.check ctx *> b.check ctx
   | .sub _ _ a b => a.check ctx *> b.check ctx
   | .mul _ _ a b => a.check ctx *> b.check ctx
@@ -149,6 +150,7 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .log2 a => a.check ctx
   | .sigmoid a => a.check ctx
   | .sqrt a => a.check ctx
+  | .rsqrt a => a.check ctx
   | .tanh a => a.check ctx
   | .sin a => a.check ctx
   | .cos a => a.check ctx
@@ -185,6 +187,8 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .ptrAdd _ ptr off => ptr.check ctx *> off.check ctx
   | .makeBlockPtr _ _ parentShape blockShape strides offsets =>
       checkBlockPtrMetadata parentShape blockShape strides offsets
+  | .makeBlockPtrDyn _ base parentShape blockShape strides offsets =>
+      base.check ctx *> checkBlockPtrMetadata parentShape blockShape strides offsets
   | .advanceBlockPtr ptr _ => ptr.check ctx
   | .load dtype mem mask => mem.check ctx dtype *> mask.check ctx
   | .natToReal a => a.check ctx
@@ -192,7 +196,7 @@ termination_by op => sizeOf op
 decreasing_by all_goals (simp_wf; try omega)
 
 def Op.ptrProvenance (ctx : CheckCtx) : Op dtype shape → Except CheckError RegionName
-  | .ptrBase region => .ok region
+  | .ptrBase region => .ok (Region.cast region)
   | .ptrAdd _ ptr off => do
       let region ← ptr.ptrProvenance ctx
       off.check ctx
@@ -219,6 +223,10 @@ def Op.blockPtrProvenance (ctx : CheckCtx) :
     Op dtype shape → Except CheckError RegionName
   | .makeBlockPtr region _ parentShape blockShape strides offsets => do
       checkBlockPtrMetadata parentShape blockShape strides offsets
+      .ok (Region.cast region)
+  | .makeBlockPtrDyn region base parentShape blockShape strides offsets => do
+      base.check ctx
+      checkBlockPtrMetadata parentShape blockShape strides offsets
       .ok region
   | .advanceBlockPtr ptr _ => ptr.blockPtrProvenance ctx
   | .broadcast ptr _ => ptr.blockPtrProvenance ctx
@@ -240,8 +248,8 @@ termination_by op => sizeOf op
 decreasing_by all_goals (simp_wf; try omega)
 
 def MemAccess.check (ctx : CheckCtx) (dtype : TileDType) :
-    MemAccess shape → Except CheckError Unit
-  | .region region off => off.check ctx *> ctx.checkRegion region dtype
+    MemAccess dtype shape → Except CheckError Unit
+  | .region region off => off.check ctx *> ctx.checkRegion (Region.cast region) dtype
   | .ptr ptr => do
       let region ← ptr.ptrProvenance ctx
       ctx.checkRegion region dtype
@@ -305,6 +313,15 @@ def Stmt.check (ctx : CheckCtx) : Stmt → Except CheckError CheckCtx
       | none => .ok ctx
       | some name => ctx.setReg name (pointerEntry dtype shape none none)
   | .forLoop idx _ body => do
+      let ctx' ← ctx.setReg idx (pointerEntry .nat [] none none)
+      StmtList.check ctx' body
+  | .forRange idx _ _ _ body => do
+      let ctx' ← ctx.setReg idx (pointerEntry .nat [] none none)
+      StmtList.check ctx' body
+  | .forRangeDyn idx start stop step body => do
+      start.check ctx
+      stop.check ctx
+      step.check ctx
       let ctx' ← ctx.setReg idx (pointerEntry .nat [] none none)
       StmtList.check ctx' body
   | .ifThen cond body => do

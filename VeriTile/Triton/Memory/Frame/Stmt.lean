@@ -15,13 +15,13 @@ namespace Stmt
 This predicate mirrors `stepStmt`'s store cases: masked-off lanes and checked
 block-pointer OOB lanes do not write and therefore need no footprint membership. -/
 def StoreAddressesWithin (P : WriteFootprint) (s : BlockState)
-    (mem : MemAccess shape) (mask : MaskOpt dtype shape) : Prop :=
+    (mem : MemAccess dtype shape) (mask : MaskOpt dtype shape) : Prop :=
   match mask with
   | .none =>
       match mem with
       | .region region off =>
           ∀ offsets, evalOp off s = some offsets →
-            ∀ i : TileIndex shape, P (region, offsets.data i)
+            ∀ i : TileIndex shape, P (Region.cast region, offsets.data i)
       | .ptr ptr =>
           ∀ ptrs, evalOp ptr s = some ptrs →
             ∀ i : TileIndex shape, P (ptrs.data i)
@@ -36,7 +36,7 @@ def StoreAddressesWithin (P : WriteFootprint) (s : BlockState)
       | .region region off =>
           ∀ masks, evalOp maskOp s = some masks →
             ∀ offsets, evalOp off s = some offsets →
-              ∀ i : TileIndex shape, masks.data i = true → P (region, offsets.data i)
+              ∀ i : TileIndex shape, masks.data i = true → P (Region.cast region, offsets.data i)
       | .ptr ptr =>
           ∀ masks, evalOp maskOp s = some masks →
             ∀ ptrs, evalOp ptr s = some ptrs →
@@ -54,7 +54,7 @@ def StoreAddressesWithin (P : WriteFootprint) (s : BlockState)
       | .region region off =>
           ∀ masks, evalOp maskOp s = some masks →
             ∀ offsets, evalOp off s = some offsets →
-              ∀ i : TileIndex shape, masks.data i = true → P (region, offsets.data i)
+              ∀ i : TileIndex shape, masks.data i = true → P (Region.cast region, offsets.data i)
       | .ptr ptr =>
           ∀ masks, evalOp maskOp s = some masks →
             ∀ ptrs, evalOp ptr s = some ptrs →
@@ -72,7 +72,7 @@ end Stmt
 
 theorem stepStmt_store_writeWithin {P : WriteFootprint} {s s' : BlockState}
     {dtype : TileDType} {shape : TileShape}
-    {mem : MemAccess shape} {value : Op dtype shape} {mask : MaskOpt dtype shape}
+    {mem : MemAccess dtype shape} {value : Op dtype shape} {mask : MaskOpt dtype shape}
     (hStep : stepStmt (Stmt.store dtype shape mem value mask) s = some s')
     (hAddr : Stmt.StoreAddressesWithin P s mem mask) :
     BlockState.WriteWithin P s s' := by
@@ -91,7 +91,7 @@ theorem stepStmt_store_writeWithin {P : WriteFootprint} {s s' : BlockState}
                   simp [stepStmt, hvalue, hoff] at hStep
                   cases hStep
                   exact BlockState.foldl_writeMemTypedAt_masked_writeWithin dtype
-                    (fun _ : TileIndex shape => region)
+                    (fun _ : TileIndex shape => Region.cast region)
                     (fun i : TileIndex shape => offsets.data i)
                     (fun i : TileIndex shape => values.data i)
                     (fun _ : TileIndex shape => true)
@@ -137,7 +137,7 @@ theorem stepStmt_store_writeWithin {P : WriteFootprint} {s s' : BlockState}
                       simp [stepStmt, hvalue, hmasks, hoff] at hStep
                       cases hStep
                       exact BlockState.foldl_writeMemTypedAt_masked_writeWithin dtype
-                        (fun _ : TileIndex shape => region)
+                        (fun _ : TileIndex shape => Region.cast region)
                         (fun i : TileIndex shape => offsets.data i)
                         (fun i : TileIndex shape => values.data i)
                         (fun i : TileIndex shape => masks.data i)
@@ -188,7 +188,7 @@ theorem stepStmt_store_writeWithin {P : WriteFootprint} {s s' : BlockState}
                       simp [stepStmt, hvalue, hmasks, hoff] at hStep
                       cases hStep
                       exact BlockState.foldl_writeMemTypedAt_masked_writeWithin dtype
-                        (fun _ : TileIndex shape => region)
+                        (fun _ : TileIndex shape => Region.cast region)
                         (fun i : TileIndex shape => offsets.data i)
                         (fun i : TileIndex shape => values.data i)
                         (fun i : TileIndex shape => masks.data i)
@@ -230,7 +230,7 @@ theorem stepStmt_store_writeWithin {P : WriteFootprint} {s s' : BlockState}
 
 theorem stepStmt_atomicAdd_writeWithin {P : WriteFootprint} {s s' : BlockState}
     {dtype : TileDType} {hnum : NumericDType dtype} {shape : TileShape}
-    {mem : MemAccess shape} {value : Op dtype shape} {mask : MaskOpt dtype shape}
+    {mem : MemAccess dtype shape} {value : Op dtype shape} {mask : MaskOpt dtype shape}
     (hStep : stepStmt (Stmt.atomicAdd hnum shape mem value mask) s = some s')
     (hAddr : Stmt.StoreAddressesWithin P s mem mask) :
     BlockState.WriteWithin P s s' := by
@@ -249,7 +249,7 @@ theorem stepStmt_atomicAdd_writeWithin {P : WriteFootprint} {s s' : BlockState}
                   simp [stepStmt, hvalue, hoff] at hStep
                   cases hStep
                   exact BlockState.foldl_atomicAddAt_masked_writeWithin dtype hnum
-                    (fun _ : TileIndex shape => region)
+                    (fun _ : TileIndex shape => Region.cast region)
                     (fun i : TileIndex shape => offsets.data i)
                     (fun _ i => values.data i)
                     (fun _ : TileIndex shape => true)
@@ -295,7 +295,7 @@ theorem stepStmt_atomicAdd_writeWithin {P : WriteFootprint} {s s' : BlockState}
                       simp [stepStmt, hvalue, hmasks, hoff] at hStep
                       cases hStep
                       exact BlockState.foldl_atomicAddAt_masked_writeWithin dtype hnum
-                        (fun _ : TileIndex shape => region)
+                        (fun _ : TileIndex shape => Region.cast region)
                         (fun i : TileIndex shape => offsets.data i)
                         (fun _ i => values.data i)
                         (fun i : TileIndex shape => masks.data i)
@@ -346,7 +346,7 @@ theorem stepStmt_atomicAdd_writeWithin {P : WriteFootprint} {s s' : BlockState}
                       simp [stepStmt, hvalue, hmasks, hoff] at hStep
                       cases hStep
                       exact BlockState.foldl_atomicAddAt_masked_writeWithin dtype hnum
-                        (fun _ : TileIndex shape => region)
+                        (fun _ : TileIndex shape => Region.cast region)
                         (fun i : TileIndex shape => offsets.data i)
                         (fun _ i => values.data i)
                         (fun i : TileIndex shape => masks.data i)

@@ -80,6 +80,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .full shape e => .full shape e.eraseDType
   | .castFloat src dst e => by
       simpa [eraseDType_float src, eraseDType_float dst] using e.eraseDType
+  | .castNatToInt e => .castNatToInt e.eraseDType
   | .add h bc a b => .add h.eraseDType bc a.eraseDType b.eraseDType
   | .sub h bc a b => .sub h.eraseDType bc a.eraseDType b.eraseDType
   | .mul h bc a b => .mul h.eraseDType bc a.eraseDType b.eraseDType
@@ -97,6 +98,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .log2 a => .log2 a.eraseDType
   | .sigmoid a => .sigmoid a.eraseDType
   | .sqrt a => .sqrt a.eraseDType
+  | .rsqrt a => .rsqrt a.eraseDType
   | .tanh a => .tanh a.eraseDType
   | .sin a => .sin a.eraseDType
   | .cos a => .cos a.eraseDType
@@ -133,6 +135,8 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .ptrAdd bc ptr off => .ptrAdd bc ptr.eraseDType off.eraseDType
   | .makeBlockPtr region baseOffset parentShape blockShape strides offsets =>
       .makeBlockPtr region baseOffset parentShape blockShape strides offsets
+  | .makeBlockPtrDyn region baseOffset parentShape blockShape strides offsets =>
+      .makeBlockPtrDyn region baseOffset.eraseDType parentShape blockShape strides offsets
   | .advanceBlockPtr ptr deltas => .advanceBlockPtr ptr.eraseDType deltas
   | .load dtype mem mask => .load (VeriTile.Triton.eraseDType dtype) mem.eraseDType mask.eraseDType
   | .natToReal a => .natToReal a.eraseDType
@@ -140,9 +144,13 @@ termination_by e => sizeOf e
 decreasing_by
   all_goals (simp_wf; try omega; try decreasing_trivial)
 
-/-- Erase explicit floating dtype annotations from a memory access. -/
-def MemAccess.eraseDType : MemAccess shape → MemAccess shape
-  | .region region off => .region region off.eraseDType
+/-- Erase explicit floating dtype annotations from a memory access. The
+region's phantom dtype is independent of the access dtype, so we keep
+the region unchanged and only erase the offset / payload pointers. -/
+def MemAccess.eraseDType :
+    MemAccess dtype shape → MemAccess (VeriTile.Triton.eraseDType dtype) shape
+  | .region region off =>
+      .region (Region.cast (d' := VeriTile.Triton.eraseDType dtype) region) off.eraseDType
   | .ptr ptr => .ptr ptr.eraseDType
   | .blockPtr ptr boundaryCheck => .blockPtr ptr.eraseDType boundaryCheck
 termination_by mem => sizeOf mem
@@ -169,6 +177,11 @@ def Stmt.eraseDType : Stmt → Stmt
         input.eraseDType (extraInput.map Op.eraseDType) mask.eraseDType dest
   | .forLoop idx n body =>
       .forLoop idx n (Stmt.eraseDTypeList body)
+  | .forRange idx start stop step body =>
+      .forRange idx start stop step (Stmt.eraseDTypeList body)
+  | .forRangeDyn idx start stop step body =>
+      .forRangeDyn idx start.eraseDType stop.eraseDType step.eraseDType
+        (Stmt.eraseDTypeList body)
   | .ifThen cond body =>
       .ifThen cond.eraseDType (Stmt.eraseDTypeList body)
   | .ifThenElse cond thenBody elseBody =>
@@ -187,19 +200,23 @@ decreasing_by all_goals (simp_wf; try omega)
 end
 
 @[simp] theorem MemAccess.eraseDType_region
-    (region : RegionName) (off : Op .nat shape) :
-    (MemAccess.region region off).eraseDType =
-      MemAccess.region region off.eraseDType := by
+    {dtype : TileDType} (region : Region dtype) (off : Op .nat shape) :
+    (MemAccess.region (d := dtype) region off).eraseDType =
+      MemAccess.region (d := VeriTile.Triton.eraseDType dtype)
+        (Region.cast (d' := VeriTile.Triton.eraseDType dtype) region) off.eraseDType := by
   rw [MemAccess.eraseDType.eq_def]
 
-@[simp] theorem MemAccess.eraseDType_ptr (ptr : Op .ptr shape) :
-    (MemAccess.ptr ptr).eraseDType = MemAccess.ptr ptr.eraseDType := by
+@[simp] theorem MemAccess.eraseDType_ptr {dtype : TileDType}
+    (ptr : Op .ptr shape) :
+    (MemAccess.ptr (d := dtype) ptr).eraseDType =
+      MemAccess.ptr (d := VeriTile.Triton.eraseDType dtype) ptr.eraseDType := by
   rw [MemAccess.eraseDType.eq_def]
 
-@[simp] theorem MemAccess.eraseDType_blockPtr
+@[simp] theorem MemAccess.eraseDType_blockPtr {dtype : TileDType}
     (ptr : Op .blockPtr shape) (boundaryCheck : List Nat) :
-    (MemAccess.blockPtr ptr boundaryCheck).eraseDType =
-      MemAccess.blockPtr ptr.eraseDType boundaryCheck := by
+    (MemAccess.blockPtr (d := dtype) ptr boundaryCheck).eraseDType =
+      MemAccess.blockPtr (d := VeriTile.Triton.eraseDType dtype) ptr.eraseDType
+        boundaryCheck := by
   rw [MemAccess.eraseDType.eq_def]
 
 @[simp] theorem MaskOpt.eraseDType_none {dtype : TileDType} :
@@ -233,7 +250,7 @@ end
   simp [VeriTile.Triton.eraseDType]
 
 @[simp] theorem Op.eraseDType_load
-    (dtype : TileDType) (mem : MemAccess shape)
+    (dtype : TileDType) (mem : MemAccess dtype shape)
     (mask : MaskOpt dtype shape) :
     (Op.load dtype mem mask).eraseDType =
       Op.load (VeriTile.Triton.eraseDType dtype) mem.eraseDType mask.eraseDType := by
@@ -259,7 +276,7 @@ end
 
 @[simp] theorem Stmt.eraseDType_store
     (dtype : TileDType) (shape : TileShape)
-    (mem : MemAccess shape) (val : Op dtype shape)
+    (mem : MemAccess dtype shape) (val : Op dtype shape)
     (mask : MaskOpt dtype shape) :
     (Stmt.store dtype shape mem val mask).eraseDType =
       Stmt.store (VeriTile.Triton.eraseDType dtype) shape mem.eraseDType val.eraseDType mask.eraseDType := by
@@ -267,7 +284,7 @@ end
 
 @[simp] theorem Stmt.eraseDType_atomicAdd
     (h : NumericDType dtype) (shape : TileShape)
-    (mem : MemAccess shape) (val : Op dtype shape)
+    (mem : MemAccess dtype shape) (val : Op dtype shape)
     (mask : MaskOpt dtype shape) :
     (Stmt.atomicAdd h shape mem val mask).eraseDType =
       Stmt.atomicAdd h.eraseDType shape mem.eraseDType val.eraseDType mask.eraseDType := by
@@ -275,7 +292,7 @@ end
 
 @[simp] theorem Stmt.eraseDType_atomicRMW
     (op : RMWOp) (dtype : TileDType) (shape : TileShape)
-    (mem : MemAccess shape) (input : Op dtype shape)
+    (mem : MemAccess dtype shape) (input : Op dtype shape)
     (extraInput : Option (Op dtype shape)) (mask : MaskOpt dtype shape)
     (dest : Option RegName) :
     (Stmt.atomicRMW op dtype shape mem input extraInput mask dest).eraseDType =
