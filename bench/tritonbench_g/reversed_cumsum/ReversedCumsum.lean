@@ -9,7 +9,37 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `reversed_cumsum.py`'s
+/-- Faithful transcription of `reversed_cumsum.py`'s
+`chunk_global_reversed_cumsum_vector_kernel`.
+
+The source traverses chunks in reverse. This surface preserves the reverse
+range and carries `b_z` across chunks. -/
+def reversed_cumsum_surface
+    (SReg Z : RegionName) (s_s_h s_s_t s_s_d T SSize BT BS : Nat) :
+    ComputeKernel := triton {
+  i_s = tl.program_id(0)
+  i_bh = tl.program_id(1)
+  o_i = tl.arange(0, $(BT))
+  m_s = tl.where(o_i[:, None] <= o_i[None, :], 1.0, 0.0)
+  b_z = tl.zeros([$(BS)], dtype=tl.float32)
+  num_tiles = tl.cdiv($(T), $(BT))
+  for i_t in range(num_tiles - $(1), -$(1), -$(1)) {
+    p_s = tl.make_block_ptr(base=SReg + i_bh * $(s_s_h),
+      shape=($(T), $(SSize)), strides=($(s_s_t), $(s_s_d)),
+      offsets=(i_t * $(BT), i_s * $(BS)), block_shape=($(BT), $(BS)), order=(1, 0))
+    p_z = tl.make_block_ptr(base=Z + i_bh * $(s_s_h),
+      shape=($(T), $(SSize)), strides=($(s_s_t), $(s_s_d)),
+      offsets=(i_t * $(BT), i_s * $(BS)), block_shape=($(BT), $(BS)), order=(1, 0))
+    b_s = tl.load(p_s, boundary_check=([0, 1] : List Nat)).to(tl.float32)
+    b_c = b_z[None, :] + tl.dot(m_s, b_s, allow_tf32=false)
+    tl.store(p_z, (b_c).to(p_z.dtype.element_ty), boundary_check=([0, 1] : List Nat))
+    if i_t >= $(0) {
+      b_z += tl.sum(b_s, 0)
+    }
+  }
+}
+
+/-- Specialized transcription of `reversed_cumsum.py`'s
 `chunk_global_reversed_cumsum_vector_kernel` for the single-`BT` block path.
 
 When the time dimension fits in one `BT` tile, the Python reverse traversal has
@@ -20,8 +50,8 @@ boundary-checked store. -/
 def reversed_cumsum_single_block_surface
     (SReg Z : RegionName) (s_s_h s_s_t s_s_d T SSize BT BS : Nat) :
     ComputeKernel := triton {
-  i_s = tl.program_id(axis=0)
-  i_bh = tl.program_id(axis=1)
+  i_s = tl.program_id(0)
+  i_bh = tl.program_id(1)
   o_i = tl.arange(0, $(BT))
   m_s = tl.where(o_i[:, None] <= o_i[None, :], 1.0, 0.0)
   p_s = tl.make_block_ptr(base=SReg + i_bh * $(s_s_h),
@@ -35,36 +65,6 @@ def reversed_cumsum_single_block_surface
   tl.store(p_z, (b_c).to(p_z.dtype.element_ty), boundary_check=([0, 1] : List Nat))
 }
 
-/-- Surface transcription of the full
-`chunk_global_reversed_cumsum_vector_kernel`.
-
-The source traverses chunks in reverse. This surface preserves the reverse
-logical order with `i_t = tl.cdiv(T, BT) - 1 - j` and carries `b_z` across
-chunks. -/
-def reversed_cumsum_surface
-    (SReg Z : RegionName) (s_s_h s_s_t s_s_d T SSize BT BS : Nat) :
-    ComputeKernel := triton {
-  i_s = tl.program_id(axis=0)
-  i_bh = tl.program_id(axis=1)
-  o_i = tl.arange(0, $(BT))
-  m_s = tl.where(o_i[:, None] <= o_i[None, :], 1.0, 0.0)
-  b_z = tl.zeros([$(BS)], dtype=tl.float32)
-  num_tiles = tl.cdiv($(T), $(BT))
-  for j in range($(0), num_tiles, $(1)) {
-    i_t = num_tiles - $(1) - j
-    p_s = tl.make_block_ptr(base=SReg + i_bh * $(s_s_h),
-      shape=($(T), $(SSize)), strides=($(s_s_t), $(s_s_d)),
-      offsets=(i_t * $(BT), i_s * $(BS)), block_shape=($(BT), $(BS)), order=(1, 0))
-    p_z = tl.make_block_ptr(base=Z + i_bh * $(s_s_h),
-      shape=($(T), $(SSize)), strides=($(s_s_t), $(s_s_d)),
-      offsets=(i_t * $(BT), i_s * $(BS)), block_shape=($(BT), $(BS)), order=(1, 0))
-    b_s = tl.load(p_s, boundary_check=([0, 1] : List Nat)).to(tl.float32)
-    b_c = b_z[None, :] + tl.dot(m_s, b_s, allow_tf32=false)
-    tl.store(p_z, (b_c).to(p_z.dtype.element_ty), boundary_check=([0, 1] : List Nat))
-    b_z += tl.sum(b_s, axis=0)
-  }
-}
-
 /-- Proof-oriented block store surface slice of `reversed_cumsum.py`'s
 `chunk_global_reversed_cumsum_vector_kernel`.
 
@@ -74,9 +74,9 @@ the boundary-checked writeback into `Z`. -/
 def reversed_cumsum_store_slice
     (BC Z : RegionName) (s_s_h s_s_t s_s_d T S BT BS : Nat) :
     ComputeKernel := triton {
-  i_s = tl.program_id(axis=0)
-  i_bh = tl.program_id(axis=1)
-  i_t = tl.program_id(axis=2)
+  i_s = tl.program_id(0)
+  i_bh = tl.program_id(1)
+  i_t = tl.program_id(2)
   offs_t = i_t * $(BT) + tl.arange(0, $(BT))
   offs_s = i_s * $(BS) + tl.arange(0, $(BS))
   mask = (offs_t[:, None] < $(T)) & (offs_s[None, :] < $(S))

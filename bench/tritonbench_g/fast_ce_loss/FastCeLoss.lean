@@ -9,83 +9,130 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `fast_ce_loss.py`'s `_cross_entropy_forward`.
+/-- Faithful transcription of `fast_ce_loss.py`'s `_cross_entropy_forward`.
 
-This covers the path used by the benchmark's small-vocabulary tests: masked
-logits load, optional logit scaling, optional softcapping via `tl.tanh`, stable
-logsumexp, label gather, loss store, and logsumexp store. Python's hard-coded
-`label_idx = -100` sentinel is represented by the Nat `ignored_index`
-parameter in this surface. -/
+Python's hard-coded `label_idx != -100` sentinel is preserved as the literal
+`-100`. -/
 def cross_entropy_forward_surface
-    (logits_ptr loss_ptr logsumexp_ptr : RegionName) (labels_ptr : Region .nat)
-    (ignored_index VOCAB_SIZE logits_row_stride BLOCK_SIZE : Nat)
+    (logits_ptr loss_ptr logsumexp_ptr : RegionName) (labels_ptr : Region .int)
+    (VOCAB_SIZE logits_row_stride BLOCK_SIZE : Nat)
     (SOFTCAP LOGIT_SCALE : ℝ)
     (DO_SOFTCAPPING DO_LOGIT_SCALING : Bool) :
     ComputeKernel := triton {
-  row_idx = tl.program_id(axis=0)
-  logits_base = logits_ptr + row_idx * ($(logits_row_stride)).to(tl.int64)
+  row_idx = tl.program_id(0)
+  logits_ptr += row_idx * ($(logits_row_stride)).to(tl.int64)
+  loss_ptr += row_idx
+  logsumexp_ptr += row_idx
+  labels_ptr += row_idx
   col_offsets = tl.arange(0, $(BLOCK_SIZE))
   mask = col_offsets < $(VOCAB_SIZE)
-  label_idx = tl.load($((labels_ptr : Region .nat)) + row_idx)
-  logits = tl.load(logits_base + col_offsets, mask=mask, other=-inf)
+  label_idx = (tl.load(labels_ptr)).to(tl.int32)
+  logits = tl.load(logits_ptr + col_offsets, mask=mask, other=-float("inf"))
   if DO_LOGIT_SCALING {
     logits = $(LOGIT_SCALE) * logits
   }
   if DO_SOFTCAPPING {
-    logits = $(SOFTCAP) * tl.tanh(logits / $(SOFTCAP))
+    logits = $(SOFTCAP) * triton_tanh(logits / $(SOFTCAP))
   }
   logits = (logits).to(tl.float32)
-  c = tl.max(logits, axis=0)
-  logsumexp = c + tl.log(tl.sum(tl.exp(logits - c), axis=0))
-  if label_idx != $(ignored_index) {
-    x = tl.load(logits_base + label_idx)
+  c = tl.max(logits, 0)
+  logsumexp = c + tl.log(tl.sum(tl.exp(logits - c), 0))
+  if label_idx != $((-100 : Int)) {
+    x = tl.load(logits_ptr + label_idx)
     if DO_LOGIT_SCALING {
       x = $(LOGIT_SCALE) * x
     }
     if DO_SOFTCAPPING {
-      x = $(SOFTCAP) * tl.tanh(x / $(SOFTCAP))
+      x = $(SOFTCAP) * triton_tanh(x / $(SOFTCAP))
     }
     loss = logsumexp - (x).to(tl.float32)
   } else {
     loss = 0.0
   }
-  tl.store(logsumexp_ptr + row_idx, logsumexp)
-  tl.store(loss_ptr + row_idx, loss)
+  tl.store(logsumexp_ptr, logsumexp)
+  tl.store(loss_ptr, loss)
+}
+
+/-- Surface transcription of `fast_ce_loss.py`'s
+`_chunked_cross_entropy_forward`.
+
+Python's hard-coded `label_idx != -100` sentinel is preserved as the literal
+`-100`. -/
+def chunked_cross_entropy_forward_surface
+    (logits_ptr loss_ptr logsumexp_ptr : RegionName) (labels_ptr : Region .int)
+    (VOCAB_SIZE N_CHUNKS logits_row_stride BLOCK_SIZE : Nat)
+    (SOFTCAP LOGIT_SCALE : ℝ)
+    (DO_SOFTCAPPING DO_LOGIT_SCALING : Bool) :
+    ComputeKernel := triton {
+  row_idx = tl.program_id(0)
+  chunk_idx = tl.program_id(1)
+  logits_ptr += row_idx * ($(logits_row_stride)).to(tl.int64)
+  loss_ptr += row_idx
+  logsumexp_ptr += row_idx * $(N_CHUNKS) + chunk_idx
+  labels_ptr += row_idx
+  col_offsets = chunk_idx * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
+  mask = col_offsets < $(VOCAB_SIZE)
+  label_idx = (tl.load(labels_ptr)).to(tl.int32)
+  logits = tl.load(logits_ptr + col_offsets, mask=mask, other=-float("inf"))
+  if DO_LOGIT_SCALING {
+    logits = $(LOGIT_SCALE) * logits
+  }
+  if DO_SOFTCAPPING {
+    logits = $(SOFTCAP) * triton_tanh(logits / $(SOFTCAP))
+  }
+  logits = (logits).to(tl.float32)
+  c = tl.max(logits, 0)
+  logsumexp = c + tl.log(tl.sum(tl.exp(logits - c), 0))
+  if chunk_idx == 0 {
+    if label_idx != $((-100 : Int)) {
+      x = (tl.load(logits_ptr + label_idx)).to(tl.float32)
+      if DO_LOGIT_SCALING {
+        x = $(LOGIT_SCALE) * x
+      }
+      if DO_SOFTCAPPING {
+        x = $(SOFTCAP) * triton_tanh(x / $(SOFTCAP))
+      }
+      loss = -1.0 * (x).to(tl.float32)
+    } else {
+      loss = 0.0
+    }
+    tl.store(loss_ptr, loss)
+    tl.store(logsumexp_ptr, logsumexp)
+  }
 }
 
 /-- Surface transcription of `fast_ce_loss.py`'s `_cross_entropy_backward`.
 
 This preserves the block logits load, optional logit scaling, optional softcap
 transform and derivative factor, softmax-minus-one update at the label, and
-final masked in-place gradient writeback. Python's hard-coded `label_idx =
--100` sentinel is represented by the Nat `ignored_index` parameter in this
-surface. -/
+final masked in-place gradient writeback. Python's hard-coded
+`label_idx != -100` sentinel is preserved as the literal `-100`. Python's
+local name `partial` is written `partial_` because `partial` is a Lean keyword. -/
 def cross_entropy_backward_surface
-    (logits_ptr dloss_ptr logsumexp_ptr : RegionName) (labels_ptr : Region .nat)
-    (ignored_index VOCAB_SIZE logits_row_stride dloss_row_stride BLOCK_SIZE : Nat)
+    (logits_ptr dloss_ptr logsumexp_ptr : RegionName) (labels_ptr : Region .int)
+    (VOCAB_SIZE logits_row_stride dloss_row_stride BLOCK_SIZE : Nat)
     (SOFTCAP LOGIT_SCALE : ℝ)
     (DO_SOFTCAPPING DO_LOGIT_SCALING : Bool) :
     ComputeKernel := triton {
-  row_idx = tl.program_id(axis=0)
-  block_idx = tl.program_id(axis=1)
-  logits_base = logits_ptr + row_idx * ($(logits_row_stride)).to(tl.int64)
-  dloss_base = dloss_ptr + row_idx * $(dloss_row_stride)
+  row_idx = tl.program_id(0)
+  block_idx = tl.program_id(1)
+  logits_ptr += row_idx * ($(logits_row_stride)).to(tl.int64)
+  dloss_ptr += row_idx * $(dloss_row_stride)
   col_offsets = block_idx * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
   mask = col_offsets < $(VOCAB_SIZE)
-  label_idx = tl.load($((labels_ptr : Region .nat)) + row_idx)
-  if label_idx != $(ignored_index) {
-    dloss = tl.load(dloss_base)
+  label_idx = (tl.load(labels_ptr + row_idx)).to(tl.int32)
+  if label_idx != $((-100 : Int)) {
+    dloss = tl.load(dloss_ptr)
   } else {
     dloss = 0.0
   }
-  x = tl.load(logits_base + col_offsets, mask=mask, other=-inf)
+  x = tl.load(logits_ptr + col_offsets, mask=mask, other=-float("inf"))
   if DO_LOGIT_SCALING {
     x = x * $(LOGIT_SCALE)
   }
-  softcap_tanh = tl.zeros([$(BLOCK_SIZE)], dtype=tl.float32)
   if DO_SOFTCAPPING {
-    softcap_tanh = tl.tanh(x / $(SOFTCAP))
-    x = $(SOFTCAP) * softcap_tanh
+    partial_ = triton_tanh(x / $(SOFTCAP))
+    x = $(SOFTCAP) * partial_
   }
   logsumexp = tl.load(logsumexp_ptr + row_idx)
   y = tl.exp((x).to(tl.float32) - logsumexp)
@@ -94,9 +141,9 @@ def cross_entropy_backward_surface
     y = y * $(LOGIT_SCALE)
   }
   if DO_SOFTCAPPING {
-    y = y * (1.0 - softcap_tanh * softcap_tanh)
+    y = y * (1.0 - partial_ * partial_)
   }
-  tl.store(logits_base + col_offsets, dloss * y, mask=mask)
+  tl.store(logits_ptr + col_offsets, dloss * y, mask=mask)
 }
 
 /-- Proof-oriented backward final-store slice of `fast_ce_loss.py`'s
@@ -111,8 +158,8 @@ def cross_entropy_backward_store_slice
     (VOCAB_SIZE logits_row_stride dloss_row_stride grad_row_stride
       BLOCK_SIZE : Nat) :
     ComputeKernel := triton {
-  row_idx = tl.program_id(axis=0)
-  block_idx = tl.program_id(axis=1)
+  row_idx = tl.program_id(0)
+  block_idx = tl.program_id(1)
   col_offsets = block_idx * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
   mask = col_offsets < $(VOCAB_SIZE)
   dloss = tl.load(dloss_ptr + row_idx * $(dloss_row_stride))

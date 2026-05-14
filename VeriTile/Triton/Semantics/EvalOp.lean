@@ -31,6 +31,9 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
   | .castNatToInt a, s => do
       let va ← evalOp a s
       some ⟨fun i => Int.ofNat (va.data i)⟩
+  | .castIntToNat a, s => do
+      let va ← evalOp a s
+      some ⟨fun i => (va.data i).toNat⟩
   | .add h bc a b, s => do
       let va ← evalOp a s
       let vb ← evalOp b s
@@ -126,6 +129,10 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
       let ptrs ← evalOp ptr s
       let offs ← evalOp off s
       some (Tile.ptrAdd bc ptrs offs)
+  | .ptrSub bc ptr off, s => do
+      let ptrs ← evalOp ptr s
+      let offs ← evalOp off s
+      some (Tile.ptrSub bc ptrs offs)
   | .makeBlockPtr region baseOffset parentShape blockShape strides offsets, _ =>
       some ⟨fun _ =>
         { region := Region.cast region

@@ -9,6 +9,64 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
+/-- Surface transcription of `kv_cache_filling.py`'s `_fill_kv_cache_kernel`.
+
+This covers the Python wrapper's `quant_policy = 0` path. Correctness below is
+still proved on the smaller K/V tile slices, but the full non-quant kernel body
+is present so the benchmark has a faithful surface artifact for the unquantized
+path. -/
+def fill_kv_cache_kernel_surface
+    (KStates VStates KCaches VCaches : RegionName)
+    (QStartLoc QSeqLens KVSeqLens BlockOffsets : Region .nat)
+    (num_heads head_dim head_dim_v stride_kss stride_ksh stride_ksd
+      stride_vss stride_vsh stride_vsd stride_kcn stride_kcb stride_kch
+      stride_kcd stride_vcn stride_vcb stride_vch stride_vcd stride_boff
+      BLOCK BLOCK_D BLOCK_DV BLOCK_H : Nat) :
+    ComputeKernel := triton {
+  batch_id = tl.program_id(0)
+  block_id = tl.program_id(1)
+  h_off = tl.arange(0, $(BLOCK_H))
+  d_off = tl.arange(0, $(BLOCK_D))
+  q_startloc = tl.load(QStartLoc + batch_id)
+  q_seqlen = tl.load(QSeqLens + batch_id)
+  kv_seqlen = tl.load(KVSeqLens + batch_id)
+  history_seqlen = kv_seqlen - q_seqlen
+  block0_first_tokenloc = history_seqlen % $(BLOCK)
+  state_token_offset = tl.maximum(block_id * $(BLOCK) - block0_first_tokenloc, $(0))
+  kv_block_id = _div_up(history_seqlen + $(1), $(BLOCK)) - $(1) + block_id
+  kv_block_id = min(kv_block_id, $((stride_boff - 1 : Nat)))
+  block_off = tl.load(BlockOffsets +
+    batch_id * $(stride_boff) + kv_block_id)
+  cur_startloc = q_startloc + state_token_offset
+  ks_ptr = KStates + cur_startloc * $(stride_kss)
+  vs_ptr = VStates + cur_startloc * $(stride_vss)
+  kc_ptr = KCaches + block_off * $(stride_kcn)
+  vc_ptr = VCaches + block_off * $(stride_vcn)
+  c_first_tokenloc = block0_first_tokenloc
+  if block_id != $(0) {
+    c_first_tokenloc *= $(0)
+  }
+  c_last_tokenloc = tl.minimum($(BLOCK),
+    q_seqlen + block0_first_tokenloc - block_id * $(BLOCK))
+  for bidx in range(c_first_tokenloc, c_last_tokenloc) {
+    sidx = bidx - c_first_tokenloc
+    mask = (h_off[:, None] < $(num_heads)) & (d_off[None, :] < $(head_dim))
+    k = tl.load(ks_ptr + sidx * $(stride_kss) + h_off[:, None] * $(stride_ksh) +
+        d_off[None, :] * $(stride_ksd), mask=mask)
+    tl.store(kc_ptr + bidx * $(stride_kcb) + h_off[:, None] * $(stride_kch) +
+        d_off[None, :] * $(stride_kcd), k, mask=mask)
+    if $((BLOCK_DV > 0 : Bool)) {
+      dv_off = tl.arange(0, $(BLOCK_DV))
+      maskv = (h_off[:, None] < $(num_heads)) & (dv_off[None, :] < $(head_dim_v))
+      v = tl.load(vs_ptr + sidx * $(stride_vss) +
+          h_off[:, None] * $(stride_vsh) + dv_off[None, :] * $(stride_vsd),
+        mask=maskv)
+      tl.store(vc_ptr + bidx * $(stride_vcb) + h_off[:, None] * $(stride_vch) +
+          dv_off[None, :] * $(stride_vcd), v, mask=maskv)
+    }
+  }
+}
+
 /-- Surface transcription and proof-oriented K-cache fill slice of `kv_cache_filling.py`'s
 `_fill_kv_cache_kernel`.
 
@@ -31,10 +89,10 @@ def fill_k_cache_tile
       stride_kcn stride_kcb stride_kch stride_kcd
       stride_boff num_heads head_dim BLOCK_H BLOCK_D : Nat) :
     ComputeKernel := triton {
-  batch_id = tl.program_id(axis=0)
+  batch_id = tl.program_id(0)
   h_off = tl.arange(0, $(BLOCK_H))
   d_off = tl.arange(0, $(BLOCK_D))
-  block_off = tl.load($((BlockOffsets : Region .nat)) + batch_id * $(stride_boff) + $(KV_BLOCK_IDX))
+  block_off = tl.load(BlockOffsets + batch_id * $(stride_boff) + $(KV_BLOCK_IDX))
   mask = (h_off[:, None] < $(num_heads)) & (d_off[None, :] < $(head_dim))
   k = tl.load(KStates + $(SIDX) * $(stride_kss) +
       h_off[:, None] * $(stride_ksh) + d_off[None, :] * $(stride_ksd),
@@ -58,10 +116,10 @@ def fill_v_cache_tile
       stride_vcn stride_vcb stride_vch stride_vcd
       stride_boff num_heads head_dim_v BLOCK_H BLOCK_DV : Nat) :
     ComputeKernel := triton {
-  batch_id = tl.program_id(axis=0)
+  batch_id = tl.program_id(0)
   h_off = tl.arange(0, $(BLOCK_H))
   dv_off = tl.arange(0, $(BLOCK_DV))
-  block_off = tl.load($((BlockOffsets : Region .nat)) + batch_id * $(stride_boff) + $(KV_BLOCK_IDX))
+  block_off = tl.load(BlockOffsets + batch_id * $(stride_boff) + $(KV_BLOCK_IDX))
   maskv = (h_off[:, None] < $(num_heads)) & (dv_off[None, :] < $(head_dim_v))
   v = tl.load(VStates + $(SIDX) * $(stride_vss) +
       h_off[:, None] * $(stride_vsh) + dv_off[None, :] * $(stride_vsd),

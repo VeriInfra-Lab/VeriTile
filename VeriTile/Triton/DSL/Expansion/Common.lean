@@ -26,7 +26,7 @@ def regionTermName (regionTerm : TSyntax `term) : Option String :=
     | 0 => none
     | fuel + 1 =>
         if stx.isIdent then
-          some stx.getId.toString
+          some stx.getId.eraseMacroScopes.toString
         else
           let args := stx.getArgs
           if args.size == 1 then go fuel args[0]! else none
@@ -77,10 +77,23 @@ def realMathTerm (ctx : String) (e : EOut) : MacroM (TSyntax `term) := do
 
 def coerceRealArithOperands (ctx : String) (a b : EOut) : MacroM (EOut × EOut) := do
   match a.dtype, b.dtype with
+  | .real, .nat =>
+      pure (a, { b with term := ← `(Op.natToReal $b.term), dtype := .real })
+  | .nat, .real =>
+      pure ({ a with term := ← `(Op.natToReal $a.term), dtype := .real }, b)
   | .real, .fp32 | .real, .fp16 | .real, .bf16 =>
       pure (a, { b with term := ← realMathTerm (ctx ++ " rhs") b, dtype := .real })
   | .fp32, .real | .fp16, .real | .bf16, .real =>
       pure ({ a with term := ← realMathTerm (ctx ++ " lhs") a, dtype := .real }, b)
+  | _, _ =>
+      pure (a, b)
+
+def coerceNatIntOperands (_ctx : String) (a b : EOut) : MacroM (EOut × EOut) := do
+  match a.dtype, b.dtype with
+  | .nat, .int =>
+      pure ({ a with term := ← `(Op.castNatToInt $a.term), dtype := .int }, b)
+  | .int, .nat =>
+      pure (a, { b with term := ← `(Op.castNatToInt $b.term), dtype := .int })
   | _, _ =>
       pure (a, b)
 
@@ -103,6 +116,19 @@ abbrev StaticPtrExpander := Env → TSyntax `tritonExpr → MacroM (Option Stati
 
 abbrev StmtExpansion := TSyntax `term × TSyntax `term × Env × Bool
 
+def dottedToBaseName? (i : TSyntax `ident) : Option String :=
+  let name := i.getId.eraseMacroScopes.toString
+  if name.endsWith ".to" then
+    some (name.dropEnd 3).toString
+  else
+    none
+
+def dottedToBaseIdent? (i : TSyntax `ident) : Option (TSyntax `tritonExpr) :=
+  match dottedToBaseName? i with
+  | some base =>
+    some ⟨mkIdentFrom i (Name.mkSimple base)⟩
+  | none => none
+
 def methodCast? (stx : TSyntax `tritonExpr) :
     Option (TSyntax `tritonExpr × TSyntax `tritonDType) :=
   let k := stx.raw.getKind
@@ -113,6 +139,15 @@ def methodCast? (stx : TSyntax `tritonExpr) :
       some (⟨args[0]⟩, ⟨args[3]⟩)
     else if h : args.size = 6 then
       some (⟨args[0]⟩, ⟨args[4]⟩)
+    else
+      none
+  else if k == ``tritonDottedIdentMethodCast then
+    let args := stx.raw.getArgs
+    if h : args.size = 4 then
+      let i : TSyntax `ident := ⟨args[0]⟩
+      match dottedToBaseIdent? i with
+      | some e => some (e, ⟨args[2]⟩)
+      | none => none
     else
       none
   else

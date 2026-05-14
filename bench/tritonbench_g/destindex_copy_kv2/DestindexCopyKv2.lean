@@ -14,7 +14,7 @@ Allowed mechanical Lean-syntax-only changes:
 - Python `BLOCK_DMODEL: tl.constexpr` / `BLOCK_HEAD: tl.constexpr` -> Lean
   `Nat` parameters. -/
 def fwd_kernel_destindex_copy_kv
-    (K Dest_loc Out : RegionName)
+    (K : RegionName) (Dest_loc : Region .nat) (Out : RegionName)
     (stride_k_bs stride_k_h stride_k_d stride_o_bs stride_o_h stride_o_d
       head_num BLOCK_DMODEL BLOCK_HEAD : Nat) :
     ComputeKernel := triton {
@@ -59,9 +59,18 @@ instance activeDecidable (head_num : Nat)
   unfold active
   infer_instance
 
+@[simp] theorem headMask_remap_data
+    (head_num BLOCK_HEAD BLOCK_DMODEL : Nat)
+    (idx : TileIndex [BLOCK_HEAD, BLOCK_DMODEL]) :
+    (@Tile.remap TileDType.bool [BLOCK_HEAD, 1] [BLOCK_HEAD, BLOCK_DMODEL]
+        Broadcast.nil.consL.consSame.leftIndex
+        ({ data := fun i : TileIndex [BLOCK_HEAD, 1] =>
+          decide (i.1.val < head_num) } : Tile TileDType.bool [BLOCK_HEAD, 1])).data idx =
+      decide (idx.1.val < head_num) := rfl
+
 /-- Algorithm-layer cellwise correctness for `_fwd_kernel_destindex_copy_kv`. -/
 theorem fwd_kernel_destindex_copy_kv_correct
-    (K Dest_loc Out : RegionName)
+    (K : RegionName) (Dest_loc : Region .nat) (Out : RegionName)
     (stride_k_bs stride_k_h stride_k_d stride_o_bs stride_o_h stride_o_d
       head_num BLOCK_DMODEL BLOCK_HEAD : Nat)
     (s : BlockState)
@@ -136,7 +145,7 @@ theorem fwd_kernel_destindex_copy_kv_correct
 
 /-- Executed-state form of `fwd_kernel_destindex_copy_kv_correct`. -/
 theorem fwd_kernel_destindex_copy_kv_correct_of_exec
-    (K Dest_loc Out : RegionName)
+    (K : RegionName) (Dest_loc : Region .nat) (Out : RegionName)
     (stride_k_bs stride_k_h stride_k_d stride_o_bs stride_o_h stride_o_d
       head_num BLOCK_DMODEL BLOCK_HEAD : Nat)
     (s : BlockState)
@@ -162,7 +171,7 @@ theorem fwd_kernel_destindex_copy_kv_correct_of_exec
 
 /-- Compute-facing correctness for `_fwd_kernel_destindex_copy_kv`. -/
 theorem fwd_kernel_destindex_copy_kv_compute_correct
-    (K Dest_loc Out : RegionName)
+    (K : RegionName) (Dest_loc : Region .nat) (Out : RegionName)
     (stride_k_bs stride_k_h stride_k_d stride_o_bs stride_o_h stride_o_d
       head_num BLOCK_DMODEL BLOCK_HEAD : Nat)
     (s : BlockState)

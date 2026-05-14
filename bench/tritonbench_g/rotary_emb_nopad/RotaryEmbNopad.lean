@@ -14,70 +14,87 @@ set_option linter.unusedSimpArgs false
 `rotary_embedding_kernel`.
 
 This writes both rotary halves for Q over the full
-`[BLOCK_TOKENS, HEAD_HALF]` token/dimension tile. The conditional K branch is
-represented by `rotary_embedding_k_surface`; the cache-writing v2 branch is
-represented by `fused_rotary_embedding_v2_surface`. -/
+`[BLOCK_TOKENS, 1, HEAD_HALF]` token/head/dimension tile. The conditional K
+branch is represented by `rotary_embedding_k_surface`; the cache-writing v2
+branch is represented by `fused_rotary_embedding_v2_surface`. -/
 def rotary_embedding_q_surface
     (Q Cos Sin : RegionName)
     (q_token_stride q_head_stride head_dim_stride cos_token_stride cos_stride
       q_total_tokens Q_HEAD_NUM HEAD_HALF BLOCK_TOKENS : Nat) :
     ComputeKernel := triton {
-  cur_head_idx = tl.program_id(axis=0)
-  cur_token_block_idx = tl.program_id(axis=1)
+  cur_head_idx = tl.program_id(0)
+  cur_token_block_idx = tl.program_id(1)
   tokens_range = cur_token_block_idx * $(BLOCK_TOKENS) + tl.arange(0, $(BLOCK_TOKENS))
-  dim = tl.arange(0, $(HEAD_HALF))
-  dim1 = dim + $(HEAD_HALF)
-  token_dim_mask = (tokens_range[:, None] < $(q_total_tokens)) and
-    (dim[None, :] < $(HEAD_HALF))
-  active = (cur_head_idx < $(Q_HEAD_NUM)) and token_dim_mask
-  off_cos_sin = tokens_range[:, None] * $(cos_token_stride) + dim[None, :] * $(cos_stride)
+  dim_range0 = tl.arange(0, $(HEAD_HALF))
+  dim_range1 = dim_range0 + $(HEAD_HALF)
+  off_cos_sin = tokens_range[:, None] * $(cos_token_stride) +
+    dim_range0[None, :] * $(cos_stride)
   loaded_cos = tl.load(Cos + off_cos_sin,
-    mask=token_dim_mask, other=0.0)
+    mask=tokens_range[:, None] < $(q_total_tokens), other=0.0)
   loaded_sin = tl.load(Sin + off_cos_sin,
-    mask=token_dim_mask, other=0.0)
-  off_q0 = tokens_range[:, None] * $(q_token_stride) + cur_head_idx * $(q_head_stride) +
-    dim[None, :] * $(head_dim_stride)
-  off_q1 = tokens_range[:, None] * $(q_token_stride) + cur_head_idx * $(q_head_stride) +
-    dim1[None, :] * $(head_dim_stride)
-  loaded_q0 = tl.load(Q + off_q0, mask=active, other=0.0)
-  loaded_q1 = tl.load(Q + off_q1, mask=active, other=0.0)
-  out_q0 = loaded_q0 * loaded_cos - loaded_q1 * loaded_sin
-  out_q1 = loaded_q0 * loaded_sin + loaded_q1 * loaded_cos
-  tl.store(Q + off_q0, out_q0, mask=active)
-  tl.store(Q + off_q1, out_q1, mask=active)
+    mask=tokens_range[:, None] < $(q_total_tokens), other=0.0)
+  off_q0 = tokens_range[:, None, None] * $(q_token_stride) +
+    cur_head_idx * $(q_head_stride) +
+    dim_range0[None, None, :] * $(head_dim_stride)
+  off_q1 = tokens_range[:, None, None] * $(q_token_stride) +
+    cur_head_idx * $(q_head_stride) +
+    dim_range1[None, None, :] * $(head_dim_stride)
+  loaded_q0 = tl.load(Q + off_q0,
+    mask=(cur_head_idx < $(Q_HEAD_NUM)) &
+      (tokens_range[:, None, None] < $(q_total_tokens)),
+    other=0.0)
+  loaded_q1 = tl.load(Q + off_q1,
+    mask=(cur_head_idx < $(Q_HEAD_NUM)) &
+      (tokens_range[:, None, None] < $(q_total_tokens)),
+    other=0.0)
+  out_q0 = loaded_q0 * loaded_cos[:, None, :] - loaded_q1 * loaded_sin[:, None, :]
+  out_q1 = loaded_q0 * loaded_sin[:, None, :] + loaded_q1 * loaded_cos[:, None, :]
+  tl.store(Q + off_q0, out_q0,
+    mask=(cur_head_idx < $(Q_HEAD_NUM)) &
+      (tokens_range[:, None, None] < $(q_total_tokens)))
+  tl.store(Q + off_q1, out_q1,
+    mask=(cur_head_idx < $(Q_HEAD_NUM)) &
+      (tokens_range[:, None, None] < $(q_total_tokens)))
 }
 
 /-- Surface transcription of the conditional K part of
 `rotary_emb_nopad.py`'s `rotary_embedding_kernel` over the full
-`[BLOCK_TOKENS, HEAD_HALF]` token/dimension tile. -/
+`[BLOCK_TOKENS, 1, HEAD_HALF]` token/head/dimension tile. -/
 def rotary_embedding_k_surface
     (K Cos Sin : RegionName)
     (k_token_stride k_head_stride head_dim_stride cos_token_stride cos_stride
       q_total_tokens KV_GROUP_NUM HEAD_HALF BLOCK_TOKENS : Nat) :
     ComputeKernel := triton {
-  cur_head_idx = tl.program_id(axis=0)
-  cur_token_block_idx = tl.program_id(axis=1)
-  handle_kv = (cur_head_idx % $(KV_GROUP_NUM)) == $(0)
+  cur_head_idx = tl.program_id(0)
+  cur_token_block_idx = tl.program_id(1)
+  handle_kv = (cur_head_idx % $(KV_GROUP_NUM)) == 0
   if handle_kv {
     k_head_idx = cur_head_idx // $(KV_GROUP_NUM)
     tokens_range = cur_token_block_idx * $(BLOCK_TOKENS) + tl.arange(0, $(BLOCK_TOKENS))
-    dim = tl.arange(0, $(HEAD_HALF))
-    dim1 = dim + $(HEAD_HALF)
-    active = (tokens_range[:, None] < $(q_total_tokens)) and
-      (dim[None, :] < $(HEAD_HALF))
-    off_cos_sin = tokens_range[:, None] * $(cos_token_stride) + dim[None, :] * $(cos_stride)
-    loaded_cos = tl.load(Cos + off_cos_sin, mask=active, other=0.0)
-    loaded_sin = tl.load(Sin + off_cos_sin, mask=active, other=0.0)
-    off_k0 = tokens_range[:, None] * $(k_token_stride) + k_head_idx * $(k_head_stride) +
-      dim[None, :] * $(head_dim_stride)
-    off_k1 = tokens_range[:, None] * $(k_token_stride) + k_head_idx * $(k_head_stride) +
-      dim1[None, :] * $(head_dim_stride)
-    loaded_k0 = tl.load(K + off_k0, mask=active, other=0.0)
-    loaded_k1 = tl.load(K + off_k1, mask=active, other=0.0)
-    out_k0 = loaded_k0 * loaded_cos - loaded_k1 * loaded_sin
-    out_k1 = loaded_k0 * loaded_sin + loaded_k1 * loaded_cos
-    tl.store(K + off_k0, out_k0, mask=active)
-    tl.store(K + off_k1, out_k1, mask=active)
+    dim_range0 = tl.arange(0, $(HEAD_HALF))
+    dim_range1 = dim_range0 + $(HEAD_HALF)
+    off_cos_sin = tokens_range[:, None] * $(cos_token_stride) +
+      dim_range0[None, :] * $(cos_stride)
+    loaded_cos = tl.load(Cos + off_cos_sin,
+      mask=tokens_range[:, None] < $(q_total_tokens), other=0.0)
+    loaded_sin = tl.load(Sin + off_cos_sin,
+      mask=tokens_range[:, None] < $(q_total_tokens), other=0.0)
+    off_k0 = tokens_range[:, None, None] * $(k_token_stride) +
+      k_head_idx * $(k_head_stride) +
+      dim_range0[None, None, :] * $(head_dim_stride)
+    off_k1 = tokens_range[:, None, None] * $(k_token_stride) +
+      k_head_idx * $(k_head_stride) +
+      dim_range1[None, None, :] * $(head_dim_stride)
+    loaded_k0 = tl.load(K + off_k0,
+      mask=tokens_range[:, None, None] < $(q_total_tokens), other=0.0)
+    loaded_k1 = tl.load(K + off_k1,
+      mask=tokens_range[:, None, None] < $(q_total_tokens), other=0.0)
+    out_k0 = loaded_k0 * loaded_cos[:, None, :] - loaded_k1 * loaded_sin[:, None, :]
+    out_k1 = loaded_k0 * loaded_sin[:, None, :] + loaded_k1 * loaded_cos[:, None, :]
+    tl.store(K + off_k0, out_k0,
+      mask=tokens_range[:, None, None] < $(q_total_tokens))
+    tl.store(K + off_k1, out_k1,
+      mask=tokens_range[:, None, None] < $(q_total_tokens))
   }
 }
 
@@ -95,9 +112,9 @@ def fused_rotary_embedding_v2_surface
       cached_stride bts_stride btb_stride block_size q_total_tokens
       Q_HEAD_NUM HEAD_HALF : Nat) :
     ComputeKernel := triton {
-  block_head_index = tl.program_id(axis=0)
+  block_head_index = tl.program_id(0)
   if block_head_index < $(Q_HEAD_NUM) {
-    block_token_index = tl.program_id(axis=1)
+    block_token_index = tl.program_id(1)
     dim = tl.arange(0, $(HEAD_HALF))
     dim1 = dim + $(HEAD_HALF)
 
@@ -116,18 +133,19 @@ def fused_rotary_embedding_v2_surface
     loaded_k1 = tl.load(K + off_k1)
 
     off_cos_sin = block_token_index * $(cos_token_stride) + dim * $(cos_stride)
-    cos_mask = block_token_index < $(q_total_tokens)
-    loaded_cos = tl.load(Cos + off_cos_sin, mask=cos_mask, other=0.0)
-    loaded_sin = tl.load(Sin + off_cos_sin, mask=cos_mask, other=0.0)
+    loaded_cos = tl.load(Cos + off_cos_sin,
+      mask=block_token_index < $(q_total_tokens), other=0.0)
+    loaded_sin = tl.load(Sin + off_cos_sin,
+      mask=block_token_index < $(q_total_tokens), other=0.0)
 
     out_q0 = loaded_q0 * loaded_cos - loaded_q1 * loaded_sin
     out_q1 = loaded_q0 * loaded_sin + loaded_q1 * loaded_cos
     out_k0 = loaded_k0 * loaded_cos - loaded_k1 * loaded_sin
     out_k1 = loaded_k0 * loaded_sin + loaded_k1 * loaded_cos
 
-    past_kv_seq_len = tl.load($((ContextLengths : Region .nat)) + block_token_index) - $(1)
+    past_kv_seq_len = tl.load(ContextLengths + block_token_index) - $(1)
     last_block_idx = past_kv_seq_len // $(block_size)
-    block_table_ptr = $((BlockTables : Region .nat)) + block_token_index * $(bts_stride)
+    block_table_ptr = BlockTables + block_token_index * $(bts_stride)
     block_ids = tl.load(block_table_ptr + last_block_idx * $(btb_stride),
       mask=block_token_index < $(q_total_tokens))
     offsets_in_last_block = (past_kv_seq_len % $(block_size)) * $(cachebs_stride)

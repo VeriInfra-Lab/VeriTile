@@ -9,25 +9,25 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `fused_recurrent_hgrn.py`'s
+/-- Faithful transcription of `fused_recurrent_hgrn.py`'s
 `fused_recurrent_hgrn_fwd_kernel`.
 
 The forward recurrence is a regular `0..T` loop and is represented directly,
 including the optional initial-state load and final-state store. -/
 def fused_recurrent_hgrn_fwd_surface
-    (X G O H0 HT : RegionName) (T D BD : Nat)
+    (x g o h0 ht : RegionName) (T D BD : Nat)
     (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) :
     ComputeKernel := triton {
-  i_d = tl.program_id(axis=0)
-  i_bh = tl.program_id(axis=1)
+  i_d = tl.program_id(0)
+  i_bh = tl.program_id(1)
   o_d = i_d * $(BD) + tl.arange(0, $(BD))
   mask = o_d < $(D)
-  p_x = X + i_bh * $(T) * $(D) + o_d
-  p_g = G + i_bh * $(T) * $(D) + o_d
-  p_o = O + i_bh * $(T) * $(D) + o_d
+  p_x = x + i_bh * $(T) * $(D) + o_d
+  p_g = g + i_bh * $(T) * $(D) + o_d
+  p_o = o + i_bh * $(T) * $(D) + o_d
   b_h = tl.zeros([$(BD)], dtype=tl.float32)
   if USE_INITIAL_STATE {
-    p_h0 = H0 + i_bh * $(D) + o_d
+    p_h0 = h0 + i_bh * $(D) + o_d
     b_h += tl.load(p_h0, mask=mask, other=0).to(tl.float32)
   }
   for _i in range($(0), $(T), $(1)) {
@@ -40,7 +40,7 @@ def fused_recurrent_hgrn_fwd_surface
     p_o += $(D)
   }
   if STORE_FINAL_STATE {
-    p_ht = HT + i_bh * $(D) + o_d
+    p_ht = ht + i_bh * $(D) + o_d
     tl.store(p_ht, (b_h).to(p_ht.dtype.element_ty), mask=mask)
   }
 }
@@ -48,28 +48,26 @@ def fused_recurrent_hgrn_fwd_surface
 /-- Surface transcription of `fused_recurrent_hgrn.py`'s
 `fused_recurrent_hgrn_bwd_kernel`.
 
-The Python kernel traverses time in reverse and decrements pointers. This DSL
-surface preserves that reverse logical order with `i = T - 1 - j` and
-recomputes the per-iteration pointers from `i`. -/
+The Python kernel traverses time in reverse and decrements pointers; the DSL
+surface preserves that reverse range and pointer movement directly. -/
 def fused_recurrent_hgrn_bwd_surface
     (G O H0 DX DG DO : RegionName) (T D BD : Nat)
     (USE_INITIAL_STATE : Bool) :
     ComputeKernel := triton {
-  i_d = tl.program_id(axis=0)
-  i_bh = tl.program_id(axis=1)
+  i_d = tl.program_id(0)
+  i_bh = tl.program_id(1)
   o_d = i_d * $(BD) + tl.arange(0, $(BD))
   mask = o_d < $(D)
+  p_g = G + (i_bh * $(T) + $(T) - $(1)) * $(D) + o_d
+  p_o = O + (i_bh * $(T) + $(T) - $(2)) * $(D) + o_d
+  p_dx = DX + (i_bh * $(T) + $(T) - $(1)) * $(D) + o_d
+  p_dg = DG + (i_bh * $(T) + $(T) - $(1)) * $(D) + o_d
+  p_do = DO + (i_bh * $(T) + $(T) - $(1)) * $(D) + o_d
   b_dh = tl.zeros([$(BD)], dtype=tl.float32)
-  for j in range($(0), $(T), $(1)) {
-    i = $(T) - $(1) - j
-    p_g = G + (i_bh * $(T) + i) * $(D) + o_d
-    p_dx = DX + (i_bh * $(T) + i) * $(D) + o_d
-    p_dg = DG + (i_bh * $(T) + i) * $(D) + o_d
-    p_do = DO + (i_bh * $(T) + i) * $(D) + o_d
+  for i in range($(T) - $(1), -$(1), -$(1)) {
     b_g = tl.load(p_g, mask=mask, other=0).to(tl.float32)
     b_do = tl.load(p_do, mask=mask, other=0).to(tl.float32)
     if i > 0 {
-      p_o = O + (i_bh * $(T) + i - $(1)) * $(D) + o_d
       b_o = tl.load(p_o, mask=mask, other=0).to(tl.float32)
     } else {
       if USE_INITIAL_STATE {
@@ -84,6 +82,11 @@ def fused_recurrent_hgrn_bwd_surface
     b_dh = b_dh * b_g
     tl.store(p_dx, (b_dx).to(p_dx.dtype.element_ty), mask=mask)
     tl.store(p_dg, (b_dg).to(p_dg.dtype.element_ty), mask=mask)
+    p_g -= $(D)
+    p_o -= $(D)
+    p_dx -= $(D)
+    p_dg -= $(D)
+    p_do -= $(D)
   }
 }
 
@@ -95,8 +98,8 @@ iteration's `p_o` writeback from a precomputed `BH` vector into `O`. -/
 def fused_recurrent_hgrn_output_store_slice
     (BH O : RegionName) (i_t T D BD : Nat) :
     ComputeKernel := triton {
-  i_d = tl.program_id(axis=0)
-  i_bh = tl.program_id(axis=1)
+  i_d = tl.program_id(0)
+  i_bh = tl.program_id(1)
   offs_d = i_d * $(BD) + tl.arange(0, $(BD))
   mask = offs_d < $(D)
   b_h = tl.load(BH + i_bh * $(D) + offs_d, mask=mask, other=0.0)

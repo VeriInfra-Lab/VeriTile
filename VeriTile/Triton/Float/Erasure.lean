@@ -81,6 +81,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .castFloat src dst e => by
       simpa [eraseDType_float src, eraseDType_float dst] using e.eraseDType
   | .castNatToInt e => .castNatToInt e.eraseDType
+  | .castIntToNat e => .castIntToNat e.eraseDType
   | .add h bc a b => .add h.eraseDType bc a.eraseDType b.eraseDType
   | .sub h bc a b => .sub h.eraseDType bc a.eraseDType b.eraseDType
   | .mul h bc a b => .mul h.eraseDType bc a.eraseDType b.eraseDType
@@ -133,6 +134,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .expandDim axis a => .expandDim axis a.eraseDType
   | .ptrBase region => .ptrBase region
   | .ptrAdd bc ptr off => .ptrAdd bc ptr.eraseDType off.eraseDType
+  | .ptrSub bc ptr off => .ptrSub bc ptr.eraseDType off.eraseDType
   | .makeBlockPtr region baseOffset parentShape blockShape strides offsets =>
       .makeBlockPtr region baseOffset parentShape blockShape strides offsets
   | .makeBlockPtrDyn region baseOffset parentShape blockShape strides offsets =>

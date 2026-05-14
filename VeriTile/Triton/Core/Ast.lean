@@ -85,6 +85,7 @@ inductive Op : TileDType → TileShape → Type where
   | full      : (shape : TileShape) → Op dtype [] → Op dtype shape
   | castFloat : (src dst : FloatDType) → Op src.toTileDType shape → Op dst.toTileDType shape
   | castNatToInt : Op .nat shape → Op .int shape
+  | castIntToNat : Op .int shape → Op .nat shape
   | add       : NumericDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
   | sub       : NumericDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
   | mul       : NumericDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
@@ -210,6 +211,7 @@ inductive Op : TileDType → TileShape → Type where
                 Op dtype (TileShape.insertAxis shape axis 1)
   | ptrBase   : {d : TileDType} → (region : Region d) → Op .ptr []
   | ptrAdd    : Broadcast a b out → Op .ptr a → Op .nat b → Op .ptr out
+  | ptrSub    : Broadcast a b out → Op .ptr a → Op .nat b → Op .ptr out
   | makeBlockPtr : {d : TileDType} → (region : Region d) → (baseOffset : Nat) →
                 (parentShape : List Nat) → (blockShape : TileShape) →
                 (strides offsets : List Nat) →

@@ -29,6 +29,11 @@ mutual
 private partial def staticPtrRegions (assigned : List String) :
     TSyntax `tritonExpr → List (TSyntax `term) := fun stx =>
   match stx with
+  | `(tritonExpr| $(($_:term : Nat))) => []
+  | `(tritonExpr| $(($_:term : Int))) => []
+  | `(tritonExpr| $(($_:term : Bool))) => []
+  | `(tritonExpr| $(($_:term : ℝ))) => []
+  | `(tritonExpr| $(($_:term : Real))) => []
   | `(tritonExpr| $($r:term)) => [r]
   | `(tritonExpr| $r:ident) =>
       if assigned.contains r.getId.toString then
@@ -94,6 +99,7 @@ private partial def exprRegions (assigned : List String) :
   | `(tritonExpr| tl.log($e:tritonExpr))         => exprRegions assigned e
   | `(tritonExpr| tl.log2($e:tritonExpr))        => exprRegions assigned e
   | `(tritonExpr| tl.sigmoid($e:tritonExpr))     => exprRegions assigned e
+  | `(tritonExpr| silu($e:tritonExpr))           => exprRegions assigned e
   | `(tritonExpr| tl.sqrt($e:tritonExpr))        => exprRegions assigned e
   | `(tritonExpr| tl.math.rsqrt($e:tritonExpr)) => exprRegions assigned e
   | `(tritonExpr| tl.rsqrt($e:tritonExpr))      => exprRegions assigned e
@@ -115,6 +121,10 @@ private partial def exprRegions (assigned : List String) :
       exprRegions assigned a ++ exprRegions assigned b
   | `(tritonExpr| tl.logical_not($e:tritonExpr)) => exprRegions assigned e
   | `(tritonExpr| tl.cdiv($a:tritonExpr, $b:tritonExpr)) =>
+      exprRegions assigned a ++ exprRegions assigned b
+  | `(tritonExpr| _div_up($a:tritonExpr, $b:tritonExpr)) =>
+      exprRegions assigned a ++ exprRegions assigned b
+  | `(tritonExpr| min($a:tritonExpr, $b:tritonExpr)) =>
       exprRegions assigned a ++ exprRegions assigned b
   | `(tritonExpr| tl.max($a:tritonExpr, $b:tritonExpr))   =>
       exprRegions assigned a ++ exprRegions assigned b
@@ -188,6 +198,8 @@ private partial def exprRegions (assigned : List String) :
       exprRegions assigned e ++ kwargRegions
   | `(tritonExpr| tl.toReal($e:tritonExpr))      => exprRegions assigned e
   | `(tritonExpr| tl.cast($e:tritonExpr, $_:tritonDType)) => exprRegions assigned e
+  | `(tritonExpr| tl.extra.cuda.libdevice.llrint($e:tritonExpr)) =>
+      exprRegions assigned e
   | `(tritonExpr| tl.multiple_of($e:tritonExpr, $align:tritonExpr)) =>
       exprRegions assigned e ++ exprRegions assigned align
   | `(tritonExpr| tl.max_contiguous($e:tritonExpr, $align:tritonExpr)) =>
@@ -272,8 +284,12 @@ private partial def exprRegions (assigned : List String) :
   | `(tritonExpr| $a:tritonExpr %  $b:tritonExpr) => exprRegions assigned a ++ exprRegions assigned b
   | `(tritonExpr| tl.where($c:tritonExpr, $a:tritonExpr, $b:tritonExpr)) =>
       exprRegions assigned c ++ exprRegions assigned a ++ exprRegions assigned b
+  | `(tritonExpr| $e:tritonExpr[ : ])          => exprRegions assigned e
   | `(tritonExpr| $e:tritonExpr[ : , None ])     => exprRegions assigned e
   | `(tritonExpr| $e:tritonExpr[ None , : ])     => exprRegions assigned e
+  | `(tritonExpr| $e:tritonExpr[ : , None , : ]) => exprRegions assigned e
+  | `(tritonExpr| $e:tritonExpr[ None , : , : ]) => exprRegions assigned e
+  | `(tritonExpr| $e:tritonExpr[ : , : , None ]) => exprRegions assigned e
   | `(tritonExpr| tl.expand_dims($e:tritonExpr, $_:tritonReduceKwarg)) => exprRegions assigned e
   | `(tritonExpr| tl.expand_dims($e:tritonExpr, $_:num)) => exprRegions assigned e
   | `(tritonExpr| tl.trans($e:tritonExpr))       => exprRegions assigned e
@@ -289,7 +305,9 @@ private partial def exprRegions (assigned : List String) :
       $_dtypeName:ident=$_dt:tritonDType)) =>
       exprRegions assigned v
   | `(tritonExpr| tl.zeros([$_dims:tritonExpr,*])) => []
+  | `(tritonExpr| tl.zeros([$_dims:tritonExpr,*], $_name:ident=$_dt:term)) => []
   | `(tritonExpr| tl.zeros([$_dims:tritonExpr,*], $_name:ident=$_dt:tritonDType)) => []
+  | `(tritonExpr| tl.zeros_like($e:tritonExpr)) => exprRegions assigned e
   | _ => []
 end
 
@@ -320,6 +338,24 @@ private partial def stmtRegionsWith (assigned : List String)
     (stx : TSyntax `tritonStmt) :
     List (TSyntax `term) × List (TSyntax `term) × List String :=
  match stx with
+  | `(tritonStmt| $lhs0:ident, $lhs1:ident = tl.max($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) =>
+      let kwargRegions : List (TSyntax `term) :=
+        kwargs.foldl
+          (fun (acc : List (TSyntax `term)) (kw : TSyntax `tritonReduceKwarg) =>
+            match kw with
+            | `(tritonReduceKwarg| $_:ident = $val:tritonExpr) => acc ++ exprRegions assigned val
+            | _ => acc) []
+      let nextAssigned := lhs1.getId.toString :: lhs0.getId.toString :: assigned
+      (exprRegions assigned e ++ kwargRegions, [], nextAssigned)
+  | `(tritonStmt| $lhs0:ident, $lhs1:ident := tl.max($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) =>
+      let kwargRegions : List (TSyntax `term) :=
+        kwargs.foldl
+          (fun (acc : List (TSyntax `term)) (kw : TSyntax `tritonReduceKwarg) =>
+            match kw with
+            | `(tritonReduceKwarg| $_:ident = $val:tritonExpr) => acc ++ exprRegions assigned val
+            | _ => acc) []
+      let nextAssigned := lhs1.getId.toString :: lhs0.getId.toString :: assigned
+      (exprRegions assigned e ++ kwargRegions, [], nextAssigned)
   | `(tritonStmt| $lhs0:ident, $lhs1:ident $[, $lhsRest:ident]* = $rhs0:tritonExpr, $rhs1:tritonExpr $[, $rhsRest:tritonExpr]*) =>
       let lhs := #[lhs0, lhs1] ++ lhsRest
       let rhs := #[rhs0, rhs1] ++ rhsRest
@@ -332,11 +368,19 @@ private partial def stmtRegionsWith (assigned : List String)
       let ins := rhs.foldl (fun acc e => acc ++ exprRegions assigned e) []
       let nextAssigned := lhs.foldl (fun acc i => i.getId.toString :: acc) assigned
       (ins, [], nextAssigned)
+  | `(tritonStmt| $_i:ident % $e:tritonExpr) =>
+      (exprRegions assigned e, [], assigned)
+  | `(tritonStmt| $i:ident := tl.max($e:tritonExpr, $_n:num)) =>
+      (exprRegions assigned e, [], i.getId.toString :: assigned)
+  | `(tritonStmt| $i:ident = tl.max($e:tritonExpr, $_n:num)) =>
+      (exprRegions assigned e, [], i.getId.toString :: assigned)
   | `(tritonStmt| $i:ident := $e:tritonExpr) =>
       (exprRegions assigned e, [], i.getId.toString :: assigned)
   | `(tritonStmt| $i:ident = $e:tritonExpr) =>
       (exprRegions assigned e, [], i.getId.toString :: assigned)
   | `(tritonStmt| $i:ident += $e:tritonExpr) =>
+      (exprRegions assigned e, [], i.getId.toString :: assigned)
+  | `(tritonStmt| $i:ident -= $e:tritonExpr) =>
       (exprRegions assigned e, [], i.getId.toString :: assigned)
   | `(tritonStmt| $i:ident *= $e:tritonExpr) =>
       (exprRegions assigned e, [], i.getId.toString :: assigned)
@@ -381,6 +425,8 @@ private partial def stmtRegionsWith (assigned : List String)
       ([], [], assigned)
   | `(tritonStmt| tl.debug_barrier()) =>
       ([], [], assigned)
+  | `(tritonStmt| tl.static_print($_msg:term)) =>
+      ([], [], assigned)
   | `(tritonStmt| tl.for $idx:ident in $($_:term) { $stmts:tritonStmt* }) =>
       let (i, o, _) := blockRegionsWith (idx.getId.toString :: assigned) stmts.toList
       (i, o, assigned)
@@ -390,9 +436,15 @@ private partial def stmtRegionsWith (assigned : List String)
   | `(tritonStmt| for $idx:ident in range(0, $($_:term), $($_:term)) { $stmts:tritonStmt* }) =>
       let (i, o, _) := blockRegionsWith (idx.getId.toString :: assigned) stmts.toList
       (i, o, assigned)
+  | `(tritonStmt| for $idx:ident in range($stop:tritonExpr) { $stmts:tritonStmt* }) =>
+      let (i, o, _) := blockRegionsWith (idx.getId.toString :: assigned) stmts.toList
+      (exprRegions assigned stop ++ i, o, assigned)
   | `(tritonStmt| for $idx:ident in range($($_:term), $($_:term), $($_:term)) { $stmts:tritonStmt* }) =>
       let (i, o, _) := blockRegionsWith (idx.getId.toString :: assigned) stmts.toList
       (i, o, assigned)
+  | `(tritonStmt| for $idx:ident in range($start:tritonExpr, $stop:tritonExpr) { $stmts:tritonStmt* }) =>
+      let (i, o, _) := blockRegionsWith (idx.getId.toString :: assigned) stmts.toList
+      (exprRegions assigned start ++ exprRegions assigned stop ++ i, o, assigned)
   | `(tritonStmt| for $idx:ident in range($start:tritonExpr, $stop:tritonExpr, $step:tritonExpr) { $stmts:tritonStmt* }) =>
       let (i, o, _) := blockRegionsWith (idx.getId.toString :: assigned) stmts.toList
       (exprRegions assigned start ++ exprRegions assigned stop ++ exprRegions assigned step ++ i, o, assigned)

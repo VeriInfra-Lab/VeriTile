@@ -10,7 +10,7 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `token_softmax_llama.py`'s
+/-- Faithful transcription of `token_softmax_llama.py`'s
 `_fwd_kernel_token_softmax`.
 
 The metadata buffers are typed Nat regions so their `tl.load` calls do not need
@@ -22,11 +22,11 @@ def token_softmax_surface
   cur_batch = tl.program_id(0)
   cur_head = tl.program_id(1)
   col_offsets = tl.arange(0, $(BLOCK_SIZE))
-  cur_batch_seq_len = tl.load($((B_Seqlen : Region .nat)) + cur_batch)
-  cur_batch_in_all_start_index = tl.load($((B_Start_Loc : Region .nat)) + cur_batch)
-  row = tl.load(Logics + cur_head * $(stride_logic_h) +
+  cur_batch_seq_len = tl.load(B_Seqlen + cur_batch)
+  cur_batch_in_all_start_index = tl.load(B_Start_Loc + cur_batch)
+  row = (tl.load(Logics + cur_head * $(stride_logic_h) +
       (cur_batch_in_all_start_index + col_offsets) * $(stride_logic_bs),
-    mask=col_offsets < cur_batch_seq_len, other=-inf).to(tl.float32)
+    mask=col_offsets < cur_batch_seq_len, other=-float("inf"))).to(tl.float32)
   row_minus_max = row - tl.max(row, axis=0)
   numerator = tl.exp(row_minus_max)
   denominator = tl.sum(numerator, axis=0)
@@ -47,11 +47,11 @@ def token_softmax_final_store_slice
     (stride_softmax_h stride_softmax_bs stride_prob_h stride_prob_bs
       BLOCK_SIZE : Nat) :
     ComputeKernel := triton {
-  cur_batch = tl.program_id(axis=0)
-  cur_head = tl.program_id(axis=1)
+  cur_batch = tl.program_id(0)
+  cur_head = tl.program_id(1)
   col_offsets = tl.arange(0, $(BLOCK_SIZE))
-  cur_batch_seq_len = tl.load($((B_Seqlen : Region .nat)) + cur_batch)
-  cur_batch_in_all_start_index = tl.load($((B_Start_Loc : Region .nat)) + cur_batch)
+  cur_batch_seq_len = tl.load(B_Seqlen + cur_batch)
+  cur_batch_in_all_start_index = tl.load(B_Start_Loc + cur_batch)
   softmax_output = tl.load(Softmax + cur_head * $(stride_softmax_h) +
       (cur_batch_in_all_start_index + col_offsets) * $(stride_softmax_bs),
     mask=col_offsets < cur_batch_seq_len, other=0.0)

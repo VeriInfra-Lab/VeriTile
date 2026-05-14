@@ -8,6 +8,7 @@ namespace VeriTile.Bench.TritonBenchG.BmmChunkFwd
 open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
+set_option linter.unusedVariables false
 
 /-- Surface transcription of
 `bmm_chunk_fwd.py`'s `_bmm_chunk_fwd_kernel`.
@@ -15,10 +16,11 @@ set_option linter.unusedSimpArgs false
 This covers both `HAS_SEQ_IDX=false` and `HAS_SEQ_IDX=true`; the sequence-index
 loads use an `Int` region so the Python `other=-1` / `other=-2` sentinels are
 represented directly. The causal early-return is represented as a guard around
-the active body. The source kernel's runtime `dot_dtype` cast is not represented
-here: current `tl.dot` typing in the DSL is real-valued, so the `a`/`b` loads
-remain in the compute carrier while the loop shape, masks, pointer advances,
-optional sequence filter, and final destination dtype cast are preserved. -/
+the active body. The source kernel's runtime `dot_dtype` cast is preserved as a
+surface dtype annotation on the `a`/`b` loads; current `tl.dot` typing in the DSL
+still evaluates through the algorithm carrier while the loop shape, masks,
+pointer advances, optional sequence filter, and final destination dtype cast are
+preserved. -/
 def bmm_chunk_fwd_surface
     (A B Out : RegionName) (SeqIdx : Region .int)
     (seqlen chunk_size K ngroups
@@ -27,6 +29,7 @@ def bmm_chunk_fwd_surface
       stride_out_batch stride_out_chunk stride_out_head stride_outm stride_outn
       stride_seq_idx_batch stride_seq_idx_seqlen
       BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat)
+    (dot_dtype : TileDType)
     (IS_CAUSAL HAS_SEQ_IDX : Bool) :
     ComputeKernel := triton {
   pid_b = tl.program_id(axis=1)
@@ -46,8 +49,10 @@ def bmm_chunk_fwd_surface
     pid_c * $(chunk_size) * $(stride_a_seqlen) + pid_h * $(stride_a_head)
   B += pid_b * $(stride_b_batch) +
     pid_c * $(chunk_size) * $(stride_b_seqlen) + pid_h * $(stride_b_head)
-  seq_idx_base = pid_b * $(stride_seq_idx_batch) +
-    pid_c * $(chunk_size) * $(stride_seq_idx_seqlen)
+  if HAS_SEQ_IDX {
+    SeqIdx += pid_b * $(stride_seq_idx_batch) +
+      pid_c * $(chunk_size) * $(stride_seq_idx_seqlen)
+  }
 
   offs_m = pid_m * $(BLOCK_SIZE_M) + tl.arange(0, $(BLOCK_SIZE_M))
   offs_n = pid_n * $(BLOCK_SIZE_N) + tl.arange(0, $(BLOCK_SIZE_N))
@@ -56,27 +61,26 @@ def bmm_chunk_fwd_surface
     offs_k[None, :] * $(stride_ak)
   b_ptrs = B + offs_k[:, None] * $(stride_bk) +
     offs_n[None, :] * $(stride_b_seqlen)
-  chunk_size_limit = tl.minimum($(chunk_size), $(seqlen) - pid_c * $(chunk_size))
+  chunk_size_limit = min($(chunk_size), $(seqlen) - pid_c * $(chunk_size))
 
   acc = tl.zeros([$(BLOCK_SIZE_M), $(BLOCK_SIZE_N)], dtype=tl.float32)
   for k in range($(0), tl.cdiv($(K), $(BLOCK_SIZE_K)), $(1)) {
-    a_mask = (offs_m[:, None] < chunk_size_limit) &
-      (offs_k[None, :] < $(K) - k * $(BLOCK_SIZE_K))
-    b_mask = (offs_k[:, None] < $(K) - k * $(BLOCK_SIZE_K)) &
-      (offs_n[None, :] < chunk_size_limit)
-    a = tl.load(a_ptrs, mask=a_mask, other=0.0)
-    b = tl.load(b_ptrs, mask=b_mask, other=0.0)
+    a = tl.load(a_ptrs, mask=(offs_m[:, None] < chunk_size_limit) &
+      (offs_k[None, :] < $(K) - k * $(BLOCK_SIZE_K)), other=0.0).to(dot_dtype)
+    b = tl.load(b_ptrs, mask=(offs_k[:, None] < $(K) - k * $(BLOCK_SIZE_K)) &
+      (offs_n[None, :] < chunk_size_limit), other=0.0).to(dot_dtype)
     acc += tl.dot(a, b)
     a_ptrs += $(BLOCK_SIZE_K) * $(stride_ak)
     b_ptrs += $(BLOCK_SIZE_K) * $(stride_bk)
   }
 
+  offs_m = pid_m * $(BLOCK_SIZE_M) + tl.arange(0, $(BLOCK_SIZE_M))
+  offs_n = pid_n * $(BLOCK_SIZE_N) + tl.arange(0, $(BLOCK_SIZE_N))
   if HAS_SEQ_IDX {
-    seq_idx_m = tl.load($((SeqIdx : Region .int)) + seq_idx_base +
-      offs_m * $(stride_seq_idx_seqlen),
+    chunk_size_limit = min($(chunk_size), $(seqlen) - pid_c * $(chunk_size))
+    seq_idx_m = tl.load(SeqIdx + offs_m * $(stride_seq_idx_seqlen),
       mask=offs_m < chunk_size_limit, other=-1)
-    seq_idx_n = tl.load($((SeqIdx : Region .int)) + seq_idx_base +
-      offs_n * $(stride_seq_idx_seqlen),
+    seq_idx_n = tl.load(SeqIdx + offs_n * $(stride_seq_idx_seqlen),
       mask=offs_n < chunk_size_limit, other=-2)
     acc = tl.where(seq_idx_m[:, None] == seq_idx_n[None, :], acc, 0.0)
   }
@@ -84,8 +88,8 @@ def bmm_chunk_fwd_surface
   Out += pid_b * $(stride_out_batch) +
     pid_c * $(stride_out_chunk) + pid_h * $(stride_out_head)
   out_ptrs = Out + $(stride_outm) * offs_m[:, None] + offs_n[None, :] * $(stride_outn)
-  out_mask = (offs_m[:, None] < $(chunk_size)) & (offs_n[None, :] < $(chunk_size))
-  tl.store(out_ptrs, out, mask=out_mask)
+  tl.store(out_ptrs, out, mask=(offs_m[:, None] < $(chunk_size)) &
+    (offs_n[None, :] < $(chunk_size)))
   }
 }
 

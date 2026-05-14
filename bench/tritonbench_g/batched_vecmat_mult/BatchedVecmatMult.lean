@@ -10,35 +10,32 @@ open VeriTile.Triton
 set_option maxHeartbeats 5000000
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `batched_vecmat_mult.py`'s `batched_vecmat_kernel`.
+/-- Faithful transcription of `batched_vecmat_mult.py`'s `batched_vecmat_kernel`.
 
 The Python wrapper asserts that `M`, `N`, and `K` are divisible by their block
 sizes, so this surface keeps the same unmasked block loads and stores. The
 Python body vectorizes the `block_m` rows and writes the reduction as
 `tl.broadcast(a, b)` followed by `tl.trans(tl.sum(..., axis=2))`.
 
-Allowed mechanical Lean-syntax-only changes:
-- Python rank-3 slices like `[None, :, None]` are represented with
-  `tl.expand_dims(..., axis)` calls. -/
+Allowed mechanical Lean-syntax-only changes apply. -/
 def batched_vecmat_surface
     (A B output : RegionName)
-    (dim_n dim_k BLOCK_M BLOCK_N BLOCK_K : Nat) :
+    (_dim_m dim_n dim_k BLOCK_M BLOCK_N BLOCK_K : Nat) :
     ComputeKernel := triton {
-  m_index = tl.program_id(axis=0)
-  n_index = tl.program_id(axis=1)
-  offsets_m = m_index * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
-  offsets_n = n_index * $(BLOCK_N) + tl.arange(0, $(BLOCK_N))
-  offsets_k = tl.arange(0, $(BLOCK_K))
-  output_tile = offsets_m[:, None] * $(dim_n) + offsets_n[None, :]
-  vecmat = (tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32)).to(A.dtype.element_ty)
+  m_index = tl.program_id(0)
+  n_index = tl.program_id(1)
+  output_tile = (m_index * $(BLOCK_M) + tl.arange(0, $(BLOCK_M)))[:, None] * $(dim_n) +
+    (n_index * $(BLOCK_N) + tl.arange(0, $(BLOCK_N)))[None, :]
+  vecmat = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=A.dtype.element_ty)
   k_blocks = $(dim_k) // $(BLOCK_K)
-  for k_index in range($(0), k_blocks, $(1)) {
-    k_offsets = k_index * $(BLOCK_K) + offsets_k
-    a_tile = offsets_m[:, None] * $(dim_k) + k_offsets[None, :]
+  for k_index in range(k_blocks) {
+    a_tile = (m_index * $(BLOCK_M) + tl.arange(0, $(BLOCK_M)))[:, None] * $(dim_k) +
+      (k_index * $(BLOCK_K) + tl.arange(0, $(BLOCK_K)))[None, :]
     a = tl.load(A + a_tile)
-    b_tile = tl.expand_dims(tl.expand_dims(offsets_m, 0), 2) * $(dim_n) * $(dim_k) +
-      tl.expand_dims(tl.expand_dims(offsets_n, 1), 2) * $(dim_k) +
-      tl.expand_dims(tl.expand_dims(k_offsets, 0), 0)
+    b_tile = (m_index * $(BLOCK_M) + tl.arange(0, $(BLOCK_M)))[None, :, None] *
+      $(dim_n) * $(dim_k) +
+      (n_index * $(BLOCK_N) + tl.arange(0, $(BLOCK_N)))[:, None, None] * $(dim_k) +
+      (k_index * $(BLOCK_K) + tl.arange(0, $(BLOCK_K)))[None, None, :]
     b = tl.load(B + b_tile)
     expanded_a, _ = tl.broadcast(a, b)
     vecmat += tl.trans(tl.sum(expanded_a * b, axis=2))

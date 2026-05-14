@@ -10,7 +10,7 @@ open VeriTile.Triton
 set_option linter.unusedSimpArgs false
 
 /-- Surface transcription/proof-oriented final output-store slice of `context_attn_fwd.py`'s
-`_fwd_kernel`.
+`_fwd_kernel_int8kv`.
 
 The full kernel computes PPL int8-KV context attention. This slice starts from
 a precomputed `Acc` tile and proves the final masked writeback into `Out`,
@@ -26,13 +26,13 @@ def context_attn_fwd_final_store_slice
       stride_obs stride_oh stride_od
       BLOCK_M BLOCK_DMODEL : Nat) :
     ComputeKernel := triton {
-  start_m = tl.program_id(axis=0)
-  cur_bh = tl.program_id(axis=1)
+  start_m = tl.program_id(0)
+  cur_bh = tl.program_id(1)
   cur_batch = cur_bh // $(H)
   cur_head = cur_bh % $(H)
-  prompt_cache_len = tl.load($((B_Prompt_Cache_Len : Region .nat)) + cur_batch)
-  cur_batch_seq_len = tl.load($((B_Seqlen : Region .nat)) + cur_batch) - prompt_cache_len
-  cur_batch_in_all_start_index = tl.load($((B_Start_Loc : Region .nat)) + cur_batch)
+  prompt_cache_len = tl.load(B_Prompt_Cache_Len + cur_batch)
+  cur_batch_seq_len = tl.load(B_Seqlen + cur_batch) - prompt_cache_len
+  cur_batch_in_all_start_index = tl.load(B_Start_Loc + cur_batch)
   offs_m = start_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
   offs_d = tl.arange(0, $(BLOCK_DMODEL))
   mask = (offs_m[:, None] < cur_batch_seq_len) & (offs_d[None, :] < $(BLOCK_DMODEL))

@@ -19,18 +19,20 @@ def softmax_kernel_non_inner_one_tile_surface
     (output_ptr input_ptr : RegionName)
     (N K TILE_N TILE_K : Nat) :
     ComputeKernel := triton {
-  pid_k = tl.program_id(axis=1)
-  pid_m = tl.program_id(axis=0)
+  pid_k = tl.program_id(1)
+  pid_m = tl.program_id(0)
   k_offsets = pid_k * $(TILE_K) + tl.arange(0, $(TILE_K))
   n_offsets = tl.arange(0, $(TILE_N))
-  offset = pid_m * $(N) * $(K) + n_offsets[:, None] * $(K) + k_offsets[None, :]
-  mask = (n_offsets[:, None] < $(N)) and (k_offsets[None, :] < $(K))
-  inp = tl.load(input_ptr + offset, mask=mask, other=-inf)
+  offset = pid_m * $(N) * $(K) + n_offsets[:, None] * $(K) + k_offsets
+  mask = (n_offsets[:, None] < $(N)) & (k_offsets < $(K))
+  input_ptrs = input_ptr + offset
+  inp = tl.load(input_ptrs, mask=mask, other=-float("inf"))
   m = tl.max(inp, 0)
   e = tl.exp(inp - m[None, :])
   z = tl.sum(e, 0)
-  out = e / z[None, :]
-  tl.store(output_ptr + offset, out, mask=mask)
+  out = e / z
+  output_ptrs = output_ptr + offset
+  tl.store(output_ptrs, out, mask=mask)
 }
 
 /-- Proof-oriented `ONE_TILE_PER_CTA=true` slice of
@@ -49,10 +51,10 @@ def softmax_kernel_inner_one_tile
   offset = pid_m * $(N) + n_offsets
   mask = n_offsets < $(N)
   input_ptrs = input_ptr + offset
-  inp = tl.load(input_ptrs, mask=mask, other=-inf).to(output_ptr.dtype.element_ty)
-  m = tl.max(inp, axis=0)
+  inp = (tl.load(input_ptrs, mask=mask, other=-float("inf"))).to(output_ptr.dtype.element_ty)
+  m = tl.max(inp, 0)
   e = tl.exp(inp - m)
-  z = tl.sum(e, axis=0)
+  z = tl.sum(e, 0)
   out = e / z
   output_ptrs = output_ptr + offset
   tl.store(output_ptrs, out, mask=mask)
@@ -67,12 +69,12 @@ def softmax_backward_kernel_non_inner_one_tile_surface
     (out_ptr out_grad_ptr in_grad_ptr : RegionName)
     (N K TILE_N TILE_K : Nat) :
     ComputeKernel := triton {
-  pid_m = tl.program_id(axis=0)
-  pid_k = tl.program_id(axis=1)
+  pid_m = tl.program_id(0)
+  pid_k = tl.program_id(1)
   offsets_k = pid_k * $(TILE_K) + tl.arange(0, $(TILE_K))
   offsets_n = tl.arange(0, $(TILE_N))
-  offsets = pid_m * $(N) * $(K) + offsets_n[:, None] * $(K) + offsets_k[None, :]
-  mask = (offsets_n[:, None] < $(N)) and (offsets_k[None, :] < $(K))
+  offsets = pid_m * $(N) * $(K) + offsets_n[:, None] * $(K) + offsets_k
+  mask = (offsets_n < $(N))[:, None] & (offsets_k < $(K))
   out_tile = tl.load(out_ptr + offsets, mask=mask)
   out_grad_tile = tl.load(out_grad_ptr + offsets, mask=mask)
   scale = tl.sum(out_tile * out_grad_tile, axis=0)
@@ -89,14 +91,14 @@ def softmax_backward_kernel_inner_one_tile_surface
     (out_ptr out_grad_ptr in_grad_ptr : RegionName)
     (M N TILE_M TILE_N : Nat) :
     ComputeKernel := triton {
-  pid_m = tl.program_id(axis=0)
+  pid_m = tl.program_id(0)
   m_offsets = pid_m * $(TILE_M) + tl.arange(0, $(TILE_M))
   n_offsets = tl.arange(0, $(TILE_N))
-  offsets = m_offsets[:, None] * $(N) + n_offsets[None, :]
-  mask = (m_offsets[:, None] < $(M)) and (n_offsets[None, :] < $(N))
+  offsets = m_offsets[:, None] * $(N) + n_offsets
+  mask = (m_offsets[:, None] < $(M)) & (n_offsets < $(N))
   out_tile = tl.load(out_ptr + offsets, mask=mask)
   out_grad_tile = tl.load(out_grad_ptr + offsets, mask=mask)
-  scale = tl.sum(out_tile * out_grad_tile, axis=1)
+  scale = tl.sum(out_tile * out_grad_tile, 1)
   in_grad_tile = out_tile * (out_grad_tile - scale[:, None])
   tl.store(in_grad_ptr + offsets, in_grad_tile, mask=mask)
 }

@@ -9,7 +9,7 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `flash_decode2_llama.py`'s
+/-- Faithful transcription of `flash_decode2_llama.py`'s
 `_fwd_kernel_flash_decode_stage2`.
 
 The Python body passes but does not use `stride_mid_od`, `stride_mid_o_es`, or
@@ -23,7 +23,7 @@ def flash_decode2_llama_surface
   cur_batch = tl.program_id(0)
   cur_head = tl.program_id(1)
   offs_d = tl.arange(0, $(BLOCK_DMODEL))
-  cur_batch_seq_len = tl.load($((B_Seqlen : Region .nat)) + cur_batch)
+  cur_batch_seq_len = tl.load(B_Seqlen + cur_batch)
   block_n_size = tl.where(cur_batch_seq_len <= $(0), $(0),
     cur_batch_seq_len + $(BLOCK_SEQ) - $(1)) // $(BLOCK_SEQ)
   sum_exp = 0.0
@@ -58,8 +58,8 @@ def flash_decode2_llama_final_store_slice
       stride_obs stride_oh stride_od
       BLOCK_DMODEL : Nat) :
     ComputeKernel := triton {
-  cur_batch = tl.program_id(axis=0)
-  cur_head = tl.program_id(axis=1)
+  cur_batch = tl.program_id(0)
+  cur_head = tl.program_id(1)
   offs_d = tl.arange(0, $(BLOCK_DMODEL))
   final = tl.load(Final + cur_batch * $(stride_final_b) +
       cur_head * $(stride_final_h) + offs_d * $(stride_final_d))

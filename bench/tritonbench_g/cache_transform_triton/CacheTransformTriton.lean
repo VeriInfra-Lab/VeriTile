@@ -21,20 +21,21 @@ def decoding_cache_kernel
     (cos_output sin_output : RegionName)
     (cache_stride hidden_stride HIDDEN_DIM NUM_SEQS BLOCK_SIZE : Nat) :
     ComputeKernel := triton {
-  pid = tl.program_id(axis=0)
-  idx = pid * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
-  hid = tl.arange(0, $(HIDDEN_DIM))
-  ori_seq_idx = tl.load($((lengths : Region .nat)) + idx,
+  idx = tl.program_id(0) * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))
+  ori_seq_idx = tl.load(lengths + idx,
     mask=idx < $(NUM_SEQS), other=None)
-  mask = idx[:, None] + hid[None, :] * $(0) < $(NUM_SEQS)
   cos_cache_part = tl.load(cos_cache + ori_seq_idx[:, None] * $(cache_stride) +
-      hid[None, :] * $(hidden_stride), mask=mask, other=0.0)
+      tl.arange(0, $(HIDDEN_DIM))[None, :] * $(hidden_stride),
+    mask=idx[:, None] < $(NUM_SEQS))
   sin_cache_part = tl.load(sin_cache + ori_seq_idx[:, None] * $(cache_stride) +
-      hid[None, :] * $(hidden_stride), mask=mask, other=0.0)
+      tl.arange(0, $(HIDDEN_DIM))[None, :] * $(hidden_stride),
+    mask=idx[:, None] < $(NUM_SEQS))
   tl.store(cos_output + idx[:, None] * $(cache_stride) +
-      hid[None, :] * $(hidden_stride), cos_cache_part, mask=mask)
+      tl.arange(0, $(HIDDEN_DIM))[None, :] * $(hidden_stride),
+    cos_cache_part, mask=idx[:, None] < $(NUM_SEQS))
   tl.store(sin_output + idx[:, None] * $(cache_stride) +
-      hid[None, :] * $(hidden_stride), sin_cache_part, mask=mask)
+      tl.arange(0, $(HIDDEN_DIM))[None, :] * $(hidden_stride),
+    sin_cache_part, mask=idx[:, None] < $(NUM_SEQS))
 }
 
 /-- Proof-oriented one-sequence, one-hidden-block slice of
@@ -43,7 +44,7 @@ def decoding_cache_kernel
 This models the decoding branch: load the source cache row from `lengths[seq]`
 and copy the same hidden block from cos/sin caches into cos/sin outputs. -/
 def decoding_cache_one_seq_block
-    (cos_cache sin_cache lengths cos_output sin_output : RegionName)
+    (cos_cache sin_cache : RegionName) (lengths : Region .nat) (cos_output sin_output : RegionName)
     (cache_stride hidden_stride HIDDEN_DIM NUM_SEQS BLOCK_H : Nat) :
     ComputeKernel := triton {
   seq = tl.program_id(0)
@@ -120,7 +121,7 @@ instance decodeActiveDecidable
 
 /-- Algorithm-layer correctness for the full decoding cache-copy surface. -/
 theorem decoding_cache_kernel_correct
-    (cos_cache sin_cache lengths cos_output sin_output : RegionName)
+    (cos_cache sin_cache : RegionName) (lengths : Region .nat) (cos_output sin_output : RegionName)
     (cache_stride hidden_stride HIDDEN_DIM NUM_SEQS BLOCK_SIZE : Nat)
     (s s' : BlockState)
     (hRegion : cos_output ≠ sin_output)
@@ -161,7 +162,7 @@ theorem decoding_cache_kernel_correct
             Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd,
             Tile.expandDim, Tile.uop, NumericDType.add, NumericDType.mul,
             ComparableDType.lt, TileShape.dropInsertedIndex,
-            BlockState.readMemValue, hB, hH] at hExec
+            Tile.remap, BlockState.readMemValue, hB, hH] at hExec
       subst s'
       constructor
       · intro idx
@@ -205,7 +206,7 @@ theorem decoding_cache_kernel_correct
 
 /-- Compute-facing correctness for the full decoding cache-copy surface. -/
 theorem decoding_cache_kernel_compute_correct
-    (cos_cache sin_cache lengths cos_output sin_output : RegionName)
+    (cos_cache sin_cache : RegionName) (lengths : Region .nat) (cos_output sin_output : RegionName)
     (cache_stride hidden_stride HIDDEN_DIM NUM_SEQS BLOCK_SIZE : Nat)
     (s : BlockState)
     (hRegion : cos_output ≠ sin_output)
@@ -261,7 +262,7 @@ theorem decoding_cache_kernel_compute_correct
 
 /-- Algorithm-layer correctness for the one-sequence decoding cache copy. -/
 theorem decoding_cache_one_seq_block_correct
-    (cos_cache sin_cache lengths cos_output sin_output : RegionName)
+    (cos_cache sin_cache : RegionName) (lengths : Region .nat) (cos_output sin_output : RegionName)
     (cache_stride hidden_stride HIDDEN_DIM NUM_SEQS BLOCK_H : Nat)
     (s s' : BlockState)
     (hRegion : cos_output ≠ sin_output)
@@ -372,7 +373,7 @@ theorem decoding_cache_one_seq_block_correct
 
 /-- Compute-facing correctness for the cos/sin decoding cache copy. -/
 theorem decoding_cache_one_seq_block_compute_correct
-    (cos_cache sin_cache lengths cos_output sin_output : RegionName)
+    (cos_cache sin_cache : RegionName) (lengths : Region .nat) (cos_output sin_output : RegionName)
     (cache_stride hidden_stride HIDDEN_DIM NUM_SEQS BLOCK_H : Nat)
     (s : BlockState)
     (hRegion : cos_output ≠ sin_output)

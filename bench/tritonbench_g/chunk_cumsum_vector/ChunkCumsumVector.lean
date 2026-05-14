@@ -9,7 +9,7 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `chunk_cumsum_vector.py`'s
+/-- Faithful transcription of `chunk_cumsum_vector.py`'s
 `chunk_global_cumsum_vector_kernel`.
 
 The final cast targets the block pointer destination dtype in Python. -/
@@ -31,7 +31,9 @@ def chunk_cumsum_vector_surface
     b_s = tl.load(p_s, boundary_check=([0, 1] : List Nat)).to(tl.float32)
     b_c = b_z[None, :] + tl.dot(m_s, b_s, allow_tf32=false)
     tl.store(p_z, (b_c).to(p_z.dtype.element_ty), boundary_check=([0, 1] : List Nat))
-    b_z += tl.sum(b_s, axis=0)
+    if i_t >= $(0) {
+      b_z += tl.sum(b_s, 0)
+    }
   }
 }
 
@@ -44,9 +46,9 @@ boundary-checked writeback into `Z`. -/
 def chunk_cumsum_vector_store_slice
     (BC Z : RegionName) (s_s_h s_s_t s_s_d T S BT BS : Nat) :
     ComputeKernel := triton {
-  i_s = tl.program_id(axis=0)
-  i_bh = tl.program_id(axis=1)
-  i_t = tl.program_id(axis=2)
+  i_s = tl.program_id(0)
+  i_bh = tl.program_id(1)
+  i_t = tl.program_id(2)
   offs_t = i_t * $(BT) + tl.arange(0, $(BT))
   offs_s = i_s * $(BS) + tl.arange(0, $(BS))
   mask = (offs_t[:, None] < $(T)) & (offs_s[None, :] < $(S))
