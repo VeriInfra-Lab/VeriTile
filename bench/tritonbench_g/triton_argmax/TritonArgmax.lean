@@ -27,11 +27,10 @@ def argmax_kernel_1
   inp_ptrs = inp + offset
   mask = offset < $(M)
   inp_val = tl.load(inp_ptrs, mask=mask, other=-float("inf"))
-  max_val, local_index := tl.max(inp_val, axis=0, return_indices=True)
-  local_index0 = local_index
-  max_index = local_index0 + pid * $(BLOCK_SIZE)
+  max_val, max_index = tl.max(inp_val, axis=0, return_indices=True)
+  max_index = max_index + pid * $(BLOCK_SIZE)
   mid_value_ptr = mid_value + pid
-  max_index_ptr = $((mid_index : Region .int)) + pid
+  max_index_ptr = mid_index + pid
   tl.store(mid_value_ptr, max_val)
   tl.store(max_index_ptr, max_index)
 }
@@ -50,9 +49,9 @@ def argmax_kernel_2
   mask = offset < $(mid_size)
   mid_val = tl.load(mid_ptrs, mask=mask, other=-float("inf"))
   index_val = tl.argmax(mid_val, axis=0)
-  mid_index_ptrs = $((mid_index : Region .int)) + index_val
+  mid_index_ptrs = mid_index + index_val
   out_val = tl.load(mid_index_ptrs)
-  tl.store($((out : Region .int)), out_val)
+  tl.store(out, out_val)
 }
 
 /-- Faithful transcription of `triton_argmax.py`'s dim-specific
@@ -71,8 +70,8 @@ def argmax_kernel
     pid_k = (pid_k).to(tl.int64)
   }
   m_offset = pid_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
-  max_values = tl.full([$(BLOCK_M)], dtype=tl.float32, value=-inf)
-  argmax_values = tl.full([$(BLOCK_M)], dtype=tl.int64, value=$(0))
+  max_values = tl.full([$(BLOCK_M)], dtype=tl.float32, value=float("-inf"))
+  argmax_values = tl.full([$(BLOCK_M)], dtype=tl.int64, value=0)
   for start_n in range($(0), $(N), $(BLOCK_N)) {
     n_offset = start_n + tl.arange(0, $(BLOCK_N))
     offset = m_offset[:, None] * $(N) * $(K) + n_offset[None, :] * $(K) + pid_k
@@ -83,10 +82,10 @@ def argmax_kernel
       return_indices=True, return_indices_tie_break_left=True)
     update = local_max > max_values
     max_values = tl.where(update, local_max, max_values)
-    argmax_values = tl.where(update, (start_n + local_argmax).to(tl.int64), argmax_values)
+    argmax_values = tl.where(update, start_n + local_argmax, argmax_values)
   }
   offset_index = m_offset * $(K) + pid_k
-  out_index_ptrs = $((out_index : Region .int)) + offset_index
+  out_index_ptrs = out_index + offset_index
   mask1 = m_offset < $(M)
   tl.store(out_index_ptrs, argmax_values, mask=mask1)
 }

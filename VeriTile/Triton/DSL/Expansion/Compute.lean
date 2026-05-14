@@ -56,6 +56,7 @@ partial def expandArith (expandExpr : ExprExpander) (env : Env) (ctx : String) (
       | none => pure b'
     else
       pure b'
+  let (a', b') ← coerceNatIntOperands ctx a' b'
   let (a', b') ← coerceRealArithOperands ctx a' b'
   ensureComputeArithComposable ctx a'
   ensureComputeArithComposable ctx b'
@@ -203,6 +204,7 @@ partial def expandCmp (expandExpr : ExprExpander) (env : Env) (ctx : String) (op
       | none => pure a'
     else
       pure a'
+  let (a', b') ← coerceNatIntOperands ctx a' b'
   ensureComputeCmpComposable ctx a'
   ensureComputeCmpComposable ctx b'
   unless a'.dtype == b'.dtype do
@@ -215,6 +217,20 @@ partial def expandMinMax (expandExpr : ExprExpander) (env : Env) (ctx : String) 
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  let a' ←
+    if b'.dtype == .nat && a'.dtype == .real then
+      match a with
+      | `(tritonExpr| $n:num) => pure ⟨← `(Op.constNat $n), .nat, SInfo.scalar, none, none⟩
+      | _ => pure a'
+    else
+      pure a'
+  let b' ←
+    if a'.dtype == .nat && b'.dtype == .real then
+      match b with
+      | `(tritonExpr| $n:num) => pure ⟨← `(Op.constNat $n), .nat, SInfo.scalar, none, none⟩
+      | _ => pure b'
+    else
+      pure b'
   let a' ←
     if a'.dtype == .nat && b'.dtype == .real then
       match ← expandLeanAntiquoteAs? .real a with
@@ -229,6 +245,7 @@ partial def expandMinMax (expandExpr : ExprExpander) (env : Env) (ctx : String) 
       | none => pure b'
     else
       pure b'
+  let (a', b') ← coerceNatIntOperands ctx a' b'
   ensureComputeArithComposable ctx a'
   ensureComputeArithComposable ctx b'
   unless a'.dtype == b'.dtype do
@@ -437,15 +454,17 @@ partial def expandReduce (expandExpr : ExprExpander) (env : Env) (ctx : String) 
   | none =>
       -- `axis = None` (Triton default): reduce over all dimensions.
       -- Two regimes, because `keep_dims` changes how the rank evolves:
-      --   * `keep_dims = false`: each call drops the front axis; emit
-      --     `dims.length` nested calls with `axis = 0`.
+      --   * `keep_dims = false`: each call drops the last remaining axis. This
+      --     still reduces every dimension, and keeps the intermediate shapes
+      --     syntactically reducible (`[M, N] -> [M] -> []`) so the generated
+      --     `Fin shape.length` proof closes by `simp`.
       --   * `keep_dims = true`: rank is preserved; emit calls with
       --     `axis = 0, 1, …, dims.length - 1` so every axis is reduced.
       let mut term := eTerm
       for j in [:dims.length] do
-        let axisIdx := if keepDims then j else 0
+        let axisIdx := if keepDims then j else (dims.length - 1 - j)
         let axisLit : TSyntax `num := ⟨Syntax.mkNumLit (toString axisIdx)⟩
-        term ← `($op (⟨$axisLit, by simp⟩) $kdLit $term)
+        term ← `($op (⟨$axisLit, by simp [TileShape.eraseAxis, TileShape.reduceShape]⟩) $kdLit $term)
       let outDims : List (TSyntax `term) ←
         if keepDims then
           let oneLit : TSyntax `term ← `((1 : Nat))
@@ -543,9 +562,28 @@ partial def expandFull (expandExpr : ExprExpander) (env : Env)
     MacroM EOut := do
   let targetDType := dtypeHint.getD .real
   let v'' ←
-    match ← expandLeanAntiquoteAs? targetDType v with
-    | some out => pure out
-    | none => expandExpr env v
+    match dtypeHint with
+    | some .nat =>
+        match v with
+        | `(tritonExpr| $n:num) =>
+            pure ⟨← `(Op.constNat $n), .nat, SInfo.scalar, none, none⟩
+        | _ =>
+            match ← expandLeanAntiquoteAs? targetDType v with
+            | some out => pure out
+            | none => expandExpr env v
+    | some .int =>
+        match v with
+        | `(tritonExpr| $n:num) =>
+            let t : TSyntax `term := ⟨Syntax.mkNumLit (toString n.getNat)⟩
+            pure ⟨← `(Op.constInt ($t : Int)), .int, SInfo.scalar, none, none⟩
+        | _ =>
+            match ← expandLeanAntiquoteAs? targetDType v with
+            | some out => pure out
+            | none => expandExpr env v
+    | _ =>
+        match ← expandLeanAntiquoteAs? targetDType v with
+        | some out => pure out
+        | none => expandExpr env v
   let v' ←
     if let some hint := dtypeHint then
       if v''.dtype == .real && hint != .real then

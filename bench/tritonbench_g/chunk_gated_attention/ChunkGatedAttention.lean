@@ -9,7 +9,7 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `chunk_gated_attention.py`'s
+/-- Faithful transcription of `chunk_gated_attention.py`'s
 `chunk_gated_abc_fwd_kernel_cum`.
 
 This is the forward-preprocessing cumsum kernel used by `fwd_pre`: it builds the
@@ -19,19 +19,18 @@ boundary-checked block pointer. The Triton block-pointer `order` metadata is
 scheduling-only; the DSL accepts it at the surface and erases it into the same
 block-pointer AST. -/
 def chunk_gated_attention_cum_surface
-    (S O : RegionName) (s_s_h s_s_t s_s_d T SSize BT BS : Nat) :
+    (s o : RegionName) (s_s_h s_s_t s_s_d T S BT BS : Nat) :
     ComputeKernel := triton {
-  i_s = tl.program_id(axis=0)
-  i_t = tl.program_id(axis=1)
-  i_bh = tl.program_id(axis=2)
+  i_s = tl.program_id(0)
+  i_t = tl.program_id(1)
+  i_bh = tl.program_id(2)
   o_i = tl.arange(0, $(BT))
-  m_s_bool = o_i[:, None] >= o_i[None, :]
-  m_s = tl.where(m_s_bool, 1.0, 0.0).to(tl.float32)
-  p_s = tl.make_block_ptr(base=S + i_bh * $(s_s_h),
-    shape=($(T), $(SSize)), strides=($(s_s_t), $(s_s_d)),
+  m_s = tl.where(o_i[:, None] >= o_i[None, :], 1.0, 0.0).to(tl.float32)
+  p_s = tl.make_block_ptr(base=s + i_bh * $(s_s_h),
+    shape=($(T), $(S)), strides=($(s_s_t), $(s_s_d)),
     offsets=(i_t * $(BT), i_s * $(BS)), block_shape=($(BT), $(BS)), order=(1, 0))
-  p_o = tl.make_block_ptr(base=O + i_bh * $(s_s_h),
-    shape=($(T), $(SSize)), strides=($(s_s_t), $(s_s_d)),
+  p_o = tl.make_block_ptr(base=o + i_bh * $(s_s_h),
+    shape=($(T), $(S)), strides=($(s_s_t), $(s_s_d)),
     offsets=(i_t * $(BT), i_s * $(BS)), block_shape=($(BT), $(BS)), order=(1, 0))
   b_s = tl.load(p_s, boundary_check=([0, 1] : List Nat)).to(tl.float32)
   b_o = tl.dot(m_s, b_s, allow_tf32=false)
@@ -50,9 +49,9 @@ def chunk_gated_attention_h_surface
       T KSize VSize TK TV BT BK BV NT : Nat)
     (GATEK USE_INITIAL_STATE STORE_FINAL_STATE : Bool) :
     ComputeKernel := triton {
-  i_v = tl.program_id(axis=0)
-  i_k = tl.program_id(axis=1)
-  i_bh = tl.program_id(axis=2)
+  i_v = tl.program_id(0)
+  i_k = tl.program_id(1)
+  i_bh = tl.program_id(2)
   b_h = tl.zeros([$(BK), $(BV)], dtype=tl.float32)
   if USE_INITIAL_STATE {
     p_h0 = tl.make_block_ptr(base=H0 + i_bh * $(KSize) * $(VSize),
@@ -117,9 +116,9 @@ boundary-checked writeback into `Z`. -/
 def chunk_gated_attention_store_slice
     (BC Z : RegionName) (s_s_h s_s_t s_s_d T S BT BS : Nat) :
     ComputeKernel := triton {
-  i_s = tl.program_id(axis=0)
-  i_bh = tl.program_id(axis=1)
-  i_t = tl.program_id(axis=2)
+  i_s = tl.program_id(0)
+  i_bh = tl.program_id(1)
+  i_t = tl.program_id(2)
   offs_t = i_t * $(BT) + tl.arange(0, $(BT))
   offs_s = i_s * $(BS) + tl.arange(0, $(BS))
   mask = (offs_t[:, None] < $(T)) & (offs_s[None, :] < $(S))

@@ -9,26 +9,28 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `decay_cumsum.py`'s `fwd_decay_cumsum`.
+/-- Faithful transcription of `decay_cumsum.py`'s `fwd_decay_cumsum`.
 
 This preserves the program-id decomposition, row base pointers, `BK` lane mask,
 float32 accumulator, per-row cumulative update by `inv_ln2`, block-pointer
 element dtype cast, and `DK` pointer increments through the `BT` loop. -/
 def fwd_decay_cumsum_surface
     (G GO : RegionName)
-    (s_qk_h DK BT BK : Nat) :
+    (s_qk_h _s_qk_t _s_qk_d _B _H _T : Nat) (_scale : ℝ)
+    (BT BK DK : Nat) :
     ComputeKernel := triton {
-  i_k = tl.program_id(axis=0)
-  i_c = tl.program_id(axis=1)
-  i_bh = tl.program_id(axis=2)
-  offs = tl.arange(0, $(BK))
-  p_g = G + i_bh * $(s_qk_h) + i_c * $(BT) * $(DK) + i_k * $(BK) + offs
-  p_go = GO + i_bh * $(s_qk_h) + i_c * $(BT) * $(DK) + i_k * $(BK) + offs
+  i_k = tl.program_id(0)
+  i_c = tl.program_id(1)
+  i_bh = tl.program_id(2)
+  p_g = G + i_bh * $(s_qk_h) + i_c * $(BT) * $(DK) +
+    i_k * $(BK) + tl.arange(0, $(BK))
+  p_go = GO + i_bh * $(s_qk_h) + i_c * $(BT) * $(DK) +
+    i_k * $(BK) + tl.arange(0, $(BK))
   cum_decay = tl.zeros([$(BK)], dtype=tl.float32)
-  mask = (i_k * $(BK) + offs) < $(DK)
+  mask = (i_k * $(BK) + tl.arange(0, $(BK))) < $(DK)
   for _i in range($(0), $(BT), $(1)) {
-    g_val = tl.load(p_g, mask=mask, other=0).to(tl.float32)
-    cum_decay += g_val * 1.44269504
+    _g = tl.load(p_g, mask=mask, other=0).to(tl.float32)
+    cum_decay += _g * 1.44269504
     tl.store(p_go, (cum_decay).to(p_go.dtype.element_ty), mask=mask)
     p_g += $(DK)
     p_go += $(DK)
@@ -45,9 +47,9 @@ def prepare_qg_kg_surface
     (s_qk_h DK BT BK : Nat)
     (scale : ℝ) :
     ComputeKernel := triton {
-  i_k = tl.program_id(axis=0)
-  i_c = tl.program_id(axis=1)
-  i_bh = tl.program_id(axis=2)
+  i_k = tl.program_id(0)
+  i_c = tl.program_id(1)
+  i_bh = tl.program_id(2)
   offs = tl.arange(0, $(BK))
   p_q = Q + i_bh * $(s_qk_h) + i_c * $(BT) * $(DK) + i_k * $(BK) + offs
   p_g = G + i_bh * $(s_qk_h) + i_c * $(BT) * $(DK) + i_k * $(BK) + offs
@@ -75,43 +77,55 @@ def prepare_qg_kg_surface
 
 /-- Surface transcription of `decay_cumsum.py`'s `bwd_decay_global_cumsum`.
 
-The Python kernel traverses the chunk in reverse and decrements pointers. This
-surface preserves that reverse logical order with `t = BT - 1 - j` and
-recomputes each per-iteration pointer from `t`. Python initializes `last_g`
-during the first reverse iteration; this surface loads the same last row before
-the loop. -/
+The Python kernel traverses the chunk in reverse and decrements pointers; the
+DSL surface preserves that reverse range and pointer movement directly. -/
 def bwd_decay_global_cumsum_surface
     (DQInner DQInter DKInner DKInter Q K G DG : RegionName)
     (s_qk_h DK BT BK : Nat) :
     ComputeKernel := triton {
-  i_k = tl.program_id(axis=0)
-  i_c = tl.program_id(axis=1)
-  i_bh = tl.program_id(axis=2)
+  i_k = tl.program_id(0)
+  i_c = tl.program_id(1)
+  i_bh = tl.program_id(2)
   offs = tl.arange(0, $(BK))
-  mask = (i_k * $(BK) + offs) < $(DK)
-  last_base = i_bh * $(s_qk_h) + i_k * $(BK) + offs +
-    (i_c * $(BT) + $(BT) - $(1)) * $(DK)
-  last_g = tl.load(G + last_base, mask=mask, other=0).to(tl.float32)
+  p_q = Q + i_bh * $(s_qk_h) + i_k * $(BK) + offs + (i_c * $(BT) + $(BT) - $(1)) * $(DK)
+  p_k = K + i_bh * $(s_qk_h) + i_k * $(BK) + offs + (i_c * $(BT) + $(BT) - $(1)) * $(DK)
+  p_g = G + i_bh * $(s_qk_h) + i_k * $(BK) + offs + (i_c * $(BT) + $(BT) - $(1)) * $(DK)
+  p_dg = DG + i_bh * $(s_qk_h) + i_k * $(BK) + offs + (i_c * $(BT) + $(BT) - $(1)) * $(DK)
+  p_dq_inner = DQInner + i_bh * $(s_qk_h) + i_k * $(BK) + offs + (i_c * $(BT) + $(BT) - $(1)) * $(DK)
+  p_dk_inner = DKInner + i_bh * $(s_qk_h) + i_k * $(BK) + offs + (i_c * $(BT) + $(BT) - $(1)) * $(DK)
+  p_dq_inter = DQInter + i_bh * $(s_qk_h) + i_k * $(BK) + offs + (i_c * $(BT) + $(BT) - $(1)) * $(DK)
+  p_dk_inter = DKInter + i_bh * $(s_qk_h) + i_k * $(BK) + offs + (i_c * $(BT) + $(BT) - $(1)) * $(DK)
   cum_grad_dg = tl.zeros([$(BK)], dtype=tl.float32)
-  for j in range($(0), $(BT), $(1)) {
-    t = $(BT) - $(1) - j
-    base = i_bh * $(s_qk_h) + i_k * $(BK) + offs + (i_c * $(BT) + t) * $(DK)
-    g_val = tl.load(G + base, mask=mask, other=0).to(tl.float32)
-    dq1 = tl.load(DQInner + base, mask=mask, other=0)
-    dq2 = tl.load(DQInter + base, mask=mask, other=0)
+  mask = (i_k * $(BK) + offs) < $(DK)
+  last_g = tl.zeros([$(BK)], dtype=tl.float32)
+  for t in range($(BT) - $(1), -$(1), -$(1)) {
+    g_val = tl.load(p_g, mask=mask, other=0).to(tl.float32)
+    if t == $(BT) - $(1) {
+      last_g = g_val
+    }
+    dq1 = tl.load(p_dq_inner, mask=mask, other=0)
+    dq2 = tl.load(p_dq_inter, mask=mask, other=0)
     dq2 *= tl.math.exp2(g_val)
     dq = dq1 + dq2
-    tl.store(DQInter + base, dq, mask=mask)
-    dk1 = tl.load(DKInner + base, mask=mask, other=0)
-    dk2 = tl.load(DKInter + base, mask=mask, other=0)
+    tl.store(p_dq_inter, dq, mask=mask)
+    dk1 = tl.load(p_dk_inner, mask=mask, other=0)
+    dk2 = tl.load(p_dk_inter, mask=mask, other=0)
     dk2 *= tl.math.exp2(last_g - g_val)
     dk = dk1 + dk2
-    tl.store(DKInter + base, dk, mask=mask)
-    q_val = tl.load(Q + base, mask=mask, other=0)
-    k_val = tl.load(K + base, mask=mask, other=0)
+    tl.store(p_dk_inter, dk, mask=mask)
+    q_val = tl.load(p_q, mask=mask, other=0)
+    k_val = tl.load(p_k, mask=mask, other=0)
     dg_val = dq * q_val - dk * k_val
     cum_grad_dg += dg_val
-    tl.store(DG + base, (cum_grad_dg).to(DG.dtype.element_ty), mask=mask)
+    tl.store(p_dg, (cum_grad_dg).to(p_dg.dtype.element_ty), mask=mask)
+    p_g -= $(DK)
+    p_k -= $(DK)
+    p_q -= $(DK)
+    p_dq_inner -= $(DK)
+    p_dk_inner -= $(DK)
+    p_dq_inter -= $(DK)
+    p_dk_inter -= $(DK)
+    p_dg -= $(DK)
   }
 }
 
@@ -126,9 +140,9 @@ def prepare_qg_decay_store_slice
     (Q QDecay QG : RegionName)
     (s_qk_h DK t_rel BT BK : Nat) :
     ComputeKernel := triton {
-  i_k = tl.program_id(axis=0)
-  i_c = tl.program_id(axis=1)
-  i_bh = tl.program_id(axis=2)
+  i_k = tl.program_id(0)
+  i_c = tl.program_id(1)
+  i_bh = tl.program_id(2)
   offs = tl.arange(0, $(BK))
   base = i_bh * $(s_qk_h) + (i_c * $(BT) + $(t_rel)) * $(DK) + i_k * $(BK)
   mask = (i_k * $(BK) + offs) < $(DK)

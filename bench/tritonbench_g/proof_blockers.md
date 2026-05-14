@@ -1,38 +1,36 @@
 # TritonBench-G Proof Blockers
 
-These kernels currently have faithful-looking surface translations but do not
-yet have a real `ComputeCorrect.Realizes` theorem. They must not be counted as
-complete until the blocker below is discharged or linked to a GitHub issue.
+No current TritonBench-G port exposes an explicit algorithm-layer `hAlg`
+correctness blocker.
 
-## `mean_reduction.py`
+The mechanical audit still remains a translation-consistency gate, not a
+substitute for future human line review against `review_criteria.md`.
 
-- File: `mean_reduction/MeanReduction.lean`
-- Blocker: correctness needs a full row-wise sum invariant across
-  `for off in range(0, N, BLOCK_N)`.
-- Current local spec only describes the first column and is not sufficient for
-  the Triton kernel's mean over all reduced columns.
+## Translation-Surface Blockers
 
-## `embedding_triton_kernel.py`
+### Typed region parameter flow into the DSL surface
 
-- File: `embedding_triton_kernel/EmbeddingTritonKernel.lean`
-- Blocker: correctness needs a `forRange` invariant across
-  `range(0, BLOCK_N, BLOCK_NN)` and a two-dimensional write map for all
-  `(sequence, dmodel)` lanes written by the loop.
+Several TritonBench-G ports still need explicit typed-region antiquotations in
+the `triton { ... }` body, for example:
 
-## `diag_ssm_triton.py`
+```lean
+tl.load($((index_ptr : Region .nat)) + indices, ...)
+```
 
-- File: `diag_ssm_triton/DiagSsmTriton.lean`
-- Blocker: correctness needs a recurrence invariant across `tl.for t in length`
-  for the state update `s = s * Lambda + x`, with a spec for every stored time
-  step, not only the first update.
+The desired review-criteria surface is the Python-shaped form:
 
-## `batched_vecmat_mult.py`
+```lean
+tl.load(index_ptr + indices, ...)
+```
 
-- File: `batched_vecmat_mult/BatchedVecmatMult.lean`
-- Blocker: the full surface is not line-for-line faithful. Python uses
-  `tl.broadcast(a, b)` and `tl.trans(tl.sum(..., axis=2))`; the current Lean
-  surface rewrites this into an explicit `block_m` loop because the DSL does
-  not yet support the tuple-return `tl.broadcast` spelling or rank-3
-  `a[:, None, :]` insertion needed to preserve the Python body exactly.
-- Existing proof covers only `batched_vecmat_one_row_block`, a proof-oriented
-  one-row slice.
+This currently fails because the `triton` macro recognizes region dtypes from
+typed antiquotations, but a bare identifier bound by an enclosing Lean
+parameter such as `(index_ptr : Region .nat)` is not available to the macro as
+a typed pointer. Removing the ascription in `index_select_cat` produces a
+`nat expression: dtype mismatch` expansion error.
+
+This is a DSL typed-region inference gap, not a per-port proof gap. Closing it
+requires teaching the DSL elaboration/expansion layer to preserve typed
+`Region d` information for bare region parameters, or moving the relevant
+surface expansion from macro-only syntax into an elaborator that can inspect
+the local context.

@@ -38,10 +38,12 @@ syntax "tl.extra.cuda.libdevice.pow(" tritonExpr ", " num ")" : tritonExpr
 syntax "tl.log(" tritonExpr ")" : tritonExpr
 syntax "tl.log2(" tritonExpr ")" : tritonExpr
 syntax "tl.sigmoid(" tritonExpr ")" : tritonExpr
+syntax "silu(" tritonExpr ")" : tritonExpr
 syntax "tl.sqrt(" tritonExpr ")" : tritonExpr
 syntax "tl.math.rsqrt(" tritonExpr ")" : tritonExpr
 syntax "tl.rsqrt(" tritonExpr ")" : tritonExpr
 syntax "tl.tanh(" tritonExpr ")" : tritonExpr
+syntax "triton_tanh(" tritonExpr ")" : tritonExpr
 syntax "tanh(" tritonExpr ")" : tritonExpr
 syntax "tl.sin(" tritonExpr ")" : tritonExpr
 syntax "tl.math.sin(" tritonExpr ")" : tritonExpr
@@ -57,6 +59,8 @@ syntax "tl.logical_and(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.logical_or(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.logical_not(" tritonExpr ")" : tritonExpr
 syntax "tl.cdiv(" tritonExpr ", " tritonExpr ")" : tritonExpr
+syntax "_div_up(" tritonExpr ", " tritonExpr ")" : tritonExpr
+syntax "min(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.maximum(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.minimum(" tritonExpr ", " tritonExpr ")" : tritonExpr
 -- Element-wise select. All three operands must broadcast to a common
@@ -65,12 +69,14 @@ syntax "tl.where(" tritonExpr ", " tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.toReal(" tritonExpr ")" : tritonExpr
 syntax "tl.cast(" tritonExpr ", " tritonDType ")" : tritonExpr
 syntax "tl.bitcast(" tritonExpr ", " tritonDType ")" : tritonExpr
+syntax "tl.extra.cuda.libdevice.llrint(" tritonExpr ")" : tritonExpr
 syntax:max (name := tritonMethodCastDTypeIdent) tritonExpr:max noWs "." "to" "(" ident "." ident ")" : tritonExpr
 syntax:max (name := tritonIdentMethodCastDTypeIdent) ident noWs "." "to" "(" ident "." ident ")" : tritonExpr
 syntax (name := tritonIdentMethodCastDTypeIdentSpaced) ident "." "to" "(" ident "." ident ")" : tritonExpr
 syntax:max (name := tritonMethodCast) tritonExpr:max noWs "." "to" "(" tritonDType ")" : tritonExpr
 syntax:max (name := tritonIdentMethodCast) ident noWs "." "to" "(" tritonDType ")" : tritonExpr
 syntax (name := tritonIdentMethodCastSpaced) ident "." "to" "(" tritonDType ")" : tritonExpr
+syntax:max (name := tritonDottedIdentMethodCast) ident noWs "(" tritonDType ")" : tritonExpr
 syntax:max (name := tritonMethodCastElementTy) tritonExpr:max noWs "." "to" "(" term ")" : tritonExpr
 syntax:max (name := tritonMethodCastElementTyIdent) tritonExpr:max noWs "." "to" "(" ident "." ident "." ident ")" : tritonExpr
 syntax:max (name := tritonIdentMethodCastElementTyIdent) ident noWs "." "to" "(" ident "." ident "." ident ")" : tritonExpr
@@ -79,6 +85,7 @@ syntax "tl.multiple_of(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.max_contiguous" "(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "-inf" : tritonExpr
 syntax "-" "float" "(" term ")" : tritonExpr
+syntax "float" "(" term ")" : tritonExpr
 
 syntax "tl.float64" : tritonDType
 syntax "tl.float32" : tritonDType
@@ -133,6 +140,12 @@ syntax "tl.sort(" tritonExpr ("," tritonReduceKwarg)* ")" : tritonExpr
 
 syntax "tl.load(" tritonExpr ("," tritonMemKwarg)* ")" : tritonExpr
 syntax "tl.load(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" : tritonExpr
+syntax "tl.load(" tritonExpr ("," tritonMemKwarg)* ")" noWs "." "to" "(" tritonDType ")" : tritonExpr
+syntax "tl.load(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" noWs "." "to" "(" tritonDType ")" : tritonExpr
+syntax "tl.load(" tritonExpr ("," tritonMemKwarg)* ")" noWs "." "to" "(" ident ")" : tritonExpr
+syntax "tl.load(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" noWs "." "to" "(" ident ")" : tritonExpr
+syntax "tl.load(" tritonExpr ("," tritonMemKwarg)* ")" noWs "." "to" "(" ident "." ident ")" : tritonExpr
+syntax "tl.load(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" noWs "." "to" "(" ident "." ident ")" : tritonExpr
 syntax "tl.make_block_ptr(" tritonExpr ", " ident "=" tritonExpr ", " ident "=" "[" tritonExpr,*
   "]" ", " ident "=" "[" tritonExpr,* "]" ", " ident "=" "[" tritonExpr,* "]"
   ", " ident "=" "[" tritonExpr,* "]" ")" : tritonExpr
@@ -145,8 +158,16 @@ syntax "tl.make_block_ptr(" ident "=" tritonExpr ", " ident "=" "(" tritonExpr,*
 syntax "tl.advance(" tritonExpr ", " "[" tritonExpr,* "]" ")" : tritonExpr
 syntax "tl.advance(" tritonExpr ", " ident "=" "(" tritonExpr,* ")" ")" : tritonExpr
 
+syntax:max tritonExpr:max noWs "[" ":" "]" : tritonExpr
 syntax:max tritonExpr:max noWs "[" ":" "," "None" "]" : tritonExpr
 syntax:max tritonExpr:max noWs "[" "None" "," ":" "]" : tritonExpr
+syntax:max tritonExpr:max noWs "[" "None" "]" : tritonExpr
+syntax:max tritonExpr:max noWs "[" ":" "," "None" "," "None" "]" : tritonExpr
+syntax:max tritonExpr:max noWs "[" "None" "," ":" "," "None" "]" : tritonExpr
+syntax:max tritonExpr:max noWs "[" "None" "," "None" "," ":" "]" : tritonExpr
+syntax:max tritonExpr:max noWs "[" ":" "," "None" "," ":" "]" : tritonExpr
+syntax:max tritonExpr:max noWs "[" "None" "," ":" "," ":" "]" : tritonExpr
+syntax:max tritonExpr:max noWs "[" ":" "," ":" "," "None" "]" : tritonExpr
 syntax "tl.expand_dims(" tritonExpr ", " tritonReduceKwarg ")" : tritonExpr
 syntax "tl.expand_dims(" tritonExpr ", " num ")" : tritonExpr
 
@@ -166,7 +187,10 @@ syntax "tl.full(" "[" tritonExpr,* "]" ", " tritonExpr ", " ident "=" tritonDTyp
 syntax "tl.full(" "[" tritonExpr,* "]" ", " ident "=" tritonDType ", " ident "=" tritonExpr ")" : tritonExpr
 syntax "tl.full(" "[" tritonExpr,* "]" ", " ident "=" tritonExpr ", " ident "=" tritonDType ")" : tritonExpr
 syntax "tl.zeros(" "[" tritonExpr,* "]" ")" : tritonExpr
+syntax "tl.zeros(" "[" tritonExpr,* "]" ", " tritonDType ")" : tritonExpr
+syntax (priority := high) "tl.zeros(" "[" tritonExpr,* "]" ", " ident "=" term ")" : tritonExpr
 syntax "tl.zeros(" "[" tritonExpr,* "]" ", " ident "=" tritonDType ")" : tritonExpr
+syntax "tl.zeros_like(" tritonExpr ")" : tritonExpr
 
 syntax:50 tritonExpr:51 " < "  tritonExpr:51 : tritonExpr
 syntax:50 tritonExpr:51 " <= " tritonExpr:51 : tritonExpr
@@ -214,11 +238,13 @@ syntax ident ", " ident (", " ident)* " := "
   tritonExpr ", " tritonExpr (", " tritonExpr)* : tritonStmt
 syntax ident ", " ident (", " ident)* " = "
   tritonExpr ", " tritonExpr (", " tritonExpr)* : tritonStmt
+syntax ident " % " tritonExpr : tritonStmt
 syntax ident " := " "tl.max(" tritonExpr ", " num ")" : tritonStmt
 syntax ident " = " "tl.max(" tritonExpr ", " num ")" : tritonStmt
 syntax ident " := " tritonExpr : tritonStmt
 syntax ident " = " tritonExpr : tritonStmt
 syntax ident " += " tritonExpr : tritonStmt
+syntax ident " -= " tritonExpr : tritonStmt
 syntax ident " *= " tritonExpr : tritonStmt
 syntax "tl.store(" tritonExpr ", " tritonExpr ")" : tritonStmt
 syntax "tl.store(" tritonExpr ", " tritonExpr ", " tritonMemKwarg ("," tritonMemKwarg)* ")" : tritonStmt
@@ -236,10 +262,13 @@ syntax ident ", " ident " := " "tl.max(" tritonExpr ("," tritonReduceKwarg)* ")"
 syntax "tl.async_copy(" tritonExpr ", " tritonExpr ("," tritonMemKwarg)* ")" : tritonStmt
 syntax "tl.async_wait()" : tritonStmt
 syntax "tl.debug_barrier()" : tritonStmt
+syntax "tl.static_print(" term ")" : tritonStmt
 syntax "tl.for " ident " in " "$(" term ")" " { " tritonStmt* " }" : tritonStmt
 syntax "tl.for " ident " in " num " { " tritonStmt* " }" : tritonStmt
 syntax "for " ident " in " "range(0, " "$(" term ")" ", " "$(" term ")" ")" " { " tritonStmt* " }" : tritonStmt
+syntax "for " ident " in " "range(" tritonExpr ")" " { " tritonStmt* " }" : tritonStmt
 syntax "for " ident " in " "range(" "$(" term ")" ", " "$(" term ")" ", " "$(" term ")" ")" " { " tritonStmt* " }" : tritonStmt
+syntax "for " ident " in " "range(" tritonExpr ", " tritonExpr ")" " { " tritonStmt* " }" : tritonStmt
 syntax "for " ident " in " "range(" tritonExpr ", " tritonExpr ", " tritonExpr ")" " { " tritonStmt* " }" : tritonStmt
 syntax "tl.static_range " ident " in " "$(" term ")" " { " tritonStmt* " }" : tritonStmt
 syntax "tl.static_range " ident " in " num " { " tritonStmt* " }" : tritonStmt

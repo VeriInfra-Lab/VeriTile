@@ -405,6 +405,14 @@ def fp32AccumulatorArithSmoke (N : Nat) : ComputeKernel := triton {
   y := z + 1
 }
 
+def rightAlignedBroadcastSmoke (M K : Nat) : ComputeKernel := triton {
+  row := tl.arange(0, $(M))
+  col := tl.arange(0, $(K))
+  a := col
+  b := row[:, None] + col[None, :]
+  c := a * b
+}
+
 def fp32CastComputeSmoke (N : Nat) : ComputeKernel := triton {
   z := tl.full([$(N)], 1)
   y := tl.cast(z, tl.float32)
@@ -1600,5 +1608,145 @@ def fp32FullKernel (outReg : RegionName) (N : Nat) :
 
 #check fp32ZerosKernel
 #check fp32FullKernel
+
+/-! ### Casted Nat loads used as pointer offsets -/
+
+def castedNatLoadOffsetKernel
+    (dataReg : RegionName) (idxReg : Region .nat) (ignored : Nat) :
+    ComputeKernel := triton {
+  row = tl.program_id(axis=0)
+  idxReg += row
+  idx = (tl.load(idxReg)).to(tl.int32)
+  vals = tl.load(dataReg + idx)
+  if idx != $(ignored) {
+    tl.store(dataReg + row, vals)
+  }
+}
+
+def castedNatLoadWhereKernel
+    (dataReg : RegionName) (idxReg : Region .nat) (BLOCK_SIZE : Nat) :
+    ComputeKernel := triton {
+  row = tl.program_id(axis=0)
+  cols = tl.arange(0, $(BLOCK_SIZE))
+  idx = (tl.load(idxReg + row)).to(tl.int32)
+  vals = tl.load(dataReg + cols, mask=cols < $(BLOCK_SIZE), other=0.0)
+  out = tl.where(cols == idx, vals, 0.0)
+  tl.store(dataReg + cols, out, mask=cols < $(BLOCK_SIZE))
+}
+
+#check castedNatLoadOffsetKernel
+#check castedNatLoadWhereKernel
+
+/-! ### Scalar `e[None]` dimension insertion -/
+
+def scalarNoneKernel (outReg : RegionName) (N : Nat) : ComputeKernel := triton {
+  pid = tl.program_id(axis=0)
+  z = tl.zeros([], dtype=tl.float32)
+  offs = tl.arange(0, $(N))
+  vals = z[None]
+  tl.store(outReg + pid * $(N) + offs, vals)
+}
+
+#check scalarNoneKernel
+
+/-! ### Rank-3 `None` dimension insertion -/
+
+def rank3NoneKernel (outReg : RegionName) (M N K : Nat) : ComputeKernel := triton {
+  offs_m = tl.arange(0, $(M))
+  offs_n = tl.arange(0, $(N))
+  offs_k = tl.arange(0, $(K))
+  tile = offs_m[None, :, None] + offs_n[:, None, None] + offs_k[None, None, :]
+  tl.store(outReg + tile, tile)
+}
+
+#check rank3NoneKernel
+
+def rank2MiddleNoneKernel (outReg : RegionName) (M K : Nat) : ComputeKernel := triton {
+  offs_m = tl.arange(0, $(M))
+  offs_k = tl.arange(0, $(K))
+  tile2 = offs_m[:, None] + offs_k[None, :]
+  tile3 = tile2[:, None, :]
+  out_ptrs = outReg + offs_m[:, None, None] * $(K) + offs_k[None, None, :]
+  tl.store(out_ptrs, tile3)
+}
+
+#check rank2MiddleNoneKernel
+
+/-! ### Python two-argument dynamic `range(start, stop)` -/
+
+def dynRange2Kernel (outReg : RegionName) (bounds : Region .nat) : ComputeKernel := triton {
+  tl.static_print("dynRange2Kernel")
+  pid = tl.program_id(axis=0)
+  start_i = tl.load(bounds + pid)
+  end_i = tl.load(bounds + pid + $(1))
+  acc = tl.zeros([], dtype=tl.float32)
+  for i in range(start_i, end_i) {
+    x = tl.load(outReg + i)
+    acc += x
+  }
+  tl.store(outReg + pid, acc)
+}
+
+#check dynRange2Kernel
+
+/-! ### Bool antiquote for constexpr conditions -/
+
+def boolAntiquoteKernel (outReg : RegionName) (N : Nat) : ComputeKernel := triton {
+  pid = tl.program_id(axis=0)
+  if $((N >= 2 : Bool)) {
+    tl.store(outReg + pid, 1.0)
+  } else {
+    tl.store(outReg + pid, 0.0)
+  }
+}
+
+#check boolAntiquoteKernel
+
+/-! ### Python helper surface expressions -/
+
+def helperExprKernel (outReg : RegionName) (N BLOCK : Nat) : ComputeKernel := triton {
+  pid = tl.program_id(axis=0)
+  n = min(_div_up($(N), $(BLOCK)), $(N))
+  tl.store(outReg + pid, n)
+}
+
+#check helperExprKernel
+
+/-! ### Int antiquote and signed sentinels -/
+
+def intSentinelKernel (outReg : RegionName) (labels : Region .int) (ignored : Int) :
+    ComputeKernel := triton {
+  row = tl.program_id(axis=0)
+  label = tl.load($((labels : Region .int)) + row)
+  if label == $((ignored : Int)) {
+    tl.store(outReg + row, 0.0)
+  } else {
+    label -= $((1 : Int))
+    tl.store(outReg + row, 1.0)
+  }
+}
+
+#check intSentinelKernel
+
+/-! ### Pointer decrement -/
+
+def pointerDecrementKernel (outReg : Region .real) (N : Nat) : ComputeKernel := triton {
+  ptr = outReg + $(N)
+  ptr -= $(N)
+  x = tl.load(ptr)
+  tl.store(outReg, x)
+}
+
+#check pointerDecrementKernel
+
+def reverseRangeKernel (outReg : Region .nat) (N : Nat) : ComputeKernel := triton {
+  ptr = outReg + ($(N) - $(1))
+  for i in range($(N) - $(1), -$(1), -$(1)) {
+    tl.store(ptr, i)
+    ptr -= $(1)
+  }
+}
+
+#check reverseRangeKernel
 
 end VeriTile.Examples.TritonSmoke

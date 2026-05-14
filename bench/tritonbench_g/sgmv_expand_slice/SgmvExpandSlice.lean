@@ -10,7 +10,7 @@ open VeriTile.Triton
 set_option maxHeartbeats 5000000
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `sgmv_expand_slice.py`'s
+/-- Faithful transcription of `sgmv_expand_slice.py`'s
 `_sgmv_expand_slice_kernel`.
 
 This keeps the CTA decomposition, sequence metadata loads, LoRA index gather,
@@ -19,11 +19,13 @@ optional `ADD_INPUTS`, and final masked store.
 `tl.max_contiguous` is a layout hint; the DSL accepts it at the surface and
 erases it into the same value expression. Python's early returns for
 `pid_m * BLOCK_M > M` and signed `lora_index == -1` are represented by guards;
-the signed LoRA sentinel is carried as a Nat `ignored_lora_index` parameter. -/
+the signed LoRA sentinel is preserved as the literal `-1`. -/
 def sgmv_expand_slice_surface
-    (input_ptr lora_ptr out_ptr : RegionName) (b_seq_start_loc seq_lens lora_indices : Region .nat)
-    (ignored_lora_index N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride
-      cm_stride cn_stride slice_offset BLOCK_M BLOCK_N BLOCK_K : Nat)
+    (input_ptr lora_ptr out_ptr : RegionName)
+    (N K : Nat) (b_seq_start_loc seq_lens : Region .nat)
+    (lora_indices : Region .int)
+    (xm_stride xk_stride l0_stride lora_k_stride lora_n_stride cm_stride
+      cn_stride slice_offset BLOCK_M BLOCK_N BLOCK_K : Nat)
     (EVEN_K ADD_INPUTS CAST_TYPE : Bool) :
     ComputeKernel := triton {
   pid = tl.program_id(axis=0)
@@ -31,30 +33,30 @@ def sgmv_expand_slice_surface
   cta_n_num = tl.cdiv($(N), $(BLOCK_N))
   pid_m = pid // cta_n_num
   pid_n = pid % cta_n_num
-  m_len = tl.load($((seq_lens : Region .nat)) + cur_batch)
-  if pid_m * $(BLOCK_M) <= m_len {
-    lora_index = tl.load($((lora_indices : Region .nat)) + cur_batch)
-    if lora_index != $(ignored_lora_index) {
-      cur_seq_start = tl.load($((b_seq_start_loc : Region .nat)) + cur_batch)
+  M = tl.load(seq_lens + cur_batch)
+  if pid_m * $(BLOCK_M) <= M {
+    lora_index = tl.load(lora_indices + cur_batch)
+    if lora_index != $((-1 : Int)) {
+      cur_seq_start = tl.load(b_seq_start_loc + cur_batch)
       offset_m = tl.arange(0, $(BLOCK_M)) + pid_m * $(BLOCK_M)
       offset_n = tl.arange(0, $(BLOCK_N)) + pid_n * $(BLOCK_N)
       offset_k = tl.arange(0, $(BLOCK_K))
-      ram = tl.max_contiguous(tl.multiple_of(offset_m % m_len, $(BLOCK_M)), $(BLOCK_M))
+      ram = tl.max_contiguous(tl.multiple_of(offset_m % M, $(BLOCK_M)), $(BLOCK_M))
       rbn = tl.max_contiguous(tl.multiple_of(offset_n % $(N), $(BLOCK_N)), $(BLOCK_N))
       a_ptr = input_ptr + cur_seq_start * $(xm_stride) +
         ram[:, None] * $(xm_stride) + offset_k[None, :] * $(xk_stride)
       b_ptr = lora_ptr + $(l0_stride) * lora_index +
         offset_k[:, None] * $(lora_n_stride) + rbn[None, :] * $(lora_k_stride)
       accumulator = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32)
-      for k_iter in range($(0), tl.cdiv($(K), $(BLOCK_K)), $(1)) {
+      for k in range(tl.cdiv($(K), $(BLOCK_K))) {
         if EVEN_K {
           tiled_a = tl.load(a_ptr)
           tiled_b = tl.load(b_ptr)
         } else {
           tiled_a = tl.load(a_ptr,
-            mask=offset_k[None, :] < $(K) - k_iter * $(BLOCK_K), other=0)
+            mask=offset_k[None, :] < $(K) - k * $(BLOCK_K), other=0)
           tiled_b = tl.load(b_ptr,
-            mask=offset_k[:, None] < $(K) - k_iter * $(BLOCK_K), other=0)
+            mask=offset_k[:, None] < $(K) - k * $(BLOCK_K), other=0)
         }
         if CAST_TYPE {
           tiled_a = (tiled_a).to(lora_ptr.dtype.element_ty)
@@ -68,10 +70,9 @@ def sgmv_expand_slice_surface
       offset_cn = tl.arange(0, $(BLOCK_N)) + pid_n * $(BLOCK_N) + $(slice_offset)
       c_ptr = out_ptr + offset_cm[:, None] * $(cm_stride) +
         offset_cn[None, :] * $(cn_stride)
-      m_len = tl.load($((seq_lens : Region .nat)) + cur_batch)
-      seq_limit = cur_seq_start + m_len
-      c_mask = (offset_cm[:, None] < seq_limit) and
-        ((offset_cn[None, :] - $(slice_offset)) < $(N))
+      M = tl.load(seq_lens + cur_batch)
+      c_mask = (offset_cm[:, None] < (cur_seq_start + M)) &
+        (offset_cn[None, :] < $(slice_offset + N))
       if ADD_INPUTS {
         tiled_out = tl.load(c_ptr, mask=c_mask)
         tiled_c += tiled_out
@@ -96,12 +97,12 @@ def sgmv_expand_slice_one_row_block
     (N K xm_stride xk_stride l0_stride lora_k_stride lora_n_stride
       cm_stride cn_stride slice_offset BLOCK_M BLOCK_N BLOCK_K : Nat) :
     ComputeKernel := triton {
-  pid_m = tl.program_id(0)
-  pid_n = tl.program_id(1)
-  cur_batch = tl.program_id(2)
-  m_len = tl.load($((seq_lens : Region .nat)) + cur_batch)
-  cur_seq_start = tl.load($((b_seq_start_loc : Region .nat)) + cur_batch)
-  lora_index = tl.load($((lora_indices : Region .nat)) + cur_batch)
+  pid_m = tl.program_id(axis=0)
+  pid_n = tl.program_id(axis=1)
+  cur_batch = tl.program_id(axis=2)
+  m_len = tl.load(seq_lens + cur_batch)
+  cur_seq_start = tl.load(b_seq_start_loc + cur_batch)
+  lora_index = tl.load(lora_indices + cur_batch)
   row = pid_m * $(BLOCK_M)
   offset_k = tl.arange(0, $(BLOCK_K))
   offset_n = tl.arange(0, $(BLOCK_N))

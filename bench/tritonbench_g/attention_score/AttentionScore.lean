@@ -9,30 +9,27 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `attention_score.py`'s `_score_kernel`.
+/-- Documented `BLOCK_M == BLOCK_N` specialization that specializes
+`attention_score.py`'s `_score_kernel`.
 
-Allowed mechanical Lean-syntax-only changes:
-- `H_PER_KV` is the wrapper-computed `H // H_KV`, passed directly so the DSL
-  does not have to infer the dtype of a nested meta-division antiquote.
-- `o` is shaped as `[BLOCK_N]`, matching `tl.sum(p, axis=0)`. The Python
-  wrapper keeps `BLOCK_M == BLOCK_N`; the Lean surface makes that shape
-  dependency explicit. -/
+This surface keeps the wrapper invariant `BLOCK_M == BLOCK_N` explicit by
+shaping `o` as `[BLOCK_N]`, matching `tl.sum(p, axis=0)`. -/
 def attention_score_kernel
     (Q K M Out : RegionName)
     (stride_qz stride_qh stride_qm stride_qk
       stride_kz stride_kh stride_kn stride_kk
-      stride_oz stride_oh
-      H H_PER_KV N_CTX ROUND_CTX NKV_CTX
+      stride_oz stride_oh _stride_on
+      _Z H H_KV N_CTX ROUND_CTX NKV_CTX
       sliding_window_offset sliding_window_size
       BLOCK_M BLOCK_DMODEL BLOCK_N : Nat)
     (sm_scale : ℝ)
     (SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW IS_EVEN_M IS_EVEN_N : Bool) :
     ComputeKernel := triton {
-  start_n = tl.program_id(axis=0)
-  off_hz = tl.program_id(axis=1)
+  start_n = tl.program_id(0)
+  off_hz = tl.program_id(1)
   off_z = off_hz // $(H)
   off_h = off_hz % $(H)
-  off_hkv = off_h // $(H_PER_KV)
+  off_hkv = off_h // ($(H) // $(H_KV))
   q_offset = (off_z).to(tl.int64) * $(stride_qz) + (off_h).to(tl.int64) * $(stride_qh)
   k_offset = (off_z).to(tl.int64) * $(stride_kz) + (off_hkv).to(tl.int64) * $(stride_kh)
   m_ptrs = M + off_hz * $(ROUND_CTX) + tl.arange(0, $(BLOCK_M))
@@ -69,7 +66,6 @@ def attention_score_kernel
     qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32)
     qk += tl.dot(q, k)
     qk = qk * qk_scale
-    mask = tl.full([$(BLOCK_M), $(BLOCK_N)], false)
     if SLIDING_WINDOW {
       dist = tl.arange(0, $(BLOCK_M))[:, None] -
         tl.arange(0, $(BLOCK_N))[None, :] + start_m -
@@ -86,17 +82,17 @@ def attention_score_kernel
       p = tl.where(mask, p, 0)
     }
     if not IS_EVEN_N {
-      row_mask = (tl.arange(0, $(BLOCK_M))[:, None] +
-        tl.arange(0, $(BLOCK_N))[None, :] * $(0) + start_m) < $(N_CTX)
-      p = tl.where(row_mask, p, 0)
+      p = tl.where(((tl.arange(0, $(BLOCK_M)) + start_m) < $(N_CTX))[:, None],
+        p, 0)
     }
     o += tl.sum(p, axis=0)
-    Q_block_ptr = tl.advance(Q_block_ptr, [$(BLOCK_M), 0])
+    Q_block_ptr = tl.advance(Q_block_ptr, offsets=($(BLOCK_M), 0))
     m_ptrs = m_ptrs + $(BLOCK_M)
   }
   o_offset = (off_z).to(tl.int64) * $(stride_oz) + (off_h).to(tl.int64) * $(stride_oh)
   o_range = tl.arange(0, $(BLOCK_N)) + start_n * $(BLOCK_N)
-  tl.store(Out + o_offset + o_range, (o).to(Out.type.element_ty),
+  o_ptrs = Out + o_offset + o_range
+  tl.store(o_ptrs, (o).to(Out.type.element_ty),
     mask=o_range < $(NKV_CTX))
 }
 
@@ -113,9 +109,9 @@ def attention_score_final_store_slice
       stride_oz stride_oh
       NKV_CTX BLOCK_N : Nat) :
     ComputeKernel := triton {
-  start_n = tl.program_id(axis=0)
-  off_z = tl.program_id(axis=1)
-  off_h = tl.program_id(axis=2)
+  start_n = tl.program_id(0)
+  off_z = tl.program_id(1)
+  off_h = tl.program_id(2)
   offs_n = tl.arange(0, $(BLOCK_N))
   o_range = start_n * $(BLOCK_N) + offs_n
   score = tl.load(Score + off_z * $(stride_score_z) + off_h * $(stride_score_h) +

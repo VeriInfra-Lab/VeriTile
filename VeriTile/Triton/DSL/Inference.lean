@@ -24,6 +24,13 @@ namespace VeriTile.Triton.DSL.Inference
 
 open VeriTile.Triton.DSL (DInfo)
 
+private def dottedToBaseName? (i : TSyntax `ident) : Option String :=
+  let name := i.getId.eraseMacroScopes.toString
+  if name.endsWith ".to" then
+    some (name.dropEnd 3).toString
+  else
+    none
+
 /-- Walk an expression that occupies a `.nat`-required position and
 collect every identifier appearing within it. Recurses through
 arithmetic (`+ - * / // % << >> & | ^ ~ not`), parens, and the unit-axis
@@ -31,6 +38,15 @@ indexing forms `e[: , None]` / `e[None , :]` plus `tl.expand_dims`.
 Stops at antiquotations (`$(...)`), `tl.load`, `tl.cast`, and any other
 constructor whose result type is fixed independently. -/
 partial def natExprIdents : TSyntax `tritonExpr → List String := fun stx =>
+  if stx.raw.getKind == ``VeriTile.Triton.DSL.tritonDottedIdentMethodCast then
+    let args := stx.raw.getArgs
+    if h : args.size = 4 then
+      let i : TSyntax `ident := ⟨args[0]⟩
+      match dottedToBaseName? i with
+      | some name => [name]
+      | none => []
+    else []
+  else
   match stx with
   | `(tritonExpr| $r:ident) => [r.getId.toString]
   | `(tritonExpr| ($e:tritonExpr)) => natExprIdents e
@@ -40,6 +56,8 @@ partial def natExprIdents : TSyntax `tritonExpr → List String := fun stx =>
   | `(tritonExpr| $a:tritonExpr /  $b:tritonExpr) => natExprIdents a ++ natExprIdents b
   | `(tritonExpr| $a:tritonExpr // $b:tritonExpr) => natExprIdents a ++ natExprIdents b
   | `(tritonExpr| $a:tritonExpr %  $b:tritonExpr) => natExprIdents a ++ natExprIdents b
+  | `(tritonExpr| _div_up($a:tritonExpr, $b:tritonExpr)) => natExprIdents a ++ natExprIdents b
+  | `(tritonExpr| min($a:tritonExpr, $b:tritonExpr)) => natExprIdents a ++ natExprIdents b
   | `(tritonExpr| $a:tritonExpr << $b:tritonExpr) => natExprIdents a ++ natExprIdents b
   | `(tritonExpr| $a:tritonExpr >> $b:tritonExpr) => natExprIdents a ++ natExprIdents b
   | `(tritonExpr| $a:tritonExpr &  $b:tritonExpr) => natExprIdents a ++ natExprIdents b
@@ -49,6 +67,13 @@ partial def natExprIdents : TSyntax `tritonExpr → List String := fun stx =>
   | `(tritonExpr| not $e:tritonExpr) => natExprIdents e
   | `(tritonExpr| $e:tritonExpr[ : , None ]) => natExprIdents e
   | `(tritonExpr| $e:tritonExpr[ None , : ]) => natExprIdents e
+  | `(tritonExpr| $e:tritonExpr[ None ]) => natExprIdents e
+  | `(tritonExpr| $e:tritonExpr[ : , None , None ]) => natExprIdents e
+  | `(tritonExpr| $e:tritonExpr[ None , : , None ]) => natExprIdents e
+  | `(tritonExpr| $e:tritonExpr[ None , None , : ]) => natExprIdents e
+  | `(tritonExpr| $e:tritonExpr[ : , None , : ]) => natExprIdents e
+  | `(tritonExpr| $e:tritonExpr[ None , : , : ]) => natExprIdents e
+  | `(tritonExpr| $e:tritonExpr[ : , : , None ]) => natExprIdents e
   | `(tritonExpr| tl.expand_dims($e:tritonExpr, $_:tritonReduceKwarg)) => natExprIdents e
   | `(tritonExpr| tl.expand_dims($e:tritonExpr, $_:num)) => natExprIdents e
   | _ => []
@@ -66,6 +91,33 @@ private def addManyUnique (xs ys : List String) : List String :=
 
 private def anyContained (needles haystack : List String) : Bool :=
   needles.any (fun x => haystack.contains x)
+
+private def typedRegionTermIsInt? (r : TSyntax `term) : Bool :=
+  match r with
+  | `(($_:term : Region .int)) => Bool.true
+  | `(($_:term : Region TileDType.int)) => Bool.true
+  | _ => Bool.false
+
+private partial def staticPtrRootIsIntRegion? (stx : TSyntax `tritonExpr) : Bool :=
+  match stx with
+  | `(tritonExpr| $($r:term)) => typedRegionTermIsInt? r
+  | `(tritonExpr| ($e:tritonExpr)) => staticPtrRootIsIntRegion? e
+  | `(tritonExpr| $a:tritonExpr + $_b:tritonExpr) => staticPtrRootIsIntRegion? a
+  | _ => Bool.false
+
+private partial def intSourceExpr? : TSyntax `tritonExpr → Bool := fun stx =>
+  match stx with
+  | `(tritonExpr| $(($_:term : Int))) => Bool.true
+  | `(tritonExpr| tl.load($p:tritonExpr, $_mask:tritonExpr $[, $_kwargs:tritonMemKwarg]*)) =>
+      staticPtrRootIsIntRegion? p
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $_kwargs:tritonMemKwarg]*)) =>
+      staticPtrRootIsIntRegion? p
+  | `(tritonExpr| ($e:tritonExpr)) => intSourceExpr? e
+  | `(tritonExpr| ($e:tritonExpr).to(tl.int32)) => intSourceExpr? e
+  | `(tritonExpr| ($e:tritonExpr).to(tl.int64)) => intSourceExpr? e
+  | `(tritonExpr| ($e:tritonExpr).to(tl.int16)) => intSourceExpr? e
+  | `(tritonExpr| ($e:tritonExpr).to(tl.int8)) => intSourceExpr? e
+  | _ => Bool.false
 
 /-- Test whether `stx` would be recognized as a static pointer
 expression by the macro's `expandStaticPtrExpr`. Mirrors the cases there. -/
@@ -99,7 +151,16 @@ private partial def pinsFromPtrExpr (assigned : Assigned)
     let offsets := staticPtrChainOffsets stx
     offsets.foldl (fun acc o => acc ++ natExprIdents o) []
   else
-    []
+    match stx with
+    | `(tritonExpr| ($e:tritonExpr)) => pinsFromPtrExpr assigned e
+    | `(tritonExpr| $a:tritonExpr + $b:tritonExpr) =>
+        let basePins :=
+          match a with
+          | `(tritonExpr| $r:ident) =>
+              if assigned.contains r.getId.toString then natExprIdents b else []
+          | _ => []
+        basePins ++ pinsFromPtrExpr assigned a ++ pinsFromPtrExpr assigned b
+    | _ => []
 
 /-- For an expression in a value-position context, collect identifiers
 pinned to `.nat`. The two ways an expression contributes pins:
@@ -185,6 +246,8 @@ private partial def ptrUsesFromPtrExpr (assigned : Assigned) :
   | `(tritonExpr| $r:ident) =>
       let name := r.getId.toString
       if assigned.contains name then [name] else []
+  | `(tritonExpr| $a:tritonExpr + $_b:tritonExpr) =>
+      ptrUsesFromPtrExpr assigned a
   | _ => []
 
 /-- Conditional comparison dependencies. Comparisons are not always Nat
@@ -209,12 +272,44 @@ private partial def cmpDepsFromExpr :
       cmpDepsFromExpr a ++ cmpDepsFromExpr b
   | `(tritonExpr| $a:tritonExpr and $b:tritonExpr) =>
       cmpDepsFromExpr a ++ cmpDepsFromExpr b
+  | `(tritonExpr| tl.where($c:tritonExpr, $t:tritonExpr, $f:tritonExpr)) =>
+      cmpDepsFromExpr c ++ cmpDepsFromExpr t ++ cmpDepsFromExpr f
   | `(tritonExpr| tl.extra.cuda.libdevice.pow($e:tritonExpr, $_:num)) =>
       cmpDepsFromExpr e
   | _ => []
 
 private partial def directPinsFromExpr (assigned : Assigned) :
     TSyntax `tritonExpr → List String := fun stx =>
+  if stx.raw.getKind == ``VeriTile.Triton.DSL.tritonDottedIdentMethodCast then
+    let args := stx.raw.getArgs
+    if h : args.size = 4 then
+      let i : TSyntax `ident := ⟨args[0]⟩
+      match dottedToBaseName? i with
+      | some name =>
+          if assigned.contains name then [name] else []
+      | none => []
+    else []
+  else
+  if stx.raw.getKind == ``VeriTile.Triton.DSL.tritonMethodCast ||
+      stx.raw.getKind == ``VeriTile.Triton.DSL.tritonMethodCastDTypeIdent ||
+      stx.raw.getKind == ``VeriTile.Triton.DSL.tritonMethodCastElementTy ||
+      stx.raw.getKind == ``VeriTile.Triton.DSL.tritonMethodCastElementTyIdent ||
+      stx.raw.getKind == ``VeriTile.Triton.DSL.tritonIdentMethodCast ||
+      stx.raw.getKind == ``VeriTile.Triton.DSL.tritonIdentMethodCastSpaced ||
+      stx.raw.getKind == ``VeriTile.Triton.DSL.tritonIdentMethodCastDTypeIdent ||
+      stx.raw.getKind == ``VeriTile.Triton.DSL.tritonIdentMethodCastDTypeIdentSpaced ||
+      stx.raw.getKind == ``VeriTile.Triton.DSL.tritonIdentMethodCastElementTyIdent ||
+      stx.raw.getKind == ``VeriTile.Triton.DSL.tritonIdentMethodCastElementTyIdentSpaced then
+    let args := stx.raw.getArgs
+    if h : args.size = 5 then
+      let e : TSyntax `tritonExpr := ⟨args[0]⟩
+      directPinsFromExpr assigned e
+    else if h : args.size = 6 then
+      let e : TSyntax `tritonExpr := ⟨args[0]⟩
+      directPinsFromExpr assigned e
+    else
+      []
+  else
   match stx with
   | `(tritonExpr| ($e:tritonExpr)) => directPinsFromExpr assigned e
   | `(tritonExpr| tl.toReal($e:tritonExpr)) => natExprIdents e
@@ -241,6 +336,8 @@ private partial def directPinsFromExpr (assigned : Assigned) :
   | `(tritonExpr| $a:tritonExpr /  $b:tritonExpr) => directPinsFromExpr assigned a ++ directPinsFromExpr assigned b
   | `(tritonExpr| $a:tritonExpr // $b:tritonExpr) => directPinsFromExpr assigned a ++ directPinsFromExpr assigned b
   | `(tritonExpr| $a:tritonExpr %  $b:tritonExpr) => directPinsFromExpr assigned a ++ directPinsFromExpr assigned b
+  | `(tritonExpr| _div_up($a:tritonExpr, $b:tritonExpr)) => directPinsFromExpr assigned a ++ directPinsFromExpr assigned b
+  | `(tritonExpr| min($a:tritonExpr, $b:tritonExpr)) => directPinsFromExpr assigned a ++ directPinsFromExpr assigned b
   | `(tritonExpr| $a:tritonExpr << $b:tritonExpr) => directPinsFromExpr assigned a ++ directPinsFromExpr assigned b
   | `(tritonExpr| $a:tritonExpr >> $b:tritonExpr) => directPinsFromExpr assigned a ++ directPinsFromExpr assigned b
   | `(tritonExpr| $a:tritonExpr &  $b:tritonExpr) => directPinsFromExpr assigned a ++ directPinsFromExpr assigned b
@@ -256,6 +353,13 @@ private partial def directPinsFromExpr (assigned : Assigned) :
   | `(tritonExpr| ~ $e:tritonExpr) => directPinsFromExpr assigned e
   | `(tritonExpr| not $e:tritonExpr) => directPinsFromExpr assigned e
   | `(tritonExpr| - $e:tritonExpr) => directPinsFromExpr assigned e
+  | `(tritonExpr| $e:tritonExpr[ None ]) => directPinsFromExpr assigned e
+  | `(tritonExpr| $e:tritonExpr[ : , None , None ]) => directPinsFromExpr assigned e
+  | `(tritonExpr| $e:tritonExpr[ None , : , None ]) => directPinsFromExpr assigned e
+  | `(tritonExpr| $e:tritonExpr[ None , None , : ]) => directPinsFromExpr assigned e
+  | `(tritonExpr| $e:tritonExpr[ : , None , : ]) => directPinsFromExpr assigned e
+  | `(tritonExpr| $e:tritonExpr[ None , : , : ]) => directPinsFromExpr assigned e
+  | `(tritonExpr| $e:tritonExpr[ : , : , None ]) => directPinsFromExpr assigned e
   | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*)) =>
       let kwargPins :=
         kwargs.foldl (fun (acc : List String) kw =>
@@ -294,6 +398,7 @@ structure ScanInfo where
   ptrUses : List String := []
   ptrDeps : List (String × List String × List String) := []
   cmpDeps : List (List String × List String) := []
+  intPins : List String := []
   deriving Inhabited
 
 private def ScanInfo.append (a b : ScanInfo) : ScanInfo :=
@@ -301,7 +406,8 @@ private def ScanInfo.append (a b : ScanInfo) : ScanInfo :=
     natDeps := a.natDeps ++ b.natDeps
     ptrUses := a.ptrUses ++ b.ptrUses
     ptrDeps := a.ptrDeps ++ b.ptrDeps
-    cmpDeps := a.cmpDeps ++ b.cmpDeps }
+    cmpDeps := a.cmpDeps ++ b.cmpDeps
+    intPins := a.intPins ++ b.intPins }
 
 private def assignmentInfo (assigned : Assigned) (lhs : List String)
     (rhs : List (TSyntax `tritonExpr)) : ScanInfo :=
@@ -311,7 +417,10 @@ private def assignmentInfo (assigned : Assigned) (lhs : List String)
   let ptrDeps := (lhs.zip rhs).map (fun (l, e) =>
     let (bases, offsets) := ptrDepsFromAssignedExpr assigned e
     (l, bases, offsets))
-  { directPins := directPins, natDeps := natDeps, ptrDeps := ptrDeps, cmpDeps := cmpDeps }
+  let intPins := (lhs.zip rhs).foldl
+    (fun acc (l, e) => if intSourceExpr? e then l :: acc else acc) []
+  { directPins := directPins, natDeps := natDeps, ptrDeps := ptrDeps,
+    cmpDeps := cmpDeps, intPins := intPins }
 
 mutual
 
@@ -341,11 +450,17 @@ private partial def scanStmt (assigned : Assigned)
       let rhs := #[rhs0, rhs1] ++ rhsRest
       let nextAssigned := lhs.foldl (fun acc i => i :: acc) assigned
       (assignmentInfo assigned lhs rhs.toList, nextAssigned)
+  | `(tritonStmt| $_i:ident % $e:tritonExpr) =>
+      ({ directPins := directPinsFromExpr assigned e
+         ptrUses := []
+         cmpDeps := cmpDepsFromExpr e }, assigned)
   | `(tritonStmt| $i:ident := $e:tritonExpr) =>
       (assignmentInfo assigned [i.getId.toString] [e], i.getId.toString :: assigned)
   | `(tritonStmt| $i:ident = $e:tritonExpr) =>
       (assignmentInfo assigned [i.getId.toString] [e], i.getId.toString :: assigned)
   | `(tritonStmt| $i:ident += $e:tritonExpr) =>
+      (assignmentInfo assigned [i.getId.toString] [e], i.getId.toString :: assigned)
+  | `(tritonStmt| $i:ident -= $e:tritonExpr) =>
       (assignmentInfo assigned [i.getId.toString] [e], i.getId.toString :: assigned)
   | `(tritonStmt| $i:ident *= $e:tritonExpr) =>
       (assignmentInfo assigned [i.getId.toString] [e], i.getId.toString :: assigned)
@@ -403,6 +518,7 @@ private partial def scanStmt (assigned : Assigned)
          cmpDeps := cmpDepsFromExpr src ++ memKwargCmpDeps kwargs }, assigned)
   | `(tritonStmt| tl.async_wait()) => ({}, assigned)
   | `(tritonStmt| tl.debug_barrier()) => ({}, assigned)
+  | `(tritonStmt| tl.static_print($_msg:term)) => ({}, assigned)
   | `(tritonStmt| tl.for $i:ident in $($_:term) { $stmts:tritonStmt* }) =>
       let bodyAssigned := i.getId.toString :: assigned
       let (info, _) := scanStmts bodyAssigned stmts.toList
@@ -419,6 +535,14 @@ private partial def scanStmt (assigned : Assigned)
       let bodyAssigned := i.getId.toString :: assigned
       let (info, _) := scanStmts bodyAssigned stmts.toList
       (info, assigned)
+  | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr) { $stmts:tritonStmt* }) =>
+      let bodyAssigned := i.getId.toString :: assigned
+      let (info, _) := scanStmts bodyAssigned stmts.toList
+      let rangeInfo : ScanInfo :=
+        { directPins := natExprIdents start ++ natExprIdents stop ++
+            directPinsFromExpr assigned start ++ directPinsFromExpr assigned stop
+          cmpDeps := cmpDepsFromExpr start ++ cmpDepsFromExpr stop }
+      (rangeInfo.append info, assigned)
   | `(tritonStmt| for $i:ident in range($start:tritonExpr, $stop:tritonExpr, $step:tritonExpr) { $stmts:tritonStmt* }) =>
       let bodyAssigned := i.getId.toString :: assigned
       let (info, _) := scanStmts bodyAssigned stmts.toList
@@ -503,9 +627,10 @@ partial def closeInfo (info : ScanInfo) (fuel : Nat := 128) :
           (ptrUses1, natPins3)
         else
           loop fuel ptrUses1 natPins3
-  loop fuel
+  let (ptrUses, natPins) := loop fuel
     (info.ptrUses.foldl addUnique [])
     (info.directPins.foldl addUnique [])
+  (ptrUses, natPins.filter (fun name => !(info.intPins.contains name)))
 
 /-- Set of identifier names that the body uses in a `.nat`-required
 position. The DSL macro consults this when expanding a `name = tl.load(p)`
