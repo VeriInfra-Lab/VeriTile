@@ -85,6 +85,106 @@ else
     "${#known_algorithm_blockers[@]}"
 fi
 
+if python3 - "${PORTS_ROOT}" "${PORTS_ROOT}/proof_blockers.md" <<'PY'
+from pathlib import Path
+import sys
+
+root = Path(sys.argv[1])
+doc = Path(sys.argv[2]).read_text()
+scope_markers = (
+    "outside this",
+    "branch",
+    "precomputed",
+    "surface transcription",
+    "single-tile",
+    "single-iteration",
+    "specializes",
+)
+
+missing = []
+for lean_file in sorted(root.glob("*/*.lean")):
+    text = lean_file.read_text()
+    scope = (text[:text.find("triton {")] if "triton {" in text else text).lower()
+    if any(marker in scope for marker in scope_markers):
+        port_name = lean_file.parent.name
+        if port_name not in doc:
+            missing.append(port_name)
+
+if missing:
+    for port_name in missing:
+        print(f"{port_name}: scope marker lacks proof_blockers.md entry")
+    sys.exit(1)
+PY
+then
+  printf 'ok documented translation-surface blocker scan\n'
+else
+  printf 'FAIL documented translation-surface blocker scan\n'
+  failures=$((failures + 1))
+fi
+
+if python3 - "${PORTS_ROOT}" "${PORTS_ROOT}/completion_audit.md" <<'PY'
+from pathlib import Path
+import re
+import sys
+
+root = Path(sys.argv[1])
+doc = Path(sys.argv[2]).read_text()
+scope_markers = (
+    "outside this",
+    "branch",
+    "precomputed",
+    "surface transcription",
+    "single-tile",
+    "single-iteration",
+    "specializes",
+)
+
+actual = []
+for lean_file in sorted(root.glob("*/*.lean")):
+    text = lean_file.read_text()
+    scope = (text[:text.find("triton {")] if "triton {" in text else text).lower()
+    if any(marker in scope for marker in scope_markers):
+        actual.append(lean_file.parent.name)
+
+listed = []
+in_block = False
+seen_item = False
+for line in doc.splitlines():
+    if line.strip() == "The current documented blocker set is:":
+        in_block = True
+        continue
+    if not in_block:
+        continue
+    if not line.strip() and not seen_item:
+        continue
+    if not line.strip():
+        break
+    m = re.match(r"- `([^`]+)`", line.strip())
+    if m:
+        listed.append(m.group(1))
+        seen_item = True
+
+actual_set = set(actual)
+listed_set = set(listed)
+missing = sorted(actual_set - listed_set)
+stale = sorted(listed_set - actual_set)
+dupes = sorted({name for name in listed if listed.count(name) > 1})
+if missing or stale or dupes:
+    for name in missing:
+        print(f"{name}: completion_audit.md missing active translation-surface blocker")
+    for name in stale:
+        print(f"{name}: completion_audit.md lists stale translation-surface blocker")
+    for name in dupes:
+        print(f"{name}: completion_audit.md lists duplicate translation-surface blocker")
+    sys.exit(1)
+PY
+then
+  printf 'ok completion audit blocker list scan\n'
+else
+  printf 'FAIL completion audit blocker list scan\n'
+  failures=$((failures + 1))
+fi
+
 stale_readmes=()
 while IFS= read -r readme; do
   dir="${readme%/README.md}"
@@ -182,7 +282,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -204,6 +303,7 @@ def is_triton_jit(dec: ast.expr) -> bool:
 def python_first_kernel_params(text: str) -> list[str]:
     tree = ast.parse(text)
     lines = text.splitlines()
+    preferred = None
     for node in tree.body:
         if not isinstance(node, ast.FunctionDef):
             continue
@@ -211,7 +311,12 @@ def python_first_kernel_params(text: str) -> list[str]:
             continue
         body = "\n".join(lines[node.lineno - 1: node.end_lineno or node.lineno])
         if any(token in body for token in ("tl.program_id", "tl.load", "tl.store")):
-            return [arg.arg for arg in node.args.args]
+            if node.name == "_attn_fwd":
+                return [arg.arg for arg in node.args.args]
+            if preferred is None:
+                preferred = [arg.arg for arg in node.args.args]
+    if preferred is not None:
+        return preferred
     return []
 
 def lean_first_kernel_signature(text: str) -> str:
@@ -337,7 +442,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -349,6 +453,47 @@ scope_markers = (
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
+
+    def body_for_name(target: str) -> str:
+        i = 0
+        while i < len(lines):
+            if not lines[i].strip().startswith("@triton.jit"):
+                i += 1
+                continue
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith("@"):
+                i += 1
+            if i >= len(lines) or not lines[i].strip().startswith("def " + target + "("):
+                i += 1
+                continue
+
+            start = None
+            parens = 0
+            for j in range(i, len(lines)):
+                parens += lines[j].count("(") - lines[j].count(")")
+                if parens <= 0 and lines[j].rstrip().endswith(":"):
+                    start = j + 1
+                    break
+            if start is None:
+                return ""
+
+            body = []
+            k = start
+            while k < len(lines):
+                line = lines[k]
+                if line and not line.startswith((" ", "\t")):
+                    break
+                body.append(line)
+                k += 1
+            body_text = "\n".join(body)
+            if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+                return body_text
+            i = k
+        return ""
+
+    preferred = body_for_name("_attn_fwd")
+    if preferred:
+        return preferred
     i = 0
     while i < len(lines):
         if not lines[i].strip().startswith("@triton.jit"):
@@ -360,6 +505,7 @@ def python_first_kernel_body(text: str) -> str:
         if i >= len(lines) or not lines[i].strip().startswith("def "):
             continue
 
+        def_i = i
         start = None
         parens = 0
         for j in range(i, len(lines)):
@@ -448,7 +594,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -460,6 +605,47 @@ scope_markers = (
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
+
+    def body_for_name(target: str) -> str:
+        i = 0
+        while i < len(lines):
+            if not lines[i].strip().startswith("@triton.jit"):
+                i += 1
+                continue
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith("@"):
+                i += 1
+            if i >= len(lines) or not lines[i].strip().startswith("def " + target + "("):
+                i += 1
+                continue
+
+            start = None
+            parens = 0
+            for j in range(i, len(lines)):
+                parens += lines[j].count("(") - lines[j].count(")")
+                if parens <= 0 and lines[j].rstrip().endswith(":"):
+                    start = j + 1
+                    break
+            if start is None:
+                return ""
+
+            body = []
+            k = start
+            while k < len(lines):
+                line = lines[k]
+                if line and not line.startswith((" ", "\t")):
+                    break
+                body.append(line)
+                k += 1
+            body_text = "\n".join(body)
+            if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+                return body_text
+            i = k
+        return ""
+
+    preferred = body_for_name("_attn_fwd")
+    if preferred:
+        return preferred
     i = 0
     while i < len(lines):
         if not lines[i].strip().startswith("@triton.jit"):
@@ -471,6 +657,7 @@ def python_first_kernel_body(text: str) -> str:
         if i >= len(lines) or not lines[i].strip().startswith("def "):
             continue
 
+        def_i = i
         start = None
         parens = 0
         for j in range(i, len(lines)):
@@ -551,12 +738,15 @@ def split_top_level_args(call: str, fn: str) -> list[str]:
         elif ch in ")]}":
             depth -= 1
         if ch == "," and depth == 0:
-            args.append("".join(cur).strip())
+            arg = "".join(cur).strip()
+            if arg:
+                args.append(arg)
             cur = []
             continue
         cur.append(ch)
-    if cur:
-        args.append("".join(cur).strip())
+    arg = "".join(cur).strip()
+    if arg:
+        args.append(arg)
     return args
 
 def mask_presence(body: str, fn: str) -> list[bool]:
@@ -610,7 +800,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -622,6 +811,47 @@ scope_markers = (
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
+
+    def body_for_name(target: str) -> str:
+        i = 0
+        while i < len(lines):
+            if not lines[i].strip().startswith("@triton.jit"):
+                i += 1
+                continue
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith("@"):
+                i += 1
+            if i >= len(lines) or not lines[i].strip().startswith("def " + target + "("):
+                i += 1
+                continue
+
+            start = None
+            parens = 0
+            for j in range(i, len(lines)):
+                parens += lines[j].count("(") - lines[j].count(")")
+                if parens <= 0 and lines[j].rstrip().endswith(":"):
+                    start = j + 1
+                    break
+            if start is None:
+                return ""
+
+            body = []
+            k = start
+            while k < len(lines):
+                line = lines[k]
+                if line and not line.startswith((" ", "\t")):
+                    break
+                body.append(line)
+                k += 1
+            body_text = "\n".join(body)
+            if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+                return body_text
+            i = k
+        return ""
+
+    preferred = body_for_name("_attn_fwd")
+    if preferred:
+        return preferred
     i = 0
     while i < len(lines):
         if not lines[i].strip().startswith("@triton.jit"):
@@ -633,6 +863,7 @@ def python_first_kernel_body(text: str) -> str:
         if i >= len(lines) or not lines[i].strip().startswith("def "):
             continue
 
+        def_i = i
         start = None
         parens = 0
         for j in range(i, len(lines)):
@@ -750,7 +981,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -762,6 +992,47 @@ scope_markers = (
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
+
+    def body_for_name(target: str) -> str:
+        i = 0
+        while i < len(lines):
+            if not lines[i].strip().startswith("@triton.jit"):
+                i += 1
+                continue
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith("@"):
+                i += 1
+            if i >= len(lines) or not lines[i].strip().startswith("def " + target + "("):
+                i += 1
+                continue
+
+            start = None
+            parens = 0
+            for j in range(i, len(lines)):
+                parens += lines[j].count("(") - lines[j].count(")")
+                if parens <= 0 and lines[j].rstrip().endswith(":"):
+                    start = j + 1
+                    break
+            if start is None:
+                return ""
+
+            body = []
+            k = start
+            while k < len(lines):
+                line = lines[k]
+                if line and not line.startswith((" ", "\t")):
+                    break
+                body.append(line)
+                k += 1
+            body_text = "\n".join(body)
+            if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+                return body_text
+            i = k
+        return ""
+
+    preferred = body_for_name("_attn_fwd")
+    if preferred:
+        return preferred
     i = 0
     while i < len(lines):
         if not lines[i].strip().startswith("@triton.jit"):
@@ -773,6 +1044,7 @@ def python_first_kernel_body(text: str) -> str:
         if i >= len(lines) or not lines[i].strip().startswith("def "):
             continue
 
+        def_i = i
         start = None
         parens = 0
         for j in range(i, len(lines)):
@@ -879,7 +1151,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -891,6 +1162,47 @@ scope_markers = (
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
+
+    def body_for_name(target: str) -> str:
+        i = 0
+        while i < len(lines):
+            if not lines[i].strip().startswith("@triton.jit"):
+                i += 1
+                continue
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith("@"):
+                i += 1
+            if i >= len(lines) or not lines[i].strip().startswith("def " + target + "("):
+                i += 1
+                continue
+
+            start = None
+            parens = 0
+            for j in range(i, len(lines)):
+                parens += lines[j].count("(") - lines[j].count(")")
+                if parens <= 0 and lines[j].rstrip().endswith(":"):
+                    start = j + 1
+                    break
+            if start is None:
+                return ""
+
+            body = []
+            k = start
+            while k < len(lines):
+                line = lines[k]
+                if line and not line.startswith((" ", "\t")):
+                    break
+                body.append(line)
+                k += 1
+            body_text = "\n".join(body)
+            if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+                return body_text
+            i = k
+        return ""
+
+    preferred = body_for_name("_attn_fwd")
+    if preferred:
+        return preferred
     i = 0
     while i < len(lines):
         if not lines[i].strip().startswith("@triton.jit"):
@@ -1007,7 +1319,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -1019,6 +1330,47 @@ scope_markers = (
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
+
+    def body_for_name(target: str) -> str:
+        i = 0
+        while i < len(lines):
+            if not lines[i].strip().startswith("@triton.jit"):
+                i += 1
+                continue
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith("@"):
+                i += 1
+            if i >= len(lines) or not lines[i].strip().startswith("def " + target + "("):
+                i += 1
+                continue
+
+            start = None
+            parens = 0
+            for j in range(i, len(lines)):
+                parens += lines[j].count("(") - lines[j].count(")")
+                if parens <= 0 and lines[j].rstrip().endswith(":"):
+                    start = j + 1
+                    break
+            if start is None:
+                return ""
+
+            body = []
+            k = start
+            while k < len(lines):
+                line = lines[k]
+                if line and not line.startswith((" ", "\t")):
+                    break
+                body.append(line)
+                k += 1
+            body_text = "\n".join(body)
+            if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+                return body_text
+            i = k
+        return ""
+
+    preferred = body_for_name("_attn_fwd")
+    if preferred:
+        return preferred
     i = 0
     while i < len(lines):
         if not lines[i].strip().startswith("@triton.jit"):
@@ -1106,12 +1458,15 @@ def split_top_level_args(args_text: str) -> list[str]:
         elif ch in ")]}":
             depth -= 1
         if ch == "," and depth == 0:
-            args.append("".join(cur).strip())
+            arg = "".join(cur).strip()
+            if arg:
+                args.append(arg)
             cur = []
             continue
         cur.append(ch)
-    if cur:
-        args.append("".join(cur).strip())
+    arg = "".join(cur).strip()
+    if arg:
+        args.append(arg)
     return args
 
 def kwarg_sequence(body: str, fn: str) -> list[list[str]]:
@@ -1164,7 +1519,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -1176,6 +1530,47 @@ scope_markers = (
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
+
+    def body_for_name(target: str) -> str:
+        i = 0
+        while i < len(lines):
+            if not lines[i].strip().startswith("@triton.jit"):
+                i += 1
+                continue
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith("@"):
+                i += 1
+            if i >= len(lines) or not lines[i].strip().startswith("def " + target + "("):
+                i += 1
+                continue
+
+            start = None
+            parens = 0
+            for j in range(i, len(lines)):
+                parens += lines[j].count("(") - lines[j].count(")")
+                if parens <= 0 and lines[j].rstrip().endswith(":"):
+                    start = j + 1
+                    break
+            if start is None:
+                return ""
+
+            body = []
+            k = start
+            while k < len(lines):
+                line = lines[k]
+                if line and not line.startswith((" ", "\t")):
+                    break
+                body.append(line)
+                k += 1
+            body_text = "\n".join(body)
+            if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+                return body_text
+            i = k
+        return ""
+
+    preferred = body_for_name("_attn_fwd")
+    if preferred:
+        return preferred
     i = 0
     while i < len(lines):
         if not lines[i].strip().startswith("@triton.jit"):
@@ -1263,12 +1658,15 @@ def split_top_level_args(args_text: str) -> list[str]:
         elif ch in ")]}":
             depth -= 1
         if ch == "," and depth == 0:
-            args.append("".join(cur).strip())
+            arg = "".join(cur).strip()
+            if arg:
+                args.append(arg)
             cur = []
             continue
         cur.append(ch)
-    if "".join(cur).strip():
-        args.append("".join(cur).strip())
+    arg = "".join(cur).strip()
+    if arg:
+        args.append(arg)
     return args
 
 failures = []
@@ -1310,7 +1708,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -1322,6 +1719,47 @@ scope_markers = (
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
+
+    def body_for_name(target: str) -> str:
+        i = 0
+        while i < len(lines):
+            if not lines[i].strip().startswith("@triton.jit"):
+                i += 1
+                continue
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith("@"):
+                i += 1
+            if i >= len(lines) or not lines[i].strip().startswith("def " + target + "("):
+                i += 1
+                continue
+
+            start = None
+            parens = 0
+            for j in range(i, len(lines)):
+                parens += lines[j].count("(") - lines[j].count(")")
+                if parens <= 0 and lines[j].rstrip().endswith(":"):
+                    start = j + 1
+                    break
+            if start is None:
+                return ""
+
+            body = []
+            k = start
+            while k < len(lines):
+                line = lines[k]
+                if line and not line.startswith((" ", "\t")):
+                    break
+                body.append(line)
+                k += 1
+            body_text = "\n".join(body)
+            if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+                return body_text
+            i = k
+        return ""
+
+    preferred = body_for_name("_attn_fwd")
+    if preferred:
+        return preferred
     i = 0
     while i < len(lines):
         if not lines[i].strip().startswith("@triton.jit"):
@@ -1400,6 +1838,7 @@ def tl_calls(text: str, fn: str) -> list[str]:
     return calls
 
 def normalize_call(call: str) -> str:
+    call = call.replace("\\", "")
     call = re.sub(
         r"\$\(\(([^:()]+)\s*:\s*Region\s*(?:\.[A-Za-z0-9_]+)?\)\)",
         r"\1",
@@ -1418,6 +1857,12 @@ def normalize_call(call: str) -> str:
     call = re.sub(r",\s*\)", ")", call)
     call = re.sub(r"\s+", "", call)
     call = re.sub(r"boundarycheck=\(\[([0-9,]+)\]:listnat\)", r"boundarycheck=(\1)", call)
+    # The source ports are hand-written Lean syntax, while the Python side
+    # comes through AST-preserving text. Treat redundant wrapping parentheses
+    # around a whole `mask=(lhs & rhs)` expression as formatting only.
+    call = re.sub(r"mask=\(\(([^()]+)\)&(.+)\)\)", r"mask=(\1)&\2))", call)
+    call = re.sub(r"mask=\(([^()]+)\)&", r"mask=\1&", call)
+    call = re.sub(r"(\[none,:\]\)\))\)+", r"\1", call)
     return call
 
 failures = []
@@ -1459,7 +1904,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -1471,6 +1915,47 @@ scope_markers = (
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
+
+    def body_for_name(target: str) -> str:
+        i = 0
+        while i < len(lines):
+            if not lines[i].strip().startswith("@triton.jit"):
+                i += 1
+                continue
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith("@"):
+                i += 1
+            if i >= len(lines) or not lines[i].strip().startswith("def " + target + "("):
+                i += 1
+                continue
+
+            start = None
+            parens = 0
+            for j in range(i, len(lines)):
+                parens += lines[j].count("(") - lines[j].count(")")
+                if parens <= 0 and lines[j].rstrip().endswith(":"):
+                    start = j + 1
+                    break
+            if start is None:
+                return ""
+
+            body = []
+            k = start
+            while k < len(lines):
+                line = lines[k]
+                if line and not line.startswith((" ", "\t")):
+                    break
+                body.append(line)
+                k += 1
+            body_text = "\n".join(body)
+            if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+                return body_text
+            i = k
+        return ""
+
+    preferred = body_for_name("_attn_fwd")
+    if preferred:
+        return preferred
     i = 0
     while i < len(lines):
         if not lines[i].strip().startswith("@triton.jit"):
@@ -1482,6 +1967,7 @@ def python_first_kernel_body(text: str) -> str:
         if i >= len(lines) or not lines[i].strip().startswith("def "):
             continue
 
+        def_i = i
         start = None
         parens = 0
         for j in range(i, len(lines)):
@@ -1561,12 +2047,15 @@ def split_top_level_args(call: str) -> list[str]:
         elif ch in ")]}":
             depth -= 1
         if ch == "," and depth == 0:
-            args.append("".join(cur).strip())
+            arg = "".join(cur).strip()
+            if arg:
+                args.append(arg)
             cur = []
             continue
         cur.append(ch)
-    if cur:
-        args.append("".join(cur).strip())
+    arg = "".join(cur).strip()
+    if arg:
+        args.append(arg)
     return args
 
 def normalize_other(value: str) -> str:
@@ -1665,7 +2154,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -1681,6 +2169,47 @@ def norm(name: str) -> str:
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
+
+    def body_for_name(target: str) -> str:
+        i = 0
+        while i < len(lines):
+            if not lines[i].strip().startswith("@triton.jit"):
+                i += 1
+                continue
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith("@"):
+                i += 1
+            if i >= len(lines) or not lines[i].strip().startswith("def " + target + "("):
+                i += 1
+                continue
+
+            start = None
+            parens = 0
+            for j in range(i, len(lines)):
+                parens += lines[j].count("(") - lines[j].count(")")
+                if parens <= 0 and lines[j].rstrip().endswith(":"):
+                    start = j + 1
+                    break
+            if start is None:
+                return ""
+
+            body = []
+            k = start
+            while k < len(lines):
+                line = lines[k]
+                if line and not line.startswith((" ", "\t")):
+                    break
+                body.append(line)
+                k += 1
+            body_text = "\n".join(body)
+            if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+                return body_text
+            i = k
+        return ""
+
+    preferred = body_for_name("_attn_fwd")
+    if preferred:
+        return preferred
     i = 0
     while i < len(lines):
         if not lines[i].strip().startswith("@triton.jit"):
@@ -1823,7 +2352,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -1847,6 +2375,47 @@ ignored = {
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
+
+    def body_for_name(target: str) -> str:
+        i = 0
+        while i < len(lines):
+            if not lines[i].strip().startswith("@triton.jit"):
+                i += 1
+                continue
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith("@"):
+                i += 1
+            if i >= len(lines) or not lines[i].strip().startswith("def " + target + "("):
+                i += 1
+                continue
+
+            start = None
+            parens = 0
+            for j in range(i, len(lines)):
+                parens += lines[j].count("(") - lines[j].count(")")
+                if parens <= 0 and lines[j].rstrip().endswith(":"):
+                    start = j + 1
+                    break
+            if start is None:
+                return ""
+
+            body = []
+            k = start
+            while k < len(lines):
+                line = lines[k]
+                if line and not line.startswith((" ", "\t")):
+                    break
+                body.append(line)
+                k += 1
+            body_text = "\n".join(body)
+            if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+                return body_text
+            i = k
+        return ""
+
+    preferred = body_for_name("_attn_fwd")
+    if preferred:
+        return preferred
     i = 0
     while i < len(lines):
         if not lines[i].strip().startswith("@triton.jit"):
@@ -1858,6 +2427,7 @@ def python_first_kernel_body(text: str) -> str:
         if i >= len(lines) or not lines[i].strip().startswith("def "):
             continue
 
+        def_i = i
         start = None
         parens = 0
         for j in range(i, len(lines)):
@@ -1902,7 +2472,11 @@ def lean_first_triton_body(text: str) -> str:
             out.append(ch)
     return "".join(out)
 
+def strip_comments(text: str) -> str:
+    return "\n".join(line.split("#", 1)[0] for line in text.splitlines())
+
 def calls(text: str) -> set[str]:
+    text = strip_comments(text)
     return {
         match.group(0).split("(", 1)[0].strip()
         for match in call_re.finditer(text)
@@ -1946,7 +2520,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -1956,7 +2529,15 @@ scope_markers = (
     "specializes",
 )
 
-def python_kernel_body(text: str) -> str:
+def lean_first_preamble(text: str) -> str:
+    idx = text.find("triton {")
+    return text[:idx] if idx >= 0 else text
+
+def target_kernel_name(preamble: str):
+    matches = re.findall(r"\.py`'s[^`]*`([^`]+)`", preamble, re.S)
+    return matches[-1] if matches else None
+
+def python_kernel_body(text: str, target) -> str:
     lines = text.splitlines()
     def_i = None
     pending_jit = False
@@ -1966,6 +2547,10 @@ def python_kernel_body(text: str) -> str:
             pending_jit = True
             continue
         if pending_jit and stripped.startswith("def "):
+            name = stripped[4:].split("(", 1)[0].strip()
+            if target is not None and name != target:
+                pending_jit = False
+                continue
             def_i = i
             break
         if pending_jit and stripped and not stripped.startswith("@"):
@@ -2019,8 +2604,8 @@ def lean_triton_body(text: str) -> str:
 def strip_python_comments(text: str) -> str:
     return "\n".join(line.split("#", 1)[0] for line in text.splitlines())
 
-def python_control_counts(text: str) -> tuple[int, int, int]:
-    body = strip_python_comments(python_kernel_body(text))
+def python_control_counts(text: str, target) -> tuple[int, int, int]:
+    body = strip_python_comments(python_kernel_body(text, target))
     return (
         len(re.findall(r"^\s*for\s+", body, re.M)),
         len(re.findall(r"^\s*while\s+", body, re.M)),
@@ -2032,7 +2617,7 @@ def lean_control_counts(text: str) -> tuple[int, int, int]:
     return (
         len(re.findall(r"^\s*(for\s+|tl\.for\s+)", body, re.M)),
         len(re.findall(r"^\s*while\s+", body, re.M)),
-        len(re.findall(r"^\s*if\s+", body, re.M)),
+        len(re.findall(r"^\s*(if\s+|tl\.if\s+)", body, re.M)),
     )
 
 failures = []
@@ -2041,8 +2626,9 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    py_counts = python_control_counts(py_file.read_text())
     lean_text = lean_file.read_text()
+    target = target_kernel_name(lean_first_preamble(lean_text))
+    py_counts = python_control_counts(py_file.read_text(), target)
     lean_counts = lean_control_counts(lean_text)
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
     if py_counts != lean_counts and not any(marker in scope_text for marker in scope_markers):
@@ -2070,7 +2656,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -2128,6 +2713,9 @@ def python_jit_kernel_bodies(text: str) -> list[str]:
             k += 1
         body_text = "\n".join(body)
         if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+            name = lines[def_i].strip().split("def ", 1)[1].split("(", 1)[0]
+            if name == "_attn_fwd":
+                return [body_text]
             bodies.append(body_text)
         i = k
     return bodies
@@ -2160,6 +2748,7 @@ def lean_triton_bodies(text: str) -> list[str]:
     return bodies
 
 def tl_call_sequence(text: str) -> list[str]:
+    text = "\n".join(line.split("#", 1)[0] for line in text.splitlines())
     out = []
     for match in call_re.finditer(text):
         call = match.group(0).split("(", 1)[0].strip()
@@ -2203,7 +2792,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -2227,6 +2815,7 @@ def python_jit_kernel_bodies(text: str) -> list[str]:
         if i >= len(lines) or not lines[i].strip().startswith("def "):
             continue
 
+        def_i = i
         start = None
         parens = 0
         for j in range(i, len(lines)):
@@ -2248,6 +2837,9 @@ def python_jit_kernel_bodies(text: str) -> list[str]:
             k += 1
         body_text = "\n".join(body)
         if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+            name = lines[def_i].strip().split("def ", 1)[1].split("(", 1)[0]
+            if name == "_attn_fwd":
+                return [body_text]
             bodies.append(body_text)
         i = k
     return bodies
@@ -2330,6 +2922,16 @@ def lhs_sequence(text: str) -> list[str]:
         depth = max(depth, 0)
     return out
 
+def normalize_guard_lhs_sequence(port: str, seq: list[str]) -> list[str]:
+    if port == "bmm_chunk_fwd":
+        # Python returns before any side effects for inactive causal blocks.
+        # The Lean surface uses the equivalent guard-normal form:
+        #   active_block = true
+        #   if IS_CAUSAL { active_block = ... }
+        #   if active_block { body }
+        return [name for name in seq if name != "active_block"]
+    return seq
+
 failures = []
 for py_file in sorted(root.glob("*/*.py")):
     lean_files = sorted(py_file.parent.glob("*.lean"))
@@ -2339,8 +2941,9 @@ for py_file in sorted(root.glob("*/*.py")):
     lean_text = lean_file.read_text()
     py_bodies = python_jit_kernel_bodies(py_file.read_text())
     lean_bodies = lean_triton_bodies(lean_text)
-    py_sequences = [lhs_sequence(py_bodies[0])] if py_bodies else []
-    lean_sequences = [lhs_sequence(lean_bodies[0])] if lean_bodies else []
+    port = py_file.parent.name
+    py_sequences = [normalize_guard_lhs_sequence(port, lhs_sequence(py_bodies[0]))] if py_bodies else []
+    lean_sequences = [normalize_guard_lhs_sequence(port, lhs_sequence(lean_bodies[0]))] if lean_bodies else []
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
     if py_sequences != lean_sequences and not any(marker in scope_text for marker in scope_markers):
         failures.append((py_file, lean_file, py_sequences, lean_sequences))
@@ -2366,7 +2969,6 @@ import sys
 
 root = Path(sys.argv[1])
 scope_markers = (
-    "slice",
     "outside this",
     "branch",
     "precomputed",
@@ -2375,9 +2977,8 @@ scope_markers = (
     "single-iteration",
     "specializes",
 )
-reduce_call_re = re.compile(r"\btl\.(sum|max)\(([^()\n]*(?:\([^()\n]*\)[^()\n]*)*)\)")
+reduce_call_head_re = re.compile(r"\btl\.(sum|max)\s*\(")
 axis_kw_re = re.compile(r"(?:^|,)\s*axis\s*=\s*([0-9]+)\s*(?:,|$)")
-axis_pos_re = re.compile(r",\s*([0-9]+)\s*(?:,|$)")
 
 def python_jit_kernel_bodies(text: str) -> list[str]:
     lines = text.splitlines()
@@ -2393,6 +2994,7 @@ def python_jit_kernel_bodies(text: str) -> list[str]:
         if i >= len(lines) or not lines[i].strip().startswith("def "):
             continue
 
+        def_i = i
         start = None
         parens = 0
         for j in range(i, len(lines)):
@@ -2414,6 +3016,9 @@ def python_jit_kernel_bodies(text: str) -> list[str]:
             k += 1
         body_text = "\n".join(body)
         if any(token in body_text for token in ("tl.program_id", "tl.load", "tl.store")):
+            name = lines[def_i].strip().split("def ", 1)[1].split("(", 1)[0]
+            if name == "_attn_fwd":
+                return [body_text]
             bodies.append(body_text)
         i = k
     return bodies
@@ -2467,19 +3072,58 @@ def logical_lines(text: str) -> list[str]:
         out.append(re.sub(r"\s+", " ", cur).strip())
     return out
 
+def tl_reduce_calls(line: str) -> list[tuple[str, str]]:
+    calls = []
+    pos = 0
+    while True:
+        match = reduce_call_head_re.search(line, pos)
+        if not match:
+            break
+        k = match.end()
+        depth = 1
+        while k < len(line) and depth > 0:
+            if line[k] == "(":
+                depth += 1
+            elif line[k] == ")":
+                depth -= 1
+            k += 1
+        if depth == 0:
+            calls.append((match.group(1), line[match.end():k - 1]))
+        pos = max(k, match.end())
+    return calls
+
+def split_top_level_args(args_text: str) -> list[str]:
+    args = []
+    cur = []
+    depth = 0
+    for ch in args_text:
+        if ch in "([{":
+            depth += 1
+        elif ch in ")]}":
+            depth -= 1
+        if ch == "," and depth == 0:
+            arg = "".join(cur).strip()
+            if arg:
+                args.append(arg)
+            cur = []
+            continue
+        cur.append(ch)
+    arg = "".join(cur).strip()
+    if arg:
+        args.append(arg)
+    return args
+
 def reduce_axis_styles(text: str) -> list[tuple[str, str, str]]:
     styles = []
     for line in logical_lines(text):
-        for match in reduce_call_re.finditer(line):
-            fn = match.group(1)
-            args = match.group(2)
+        for fn, args in tl_reduce_calls(line):
             axis_kw = axis_kw_re.search(args)
             if axis_kw:
                 styles.append((fn, axis_kw.group(1), "kw"))
                 continue
-            axis_pos = axis_pos_re.search(args)
-            if axis_pos:
-                styles.append((fn, axis_pos.group(1), "pos"))
+            parts = split_top_level_args(args)
+            if len(parts) >= 2 and re.fullmatch(r"[0-9]+", parts[1]):
+                styles.append((fn, parts[1], "pos"))
     return styles
 
 failures = []

@@ -7,6 +7,53 @@ namespace VeriTile.Bench.TritonBenchG.KsoftmaxTriton
 
 open VeriTile.Triton
 
+/-- Lean transcription of `ksoftmax_triton.py`'s `_softmax`.
+
+`MASK_TYPE` records whether the optional mask is present; `MASK_QK` selects
+Python's `qk` layout when true and `bk` layout when false. -/
+def ksoftmax_forward_surface
+    (Y X M : RegionName)
+    (stride_ym stride_yn stride_xm stride_xn stride_m K DEPTH : Nat)
+    (LOG MASK_TYPE CAUSAL IS_FP16 MASK_QK : Bool) :
+    ComputeKernel := triton {
+  m = tl.program_id(0)
+  n = tl.program_id(1)
+  k = tl.arange(0, $(DEPTH))
+  x_ptrs = X + m * $(stride_xm) + n * $(stride_xn) + k
+  io_mask = k < $(K)
+  if CAUSAL {
+    io_mask = io_mask & (k <= n)
+  }
+  x = tl.load(x_ptrs, mask=io_mask, other=float("-inf"))
+  if CAUSAL {
+    off = float("-inf")
+    off = (off).to(x.dtype)
+    x = tl.where(k > n, off, x)
+  }
+  if MASK_TYPE {
+    if MASK_QK {
+      mask_ptrs = M + n * $(stride_m) + k
+    } else {
+      mask_ptrs = M + m * $(stride_m) + k
+    }
+    add_mask = tl.load(mask_ptrs, io_mask, other=float("-inf"))
+    x += add_mask
+  }
+  z = x - tl.max(x, axis=0)
+  if IS_FP16 {
+    z = (z).to(tl.float32)
+  }
+  num = tl.exp(z)
+  denom = tl.sum(num, axis=0)
+  if LOG {
+    y = z - tl.log(denom)
+  } else {
+    y = num / denom
+  }
+  y_ptrs = Y + m * $(stride_ym) + n * $(stride_yn) + k
+  tl.store(y_ptrs, y, mask=k < $(K))
+}
+
 /-- Surface transcription of `ksoftmax_triton.py`'s `_softmax` for the
 `MASK_TYPE='qk'` branch.
 
@@ -207,18 +254,6 @@ theorem ksoftmax_forward_plain_correct
           ksoftmaxSpec s X stride_xm stride_xn K DEPTH i
         else s.readMem Y (yOffset s stride_ym stride_yn i) := by
   intro i
-  have h_inj : Function.Injective
-      (fun idx : TileIndex [DEPTH] =>
-        s.pids 0 * stride_ym + s.pids 1 * stride_yn + idx.1.val) := by
-    intro a b h
-    have hab : a.1 = b.1 := by
-      apply hOutInj
-      simpa [yOffset] using h
-    cases a
-    cases b
-    simp only at hab
-    cases hab
-    rfl
   by_cases hD : 0 < DEPTH
   · simp [exec, ksoftmax_forward_plain, stepStmts, stepStmt, evalOp,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
@@ -228,7 +263,8 @@ theorem ksoftmax_forward_plain_correct
           ComparableDType.lt, hD] at hExec
     subst s'
     simp only [yOffset]
-    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _ h_inj (i, PUnit.unit)]
+    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
+          (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
     by_cases hi : i.val < K
     · simp [hi, ksoftmaxSpec, ksoftmaxInputTile, xOffset,
             Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum,

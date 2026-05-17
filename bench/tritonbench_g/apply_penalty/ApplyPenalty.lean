@@ -82,6 +82,22 @@ def adjustedOffset (s : BlockState) (p_cumsum_seq_len : RegionName)
     (i : Fin BLOCK_P) : Nat :=
   tokenOffset s p_cumsum_seq_len i
 
+/-- The "active" store address (no mask conditional) used for the readback
+spec. When `active s i` holds, this equals `storeOffset s ... i`. -/
+def activeStoreAddr
+    (s : BlockState) (p_token_ids p_cumsum_seq_len : RegionName)
+    (stride_logit_b : Nat) (i : Fin BLOCK_P) : Nat :=
+  s.pids 0 * stride_logit_b + tokenId s p_token_ids p_cumsum_seq_len i
+
+theorem storeOffset_eq_active
+    (s : BlockState) (p_token_ids p_cumsum_seq_len : RegionName)
+    (stride_logit_b : Nat) (i : Fin BLOCK_P)
+    (hAct : active s p_cumsum_seq_len i) :
+    storeOffset s p_token_ids p_cumsum_seq_len stride_logit_b i
+      = activeStoreAddr s p_token_ids p_cumsum_seq_len stride_logit_b i := by
+  unfold storeOffset activeStoreAddr
+  simp [hAct]
+
 noncomputable def penaltyValue
     (s : BlockState)
     (Logits presence_penalty freqency_penalty repetition_penalty : Region .real)
@@ -96,84 +112,62 @@ noncomputable def penaltyValue
       * s.readMem freqency_penalty (s.pids 0)
     - s.readMem presence_penalty (s.pids 0)
 
-noncomputable def rawStoreValue
-    (s : BlockState)
-    (Logits presence_penalty freqency_penalty repetition_penalty : Region .real)
-    (p_token_ids p_token_counts p_cumsum_seq_len : Region .nat)
-    (stride_logit_b : Nat)
-    (idx : TileIndex [BLOCK_P]) : ℝ :=
-  WithBot.unbotD 0
-    (if s.readMemValue .nat p_cumsum_seq_len (s.pids 0) + idx.1.val <
-        s.readMemValue .nat p_cumsum_seq_len (s.pids 0 + 1) then
-      some (penaltyValue s Logits presence_penalty freqency_penalty
-        repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
-        stride_logit_b idx.1)
-    else
-      some (0.0 : ℝ))
+/-! ### Bench-local masked-injectivity scatter readback
 
-noncomputable def observedStoreValue
-    (s : BlockState)
-    (Logits presence_penalty freqency_penalty repetition_penalty : Region .real)
-    (p_token_ids p_token_counts p_cumsum_seq_len : Region .nat)
-    (stride_logit_b stride_logit_s BLOCK_P : Nat) (i : Fin BLOCK_P) : ℝ :=
-  match exec (apply_penalty Logits presence_penalty freqency_penalty
-      repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
-      stride_logit_b stride_logit_s BLOCK_P) s with
-  | some s' =>
-      s'.readMem Logits
-        (storeOffset s p_token_ids p_cumsum_seq_len stride_logit_b i)
-  | none => 0
+`BlockState.scatter_readback_prop_masked_nd` requires *global* injectivity of
+the offset function. Apply-penalty's offset function `λ i. base + (if active i
+then tokenId i else 0)` is not globally injective (all inactive lanes alias to
+`base + 0`), but inactive lanes never write — the masked store guards them.
+The following helper weakens the injectivity precondition to injectivity over
+the masked-true subset, which is all that the underlying proof uses. -/
 
-/-- Algorithm-layer sanity theorem for the faithful kernel transcription.
+private theorem foldl_writeMem_masked_preserves_local {α : Type}
+    {region : RegionName}
+    (offsetFn : α → Nat) (valueFn : α → ℝ) (mask : α → Bool) (o : Nat) (l : List α) :
+    ∀ (s : BlockState), (∀ k ∈ l, mask k = true → offsetFn k ≠ o) →
+      ((l.foldl
+          (fun acc k =>
+            if mask k then acc.writeMem region (offsetFn k) (valueFn k) else acc) s).readMem region o)
+      = s.readMem region o := by
+  induction l with
+  | nil => intros; rfl
+  | cons hd tl ih =>
+    intro s h
+    rw [List.foldl_cons]
+    have htl : ∀ k ∈ tl, mask k = true → offsetFn k ≠ o :=
+      fun k hk hmk => h k (List.mem_cons_of_mem hd hk) hmk
+    by_cases hmaskhd : mask hd = true
+    · have hhd : offsetFn hd ≠ o := h hd (List.mem_cons_self) hmaskhd
+      simp only [hmaskhd, if_true]
+      rw [ih _ htl]
+      rw [BlockState.writeMem_readMem]
+      show (if region = region ∧ o = offsetFn hd then valueFn hd else s.readMem region o)
+          = s.readMem region o
+      rw [if_neg]
+      rintro ⟨_, h_eq⟩
+      exact hhd h_eq.symm
+    · have hmaskhd' : mask hd = false := by
+        rcases hmaskFalse : mask hd
+        · rfl
+        · exact absurd hmaskFalse hmaskhd
+      simp only [hmaskhd', if_false, Bool.false_eq_true]
+      exact ih _ htl
 
-The formula-level `penaltyValue` above records the intended Python arithmetic.
-This theorem keeps the public `ComputeCorrect` surface tied to the executable
-kernel while the carrier-normal-form bridge to `penaltyValue` is completed. -/
-theorem apply_penalty_correct
-    (Logits presence_penalty freqency_penalty repetition_penalty : Region .real)
-    (p_token_ids p_token_counts p_cumsum_seq_len : Region .nat)
-    (stride_logit_b stride_logit_s BLOCK_P : Nat)
-    (s s' : BlockState)
-    (hExec : exec (apply_penalty Logits presence_penalty freqency_penalty
-        repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
-        stride_logit_b stride_logit_s BLOCK_P) s = some s') :
-    ∀ i : Fin BLOCK_P,
-      s'.readMem Logits
-          (storeOffset s p_token_ids p_cumsum_seq_len stride_logit_b i) =
-        observedStoreValue s Logits presence_penalty freqency_penalty
-          repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
-          stride_logit_b stride_logit_s BLOCK_P i := by
-  intro i
-  simp [observedStoreValue, hExec]
+/-! ## apply_penalty correctness — status
 
-/-- Compute-facing correctness for the masked token-id penalty scatter. -/
-theorem apply_penalty_compute_correct
-    (Logits presence_penalty freqency_penalty repetition_penalty : Region .real)
-    (p_token_ids p_token_counts p_cumsum_seq_len : Region .nat)
-    (stride_logit_b stride_logit_s BLOCK_P : Nat)
-    (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := apply_penalty Logits presence_penalty freqency_penalty
-        repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
-        stride_logit_b stride_logit_s BLOCK_P)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin BLOCK_P => active s p_cumsum_seq_len i)
-        (fun i : Fin BLOCK_P => (Logits,
-          storeOffset s p_token_ids p_cumsum_seq_len stride_logit_b i)))
-      (expected := fun i : Fin BLOCK_P =>
-        observedStoreValue s Logits presence_penalty freqency_penalty
-          repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
-          stride_logit_b stride_logit_s BLOCK_P i) := by
-  rw [ComputeCorrect.realizes_writeIf_iff]
-  apply ComputeKernel.computeCorrect_of_toAlgKernel
-  · simp [apply_penalty, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
-  intro s0 s' hExec hs0
-  subst s0
-  intro i hActive
-  have h := apply_penalty_correct Logits presence_penalty freqency_penalty
-    repetition_penalty p_token_ids p_token_counts p_cumsum_seq_len
-    stride_logit_b stride_logit_s BLOCK_P s s' hExec i
-  exact h
+A direct algorithm-layer cellwise correctness theorem against `penaltyValue`
+under a uniqueness hypothesis (`tokenId` injective) is feasible in principle
+but requires bridging the bench-local masked-injectivity helper through the
+kernel's data-dependent address chain (multi-day work). The pieces in place:
+
+- `tokenId`, `storeOffset`, `activeStoreAddr`, `penaltyValue` (above): the
+  full formula-level spec.
+- `storeOffset_eq_active` (above): bridges active-lane offset forms.
+- `foldl_writeMem_masked_preserves_local` (above): masked-preservation under
+  per-element offset-disjointness.
+
+Future closure: state `apply_penalty_correct` against `penaltyValue` under
+`hUniq : Function.Injective (tokenId s p_token_ids p_cumsum_seq_len)` and
+discharge via masked scatter-readback. -/
 
 end VeriTile.Bench.TritonBenchG.ApplyPenalty

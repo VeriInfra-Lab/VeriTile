@@ -331,17 +331,6 @@ theorem rms_layernorm_forward_y_correct
           rmsLayernormYSpec s X W X_row_stride W_row_stride n_cols BLOCK_SIZE eps i
         else s.readMem Y (yOutOffset s Y_row_stride i) := by
   intro i
-  have h_inj : Function.Injective
-      (fun idx : TileIndex [BLOCK_SIZE] => s.pids 0 * Y_row_stride + idx.1.val) := by
-    intro a b h
-    have hab : a.1 = b.1 := by
-      apply hOutInj
-      simpa [yOutOffset] using h
-    cases a
-    cases b
-    simp only at hab
-    cases hab
-    rfl
   by_cases hB : 0 < BLOCK_SIZE
   · simp [exec, rms_layernorm_forward, stepStmts, stepStmt, evalOp,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
@@ -352,7 +341,8 @@ theorem rms_layernorm_forward_y_correct
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
     subst s'
     simp only [yOutOffset]
-    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _ h_inj (i, PUnit.unit)]
+    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
+          (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
     by_cases hi : i.val < n_cols
     · simp [hi, rmsLayernormYSpec, rmsInvVarCarrier, rmsSumCarrier,
             rmsInputTile, Tile.reduceSum, Tile.reduceSumDrop,
@@ -406,17 +396,6 @@ theorem gemma_rms_layernorm_forward_y_correct
           gemmaRmsLayernormYSpec s X W X_row_stride n_cols BLOCK_SIZE eps i
         else s.readMem Y (yOutOffset s Y_row_stride i) := by
   intro i
-  have h_inj : Function.Injective
-      (fun idx : TileIndex [BLOCK_SIZE] => s.pids 0 * Y_row_stride + idx.1.val) := by
-    intro a b h
-    have hab : a.1 = b.1 := by
-      apply hOutInj
-      simpa [yOutOffset] using h
-    cases a
-    cases b
-    simp only at hab
-    cases hab
-    rfl
   by_cases hB : 0 < BLOCK_SIZE
   · simp [exec, gemma_rms_layernorm_forward, stepStmts, stepStmt, evalOp,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
@@ -427,7 +406,8 @@ theorem gemma_rms_layernorm_forward_y_correct
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
     subst s'
     simp only [yOutOffset]
-    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _ h_inj (i, PUnit.unit)]
+    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
+          (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
     by_cases hi : i.val < n_cols
     · simp [hi, gemmaRmsLayernormYSpec, rmsInvVarCarrier, rmsSumCarrier,
             rmsInputTile, Tile.reduceSum, Tile.reduceSumDrop,
@@ -483,17 +463,6 @@ theorem rms_layernorm_backward_dy_correct
             r_row_stride n_cols BLOCK_SIZE i
         else s.readMem dY (dyOutOffset s dY_row_stride i) := by
   intro i
-  have h_inj : Function.Injective
-      (fun idx : TileIndex [BLOCK_SIZE] => s.pids 0 * dY_row_stride + idx.1.val) := by
-    intro a b h
-    have hab : a.1 = b.1 := by
-      apply hOutInj
-      simpa [dyOutOffset] using h
-    cases a
-    cases b
-    simp only at hab
-    cases hab
-    rfl
   by_cases hB : 0 < BLOCK_SIZE
   · simp [exec, rms_layernorm_backward, stepStmts, stepStmt, evalOp,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.reduceSum,
@@ -504,7 +473,8 @@ theorem rms_layernorm_backward_dy_correct
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
     subst s'
     simp only [dyOutOffset]
-    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _ h_inj (i, PUnit.unit)]
+    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
+          (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
     by_cases hi : i.val < n_cols
     · simp [hi, rmsBackwardDYSpecPlain, rmsBackwardRowSumCarrierPlain,
             rmsBackwardDYTilePlain, rmsBackwardNormedTile, Tile.reduceSum,
@@ -562,17 +532,6 @@ theorem gemma_rms_layernorm_backward_dy_correct
             r_row_stride n_cols BLOCK_SIZE i
         else s.readMem dY (dyOutOffset s dY_row_stride i) := by
   intro i
-  have h_inj : Function.Injective
-      (fun idx : TileIndex [BLOCK_SIZE] => s.pids 0 * dY_row_stride + idx.1.val) := by
-    intro a b h
-    have hab : a.1 = b.1 := by
-      apply hOutInj
-      simpa [dyOutOffset] using h
-    cases a
-    cases b
-    simp only at hab
-    cases hab
-    rfl
   by_cases hB : 0 < BLOCK_SIZE
   · simp [exec, gemma_rms_layernorm_backward, stepStmts, stepStmt, evalOp,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.reduceSum,
@@ -583,7 +542,8 @@ theorem gemma_rms_layernorm_backward_dy_correct
           ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
     subst s'
     simp only [dyOutOffset]
-    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _ h_inj (i, PUnit.unit)]
+    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
+          (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
     by_cases hi : i.val < n_cols
     · simp [hi, rmsBackwardDYSpecGemma, rmsBackwardRowSumCarrierGemma,
             rmsBackwardDYTileGemma, rmsBackwardNormedTile, Tile.reduceSum,
@@ -622,5 +582,191 @@ theorem gemma_rms_layernorm_backward_dy_compute_correct
     _W_row_stride r_row_stride _dW_row_stride n_cols BLOCK_SIZE _eps s s'
     hOutInj hExec i
   simpa [hActive] using h
+
+/-- Proof-oriented inv_var (rstd) store slice of `fast_rms_layernorm.py`'s
+`_rms_layernorm_forward`. Takes a precomputed `InvVarPre` scalar and proves
+the strided scalar writeback into `r` at offset `row_idx * r_row_stride`. -/
+def rms_layernorm_forward_inv_var_store_slice
+    (InvVarPre r : RegionName) (r_row_stride : Nat) : ComputeKernel := triton {
+  row_idx = tl.program_id(0)
+  inv_var = tl.load(InvVarPre + row_idx * $(r_row_stride))
+  tl.store(r + row_idx * $(r_row_stride), inv_var)
+}
+
+def rOutOffset (s : BlockState) (r_row_stride : Nat) : Nat :=
+  s.pid * r_row_stride
+
+noncomputable def invVarStoreSpec (s : BlockState) (InvVarPre : RegionName)
+    (r_row_stride : Nat) : ℝ :=
+  s.readMem InvVarPre (rOutOffset s r_row_stride)
+
+theorem rms_layernorm_forward_inv_var_store_slice_correct
+    (InvVarPre r : RegionName) (r_row_stride : Nat)
+    (s s' : BlockState)
+    (hExec : exec (rms_layernorm_forward_inv_var_store_slice InvVarPre r r_row_stride)
+      s = some s') :
+    s'.readMem r (rOutOffset s r_row_stride) =
+      invVarStoreSpec s InvVarPre r_row_stride := by
+  simp [exec, rms_layernorm_forward_inv_var_store_slice, stepStmts, stepStmt, evalOp,
+        Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd,
+        NumericDType.add, NumericDType.mul] at hExec
+  subst s'
+  simp [rOutOffset, invVarStoreSpec]
+
+theorem rms_layernorm_forward_inv_var_store_slice_compute_correct
+    (InvVarPre r : RegionName) (r_row_stride : Nat) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := rms_layernorm_forward_inv_var_store_slice InvVarPre r r_row_stride)
+      (initialState := s)
+      (write := fun _ : PUnit => some (r, rOutOffset s r_row_stride))
+      (expected := fun _ => invVarStoreSpec s InvVarPre r_row_stride) := by
+  unfold ComputeCorrect.Realizes
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [rms_layernorm_forward_inv_var_store_slice]
+  intro s0 s' hExec hs0
+  subst s0
+  intro _
+  exact rms_layernorm_forward_inv_var_store_slice_correct InvVarPre r r_row_stride s s' hExec
+
+/-! ### Full-kernel rstd correctness
+
+Per #139, the slice proofs above rely on a precomputed `InvVarPre` region and
+are not sufficient as full-kernel guarantees. The following theorems close the
+`r` (rstd / inv_var) store for the full `_rms_layernorm_forward` and
+`_gemma_rms_layernorm_forward` kernels by stripping the trailing `Y` write
+foldl with `BlockState.foldl_writeMem_const_region_prop_masked_readMem_other`
+(requiring `r ≠ Y`) and reducing the scalar `r` writeMem with `simp`. -/
+
+/-- Executed-state correctness for the `r` (rstd / inv_var) output of
+`_rms_layernorm_forward`. -/
+theorem rms_layernorm_forward_inv_var_correct
+    (Y X W r : RegionName)
+    (Y_row_stride X_row_stride W_row_stride r_row_stride n_cols BLOCK_SIZE : Nat)
+    (eps : ℝ) (s s' : BlockState)
+    (hRegions : r ≠ Y)
+    (hExec : exec (rms_layernorm_forward Y X W r Y_row_stride X_row_stride
+          W_row_stride r_row_stride n_cols eps BLOCK_SIZE) s = some s') :
+    s'.readMem r (rOutOffset s r_row_stride) =
+      rmsInvVarSpec s X X_row_stride n_cols BLOCK_SIZE eps := by
+  by_cases hB : 0 < BLOCK_SIZE
+  · simp [exec, rms_layernorm_forward, stepStmts, stepStmt, evalOp,
+          Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
+          Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
+          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          NumericDType.div, ComparableDType.lt, FloatDType.cast,
+          FloatDType.ofWithBot, FloatDType.toWithBot,
+          ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
+    subst s'
+    rw [BlockState.foldl_writeMem_const_region_prop_masked_readMem_other
+          Y _ _ _ _ _ _ _ hRegions]
+    simp [rOutOffset, rmsInvVarSpec, rmsInvVarCarrier, rmsSumCarrier,
+          rmsInputTile, Tile.reduceSum, Tile.reduceSumDrop,
+          TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
+          WithBot.realRsqrt, NumericDType.mul]
+    rfl
+  · simp [exec, rms_layernorm_forward, stepStmts, stepStmt, evalOp,
+          Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
+          Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
+          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          NumericDType.div, ComparableDType.lt, FloatDType.cast,
+          FloatDType.ofWithBot, FloatDType.toWithBot,
+          ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
+    subst s'
+    have hB' : BLOCK_SIZE = 0 := Nat.eq_zero_of_not_pos hB
+    subst hB'
+    simp [TileShape.allIndices, List.finRange,
+          rOutOffset, rmsInvVarSpec, rmsInvVarCarrier, rmsSumCarrier,
+          rmsInputTile, Tile.reduceSum, Tile.reduceSumDrop,
+          TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
+          WithBot.realRsqrt, NumericDType.mul]
+
+/-- Compute-facing correctness for the `r` (rstd / inv_var) output of
+`_rms_layernorm_forward`. -/
+theorem rms_layernorm_forward_inv_var_compute_correct
+    (Y X W r : RegionName)
+    (Y_row_stride X_row_stride W_row_stride r_row_stride n_cols BLOCK_SIZE : Nat)
+    (eps : ℝ) (s : BlockState)
+    (hRegions : r ≠ Y) :
+    ComputeCorrect.Realizes
+      (kernel := rms_layernorm_forward Y X W r Y_row_stride X_row_stride
+        W_row_stride r_row_stride n_cols eps BLOCK_SIZE)
+      (initialState := s)
+      (write := fun _ : PUnit => some (r, rOutOffset s r_row_stride))
+      (expected := fun _ =>
+        rmsInvVarSpec s X X_row_stride n_cols BLOCK_SIZE eps) := by
+  unfold ComputeCorrect.Realizes
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [rms_layernorm_forward, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro _
+  exact rms_layernorm_forward_inv_var_correct Y X W r Y_row_stride X_row_stride
+    W_row_stride r_row_stride n_cols BLOCK_SIZE eps s s' hRegions hExec
+
+/-- Executed-state correctness for the `r` (rstd / inv_var) output of
+`_gemma_rms_layernorm_forward`. -/
+theorem gemma_rms_layernorm_forward_inv_var_correct
+    (Y X W r : RegionName)
+    (Y_row_stride X_row_stride r_row_stride n_cols BLOCK_SIZE : Nat)
+    (eps : ℝ) (s s' : BlockState)
+    (hRegions : r ≠ Y)
+    (hExec : exec (gemma_rms_layernorm_forward Y X W r Y_row_stride X_row_stride
+          r_row_stride n_cols eps BLOCK_SIZE) s = some s') :
+    s'.readMem r (rOutOffset s r_row_stride) =
+      rmsInvVarSpec s X X_row_stride n_cols BLOCK_SIZE eps := by
+  by_cases hB : 0 < BLOCK_SIZE
+  · simp [exec, gemma_rms_layernorm_forward, stepStmts, stepStmt, evalOp,
+          Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
+          Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
+          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          NumericDType.div, ComparableDType.lt, FloatDType.cast,
+          FloatDType.ofWithBot, FloatDType.toWithBot,
+          ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
+    subst s'
+    rw [BlockState.foldl_writeMem_const_region_prop_masked_readMem_other
+          Y _ _ _ _ _ _ _ hRegions]
+    simp [rOutOffset, rmsInvVarSpec, rmsInvVarCarrier, rmsSumCarrier,
+          rmsInputTile, Tile.reduceSum, Tile.reduceSumDrop,
+          TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
+          WithBot.realRsqrt, NumericDType.mul]
+    rfl
+  · simp [exec, gemma_rms_layernorm_forward, stepStmts, stepStmt, evalOp,
+          Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop, Tile.reduceSum,
+          Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
+          TileShape.insertAxisIndex, NumericDType.add, NumericDType.mul,
+          NumericDType.div, ComparableDType.lt, FloatDType.cast,
+          FloatDType.ofWithBot, FloatDType.toWithBot,
+          ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?] at hExec
+    subst s'
+    have hB' : BLOCK_SIZE = 0 := Nat.eq_zero_of_not_pos hB
+    subst hB'
+    simp [TileShape.allIndices, List.finRange,
+          rOutOffset, rmsInvVarSpec, rmsInvVarCarrier, rmsSumCarrier,
+          rmsInputTile, Tile.reduceSum, Tile.reduceSumDrop,
+          TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
+          WithBot.realRsqrt, NumericDType.mul]
+
+/-- Compute-facing correctness for the `r` (rstd / inv_var) output of
+`_gemma_rms_layernorm_forward`. -/
+theorem gemma_rms_layernorm_forward_inv_var_compute_correct
+    (Y X W r : RegionName)
+    (Y_row_stride X_row_stride r_row_stride n_cols BLOCK_SIZE : Nat)
+    (eps : ℝ) (s : BlockState)
+    (hRegions : r ≠ Y) :
+    ComputeCorrect.Realizes
+      (kernel := gemma_rms_layernorm_forward Y X W r Y_row_stride X_row_stride
+        r_row_stride n_cols eps BLOCK_SIZE)
+      (initialState := s)
+      (write := fun _ : PUnit => some (r, rOutOffset s r_row_stride))
+      (expected := fun _ =>
+        rmsInvVarSpec s X X_row_stride n_cols BLOCK_SIZE eps) := by
+  unfold ComputeCorrect.Realizes
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [gemma_rms_layernorm_forward, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro _
+  exact gemma_rms_layernorm_forward_inv_var_correct Y X W r Y_row_stride X_row_stride
+    r_row_stride n_cols BLOCK_SIZE eps s s' hRegions hExec
 
 end VeriTile.Bench.TritonBenchG.FastRmsLayernorm

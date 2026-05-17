@@ -14,11 +14,11 @@ Allowed mechanical Lean-syntax-only changes:
 - Python `num_weights/xnumel/multiplier/activation/BLOCK_SIZE: tl.constexpr` ->
   Lean parameters.
 - Python `activation == "sigmoid"` / `elif activation == "relu"` -> Lean
-  constexpr gate `ACTIVATION_SIGMOID`; `false` selects the ReLU branch. -/
+  Boolean `activation`; `true` selects sigmoid and `false` selects ReLU. -/
 def fused_add_mul_activation_kernel
     (x_ptr bias_ptr in_ptr : RegionName)
     (num_weights xnumel BLOCK_SIZE : Nat)
-    (multiplier : ℝ) (ACTIVATION_SIGMOID : Bool) :
+    (multiplier : ℝ) (activation : Bool) :
     ComputeKernel := triton {
   xoffset = tl.program_id(0) * $(BLOCK_SIZE)
   index = xoffset + tl.arange(0, $(BLOCK_SIZE))[:]
@@ -28,7 +28,7 @@ def fused_add_mul_activation_kernel
   tmp1 = tl.load(bias_ptr + bias_index, mask, eviction_policy="evict_last")
   tmp3 = tl.load(in_ptr + index, mask)
   activ_input = $(multiplier) * tmp3 + tmp0 + tmp1
-  if ACTIVATION_SIGMOID {
+  if activation {
     ma_result = tl.sigmoid(activ_input)
   } else {
     ma_result = tl.maximum(0, activ_input)
@@ -80,17 +80,13 @@ theorem fused_add_mul_activation_kernel_correct
           fusedActivationSpec ACTIVATION_SIGMOID (xs i) (biases i) (inputs i) multiplier
         else s.readMem x_ptr outAddr := by
   intro i
-  have h_inj : Function.Injective
-      (fun idx : TileIndex [BLOCK_SIZE] => s.pids 0 * BLOCK_SIZE + idx.1.val) := by
-    rintro ⟨a, _⟩ ⟨b, _⟩ hab
-    obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
-    rfl
   cases ACTIVATION_SIGMOID
   · simp [exec, fused_add_mul_activation_kernel, stepStmts, stepStmt, evalOp,
           tile_elementwise] at hExec
     subst s'
     simp only [fusedActivationOffset]
-    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _ h_inj (i, PUnit.unit)]
+    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
+          (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
     by_cases hi : s.pid * BLOCK_SIZE + i.val < xnumel
     · have hx := h_x i
       have hin := h_in i
@@ -106,7 +102,8 @@ theorem fused_add_mul_activation_kernel_correct
           tile_elementwise] at hExec
     subst s'
     simp only [fusedActivationOffset]
-    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _ h_inj (i, PUnit.unit)]
+    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
+          (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
     by_cases hi : s.pid * BLOCK_SIZE + i.val < xnumel
     · have hx := h_x i
       have hin := h_in i

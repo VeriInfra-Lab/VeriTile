@@ -9,6 +9,85 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
+/-- DSL port of `triton_attention.py`'s `_fwd_kernel`. -/
+def triton_attention_fwd_kernel
+    (Q K V L M Out : RegionName)
+    (sm_scale : ℝ)
+    (_stride_qz stride_qh stride_qm stride_qk
+      _stride_kz _stride_kh stride_kn stride_kk
+      _stride_vz _stride_vh stride_vk stride_vn
+      _stride_oz _stride_oh stride_om stride_on
+      _Z _H N_CTX D0 BLOCK_M BLOCK_DMODEL BLOCK_N : Nat) :
+    ComputeKernel := triton {
+  start_m = tl.program_id(0)
+  off_hz = tl.program_id(1)
+
+  offs_m = start_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  offs_n = tl.arange(0, $(BLOCK_N))
+  m_prev = tl.zeros([$(BLOCK_M)], dtype=tl.float32) - float("inf")
+  l_prev = tl.zeros([$(BLOCK_M)], dtype=tl.float32)
+  acc = tl.zeros([$(BLOCK_M), $(BLOCK_DMODEL)], dtype=tl.float32)
+
+  stride_qh_2d = $(stride_qh) // $(stride_qm) // $(stride_qk)
+
+  q_tile_ptr = tl.make_block_ptr(base=Q,
+    shape=($(D0), $(BLOCK_DMODEL)),
+    strides=($(stride_qm), $(stride_qk)),
+    offsets=(off_hz * stride_qh_2d + start_m * $(BLOCK_M), 0),
+    block_shape=($(BLOCK_M), $(BLOCK_DMODEL)),
+    order=(1, 0))
+  k_tile_ptr = tl.make_block_ptr(base=K,
+    shape=($(D0), $(BLOCK_DMODEL)),
+    strides=($(stride_kn), $(stride_kk)),
+    offsets=(off_hz * stride_qh_2d, 0),
+    block_shape=($(BLOCK_N), $(BLOCK_DMODEL)),
+    order=(1, 0))
+  v_tile_ptr = tl.make_block_ptr(base=V,
+    shape=($(D0), $(BLOCK_DMODEL)),
+    strides=($(stride_vk), $(stride_vn)),
+    offsets=(off_hz * stride_qh_2d, 0),
+    block_shape=($(BLOCK_N), $(BLOCK_DMODEL)),
+    order=(1, 0))
+  out_tile_ptr = tl.make_block_ptr(base=Out,
+    shape=($(D0), $(BLOCK_DMODEL)),
+    strides=($(stride_om), $(stride_on)),
+    offsets=(off_hz * stride_qh_2d + start_m * $(BLOCK_M), 0),
+    block_shape=($(BLOCK_M), $(BLOCK_DMODEL)),
+    order=(1, 0))
+  q = tl.load(q_tile_ptr)
+
+  for start_n in range($(0), (start_m + $(1)) * $(BLOCK_M), $(BLOCK_N)) {
+    k = tl.load(k_tile_ptr, boundary_check=(0, 1))
+    qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32)
+    qk += tl.dot(q, tl.trans(k))
+    qk *= $((sm_scale : ℝ))
+    qk = tl.where(offs_m[:, None] >= (start_n + offs_n[None, :]), qk, float("-inf"))
+    m_curr = tl.maximum(tl.max(qk, 1), m_prev)
+    l_prev *= tl.exp(m_prev - m_curr)
+    p = tl.exp(qk - m_curr[:, None])
+    l_curr = tl.sum(p, 1) + l_prev
+    l_rcp = 1.0 / l_curr
+    p *= l_rcp[:, None]
+    acc *= (l_prev * l_rcp)[:, None]
+    p = (p).to(tl.float16)
+    v = tl.load(v_tile_ptr, boundary_check=(0, 1))
+    acc += tl.dot(p, v)
+    l_prev = l_curr
+    m_prev = m_curr
+    k_tile_ptr = tl.advance(k_tile_ptr, [$(BLOCK_N), $(0)])
+    v_tile_ptr = tl.advance(v_tile_ptr, [$(BLOCK_N), $(0)])
+  }
+  start_m = tl.program_id(0)
+  offs_m = start_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  l_ptrs = L + off_hz * $(N_CTX) + offs_m
+  m_ptrs = M + off_hz * $(N_CTX) + offs_m
+  tl.store(l_ptrs, l_prev)
+  tl.store(m_ptrs, m_prev)
+
+  acc = (acc).to(tl.float16)
+  tl.store(out_tile_ptr, acc, boundary_check=(0, 1))
+}
+
 /-- Surface transcription/proof-oriented forward output-store slice of
 `triton_attention.py`'s `_fwd_kernel`.
 
@@ -241,5 +320,283 @@ theorem triton_attention_forward_output_store_slice_compute_correct
     hzRowOffset D0 stride_om stride_on BLOCK_M BLOCK_DMODEL s hOutInj idx
   rw [hExec] at h
   simpa [hActive] using Option.some.inj h
+
+/-- Proof-oriented L (log-sum-exp) row store slice of `triton_attention.py`'s
+forward kernel. Writes a precomputed `LPrev` vector into `L` at the per-row
+`off_hz * N_CTX + offs_m` strided offset. Companion to the output store
+slice. -/
+def triton_attention_forward_l_store_slice
+    (LPrev L : RegionName) (off_hz N_CTX BLOCK_M : Nat) :
+    ComputeKernel := triton {
+  start_m = tl.program_id(0)
+  offs_m = start_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  l_prev = tl.load(LPrev + $(off_hz) * $(N_CTX) + offs_m)
+  tl.store(L + $(off_hz) * $(N_CTX) + offs_m, l_prev)
+}
+
+def lRowOffset (s : BlockState) (off_hz N_CTX BLOCK_M : Nat)
+    (i : Fin BLOCK_M) : Nat :=
+  off_hz * N_CTX + (s.pids 0 * BLOCK_M + i.val)
+
+noncomputable def lStoreSpec (s : BlockState) (LPrev : RegionName)
+    (off_hz N_CTX BLOCK_M : Nat) (i : Fin BLOCK_M) : ℝ :=
+  s.readMem LPrev (lRowOffset s off_hz N_CTX BLOCK_M i)
+
+theorem triton_attention_forward_l_store_slice_correct
+    (LPrev L : RegionName) (off_hz N_CTX BLOCK_M : Nat) (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin BLOCK_M => lRowOffset s off_hz N_CTX BLOCK_M i)) :
+    ∀ i : Fin BLOCK_M,
+      let outAddr := lRowOffset s off_hz N_CTX BLOCK_M i
+      (exec (triton_attention_forward_l_store_slice LPrev L off_hz N_CTX BLOCK_M)
+          s).map (·.readMem L outAddr)
+        = some (lStoreSpec s LPrev off_hz N_CTX BLOCK_M i) := by
+  intro i
+  have hRawInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_M] =>
+        off_hz * N_CTX + (s.pids 0 * BLOCK_M + idx.1.val)) := by
+    rintro ⟨a, _⟩ ⟨b, _⟩ hab
+    have hab' : off_hz * N_CTX + s.pids 0 * BLOCK_M + a.val =
+        off_hz * N_CTX + s.pids 0 * BLOCK_M + b.val := by
+      simpa [Nat.add_assoc] using hab
+    obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab')
+    rfl
+  simp [exec, triton_attention_forward_l_store_slice, stepStmts, stepStmt,
+        evalOp, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd,
+        NumericDType.add, NumericDType.mul]
+  simp only [lRowOffset, Nat.add_assoc]
+  rw [BlockState.scatter_readback_nd _ _ _ hRawInj (i, PUnit.unit)]
+  simp [lStoreSpec, lRowOffset, Nat.add_assoc]
+
+theorem triton_attention_forward_l_store_slice_compute_correct
+    (LPrev L : RegionName) (off_hz N_CTX BLOCK_M : Nat) (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin BLOCK_M => lRowOffset s off_hz N_CTX BLOCK_M i)) :
+    ComputeCorrect.Realizes
+      (kernel := triton_attention_forward_l_store_slice LPrev L off_hz N_CTX BLOCK_M)
+      (initialState := s)
+      (write := fun i : Fin BLOCK_M => some (L, lRowOffset s off_hz N_CTX BLOCK_M i))
+      (expected := fun i => lStoreSpec s LPrev off_hz N_CTX BLOCK_M i) := by
+  unfold ComputeCorrect.Realizes
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [triton_attention_forward_l_store_slice]
+  intro s0 s' hExec hs0
+  subst s0
+  intro i
+  have h := triton_attention_forward_l_store_slice_correct LPrev L
+    off_hz N_CTX BLOCK_M s hOutInj i
+  rw [hExec] at h
+  exact Option.some.inj h
+
+/-- Proof-oriented M (max) row store slice of `triton_attention.py`'s forward
+kernel. Mirrors the L-row store slice. -/
+def triton_attention_forward_m_store_slice
+    (MPrev M : RegionName) (off_hz N_CTX BLOCK_M : Nat) :
+    ComputeKernel := triton {
+  start_m = tl.program_id(0)
+  offs_m = start_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  m_prev = tl.load(MPrev + $(off_hz) * $(N_CTX) + offs_m)
+  tl.store(M + $(off_hz) * $(N_CTX) + offs_m, m_prev)
+}
+
+noncomputable def mStoreSpec (s : BlockState) (MPrev : RegionName)
+    (off_hz N_CTX BLOCK_M : Nat) (i : Fin BLOCK_M) : ℝ :=
+  s.readMem MPrev (lRowOffset s off_hz N_CTX BLOCK_M i)
+
+theorem triton_attention_forward_m_store_slice_correct
+    (MPrev M : RegionName) (off_hz N_CTX BLOCK_M : Nat) (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin BLOCK_M => lRowOffset s off_hz N_CTX BLOCK_M i)) :
+    ∀ i : Fin BLOCK_M,
+      let outAddr := lRowOffset s off_hz N_CTX BLOCK_M i
+      (exec (triton_attention_forward_m_store_slice MPrev M off_hz N_CTX BLOCK_M)
+          s).map (·.readMem M outAddr)
+        = some (mStoreSpec s MPrev off_hz N_CTX BLOCK_M i) := by
+  intro i
+  have hRawInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_M] =>
+        off_hz * N_CTX + (s.pids 0 * BLOCK_M + idx.1.val)) := by
+    rintro ⟨a, _⟩ ⟨b, _⟩ hab
+    have hab' : off_hz * N_CTX + s.pids 0 * BLOCK_M + a.val =
+        off_hz * N_CTX + s.pids 0 * BLOCK_M + b.val := by
+      simpa [Nat.add_assoc] using hab
+    obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab')
+    rfl
+  simp [exec, triton_attention_forward_m_store_slice, stepStmts, stepStmt,
+        evalOp, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd,
+        NumericDType.add, NumericDType.mul]
+  simp only [lRowOffset, Nat.add_assoc]
+  rw [BlockState.scatter_readback_nd _ _ _ hRawInj (i, PUnit.unit)]
+  simp [mStoreSpec, lRowOffset, Nat.add_assoc]
+
+theorem triton_attention_forward_m_store_slice_compute_correct
+    (MPrev M : RegionName) (off_hz N_CTX BLOCK_M : Nat) (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin BLOCK_M => lRowOffset s off_hz N_CTX BLOCK_M i)) :
+    ComputeCorrect.Realizes
+      (kernel := triton_attention_forward_m_store_slice MPrev M off_hz N_CTX BLOCK_M)
+      (initialState := s)
+      (write := fun i : Fin BLOCK_M => some (M, lRowOffset s off_hz N_CTX BLOCK_M i))
+      (expected := fun i => mStoreSpec s MPrev off_hz N_CTX BLOCK_M i) := by
+  unfold ComputeCorrect.Realizes
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [triton_attention_forward_m_store_slice]
+  intro s0 s' hExec hs0
+  subst s0
+  intro i
+  have h := triton_attention_forward_m_store_slice_correct MPrev M
+    off_hz N_CTX BLOCK_M s hOutInj i
+  rw [hExec] at h
+  exact Option.some.inj h
+
+/-! ### Auxiliary backward-preprocess slices
+
+The `_bwd_preprocess` kernel in `triton_attention.py` is much simpler than the
+forward / backward main kernels: it loads `O`, `DO`, `L`, computes
+`do = do / L[:, None]`, then writes `do` to `NewDO` and `sum(o * do, axis=1)`
+to `Delta`. The streaming softmax / tl.dot / make_block_ptr / advance pieces
+that block the main attention loop are absent. The two store-back regions
+admit clean proof-oriented slices analogous to the forward `L`/`M` row store
+slices already in this file.
+-/
+
+/-- Proof-oriented `NewDO` 2D store slice of `triton_attention.py`'s
+`_bwd_preprocess`. The kernel stores a (precomputed) `NewDOAcc` tile to
+`NewDO` at strided offset `off_m[:, None] * D_HEAD + off_n[None, :]`. -/
+def triton_attention_bwd_preprocess_newdo_store_slice
+    (NewDOAcc NewDO : RegionName) (BLOCK_M D_HEAD : Nat) :
+    ComputeKernel := triton {
+  off_m = tl.program_id(0) * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  off_n = tl.arange(0, $(D_HEAD))
+  do_val = tl.load(NewDOAcc + off_m[:, None] * $(D_HEAD) + off_n[None, :])
+  tl.store(NewDO + off_m[:, None] * $(D_HEAD) + off_n[None, :], do_val)
+}
+
+def newdoMIndex (s : BlockState) (BLOCK_M : Nat) (i : Fin BLOCK_M) : Nat :=
+  s.pids 0 * BLOCK_M + i.val
+
+def newdoNIndex (idx : TileIndex [BLOCK_M, D_HEAD]) : Nat :=
+  idx.2.1.val
+
+def newdoOffset (s : BlockState) (BLOCK_M D_HEAD : Nat)
+    (idx : TileIndex [BLOCK_M, D_HEAD]) : Nat :=
+  newdoMIndex s BLOCK_M idx.1 * D_HEAD + newdoNIndex idx
+
+noncomputable def newdoStoreSpec (s : BlockState) (NewDOAcc : RegionName)
+    (BLOCK_M D_HEAD : Nat) (idx : TileIndex [BLOCK_M, D_HEAD]) : ℝ :=
+  s.readMem NewDOAcc (newdoOffset s BLOCK_M D_HEAD idx)
+
+theorem triton_attention_bwd_preprocess_newdo_store_slice_correct
+    (NewDOAcc NewDO : RegionName) (BLOCK_M D_HEAD : Nat) (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_M, D_HEAD] =>
+        newdoOffset s BLOCK_M D_HEAD idx)) :
+    ∀ idx : TileIndex [BLOCK_M, D_HEAD],
+      let outAddr := newdoOffset s BLOCK_M D_HEAD idx
+      (exec (triton_attention_bwd_preprocess_newdo_store_slice
+            NewDOAcc NewDO BLOCK_M D_HEAD) s).map (·.readMem NewDO outAddr)
+        = some (newdoStoreSpec s NewDOAcc BLOCK_M D_HEAD idx) := by
+  intro idx
+  simp [exec, triton_attention_bwd_preprocess_newdo_store_slice, stepStmts,
+        stepStmt, evalOp, Option.bind, Option.map, Tile.bop, Tile.expandDim,
+        Tile.ptrAdd, NumericDType.add, NumericDType.mul,
+        newdoOffset, newdoMIndex, newdoNIndex, TileShape.dropInsertedIndex]
+  let offsetFn : TileIndex [BLOCK_M, D_HEAD] → Nat :=
+    fun idx => (s.pids 0 * BLOCK_M + idx.1.val) * D_HEAD + idx.2.1.val
+  let valueFn : TileIndex [BLOCK_M, D_HEAD] → ℝ :=
+    fun idx => s.readMem NewDOAcc
+      ((s.pids 0 * BLOCK_M + idx.1.val) * D_HEAD + idx.2.1.val)
+  have hOffsetInj : Function.Injective offsetFn := by
+    simpa [offsetFn, newdoOffset, newdoMIndex, newdoNIndex] using hOutInj
+  change (List.foldl
+      (fun (acc : BlockState) i =>
+        acc.writeMem NewDO (offsetFn i) (valueFn i))
+      _ (TileShape.allIndices [BLOCK_M, D_HEAD])).readMem NewDO
+        (offsetFn idx) =
+    newdoStoreSpec s NewDOAcc BLOCK_M D_HEAD idx
+  rw [BlockState.scatter_readback_nd _ _ _ hOffsetInj idx]
+  simp [newdoStoreSpec, newdoOffset, newdoMIndex, newdoNIndex,
+    offsetFn, valueFn]
+
+theorem triton_attention_bwd_preprocess_newdo_store_slice_compute_correct
+    (NewDOAcc NewDO : RegionName) (BLOCK_M D_HEAD : Nat) (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_M, D_HEAD] =>
+        newdoOffset s BLOCK_M D_HEAD idx)) :
+    ComputeCorrect.Realizes
+      (kernel := triton_attention_bwd_preprocess_newdo_store_slice
+        NewDOAcc NewDO BLOCK_M D_HEAD)
+      (initialState := s)
+      (write := fun idx : TileIndex [BLOCK_M, D_HEAD] =>
+        some (NewDO, newdoOffset s BLOCK_M D_HEAD idx))
+      (expected := fun idx => newdoStoreSpec s NewDOAcc BLOCK_M D_HEAD idx) := by
+  unfold ComputeCorrect.Realizes
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [triton_attention_bwd_preprocess_newdo_store_slice]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx
+  have h := triton_attention_bwd_preprocess_newdo_store_slice_correct
+    NewDOAcc NewDO BLOCK_M D_HEAD s hOutInj idx
+  rw [hExec] at h
+  exact Option.some.inj h
+
+/-- Proof-oriented `Delta` 1D row store slice of `triton_attention.py`'s
+`_bwd_preprocess`. Mirrors the L-row store slice of the forward kernel:
+load a (precomputed) `DeltaAcc` row vector and write it to `Delta` at
+`off_m`. -/
+def triton_attention_bwd_preprocess_delta_store_slice
+    (DeltaAcc Delta : RegionName) (BLOCK_M : Nat) :
+    ComputeKernel := triton {
+  off_m = tl.program_id(0) * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  delta_val = tl.load(DeltaAcc + off_m)
+  tl.store(Delta + off_m, delta_val)
+}
+
+def deltaOffset (s : BlockState) (BLOCK_M : Nat) (i : Fin BLOCK_M) : Nat :=
+  s.pids 0 * BLOCK_M + i.val
+
+noncomputable def deltaStoreSpec (s : BlockState) (DeltaAcc : RegionName)
+    (BLOCK_M : Nat) (i : Fin BLOCK_M) : ℝ :=
+  s.readMem DeltaAcc (deltaOffset s BLOCK_M i)
+
+theorem triton_attention_bwd_preprocess_delta_store_slice_correct
+    (DeltaAcc Delta : RegionName) (BLOCK_M : Nat) (s : BlockState) :
+    ∀ i : Fin BLOCK_M,
+      let outAddr := deltaOffset s BLOCK_M i
+      (exec (triton_attention_bwd_preprocess_delta_store_slice
+            DeltaAcc Delta BLOCK_M) s).map (·.readMem Delta outAddr)
+        = some (deltaStoreSpec s DeltaAcc BLOCK_M i) := by
+  intro i
+  have hRawInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_M] => s.pids 0 * BLOCK_M + idx.1.val) := by
+    rintro ⟨a, _⟩ ⟨b, _⟩ hab
+    obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
+    rfl
+  simp [exec, triton_attention_bwd_preprocess_delta_store_slice, stepStmts,
+        stepStmt, evalOp, Option.bind, Option.map, Tile.bop, Tile.cop,
+        Tile.ptrAdd, NumericDType.add, NumericDType.mul]
+  simp only [deltaOffset]
+  rw [BlockState.scatter_readback_nd _ _ _ hRawInj (i, PUnit.unit)]
+  simp [deltaStoreSpec, deltaOffset]
+
+theorem triton_attention_bwd_preprocess_delta_store_slice_compute_correct
+    (DeltaAcc Delta : RegionName) (BLOCK_M : Nat) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := triton_attention_bwd_preprocess_delta_store_slice
+        DeltaAcc Delta BLOCK_M)
+      (initialState := s)
+      (write := fun i : Fin BLOCK_M => some (Delta, deltaOffset s BLOCK_M i))
+      (expected := fun i => deltaStoreSpec s DeltaAcc BLOCK_M i) := by
+  unfold ComputeCorrect.Realizes
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [triton_attention_bwd_preprocess_delta_store_slice]
+  intro s0 s' hExec hs0
+  subst s0
+  intro i
+  have h := triton_attention_bwd_preprocess_delta_store_slice_correct
+    DeltaAcc Delta BLOCK_M s i
+  rw [hExec] at h
+  exact Option.some.inj h
 
 end VeriTile.Bench.TritonBenchG.TritonAttention
