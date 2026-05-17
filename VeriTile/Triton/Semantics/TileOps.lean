@@ -51,6 +51,13 @@ def Tile.ptrAdd {a b out}
     let o := offs.data (bc.rightIndex i)
     (p.1, p.2 + o)⟩
 
+@[simp] theorem Tile.ptrAdd_data {a b out}
+    (bc : Broadcast a b out) (ptrs : Tile .ptr a) (offs : Tile .nat b)
+    (i : TileIndex out) :
+    (Tile.ptrAdd bc ptrs offs).data i =
+      ((ptrs.data (bc.leftIndex i)).1,
+       (ptrs.data (bc.leftIndex i)).2 + offs.data (bc.rightIndex i)) := rfl
+
 def Tile.ptrSub {a b out}
     (bc : Broadcast a b out) (ptrs : Tile .ptr a) (offs : Tile .nat b) :
     Tile .ptr out :=
@@ -58,6 +65,13 @@ def Tile.ptrSub {a b out}
     let p := ptrs.data (bc.leftIndex i)
     let o := offs.data (bc.rightIndex i)
     (p.1, p.2 - o)⟩
+
+@[simp] theorem Tile.ptrSub_data {a b out}
+    (bc : Broadcast a b out) (ptrs : Tile .ptr a) (offs : Tile .nat b)
+    (i : TileIndex out) :
+    (Tile.ptrSub bc ptrs offs).data i =
+      ((ptrs.data (bc.leftIndex i)).1,
+       (ptrs.data (bc.leftIndex i)).2 - offs.data (bc.rightIndex i)) := rfl
 
 def Tile.uop {dtype shape} (op : TileCarrier dtype → TileCarrier dtype)
     (x : Tile dtype shape) : Tile dtype shape :=
@@ -202,6 +216,32 @@ noncomputable def ScanOp.eval : ScanOp → List (WithBot ℝ) → WithBot ℝ
   | .min, [] => ⊥
   | .min, x :: xs => xs.foldl (fun acc x => if acc ≤ x then acc else x) x
 
+/-- `ScanOp.sum.eval` unfolds to the standard `foldl + 0` pattern over
+`WithBot.realAdd`. Useful for cumsum kernel proofs. -/
+@[simp] theorem ScanOp.eval_sum (xs : List (WithBot ℝ)) :
+    ScanOp.eval .sum xs = xs.foldl WithBot.realAdd ((0 : ℝ) : WithBot ℝ) := rfl
+
+/-- `ScanOp.prod.eval` unfolds to the standard `foldl * 1` pattern over
+`WithBot.realMul`. -/
+@[simp] theorem ScanOp.eval_prod (xs : List (WithBot ℝ)) :
+    ScanOp.eval .prod xs = xs.foldl WithBot.realMul ((1 : ℝ) : WithBot ℝ) := rfl
+
+/-- `ScanOp.max.eval` unfolds to `foldl` with the strict-less-than
+comparator over `WithBot ℝ`. -/
+@[simp] theorem ScanOp.eval_max (xs : List (WithBot ℝ)) :
+    ScanOp.eval .max xs =
+      xs.foldl (fun acc x => if acc ≤ x then x else acc) (⊥ : WithBot ℝ) := rfl
+
+/-- `ScanOp.min.eval` on the empty list yields `⊥`. -/
+@[simp] theorem ScanOp.eval_min_nil :
+    ScanOp.eval .min ([] : List (WithBot ℝ)) = (⊥ : WithBot ℝ) := rfl
+
+/-- `ScanOp.min.eval` on `x :: xs` folds with the strict-greater-than
+comparator starting from `x`. -/
+@[simp] theorem ScanOp.eval_min_cons (x : WithBot ℝ) (xs : List (WithBot ℝ)) :
+    ScanOp.eval .min (x :: xs) =
+      xs.foldl (fun acc x => if acc ≤ x then acc else x) x := rfl
+
 @[simp] theorem WithBot.realExp_some (r : ℝ) :
     WithBot.realExp (some r) = some (Real.exp r) := rfl
 @[simp] theorem WithBot.realLog_some (r : ℝ) :
@@ -245,6 +285,40 @@ noncomputable def ScanOp.eval : ScanOp → List (WithBot ℝ) → WithBot ℝ
     WithBot.realAtan (⊥ : WithBot ℝ) = ((-(Real.pi / 2) : ℝ) : WithBot ℝ) := rfl
 @[simp] theorem WithBot.realErf_bot :
     WithBot.realErf (⊥ : WithBot ℝ) = ((-1 : ℝ) : WithBot ℝ) := rfl
+
+/-! ### Bot-preserving math primitives
+
+The following math functions are undefined at -∞ in the kernel semantics
+(they return `none`/`⊥` on `⊥` input rather than a finite value). These
+`_bot` lemmas let `simp` propagate `⊥` cleanly through chained tile
+expressions like `tl.log(tl.exp(x) - max)`. -/
+
+@[simp] theorem WithBot.realLog_bot :
+    WithBot.realLog (⊥ : WithBot ℝ) = (⊥ : WithBot ℝ) := rfl
+
+@[simp] theorem WithBot.realLog2_bot :
+    WithBot.realLog2 (⊥ : WithBot ℝ) = (⊥ : WithBot ℝ) := rfl
+
+@[simp] theorem WithBot.realSqrt_bot :
+    WithBot.realSqrt (⊥ : WithBot ℝ) = (⊥ : WithBot ℝ) := rfl
+
+@[simp] theorem WithBot.realRsqrt_bot :
+    WithBot.realRsqrt (⊥ : WithBot ℝ) = (⊥ : WithBot ℝ) := rfl
+
+@[simp] theorem WithBot.realSin_bot :
+    WithBot.realSin (⊥ : WithBot ℝ) = (⊥ : WithBot ℝ) := rfl
+
+@[simp] theorem WithBot.realCos_bot :
+    WithBot.realCos (⊥ : WithBot ℝ) = (⊥ : WithBot ℝ) := rfl
+
+@[simp] theorem WithBot.realTan_bot :
+    WithBot.realTan (⊥ : WithBot ℝ) = (⊥ : WithBot ℝ) := rfl
+
+@[simp] theorem WithBot.realCosh_bot :
+    WithBot.realCosh (⊥ : WithBot ℝ) = (⊥ : WithBot ℝ) := rfl
+
+@[simp] theorem WithBot.realSinh_bot :
+    WithBot.realSinh (⊥ : WithBot ℝ) = (⊥ : WithBot ℝ) := rfl
 
 @[simp] theorem WithBot.realExp_coe (r : ℝ) :
     WithBot.realExp ((r : ℝ) : WithBot ℝ) = (((Real.exp r : ℝ)) : WithBot ℝ) := rfl
@@ -487,6 +561,16 @@ noncomputable def Tile.reduceMaxDrop {shape : TileShape}
   else
     none
 
+/-- Tile.reduceMaxDrop returns `none` when the reduction axis has zero
+length. Useful as a simp lemma when proving correctness of kernels that
+guard `tl.max(..., return_indices=False)` against empty axes. -/
+@[simp] theorem Tile.reduceMaxDrop_eq_none {shape : TileShape}
+    {axis : Fin shape.length} {x : Tile .real shape}
+    (h : TileShape.axisDim shape axis = 0) :
+    Tile.reduceMaxDrop axis x = none := by
+  unfold Tile.reduceMaxDrop
+  rw [dif_neg (by omega)]
+
 noncomputable def Tile.reduceMaxKeep {shape : TileShape}
     (axis : Fin shape.length) (x : Tile .real shape) :
     Option (Tile .real (TileShape.setAxisOne shape axis)) :=
@@ -505,6 +589,36 @@ noncomputable def Tile.reduceMax {shape : TileShape}
   · exact Tile.reduceMaxDrop axis x
   · exact Tile.reduceMaxKeep axis x
 
+/-- Nat-valued reduce-max along an arbitrary axis. -/
+noncomputable def Tile.reduceMaxNatDrop {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .nat shape) :
+    Option (Tile .nat (TileShape.eraseAxis shape axis)) :=
+  if h : 0 < TileShape.axisDim shape axis then
+    some ⟨fun outIdx =>
+      (Finset.univ : Finset (Fin (TileShape.axisDim shape axis))).sup'
+        (by exact ⟨⟨0, h⟩, Finset.mem_univ _⟩)
+        (fun k => x.data (TileShape.insertAxisIndex shape axis outIdx k))⟩
+  else
+    none
+
+noncomputable def Tile.reduceMaxNatKeep {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .nat shape) :
+    Option (Tile .nat (TileShape.setAxisOne shape axis)) :=
+  if h : 0 < TileShape.axisDim shape axis then
+    some ⟨fun outIdx =>
+      (Finset.univ : Finset (Fin (TileShape.axisDim shape axis))).sup'
+        (by exact ⟨⟨0, h⟩, Finset.mem_univ _⟩)
+        (fun k => x.data (TileShape.replaceAxisIndex shape axis outIdx k))⟩
+  else
+    none
+
+noncomputable def Tile.reduceMaxNat {shape : TileShape}
+    (axis : Fin shape.length) (keepDims : Bool) (x : Tile .nat shape) :
+    Option (Tile .nat (TileShape.reduceShape shape axis keepDims)) := by
+  cases keepDims
+  · exact Tile.reduceMaxNatDrop axis x
+  · exact Tile.reduceMaxNatKeep axis x
+
 /-- Prefix scan along an axis. At each output index, folds all input lanes
 whose coordinate on `axis` is less than or equal to the output coordinate. -/
 noncomputable def Tile.scan {shape : TileShape}
@@ -517,6 +631,18 @@ noncomputable def Tile.scan {shape : TileShape}
         (fun k => k.val ≤ coord.val)).toList.map
         (fun k => x.data (TileShape.replaceAxisCoord shape axis idx k))
     op.eval vals⟩
+
+/-- Direct unfolding of `Tile.scan.data` to a list-folded `op.eval` over the
+prefix of lanes at most the output coordinate on `axis`. Useful as a simp
+lemma when proving cumsum/recurrent kernel correctness. -/
+@[simp] theorem Tile.scan_data {shape : TileShape}
+    (op : ScanOp) (axis : Fin shape.length) (x : Tile .real shape)
+    (idx : TileIndex shape) :
+    (Tile.scan op axis x).data idx =
+      op.eval
+        (((Finset.univ : Finset (Fin (TileShape.axisDim shape axis))).filter
+          (fun k => k.val ≤ (TileShape.axisCoord shape axis idx).val)).toList.map
+          (fun k => x.data (TileShape.replaceAxisCoord shape axis idx k))) := rfl
 
 noncomputable def Tile.argBestDrop {shape : TileShape}
     (better : WithBot ℝ → WithBot ℝ → Bool)
@@ -553,6 +679,23 @@ noncomputable def Tile.argMinDrop {shape : TileShape}
     Tile .nat (TileShape.eraseAxis shape axis) :=
   Tile.argBestDrop (fun candidate current => decide (candidate < current)) axis x
 
+/-- Definitional unfolding of `Tile.argMaxDrop` to `Tile.argBestDrop` over
+strict-less-than. Useful as a simp lemma for proving argmax kernel
+correctness. -/
+@[simp] theorem Tile.argMaxDrop_unfold {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Tile.argMaxDrop axis x =
+      Tile.argBestDrop (fun candidate current => decide (current < candidate)) axis x :=
+  rfl
+
+/-- Definitional unfolding of `Tile.argMinDrop` to `Tile.argBestDrop` over
+strict-less-than (with arguments swapped). -/
+@[simp] theorem Tile.argMinDrop_unfold {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Tile.argMinDrop axis x =
+      Tile.argBestDrop (fun candidate current => decide (candidate < current)) axis x :=
+  rfl
+
 /-- Sort values along `axis` in ascending order, preserving all other
 coordinates. -/
 noncomputable def Tile.sortAxis {shape : TileShape}
@@ -577,6 +720,14 @@ noncomputable def Tile.sortAxis {shape : TileShape}
 
 def Tile.natToReal {shape} (x : Tile .nat shape) : Tile .real shape :=
   ⟨fun i => some ((x.data i : ℝ))⟩
+
+/-- `Tile.natToReal` lifts each `Nat` lane to a `some` real value. Useful
+when bridging Nat-channel indices into Real-channel arithmetic (e.g. when
+adding `tl.arange(0, BLOCK_SIZE)` to a pointer that's then multiplied by a
+real value). -/
+@[simp] theorem Tile.natToReal_data {shape : TileShape}
+    (x : Tile .nat shape) (idx : TileIndex shape) :
+    (Tile.natToReal x).data idx = some ((x.data idx : ℝ)) := rfl
 
 /-- Block-level (possibly batched) matrix multiply (Triton's `tl.dot`):
 `c[…, m, n] = ∑_k a[…, m, k] * b[…, k, n]`.

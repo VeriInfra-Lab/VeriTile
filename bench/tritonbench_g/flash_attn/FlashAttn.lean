@@ -9,6 +9,82 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
+/-- Faithful DSL port of `flash_attn.py`'s `_fwd_kernel`. -/
+def flash_attn_fwd_kernel_surface
+    (Q K V L O : RegionName) (sm_scale : ℝ)
+    (stride_q_bs stride_q_head stride_q_seqlen stride_q_dim
+      stride_k_bs stride_k_head stride_k_seqlen stride_k_dim
+      stride_v_bs stride_v_head stride_v_seqlen stride_v_dim
+      stride_o_bs stride_o_head stride_o_seqlen stride_o_dim
+      _BS _HEAD SEQLEN BLOCK_M DIM BLOCK_N : Nat)
+    (IS_CAUSAL : Bool) :
+    ComputeKernel := triton {
+  start_m = tl.program_id(0)
+  off_bs_head = tl.program_id(1)
+
+  qkv_base_offset = off_bs_head * $(stride_q_head)
+  Q_block_ptr = tl.make_block_ptr(base=Q + qkv_base_offset,
+    shape=($(SEQLEN), $(DIM)),
+    strides=($(stride_q_seqlen), $(stride_q_dim)),
+    offsets=(start_m * $(BLOCK_M), 0),
+    block_shape=($(BLOCK_M), $(DIM)),
+    order=(1, 0))
+  K_block_ptr = tl.make_block_ptr(base=K + qkv_base_offset,
+    shape=($(DIM), $(SEQLEN)),
+    strides=($(stride_k_dim), $(stride_k_seqlen)),
+    offsets=(0, 0),
+    block_shape=($(DIM), $(BLOCK_N)),
+    order=(0, 1))
+  V_block_ptr = tl.make_block_ptr(base=V + qkv_base_offset,
+    shape=($(SEQLEN), $(DIM)),
+    strides=($(stride_k_seqlen), $(stride_v_dim)),
+    offsets=(0, 0),
+    block_shape=($(BLOCK_N), $(DIM)),
+    order=(1, 0))
+  off_m = start_m * $(BLOCK_M) + tl.arange(0, $(BLOCK_M))
+  off_n = tl.arange(0, $(BLOCK_N))
+  max = tl.zeros([$(BLOCK_M)], dtype=tl.float32) - float("inf")
+  denom = tl.zeros([$(BLOCK_M)], dtype=tl.float32)
+  out_buffer = tl.zeros([$(BLOCK_M), $(DIM)], dtype=tl.float32)
+  qk_scale = $((sm_scale : ℝ)) * 1.44269504
+  q = tl.load(Q_block_ptr)
+  q = (q * qk_scale).to(tl.float16)
+  lo = 0
+  hi = ((start_m + $(1)) * $(BLOCK_M) if IS_CAUSAL else $(SEQLEN))
+  for start_n in range(lo, hi, $(BLOCK_N)) {
+    k = tl.load(K_block_ptr)
+    v = tl.load(V_block_ptr)
+
+    qk = tl.zeros([$(BLOCK_M), $(BLOCK_N)], dtype=tl.float32)
+    if IS_CAUSAL {
+      qk = tl.where(off_m[:, None] >= (start_n + off_n[None, :]), qk, float("-inf"))
+    }
+    qk += tl.dot(q, k)
+
+    max_new = tl.maximum(max, tl.max(qk, 1))
+    alpha = tl.math.exp2(max - max_new)
+    nume = tl.math.exp2(qk - max_new[:, None])
+    out_scale = denom * 0 + alpha
+    out_buffer *= out_scale[:, None]
+    out_buffer += tl.dot((nume).to(tl.float16), v)
+    denom = denom * alpha + tl.sum(nume, 1)
+    max = max_new
+    K_block_ptr = tl.advance(K_block_ptr, [$(0), $(BLOCK_N)])
+    V_block_ptr = tl.advance(V_block_ptr, [$(BLOCK_N), $(0)])
+  }
+
+  out_buffer = out_buffer / denom[:, None]
+  l_ptr = L + off_bs_head * $(SEQLEN) + off_m
+  tl.store(l_ptr, max + tl.math.log2(denom))
+  O_block_ptr = tl.make_block_ptr(base=O + qkv_base_offset,
+    shape=($(SEQLEN), $(DIM)),
+    strides=($(stride_o_seqlen), $(stride_o_dim)),
+    offsets=(start_m * $(BLOCK_M), 0),
+    block_shape=($(BLOCK_M), $(DIM)),
+    order=(1, 0))
+  tl.store(O_block_ptr, (out_buffer).to(tl.float16))
+}
+
 /-- Surface transcription/proof-oriented final output-store slice of `flash_attn.py`'s
 `_fwd_kernel`.
 
@@ -225,6 +301,91 @@ theorem flash_attn_output_store_slice_compute_correct
   have h := flash_attn_output_store_slice_correct OutBuffer O stride_buf_h
     stride_buf_m stride_buf_d stride_q_head stride_o_seqlen stride_o_dim
     BLOCK_M DIM s hOutInj idx
+  rw [hExec] at h
+  exact Option.some.inj h
+
+/-- Output offset for the FlashAttention `L` row store. -/
+def lOffset (s : BlockState) (SEQLEN BLOCK_M : Nat) (i : Fin BLOCK_M) : Nat :=
+  s.pids 1 * SEQLEN + mIndex s BLOCK_M i
+
+/-- Source offset for the precomputed `Max` row read. -/
+def maxOffset
+    (s : BlockState) (stride_max_h stride_max_m BLOCK_M : Nat)
+    (i : Fin BLOCK_M) : Nat :=
+  s.pids 1 * stride_max_h + mIndex s BLOCK_M i * stride_max_m
+
+/-- Source offset for the precomputed `Denom` row read. -/
+def denomOffset
+    (s : BlockState) (stride_den_h stride_den_m BLOCK_M : Nat)
+    (i : Fin BLOCK_M) : Nat :=
+  s.pids 1 * stride_den_h + mIndex s BLOCK_M i * stride_den_m
+
+/-- Spec for the `L` row store value: `max + log(denom) / log(2)`, mirroring
+the kernel's `tl.log2` semantics (`Real.log x / Real.log 2`). -/
+noncomputable def lStoreSpec
+    (s : BlockState) (Max Denom : RegionName)
+    (stride_max_h stride_max_m stride_den_h stride_den_m BLOCK_M : Nat)
+    (i : Fin BLOCK_M) : ℝ :=
+  s.readMem Max (maxOffset s stride_max_h stride_max_m BLOCK_M i) +
+    Real.log (s.readMem Denom
+      (denomOffset s stride_den_h stride_den_m BLOCK_M i)) / Real.log 2
+
+/-- Algorithm-layer correctness for the `L` row store slice. -/
+theorem flash_attn_l_store_slice_correct
+    (Max Denom L : RegionName)
+    (stride_max_h stride_max_m stride_den_h stride_den_m
+      SEQLEN BLOCK_M : Nat)
+    (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin BLOCK_M => lOffset s SEQLEN BLOCK_M i)) :
+    ∀ i : Fin BLOCK_M,
+      let outAddr := lOffset s SEQLEN BLOCK_M i
+      (exec (flash_attn_l_store_slice Max Denom L stride_max_h stride_max_m
+            stride_den_h stride_den_m SEQLEN BLOCK_M) s).map (·.readMem L outAddr)
+        = some
+            (lStoreSpec s Max Denom stride_max_h stride_max_m stride_den_h
+              stride_den_m BLOCK_M i) := by
+  intro i
+  have hRawInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_M] =>
+        s.pids 1 * SEQLEN + (s.pids 0 * BLOCK_M + idx.1.val)) := by
+    rintro ⟨a, _⟩ ⟨b, _⟩ hab
+    have hab' : s.pids 1 * SEQLEN + s.pids 0 * BLOCK_M + a.val =
+        s.pids 1 * SEQLEN + s.pids 0 * BLOCK_M + b.val := by
+      simpa [Nat.add_assoc] using hab
+    obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab')
+    rfl
+  simp [exec, flash_attn_l_store_slice, stepStmts, stepStmt, evalOp,
+        Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
+        NumericDType.add, NumericDType.mul]
+  simp only [lOffset, mIndex, Nat.add_assoc]
+  rw [BlockState.scatter_readback_nd _ _ _ hRawInj (i, PUnit.unit)]
+  simp [lStoreSpec, maxOffset, denomOffset, mIndex, Nat.add_assoc]
+
+/-- Compute-facing correctness for the `L` row store slice. -/
+theorem flash_attn_l_store_slice_compute_correct
+    (Max Denom L : RegionName)
+    (stride_max_h stride_max_m stride_den_h stride_den_m
+      SEQLEN BLOCK_M : Nat)
+    (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin BLOCK_M => lOffset s SEQLEN BLOCK_M i)) :
+    ComputeCorrect.Realizes
+      (kernel := flash_attn_l_store_slice Max Denom L stride_max_h
+        stride_max_m stride_den_h stride_den_m SEQLEN BLOCK_M)
+      (initialState := s)
+      (write := fun i : Fin BLOCK_M => some (L, lOffset s SEQLEN BLOCK_M i))
+      (expected := fun i =>
+        lStoreSpec s Max Denom stride_max_h stride_max_m stride_den_h
+          stride_den_m BLOCK_M i) := by
+  unfold ComputeCorrect.Realizes
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [flash_attn_l_store_slice]
+  intro s0 s' hExec hs0
+  subst s0
+  intro i
+  have h := flash_attn_l_store_slice_correct Max Denom L stride_max_h
+    stride_max_m stride_den_h stride_den_m SEQLEN BLOCK_M s hOutInj i
   rw [hExec] at h
   exact Option.some.inj h
 

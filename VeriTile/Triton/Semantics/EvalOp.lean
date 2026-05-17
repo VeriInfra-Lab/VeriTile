@@ -102,6 +102,9 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
   | .reduceMax axis keepDims a, s => do
       let va ← evalOp a s
       Tile.reduceMax axis keepDims va
+  | .reduceMaxNat axis keepDims a, s => do
+      let va ← evalOp a s
+      Tile.reduceMaxNat axis keepDims va
   | .reduceSum axis keepDims a, s => return Tile.reduceSum axis keepDims (← evalOp a s)
   | .scan op axis a, s => return Tile.scan op axis (← evalOp a s)
   | .argMax axis a, s => return Tile.argMaxDrop axis (← evalOp a s)
@@ -117,6 +120,9 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
       let va ← evalOp a s
       let vb ← evalOp b s
       some (Tile.select vc va vb)
+  | .ite c a b, s => do
+      let vc ← evalOp c s
+      if vc.data PUnit.unit then evalOp a s else evalOp b s
   | .transpose (batch := batch) a, s => do
       let va ← evalOp a s
       some (Tile.transpose batch va)

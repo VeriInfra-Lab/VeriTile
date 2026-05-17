@@ -10,7 +10,39 @@ open VeriTile.Triton
 set_option maxHeartbeats 5000000
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `cache_transform_triton.py`'s
+/-- Faithful transcription of `cache_transform_triton.py`'s
+`prefill_cache_kernel`. -/
+def prefill_cache_kernel
+    (cos_cache sin_cache : RegionName) (cumsum_lengths : Region .nat)
+    (cos_output sin_output : RegionName)
+    (cache_stride hidden_stride total_length HIDDEN_DIM N_ELEMENTS BLOCK_SIZE : Nat) :
+    ComputeKernel := triton {
+  idx0 = tl.program_id(axis=0)
+  idx1 = tl.program_id(axis=1)
+  idx = idx0 * $(BLOCK_SIZE) + idx1
+  cumsum_lens = tl.load(cumsum_lengths + tl.arange(0, $(N_ELEMENTS)))
+  ori_seq_idx = idx - tl.max(tl.where(cumsum_lens <= idx, cumsum_lens, $(0)))
+  cos_cache_part = tl.load(
+    cos_cache + ori_seq_idx * $(cache_stride) +
+      tl.arange(0, $(HIDDEN_DIM)) * $(hidden_stride),
+    mask=idx < $(total_length))
+  sin_cache_part = tl.load(
+    sin_cache + ori_seq_idx * $(cache_stride) +
+      tl.arange(0, $(HIDDEN_DIM)) * $(hidden_stride),
+    mask=idx < $(total_length))
+  tl.store(
+    cos_output + idx * $(cache_stride) +
+      tl.arange(0, $(HIDDEN_DIM)) * $(hidden_stride),
+    cos_cache_part,
+    mask=idx < $(total_length))
+  tl.store(
+    sin_output + idx * $(cache_stride) +
+      tl.arange(0, $(HIDDEN_DIM)) * $(hidden_stride),
+    sin_cache_part,
+    mask=idx < $(total_length))
+}
+
+/-- Faithful transcription of `cache_transform_triton.py`'s
 `decoding_cache_kernel`.
 
 Allowed mechanical Lean-syntax-only changes:
@@ -260,6 +292,69 @@ theorem decoding_cache_kernel_compute_correct
         exact hi
       · simp [hActive]
 
+/-- Algorithm-layer correctness for the sin output of the full decoding
+cache-copy surface. The sin store is the outer (last) foldl in the kernel,
+so the active-branch readback reduces via `scatter_readback_prop_masked_nd`
+directly. The inactive-branch readback strips the inner cos foldl via
+`foldl_writeMem_const_region_prop_masked_readMem_other`, which needs
+`cos_output ≠ sin_output`. -/
+theorem decoding_cache_kernel_sin_correct
+    (cos_cache sin_cache : RegionName) (lengths : Region .nat) (cos_output sin_output : RegionName)
+    (cache_stride hidden_stride HIDDEN_DIM NUM_SEQS BLOCK_SIZE : Nat)
+    (s s' : BlockState)
+    (hRegion : cos_output ≠ sin_output)
+    (hOutInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_SIZE, HIDDEN_DIM] =>
+        decodeOutOffset s cache_stride hidden_stride BLOCK_SIZE idx))
+    (hExec : exec (decoding_cache_kernel cos_cache sin_cache lengths cos_output
+        sin_output cache_stride hidden_stride HIDDEN_DIM NUM_SEQS BLOCK_SIZE)
+        s = some s') :
+    ∀ idx : TileIndex [BLOCK_SIZE, HIDDEN_DIM],
+      s'.readMem sin_output
+          (decodeOutOffset s cache_stride hidden_stride BLOCK_SIZE idx) =
+        if decodeActive s NUM_SEQS BLOCK_SIZE idx then
+          s.readMem sin_cache
+            (decodeCacheOffset s lengths cache_stride hidden_stride BLOCK_SIZE idx)
+        else
+          s.readMem sin_output
+            (decodeOutOffset s cache_stride hidden_stride BLOCK_SIZE idx) :=
+  (decoding_cache_kernel_correct cos_cache sin_cache lengths cos_output
+    sin_output cache_stride hidden_stride HIDDEN_DIM NUM_SEQS BLOCK_SIZE s s'
+    hRegion hOutInj hExec).2
+
+/-- Compute-facing correctness for the sin output of the full decoding
+cache-copy surface. -/
+theorem decoding_cache_kernel_sin_compute_correct
+    (cos_cache sin_cache : RegionName) (lengths : Region .nat) (cos_output sin_output : RegionName)
+    (cache_stride hidden_stride HIDDEN_DIM NUM_SEQS BLOCK_SIZE : Nat)
+    (s : BlockState)
+    (hRegion : cos_output ≠ sin_output)
+    (hOutInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_SIZE, HIDDEN_DIM] =>
+        decodeOutOffset s cache_stride hidden_stride BLOCK_SIZE idx)) :
+    ComputeCorrect.Realizes
+      (kernel := decoding_cache_kernel cos_cache sin_cache lengths cos_output
+        sin_output cache_stride hidden_stride HIDDEN_DIM NUM_SEQS BLOCK_SIZE)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [BLOCK_SIZE, HIDDEN_DIM] =>
+          decodeActive s NUM_SEQS BLOCK_SIZE idx)
+        (fun idx => (sin_output,
+          decodeOutOffset s cache_stride hidden_stride BLOCK_SIZE idx)))
+      (expected := fun idx =>
+        s.readMem sin_cache
+          (decodeCacheOffset s lengths cache_stride hidden_stride BLOCK_SIZE idx)) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [decoding_cache_kernel]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx hActive
+  have h := decoding_cache_kernel_sin_correct cos_cache sin_cache lengths
+    cos_output sin_output cache_stride hidden_stride HIDDEN_DIM NUM_SEQS
+    BLOCK_SIZE s s' hRegion hOutInj hExec idx
+  simpa [hActive] using h
+
 /-- Algorithm-layer correctness for the one-sequence decoding cache copy. -/
 theorem decoding_cache_one_seq_block_correct
     (cos_cache sin_cache : RegionName) (lengths : Region .nat) (cos_output sin_output : RegionName)
@@ -422,6 +517,369 @@ theorem decoding_cache_one_seq_block_compute_correct
   | inr lane =>
       by_cases hActive : active s HIDDEN_DIM NUM_SEQS BLOCK_H lane
       · have hi := h.2 lane
+        simp [hActive] at hi ⊢
+        exact hi
+      · simp [hActive]
+
+/-- Proof-oriented cos-output store slice of `cache_transform_triton.py`'s
+`prefill_cache_kernel`. Takes a precomputed `CosPre` tile and proves the
+masked tile writeback into `cos_output` at the per-(idx0, idx1) row. -/
+def prefill_cache_cos_store_slice
+    (CosPre cos_output : RegionName)
+    (cache_stride hidden_stride total_length HIDDEN_DIM BLOCK_SIZE : Nat) :
+    ComputeKernel := triton {
+  idx0 = tl.program_id(axis=0)
+  idx1 = tl.program_id(axis=1)
+  idx = idx0 * $(BLOCK_SIZE) + idx1
+  cos_part = tl.load(CosPre + idx * $(cache_stride) +
+      tl.arange(0, $(HIDDEN_DIM)) * $(hidden_stride),
+    mask=idx < $(total_length))
+  tl.store(cos_output + idx * $(cache_stride) +
+      tl.arange(0, $(HIDDEN_DIM)) * $(hidden_stride),
+    cos_part, mask=idx < $(total_length))
+}
+
+def prefillIdx (s : BlockState) (BLOCK_SIZE : Nat) : Nat :=
+  s.pids 0 * BLOCK_SIZE + s.pids 1
+
+def prefillOutOffset
+    (s : BlockState) (cache_stride hidden_stride BLOCK_SIZE : Nat)
+    (i : Fin HIDDEN_DIM) : Nat :=
+  prefillIdx s BLOCK_SIZE * cache_stride + i.val * hidden_stride
+
+def prefillActive (s : BlockState) (total_length BLOCK_SIZE : Nat) : Prop :=
+  prefillIdx s BLOCK_SIZE < total_length
+
+instance prefillActiveDecidable (s : BlockState) (total_length BLOCK_SIZE : Nat) :
+    Decidable (prefillActive s total_length BLOCK_SIZE) := by
+  unfold prefillActive
+  infer_instance
+
+theorem prefill_cache_cos_store_slice_correct
+    (CosPre cos_output : RegionName)
+    (cache_stride hidden_stride total_length HIDDEN_DIM BLOCK_SIZE : Nat)
+    (s s' : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin HIDDEN_DIM =>
+        prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i))
+    (hExec : exec (prefill_cache_cos_store_slice CosPre cos_output
+        cache_stride hidden_stride total_length HIDDEN_DIM BLOCK_SIZE) s = some s') :
+    ∀ i : Fin HIDDEN_DIM,
+      s'.readMem cos_output
+          (prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i) =
+        if prefillActive s total_length BLOCK_SIZE then
+          s.readMem CosPre (prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i)
+        else
+          s.readMem cos_output
+            (prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i) := by
+  intro i
+  have hRawInj : Function.Injective
+      (fun idx : TileIndex [HIDDEN_DIM] =>
+        (s.pids 0 * BLOCK_SIZE + s.pids 1) * cache_stride + idx.1.val * hidden_stride) := by
+    intro a b h
+    have hab : a.1 = b.1 := by
+      apply hOutInj
+      simpa [prefillOutOffset, prefillIdx] using h
+    cases a; cases b
+    simp only at hab; cases hab; rfl
+  simp [exec, prefill_cache_cos_store_slice, stepStmts, stepStmt, evalOp,
+        Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd,
+        NumericDType.add, NumericDType.mul, ComparableDType.lt] at hExec
+  rw [← hExec]
+  simp only [prefillOutOffset, prefillIdx]
+  rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _ hRawInj (i, PUnit.unit)]
+  by_cases hAct : s.pids 0 * BLOCK_SIZE + s.pids 1 < total_length
+  · simp [prefillActive, prefillIdx, hAct]
+  · simp [prefillActive, prefillIdx, hAct]
+
+theorem prefill_cache_cos_store_slice_compute_correct
+    (CosPre cos_output : RegionName)
+    (cache_stride hidden_stride total_length HIDDEN_DIM BLOCK_SIZE : Nat)
+    (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin HIDDEN_DIM =>
+        prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i)) :
+    ComputeCorrect.Realizes
+      (kernel := prefill_cache_cos_store_slice CosPre cos_output
+        cache_stride hidden_stride total_length HIDDEN_DIM BLOCK_SIZE)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun _ : Fin HIDDEN_DIM => prefillActive s total_length BLOCK_SIZE)
+        (fun i => (cos_output,
+          prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i)))
+      (expected := fun i =>
+        s.readMem CosPre
+          (prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i)) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [prefill_cache_cos_store_slice]
+  intro s0 s' hExec hs0
+  subst s0
+  intro i hActive
+  have h := prefill_cache_cos_store_slice_correct CosPre cos_output
+    cache_stride hidden_stride total_length HIDDEN_DIM BLOCK_SIZE s s' hOutInj hExec i
+  simpa [hActive] using h
+
+/-- Proof-oriented sin-output store slice of `cache_transform_triton.py`'s
+`prefill_cache_kernel`. Sin-side analog of the cos store slice. -/
+def prefill_cache_sin_store_slice
+    (SinPre sin_output : RegionName)
+    (cache_stride hidden_stride total_length HIDDEN_DIM BLOCK_SIZE : Nat) :
+    ComputeKernel := triton {
+  idx0 = tl.program_id(axis=0)
+  idx1 = tl.program_id(axis=1)
+  idx = idx0 * $(BLOCK_SIZE) + idx1
+  sin_part = tl.load(SinPre + idx * $(cache_stride) +
+      tl.arange(0, $(HIDDEN_DIM)) * $(hidden_stride),
+    mask=idx < $(total_length))
+  tl.store(sin_output + idx * $(cache_stride) +
+      tl.arange(0, $(HIDDEN_DIM)) * $(hidden_stride),
+    sin_part, mask=idx < $(total_length))
+}
+
+theorem prefill_cache_sin_store_slice_correct
+    (SinPre sin_output : RegionName)
+    (cache_stride hidden_stride total_length HIDDEN_DIM BLOCK_SIZE : Nat)
+    (s s' : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin HIDDEN_DIM =>
+        prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i))
+    (hExec : exec (prefill_cache_sin_store_slice SinPre sin_output
+        cache_stride hidden_stride total_length HIDDEN_DIM BLOCK_SIZE) s = some s') :
+    ∀ i : Fin HIDDEN_DIM,
+      s'.readMem sin_output
+          (prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i) =
+        if prefillActive s total_length BLOCK_SIZE then
+          s.readMem SinPre (prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i)
+        else
+          s.readMem sin_output
+            (prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i) := by
+  intro i
+  have hRawInj : Function.Injective
+      (fun idx : TileIndex [HIDDEN_DIM] =>
+        (s.pids 0 * BLOCK_SIZE + s.pids 1) * cache_stride + idx.1.val * hidden_stride) := by
+    intro a b h
+    have hab : a.1 = b.1 := by
+      apply hOutInj
+      simpa [prefillOutOffset, prefillIdx] using h
+    cases a; cases b
+    simp only at hab; cases hab; rfl
+  simp [exec, prefill_cache_sin_store_slice, stepStmts, stepStmt, evalOp,
+        Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd,
+        NumericDType.add, NumericDType.mul, ComparableDType.lt] at hExec
+  rw [← hExec]
+  simp only [prefillOutOffset, prefillIdx]
+  rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _ hRawInj (i, PUnit.unit)]
+  by_cases hAct : s.pids 0 * BLOCK_SIZE + s.pids 1 < total_length
+  · simp [prefillActive, prefillIdx, hAct]
+  · simp [prefillActive, prefillIdx, hAct]
+
+theorem prefill_cache_sin_store_slice_compute_correct
+    (SinPre sin_output : RegionName)
+    (cache_stride hidden_stride total_length HIDDEN_DIM BLOCK_SIZE : Nat)
+    (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin HIDDEN_DIM =>
+        prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i)) :
+    ComputeCorrect.Realizes
+      (kernel := prefill_cache_sin_store_slice SinPre sin_output
+        cache_stride hidden_stride total_length HIDDEN_DIM BLOCK_SIZE)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun _ : Fin HIDDEN_DIM => prefillActive s total_length BLOCK_SIZE)
+        (fun i => (sin_output,
+          prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i)))
+      (expected := fun i =>
+        s.readMem SinPre
+          (prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i)) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [prefill_cache_sin_store_slice]
+  intro s0 s' hExec hs0
+  subst s0
+  intro i hActive
+  have h := prefill_cache_sin_store_slice_correct SinPre sin_output
+    cache_stride hidden_stride total_length HIDDEN_DIM BLOCK_SIZE s s' hOutInj hExec i
+  simpa [hActive] using h
+
+/-- Source row index `ori_seq_idx` computed by the full prefill kernel:
+`idx - tl.max(tl.where(cumsum_lens <= idx, cumsum_lens, 0))`. The reduction
+is `reduceMaxNatDrop` over the `[N_ELEMENTS]` tile loaded from `cumsum_lengths`.
+When `N_ELEMENTS = 0` the reduction returns `none`; we treat that case as `0`
+so the spec is total. -/
+noncomputable def prefillOriSeqIdx
+    (s : BlockState) (cumsum_lengths : Region .nat) (BLOCK_SIZE N_ELEMENTS : Nat) : Nat :=
+  let idx := prefillIdx s BLOCK_SIZE
+  let tile : Tile .nat [N_ELEMENTS] :=
+    ⟨fun i => s.readMemValue .nat (Region.cast cumsum_lengths) i.1.val⟩
+  let cond : Tile .bool [N_ELEMENTS] :=
+    ⟨fun i => decide (tile.data i ≤ idx)⟩
+  let zero : Tile .nat [N_ELEMENTS] := ⟨fun _ => 0⟩
+  let masked : Tile .nat [N_ELEMENTS] := Tile.select cond tile zero
+  let reduced : Option (Tile .nat (TileShape.eraseAxis [N_ELEMENTS] ⟨0, by simp⟩)) :=
+    Tile.reduceMaxNatDrop (shape := [N_ELEMENTS]) ⟨0, by simp⟩ masked
+  let maxv : Nat := match reduced with
+    | some t => t.data PUnit.unit
+    | none => 0
+  idx - maxv
+
+/-- Cache offset for the full prefill kernel using the data-dependent source row
+`ori_seq_idx`. -/
+noncomputable def prefillCacheOffset
+    (s : BlockState) (cumsum_lengths : Region .nat)
+    (cache_stride hidden_stride BLOCK_SIZE N_ELEMENTS : Nat) (i : Fin HIDDEN_DIM) : Nat :=
+  prefillOriSeqIdx s cumsum_lengths BLOCK_SIZE N_ELEMENTS * cache_stride +
+    i.val * hidden_stride
+
+/-- Algorithm-layer correctness for the full prefill cache-copy surface. -/
+theorem prefill_cache_kernel_correct
+    (cos_cache sin_cache : RegionName) (cumsum_lengths : Region .nat)
+    (cos_output sin_output : RegionName)
+    (cache_stride hidden_stride total_length HIDDEN_DIM N_ELEMENTS BLOCK_SIZE : Nat)
+    (s s' : BlockState)
+    (hRegion : cos_output ≠ sin_output)
+    (hN : 0 < N_ELEMENTS)
+    (hOutInj : Function.Injective
+      (fun i : Fin HIDDEN_DIM =>
+        prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i))
+    (hExec : exec (prefill_cache_kernel cos_cache sin_cache cumsum_lengths cos_output
+        sin_output cache_stride hidden_stride total_length HIDDEN_DIM N_ELEMENTS
+        BLOCK_SIZE) s = some s') :
+    (∀ i : Fin HIDDEN_DIM,
+      s'.readMem cos_output
+          (prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i) =
+        if prefillActive s total_length BLOCK_SIZE then
+          s.readMem cos_cache
+            (prefillCacheOffset s cumsum_lengths cache_stride hidden_stride
+              BLOCK_SIZE N_ELEMENTS i)
+        else
+          s.readMem cos_output
+            (prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i)) ∧
+    (∀ i : Fin HIDDEN_DIM,
+      s'.readMem sin_output
+          (prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i) =
+        if prefillActive s total_length BLOCK_SIZE then
+          s.readMem sin_cache
+            (prefillCacheOffset s cumsum_lengths cache_stride hidden_stride
+              BLOCK_SIZE N_ELEMENTS i)
+        else
+          s.readMem sin_output
+            (prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i)) := by
+  have hRawInj : Function.Injective
+      (fun idx : TileIndex [HIDDEN_DIM] =>
+        (s.pids 0 * BLOCK_SIZE + s.pids 1) * cache_stride + idx.1.val * hidden_stride) := by
+    intro a b h
+    have hab : a.1 = b.1 := by
+      apply hOutInj
+      simpa [prefillOutOffset, prefillIdx] using h
+    cases a; cases b
+    simp only at hab; cases hab; rfl
+  by_cases hH : 0 < HIDDEN_DIM
+  · simp [exec, prefill_cache_kernel, stepStmts, stepStmt, evalOp,
+          Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd,
+          NumericDType.add, NumericDType.mul, NumericDType.sub,
+          ComparableDType.lt, ComparableDType.le,
+          Tile.reduceMaxNat, Tile.reduceMaxNatDrop, TileShape.axisDim,
+          hN, hH] at hExec
+    -- Note: `prefillOriSeqIdx` unfolds to the same `Finset.sup'` expression
+    -- that the symbolic execution produces.
+    have hOri : prefillOriSeqIdx s cumsum_lengths BLOCK_SIZE N_ELEMENTS =
+        s.pids 0 * BLOCK_SIZE + s.pids 1 -
+          Finset.univ.sup' (Finset.univ_nonempty_iff.mpr ⟨⟨0, hN⟩⟩)
+            (fun x : Fin N_ELEMENTS =>
+              if s.readMemValue TileDType.nat cumsum_lengths.cast x.val ≤
+                  s.pids 0 * BLOCK_SIZE + s.pids 1 then
+                s.readMemValue TileDType.nat cumsum_lengths.cast x.val
+              else 0) := by
+      simp [prefillOriSeqIdx, prefillIdx, Tile.reduceMaxNatDrop,
+            TileShape.axisDim, hN]
+      rfl
+    subst s'
+    refine ⟨?_, ?_⟩
+    · intro i
+      simp only [prefillOutOffset, prefillIdx, prefillCacheOffset,
+                 prefillActive, hOri]
+      rw [BlockState.foldl_writeMem_const_region_prop_masked_readMem_other
+            sin_output _ _ _ _ _ cos_output _ hRegion]
+      rw [BlockState.scatter_readback_prop_masked_nd
+            (region := cos_output) _ _ _ _ hRawInj (i, PUnit.unit)]
+      by_cases hAct : s.pids 0 * BLOCK_SIZE + s.pids 1 < total_length
+      · simp [hAct]
+        rfl
+      · simp [hAct]
+    · intro i
+      simp only [prefillOutOffset, prefillIdx, prefillCacheOffset,
+                 prefillActive, hOri]
+      rw [BlockState.scatter_readback_prop_masked_nd
+            (region := sin_output) _ _ _ _ hRawInj (i, PUnit.unit)]
+      by_cases hAct : s.pids 0 * BLOCK_SIZE + s.pids 1 < total_length
+      · simp [hAct]
+        rfl
+      · rw [BlockState.foldl_writeMem_const_region_prop_masked_readMem_other
+              cos_output _ _ _ _ _ sin_output _ (Ne.symm hRegion)]
+        simp [hAct]
+  · constructor
+    · intro i
+      exact False.elim (hH (Nat.lt_of_le_of_lt (Nat.zero_le _) i.isLt))
+    · intro i
+      exact False.elim (hH (Nat.lt_of_le_of_lt (Nat.zero_le _) i.isLt))
+
+/-- Compute-facing correctness for the full prefill cache-copy surface. -/
+theorem prefill_cache_kernel_compute_correct
+    (cos_cache sin_cache : RegionName) (cumsum_lengths : Region .nat)
+    (cos_output sin_output : RegionName)
+    (cache_stride hidden_stride total_length HIDDEN_DIM N_ELEMENTS BLOCK_SIZE : Nat)
+    (s : BlockState)
+    (hRegion : cos_output ≠ sin_output)
+    (hN : 0 < N_ELEMENTS)
+    (hOutInj : Function.Injective
+      (fun i : Fin HIDDEN_DIM =>
+        prefillOutOffset s cache_stride hidden_stride BLOCK_SIZE i)) :
+    ComputeCorrect.Realizes
+      (kernel := prefill_cache_kernel cos_cache sin_cache cumsum_lengths cos_output
+        sin_output cache_stride hidden_stride total_length HIDDEN_DIM N_ELEMENTS
+        BLOCK_SIZE)
+      (initialState := s)
+      (write := fun i : Sum (Fin HIDDEN_DIM) (Fin HIDDEN_DIM) =>
+        match i with
+        | .inl idx =>
+            if prefillActive s total_length BLOCK_SIZE then
+              some (cos_output, prefillOutOffset s cache_stride hidden_stride
+                BLOCK_SIZE idx)
+            else none
+        | .inr idx =>
+            if prefillActive s total_length BLOCK_SIZE then
+              some (sin_output, prefillOutOffset s cache_stride hidden_stride
+                BLOCK_SIZE idx)
+            else none)
+      (expected := fun i =>
+        match i with
+        | .inl idx =>
+            s.readMem cos_cache
+              (prefillCacheOffset s cumsum_lengths cache_stride hidden_stride
+                BLOCK_SIZE N_ELEMENTS idx)
+        | .inr idx =>
+            s.readMem sin_cache
+              (prefillCacheOffset s cumsum_lengths cache_stride hidden_stride
+                BLOCK_SIZE N_ELEMENTS idx)) := by
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [prefill_cache_kernel]
+  intro s0 s' hExec hs0
+  subst s0
+  intro i
+  have h := prefill_cache_kernel_correct cos_cache sin_cache cumsum_lengths
+    cos_output sin_output cache_stride hidden_stride total_length HIDDEN_DIM
+    N_ELEMENTS BLOCK_SIZE s s' hRegion hN hOutInj hExec
+  cases i with
+  | inl idx =>
+      by_cases hActive : prefillActive s total_length BLOCK_SIZE
+      · have hi := h.1 idx
+        simp [hActive] at hi ⊢
+        exact hi
+      · simp [hActive]
+  | inr idx =>
+      by_cases hActive : prefillActive s total_length BLOCK_SIZE
+      · have hi := h.2 idx
         simp [hActive] at hi ⊢
         exact hi
       · simp [hActive]

@@ -80,6 +80,24 @@ noncomputable def div : NumericDType dtype → TileCarrier dtype → TileCarrier
   | .int, x, y => x / y
   | .nat, x, y => x / y
 
+/-- `.nat` channel addition unfolds to `Nat.+`. -/
+theorem nat_add (x y : Nat) : NumericDType.add .nat x y = x + y := rfl
+
+/-- `.int` channel addition unfolds to `Int.+`. -/
+theorem int_add (x y : Int) : NumericDType.add .int x y = x + y := rfl
+
+/-- `.nat` channel subtraction unfolds to `Nat.-` (truncated). -/
+theorem nat_sub (x y : Nat) : NumericDType.sub .nat x y = x - y := rfl
+
+/-- `.int` channel subtraction unfolds to `Int.-`. -/
+theorem int_sub (x y : Int) : NumericDType.sub .int x y = x - y := rfl
+
+/-- `.nat` channel multiplication unfolds to `Nat.*`. -/
+theorem nat_mul (x y : Nat) : NumericDType.mul .nat x y = x * y := rfl
+
+/-- `.int` channel multiplication unfolds to `Int.*`. -/
+theorem int_mul (x y : Int) : NumericDType.mul .int x y = x * y := rfl
+
 end NumericDType
 
 namespace IntegralDType
@@ -91,6 +109,22 @@ def floorDiv : IntegralDType dtype → TileCarrier dtype → TileCarrier dtype �
 def mod : IntegralDType dtype → TileCarrier dtype → TileCarrier dtype → TileCarrier dtype
   | .int, x, y => x % y
   | .nat, x, y => x % y
+
+/-- `IntegralDType.nat.floorDiv` unfolds to natural-number `/`. -/
+@[simp] theorem nat_floorDiv (x y : Nat) :
+    IntegralDType.floorDiv .nat x y = x / y := rfl
+
+/-- `IntegralDType.int.floorDiv` unfolds to integer `/`. -/
+@[simp] theorem int_floorDiv (x y : Int) :
+    IntegralDType.floorDiv .int x y = x / y := rfl
+
+/-- `IntegralDType.nat.mod` unfolds to natural-number `%`. -/
+@[simp] theorem nat_mod (x y : Nat) :
+    IntegralDType.mod .nat x y = x % y := rfl
+
+/-- `IntegralDType.int.mod` unfolds to integer `%`. -/
+@[simp] theorem int_mod (x y : Int) :
+    IntegralDType.mod .int x y = x % y := rfl
 
 end IntegralDType
 
@@ -154,6 +188,81 @@ noncomputable def ne :
   | .int, x, y => decide (x ≠ y)
   | .nat, x, y => decide (x ≠ y)
 
+/-! ### Bridge lemmas: `ComparableDType.{gt,lt,ge,le,eq,ne} = Bool.true ↔ _`
+
+These let `simp` unfold the Bool-valued comparison forms produced by
+`tl.maximum` / `tl.minimum` / `tl.where(... > ...)` / `tl.where(... != ...)`
+into ordinary propositional inequalities on the underlying carrier. Without
+these, bench proofs end up stuck on `decide ... = Bool.true` subgoals. -/
+
+@[simp] theorem real_gt_eq_true (x y : TileCarrier .real) :
+    (ComparableDType.real.gt x y = Bool.true) ↔ x > y := by
+  simp [gt]
+
+@[simp] theorem real_lt_eq_true (x y : TileCarrier .real) :
+    (ComparableDType.real.lt x y = Bool.true) ↔ x < y := by
+  simp [lt]
+
+@[simp] theorem real_ge_eq_true (x y : TileCarrier .real) :
+    (ComparableDType.real.ge x y = Bool.true) ↔ x ≥ y := by
+  simp [ge]
+
+@[simp] theorem real_le_eq_true (x y : TileCarrier .real) :
+    (ComparableDType.real.le x y = Bool.true) ↔ x ≤ y := by
+  simp [le]
+
+@[simp] theorem real_eq_eq_true (x y : TileCarrier .real) :
+    (ComparableDType.real.eq x y = Bool.true) ↔ x = y := by
+  simp [eq]
+
+@[simp] theorem real_ne_eq_true (x y : TileCarrier .real) :
+    (ComparableDType.real.ne x y = Bool.true) ↔ x ≠ y := by
+  simp [ne]
+
+@[simp] theorem int_gt_eq_true (x y : Int) :
+    (ComparableDType.int.gt x y = Bool.true) ↔ x > y := by
+  simp [gt]
+
+@[simp] theorem int_lt_eq_true (x y : Int) :
+    (ComparableDType.int.lt x y = Bool.true) ↔ x < y := by
+  simp [lt]
+
+@[simp] theorem nat_gt_eq_true (x y : Nat) :
+    (ComparableDType.nat.gt x y = Bool.true) ↔ x > y := by
+  simp [gt]
+
+@[simp] theorem nat_lt_eq_true (x y : Nat) :
+    (ComparableDType.nat.lt x y = Bool.true) ↔ x < y := by
+  simp [lt]
+
+@[simp] theorem nat_le_eq_true (x y : Nat) :
+    (ComparableDType.nat.le x y = Bool.true) ↔ x ≤ y := by
+  simp [le]
+
+@[simp] theorem nat_eq_eq_true (x y : Nat) :
+    (ComparableDType.nat.eq x y = Bool.true) ↔ x = y := by
+  simp [eq]
+
+@[simp] theorem nat_ne_eq_true (x y : Nat) :
+    (ComparableDType.nat.ne x y = Bool.true) ↔ x ≠ y := by
+  simp [ne]
+
+@[simp] theorem int_ge_eq_true (x y : Int) :
+    (ComparableDType.int.ge x y = Bool.true) ↔ x ≥ y := by
+  simp [ge]
+
+@[simp] theorem int_le_eq_true (x y : Int) :
+    (ComparableDType.int.le x y = Bool.true) ↔ x ≤ y := by
+  simp [le]
+
+@[simp] theorem int_eq_eq_true (x y : Int) :
+    (ComparableDType.int.eq x y = Bool.true) ↔ x = y := by
+  simp [eq]
+
+@[simp] theorem int_ne_eq_true (x y : Int) :
+    (ComparableDType.int.ne x y = Bool.true) ↔ x ≠ y := by
+  simp [ne]
+
 end ComparableDType
 
 namespace FloatDType
@@ -191,6 +300,28 @@ def storeValue (h : FloatDType) (x : TileCarrier h.toTileDType) : ℝ :=
 
 @[simp] theorem real_storeValue (x : TileCarrier FloatDType.real.toTileDType) :
     FloatDType.real.storeValue x = x.unbotD 0 := rfl
+
+/-- `FloatDType.fp32.ofWithBot` is the identity in the current placeholder
+implementation. Documents that fp32→bytes rounding is not yet modeled; once
+rounding is added (#129/#137), this lemma will need an explicit rounding
+adjustment. -/
+@[simp] theorem fp32_ofWithBot (x : WithBot ℝ) :
+    FloatDType.fp32.ofWithBot x = x := rfl
+
+@[simp] theorem fp32_toWithBot (x : TileCarrier FloatDType.fp32.toTileDType) :
+    FloatDType.fp32.toWithBot x = x := rfl
+
+@[simp] theorem fp16_ofWithBot (x : WithBot ℝ) :
+    FloatDType.fp16.ofWithBot x = x := rfl
+
+@[simp] theorem fp16_toWithBot (x : TileCarrier FloatDType.fp16.toTileDType) :
+    FloatDType.fp16.toWithBot x = x := rfl
+
+@[simp] theorem bf16_ofWithBot (x : WithBot ℝ) :
+    FloatDType.bf16.ofWithBot x = x := rfl
+
+@[simp] theorem bf16_toWithBot (x : TileCarrier FloatDType.bf16.toTileDType) :
+    FloatDType.bf16.toWithBot x = x := rfl
 
 end FloatDType
 

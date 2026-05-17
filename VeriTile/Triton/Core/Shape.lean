@@ -102,6 +102,14 @@ def flipIndex (shape : TileShape) (axis : Fin shape.length)
     (idx : TileIndex shape) : TileIndex shape :=
   replaceAxisCoord shape axis idx (Fin.rev (axisCoord shape axis idx))
 
+/-- Definitional unfolding of `flipIndex` to `replaceAxisCoord` with the
+reversed coordinate. Useful for proofs over reversed cumsum / reverse-iter
+recurrent kernels. -/
+@[simp] theorem flipIndex_def (shape : TileShape) (axis : Fin shape.length)
+    (idx : TileIndex shape) :
+    flipIndex shape axis idx =
+      replaceAxisCoord shape axis idx (Fin.rev (axisCoord shape axis idx)) := rfl
+
 /-- Product of all dimensions. Scalars have one element. -/
 def product : TileShape → Nat
   | [] => 1
@@ -166,6 +174,37 @@ def splitLastIndex :
 @[simp] theorem replaceAxisCoord_head {d : Nat} {rest : TileShape}
     (idx : TileIndex (d :: rest)) (k : Fin d) :
     replaceAxisCoord (d :: rest) ⟨0, Nat.succ_pos _⟩ idx k = (k, idx.2) := rfl
+
+@[simp] theorem axisDim_succ (d : Nat) (rest : TileShape) (k : Nat)
+    (h : k + 1 < (d :: rest).length) :
+    axisDim (d :: rest) ⟨k + 1, h⟩ =
+      axisDim rest ⟨k, Nat.succ_lt_succ_iff.mp h⟩ := rfl
+
+@[simp] theorem insertAxisIndex_succ {d : Nat} {rest : TileShape}
+    (k : Nat) (h : k + 1 < (d :: rest).length)
+    (outIdx : TileIndex (eraseAxis (d :: rest) ⟨k + 1, h⟩))
+    (r : Fin (axisDim (d :: rest) ⟨k + 1, h⟩)) :
+    insertAxisIndex (d :: rest) ⟨k + 1, h⟩ outIdx r =
+      (outIdx.1, insertAxisIndex rest ⟨k, Nat.succ_lt_succ_iff.mp h⟩ outIdx.2 r) := rfl
+
+@[simp] theorem replaceAxisIndex_succ {d : Nat} {rest : TileShape}
+    (k : Nat) (h : k + 1 < (d :: rest).length)
+    (outIdx : TileIndex (setAxisOne (d :: rest) ⟨k + 1, h⟩))
+    (r : Fin (axisDim (d :: rest) ⟨k + 1, h⟩)) :
+    replaceAxisIndex (d :: rest) ⟨k + 1, h⟩ outIdx r =
+      (outIdx.1, replaceAxisIndex rest ⟨k, Nat.succ_lt_succ_iff.mp h⟩ outIdx.2 r) := rfl
+
+@[simp] theorem axisCoord_succ {d : Nat} {rest : TileShape}
+    (k : Nat) (h : k + 1 < (d :: rest).length)
+    (idx : TileIndex (d :: rest)) :
+    axisCoord (d :: rest) ⟨k + 1, h⟩ idx =
+      axisCoord rest ⟨k, Nat.succ_lt_succ_iff.mp h⟩ idx.2 := rfl
+
+@[simp] theorem replaceAxisCoord_succ {d : Nat} {rest : TileShape}
+    (k : Nat) (h : k + 1 < (d :: rest).length)
+    (idx : TileIndex (d :: rest)) (r : Fin (axisDim (d :: rest) ⟨k + 1, h⟩)) :
+    replaceAxisCoord (d :: rest) ⟨k + 1, h⟩ idx r =
+      (idx.1, replaceAxisCoord rest ⟨k, Nat.succ_lt_succ_iff.mp h⟩ idx.2 r) := rfl
 
 @[simp] theorem product_nil :
     product [] = 1 := rfl
@@ -265,6 +304,35 @@ theorem insertAxis_head (shape : TileShape) (n : Nat) :
     dropInsertedIndex (d :: rest) ⟨k + 1, h⟩ n idx =
       (idx.1, dropInsertedIndex rest ⟨k, Nat.succ_lt_succ_iff.mp h⟩ n idx.2) := rfl
 
+/-! ### `Fin` literal cases of `dropInsertedIndex`
+
+The induction lemmas above pattern-match on `⟨0, _⟩` / `⟨k+1, h⟩`. They don't
+fire when the axis appears as a `Fin` literal (e.g. `(1 : Fin 2)`) because the
+literal's normal form doesn't syntactically expose `0 + 1`. These literal-axis
+simp lemmas close the gap for the cases produced by DSL kernels that use
+`[:, None]` / `[None, :]` (2D non-inner softmax, fused rotary etc.). -/
+
+@[simp] theorem dropInsertedIndex_one_singleton (d n : Nat)
+    (idx : TileIndex [d, n]) :
+    dropInsertedIndex [d] (1 : Fin 2) n idx = (idx.1, PUnit.unit) := rfl
+
+@[simp] theorem dropInsertedIndex_zero_singleton (d n : Nat)
+    (idx : TileIndex [n, d]) :
+    dropInsertedIndex [d] (0 : Fin 2) n idx = (idx.2.1, PUnit.unit) := rfl
+
+@[simp] theorem dropInsertedIndex_one_pair (d e n : Nat)
+    (idx : TileIndex [d, n, e]) :
+    dropInsertedIndex [d, e] (1 : Fin 3) n idx = (idx.1, idx.2.2) := rfl
+
+@[simp] theorem dropInsertedIndex_zero_pair (d e n : Nat)
+    (idx : TileIndex [n, d, e]) :
+    dropInsertedIndex [d, e] (0 : Fin 3) n idx = idx.2 := rfl
+
+@[simp] theorem dropInsertedIndex_two_pair (d e n : Nat)
+    (idx : TileIndex [d, e, n]) :
+    dropInsertedIndex [d, e] (2 : Fin 3) n idx =
+      (idx.1, idx.2.1, PUnit.unit) := rfl
+
 /-- Enumerate all indices of a shape, in row-major / outer-to-inner order. -/
 def allIndices : (shape : TileShape) → List (TileIndex shape)
   | [] => [PUnit.unit]
@@ -343,6 +411,13 @@ has shape `[rows, cols]`, indexed as `(row, col, _)`). -/
 def mat {dtype : TileDType} {rows cols : Nat}
     (f : Fin rows → Fin cols → TileCarrier dtype) : Tile dtype [rows, cols] :=
   ⟨fun (row, col, _) => f row col⟩
+
+/-- Reading a `Tile.mat` at a 2D index calls the underlying function at the
+(row, col) coordinates. -/
+@[simp] theorem mat_data {dtype : TileDType} {rows cols : Nat}
+    (f : Fin rows → Fin cols → TileCarrier dtype)
+    (idx : TileIndex [rows, cols]) :
+    (Tile.mat f).data idx = f idx.1 idx.2.1 := rfl
 
 end Tile
 

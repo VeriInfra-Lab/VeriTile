@@ -624,6 +624,45 @@ and use the dtype default on mismatch. -/
     simp
   · simp [h]
 
+/-- `writeMemTyped .int` at a different region or offset leaves `readMem`
+unaffected. Same-cell case is excluded because the original cell could have
+been a `.real` cell whose value `readMem` would have returned. -/
+theorem writeMemTyped_int_readMem_of_ne (s : BlockState)
+    (region : RegionName) (offset : Nat) (v : TileCarrier TileDType.int)
+    (r : RegionName) (o : Nat) (hne : ¬(r = region ∧ o = offset)) :
+    (s.writeMemTyped .int region offset v).readMem r o = s.readMem r o := by
+  unfold writeMemTyped readMem
+  simp [hne]
+
+/-- `writeMemTyped .nat` at a different region or offset leaves `readMem`
+unaffected. -/
+theorem writeMemTyped_nat_readMem_of_ne (s : BlockState)
+    (region : RegionName) (offset : Nat) (v : TileCarrier TileDType.nat)
+    (r : RegionName) (o : Nat) (hne : ¬(r = region ∧ o = offset)) :
+    (s.writeMemTyped .nat region offset v).readMem r o = s.readMem r o := by
+  unfold writeMemTyped readMem
+  simp [hne]
+
+/-- `writeMemTyped .nat` at a different region or offset leaves `readMemValue
+.int` unaffected. -/
+theorem writeMemTyped_nat_readMemValue_int_of_ne (s : BlockState)
+    (region : RegionName) (offset : Nat) (v : TileCarrier TileDType.nat)
+    (r : RegionName) (o : Nat) (hne : ¬(r = region ∧ o = offset)) :
+    (s.writeMemTyped .nat region offset v).readMemValue .int r o =
+      s.readMemValue .int r o := by
+  unfold writeMemTyped readMemValue readMemTyped
+  simp [hne]
+
+/-- `writeMemTyped .int` at a different region or offset leaves `readMemValue
+.nat` unaffected. -/
+theorem writeMemTyped_int_readMemValue_nat_of_ne (s : BlockState)
+    (region : RegionName) (offset : Nat) (v : TileCarrier TileDType.int)
+    (r : RegionName) (o : Nat) (hne : ¬(r = region ∧ o = offset)) :
+    (s.writeMemTyped .int region offset v).readMemValue .nat r o =
+      s.readMemValue .nat r o := by
+  unfold writeMemTyped readMemValue readMemTyped
+  simp [hne]
+
 @[simp] theorem writeMem_readMem (s : BlockState) (region : RegionName)
     (offset : Nat) (v : ℝ) (r : RegionName) (o : Nat) :
     (s.writeMem region offset v).readMem r o =
@@ -639,6 +678,28 @@ and use the dtype default on mismatch. -/
       | _ => 0) = v
     rfl
   · simp [h]
+
+/-- Cross-region specialization of `writeMem_readMem`. When the read region is
+known to differ from the write region (a hypothesis common in multi-store
+kernel proofs), the readback is unchanged regardless of the offset. -/
+theorem writeMem_readMem_of_ne_region (s : BlockState) (region : RegionName)
+    (offset : Nat) (v : ℝ) (r : RegionName) (o : Nat) (h : r ≠ region) :
+    (s.writeMem region offset v).readMem r o = s.readMem r o := by
+  rw [writeMem_readMem, if_neg]
+  rintro ⟨hR, _⟩
+  exact h hR
+
+/-- Same-region different-offset specialization of `writeMem_readMem`. When
+the read offset is known to differ from the write offset, the readback is
+unchanged. Use for intra-region multi-store kernels (rotary embeddings,
+spherical harmonics) where stores at offset `+ k₁, +k₂, ...` with distinct
+`kᵢ` don't disturb each other. -/
+theorem writeMem_readMem_of_ne_offset (s : BlockState) (region : RegionName)
+    (offset : Nat) (v : ℝ) (r : RegionName) (o : Nat) (h : o ≠ offset) :
+    (s.writeMem region offset v).readMem r o = s.readMem r o := by
+  rw [writeMem_readMem, if_neg]
+  rintro ⟨_, hO⟩
+  exact h hO
 
 @[simp] theorem writeMemAs_readMemAs (s : BlockState) (dtype : FloatDType)
     (region : RegionName) (offset : Nat) (v : TileCarrier dtype.toTileDType)
@@ -848,6 +909,123 @@ theorem scatter_readback_prop_masked_nd {region : RegionName} {shape : TileShape
   simp only [decide_eq_true_eq] at h
   exact h
 
+/-! ### Common 1D offset-injectivity helpers
+
+These cover the recurring `Function.Injective` proof obligations that arise
+when reducing `BlockState.scatter_readback_prop_masked_nd` over a 1D
+block-local index. Without them, every bench proof rebuilds the same
+3-line proof. -/
+
+/-- The 1D block-local offset `idx ↦ base + idx.1.val` is injective. -/
+theorem tileIndex1d_base_offset_injective {BLOCK : Nat} (base : Nat) :
+    Function.Injective
+      (fun idx : TileIndex [BLOCK] => base + idx.1.val) := by
+  rintro ⟨a, _⟩ ⟨b, _⟩ h
+  exact Prod.ext (Fin.ext (Nat.add_left_cancel h)) rfl
+
+/-- The 1D block-local strided offset `idx ↦ base + idx.1.val * stride` is
+injective when `stride ≠ 0`. -/
+theorem tileIndex1d_base_strided_offset_injective {BLOCK : Nat}
+    (base stride : Nat) (h_stride : stride ≠ 0) :
+    Function.Injective
+      (fun idx : TileIndex [BLOCK] => base + idx.1.val * stride) := by
+  rintro ⟨a, _⟩ ⟨b, _⟩ h
+  have hval : a.val * stride = b.val * stride := Nat.add_left_cancel h
+  have heq : a.val = b.val := Nat.eq_of_mul_eq_mul_right (Nat.pos_of_ne_zero h_stride) hval
+  exact Prod.ext (Fin.ext heq) rfl
+
+/-- The bare 1D block-local offset `idx ↦ idx.1.val` is injective. -/
+theorem tileIndex1d_offset_injective {BLOCK : Nat} :
+    Function.Injective
+      (fun idx : TileIndex [BLOCK] => idx.1.val) := by
+  rintro ⟨a, _⟩ ⟨b, _⟩ h
+  exact Prod.ext (Fin.ext h) rfl
+
+/-! ### 2D tile-index injectivity helpers
+
+The 2D analogue of the 1D helpers above, for the recurring offset form
+`fun idx : TileIndex [M, N] => base + idx.1.val * Nstride + idx.2.1.val`. -/
+
+/-- The 2D block-local offset `idx ↦ base + idx.1.val * Nstride + idx.2.1.val`
+is injective when `Nstride > N` (so the row coordinate `idx.1.val` separates
+distinct rows in the offset value, given that `idx.2.1.val < N`). -/
+theorem tileIndex2d_base_row_major_injective
+    {M N : Nat} (base Nstride : Nat) (h_lt : N ≤ Nstride) :
+    Function.Injective
+      (fun idx : TileIndex [M, N] =>
+        base + idx.1.val * Nstride + idx.2.1.val) := by
+  rintro ⟨⟨a1, ha1⟩, ⟨a2, ha2⟩, _⟩ ⟨⟨b1, hb1⟩, ⟨b2, hb2⟩, _⟩ h
+  -- After subtracting `base`, we have `a1 * Nstride + a2 = b1 * Nstride + b2`
+  -- with `a2 < N ≤ Nstride` and `b2 < N ≤ Nstride`. Standard div/mod argument.
+  simp only at h
+  have hN_pos : 0 < N := lt_of_le_of_lt (Nat.zero_le _) ha2
+  have hStride_pos : 0 < Nstride := lt_of_lt_of_le hN_pos h_lt
+  have ha2' : a2 < Nstride := lt_of_lt_of_le ha2 h_lt
+  have hb2' : b2 < Nstride := lt_of_lt_of_le hb2 h_lt
+  -- Rewrite associativity then cancel.
+  have h' : base + (a1 * Nstride + a2) = base + (b1 * Nstride + b2) := by
+    rw [← Nat.add_assoc, ← Nat.add_assoc]; exact h
+  have hkey : a1 * Nstride + a2 = b1 * Nstride + b2 := Nat.add_left_cancel h'
+  -- a1 and a2 are the "div" and "mod" of LHS by Nstride; similarly for b.
+  have ha_div : (a1 * Nstride + a2) / Nstride = a1 := by
+    rw [Nat.add_comm (a1 * Nstride) a2, Nat.mul_comm a1 Nstride,
+        Nat.add_mul_div_left _ _ hStride_pos, Nat.div_eq_of_lt ha2',
+        Nat.zero_add]
+  have hb_div : (b1 * Nstride + b2) / Nstride = b1 := by
+    rw [Nat.add_comm (b1 * Nstride) b2, Nat.mul_comm b1 Nstride,
+        Nat.add_mul_div_left _ _ hStride_pos, Nat.div_eq_of_lt hb2',
+        Nat.zero_add]
+  have ha_mod : (a1 * Nstride + a2) % Nstride = a2 := by
+    rw [Nat.add_comm (a1 * Nstride) a2, Nat.mul_comm a1 Nstride,
+        Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt ha2']
+  have hb_mod : (b1 * Nstride + b2) % Nstride = b2 := by
+    rw [Nat.add_comm (b1 * Nstride) b2, Nat.mul_comm b1 Nstride,
+        Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt hb2']
+  have h1 : a1 = b1 := by rw [← ha_div, hkey, hb_div]
+  have h2 : a2 = b2 := by rw [← ha_mod, hkey, hb_mod]
+  subst h1; subst h2; rfl
+
+/-- The 2D block-local offset with separate row/col strides:
+`idx ↦ base + idx.1.val * Mstride + idx.2.1.val * Nstride`, injective when
+`Nstride ≠ 0` and `N * Nstride ≤ Mstride` (so the row coordinate dominates
+the column contribution). -/
+theorem tileIndex2d_base_strided_injective {M N : Nat}
+    (base Mstride Nstride : Nat)
+    (hN_pos : 0 < Nstride) (h_lt : N * Nstride ≤ Mstride) :
+    Function.Injective
+      (fun idx : TileIndex [M, N] =>
+        base + idx.1.val * Mstride + idx.2.1.val * Nstride) := by
+  rintro ⟨⟨a1, ha1⟩, ⟨a2, ha2⟩, _⟩ ⟨⟨b1, hb1⟩, ⟨b2, hb2⟩, _⟩ h
+  simp only at h
+  -- The offsets equal, so cancel base then derive a1=b1, a2=b2.
+  have h' : a1 * Mstride + a2 * Nstride = b1 * Mstride + b2 * Nstride := by
+    have := Nat.add_left_cancel
+      (show base + (a1 * Mstride + a2 * Nstride) =
+            base + (b1 * Mstride + b2 * Nstride) by
+        rw [← Nat.add_assoc, ← Nat.add_assoc]; exact h)
+    exact this
+  -- a2 * Nstride < N * Nstride ≤ Mstride and similarly for b2.
+  have ha2' : a2 * Nstride < Mstride :=
+    lt_of_lt_of_le ((Nat.mul_lt_mul_right hN_pos).mpr ha2) h_lt
+  have hb2' : b2 * Nstride < Mstride :=
+    lt_of_lt_of_le ((Nat.mul_lt_mul_right hN_pos).mpr hb2) h_lt
+  have hM_pos : 0 < Mstride := lt_of_le_of_lt (Nat.zero_le _) ha2'
+  -- a1 = (a1 * Mstride + a2 * Nstride) / Mstride
+  have ha_div : (a1 * Mstride + a2 * Nstride) / Mstride = a1 := by
+    rw [Nat.add_comm (a1 * Mstride) (a2 * Nstride), Nat.mul_comm a1 Mstride,
+        Nat.add_mul_div_left _ _ hM_pos, Nat.div_eq_of_lt ha2', Nat.zero_add]
+  have hb_div : (b1 * Mstride + b2 * Nstride) / Mstride = b1 := by
+    rw [Nat.add_comm (b1 * Mstride) (b2 * Nstride), Nat.mul_comm b1 Mstride,
+        Nat.add_mul_div_left _ _ hM_pos, Nat.div_eq_of_lt hb2', Nat.zero_add]
+  have h1 : a1 = b1 := by rw [← ha_div, h', hb_div]
+  -- Substitute a1 = b1 and cancel.
+  subst h1
+  have h2 : a2 * Nstride = b2 * Nstride := by
+    have := h'
+    omega
+  have h2eq : a2 = b2 := Nat.eq_of_mul_eq_mul_right hN_pos h2
+  subst h2eq; rfl
+
 private theorem foldl_writeMemTyped_nat_masked_preserves {α : Type} {region : RegionName}
     (offsetFn : α → Nat) (valueFn : α → Nat) (mask : α → Bool) (o : Nat) (l : List α) :
     ∀ (s : BlockState), (∀ k ∈ l, mask k = true → offsetFn k ≠ o) →
@@ -934,6 +1112,86 @@ theorem scatter_readback_nat_prop_masked_nd {region : RegionName} {shape : TileS
     rw [foldl_writeMemTyped_nat_masked_preserves offsetFn valueFn (fun k => decide (P k))
       (offsetFn i) l₁]
     exact h_l1_not_in
+
+/-- A foldl of `writeMem` (real channel) at masked locations, with all writes
+going to regions disjoint from `R`, leaves `readMem R off` unchanged. -/
+theorem foldl_writeMem_prop_masked_readMem_other_region {α : Type}
+    (regionFn : α → RegionName) (offsetFn : α → Nat) (valueFn : α → ℝ)
+    (P : α → Prop) [DecidablePred P] (l : List α) (s : BlockState)
+    (R : RegionName) (off : Nat)
+    (h_other : ∀ k, k ∈ l → P k → R ≠ regionFn k) :
+    BlockState.readMem ((l.foldl
+        (fun acc k =>
+          if P k then acc.writeMem (regionFn k) (offsetFn k) (valueFn k) else acc) s))
+      R off
+      = s.readMem R off := by
+  induction l generalizing s with
+  | nil => rfl
+  | cons hd tl ih =>
+      rw [List.foldl_cons]
+      have htl : ∀ k, k ∈ tl → P k → R ≠ regionFn k :=
+        fun k hk hPk => h_other k (List.mem_cons_of_mem hd hk) hPk
+      by_cases hhd : P hd
+      · simp only [hhd, if_true]
+        rw [ih _ htl]
+        rw [writeMem_readMem]
+        rw [if_neg]
+        rintro ⟨hR, _⟩
+        exact (h_other hd (List.mem_cons_self) hhd) hR
+      · simp only [hhd, if_false]
+        exact ih _ htl
+
+/-- Specialization of `foldl_writeMem_prop_masked_readMem_other_region` to
+the case where all writes target the same constant `region`. Practical
+shortcut for multi-store kernels (e.g. adam updates `p` then `exp_avg`): when
+proving the second store's readback, the first store's foldl can be stripped
+by `h : R ≠ region`. -/
+theorem foldl_writeMem_const_region_prop_masked_readMem_other {α : Type}
+    (region : RegionName) (offsetFn : α → Nat) (valueFn : α → ℝ)
+    (P : α → Prop) [DecidablePred P] (l : List α) (s : BlockState)
+    (R : RegionName) (off : Nat) (hRR : R ≠ region) :
+    BlockState.readMem ((l.foldl
+        (fun acc k =>
+          if P k then acc.writeMem region (offsetFn k) (valueFn k) else acc) s))
+      R off
+      = s.readMem R off :=
+  foldl_writeMem_prop_masked_readMem_other_region
+    (regionFn := fun _ => region) offsetFn valueFn P l s R off
+    (fun _ _ _ => hRR)
+
+/-- Intra-region offset-disjointness companion to
+`foldl_writeMem_const_region_prop_masked_readMem_other`. When all writes
+in the foldl target the same `region` but at offsets disjoint from a given
+read offset `off`, the foldl doesn't disturb `readMem region off`.
+
+Use for kernels where multiple stores write to the SAME region at non-
+overlapping offset sets — e.g. rotary embeddings (Q first-half offsets vs
+Q second-half offsets) or fifth-order spherical harmonics (Y00..Y10 outputs
+at different col offsets within the same output region). -/
+theorem foldl_writeMem_same_region_disjoint_offsets_readMem {α : Type}
+    (region : RegionName) (offsetFn : α → Nat) (valueFn : α → ℝ)
+    (P : α → Prop) [DecidablePred P] (l : List α) (s : BlockState)
+    (off : Nat) (hOff : ∀ k, k ∈ l → P k → off ≠ offsetFn k) :
+    BlockState.readMem ((l.foldl
+        (fun acc k =>
+          if P k then acc.writeMem region (offsetFn k) (valueFn k) else acc) s))
+      region off
+      = s.readMem region off := by
+  induction l generalizing s with
+  | nil => rfl
+  | cons hd tl ih =>
+      rw [List.foldl_cons]
+      have htl : ∀ k, k ∈ tl → P k → off ≠ offsetFn k :=
+        fun k hk hPk => hOff k (List.mem_cons_of_mem hd hk) hPk
+      by_cases hhd : P hd
+      · simp only [hhd, if_true]
+        rw [ih _ htl]
+        rw [writeMem_readMem]
+        rw [if_neg]
+        rintro ⟨_, hOffEq⟩
+        exact (hOff hd (List.mem_cons_self) hhd) hOffEq
+      · simp only [hhd, if_false]
+        exact ih _ htl
 
 theorem foldl_writeMemTyped_natAt_prop_masked_readMem_other_region {α : Type}
     (regionFn : α → RegionName) (offsetFn : α → Nat) (valueFn : α → Nat)

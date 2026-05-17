@@ -9,38 +9,36 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of the `REVERSE = false` path of
-`fused_rwkv6_kernel.py`'s `fused_recurrent_rwkv6_fwd_kernel`.
+/-- Faithful transcription of `fused_rwkv6_kernel.py`'s
+`fused_recurrent_rwkv6_fwd_kernel` as used by the exported benchmark helper.
 
-The public benchmark calls the wrapper with `reverse = false`. The reverse path
-updates pointers by `-K`/`-V`, which requires signed pointer movement and is not
-encoded here. The source fp32 load casts and final destination dtype casts are
-represented explicitly. -/
+The exported helper always calls the autograd entry point with its default
+`reverse = false`, so pointer movement is modeled in the forward direction. The
+kernel parameter is retained to match the source signature. -/
 def fused_recurrent_rwkv6_fwd_surface
-    (Q KReg VReg W U O H0 HT : RegionName)
+    (q k v w u o h0 ht : RegionName)
     (s_k_h s_v_h B H T K V BK BV : Nat) (scale : ℝ)
-    (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) :
+    (USE_INITIAL_STATE STORE_FINAL_STATE REVERSE : Bool) :
     ComputeKernel := triton {
   i_v = tl.program_id(0)
   i_k = tl.program_id(1)
   i_bh = tl.program_id(2)
   i_h = i_bh % $(H)
-  offs_k = i_k * $(BK) + tl.arange(0, $(BK))
-  offs_v = i_v * $(BV) + tl.arange(0, $(BV))
-  p_q = Q + i_bh * $(s_k_h) + i_k * $(BK) + tl.arange(0, $(BK))
-  p_k = KReg + i_bh * $(s_k_h) + i_k * $(BK) + tl.arange(0, $(BK))
-  p_v = VReg + i_bh * $(s_v_h) + i_v * $(BV) + tl.arange(0, $(BV))
-  p_o = O + (i_bh + i_k * $(B) * $(H)) * $(s_v_h) +
+  p_q = q + i_bh * $(s_k_h) + i_k * $(BK) + tl.arange(0, $(BK))
+  p_k = k + i_bh * $(s_k_h) + i_k * $(BK) + tl.arange(0, $(BK))
+  p_v = v + i_bh * $(s_v_h) + i_v * $(BV) + tl.arange(0, $(BV))
+  p_o = o + (i_bh + i_k * $(B) * $(H)) * $(s_v_h) +
     i_v * $(BV) + tl.arange(0, $(BV))
-  p_w = W + i_bh * $(s_k_h) + i_k * $(BK) + tl.arange(0, $(BK))
-  p_u = U + i_h * $(K) + tl.arange(0, $(BK)) + i_k * $(BK)
-  mask_bk = offs_k < $(K)
-  mask_bv = offs_v < $(V)
+  p_w = w + i_bh * $(s_k_h) + i_k * $(BK) + tl.arange(0, $(BK))
+  p_u = u + i_h * $(K) + tl.arange(0, $(BK)) + i_k * $(BK)
+  mask_bk = (i_k * $(BK) + tl.arange(0, $(BK))) < $(K)
+  mask_bv = (i_v * $(BV) + tl.arange(0, $(BV))) < $(V)
   mask_kv = mask_bv[:, None] & mask_bk[None, :]
   b_h = tl.zeros([$(BV), $(BK)], dtype=tl.float32)
   if USE_INITIAL_STATE {
-    p_h0 = H0 + i_bh * $(K) * $(V) +
-      offs_k[None, :] * $(V) + offs_v[:, None]
+    p_h0 = h0 + i_bh * $(K) * $(V) +
+      (i_k * $(BK) + tl.arange(0, $(BK))[None, :]) * $(V) +
+      (i_v * $(BV) + tl.arange(0, $(BV))[:, None])
     b_h += tl.load(p_h0, mask=mask_kv, other=0).to(tl.float32)
   }
   b_u = tl.load(p_u, mask=mask_bk, other=0).to(tl.float32)
@@ -63,8 +61,9 @@ def fused_recurrent_rwkv6_fwd_surface
     p_w += $(K)
   }
   if STORE_FINAL_STATE {
-    p_ht = HT + i_bh * $(K) * $(V) +
-      offs_k[None, :] * $(V) + offs_v[:, None]
+    p_ht = ht + i_bh * $(K) * $(V) +
+      (i_k * $(BK) + tl.arange(0, $(BK))[None, :]) * $(V) +
+      (i_v * $(BV) + tl.arange(0, $(BV))[:, None])
     tl.store(p_ht, (b_h).to(p_ht.dtype.element_ty), mask=mask_kv)
   }
 }
@@ -173,6 +172,119 @@ theorem fused_recurrent_rwkv6_output_store_slice_compute_correct
   subst s0
   intro i hActive
   have h := fused_recurrent_rwkv6_output_store_slice_correct BO O timeOffset B H T V BV s hOutInj i
+  rw [hExec] at h
+  simpa [hActive] using Option.some.inj h
+
+/-- Proof-oriented final-state store slice of `fused_rwkv6_kernel.py`'s
+`fused_recurrent_rwkv6_fwd_kernel`. Companion to the per-iteration output
+store slice: writes a precomputed `BHFinal` `[BV, BK]` tile into `Ht` after
+the T-iteration loop completes (STORE_FINAL_STATE=True branch). -/
+def fused_recurrent_rwkv6_final_state_store_slice
+    (BHFinal Ht : RegionName) (K V BK BV : Nat) :
+    ComputeKernel := triton {
+  i_v = tl.program_id(0)
+  i_k = tl.program_id(1)
+  i_bh = tl.program_id(2)
+  offs_k = i_k * $(BK) + tl.arange(0, $(BK))
+  offs_v = i_v * $(BV) + tl.arange(0, $(BV))
+  mask_kv = (offs_v[:, None] < $(V)) & (offs_k[None, :] < $(K))
+  b_h = tl.load(BHFinal + i_bh * $(K) * $(V) +
+      offs_k[None, :] * $(V) + offs_v[:, None],
+    mask=mask_kv, other=0.0)
+  tl.store(Ht + i_bh * $(K) * $(V) +
+      offs_k[None, :] * $(V) + offs_v[:, None],
+    b_h, mask=mask_kv)
+}
+
+def vIndex2D (s : BlockState) (BV : Nat) (i : Fin BV) : Nat :=
+  s.pids 0 * BV + i.val
+
+def kIndex2D (s : BlockState) (BK : Nat) (j : Fin BK) : Nat :=
+  s.pids 1 * BK + j.val
+
+def finalActive (s : BlockState) (K V BK BV : Nat)
+    (idx : TileIndex [BV, BK]) : Prop :=
+  vIndex2D s BV idx.1 < V ∧ kIndex2D s BK idx.2.1 < K
+
+instance finalActiveDecidable (s : BlockState) (K V BK BV : Nat)
+    (idx : TileIndex [BV, BK]) : Decidable (finalActive s K V BK BV idx) := by
+  unfold finalActive
+  infer_instance
+
+def finalStateOffset (s : BlockState) (K V BK BV : Nat)
+    (idx : TileIndex [BV, BK]) : Nat :=
+  s.pids 2 * K * V + kIndex2D s BK idx.2.1 * V + vIndex2D s BV idx.1
+
+noncomputable def finalStateStoreValue (s : BlockState) (BHFinal : RegionName)
+    (K V BK BV : Nat) (idx : TileIndex [BV, BK]) : ℝ :=
+  WithBot.unbotD 0
+    (if finalActive s K V BK BV idx then
+      some (s.readMem BHFinal (finalStateOffset s K V BK BV idx))
+    else some (0.0 : ℝ))
+
+theorem fused_recurrent_rwkv6_final_state_store_slice_correct
+    (BHFinal Ht : RegionName) (K V BK BV : Nat) (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun idx : TileIndex [BV, BK] => finalStateOffset s K V BK BV idx)) :
+    ∀ idx : TileIndex [BV, BK],
+      let outAddr := finalStateOffset s K V BK BV idx
+      (exec (fused_recurrent_rwkv6_final_state_store_slice BHFinal Ht K V BK BV) s).map
+          (·.readMem Ht outAddr)
+        = some (if finalActive s K V BK BV idx then
+            finalStateStoreValue s BHFinal K V BK BV idx
+          else s.readMem Ht outAddr) := by
+  intro idx
+  simp [exec, fused_recurrent_rwkv6_final_state_store_slice, stepStmts, stepStmt,
+        evalOp, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
+        Tile.ptrAdd, NumericDType.add, NumericDType.mul, ComparableDType.lt,
+        vIndex2D, kIndex2D, finalActive, finalStateOffset,
+        TileShape.dropInsertedIndex]
+  let offsetFn : TileIndex [BV, BK] → Nat :=
+    fun idx => s.pids 2 * K * V +
+      (s.pids 1 * BK + idx.2.1.val) * V +
+      (s.pids 0 * BV + idx.1.val)
+  let valueFn : TileIndex [BV, BK] → ℝ :=
+    fun idx => WithBot.unbotD 0
+      (if s.pids 0 * BV + idx.1.val < V ∧
+          s.pids 1 * BK + idx.2.1.val < K then
+        some (s.readMem BHFinal (offsetFn idx))
+      else some (0.0 : ℝ))
+  let P : TileIndex [BV, BK] → Prop :=
+    fun idx => s.pids 0 * BV + idx.1.val < V ∧
+      s.pids 1 * BK + idx.2.1.val < K
+  have hOffsetInj : Function.Injective offsetFn := by
+    simpa [offsetFn, finalStateOffset, vIndex2D, kIndex2D] using hOutInj
+  change (List.foldl
+      (fun (acc : BlockState) i =>
+        if P i then acc.writeMem Ht (offsetFn i) (valueFn i) else acc)
+      _ (TileShape.allIndices [BV, BK])).readMem Ht (offsetFn idx) =
+    if P idx then finalStateStoreValue s BHFinal K V BK BV idx
+    else s.readMem Ht (offsetFn idx)
+  rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _ hOffsetInj idx]
+  by_cases hActive : s.pids 0 * BV + idx.1.val < V ∧ s.pids 1 * BK + idx.2.1.val < K
+  · rfl
+  · rfl
+
+theorem fused_recurrent_rwkv6_final_state_store_slice_compute_correct
+    (BHFinal Ht : RegionName) (K V BK BV : Nat) (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun idx : TileIndex [BV, BK] => finalStateOffset s K V BK BV idx)) :
+    ComputeCorrect.Realizes
+      (kernel := fused_recurrent_rwkv6_final_state_store_slice BHFinal Ht K V BK BV)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [BV, BK] => finalActive s K V BK BV idx)
+        (fun idx : TileIndex [BV, BK] => (Ht, finalStateOffset s K V BK BV idx)))
+      (expected := fun idx : TileIndex [BV, BK] =>
+        finalStateStoreValue s BHFinal K V BK BV idx) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [fused_recurrent_rwkv6_final_state_store_slice]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx hActive
+  have h := fused_recurrent_rwkv6_final_state_store_slice_correct BHFinal Ht K V BK BV
+    s hOutInj idx
   rw [hExec] at h
   simpa [hActive] using Option.some.inj h
 

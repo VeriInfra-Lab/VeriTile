@@ -9,49 +9,48 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `chunk_gate_recurrence.py`'s `_fwd_recurrence`.
+/-- Faithful transcription of `chunk_gate_recurrence.py`'s `_fwd_recurrence`.
 
 The optional `last_kv` argument is represented by `HAS_LAST_KV`. The backward
 kernel walks the chunk dimension in reverse with pointer decrements, so it is
 kept separate from this forward surface. -/
 def chunk_gate_recurrence_fwd_surface
-    (S D O LastKV : RegionName)
+    (S D O last_kv : RegionName)
     (_NUM_HEAD NUM_BLOCK D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V : Nat)
     (HAS_LAST_KV : Bool) :
     ComputeKernel := triton {
   offset_bh = tl.program_id(0)
   offset_d = tl.program_id(1)
   offset_s = tl.program_id(2)
-  offs_k = tl.arange(0, $(BLOCK_MODEL_K))
-  offs_v = tl.arange(0, $(BLOCK_MODEL_V))
-  S_ptr = S + offset_bh * $(NUM_BLOCK) * $(D_MODEL_K) * $(D_MODEL_V) +
+
+  S = S + offset_bh * $(NUM_BLOCK) * $(D_MODEL_K) * $(D_MODEL_V) +
     offset_d * $(D_MODEL_V) * $(BLOCK_MODEL_K) +
-    offs_k[:, None] * $(D_MODEL_V) + offset_s * $(BLOCK_MODEL_V) +
-    offs_v[None, :]
-  O_ptr = O + offset_bh * $(NUM_BLOCK) * $(D_MODEL_K) * $(D_MODEL_V) +
+    tl.arange(0, $(BLOCK_MODEL_K))[:, None] * $(D_MODEL_V) +
+    offset_s * $(BLOCK_MODEL_V) + tl.arange(0, $(BLOCK_MODEL_V))[None, :]
+  O = O + offset_bh * $(NUM_BLOCK) * $(D_MODEL_K) * $(D_MODEL_V) +
     offset_d * $(D_MODEL_V) * $(BLOCK_MODEL_K) +
-    offs_k[:, None] * $(D_MODEL_V) + offset_s * $(BLOCK_MODEL_V) +
-    offs_v[None, :]
+    tl.arange(0, $(BLOCK_MODEL_K))[:, None] * $(D_MODEL_V) +
+    offset_s * $(BLOCK_MODEL_V) + tl.arange(0, $(BLOCK_MODEL_V))[None, :]
   if HAS_LAST_KV {
-    last_kv_ptr = LastKV + offset_bh * $(D_MODEL_K) * $(D_MODEL_V) +
+    last_kv = last_kv + offset_bh * $(D_MODEL_K) * $(D_MODEL_V) +
       offset_d * $(D_MODEL_V) * $(BLOCK_MODEL_K) +
-      offs_k[:, None] * $(D_MODEL_V) + offset_s * $(BLOCK_MODEL_V) +
-      offs_v[None, :]
-    acc = tl.load(last_kv_ptr).to(tl.float32)
+      tl.arange(0, $(BLOCK_MODEL_K))[:, None] * $(D_MODEL_V) +
+      offset_s * $(BLOCK_MODEL_V) + tl.arange(0, $(BLOCK_MODEL_V))[None, :]
+    acc = tl.load(last_kv).to(tl.float32)
   } else {
     acc = tl.zeros([$(BLOCK_MODEL_K), $(BLOCK_MODEL_V)], dtype=tl.float32)
   }
-  tl.store(O_ptr, (acc).to(O_ptr.dtype.element_ty))
-  O_ptr += $(D_MODEL_K) * $(D_MODEL_V)
-  D_ptr = D + offset_bh * $(NUM_BLOCK)
+  tl.store(O, (acc).to(O.dtype.element_ty))
+  O += $(D_MODEL_K) * $(D_MODEL_V)
+  D = D + offset_bh * $(NUM_BLOCK)
   for _i in range($(0), $(NUM_BLOCK) - $(1), $(1)) {
-    d_i = tl.load(D_ptr)
-    S_i = tl.load(S_ptr)
+    d_i = tl.load(D)
+    S_i = tl.load(S)
     acc = acc * d_i + S_i
-    tl.store(O_ptr, (acc).to(O_ptr.dtype.element_ty))
-    D_ptr += $(1)
-    S_ptr += $(D_MODEL_K) * $(D_MODEL_V)
-    O_ptr += $(D_MODEL_K) * $(D_MODEL_V)
+    tl.store(O, (acc).to(O.dtype.element_ty))
+    D += $(1)
+    S += $(D_MODEL_K) * $(D_MODEL_V)
+    O += $(D_MODEL_K) * $(D_MODEL_V)
   }
 }
 
@@ -169,5 +168,98 @@ theorem chunk_gate_recurrence_forward_store_slice_compute_correct
     D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V s hOutInj idx
   rw [hExec] at h
   exact Option.some.inj h
+
+/-- Proof-oriented DL final-state store slice of
+`chunk_gate_recurrence.py`'s `_bwd_recurrence`. Takes a precomputed `DaccPre`
+[BLOCK_MODEL_K, BLOCK_MODEL_V] tile (the post-loop accumulator) and proves
+the writeback into `DL` at the canonical `(offset_bh, offset_d, offset_s)`
+layout. -/
+def chunk_gate_recurrence_bwd_DL_store_slice
+    (DaccPre DL : RegionName)
+    (D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V : Nat) :
+    ComputeKernel := triton {
+  offset_bh = tl.program_id(0)
+  offset_d = tl.program_id(1)
+  offset_s = tl.program_id(2)
+  k_off = tl.arange(0, $(BLOCK_MODEL_K))
+  v_off = tl.arange(0, $(BLOCK_MODEL_V))
+  base = offset_bh * $(D_MODEL_K) * $(D_MODEL_V) +
+    offset_d * $(D_MODEL_V) * $(BLOCK_MODEL_K) +
+    offset_s * $(BLOCK_MODEL_V)
+  dacc = tl.load(DaccPre + base +
+    k_off[:, None] * $(D_MODEL_V) + v_off[None, :])
+  tl.store(DL + base +
+    k_off[:, None] * $(D_MODEL_V) + v_off[None, :], dacc)
+}
+
+def bwdDLOffset
+    (s : BlockState)
+    (D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V : Nat)
+    (idx : TileIndex [BLOCK_MODEL_K, BLOCK_MODEL_V]) : Nat :=
+  s.pids 0 * D_MODEL_K * D_MODEL_V +
+    s.pids 1 * D_MODEL_V * BLOCK_MODEL_K +
+    s.pids 2 * BLOCK_MODEL_V +
+    idx.1.val * D_MODEL_V + idx.2.1.val
+
+noncomputable def bwdDLStoreSpec
+    (s : BlockState) (DaccPre : RegionName)
+    (D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V : Nat)
+    (idx : TileIndex [BLOCK_MODEL_K, BLOCK_MODEL_V]) : ℝ :=
+  s.readMem DaccPre
+    (bwdDLOffset s D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V idx)
+
+theorem chunk_gate_recurrence_bwd_DL_store_slice_correct
+    (DaccPre DL : RegionName)
+    (D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V : Nat)
+    (s s' : BlockState)
+    (hOutInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_MODEL_K, BLOCK_MODEL_V] =>
+        bwdDLOffset s D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V idx))
+    (hExec : exec (chunk_gate_recurrence_bwd_DL_store_slice DaccPre DL
+        D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V) s = some s') :
+    ∀ idx : TileIndex [BLOCK_MODEL_K, BLOCK_MODEL_V],
+      s'.readMem DL
+          (bwdDLOffset s D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V idx) =
+        bwdDLStoreSpec s DaccPre D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V idx := by
+  intro idx
+  have hRawInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_MODEL_K, BLOCK_MODEL_V] =>
+        s.pids 0 * D_MODEL_K * D_MODEL_V +
+          s.pids 1 * D_MODEL_V * BLOCK_MODEL_K +
+          s.pids 2 * BLOCK_MODEL_V +
+          idx.1.val * D_MODEL_V + idx.2.1.val) := by
+    simpa [bwdDLOffset] using hOutInj
+  simp [exec, chunk_gate_recurrence_bwd_DL_store_slice, stepStmts, stepStmt,
+        evalOp, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
+        Tile.ptrAdd, NumericDType.add, NumericDType.mul,
+        TileShape.dropInsertedIndex] at hExec
+  rw [← hExec]
+  simp only [bwdDLOffset]
+  rw [BlockState.scatter_readback_nd _ _ _ hRawInj idx]
+  simp [bwdDLStoreSpec, bwdDLOffset]
+
+theorem chunk_gate_recurrence_bwd_DL_store_slice_compute_correct
+    (DaccPre DL : RegionName)
+    (D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V : Nat)
+    (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun idx : TileIndex [BLOCK_MODEL_K, BLOCK_MODEL_V] =>
+        bwdDLOffset s D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V idx)) :
+    ComputeCorrect.Realizes
+      (kernel := chunk_gate_recurrence_bwd_DL_store_slice DaccPre DL
+        D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V)
+      (initialState := s)
+      (write := fun idx : TileIndex [BLOCK_MODEL_K, BLOCK_MODEL_V] =>
+        some (DL, bwdDLOffset s D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V idx))
+      (expected := fun idx =>
+        bwdDLStoreSpec s DaccPre D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V idx) := by
+  unfold ComputeCorrect.Realizes
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [chunk_gate_recurrence_bwd_DL_store_slice]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx
+  exact chunk_gate_recurrence_bwd_DL_store_slice_correct DaccPre DL
+    D_MODEL_K D_MODEL_V BLOCK_MODEL_K BLOCK_MODEL_V s s' hOutInj hExec idx
 
 end VeriTile.Bench.TritonBenchG.ChunkGateRecurrence

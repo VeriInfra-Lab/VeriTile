@@ -68,7 +68,7 @@ def expandLeanAntiquoteAs (dtype : DInfo) (e : TSyntax `tritonExpr) :
 def realMathTerm (ctx : String) (e : EOut) : MacroM (TSyntax `term) := do
   match e.dtype with
   | .real => pure e.term
-  | .fp32 | .fp16 | .bf16 =>
+  | .fp32 | .fp16 | .bf16 | .floatVar _ =>
       let srcProof ← e.dtype.floatProof
       pure (← `(Op.castFloat $srcProof FloatDType.real $e.term))
   | _ =>
@@ -81,9 +81,9 @@ def coerceRealArithOperands (ctx : String) (a b : EOut) : MacroM (EOut × EOut) 
       pure (a, { b with term := ← `(Op.natToReal $b.term), dtype := .real })
   | .nat, .real =>
       pure ({ a with term := ← `(Op.natToReal $a.term), dtype := .real }, b)
-  | .real, .fp32 | .real, .fp16 | .real, .bf16 =>
+  | .real, .fp32 | .real, .fp16 | .real, .bf16 | .real, .floatVar _ =>
       pure (a, { b with term := ← realMathTerm (ctx ++ " rhs") b, dtype := .real })
-  | .fp32, .real | .fp16, .real | .bf16, .real =>
+  | .fp32, .real | .fp16, .real | .bf16, .real | .floatVar _, .real =>
       pure ({ a with term := ← realMathTerm (ctx ++ " lhs") a, dtype := .real }, b)
   | _, _ =>
       pure (a, b)
@@ -157,7 +157,7 @@ def isRealDType : DInfo → Bool
   | .real => Bool.true
   | _ => Bool.false
 
-def natDimTerm (ctx : String) (d : TSyntax `tritonExpr) :
+partial def natDimTerm (ctx : String) (d : TSyntax `tritonExpr) :
     MacroM (TSyntax `term) := do
   match d with
   | `(tritonExpr| $($t:term)) => `(($t : Nat))
@@ -165,6 +165,10 @@ def natDimTerm (ctx : String) (d : TSyntax `tritonExpr) :
   | `(tritonExpr| $i:ident) =>
       let t : TSyntax `term := ⟨i.raw⟩
       `(($t : Nat))
+  | `(tritonExpr| $a:tritonExpr // $b:tritonExpr) => do
+      let aTerm ← natDimTerm ctx a
+      let bTerm ← natDimTerm ctx b
+      `(($aTerm / $bTerm : Nat))
   | _ => Macro.throwError (ctx ++ ": each entry must be a numeric literal or `$(t)` antiquote")
 
 def natListTerm (ctx : String) (dims : Array (TSyntax `tritonExpr)) :

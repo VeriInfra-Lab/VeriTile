@@ -9,8 +9,7 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-- Surface transcription of `matmul_tma.py`'s `matmul_tma_load_store` with
-`OUTPUT_F16 = false`.
+/-- Faithful transcription of `matmul_tma.py`'s `matmul_tma_load_store`.
 
 The Python wrapper's transpose cases are represented by the strides passed to
 the same kernel, so no separate transpose-specific surface is needed. The TMA
@@ -19,7 +18,8 @@ erases it into the same block-pointer AST. -/
 def matmul_tma_load_store_surface
     (A B C : RegionName)
     (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
-      BLOCK_M BLOCK_N BLOCK_K : Nat) :
+      BLOCK_M BLOCK_N BLOCK_K : Nat)
+    (OUTPUT_F16 : Bool) :
     ComputeKernel := triton {
   a_block_ptr = tl.make_block_ptr(base=A, shape=($(M), $(K)),
     strides=($(stride_am), $(stride_ak)), offsets=($(0), $(0)),
@@ -33,7 +33,10 @@ def matmul_tma_load_store_surface
   a = tl.load(a_block_ptr)
   b = tl.load(b_block_ptr)
   c = tl.dot(a, b)
-  tl.store(c_block_ptr, c, boundary_check=([0, 1] : List Nat))
+  if OUTPUT_F16 {
+    c = (c).to(tl.float16)
+  }
+  tl.store(c_block_ptr, c)
 }
 
 /-- Surface transcription of `matmul_tma.py`'s `matmul_tma_load_store` with
@@ -55,7 +58,7 @@ def matmul_tma_load_store_f16_surface
   a = tl.load(a_block_ptr)
   b = tl.load(b_block_ptr)
   c = (tl.dot(a, b)).to(tl.float16)
-  tl.store(c_block_ptr, c, boundary_check=([0, 1] : List Nat))
+  tl.store(c_block_ptr, c)
 }
 
 /-- Proof-oriented output-store slice of `matmul_tma.py`'s `matmul_kernel`.
