@@ -2,6 +2,8 @@
 
 **English** | [中文](README_zh.md)
 
+📖 **Docs site:** [lizn-zn.github.io/VeriTile/](https://lizn-zn.github.io/VeriTile/) (bench cookbook, status, architecture). Run locally: `./site/scripts/dev.sh`.
+
 VeriTile embeds a typed Triton-style kernel DSL in Lean 4 and proves
 correctness or refinement of those kernels against mathematical
 specifications or against each other. The implementation embeds the kernel
