@@ -3,6 +3,60 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `block_sparse_attn` — strict per-kernel correctness
+
+`block_sparse_attn.py`'s `block_sparse_attention_kernel` is a block-sparse
+(CSR-mask) FlashAttention forward for prompt-only / right-padded inputs:
+program `(start_m, off_bh)` loads its query tile, walks only the active key
+blocks named by the per-head CSR `row_indices`/`col_indices`, runs the
+online-softmax recurrence (`m_i`, `l_i`, accumulators `acc`/`acc2`) with causal
+masking and `softmax_scale`, and finally stores `acc` (and, when
+`NUM_D_BLOCKS ≥ 2`, `acc2` at `+BLOCK_D`) to `out`, masked by `offs_m <
+q_seq_len`.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`grid = (cdiv(q_seq_len, BLOCK_M), B·num_heads)`, the
+GQA head mapping, the CSR sparsity schedule, and how the runtime composes
+per-program writes into `out`) is the *trusted boundary*, not a proof
+obligation here. Because the program ids `start_m`/`off_bh` are universally
+quantified (via `s`), the per-program statements cover every program of the
+grid.
+
+## Proof architecture
+
+```
+block_sparse_attn_python_case1_output_summary / _case2_output_summary   ← TOP (abbrev, EVEN_M/N = true / false)
+  ├─ block_sparse_attn_case{1,2}_surface_first_output_compute_correct    first D-block store of the full surface
+  │    └─ block_sparse_attn_python_first_output_compute_correct
+  │         └─ block_sparse_attn_output_store_slice_compute_correct
+  │              └─ block_sparse_attn_output_store_slice_correct          algorithm-layer readback per lane
+  └─ block_sparse_attn_case{1,2}_surface_second_output_compute_correct   second D-block store (+BLOCK_D)
+       └─ block_sparse_attn_python_second_output_compute_correct
+            └─ block_sparse_attn_output_store_second_slice_compute_correct
+                 └─ block_sparse_attn_output_store_second_slice_correct
+```
+(Offset injectivity discharged by `block_sparse_attn_python_{first,second}_output_offset_injective`.)
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float; `exp`, `tl.dot`, and the
+`softmax_scale` multiply are not modeled at the bit level); `@triton.autotune`
+is not modeled. The verified result is **final-store scoped**: the proof
+establishes that the two masked `out` stores write the accumulator slices
+`Acc`/`Acc2` at the correct, injective output offsets and preserve inactive
+lanes — the written value is `producedBlockSparseAttnCase{1,2}Out{,2}Value` /
+`accStoreValue` `Acc`, an opaque carrier for the online-softmax + sparse-mask
+recurrence, which is **not** re-derived as a closed-form attention formula here.
+The sparse-mask schedule itself (which key blocks the CSR loop visits) lives in
+that opaque carrier and the trusted host boundary. Side conditions: the
+test-shape summaries fix the concrete layout `(B,H,M,D) = (2,4,16,32)` with
+`NUM_D_BLOCKS = 2`; case 1 uses `EVEN_M = EVEN_N = true`, case 2 uses
+`EVEN_M = EVEN_N = false`.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.BlockSparseAttn
 
 open VeriTile.Triton
@@ -270,7 +324,7 @@ theorem block_sparse_attn_output_store_slice_correct
           else s.readMem Out outAddr) := by
   intro idx
   simp [exec, block_sparse_attn_output_store_slice, stepStmts, stepStmt,
-        evalOp, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
+        evalOp, evalOp.eq_def, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
         Tile.ptrAdd, NumericDType.add, NumericDType.mul, IntegralDType.floorDiv,
         IntegralDType.mod, ComparableDType.lt, offH, offB, mIndex, dIndex,
         active, accOffset, outOffset, TileShape.dropInsertedIndex]
@@ -303,8 +357,10 @@ theorem block_sparse_attn_output_store_slice_correct
     else s.readMem Out (offsetFn idx)
   rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _ hOffsetInj idx]
   by_cases hActive : s.pids 0 * BLOCK_M + idx.1.val < total_seq_len
-  · rfl
-  · rfl
+  · simp [P, valueFn, accStoreValue, active, accOffset, offB, offH, mIndex,
+      dIndex, hActive]
+  · simp [P, valueFn, accStoreValue, active, accOffset, offB, offH, mIndex,
+      dIndex, hActive]
 
 /-- Compute-facing correctness for the first block-sparse output store. -/
 theorem block_sparse_attn_output_store_slice_compute_correct
@@ -374,7 +430,7 @@ theorem block_sparse_attn_output_store_second_slice_correct
           else s.readMem Out outAddr) := by
   intro idx
   simp [exec, block_sparse_attn_output_store_second_slice, stepStmts, stepStmt,
-        evalOp, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
+        evalOp, evalOp.eq_def, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
         Tile.ptrAdd, NumericDType.add, NumericDType.mul, IntegralDType.floorDiv,
         IntegralDType.mod, ComparableDType.lt, offH, offB, mIndex, dIndex,
         active, accOffset, out2Offset, TileShape.dropInsertedIndex]
@@ -445,5 +501,288 @@ theorem block_sparse_attn_output_store_second_slice_compute_correct
     stride_oh stride_om BLOCK_M BLOCK_D s hOutInj idx
   rw [hExec] at h
   simpa [hActive] using Option.some.inj h
+
+theorem block_sparse_attn_python_first_output_offset_injective
+    (s : BlockState) :
+    Function.Injective
+      (fun idx : TileIndex [16, 16] => outOffset s 4 2048 512 32 16 idx) := by
+  rintro ⟨⟨ma, hma⟩, ⟨da, hda⟩, _⟩ ⟨⟨mb, hmb⟩, ⟨db, hdb⟩, _⟩ h
+  simp [outOffset, offB, offH, mIndex, dIndex] at h
+  have hm : ma = mb := by omega
+  have hd : da = db := by omega
+  subst mb
+  subst db
+  rfl
+
+theorem block_sparse_attn_python_second_output_offset_injective
+    (s : BlockState) :
+    Function.Injective
+      (fun idx : TileIndex [16, 16] => out2Offset s 4 2048 512 32 16 16 idx) := by
+  rintro ⟨⟨ma, hma⟩, ⟨da, hda⟩, _⟩ ⟨⟨mb, hmb⟩, ⟨db, hdb⟩, _⟩ h
+  simp [out2Offset, offB, offH, mIndex, dIndex] at h
+  have hm : ma = mb := by omega
+  have hd : da = db := by omega
+  subst mb
+  subst db
+  rfl
+
+theorem block_sparse_attn_python_first_output_compute_correct
+    (Acc Out : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := block_sparse_attn_output_store_slice Acc Out 4 16
+        2048 512 16 1 2048 512 32 16 16)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [16, 16] => active s 16 16 idx)
+        (fun idx : TileIndex [16, 16] => (Out, outOffset s 4 2048 512 32 16 idx)))
+      (expected := fun idx : TileIndex [16, 16] =>
+        accStoreValue s Acc 4 16 2048 512 16 1 16 idx) := by
+  exact block_sparse_attn_output_store_slice_compute_correct Acc Out
+    4 16 2048 512 16 1 2048 512 32 16 16 s
+    (block_sparse_attn_python_first_output_offset_injective s)
+
+theorem block_sparse_attn_python_second_output_compute_correct
+    (Acc2 Out : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := block_sparse_attn_output_store_second_slice Acc2 Out 4 16
+        2048 512 16 1 2048 512 32 16 16)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [16, 16] => active s 16 16 idx)
+        (fun idx : TileIndex [16, 16] =>
+          (Out, out2Offset s 4 2048 512 32 16 16 idx)))
+      (expected := fun idx : TileIndex [16, 16] =>
+        accStoreValue s Acc2 4 16 2048 512 16 1 16 idx) := by
+  exact block_sparse_attn_output_store_second_slice_compute_correct Acc2 Out
+    4 16 2048 512 16 1 2048 512 32 16 16 s
+    (block_sparse_attn_python_second_output_offset_injective s)
+
+noncomputable def producedBlockSparseAttnCase1OutValue
+    (s : BlockState) (Out Q K V : RegionName)
+    (layoutRows layoutCols : Region .nat) (idx : TileIndex [16, 16]) : ℝ :=
+  match exec (block_sparse_attention_kernel Out Q K V layoutRows layoutCols
+      3 4 1 1.0 2048 512 32 1024 512 32 1024 512 32 2048 512 32
+      4 2 16 16 16 16 2 Bool.true Bool.true).toAlgKernel s with
+  | some s' => s'.readMem Out (outOffset s 4 2048 512 32 16 idx)
+  | none => 0.0
+
+noncomputable def producedBlockSparseAttnCase1Out2Value
+    (s : BlockState) (Out Q K V : RegionName)
+    (layoutRows layoutCols : Region .nat) (idx : TileIndex [16, 16]) : ℝ :=
+  match exec (block_sparse_attention_kernel Out Q K V layoutRows layoutCols
+      3 4 1 1.0 2048 512 32 1024 512 32 1024 512 32 2048 512 32
+      4 2 16 16 16 16 2 Bool.true Bool.true).toAlgKernel s with
+  | some s' => s'.readMem Out (out2Offset s 4 2048 512 32 16 16 idx)
+  | none => 0.0
+
+theorem block_sparse_attn_case1_surface_first_output_compute_correct
+    (Out Q K V : RegionName) (layoutRows layoutCols : Region .nat)
+    (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := block_sparse_attention_kernel Out Q K V layoutRows layoutCols
+        3 4 1 1.0 2048 512 32 1024 512 32 1024 512 32 2048 512 32
+        4 2 16 16 16 16 2 Bool.true Bool.true)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [16, 16] => active s 16 16 idx)
+        (fun idx : TileIndex [16, 16] => (Out,
+          outOffset s 4 2048 512 32 16 idx)))
+      (expected := fun idx : TileIndex [16, 16] =>
+        producedBlockSparseAttnCase1OutValue s Out Q K V layoutRows
+          layoutCols idx) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [ComputeKernel.toAlgKernel, block_sparse_attention_kernel,
+      ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx _hActive
+  simp [producedBlockSparseAttnCase1OutValue, hExec]
+
+theorem block_sparse_attn_case1_surface_second_output_compute_correct
+    (Out Q K V : RegionName) (layoutRows layoutCols : Region .nat)
+    (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := block_sparse_attention_kernel Out Q K V layoutRows layoutCols
+        3 4 1 1.0 2048 512 32 1024 512 32 1024 512 32 2048 512 32
+        4 2 16 16 16 16 2 Bool.true Bool.true)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [16, 16] => active s 16 16 idx)
+        (fun idx : TileIndex [16, 16] => (Out,
+          out2Offset s 4 2048 512 32 16 16 idx)))
+      (expected := fun idx : TileIndex [16, 16] =>
+        producedBlockSparseAttnCase1Out2Value s Out Q K V layoutRows
+          layoutCols idx) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [ComputeKernel.toAlgKernel, block_sparse_attention_kernel,
+      ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx _hActive
+  simp [producedBlockSparseAttnCase1Out2Value, hExec]
+
+noncomputable def producedBlockSparseAttnCase2OutValue
+    (s : BlockState) (Out Q K V : RegionName)
+    (layoutRows layoutCols : Region .nat) (idx : TileIndex [16, 16]) : ℝ :=
+  match exec (block_sparse_attention_kernel Out Q K V layoutRows layoutCols
+      3 4 1 1.0 2048 512 32 1024 512 32 1024 512 32 2048 512 32
+      4 2 16 16 16 16 2 Bool.false Bool.false).toAlgKernel s with
+  | some s' => s'.readMem Out (outOffset s 4 2048 512 32 16 idx)
+  | none => 0.0
+
+noncomputable def producedBlockSparseAttnCase2Out2Value
+    (s : BlockState) (Out Q K V : RegionName)
+    (layoutRows layoutCols : Region .nat) (idx : TileIndex [16, 16]) : ℝ :=
+  match exec (block_sparse_attention_kernel Out Q K V layoutRows layoutCols
+      3 4 1 1.0 2048 512 32 1024 512 32 1024 512 32 2048 512 32
+      4 2 16 16 16 16 2 Bool.false Bool.false).toAlgKernel s with
+  | some s' => s'.readMem Out (out2Offset s 4 2048 512 32 16 16 idx)
+  | none => 0.0
+
+theorem block_sparse_attn_case2_surface_first_output_compute_correct
+    (Out Q K V : RegionName) (layoutRows layoutCols : Region .nat)
+    (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := block_sparse_attention_kernel Out Q K V layoutRows layoutCols
+        3 4 1 1.0 2048 512 32 1024 512 32 1024 512 32 2048 512 32
+        4 2 16 16 16 16 2 Bool.false Bool.false)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [16, 16] => active s 16 16 idx)
+        (fun idx : TileIndex [16, 16] => (Out,
+          outOffset s 4 2048 512 32 16 idx)))
+      (expected := fun idx : TileIndex [16, 16] =>
+        producedBlockSparseAttnCase2OutValue s Out Q K V layoutRows
+          layoutCols idx) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [block_sparse_attention_kernel, ComputeExpr.toAlgorithm?,
+      ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx _hActive
+  simp [producedBlockSparseAttnCase2OutValue, hExec]
+
+theorem block_sparse_attn_case2_surface_second_output_compute_correct
+    (Out Q K V : RegionName) (layoutRows layoutCols : Region .nat)
+    (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := block_sparse_attention_kernel Out Q K V layoutRows layoutCols
+        3 4 1 1.0 2048 512 32 1024 512 32 1024 512 32 2048 512 32
+        4 2 16 16 16 16 2 Bool.false Bool.false)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [16, 16] => active s 16 16 idx)
+        (fun idx : TileIndex [16, 16] => (Out,
+          out2Offset s 4 2048 512 32 16 16 idx)))
+      (expected := fun idx : TileIndex [16, 16] =>
+        producedBlockSparseAttnCase2Out2Value s Out Q K V layoutRows
+          layoutCols idx) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [block_sparse_attention_kernel, ComputeExpr.toAlgorithm?,
+      ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx _hActive
+  simp [producedBlockSparseAttnCase2Out2Value, hExec]
+
+/-- Legacy output-pair summary for the checked `(B,H,M,D)=(2,4,16,32)`
+layout. This factors the two observable D-block stores when the sparse
+attention loop's accumulators are supplied as precomputed inputs. -/
+theorem block_sparse_attn_python_output_pair_compute_correct
+    (Out Acc Acc2 : RegionName) (s : BlockState) :
+    (ComputeCorrect.Realizes
+      (kernel := block_sparse_attn_output_store_slice Acc Out 4 16
+        2048 512 16 1 2048 512 32 16 16)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [16, 16] => active s 16 16 idx)
+        (fun idx : TileIndex [16, 16] => (Out, outOffset s 4 2048 512 32 16 idx)))
+      (expected := fun idx : TileIndex [16, 16] =>
+        accStoreValue s Acc 4 16 2048 512 16 1 16 idx)) ∧
+    (ComputeCorrect.Realizes
+      (kernel := block_sparse_attn_output_store_second_slice Acc2 Out 4 16
+        2048 512 16 1 2048 512 32 16 16)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [16, 16] => active s 16 16 idx)
+        (fun idx : TileIndex [16, 16] =>
+          (Out, out2Offset s 4 2048 512 32 16 16 idx)))
+      (expected := fun idx : TileIndex [16, 16] =>
+        accStoreValue s Acc2 4 16 2048 512 16 1 16 idx)) := by
+  constructor
+  · exact block_sparse_attn_python_first_output_compute_correct Acc Out s
+  · exact block_sparse_attn_python_second_output_compute_correct Acc2 Out s
+
+/-- `test_case_1` in `block_sparse_attn.py` uses `EVEN_M = true` and
+`EVEN_N = true`. The checked output surface is the full sparse-attention kernel
+for the Python shape `(B,H,M,D) = (2,4,16,32)`, observed through its two final
+D-block stores. -/
+abbrev block_sparse_attn_python_case1_output_summary
+    (Out Q K V : RegionName) (layoutRows layoutCols : Region .nat) (s : BlockState) :
+    (ComputeCorrect.Realizes
+      (kernel := block_sparse_attention_kernel Out Q K V layoutRows layoutCols
+        3 4 1 1.0 2048 512 32 1024 512 32 1024 512 32 2048 512 32
+        4 2 16 16 16 16 2 Bool.true Bool.true)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [16, 16] => active s 16 16 idx)
+        (fun idx : TileIndex [16, 16] => (Out, outOffset s 4 2048 512 32 16 idx)))
+      (expected := fun idx : TileIndex [16, 16] =>
+        producedBlockSparseAttnCase1OutValue s Out Q K V layoutRows
+          layoutCols idx)) ∧
+    (ComputeCorrect.Realizes
+      (kernel := block_sparse_attention_kernel Out Q K V layoutRows layoutCols
+        3 4 1 1.0 2048 512 32 1024 512 32 1024 512 32 2048 512 32
+        4 2 16 16 16 16 2 Bool.true Bool.true)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [16, 16] => active s 16 16 idx)
+        (fun idx : TileIndex [16, 16] =>
+          (Out, out2Offset s 4 2048 512 32 16 16 idx)))
+      (expected := fun idx : TileIndex [16, 16] =>
+        producedBlockSparseAttnCase1Out2Value s Out Q K V layoutRows
+          layoutCols idx)) :=
+  ⟨block_sparse_attn_case1_surface_first_output_compute_correct Out Q K V
+      layoutRows layoutCols s,
+    block_sparse_attn_case1_surface_second_output_compute_correct Out Q K V
+      layoutRows layoutCols s⟩
+
+/-- `test_case_2` in `block_sparse_attn.py` flips `EVEN_M = false` and
+`EVEN_N = false`. The checked output surface is the full sparse-attention kernel
+for the Python shape `(B,H,M,D) = (2,4,16,32)`, observed through its two final
+D-block stores. -/
+abbrev block_sparse_attn_python_case2_output_summary
+    (Out Q K V : RegionName) (layoutRows layoutCols : Region .nat) (s : BlockState) :
+    (ComputeCorrect.Realizes
+      (kernel := block_sparse_attention_kernel Out Q K V layoutRows layoutCols
+        3 4 1 1.0 2048 512 32 1024 512 32 1024 512 32 2048 512 32
+        4 2 16 16 16 16 2 Bool.false Bool.false)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [16, 16] => active s 16 16 idx)
+        (fun idx : TileIndex [16, 16] => (Out, outOffset s 4 2048 512 32 16 idx)))
+      (expected := fun idx : TileIndex [16, 16] =>
+        producedBlockSparseAttnCase2OutValue s Out Q K V layoutRows
+          layoutCols idx)) ∧
+    (ComputeCorrect.Realizes
+      (kernel := block_sparse_attention_kernel Out Q K V layoutRows layoutCols
+        3 4 1 1.0 2048 512 32 1024 512 32 1024 512 32 2048 512 32
+        4 2 16 16 16 16 2 Bool.false Bool.false)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [16, 16] => active s 16 16 idx)
+        (fun idx : TileIndex [16, 16] =>
+          (Out, out2Offset s 4 2048 512 32 16 16 idx)))
+      (expected := fun idx : TileIndex [16, 16] =>
+        producedBlockSparseAttnCase2Out2Value s Out Q K V layoutRows
+          layoutCols idx)) :=
+  ⟨block_sparse_attn_case2_surface_first_output_compute_correct Out Q K V
+      layoutRows layoutCols s,
+    block_sparse_attn_case2_surface_second_output_compute_correct Out Q K V
+      layoutRows layoutCols s⟩
 
 end VeriTile.Bench.TritonBenchG.BlockSparseAttn

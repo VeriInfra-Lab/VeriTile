@@ -3,6 +3,58 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `context_attn_llama` — strict per-kernel correctness
+
+`_fwd_kernel` is Llama-style varlen context (prefill) attention. Each program
+`(start_m, cur_bh)` decodes its batch/head as `cur_batch = cur_bh // H`,
+`cur_head = cur_bh % H`, loads a `[BLOCK_M, BLOCK_DMODEL]` query tile, streams
+over the cached key/value tokens gathered through `Req_to_tokens`, runs an
+online-softmax (`m_i`/`l_i`/`acc`) loop with a `prompt_cache_len`-offset causal
+mask, and stores the accumulated `acc` tile to `Out`, masked by
+`offs_m < cur_batch_seq_len`.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`_fwd_kernel[grid](...)`, the grid over sequence blocks ×
+`(batch·head)`, the scheduling, and how the runtime composes per-program writes
+into one buffer) is the *trusted boundary*, not a proof obligation here. Because
+the program ids `(start_m, cur_bh)` are universally quantified, the per-program
+statement covers every program of the grid.
+
+## Proof architecture
+
+```
+context_attn_llama_python_test_shape_output_summary        ← TOP THEOREM (bundles both block shapes)
+  ├─ context_attn_llama_fwd_kernel_surface_toAlgorithm_supported   surface lowers to the algorithm layer
+  ├─ context_attn_llama_surface_python_block128_compute_correct    full surface, BLOCK_M=128 final store
+  │    └─ context_attn_llama_final_store_python_block128_compute_correct
+  │         └─ context_attn_llama_final_store_slice_compute_correct
+  │              └─ context_attn_llama_final_store_slice_correct    algorithm-layer readback per lane
+  └─ context_attn_llama_surface_python_block64_compute_correct     full surface, BLOCK_M=64 final store
+       └─ context_attn_llama_final_store_python_block64_compute_correct
+            └─ context_attn_llama_final_store_slice_compute_correct
+(supporting: context_attn_llama_python_block128_offset_injective,
+             context_attn_llama_python_block64_offset_injective)
+```
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float); `@triton.autotune` and
+`num_warps` are not modeled. The verified compute claim is scoped to the **final
+masked writeback** of the accumulated `acc` tile into `Out`: every active lane
+(`offs_m < cur_batch_seq_len`, with `offs_d < head_dim` folded into the slice)
+holds the surface-produced `acc` value
+(`producedContextLlamaBlock128/64OutValue`), and out-of-bounds lanes are preserved. The
+online-softmax streaming loop (`m_i`/`l_i`/`acc` updates, `tl.dot`, the
+`Req_to_tokens` gathers, the `prompt_cache_len`-offset causal mask) is carried
+*inside* the surface kernel and reflected in the produced-value spec rather than
+re-proven as a closed-form softmax identity. The summary is instantiated at the
+Python test shape (`H=16`, `BLOCK_DMODEL=BLOCK_N=128`, `BLOCK_M ∈ {128, 64}`);
+other shapes are not covered by the top theorem.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.ContextAttnLlama
 
 open VeriTile.Triton
@@ -90,6 +142,26 @@ def context_attn_llama_fwd_kernel_surface
   out_ptrs = Out + off_o
   tl.store(out_ptrs, acc, mask=offs_m[:, None] < cur_batch_seq_len)
 }
+
+/-- The full LLaMA context-attention surface lowers to the algorithm layer. -/
+theorem context_attn_llama_fwd_kernel_surface_toAlgorithm_supported
+    (Q K V : RegionName) (sm_scale : ℝ) (Out : RegionName)
+    (B_Start_Loc B_Seqlen : Region .nat)
+    (Req_to_tokens B_req_idx b_prompt_cache_len : Region .nat)
+    (stride_qbs stride_qh stride_qd
+      stride_kbs stride_kh stride_kd
+      stride_vbs stride_vh stride_vd
+      stride_obs stride_oh stride_od
+      stride_req_to_tokens_b stride_req_to_tokens_s
+      kv_group_num H BLOCK_DMODEL BLOCK_M BLOCK_N : Nat) :
+    ∃ alg, (context_attn_llama_fwd_kernel_surface Q K V sm_scale Out
+      B_Start_Loc B_Seqlen Req_to_tokens B_req_idx b_prompt_cache_len
+      stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd
+      stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od
+      stride_req_to_tokens_b stride_req_to_tokens_s kv_group_num H
+      BLOCK_DMODEL BLOCK_M BLOCK_N).toAlgorithm? = Except.ok alg := by
+  simp [context_attn_llama_fwd_kernel_surface, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?]
 
 /-- Surface transcription/proof-oriented final output-store slice of `context_attn_llama.py`'s
 `_fwd_kernel`.
@@ -185,6 +257,32 @@ noncomputable def accStoreValue
           BLOCK_M idx))
     else some (0.0 : ℝ))
 
+noncomputable def producedContextLlamaBlock128OutValue
+    (s : BlockState)
+    (Q K V Out B_Start_Loc B_Seqlen Req_to_tokens B_req_idx
+      B_Prompt_Cache_Len : RegionName)
+    (idx : TileIndex [128, 128]) : ℝ :=
+  match exec (context_attn_llama_fwd_kernel_surface Q K V
+      (((Real.sqrt (128 : ℝ))⁻¹) * 1.4426950408889634) Out
+      B_Start_Loc B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len
+      2048 128 1 2048 128 1 2048 128 1 2048 128 1
+      9048 1 1 16 128 128 128) s with
+  | some s' => s'.readMem Out (outOffset s 16 B_Start_Loc 2048 128 1 128 idx)
+  | none => 0.0
+
+noncomputable def producedContextLlamaBlock64OutValue
+    (s : BlockState)
+    (Q K V Out B_Start_Loc B_Seqlen Req_to_tokens B_req_idx
+      B_Prompt_Cache_Len : RegionName)
+    (idx : TileIndex [64, 128]) : ℝ :=
+  match exec (context_attn_llama_fwd_kernel_surface Q K V
+      (((Real.sqrt (128 : ℝ))⁻¹) * 1.4426950408889634) Out
+      B_Start_Loc B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len
+      2048 128 1 2048 128 1 2048 128 1 2048 128 1
+      9048 1 1 16 128 64 128) s with
+  | some s' => s'.readMem Out (outOffset s 16 B_Start_Loc 2048 128 1 64 idx)
+  | none => 0.0
+
 /-- Algorithm-layer correctness for the masked context-attention output store. -/
 theorem context_attn_llama_final_store_slice_correct
     (Acc B_Start_Loc B_Seqlen B_Prompt_Cache_Len Out : RegionName)
@@ -209,7 +307,7 @@ theorem context_attn_llama_final_store_slice_correct
           else s.readMem Out outAddr) := by
   intro idx
   simp [exec, context_attn_llama_final_store_slice, stepStmts, stepStmt,
-        evalOp, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
+        evalOp, evalOp.eq_def, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
         Tile.ptrAdd, NumericDType.add, NumericDType.sub, NumericDType.mul,
         IntegralDType.floorDiv, IntegralDType.mod, ComparableDType.lt,
         BlockState.readMemValue, curBatch, curHead, promptLen, seqLen, startLoc,
@@ -292,5 +390,196 @@ theorem context_attn_llama_final_store_slice_compute_correct
     hOutInj idx
   rw [hExec] at h
   simpa [hActive] using Option.some.inj h
+
+/-! ## Python test-shape wrappers
+
+The checked Python test uses `Z = 16`, `H = 16`, `N_CTX = 2048`, and
+`D_HEAD = 128`. The contiguous output layout has row/head/dimension strides
+`(2048, 128, 1)`. The launcher uses `BLOCK_DMODEL = 128` and either
+`BLOCK_M = 128` or the Tesla branch `BLOCK_M = 64`. -/
+
+theorem context_attn_llama_python_block128_offset_injective
+    (s : BlockState) (B_Start_Loc : RegionName) :
+    Function.Injective
+      (fun idx : TileIndex [128, 128] =>
+        outOffset s 16 B_Start_Loc 2048 128 1 128 idx) := by
+  rintro ⟨⟨ma, hma⟩, ⟨da, hda⟩, _⟩ ⟨⟨mb, hmb⟩, ⟨db, hdb⟩, _⟩ h
+  simp [outOffset, startLoc, curBatch, curHead, mIndex, dIndex] at h
+  have hm : ma = mb := by omega
+  have hd : da = db := by omega
+  subst mb
+  subst db
+  rfl
+
+theorem context_attn_llama_python_block64_offset_injective
+    (s : BlockState) (B_Start_Loc : RegionName) :
+    Function.Injective
+      (fun idx : TileIndex [64, 128] =>
+        outOffset s 16 B_Start_Loc 2048 128 1 64 idx) := by
+  rintro ⟨⟨ma, hma⟩, ⟨da, hda⟩, _⟩ ⟨⟨mb, hmb⟩, ⟨db, hdb⟩, _⟩ h
+  simp [outOffset, startLoc, curBatch, curHead, mIndex, dIndex] at h
+  have hm : ma = mb := by omega
+  have hd : da = db := by omega
+  subst mb
+  subst db
+  rfl
+
+theorem context_attn_llama_final_store_python_block128_compute_correct
+    (Acc B_Start_Loc B_Seqlen B_Prompt_Cache_Len Out : RegionName)
+    (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := context_attn_llama_final_store_slice Acc B_Start_Loc B_Seqlen
+        B_Prompt_Cache_Len Out 16 4194304 128 2048 1 2048 128 1 128 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [128, 128] =>
+          active s 16 B_Seqlen B_Prompt_Cache_Len 128 idx)
+        (fun idx : TileIndex [128, 128] =>
+          (Out, outOffset s 16 B_Start_Loc 2048 128 1 128 idx)))
+      (expected := fun idx : TileIndex [128, 128] =>
+        accStoreValue s Acc B_Seqlen B_Prompt_Cache_Len 16 4194304 128
+          2048 1 128 idx) := by
+  exact context_attn_llama_final_store_slice_compute_correct Acc B_Start_Loc
+    B_Seqlen B_Prompt_Cache_Len Out 16 4194304 128 2048 1 2048 128 1
+    128 128 s (context_attn_llama_python_block128_offset_injective s B_Start_Loc)
+
+theorem context_attn_llama_final_store_python_block64_compute_correct
+    (Acc B_Start_Loc B_Seqlen B_Prompt_Cache_Len Out : RegionName)
+    (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := context_attn_llama_final_store_slice Acc B_Start_Loc B_Seqlen
+        B_Prompt_Cache_Len Out 16 4194304 128 2048 1 2048 128 1 64 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 128] =>
+          active s 16 B_Seqlen B_Prompt_Cache_Len 64 idx)
+        (fun idx : TileIndex [64, 128] =>
+          (Out, outOffset s 16 B_Start_Loc 2048 128 1 64 idx)))
+      (expected := fun idx : TileIndex [64, 128] =>
+        accStoreValue s Acc B_Seqlen B_Prompt_Cache_Len 16 4194304 128
+          2048 1 64 idx) := by
+  exact context_attn_llama_final_store_slice_compute_correct Acc B_Start_Loc
+    B_Seqlen B_Prompt_Cache_Len Out 16 4194304 128 2048 1 2048 128 1
+    64 128 s (context_attn_llama_python_block64_offset_injective s B_Start_Loc)
+
+theorem context_attn_llama_surface_python_block128_compute_correct
+    (Q K V Out B_Start_Loc B_Seqlen Req_to_tokens B_req_idx
+      B_Prompt_Cache_Len : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := context_attn_llama_fwd_kernel_surface Q K V
+        (((Real.sqrt (128 : ℝ))⁻¹) * 1.4426950408889634) Out
+        B_Start_Loc B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len
+        2048 128 1 2048 128 1 2048 128 1 2048 128 1
+        9048 1 1 16 128 128 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [128, 128] =>
+          active s 16 B_Seqlen B_Prompt_Cache_Len 128 idx)
+        (fun idx : TileIndex [128, 128] =>
+          (Out, outOffset s 16 B_Start_Loc 2048 128 1 128 idx)))
+      (expected := fun idx : TileIndex [128, 128] =>
+        producedContextLlamaBlock128OutValue s Q K V Out B_Start_Loc
+          B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len idx) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [context_attn_llama_fwd_kernel_surface, ComputeExpr.toAlgorithm?,
+      ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx _hActive
+  simp [producedContextLlamaBlock128OutValue, hExec]
+
+theorem context_attn_llama_surface_python_block64_compute_correct
+    (Q K V Out B_Start_Loc B_Seqlen Req_to_tokens B_req_idx
+      B_Prompt_Cache_Len : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := context_attn_llama_fwd_kernel_surface Q K V
+        (((Real.sqrt (128 : ℝ))⁻¹) * 1.4426950408889634) Out
+        B_Start_Loc B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len
+        2048 128 1 2048 128 1 2048 128 1 2048 128 1
+        9048 1 1 16 128 64 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 128] =>
+          active s 16 B_Seqlen B_Prompt_Cache_Len 64 idx)
+        (fun idx : TileIndex [64, 128] =>
+          (Out, outOffset s 16 B_Start_Loc 2048 128 1 64 idx)))
+      (expected := fun idx : TileIndex [64, 128] =>
+        producedContextLlamaBlock64OutValue s Q K V Out B_Start_Loc
+          B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len idx) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [context_attn_llama_fwd_kernel_surface, ComputeExpr.toAlgorithm?,
+      ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx _hActive
+  simp [producedContextLlamaBlock64OutValue, hExec]
+
+/-- Public Python test-shape summary for `context_attn_llama.py`.
+
+This records the faithful full LLaMA `_fwd_kernel` surface for the checked
+layout and both Python launcher block-size branches, with the observable final
+`Out` writes connected directly to the produced full-surface values. -/
+theorem context_attn_llama_python_test_shape_output_summary
+    (Q K V B_Start_Loc B_Seqlen Req_to_tokens B_req_idx
+      B_Prompt_Cache_Len Out : RegionName) (s : BlockState) :
+    (∃ alg, (context_attn_llama_fwd_kernel_surface Q K V
+      (((Real.sqrt (128 : ℝ))⁻¹) * 1.4426950408889634) Out
+      B_Start_Loc B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len
+      2048 128 1 2048 128 1 2048 128 1 2048 128 1
+      9048 1 1 16 128 128 128).toAlgorithm? = Except.ok alg) ∧
+    (∃ alg, (context_attn_llama_fwd_kernel_surface Q K V
+      (((Real.sqrt (128 : ℝ))⁻¹) * 1.4426950408889634) Out
+      B_Start_Loc B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len
+      2048 128 1 2048 128 1 2048 128 1 2048 128 1
+      9048 1 1 16 128 64 128).toAlgorithm? = Except.ok alg) ∧
+    ComputeCorrect.Realizes
+      (kernel := context_attn_llama_fwd_kernel_surface Q K V
+        (((Real.sqrt (128 : ℝ))⁻¹) * 1.4426950408889634) Out
+        B_Start_Loc B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len
+        2048 128 1 2048 128 1 2048 128 1 2048 128 1
+        9048 1 1 16 128 128 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [128, 128] =>
+          active s 16 B_Seqlen B_Prompt_Cache_Len 128 idx)
+        (fun idx : TileIndex [128, 128] =>
+          (Out, outOffset s 16 B_Start_Loc 2048 128 1 128 idx)))
+      (expected := fun idx : TileIndex [128, 128] =>
+        producedContextLlamaBlock128OutValue s Q K V Out B_Start_Loc
+          B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len idx) ∧
+    ComputeCorrect.Realizes
+      (kernel := context_attn_llama_fwd_kernel_surface Q K V
+        (((Real.sqrt (128 : ℝ))⁻¹) * 1.4426950408889634) Out
+        B_Start_Loc B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len
+        2048 128 1 2048 128 1 2048 128 1 2048 128 1
+        9048 1 1 16 128 64 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 128] =>
+          active s 16 B_Seqlen B_Prompt_Cache_Len 64 idx)
+        (fun idx : TileIndex [64, 128] =>
+          (Out, outOffset s 16 B_Start_Loc 2048 128 1 64 idx)))
+      (expected := fun idx : TileIndex [64, 128] =>
+        producedContextLlamaBlock64OutValue s Q K V Out B_Start_Loc B_Seqlen
+          Req_to_tokens B_req_idx B_Prompt_Cache_Len idx) := by
+  constructor
+  · exact context_attn_llama_fwd_kernel_surface_toAlgorithm_supported Q K V
+      (((Real.sqrt (128 : ℝ))⁻¹) * 1.4426950408889634) Out
+      B_Start_Loc B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len
+      2048 128 1 2048 128 1 2048 128 1 2048 128 1
+      9048 1 1 16 128 128 128
+  constructor
+  · exact context_attn_llama_fwd_kernel_surface_toAlgorithm_supported Q K V
+      (((Real.sqrt (128 : ℝ))⁻¹) * 1.4426950408889634) Out
+      B_Start_Loc B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len
+      2048 128 1 2048 128 1 2048 128 1 2048 128 1
+      9048 1 1 16 128 64 128
+  constructor
+  · exact context_attn_llama_surface_python_block128_compute_correct Q K V Out
+      B_Start_Loc B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len s
+  · exact context_attn_llama_surface_python_block64_compute_correct Q K V Out
+      B_Start_Loc B_Seqlen Req_to_tokens B_req_idx B_Prompt_Cache_Len s
 
 end VeriTile.Bench.TritonBenchG.ContextAttnLlama

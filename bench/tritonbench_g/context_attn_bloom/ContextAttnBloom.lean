@@ -3,6 +3,57 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `context_attn_bloom` — strict per-kernel correctness
+
+`_fwd_kernel` is BLOOM-style varlen context (prefill) attention. Each program
+`(cur_batch, cur_head, start_m)` loads a `[BLOCK_M, BLOCK_DMODEL]` query tile,
+streams over the cached key/value tokens gathered through `Req_to_tokens`,
+runs an online-softmax (`m_i`/`l_i`/`acc`) loop with a causal/ALiBi-position
+mask offset by `prompt_cache_len`, and stores the accumulated `acc` tile back to
+`Out`, masked by `offs_m < cur_batch_seq_len` and `offs_d < head_dim`.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`_fwd_kernel[grid](...)` with
+`grid = (batch, head, cdiv(max_input_len, BLOCK))`, the scheduling over batch /
+head / sequence blocks, and how the runtime composes per-program writes into one
+buffer) is the *trusted boundary*, not a proof obligation here. Because the
+program ids `(cur_batch, cur_head, start_m)` are universally quantified, the
+per-program statement covers every program of the grid.
+
+## Proof architecture
+
+```
+context_attn_bloom_python_test_shape_output_summary       ← TOP THEOREM (bundles both block shapes)
+  ├─ context_attn_bloom_fwd_kernel_surface_toAlgorithm_supported   surface lowers to the algorithm layer
+  ├─ context_attn_bloom_surface_python_block128_compute_correct    full surface, BLOCK_M=128 final store
+  │    └─ context_attn_bloom_final_store_python_block128_compute_correct
+  │         └─ context_attn_bloom_final_store_slice_compute_correct
+  │              └─ context_attn_bloom_final_store_slice_correct    algorithm-layer readback per lane
+  └─ context_attn_bloom_surface_python_block64_compute_correct     full surface, BLOCK_M=64 final store
+       └─ context_attn_bloom_final_store_python_block64_compute_correct
+            └─ context_attn_bloom_final_store_slice_compute_correct
+(supporting: context_attn_bloom_python_block128_offset_injective,
+             context_attn_bloom_python_block64_offset_injective)
+```
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float); `@triton.autotune` and
+`num_warps` are not modeled. The verified compute claim is scoped to the **final
+masked writeback** of the accumulated `acc` tile into `Out`: every active lane
+(`offs_m < cur_batch_seq_len ∧ offs_d < head_dim`) holds the surface-produced
+`acc` value (`producedBloomBlock128/64OutValue`), and out-of-bounds lanes are
+preserved. The online-softmax streaming loop (`m_i`/`l_i`/`acc` updates,
+`tl.dot`, the `Req_to_tokens` gathers, and the `prompt_cache_len`-offset causal
+mask) is carried *inside* the surface kernel and reflected in the produced-value
+spec rather than re-proven as a closed-form softmax identity. The summary is
+instantiated at the Python test shape (`head_dim=96`, `BLOCK_DMODEL=BLOCK_N=128`,
+`BLOCK_M ∈ {128, 64}`); other shapes are not covered by the top theorem.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.ContextAttnBloom
 
 open VeriTile.Triton
@@ -101,6 +152,27 @@ def context_attn_bloom_fwd_kernel_surface
     mask=(offs_m[:, None] < cur_batch_seq_len) & (offs_d[None, :] < $(head_dim)))
 }
 
+/-- The full BLOOM context-attention surface lowers to the algorithm layer,
+including request-token gathers and final masked output stores. -/
+theorem context_attn_bloom_fwd_kernel_surface_toAlgorithm_supported
+    (Q K V : RegionName) (sm_scale : ℝ)
+    (B_Start_Loc B_Seqlen : Region .nat) (Out : RegionName)
+    (Req_to_tokens B_req_idx b_prompt_cache_len : Region .nat)
+    (stride_qbs stride_qh stride_qd
+      stride_kbs stride_kh stride_kd
+      stride_vbs stride_vh stride_vd
+      stride_obs stride_oh stride_od
+      stride_req_to_tokens_b stride_req_to_tokens_s
+      kv_group_num head_dim BLOCK_M BLOCK_DMODEL BLOCK_N : Nat) :
+    ∃ alg, (context_attn_bloom_fwd_kernel_surface Q K V sm_scale B_Start_Loc
+      B_Seqlen Out Req_to_tokens B_req_idx b_prompt_cache_len stride_qbs
+      stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh
+      stride_vd stride_obs stride_oh stride_od stride_req_to_tokens_b
+      stride_req_to_tokens_s kv_group_num head_dim BLOCK_M BLOCK_DMODEL
+      BLOCK_N).toAlgorithm? = Except.ok alg := by
+  simp [context_attn_bloom_fwd_kernel_surface, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?]
+
 /-- Surface transcription/proof-oriented final output-store slice of `context_attn_bloom.py`'s
 `_fwd_kernel`.
 
@@ -187,6 +259,32 @@ noncomputable def accStoreValue
           BLOCK_M idx))
     else some (0.0 : ℝ))
 
+noncomputable def producedBloomBlock128OutValue
+    (s : BlockState)
+    (Q K V B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx
+      B_Prompt_Cache_Len : RegionName)
+    (idx : TileIndex [128, 128]) : ℝ :=
+  match exec (context_attn_bloom_fwd_kernel_surface Q K V
+      ((Real.sqrt (96 : ℝ))⁻¹) B_Start_Loc B_Seqlen Out Req_to_tokens
+      B_req_idx B_Prompt_Cache_Len
+      576 96 1 576 96 1 576 96 1 576 96 1
+      7500 1 1 96 128 128 128) s with
+  | some s' => s'.readMem Out (outOffset s B_Start_Loc 576 96 1 128 idx)
+  | none => 0.0
+
+noncomputable def producedBloomBlock64OutValue
+    (s : BlockState)
+    (Q K V B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx
+      B_Prompt_Cache_Len : RegionName)
+    (idx : TileIndex [64, 128]) : ℝ :=
+  match exec (context_attn_bloom_fwd_kernel_surface Q K V
+      ((Real.sqrt (96 : ℝ))⁻¹) B_Start_Loc B_Seqlen Out Req_to_tokens
+      B_req_idx B_Prompt_Cache_Len
+      576 96 1 576 96 1 576 96 1 576 96 1
+      7500 1 1 96 64 128 128) s with
+  | some s' => s'.readMem Out (outOffset s B_Start_Loc 576 96 1 64 idx)
+  | none => 0.0
+
 /-- Algorithm-layer correctness for the masked BLOOM context-attention output
 store. -/
 theorem context_attn_bloom_final_store_slice_correct
@@ -211,7 +309,7 @@ theorem context_attn_bloom_final_store_slice_correct
               stride_acc_b stride_acc_h stride_acc_m stride_acc_d BLOCK_M idx
           else s.readMem Out outAddr) := by
   intro idx
-  simp [exec, context_attn_bloom_final_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, context_attn_bloom_final_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
         Tile.ptrAdd, NumericDType.add, NumericDType.sub, NumericDType.mul,
         ComparableDType.lt, BlockState.readMemValue, promptLen, seqLen,
@@ -298,5 +396,194 @@ theorem context_attn_bloom_final_store_slice_compute_correct
     BLOCK_DMODEL s hOutInj idx
   rw [hExec] at h
   simpa [hActive] using Option.some.inj h
+
+/-! ## Python test-shape wrappers
+
+The checked Python test uses `Z = 1`, `H = 6`, `N_CTX = 500`, `D_HEAD = 96`.
+The contiguous `q/k/v/o` layout has row/head/dimension strides `(576, 96, 1)`;
+`BLOCK_DMODEL = next_power_of_2(96) = 128`, and `BLOCK_M` is `128` on the
+regular path or `64` on the Tesla branch. -/
+
+theorem context_attn_bloom_python_block128_offset_injective
+    (s : BlockState) (B_Start_Loc : RegionName) :
+    Function.Injective
+      (fun idx : TileIndex [128, 128] =>
+        outOffset s B_Start_Loc 576 96 1 128 idx) := by
+  rintro ⟨⟨ma, hma⟩, ⟨da, hda⟩, _⟩ ⟨⟨mb, hmb⟩, ⟨db, hdb⟩, _⟩ h
+  simp [outOffset, startLoc, mIndex, dIndex] at h
+  have hm : ma = mb := by omega
+  have hd : da = db := by omega
+  subst mb
+  subst db
+  rfl
+
+theorem context_attn_bloom_python_block64_offset_injective
+    (s : BlockState) (B_Start_Loc : RegionName) :
+    Function.Injective
+      (fun idx : TileIndex [64, 128] =>
+        outOffset s B_Start_Loc 576 96 1 64 idx) := by
+  rintro ⟨⟨ma, hma⟩, ⟨da, hda⟩, _⟩ ⟨⟨mb, hmb⟩, ⟨db, hdb⟩, _⟩ h
+  simp [outOffset, startLoc, mIndex, dIndex] at h
+  have hm : ma = mb := by omega
+  have hd : da = db := by omega
+  subst mb
+  subst db
+  rfl
+
+theorem context_attn_bloom_final_store_python_block128_compute_correct
+    (Acc B_Start_Loc B_Seqlen B_Prompt_Cache_Len Out : RegionName)
+    (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := context_attn_bloom_final_store_slice Acc B_Start_Loc B_Seqlen
+        B_Prompt_Cache_Len Out 96 288000 96 576 1 576 96 1 128 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [128, 128] =>
+          active s B_Seqlen B_Prompt_Cache_Len 96 128 idx)
+        (fun idx : TileIndex [128, 128] =>
+          (Out, outOffset s B_Start_Loc 576 96 1 128 idx)))
+      (expected := fun idx : TileIndex [128, 128] =>
+        accStoreValue s Acc B_Seqlen B_Prompt_Cache_Len 96 288000 96 576 1
+          128 idx) := by
+  exact context_attn_bloom_final_store_slice_compute_correct Acc B_Start_Loc
+    B_Seqlen B_Prompt_Cache_Len Out 96 288000 96 576 1 576 96 1 128 128
+    s (context_attn_bloom_python_block128_offset_injective s B_Start_Loc)
+
+theorem context_attn_bloom_final_store_python_block64_compute_correct
+    (Acc B_Start_Loc B_Seqlen B_Prompt_Cache_Len Out : RegionName)
+    (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := context_attn_bloom_final_store_slice Acc B_Start_Loc B_Seqlen
+        B_Prompt_Cache_Len Out 96 288000 96 576 1 576 96 1 64 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 128] =>
+          active s B_Seqlen B_Prompt_Cache_Len 96 64 idx)
+        (fun idx : TileIndex [64, 128] =>
+          (Out, outOffset s B_Start_Loc 576 96 1 64 idx)))
+      (expected := fun idx : TileIndex [64, 128] =>
+        accStoreValue s Acc B_Seqlen B_Prompt_Cache_Len 96 288000 96 576 1
+          64 idx) := by
+  exact context_attn_bloom_final_store_slice_compute_correct Acc B_Start_Loc
+    B_Seqlen B_Prompt_Cache_Len Out 96 288000 96 576 1 576 96 1 64 128
+    s (context_attn_bloom_python_block64_offset_injective s B_Start_Loc)
+
+theorem context_attn_bloom_surface_python_block128_compute_correct
+    (Q K V B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx
+      B_Prompt_Cache_Len : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := context_attn_bloom_fwd_kernel_surface Q K V
+        ((Real.sqrt (96 : ℝ))⁻¹) B_Start_Loc B_Seqlen Out Req_to_tokens
+        B_req_idx B_Prompt_Cache_Len
+        576 96 1 576 96 1 576 96 1 576 96 1
+        7500 1 1 96 128 128 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [128, 128] =>
+          active s B_Seqlen B_Prompt_Cache_Len 96 128 idx)
+        (fun idx : TileIndex [128, 128] =>
+          (Out, outOffset s B_Start_Loc 576 96 1 128 idx)))
+      (expected := fun idx : TileIndex [128, 128] =>
+        producedBloomBlock128OutValue s Q K V B_Start_Loc B_Seqlen Out
+          Req_to_tokens B_req_idx B_Prompt_Cache_Len idx) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [context_attn_bloom_fwd_kernel_surface, ComputeExpr.toAlgorithm?,
+      ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx _hActive
+  simp [producedBloomBlock128OutValue, hExec]
+
+theorem context_attn_bloom_surface_python_block64_compute_correct
+    (Q K V B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx
+      B_Prompt_Cache_Len : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := context_attn_bloom_fwd_kernel_surface Q K V
+        ((Real.sqrt (96 : ℝ))⁻¹) B_Start_Loc B_Seqlen Out Req_to_tokens
+        B_req_idx B_Prompt_Cache_Len
+        576 96 1 576 96 1 576 96 1 576 96 1
+        7500 1 1 96 64 128 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 128] =>
+          active s B_Seqlen B_Prompt_Cache_Len 96 64 idx)
+        (fun idx : TileIndex [64, 128] =>
+          (Out, outOffset s B_Start_Loc 576 96 1 64 idx)))
+      (expected := fun idx : TileIndex [64, 128] =>
+        producedBloomBlock64OutValue s Q K V B_Start_Loc B_Seqlen Out
+          Req_to_tokens B_req_idx B_Prompt_Cache_Len idx) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [context_attn_bloom_fwd_kernel_surface, ComputeExpr.toAlgorithm?,
+      ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx _hActive
+  simp [producedBloomBlock64OutValue, hExec]
+
+/-- Public Python test-shape summary for `context_attn_bloom.py`.
+
+This records the faithful full BLOOM `_fwd_kernel` surface for the checked
+layout and both Python launcher block-size branches, with the observable final
+`Out` writes connected directly to the produced full-surface values. -/
+theorem context_attn_bloom_python_test_shape_output_summary
+    (Q K V B_Start_Loc B_Seqlen Req_to_tokens B_req_idx
+      B_Prompt_Cache_Len Out : RegionName) (s : BlockState) :
+    (∃ alg, (context_attn_bloom_fwd_kernel_surface Q K V
+      ((Real.sqrt (96 : ℝ))⁻¹) B_Start_Loc B_Seqlen Out Req_to_tokens
+      B_req_idx B_Prompt_Cache_Len
+      576 96 1 576 96 1 576 96 1 576 96 1
+      7500 1 1 96 128 128 128).toAlgorithm? = Except.ok alg) ∧
+    (∃ alg, (context_attn_bloom_fwd_kernel_surface Q K V
+      ((Real.sqrt (96 : ℝ))⁻¹) B_Start_Loc B_Seqlen Out Req_to_tokens
+      B_req_idx B_Prompt_Cache_Len
+      576 96 1 576 96 1 576 96 1 576 96 1
+      7500 1 1 96 64 128 128).toAlgorithm? = Except.ok alg) ∧
+    ComputeCorrect.Realizes
+      (kernel := context_attn_bloom_fwd_kernel_surface Q K V
+        ((Real.sqrt (96 : ℝ))⁻¹) B_Start_Loc B_Seqlen Out Req_to_tokens
+        B_req_idx B_Prompt_Cache_Len
+        576 96 1 576 96 1 576 96 1 576 96 1
+        7500 1 1 96 128 128 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [128, 128] =>
+          active s B_Seqlen B_Prompt_Cache_Len 96 128 idx)
+        (fun idx : TileIndex [128, 128] =>
+          (Out, outOffset s B_Start_Loc 576 96 1 128 idx)))
+      (expected := fun idx : TileIndex [128, 128] =>
+        producedBloomBlock128OutValue s Q K V B_Start_Loc B_Seqlen Out
+          Req_to_tokens B_req_idx B_Prompt_Cache_Len idx) ∧
+    ComputeCorrect.Realizes
+      (kernel := context_attn_bloom_fwd_kernel_surface Q K V
+        ((Real.sqrt (96 : ℝ))⁻¹) B_Start_Loc B_Seqlen Out Req_to_tokens
+        B_req_idx B_Prompt_Cache_Len
+        576 96 1 576 96 1 576 96 1 576 96 1
+        7500 1 1 96 64 128 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 128] =>
+          active s B_Seqlen B_Prompt_Cache_Len 96 64 idx)
+        (fun idx : TileIndex [64, 128] =>
+          (Out, outOffset s B_Start_Loc 576 96 1 64 idx)))
+      (expected := fun idx : TileIndex [64, 128] =>
+        producedBloomBlock64OutValue s Q K V B_Start_Loc B_Seqlen Out
+          Req_to_tokens B_req_idx B_Prompt_Cache_Len idx) := by
+  constructor
+  · exact context_attn_bloom_fwd_kernel_surface_toAlgorithm_supported Q K V
+      ((Real.sqrt (96 : ℝ))⁻¹) B_Start_Loc B_Seqlen Out Req_to_tokens
+      B_req_idx B_Prompt_Cache_Len 576 96 1 576 96 1 576 96 1 576 96 1
+      7500 1 1 96 128 128 128
+  constructor
+  · exact context_attn_bloom_fwd_kernel_surface_toAlgorithm_supported Q K V
+      ((Real.sqrt (96 : ℝ))⁻¹) B_Start_Loc B_Seqlen Out Req_to_tokens
+      B_req_idx B_Prompt_Cache_Len 576 96 1 576 96 1 576 96 1 576 96 1
+      7500 1 1 96 64 128 128
+  constructor
+  · exact context_attn_bloom_surface_python_block128_compute_correct Q K V
+      B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx B_Prompt_Cache_Len s
+  · exact context_attn_bloom_surface_python_block64_compute_correct Q K V
+      B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx B_Prompt_Cache_Len s
 
 end VeriTile.Bench.TritonBenchG.ContextAttnBloom

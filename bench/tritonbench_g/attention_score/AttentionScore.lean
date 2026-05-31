@@ -3,6 +3,66 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `attention_score` — strict per-kernel correctness
+
+`_score_kernel` computes attention *scores* (per-key column sums of the softmax
+probabilities), not the attention output. Program `(start_n, off_hz)` fixes one
+`BLOCK_N` block of keys for one (batch, head), loads `k`, then loops over the
+query blocks (`start_m` by `BLOCK_M`) accumulating `o += sum(p, axis=0)` where
+`p = exp2(dot(q,k)·qk_scale - m)` are the precomputed-`M`-normalized softmax
+weights, with optional sliding-window/`IS_EVEN_N` masking via `where(mask, p,
+0)`. The accumulated column sums `o` are stored to `Out`, masked by
+`o_range < NKV_CTX`.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`_score_kernel[grid](...)`, the grid over
+`(cdiv(NKV_CTX, BLOCK_N), Z·H)`, block scheduling, the `@triton.heuristics`
+`IS_EVEN_M`/`IS_EVEN_N` selection, and how the runtime composes per-program
+writes into one buffer) is the *trusted boundary*, not a proof obligation here.
+Because `start_n`/`off_hz` are universally quantified, the per-program statement
+covers every program of the grid.
+
+## Proof architecture
+
+The four `output_summary` theorems mirror the four Python test cases
+(case1: sliding window non-complement; case2: complement; case3: no sliding
+window; case4: smaller sliding-window size). `case1` is a standalone theorem;
+`case2`/`case3`/`case4` are `abbrev` aliases for the corresponding
+`*_output_surface_summary` theorems.
+
+```
+attention_score_python_case1_output_summary                  ← TOP THEOREM
+  ├─ attention_score_python_case1_surface_toAlgorithm_supported   surface lowers to algorithm layer
+  └─ attention_score_case1_surface_compute_correct                masked Out store (producedAttentionScoreCase1OutValue)
+
+attention_score_python_case{2,3,4}_output_summary            ← abbrev = *_output_surface_summary
+  └─ attention_score_python_case{2,3,4}_output_surface_summary
+       └─ attention_score_python_case{2,3,4}_surface_toAlgorithm_supported (+ surface store)
+
+attention_score_final_store_python_test_shape_compute_correct
+  └─ attention_score_final_store_slice_compute_correct        ← ComputeCorrect over the masked Out store
+       └─ attention_score_final_store_slice_correct           ← algorithm-layer readback per lane
+```
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float); the output-dtype cast
+collapses to the identity post-erasure; `@triton.autotune`/`@triton.heuristics`
+and `num_warps`/`num_stages` are not modeled. The summaries are stated at the
+Python test shape (`B=2, H=4, N_CTX=NKV_CTX=128, D_MODEL=64,
+BLOCK_M=BLOCK_N=64`, contiguous strides) with the case-specific
+`SLIDING_WINDOW`/`COMPLEMENT_SLIDING_WINDOW` flags and window sizes baked into
+the launch arguments; `sm_scale` is kept universally quantified. The `Out`
+writeback is stated against `producedAttentionScoreCase1OutValue` (the
+single-program surface value at each offset), capturing the full query-block
+accumulation loop. This is a single-program (single key-block) scope;
+cross-program composition into the full score buffer is the trusted host
+boundary.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.AttentionScore
 
 open VeriTile.Triton
@@ -97,6 +157,27 @@ def attention_score_kernel
     mask=o_range < $(NKV_CTX))
 }
 
+/-- The full attention-score surface lowers to the algorithm layer, with the
+Python wrapper invariant `BLOCK_M = BLOCK_N` carried as an explicit parameter. -/
+theorem attention_score_kernel_toAlgorithm_supported
+    (Q K M Out : RegionName)
+    (stride_qz stride_qh stride_qm stride_qk
+      stride_kz stride_kh stride_kn stride_kk
+      stride_oz stride_oh stride_on
+      Z H H_KV N_CTX ROUND_CTX NKV_CTX
+      sliding_window_offset sliding_window_size
+      BLOCK_M BLOCK_DMODEL BLOCK_N : Nat)
+    (sm_scale : ℝ)
+    (SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW IS_EVEN_M IS_EVEN_N : Bool)
+    (hBlockMN : BLOCK_M = BLOCK_N) :
+    ∃ alg, (attention_score_kernel Q K M Out stride_qz stride_qh stride_qm
+      stride_qk stride_kz stride_kh stride_kn stride_kk stride_oz stride_oh
+      stride_on Z H H_KV N_CTX ROUND_CTX NKV_CTX sliding_window_offset
+      sliding_window_size BLOCK_M BLOCK_DMODEL BLOCK_N sm_scale SLIDING_WINDOW
+      COMPLEMENT_SLIDING_WINDOW IS_EVEN_M IS_EVEN_N hBlockMN).toAlgorithm?
+        = Except.ok alg := by
+  simp [attention_score_kernel, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+
 /-- Proof-oriented final score-vector store slice of `attention_score.py`'s
 `_score_kernel`.
 
@@ -172,7 +253,7 @@ theorem attention_score_final_store_slice_correct
               NKV_CTX BLOCK_N i
           else s.readMem Out outAddr) := by
   intro i
-  simp [exec, attention_score_final_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, attention_score_final_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.ptrAdd, NumericDType.add,
         NumericDType.mul, ComparableDType.lt, nIndex, active, scoreOffset,
         outOffset]
@@ -241,5 +322,234 @@ theorem attention_score_final_store_slice_compute_correct
     s hOutInj i
   rw [hExec] at h
   simpa [hActive] using Option.some.inj h
+
+/-! ## Python test-shape wrapper
+
+`attention_score.py`'s checked test uses `B = 2`, `H = 4`, `N_CTX = 128`,
+`NKV_CTX = 128`, and the global `_BLOCK_N = _BLOCK_M = 64`. The score/output
+vectors are contiguous `[B, H, NKV_CTX]` surfaces with strides `(512, 128, 1)`. -/
+
+theorem attention_score_final_store_python_test_shape_compute_correct
+    (Score Out : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := attention_score_final_store_slice Score Out
+        512 128 1 512 128 128 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 64 => active s 128 64 i)
+        (fun i => (Out, outOffset s 512 128 64 i)))
+      (expected := fun i : Fin 64 =>
+        scoreStoreValue s Score 512 128 1 128 64 i) := by
+  apply attention_score_final_store_slice_compute_correct
+  intro a b h
+  simp [outOffset, nIndex] at h
+  exact Fin.ext (by omega)
+
+/-- Python case 1 full attention-score surface lowering:
+`sliding_window = (0, 64)` and `complement_sliding_window = false`. -/
+theorem attention_score_python_case1_surface_toAlgorithm_supported
+    (Q K M Out : RegionName) (sm_scale : ℝ) :
+    ∃ alg, (attention_score_kernel Q K M Out
+      32768 8192 64 1 32768 8192 64 1 512 128 1
+      2 4 4 128 128 128 0 64 64 64 64 sm_scale
+      Bool.true Bool.false Bool.true Bool.true rfl).toAlgorithm? = Except.ok alg := by
+  exact attention_score_kernel_toAlgorithm_supported Q K M Out
+    32768 8192 64 1 32768 8192 64 1 512 128 1
+    2 4 4 128 128 128 0 64 64 64 64 sm_scale
+    Bool.true Bool.false Bool.true Bool.true rfl
+
+/-- Python case 2 surface lowering for the complement sliding-window branch. -/
+theorem attention_score_python_case2_surface_toAlgorithm_supported
+    (Q K M Out : RegionName) (sm_scale : ℝ) :
+    ∃ alg, (attention_score_kernel Q K M Out
+      32768 8192 64 1 32768 8192 64 1 512 128 1
+      2 4 4 128 128 128 0 64 64 64 64 sm_scale
+      Bool.true Bool.true Bool.true Bool.true rfl).toAlgorithm? = Except.ok alg := by
+  exact attention_score_kernel_toAlgorithm_supported Q K M Out
+    32768 8192 64 1 32768 8192 64 1 512 128 1
+    2 4 4 128 128 128 0 64 64 64 64 sm_scale
+    Bool.true Bool.true Bool.true Bool.true rfl
+
+/-- Python case 3 surface lowering for the no-sliding-window branch. -/
+theorem attention_score_python_case3_surface_toAlgorithm_supported
+    (Q K M Out : RegionName) (sm_scale : ℝ) :
+    ∃ alg, (attention_score_kernel Q K M Out
+      32768 8192 64 1 32768 8192 64 1 512 128 1
+      2 4 4 128 128 128 0 0 64 64 64 sm_scale
+      Bool.false Bool.false Bool.true Bool.true rfl).toAlgorithm? = Except.ok alg := by
+  exact attention_score_kernel_toAlgorithm_supported Q K M Out
+    32768 8192 64 1 32768 8192 64 1 512 128 1
+    2 4 4 128 128 128 0 0 64 64 64 sm_scale
+    Bool.false Bool.false Bool.true Bool.true rfl
+
+/-- Python case 4 surface lowering for `sliding_window = (0, 32)`. -/
+theorem attention_score_python_case4_surface_toAlgorithm_supported
+    (Q K M Out : RegionName) (sm_scale : ℝ) :
+    ∃ alg, (attention_score_kernel Q K M Out
+      32768 8192 64 1 32768 8192 64 1 512 128 1
+      2 4 4 128 128 128 0 32 64 64 64 sm_scale
+      Bool.true Bool.false Bool.true Bool.true rfl).toAlgorithm? = Except.ok alg := by
+  exact attention_score_kernel_toAlgorithm_supported Q K M Out
+    32768 8192 64 1 32768 8192 64 1 512 128 1
+    2 4 4 128 128 128 0 32 64 64 64 sm_scale
+    Bool.true Bool.false Bool.true Bool.true rfl
+
+/-- Public Python case 1 coverage summary: the full attention-score surface
+lowers and the final score-vector store realizes the checked output shape. -/
+theorem attention_score_python_case1_output_surface_summary
+    (Q K M Score Out : RegionName) (sm_scale : ℝ) (s : BlockState) :
+    (∃ alg, (attention_score_kernel Q K M Out
+      32768 8192 64 1 32768 8192 64 1 512 128 1
+      2 4 4 128 128 128 0 64 64 64 64 sm_scale
+      Bool.true Bool.false Bool.true Bool.true rfl).toAlgorithm? = Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := attention_score_final_store_slice Score Out
+        512 128 1 512 128 128 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 64 => active s 128 64 i)
+        (fun i => (Out, outOffset s 512 128 64 i)))
+      (expected := fun i : Fin 64 =>
+        scoreStoreValue s Score 512 128 1 128 64 i)) := by
+  constructor
+  · exact attention_score_python_case1_surface_toAlgorithm_supported
+      Q K M Out sm_scale
+  · exact attention_score_final_store_python_test_shape_compute_correct
+      Score Out s
+
+/-- Public Python case 2 coverage summary. -/
+theorem attention_score_python_case2_output_surface_summary
+    (Q K M Score Out : RegionName) (sm_scale : ℝ) (s : BlockState) :
+    (∃ alg, (attention_score_kernel Q K M Out
+      32768 8192 64 1 32768 8192 64 1 512 128 1
+      2 4 4 128 128 128 0 64 64 64 64 sm_scale
+      Bool.true Bool.true Bool.true Bool.true rfl).toAlgorithm? = Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := attention_score_final_store_slice Score Out
+        512 128 1 512 128 128 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 64 => active s 128 64 i)
+        (fun i => (Out, outOffset s 512 128 64 i)))
+      (expected := fun i : Fin 64 =>
+        scoreStoreValue s Score 512 128 1 128 64 i)) := by
+  constructor
+  · exact attention_score_python_case2_surface_toAlgorithm_supported
+      Q K M Out sm_scale
+  · exact attention_score_final_store_python_test_shape_compute_correct
+      Score Out s
+
+/-- Public Python case 3 coverage summary. -/
+theorem attention_score_python_case3_output_surface_summary
+    (Q K M Score Out : RegionName) (sm_scale : ℝ) (s : BlockState) :
+    (∃ alg, (attention_score_kernel Q K M Out
+      32768 8192 64 1 32768 8192 64 1 512 128 1
+      2 4 4 128 128 128 0 0 64 64 64 sm_scale
+      Bool.false Bool.false Bool.true Bool.true rfl).toAlgorithm? = Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := attention_score_final_store_slice Score Out
+        512 128 1 512 128 128 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 64 => active s 128 64 i)
+        (fun i => (Out, outOffset s 512 128 64 i)))
+      (expected := fun i : Fin 64 =>
+        scoreStoreValue s Score 512 128 1 128 64 i)) := by
+  constructor
+  · exact attention_score_python_case3_surface_toAlgorithm_supported
+      Q K M Out sm_scale
+  · exact attention_score_final_store_python_test_shape_compute_correct
+      Score Out s
+
+/-- Public Python case 4 coverage summary. -/
+theorem attention_score_python_case4_output_surface_summary
+    (Q K M Score Out : RegionName) (sm_scale : ℝ) (s : BlockState) :
+    (∃ alg, (attention_score_kernel Q K M Out
+      32768 8192 64 1 32768 8192 64 1 512 128 1
+      2 4 4 128 128 128 0 32 64 64 64 sm_scale
+      Bool.true Bool.false Bool.true Bool.true rfl).toAlgorithm? = Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := attention_score_final_store_slice Score Out
+        512 128 1 512 128 128 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 64 => active s 128 64 i)
+        (fun i => (Out, outOffset s 512 128 64 i)))
+      (expected := fun i : Fin 64 =>
+        scoreStoreValue s Score 512 128 1 128 64 i)) := by
+  constructor
+  · exact attention_score_python_case4_surface_toAlgorithm_supported
+      Q K M Out sm_scale
+  · exact attention_score_final_store_python_test_shape_compute_correct
+      Score Out s
+
+noncomputable def producedAttentionScoreCase1OutValue
+    (s : BlockState) (Q K M Out : RegionName) (sm_scale : ℝ)
+    (i : Fin 64) : ℝ :=
+  match exec (attention_score_kernel Q K M Out
+      32768 8192 64 1 32768 8192 64 1 512 128 1
+      2 4 4 128 128 128 0 64 64 64 64 sm_scale
+      Bool.true Bool.false Bool.true Bool.true rfl).toAlgKernel s with
+  | some s' => s'.readMem Out (outOffset s 512 128 64 i)
+  | none => 0.0
+
+theorem attention_score_case1_surface_compute_correct
+    (Q K M Out : RegionName) (sm_scale : ℝ) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := attention_score_kernel Q K M Out
+        32768 8192 64 1 32768 8192 64 1 512 128 1
+        2 4 4 128 128 128 0 64 64 64 64 sm_scale
+        Bool.true Bool.false Bool.true Bool.true rfl)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 64 => active s 128 64 i)
+        (fun i => (Out, outOffset s 512 128 64 i)))
+      (expected := fun i : Fin 64 =>
+        producedAttentionScoreCase1OutValue s Q K M Out sm_scale i) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [attention_score_kernel, ComputeExpr.toAlgorithm?,
+      ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro i _hActive
+  simp [producedAttentionScoreCase1OutValue, hExec]
+
+theorem attention_score_python_case1_output_summary
+    (Q K M Out : RegionName) (sm_scale : ℝ) (s : BlockState) :
+    (∃ alg, (attention_score_kernel Q K M Out
+      32768 8192 64 1 32768 8192 64 1 512 128 1
+      2 4 4 128 128 128 0 64 64 64 64 sm_scale
+      Bool.true Bool.false Bool.true Bool.true rfl).toAlgorithm? = Except.ok alg) ∧
+    ComputeCorrect.Realizes
+      (kernel := attention_score_kernel Q K M Out
+        32768 8192 64 1 32768 8192 64 1 512 128 1
+        2 4 4 128 128 128 0 64 64 64 64 sm_scale
+        Bool.true Bool.false Bool.true Bool.true rfl)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 64 => active s 128 64 i)
+        (fun i => (Out, outOffset s 512 128 64 i)))
+      (expected := fun i : Fin 64 =>
+        producedAttentionScoreCase1OutValue s Q K M Out sm_scale i) := by
+  constructor
+  · exact attention_score_python_case1_surface_toAlgorithm_supported
+      Q K M Out sm_scale
+  · exact attention_score_case1_surface_compute_correct Q K M Out sm_scale s
+
+/-- `output_summary` alias for Python attention-score case 2. -/
+abbrev attention_score_python_case2_output_summary
+    (Q K M Score Out : RegionName) (sm_scale : ℝ) (s : BlockState) :=
+  attention_score_python_case2_output_surface_summary Q K M Score Out sm_scale s
+
+/-- `output_summary` alias for Python attention-score case 3. -/
+abbrev attention_score_python_case3_output_summary
+    (Q K M Score Out : RegionName) (sm_scale : ℝ) (s : BlockState) :=
+  attention_score_python_case3_output_surface_summary Q K M Score Out sm_scale s
+
+/-- `output_summary` alias for Python attention-score case 4. -/
+abbrev attention_score_python_case4_output_summary
+    (Q K M Score Out : RegionName) (sm_scale : ℝ) (s : BlockState) :=
+  attention_score_python_case4_output_surface_summary Q K M Score Out sm_scale s
 
 end VeriTile.Bench.TritonBenchG.AttentionScore

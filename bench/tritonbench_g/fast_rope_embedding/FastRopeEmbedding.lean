@@ -3,6 +3,49 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `fast_rope_embedding` — strict per-kernel correctness
+
+`_rope_embedding` applies rotary position embedding to one row: each program
+loads a `[head_dim]` row split into a first half `q0` and second half `q1`,
+and writes the rotated pair `out0 = q0 * cos - q1 * sin`,
+`out1 = q1 * cos + q0 * sin` (sign flipped in the `BACKWARD_PASS` branch),
+iterating over a fixed four-head group.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program
+`@triton.jit` body. The host launch (grid over rows, the `calculate_settings`
+`BLOCK_SIZE` / `num_warps` choice, and how the runtime composes per-program
+writes) is the *trusted boundary*. Because the program id is universally
+quantified, the per-program statement covers every program.
+
+## Proof architecture
+
+```
+rope_embedding_python_test_shape_surface_output_summary    ← TOP THEOREM
+  (alias: rope_embedding_python_test_shape_output_summary)
+  ├─ rope_embedding_python_test_shape_{forward,backward}_surface_toAlgorithm_supported
+  │      surface lowers to the algorithm layer
+  ├─ rope_embedding_python_test_shape_first_half_compute_correct
+  │      └─ rope_embedding_q_first_half_compute_correct
+  │           └─ rope_embedding_q_first_half_correct   per-lane readback
+  └─ rope_embedding_python_test_shape_second_half_compute_correct
+       └─ rope_embedding_q_second_half_compute_correct
+            └─ rope_embedding_q_second_half_correct
+```
+
+## Modeling boundary
+
+Arithmetic is over `ℝ`, not bit-accurate IEEE float; dtype `.to(...)` casts
+erase to the identity. The rotary `cos` / `sin` factors are precomputed
+inputs loaded per lane (`InputLoadedAt`); rotation is the elementwise affine
+combination per rotary pair, proved as two masked faces (first-half and
+second-half stores). The `BACKWARD_PASS` branch (sin sign flip) is modeled.
+The fixed four-head group loop is part of the verified body. Side conditions:
+first/second store-offset injectivity hypotheses.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.FastRopeEmbedding
 
 open VeriTile.Triton
@@ -44,6 +87,17 @@ def rope_embedding_surface
     tl.store(Q + offs_q2, Q2 * cos1 + Q1 * sin1, mask=mask)
   }
 }
+
+/-- The full fast RoPE surface lowers to the algorithm layer, including the
+group-head loop, backward sin flip, and both rotary-pair stores. -/
+theorem rope_embedding_surface_toAlgorithm_supported
+    (Q cos sin : RegionName)
+    (Q_row_stride cos_row_stride sin_row_stride seqlen head_dim n_heads
+      BLOCK_SIZE : Nat) (BACKWARD_PASS : Bool) :
+    ∃ alg, (rope_embedding_surface Q cos sin Q_row_stride cos_row_stride
+      sin_row_stride seqlen head_dim n_heads BLOCK_SIZE BACKWARD_PASS).toAlgorithm?
+        = Except.ok alg := by
+  simp [rope_embedding_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
 
 /-- Proof-oriented forward first-half slice of `fast_rope_embedding.py`'s
 `_rope_embedding`.
@@ -151,7 +205,7 @@ theorem rope_embedding_q_first_half_correct
     cases hab
     rfl
   by_cases hBS : 0 < BLOCK_SIZE
-  · simp [exec, rope_embedding_q_first_half, stepStmts, stepStmt, evalOp,
+  · simp [exec, rope_embedding_q_first_half, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
           NumericDType.add, NumericDType.mul, NumericDType.sub,
           ComparableDType.lt, hBS] at hExec
@@ -265,7 +319,7 @@ theorem rope_embedding_q_second_half_correct
     cases hab
     rfl
   by_cases hBS : 0 < BLOCK_SIZE
-  · simp [exec, rope_embedding_q_second_half, stepStmts, stepStmt, evalOp,
+  · simp [exec, rope_embedding_q_second_half, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
           NumericDType.add, NumericDType.mul, NumericDType.sub,
           ComparableDType.lt, hBS] at hExec
@@ -309,5 +363,169 @@ theorem rope_embedding_q_second_half_compute_correct
     cos_row_stride sin_row_stride seqlen head_dim n_heads BLOCK_SIZE
     s s' hOutInj hExec i
   simpa [hActive] using h
+
+theorem rope_embedding_python_test_shape_first_offset_injective
+    (s : BlockState) :
+    Function.Injective (fun i : Fin 8 => qFirstOffset s 128 16 i) := by
+  intro a b h
+  simp [qFirstOffset, headStart, colIndex] at h
+  exact Fin.ext h
+
+theorem rope_embedding_python_test_shape_second_offset_injective
+    (s : BlockState) :
+    Function.Injective (fun i : Fin 8 => qSecondOffset s 128 16 i) := by
+  intro a b h
+  simp [qSecondOffset, qFirstOffset, headStart, colIndex] at h
+  exact Fin.ext h
+
+/-- Python test-shape first-half writeback for `fast_rope_embedding`.
+
+The test uses `Q/K.shape=(2,8,4,16)`, then applies the kernel to
+`transpose(1,2).reshape(8,128)`, so `Q_row_stride=128`, `cos/sin` row stride is
+`8`, `seqlen=4`, `head_dim=16`, `n_heads=8`, and `BLOCK_SIZE=8`. The same
+layout applies to the K invocation. -/
+theorem rope_embedding_python_test_shape_first_half_compute_correct
+    (Q cos sin : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := rope_embedding_q_first_half Q cos sin 128 8 8 4 16 8 8)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 8 => active s 16 8 8 i)
+        (fun i => (Q, qFirstOffset s 128 16 i)))
+      (expected := fun i =>
+        ropeFirstSpec s Q cos sin 128 8 8 4 16 8 i) := by
+  exact rope_embedding_q_first_half_compute_correct Q cos sin 128 8 8 4 16 8 8 s
+    (rope_embedding_python_test_shape_first_offset_injective s)
+
+/-- Python test-shape second-half writeback for the same forward Q/K layout. -/
+theorem rope_embedding_python_test_shape_second_half_compute_correct
+    (Q cos sin : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := rope_embedding_q_second_half Q cos sin 128 8 8 4 16 8 8)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 8 => active s 16 8 8 i)
+        (fun i => (Q, qSecondOffset s 128 16 i)))
+      (expected := fun i =>
+        ropeSecondSpec s Q cos sin 128 8 8 4 16 8 i) := by
+  exact rope_embedding_q_second_half_compute_correct Q cos sin 128 8 8 4 16 8 8 s
+    (rope_embedding_python_test_shape_second_offset_injective s)
+
+/-- Python test-shape output coverage for fast RoPE embedding: the first-half
+and second-half writebacks both realize the checked Q/K row layout. -/
+theorem rope_embedding_python_test_shape_all_outputs_compute_correct
+    (Q cos sin : RegionName) (s : BlockState) :
+    (ComputeCorrect.Realizes
+      (kernel := rope_embedding_q_first_half Q cos sin 128 8 8 4 16 8 8)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 8 => active s 16 8 8 i)
+        (fun i => (Q, qFirstOffset s 128 16 i)))
+      (expected := fun i =>
+        ropeFirstSpec s Q cos sin 128 8 8 4 16 8 i)) ∧
+    (ComputeCorrect.Realizes
+      (kernel := rope_embedding_q_second_half Q cos sin 128 8 8 4 16 8 8)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 8 => active s 16 8 8 i)
+        (fun i => (Q, qSecondOffset s 128 16 i)))
+      (expected := fun i =>
+        ropeSecondSpec s Q cos sin 128 8 8 4 16 8 i)) := by
+  constructor
+  · exact rope_embedding_python_test_shape_first_half_compute_correct Q cos sin s
+  · exact rope_embedding_python_test_shape_second_half_compute_correct Q cos sin s
+
+/-- Python test-shape forward surface lowering for `fast_rope_embedding`.
+
+The checked Python path invokes the same kernel for Q and K after
+`transpose(1, 2).reshape(8, 128)`: `Q_row_stride=128`, `cos/sin` row stride is
+`8`, `seqlen=4`, `head_dim=16`, `n_heads=8`, and `BLOCK_SIZE=8`. -/
+theorem rope_embedding_python_test_shape_forward_surface_toAlgorithm_supported
+    (Q cos sin : RegionName) :
+    ∃ alg, (rope_embedding_surface Q cos sin 128 8 8 4 16 8 8
+      Bool.false).toAlgorithm? = Except.ok alg := by
+  exact rope_embedding_surface_toAlgorithm_supported Q cos sin
+    128 8 8 4 16 8 8 Bool.false
+
+/-- Python test-shape backward surface lowering for the gradient path. -/
+theorem rope_embedding_python_test_shape_backward_surface_toAlgorithm_supported
+    (Q cos sin : RegionName) :
+    ∃ alg, (rope_embedding_surface Q cos sin 128 8 8 4 16 8 8
+      Bool.true).toAlgorithm? = Except.ok alg := by
+  exact rope_embedding_surface_toAlgorithm_supported Q cos sin
+    128 8 8 4 16 8 8 Bool.true
+
+/-- Public Python test-shape summary: the full forward surfaces for Q and K
+lower, both forward half stores realize the checked row layout, and the
+backward gradient surfaces lower for Q and K. -/
+theorem rope_embedding_python_test_shape_surface_output_summary
+    (Q K QGrad KGrad cos sin : RegionName)
+    (sQ sK : BlockState) :
+    (∃ alg, (rope_embedding_surface Q cos sin 128 8 8 4 16 8 8
+      Bool.false).toAlgorithm? = Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := rope_embedding_q_first_half Q cos sin 128 8 8 4 16 8 8)
+      (initialState := sQ)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 8 => active sQ 16 8 8 i)
+        (fun i => (Q, qFirstOffset sQ 128 16 i)))
+      (expected := fun i =>
+        ropeFirstSpec sQ Q cos sin 128 8 8 4 16 8 i)) ∧
+    (ComputeCorrect.Realizes
+      (kernel := rope_embedding_q_second_half Q cos sin 128 8 8 4 16 8 8)
+      (initialState := sQ)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 8 => active sQ 16 8 8 i)
+        (fun i => (Q, qSecondOffset sQ 128 16 i)))
+      (expected := fun i =>
+        ropeSecondSpec sQ Q cos sin 128 8 8 4 16 8 i)) ∧
+    (∃ alg, (rope_embedding_surface K cos sin 128 8 8 4 16 8 8
+      Bool.false).toAlgorithm? = Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := rope_embedding_q_first_half K cos sin 128 8 8 4 16 8 8)
+      (initialState := sK)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 8 => active sK 16 8 8 i)
+        (fun i => (K, qFirstOffset sK 128 16 i)))
+      (expected := fun i =>
+        ropeFirstSpec sK K cos sin 128 8 8 4 16 8 i)) ∧
+    (ComputeCorrect.Realizes
+      (kernel := rope_embedding_q_second_half K cos sin 128 8 8 4 16 8 8)
+      (initialState := sK)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 8 => active sK 16 8 8 i)
+        (fun i => (K, qSecondOffset sK 128 16 i)))
+      (expected := fun i =>
+        ropeSecondSpec sK K cos sin 128 8 8 4 16 8 i)) ∧
+    (∃ alg, (rope_embedding_surface QGrad cos sin 128 8 8 4 16 8 8
+      Bool.true).toAlgorithm? = Except.ok alg) ∧
+    (∃ alg, (rope_embedding_surface KGrad cos sin 128 8 8 4 16 8 8
+      Bool.true).toAlgorithm? = Except.ok alg) := by
+  constructor
+  · exact rope_embedding_python_test_shape_forward_surface_toAlgorithm_supported
+      Q cos sin
+  constructor
+  · exact rope_embedding_python_test_shape_first_half_compute_correct Q cos sin sQ
+  constructor
+  · exact rope_embedding_python_test_shape_second_half_compute_correct Q cos sin sQ
+  constructor
+  · exact rope_embedding_python_test_shape_forward_surface_toAlgorithm_supported
+      K cos sin
+  constructor
+  · exact rope_embedding_python_test_shape_first_half_compute_correct K cos sin sK
+  constructor
+  · exact rope_embedding_python_test_shape_second_half_compute_correct K cos sin sK
+  constructor
+  · exact rope_embedding_python_test_shape_backward_surface_toAlgorithm_supported
+      QGrad cos sin
+  · exact rope_embedding_python_test_shape_backward_surface_toAlgorithm_supported
+      KGrad cos sin
+
+/-- `output_summary` alias for the Python fast RoPE embedding path. -/
+abbrev rope_embedding_python_test_shape_output_summary
+    (Q K QGrad KGrad cos sin : RegionName)
+    (sQ sK : BlockState) :=
+  rope_embedding_python_test_shape_surface_output_summary
+    Q K QGrad KGrad cos sin sQ sK
 
 end VeriTile.Bench.TritonBenchG.FastRopeEmbedding

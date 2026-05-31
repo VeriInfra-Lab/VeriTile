@@ -131,6 +131,50 @@ def address (ptr : BlockPtr) (idx : List Nat) : Nat :=
       (nthD ptr.offsets axis + nthD idx axis) * nthD ptr.strides axis
   ptr.baseOffset + axisOffsets.sum
 
+@[simp] theorem address_2d_zero_offsets
+    (region : RegionName) (base rows cols BT BS strideT strideS : Nat)
+    (i j : Nat) :
+    BlockPtr.address
+      { region := region, baseOffset := base, parentShape := [rows, cols],
+        blockShape := [BT, BS], strides := [strideT, strideS], offsets := [0, 0] }
+      [i, j] =
+        base + i * strideT + j * strideS := by
+  simp [BlockPtr.address, nthD, List.range, List.range.loop]
+  omega
+
+@[simp] theorem inBounds_2d_zero_offsets
+    (region : RegionName) (base rows cols BT BS strideT strideS : Nat)
+    (i j : Nat) :
+    BlockPtr.inBounds
+      { region := region, baseOffset := base, parentShape := [rows, cols],
+        blockShape := [BT, BS], strides := [strideT, strideS], offsets := [0, 0] }
+      [i, j] [0, 1] =
+        decide (i < rows ∧ j < cols) := by
+  simp [BlockPtr.inBounds, checkedInBounds, nthD]
+
+@[simp] theorem address_2d_zero_row_offset
+    (region : RegionName) (base rows cols BT BS strideT strideS colOff : Nat)
+    (i j : Nat) :
+    BlockPtr.address
+      { region := region, baseOffset := base, parentShape := [rows, cols],
+        blockShape := [BT, BS], strides := [strideT, strideS],
+        offsets := [0, colOff] }
+      [i, j] =
+        base + i * strideT + (colOff + j) * strideS := by
+  simp [BlockPtr.address, nthD, List.range, List.range.loop]
+  omega
+
+@[simp] theorem inBounds_2d_zero_row_offset
+    (region : RegionName) (base rows cols BT BS strideT strideS colOff : Nat)
+    (i j : Nat) :
+    BlockPtr.inBounds
+      { region := region, baseOffset := base, parentShape := [rows, cols],
+        blockShape := [BT, BS], strides := [strideT, strideS],
+        offsets := [0, colOff] }
+      [i, j] [0, 1] =
+        decide (i < rows ∧ colOff + j < cols) := by
+  simp [BlockPtr.inBounds, checkedInBounds, nthD]
+
 def advance (ptr : BlockPtr) (deltas : List Nat) : BlockPtr :=
   let offsets :=
     (List.range (max ptr.offsets.length deltas.length)).map

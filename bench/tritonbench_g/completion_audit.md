@@ -15,6 +15,7 @@ surface.
 | Apply `review_criteria.md` faithful-translation rules. | Mechanical gates check dtype-load additions, `keep_dims` substitutions, `+=` coverage, normalized pointer-update lhs, `rsqrt` preservation, Lean-only `tl.where`, `tl.*(...)` call set/order, kernel control-flow counts, statement lhs order, and documented translation-surface blockers. | Mechanically covered for the listed must-fix patterns; still not a substitute for human line review of arbitrary arithmetic structure. |
 | Fix Python/Lean mismatches found by the sweep. | Recent fixes restored faithful loop/tuple/helper-call/statement surfaces and moved policy checks into `bench/audit_tritonbench_g.sh`; current audit passes. | No current unannotated mechanical mismatch and no documented translation-surface blocker remains. |
 | Ensure completed ports expose a standard correctness surface. | Audit scans every `.lean` for `ComputeCorrect.Realizes`, `ComputeRefine.Realizes`, `ComputeCorrect.General`, or a named `correct_target`. | Passing. |
+| Classify stronger proof gaps from #146. | `bench/check_proof_gap_manifest.py` extracts every `output_summary` declaration and checks it against `proof_gap_manifest.tsv`. | Passing; 181 summaries are classified across 76 files. |
 | Do not count placeholder proofs as complete. | Placeholder scan for `True := by`, `trivial`, `sorry`, and `admit` reports no matches. | Passing. |
 | Do not close while algorithm-layer proof obligations remain. | Audit now checks that there are no explicit `hAlg` blockers and no stale translation-surface blocker entries. | Passing; no algorithm-layer or translation-surface blocker remains. |
 
@@ -64,6 +65,62 @@ surface.
 - Correctness-surface scan:
   every `bench/tritonbench_g/*/*.lean` file now contains a
   `ComputeCorrect.Realizes` target or theorem.
+- Proof-gap manifest scan:
+  `bench/check_proof_gap_manifest.py` reports 181 `output_summary`
+  declarations across 76 files. It classifies 167 as conservative
+  `full_value_candidate`, 1 as `public_summary_with_proof_gap`, and 13 as
+  `blocked_summary`. Every non-full candidate is linked to a currently open
+  follow-up issue and blocker family in `proof_gap_manifest.tsv`.
+  The #148 matmul/dot rows are upgraded to full-value candidates by connecting
+  GEMV, BMM, dequantization, IV-dependent matmul, plain matmul, activation-tail,
+  and TMA summaries directly to their full Python-shape surfaces. The LLaMA and
+  Bloom token-softmax case-1 summaries, the softmax-reduceV summary, and the
+  reduce-V, Mistral, and LLaMA2 token-attention case-1 summaries are also
+  upgraded by connecting the checked probability/output directly to their full
+  Python-shape surfaces. The #162 attention recurrence rows are now discharged
+  by connecting both flash-attention case summaries to their full forward
+  surfaces. The #151
+  rows now split into the now-discharged #190 chunk-delta forward
+  recurrence-store producers and the now-discharged #191 LayerNorm backward
+  residual/recompute aggregation paths. The #152
+  blocked summaries now migrate to the open #154
+  `fixed-width-int8-cast-semantics` issue because their concrete blocker is
+  CUDA `llrint` / int8-cast semantics; the #153 RoPE/rotary rows are now
+  upgraded to full-value candidates. The rope-backward, rope-transform,
+  rotary-transform, and rotary-transform-ops rows now connect their checked
+  surfaces to full-surface output readbacks. The remaining #167
+  context-attention row is the nopad variable-length accumulator-to-store
+  obligation. The #166 dense-attention
+  final-store rows now include the `acc / l_i[:, None]` normalization in the
+  output-store proof, and #199 upgrades those dense-attention summaries to
+  full-value candidates by connecting the Q/K/V streaming-softmax producer path
+  directly to the observable `Out` writeback. The #165 attention-fwd-triton1 row is upgraded
+  to a full-value candidate by connecting checked O/H outputs directly to the
+  full Python-shape surface. The `triton_attention.py` forward row now reads
+  back Python-observable `Out`, `L`, and `M` stores from the full forward
+  surface. Flash-attention cases 1 and 2 now read back `O` and `L` from their
+  full causal and non-causal forward surfaces. All mixed-sparse attention cases now read back
+  `Out` from the full mixed-sparse forward surface. The lightning-attention row
+  now reads back `Out`/`DQ`/`DK`/`DV` from launched full surfaces. The #150 rows now split into
+  the now-discharged #185 chunk cumsum carry folds, the now-discharged #186
+  decay cumsum scan folds, the now-discharged #187 recurrent state loop folds,
+  the now-discharged #188 GLA output tile producers, and the now-discharged #94
+  reverse cumsum directional scan semantics. All reversed-cumsum case rows now
+  connect their checked surfaces to full-surface output readbacks. The #191 layer-norm backward
+  residual/recompute rows are upgraded to full-value candidates by connecting
+  the Python test-shape outputs to the full backward surface. The #186
+  decay-cumsum rows are upgraded to full-value candidates by connecting the
+  Python test-shape outputs to the full prepare, forward cumsum, and backward
+  global-cumsum surfaces. The #185 chunk-cumsum rows are upgraded to
+  full-value candidates by connecting scalar, vector, and chunked forward
+  outputs to their full Python-shape surfaces. The #171 LLaMA flash-decode
+  normalization path and #181 LLaMA running-max recurrence step are upgraded to
+  full-value candidates. The #172 Phi flash-decode row now has #175 running-max,
+  #176 masked scaled-accumulator, and #177 final normalization/store upgraded to
+  full-value candidates. The #158 quantization follow-up rows are upgraded to
+  full-value candidates by connecting the checked int8, quantize-copy-kv,
+  grouped quantize-kv-copy, and quantize-kv-transform outputs directly to their
+  full Python-shape surfaces.
 
 ## Remaining Blockers
 
@@ -71,7 +128,10 @@ No explicit TritonBench-G `hAlg` blocker remains, and no documented
 translation-surface blocker remains. If a future Lean port reintroduces a
 translation-scope marker, it must be covered by `proof_blockers.md`, and
 `bench/audit_tritonbench_g.sh` enforces that coverage.
-The current documented blocker set is:
+The current proof-gap blocker set is exactly the non-full rows in
+`proof_gap_manifest.tsv`: #154 has 13 fixed-width int8 blocked
+summaries, and #167 has 1 context-attention accumulator-store row.
 
 Passing `lake build` alone is still not sufficient evidence for future changes;
-this audit must continue to run the translation-consistency gates above.
+this audit must continue to run the translation-consistency gates above and the
+#146 proof-gap manifest check.

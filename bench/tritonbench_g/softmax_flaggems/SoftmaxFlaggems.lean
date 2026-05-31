@@ -3,9 +3,69 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `softmax_flaggems` — strict per-kernel correctness
+
+`softmax_flaggems.py` is the FlagGems softmax family: forward kernels
+`softmax_kernel_inner` (softmax dim is innermost, `K=1`) and
+`softmax_kernel_non_inner` (softmax along a non-inner dim, 2D `[TILE_N, TILE_K]`
+tiles), plus the corresponding backward (VJP) kernels
+`softmax_backward_kernel_inner` and `softmax_backward_kernel_non_inner`. Each has
+a one-tile-per-CTA fast path and a multi-tile online fallback.
+
+## Scope
+
+This file verifies **the Triton kernels themselves** — the per-program
+`@triton.jit` bodies. The host launch (grid sizes, `@triton.heuristics`-chosen
+`TILE_N`/`TILE_K`/`ONE_TILE_PER_CTA`/`num_warps`, the dim→`(M,N,K)` reshaping,
+and how the runtime composes per-program writes) is the *trusted boundary*, not a
+proof obligation here. Program ids are universally quantified, so each
+per-program statement covers every program of its grid.
+
+## Proof architecture
+
+This is a multi-kernel port; there is no single top theorem. Each verified
+program slice has its own compute-facing correctness theorem:
+
+```
+softmax_kernel_inner_one_tile_compute_correct                 forward, inner, 1-tile
+  └─ softmax_kernel_inner_one_tile_correct  (softmaxFlaggemsSpec)
+softmax_kernel_non_inner_one_tile_compute_correct             forward, non-inner, 1-tile
+  └─ softmax_kernel_non_inner_one_tile_correct  (softmaxFlaggemsNonInnerSpec)
+       └─ nonInnerOffset_injective
+softmax_backward_kernel_inner_one_tile_compute_correct        backward, inner, 1-tile
+  └─ softmax_backward_kernel_inner_one_tile_correct  (innerBwdSpec)
+softmax_backward_kernel_non_inner_one_tile_compute_correct    backward, non-inner, 1-tile
+  └─ softmax_backward_kernel_non_inner_one_tile_correct  (nonInnerBwdSpec)
+
+softmax_kernel_non_inner_surface  (def only; multi-tile fallback not value-verified)
+```
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float); `@triton.autotune` and
+`@triton.heuristics` are not modeled. **This port is partial.** Value
+correctness is proved against the **`ONE_TILE_PER_CTA=true` (single-tile)
+specializations**; the multi-tile online `m`/`z` recurrence fallbacks (and the
+full `softmax_kernel_non_inner_surface`) are not value-verified. Forward specs
+are the stable softmax (`reduceMax` over the padded tile, `exp(x - max)`,
+`reduceSum`, division), reducing along axis 0 for the non-inner 2D case and axis
+0 of the row for the inner case; masked lanes are `⊥` matching
+`other=-float("inf")`. Backward specs are the softmax VJP
+`out * (out_grad - sum(out * out_grad))` reducing along the appropriate axis.
+The `.to(output_ptr.dtype.element_ty)` cast is the identity post-erasure.
+Offset injectivity is an explicit hypothesis (`nonInnerOffset_injective` requires
+`pid_k·TILE_K + TILE_K ≤ K`; the inner backward takes injectivity as a
+hypothesis, which holds when `TILE_N ≤ N`). The specs reference
+`Tile.reduceMax` / `Tile.reduceSum` directly, not `VeriTile.Triton.Math.*`.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.SoftmaxFlaggems
 
 open VeriTile.Triton
+
+set_option linter.unusedSimpArgs false
+set_option linter.unusedVariables false
 
 /-- Faithful transcription of `softmax_flaggems.py`'s
 `softmax_kernel_non_inner`.
@@ -161,15 +221,13 @@ def softmax_backward_kernel_inner_one_tile_surface
   tl.store(in_grad_ptr + offsets, in_grad_tile, mask=mask)
 }
 
-def outOffset (s : BlockState) (N : Nat) (i : Fin TILE_N) : Nat :=
-  s.pid * N + i.val
 
 noncomputable def softmaxFlaggemsInputTile
     (s : BlockState) (input_ptr : RegionName) (N TILE_N : Nat) :
     Tile .real [TILE_N] :=
   { data := fun idx =>
       if idx.1.val < N then
-        some (s.readMem input_ptr (outOffset s N idx.1))
+        some (s.readMem input_ptr (linearOffset s N idx.1))
       else none }
 
 noncomputable def softmaxFlaggemsSpec
@@ -194,24 +252,24 @@ theorem softmax_kernel_inner_one_tile_correct
     (hExec : exec (softmax_kernel_inner_one_tile output_ptr input_ptr N TILE_N) s =
         some s') :
     ∀ i : Fin TILE_N,
-      s'.readMem output_ptr (outOffset s N i) =
+      s'.readMem output_ptr (linearOffset s N i) =
         if i.val < N then
           softmaxFlaggemsSpec s input_ptr N TILE_N i
-        else s.readMem output_ptr (outOffset s N i) := by
+        else s.readMem output_ptr (linearOffset s N i) := by
   intro i
   by_cases hT : 0 < TILE_N
-  · simp [exec, softmax_kernel_inner_one_tile, stepStmts, stepStmt, evalOp,
+  · simp [exec, softmax_kernel_inner_one_tile, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
           Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
           TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
           NumericDType.add, NumericDType.mul, NumericDType.sub, NumericDType.div,
           ComparableDType.lt, hT] at hExec
     subst s'
-    simp [BlockState.pid_eq, outOffset]
+    simp [BlockState.pid_eq, linearOffset]
     rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
           (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
     by_cases hi : i.val < N
-    · simp [hi, softmaxFlaggemsSpec, softmaxFlaggemsInputTile, outOffset,
+    · simp [hi, softmaxFlaggemsSpec, softmaxFlaggemsInputTile, linearOffset,
             Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum,
             Tile.reduceSumDrop, TileShape.axisDim, TileShape.eraseAxis,
             TileShape.insertAxisIndex, hT]
@@ -229,7 +287,7 @@ theorem softmax_kernel_inner_one_tile_compute_correct
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
         (fun i : Fin TILE_N => i.val < N)
-        (fun i => (output_ptr, outOffset s N i)))
+        (fun i => (output_ptr, linearOffset s N i)))
       (expected := fun i => softmaxFlaggemsSpec s input_ptr N TILE_N i) := by
   rw [ComputeCorrect.realizes_writeIf_iff]
   apply ComputeKernel.computeCorrect_of_toAlgKernel
@@ -243,7 +301,7 @@ theorem softmax_kernel_inner_one_tile_compute_correct
 
 /-! ## Non-inner one-tile forward — store-side proof skeleton
 
-This block provides offset/value defs and a non-trivial `_writes_at_idx`
+This block provides offset/value defs and a substantive `_writes_at_idx`
 lemma showing that, for in-range lanes, the kernel writes exactly the
 softmax-of-column value at every `(n, k)` lane. The full
 `ComputeCorrect.Realizes` lift to a math-level spec for the 2D non-inner
@@ -349,7 +407,7 @@ theorem softmax_kernel_non_inner_one_tile_correct
   by_cases hN : 0 < TILE_N
   · by_cases hK : 0 < TILE_K
     · simp [exec, softmax_kernel_non_inner_one_tile_surface,
-            stepStmts, stepStmt, evalOp, Option.bind,
+            stepStmts, stepStmt, evalOp, evalOp.eq_def, Option.bind,
             Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
             Tile.reduceMax, Tile.reduceMaxDrop,
             Tile.reduceSum, Tile.reduceSumDrop,
@@ -491,7 +549,7 @@ theorem softmax_backward_kernel_inner_one_tile_correct
   by_cases hTM : 0 < TILE_M
   · by_cases hTN : 0 < TILE_N
     · simp [exec, softmax_backward_kernel_inner_one_tile_surface,
-            stepStmts, stepStmt, evalOp, Option.bind, Option.map,
+            stepStmts, stepStmt, evalOp, evalOp.eq_def, Option.bind, Option.map,
             Tile.bop, Tile.cop, Tile.ptrAdd, Tile.expandDim, Tile.uop,
             Tile.reduceSum, Tile.reduceSumDrop, Tile.reduceSumKeep,
             TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
@@ -521,10 +579,11 @@ theorem softmax_backward_kernel_inner_one_tile_correct
               TileShape.insertAxisIndex, TileShape.dropInsertedIndex,
               TileShape.replaceAxisIndex,
               NumericDType.sub, NumericDType.mul, hTN]
+        rfl
       · have hInactive :
             ¬ (s.pids 0 * TILE_M + idx.1.val < M ∧ idx.2.1.val < N) := by
-          simpa [innerBwdActive, innerBwdRowIndex, innerBwdColIndex,
-                 BlockState.pid_eq] using hActive
+          intro ⟨hM, hN⟩
+          exact hActive ⟨hM, hN⟩
         rw [if_neg hInactive]
         simp only [BlockState.setReg_readMem]
         rw [if_neg hActive]
@@ -623,7 +682,7 @@ theorem softmax_backward_kernel_non_inner_one_tile_correct
   by_cases hTN : 0 < TILE_N
   · by_cases hTK : 0 < TILE_K
     · simp [exec, softmax_backward_kernel_non_inner_one_tile_surface,
-            stepStmts, stepStmt, evalOp, Option.bind, Option.map,
+            stepStmts, stepStmt, evalOp, evalOp.eq_def, Option.bind, Option.map,
             Tile.bop, Tile.cop, Tile.ptrAdd, Tile.expandDim, Tile.uop,
             Tile.reduceSum, Tile.reduceSumDrop, Tile.reduceSumKeep,
             TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,

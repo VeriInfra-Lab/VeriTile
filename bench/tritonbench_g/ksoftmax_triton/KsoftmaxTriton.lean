@@ -3,6 +3,57 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `ksoftmax_triton` — strict per-kernel correctness
+
+`_softmax` is a fused 3D softmax over the last dimension with optional `qk`/`bk`
+additive mask, optional causal masking, optional `LOG`-softmax output, and an
+optional fp16-accumulator cast: programs `(m, n)` load a `DEPTH`-lane row (masked
+by `k < K`, masked lanes read as `-inf`), subtract the row max, exponentiate,
+sum, normalize (or take `z - log(denom)` for `LOG`), and store back masked by
+`k < K`. The companion `_softmax_backward` computes the corresponding gradient.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`_softmax[grid](...)` with grid `(X.shape[0],
+X.shape[1])`, the `DEPTH = next_power_of_2(K)` heuristic, the `IS_FP16` dtype
+heuristic, `@triton.autotune` over `num_warps`, and how the runtime composes
+per-program writes) is the *trusted boundary*, not a proof obligation here.
+Because `(m, n)` are universally quantified, the per-program statement covers
+every program of the grid.
+
+## Proof architecture
+
+```
+ksoftmax_forward_plain_output_summary               ← TOP THEOREM
+  ├─ ksoftmax_forward_surface_toAlgorithm_supported  full surface lowers (LOG/mask/causal/fp16/qk)
+  └─ ksoftmax_forward_plain_compute_correct          ← ComputeCorrect over the masked store
+       └─ ksoftmax_forward_plain_correct             ← algorithm-layer readback per lane
+                                                        (LOG=false, no mask, non-causal, no fp16)
+```
+
+The full Python surfaces (`ksoftmax_forward_surface`, the `qk`/`bk` mask
+variants, and `ksoftmax_backward_surface`) each have a `*_toAlgorithm_supported`
+lemma showing they lower to the algorithm layer. The arithmetic correctness is
+proved for the plain forward slice `ksoftmax_forward_plain` (the tested
+non-mask, non-causal, non-fp16, non-log path): `ksoftmaxSpec` is the exact
+stable softmax over the masked row (`reduceMax`, lane-wise `exp`, `reduceSum`,
+quotient). In-bounds lanes hold `ksoftmaxSpec`, out-of-bounds lanes preserved.
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float); the approximate `tl.exp`
+is modeled as exact `WithBot.realExp`; `@triton.autotune` / `num_warps` and the
+`IS_FP16` heuristic are not modeled (the fp16 `.to(tl.float32)` cast reduces to
+the identity at the algorithm layer). The reduction runs over the full `DEPTH`
+block, but masked lanes load `⊥` (matching `other=float("-inf")`), so the
+reduction-over-padded-block matches the upstream `-inf` semantics. The
+arithmetic theorem assumes injective output offsets (`hOutInj`); the broader
+mask/causal/log/backward branches are covered only at the lowering
+(`toAlgorithm?`) level, not the arithmetic level.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.KsoftmaxTriton
 
 open VeriTile.Triton
@@ -54,6 +105,16 @@ def ksoftmax_forward_surface
   tl.store(y_ptrs, y, mask=k < $(K))
 }
 
+/-- The full k-softmax forward surface lowers to the algorithm layer. -/
+theorem ksoftmax_forward_surface_toAlgorithm_supported
+    (Y X M : RegionName)
+    (stride_ym stride_yn stride_xm stride_xn stride_m K DEPTH : Nat)
+    (LOG MASK_TYPE CAUSAL IS_FP16 MASK_QK : Bool) :
+    ∃ alg, (ksoftmax_forward_surface Y X M stride_ym stride_yn stride_xm
+      stride_xn stride_m K DEPTH LOG MASK_TYPE CAUSAL IS_FP16 MASK_QK).toAlgorithm?
+        = Except.ok alg := by
+  simp [ksoftmax_forward_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+
 /-- Surface transcription of `ksoftmax_triton.py`'s `_softmax` for the
 `MASK_TYPE='qk'` branch.
 
@@ -95,6 +156,16 @@ def ksoftmax_forward_qk_surface
   y_ptrs = Y + m * $(stride_ym) + n * $(stride_yn) + k
   tl.store(y_ptrs, y, mask=k < $(K))
 }
+
+/-- The qk-mask k-softmax forward surface lowers to the algorithm layer. -/
+theorem ksoftmax_forward_qk_surface_toAlgorithm_supported
+    (Y X Mask : RegionName)
+    (stride_ym stride_yn stride_xm stride_xn stride_m K DEPTH : Nat)
+    (LOG CAUSAL IS_FP16 : Bool) :
+    ∃ alg, (ksoftmax_forward_qk_surface Y X Mask stride_ym stride_yn
+      stride_xm stride_xn stride_m K DEPTH LOG CAUSAL IS_FP16).toAlgorithm?
+        = Except.ok alg := by
+  simp [ksoftmax_forward_qk_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
 
 /-- Surface transcription of `ksoftmax_triton.py`'s `_softmax` for the
 `MASK_TYPE='bk'` branch.
@@ -139,6 +210,16 @@ def ksoftmax_forward_bk_surface
   tl.store(y_ptrs, y, mask=k < $(K))
 }
 
+/-- The bk-mask k-softmax forward surface lowers to the algorithm layer. -/
+theorem ksoftmax_forward_bk_surface_toAlgorithm_supported
+    (Y X Mask : RegionName)
+    (stride_ym stride_yn stride_xm stride_xn stride_m K DEPTH : Nat)
+    (LOG CAUSAL IS_FP16 : Bool) :
+    ∃ alg, (ksoftmax_forward_bk_surface Y X Mask stride_ym stride_yn
+      stride_xm stride_xn stride_m K DEPTH LOG CAUSAL IS_FP16).toAlgorithm?
+        = Except.ok alg := by
+  simp [ksoftmax_forward_bk_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+
 /-- Surface transcription of `ksoftmax_triton.py`'s `_softmax_backward`.
 
 This covers the tested backward paths for `LOG=true/false` and
@@ -179,6 +260,16 @@ def ksoftmax_backward_surface
   grad_in_ptrs = GradIn + m * $(stride_bm) + n * $(stride_bn) + k
   tl.store(grad_in_ptrs, grad_in, mask=k < $(K))
 }
+
+/-- The k-softmax backward surface lowers to the algorithm layer. -/
+theorem ksoftmax_backward_surface_toAlgorithm_supported
+    (GradIn GradOut Out : RegionName)
+    (stride_bm stride_bn stride_gm stride_gn stride_om stride_on K DEPTH : Nat)
+    (LOG CAUSAL IS_FP16 : Bool) :
+    ∃ alg, (ksoftmax_backward_surface GradIn GradOut Out stride_bm stride_bn
+      stride_gm stride_gn stride_om stride_on K DEPTH LOG CAUSAL
+      IS_FP16).toAlgorithm? = Except.ok alg := by
+  simp [ksoftmax_backward_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
 
 /-- Proof-oriented forward softmax slice of `ksoftmax_triton.py`'s `_softmax`.
 
@@ -255,7 +346,7 @@ theorem ksoftmax_forward_plain_correct
         else s.readMem Y (yOffset s stride_ym stride_yn i) := by
   intro i
   by_cases hD : 0 < DEPTH
-  · simp [exec, ksoftmax_forward_plain, stepStmts, stepStmt, evalOp,
+  · simp [exec, ksoftmax_forward_plain, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
           Tile.reduceMax, Tile.reduceMaxDrop, Tile.reduceSum, Tile.reduceSumDrop,
           TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
@@ -298,5 +389,34 @@ theorem ksoftmax_forward_plain_compute_correct
   have h := ksoftmax_forward_plain_correct Y X
     stride_ym stride_yn stride_xm stride_xn K DEPTH s s' hOutInj hExec i
   simpa [hActive] using h
+
+/-- Public plain-forward summary: the Python surface for
+`LOG=false`, no mask, non-causal, and no fp16 accumulator cast lowers, and the
+corresponding checked proof realizes the softmax computation over the output row
+from `x` to `y`.
+-/
+theorem ksoftmax_forward_plain_output_summary
+    (Y X M : RegionName)
+    (stride_ym stride_yn stride_xm stride_xn stride_m K DEPTH : Nat)
+    (s : BlockState)
+    (hOutInj : Function.Injective
+      (fun i : Fin DEPTH => yOffset s stride_ym stride_yn i)) :
+    (∃ alg, (ksoftmax_forward_surface Y X M stride_ym stride_yn stride_xm
+      stride_xn stride_m K DEPTH Bool.false Bool.false Bool.false Bool.false
+      Bool.false).toAlgorithm? = Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := ksoftmax_forward_plain Y X
+        stride_ym stride_yn stride_xm stride_xn K DEPTH)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin DEPTH => i.val < K)
+        (fun i => (Y, yOffset s stride_ym stride_yn i)))
+      (expected := fun i => ksoftmaxSpec s X stride_xm stride_xn K DEPTH i)) := by
+  constructor
+  · exact ksoftmax_forward_surface_toAlgorithm_supported Y X M
+      stride_ym stride_yn stride_xm stride_xn stride_m K DEPTH
+      Bool.false Bool.false Bool.false Bool.false Bool.false
+  · exact ksoftmax_forward_plain_compute_correct Y X
+      stride_ym stride_yn stride_xm stride_xn K DEPTH s hOutInj
 
 end VeriTile.Bench.TritonBenchG.KsoftmaxTriton

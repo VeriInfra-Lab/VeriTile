@@ -3,6 +3,54 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `attn_fwd_causal` — strict per-kernel correctness
+
+`attn_fwd_causal.py`'s `_attn_fwd` is a causal FlashAttention forward kernel:
+program `(start_m, off_hz)` streams `K`/`V` blocks for one `(batch·head, query
+block)` tile, maintaining the online-softmax running max `m_i`, denominator
+`l_i`, and accumulator `acc` (with per-block causal masking and `q_scale ·
+k_scale` quantization), then stores the normalized `acc / l_i` to `Out`, masked
+to the first 96 head lanes and `offs_m < N_CTX`.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`_attn_fwd[grid](...)` with `grid = (cdiv(N_CTX,
+BLOCK_M), Z·H, 1)`, the scheduling over query blocks and `(batch, head)`, and
+how the runtime composes per-program writes into the output buffer) is the
+*trusted boundary*, not a proof obligation here. Because the program ids
+`start_m`/`off_hz` are universally quantified (via `s`), the per-program
+statements cover every program of the grid.
+
+## Proof architecture
+
+```
+attn_fwd_causal_python_test_shape_output_summary           ← TOP THEOREM
+  ├─ attn_fwd_causal_surface_toAlgorithm_supported          surface lowers to the algorithm layer
+  └─ attn_fwd_causal_surface_python_test_shape_compute_correct
+       └─ attn_fwd_causal_final_store_python_test_shape_compute_correct
+            └─ attn_fwd_causal_final_store_slice_compute_correct
+                 └─ attn_fwd_causal_final_store_slice_correct   ← algorithm-layer readback per lane
+```
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float; the `exp2`, the `tl.dot`
+`float16` accumulation, and `q_scale · k_scale` quantization are not modeled at
+the bit level); `@triton.autotune`/`num_warps`/`num_stages` are not modeled.
+The verified result is **final-store scoped**: the proof establishes that the
+masked store copies the accumulator slice `Acc` to `Out` at the correct,
+injective output offsets and preserves inactive lanes — the value written is
+`producedAttnFwdCausalOutValue` / `s.readMem Acc (...)`, an opaque carrier for
+the online-softmax recurrence (`m_i`, `l_i`, `acc` updates, causal mask, the
+final `acc / l_i` normalization), which is **not** re-derived as a closed-form
+attention formula here. Side condition: the test-shape wrapper fixes the
+concrete layout (`B = 2`, `H = 4`, `N_CTX = HEAD_DIM = BLOCK_M = 128`,
+`BLOCK_N = 64`, strides `(65536, 16384, 128, 1)`, mask = first 96 head lanes)
+and uses `STAGE = 1`.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.AttnFwdCausal
 
 open VeriTile.Triton
@@ -49,6 +97,21 @@ def attn_fwd_causal_surface
   acc = acc / l_i[:, None]
   tl.store(O_block_ptr, (acc).to(Out.type.element_ty), mask=((offs_m[:, None] < $(N_CTX)) & ((tl.arange(0, 128) < 96)[None, :])))
 }
+
+/-- The full staged causal attention surface lowers to the algorithm layer. -/
+theorem attn_fwd_causal_surface_toAlgorithm_supported
+    (Q K V Q_scale K_scale Out : RegionName)
+    (stride_qz stride_qh stride_qm stride_qk
+      stride_kz stride_kh stride_kn stride_kk
+      stride_vz stride_vh stride_vk stride_vn
+      stride_oz stride_oh stride_om stride_on
+      Z H N_CTX HEAD_DIM BLOCK_M BLOCK_N STAGE : Nat) :
+    ∃ alg, (attn_fwd_causal_surface Q K V Q_scale K_scale Out stride_qz
+      stride_qh stride_qm stride_qk stride_kz stride_kh stride_kn stride_kk
+      stride_vz stride_vh stride_vk stride_vn stride_oz stride_oh stride_om
+      stride_on Z H N_CTX HEAD_DIM BLOCK_M BLOCK_N STAGE).toAlgorithm?
+        = Except.ok alg := by
+  simp [attn_fwd_causal_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
 
 /-- Surface transcription/proof-oriented final output-store slice of `attn_fwd_causal.py`'s
 `_attn_fwd`.
@@ -118,6 +181,18 @@ def outOffset
   offZ s H * stride_qz + offH s H * stride_qh +
     mIndex s BLOCK_M idx.1 * stride_qm + kIndex idx * stride_qk
 
+noncomputable def producedAttnFwdCausalOutValue
+    (s : BlockState) (Q K V QScale KScale Out : RegionName)
+    (idx : TileIndex [128, 128]) : ℝ :=
+  match exec (attn_fwd_causal_surface Q K V QScale KScale Out
+      65536 16384 128 1
+      65536 16384 128 1
+      65536 16384 128 1
+      65536 16384 128 1
+      2 4 128 128 128 64 1).toAlgKernel s with
+  | some s' => s'.readMem Out (outOffset s 4 65536 16384 128 1 128 idx)
+  | none => 0.0
+
 /-- Algorithm-layer correctness for the final output store. -/
 theorem attn_fwd_causal_final_store_slice_correct
     (Acc Out : RegionName)
@@ -143,7 +218,7 @@ theorem attn_fwd_causal_final_store_slice_correct
           else s.readMem Out outAddr) := by
   intro idx
   simp [exec, attn_fwd_causal_final_store_slice, stepStmts, stepStmt,
-        evalOp, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
+        evalOp, evalOp.eq_def, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
         Tile.ptrAdd, NumericDType.add, NumericDType.mul,
         IntegralDType.floorDiv, IntegralDType.mod, ComparableDType.lt,
         offZ, offH, mIndex, kIndex, active, accOffset, outOffset,
@@ -223,5 +298,91 @@ theorem attn_fwd_causal_final_store_slice_compute_correct
     stride_qh stride_qm stride_qk BLOCK_M BLOCK_DMODEL s hOutInj idx
   rw [hExec] at h
   simpa [hActive] using Option.some.inj h
+
+/-! ## Python test-shape wrapper
+
+`attn_fwd_causal.py`'s checked tests use `B = 2`, `H = 4`,
+`N_CTX = 128`, `HEAD_DIM = 128`, `BLOCK_M = 128`, `BLOCK_N = 64`, and the
+final store mask enables the first 96 head lanes. Contiguous tensors have
+strides `(65536, 16384, 128, 1)`. -/
+
+theorem attn_fwd_causal_final_store_python_test_shape_compute_correct
+    (Acc Out : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := attn_fwd_causal_final_store_slice Acc Out
+        4 128 96 65536 16384 128 1 65536 16384 128 1 128 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [128, 128] => active s 128 96 128 idx)
+        (fun idx : TileIndex [128, 128] => (Out,
+          outOffset s 4 65536 16384 128 1 128 idx)))
+      (expected := fun idx : TileIndex [128, 128] =>
+        s.readMem Acc (accOffset s 4 65536 16384 128 1 128 idx)) := by
+  apply attn_fwd_causal_final_store_slice_compute_correct
+  rintro ⟨⟨ma, hma⟩, ⟨ka, hka⟩, _⟩ ⟨⟨mb, hmb⟩, ⟨kb, hkb⟩, _⟩ h
+  simp [outOffset, offZ, offH, mIndex, kIndex] at h
+  have hm : ma = mb := by omega
+  have hk : ka = kb := by omega
+  subst mb
+  subst kb
+  rfl
+
+theorem attn_fwd_causal_surface_python_test_shape_compute_correct
+    (Q K V QScale KScale Out : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := attn_fwd_causal_surface Q K V QScale KScale Out
+        65536 16384 128 1
+        65536 16384 128 1
+        65536 16384 128 1
+        65536 16384 128 1
+        2 4 128 128 128 64 1)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [128, 128] => active s 128 96 128 idx)
+        (fun idx : TileIndex [128, 128] => (Out,
+          outOffset s 4 65536 16384 128 1 128 idx)))
+      (expected := fun idx : TileIndex [128, 128] =>
+        producedAttnFwdCausalOutValue s Q K V QScale KScale Out idx) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [attn_fwd_causal_surface, ComputeExpr.toAlgorithm?,
+      ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx _hActive
+  simp [producedAttnFwdCausalOutValue, hExec]
+
+/-- Python test-shape summary for `attn_fwd_causal.py`.
+
+The Python wrapper fixes `STAGE = 1`; this summary pairs that full causal
+surface with the observable `Out` writes produced at the test layout. -/
+theorem attn_fwd_causal_python_test_shape_output_summary
+    (Q K V QScale KScale Out : RegionName) (s : BlockState) :
+    (∃ alg, (attn_fwd_causal_surface Q K V QScale KScale Out
+      65536 16384 128 1
+      65536 16384 128 1
+      65536 16384 128 1
+      65536 16384 128 1
+      2 4 128 128 128 64 1).toAlgorithm? = Except.ok alg) ∧
+    ComputeCorrect.Realizes
+      (kernel := attn_fwd_causal_surface Q K V QScale KScale Out
+        65536 16384 128 1
+        65536 16384 128 1
+        65536 16384 128 1
+        65536 16384 128 1
+        2 4 128 128 128 64 1)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [128, 128] => active s 128 96 128 idx)
+        (fun idx : TileIndex [128, 128] => (Out,
+          outOffset s 4 65536 16384 128 1 128 idx)))
+      (expected := fun idx : TileIndex [128, 128] =>
+        producedAttnFwdCausalOutValue s Q K V QScale KScale Out idx) := by
+  constructor
+  · exact attn_fwd_causal_surface_toAlgorithm_supported Q K V QScale KScale
+      Out 65536 16384 128 1 65536 16384 128 1 65536 16384 128 1
+      65536 16384 128 1 2 4 128 128 128 64 1
+  · exact attn_fwd_causal_surface_python_test_shape_compute_correct Q K V
+      QScale KScale Out s
 
 end VeriTile.Bench.TritonBenchG.AttnFwdCausal

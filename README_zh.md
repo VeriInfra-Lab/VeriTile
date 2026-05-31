@@ -2,6 +2,8 @@
 
 [English](README.md) | **中文**
 
+📖 **文档站:** [lizn-zn.github.io/VeriTile/](https://lizn-zn.github.io/VeriTile/)(bench 翻译手册、项目状态、架构)。本地起:`./site/scripts/dev.sh`。
+
 VeriTile 把一个 typed Triton 风格 kernel DSL 嵌入到 Lean 4,然后证明这些 kernel
 对数学规范的正确性 (correctness),或者两个 kernel 之间的等价性 (refinement)。
 实现上,DSL 通过 `triton { ... }` 语法嵌入,为支持的子集定义类型化的
