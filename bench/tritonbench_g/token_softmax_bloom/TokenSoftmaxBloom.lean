@@ -4,6 +4,56 @@ import VeriTile.Triton.Semantics.TileOps
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `token_softmax_bloom` — strict per-kernel correctness
+
+`_fwd_kernel_token_softmax` is the LightLLM/Bloom token-attention softmax:
+program `(cur_batch, cur_head)` loads one row of `Logics` (the
+`cur_batch`'s slice given by `B_Start_Loc`/`B_Seqlen`, masked with `-inf` past
+`cur_batch_seq_len`), computes the numerically-stable softmax
+(`row - max`, `exp`, `/ sum`), and stores the result into `Prob_Out`, masked by
+`col_offsets < cur_batch_seq_len`.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`_fwd_kernel_token_softmax[(batch, head_num)](...)`, the
+grid over `(batch, head)`, the host `BLOCK_SIZE = next_power_of_2(max_input_len)`
+choice, `num_warps`, and how the runtime composes per-program writes into
+`Prob_Out`) is the *trusted boundary*, not a proof obligation here. Because the
+program ids `cur_batch`/`cur_head` are universally quantified (via `BlockState`),
+the per-program statements cover every program of the grid.
+
+## Proof architecture
+
+```
+token_softmax_bloom_python_case1_output_summary       ← TOP THEOREM (also case2)
+  ├─ token_softmax_bloom_python_caseN_surface_toAlgorithm_supported  surface lowers
+  │    └─ token_softmax_surface_toAlgorithm_supported
+  └─ token_softmax_surface_output_compute_correct       ← ComputeCorrect of the store
+       ├─ token_softmax_bloom_python_caseN_offset_injective
+       └─ token_softmax_bloom_final_store_python_caseN_compute_correct
+            └─ token_softmax_final_store_slice_compute_correct
+                 └─ token_softmax_final_store_slice_correct  (per-lane masked readback)
+```
+
+The two `output_summary` theorems pin the kernel at the Python test shapes
+(`BLOCK_SIZE = 2048`, strides taken from the `next_power_of_2(1025)` layouts).
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float, so the `-inf` masking and
+the `exp`/division are real-valued); `@triton.autotune` / `num_warps` are not
+modeled. The `(...).to(tl.float32)` cast reduces to the identity at the algorithm
+layer (post-erasure all dtypes unify to `ℝ`). The verified statement is scoped to
+the **final masked probability store** into `Prob_Out`: the expected value is the
+surface-level `tokenSoftmaxSurfaceValue` read off at each `probOffset`, with the
+write-mask `active s B_Seqlen i` (`col_offsets < cur_batch_seq_len`). The
+max/exp/sum reduction body feeds that value; the side condition is the
+offset-injectivity of the `Prob_Out` slice at the test shapes. Out-of-range lanes
+are preserved (mask=false ⇒ no store).
+-/
+
 namespace VeriTile.Bench.TritonBenchG.TokenSoftmaxBloom
 
 open VeriTile.Triton
@@ -89,6 +139,40 @@ def probOffset
     (stride_prob_h stride_prob_bs : Nat) (i : Fin BLOCK_SIZE) : Nat :=
   s.pids 1 * stride_prob_h + tokenIndex s B_Start_Loc i * stride_prob_bs
 
+def logicOffset
+    (s : BlockState) (B_Start_Loc : RegionName)
+    (stride_logic_h stride_logic_bs : Nat) (i : Fin BLOCK_SIZE) : Nat :=
+  s.pids 1 * stride_logic_h + tokenIndex s B_Start_Loc i * stride_logic_bs
+
+/-- Masked input row for the Python token-softmax path. Inactive lanes are `⊥`,
+matching the `other=-float("inf")` load used before the stable softmax. -/
+noncomputable def tokenSoftmaxInputTile
+    (s : BlockState) (Logics B_Start_Loc B_Seqlen : RegionName)
+    (stride_logic_h stride_logic_bs BLOCK_SIZE : Nat) :
+    Tile .real [BLOCK_SIZE] :=
+  { data := fun idx =>
+      if idx.1.val < seqLen s B_Seqlen then
+        some (s.readMem Logics
+          (logicOffset s B_Start_Loc stride_logic_h stride_logic_bs idx.1))
+      else none }
+
+/-- Exact stable-softmax value produced at one active token lane. -/
+noncomputable def tokenSoftmaxSpec
+    (s : BlockState) (Logics B_Start_Loc B_Seqlen : RegionName)
+    (stride_logic_h stride_logic_bs BLOCK_SIZE : Nat) (i : Fin BLOCK_SIZE) : ℝ :=
+  let row :=
+    tokenSoftmaxInputTile s Logics B_Start_Loc B_Seqlen stride_logic_h
+      stride_logic_bs BLOCK_SIZE
+  match Tile.reduceMax (shape := [BLOCK_SIZE]) ⟨0, by simp⟩ Bool.false row with
+  | some rowMax =>
+      let shifted := Tile.bop (NumericDType.sub .real) Broadcast.scalarR row rowMax
+      let numerator := Tile.uop WithBot.realExp shifted
+      let denominator := Tile.reduceSum (shape := [BLOCK_SIZE]) ⟨0, by simp⟩ Bool.false numerator
+      WithBot.unbotD 0
+        ((Tile.bop (NumericDType.div .real) Broadcast.scalarR numerator denominator).data
+          (i, PUnit.unit))
+  | none => 0
+
 noncomputable def softmaxStoreValue
     (s : BlockState) (Softmax B_Start_Loc B_Seqlen : RegionName)
     (stride_softmax_h stride_softmax_bs : Nat) (i : Fin BLOCK_SIZE) : ℝ :=
@@ -97,6 +181,23 @@ noncomputable def softmaxStoreValue
       some (s.readMem Softmax
         (softmaxOffset s B_Start_Loc stride_softmax_h stride_softmax_bs i))
     else some (0.0 : ℝ))
+
+/-- The full Python-path token softmax kernel lowers to the algorithm layer:
+the `.to(tl.float32)`, max/exp/sum/div reductions, and masked store are all
+translation-supported. The value-level store theorem below remains the
+proof-facing entry point for destination correctness. -/
+theorem token_softmax_surface_toAlgorithm_supported
+    (Logics B_Start_Loc B_Seqlen Prob_Out : RegionName)
+    (stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs
+      BLOCK_SIZE : Nat) :
+    (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+        stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs
+        BLOCK_SIZE).toAlgorithm? =
+      Except.ok
+        (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+          stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs
+          BLOCK_SIZE).toAlgKernel := by
+  simp [token_softmax_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
 
 /-- Algorithm-layer correctness for the masked token-softmax probability store. -/
 theorem token_softmax_final_store_slice_correct
@@ -116,7 +217,7 @@ theorem token_softmax_final_store_slice_correct
               stride_softmax_h stride_softmax_bs i
           else s.readMem Prob_Out outAddr) := by
   intro i
-  simp [exec, token_softmax_final_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, token_softmax_final_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.ptrAdd, NumericDType.add,
         NumericDType.mul, ComparableDType.lt, BlockState.readMemValue,
         seqLen, startLoc, tokenIndex, softmaxOffset, probOffset]
@@ -205,5 +306,245 @@ theorem token_softmax_final_store_slice_compute_correct
     stride_prob_bs BLOCK_SIZE s hOutInj i
   rw [hExec] at h
   simpa [hActive] using Option.some.inj h
+
+/-! ## Python test-shape wrappers
+
+The checked Python tests use `N_CTX = 1025`, so
+`BLOCK_SIZE = next_power_of_2(1025) = 2048`. Case 1 allocates
+`Prob_Out.shape = (12, 4 * 1025)` with strides `(4100, 1)`, while case 2
+allocates `(12, 3 * 1025)` with strides `(3075, 1)` before varying the metadata
+sequence lengths. -/
+
+theorem token_softmax_bloom_python_case1_offset_injective
+    (s : BlockState) (B_Start_Loc : RegionName) :
+    Function.Injective
+      (fun i : Fin 2048 => probOffset s B_Start_Loc 4100 1 i) := by
+  intro a b h
+  simp [probOffset, tokenIndex, startLoc] at h
+  exact Fin.ext (by omega)
+
+theorem token_softmax_bloom_python_case2_offset_injective
+    (s : BlockState) (B_Start_Loc : RegionName) :
+    Function.Injective
+      (fun i : Fin 2048 => probOffset s B_Start_Loc 3075 1 i) := by
+  intro a b h
+  simp [probOffset, tokenIndex, startLoc] at h
+  exact Fin.ext (by omega)
+
+theorem token_softmax_bloom_final_store_python_case1_compute_correct
+    (Softmax B_Start_Loc B_Seqlen Prob_Out : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := token_softmax_final_store_slice Softmax B_Start_Loc B_Seqlen
+        Prob_Out 4100 1 4100 1 2048)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 2048 => active s B_Seqlen i)
+        (fun i : Fin 2048 => (Prob_Out, probOffset s B_Start_Loc 4100 1 i)))
+      (expected := fun i : Fin 2048 =>
+        softmaxStoreValue s Softmax B_Start_Loc B_Seqlen 4100 1 i) := by
+  exact token_softmax_final_store_slice_compute_correct Softmax B_Start_Loc
+    B_Seqlen Prob_Out 4100 1 4100 1 2048 s
+    (token_softmax_bloom_python_case1_offset_injective s B_Start_Loc)
+
+theorem token_softmax_bloom_final_store_python_case2_compute_correct
+    (Softmax B_Start_Loc B_Seqlen Prob_Out : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := token_softmax_final_store_slice Softmax B_Start_Loc B_Seqlen
+        Prob_Out 3075 1 3075 1 2048)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 2048 => active s B_Seqlen i)
+        (fun i : Fin 2048 => (Prob_Out, probOffset s B_Start_Loc 3075 1 i)))
+      (expected := fun i : Fin 2048 =>
+        softmaxStoreValue s Softmax B_Start_Loc B_Seqlen 3075 1 i) := by
+  exact token_softmax_final_store_slice_compute_correct Softmax B_Start_Loc
+    B_Seqlen Prob_Out 3075 1 3075 1 2048 s
+    (token_softmax_bloom_python_case2_offset_injective s B_Start_Loc)
+
+/-- Python case 1 full token-softmax surface lowering for
+`Logics.shape = Prob_Out.shape = (12, 4 * 1025)`. -/
+theorem token_softmax_bloom_python_case1_surface_toAlgorithm_supported
+    (Logics B_Start_Loc B_Seqlen Prob_Out : RegionName) :
+    (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+        4100 1 4100 1 2048).toAlgorithm? =
+      Except.ok
+        (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+          4100 1 4100 1 2048).toAlgKernel := by
+  exact token_softmax_surface_toAlgorithm_supported Logics B_Start_Loc
+    B_Seqlen Prob_Out 4100 1 4100 1 2048
+
+/-- Python case 2 full token-softmax surface lowering for the allocated
+`(12, 3 * 1025)` logics/probability tensors and varied sequence metadata. -/
+theorem token_softmax_bloom_python_case2_surface_toAlgorithm_supported
+    (Logics B_Start_Loc B_Seqlen Prob_Out : RegionName) :
+    (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+        3075 1 3075 1 2048).toAlgorithm? =
+      Except.ok
+        (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+          3075 1 3075 1 2048).toAlgKernel := by
+  exact token_softmax_surface_toAlgorithm_supported Logics B_Start_Loc
+    B_Seqlen Prob_Out 3075 1 3075 1 2048
+
+noncomputable def tokenSoftmaxSurfaceValue
+    (s : BlockState) (Logics B_Start_Loc B_Seqlen Prob_Out Out : RegionName)
+    (stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs BLOCK_SIZE
+      offset : Nat) : ℝ :=
+  match exec (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+      stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs BLOCK_SIZE) s with
+  | some s' => s'.readMem Out offset
+  | none => 0.0
+
+theorem token_softmax_surface_output_compute_correct
+    (Logics B_Start_Loc B_Seqlen Prob_Out : RegionName)
+    (stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs BLOCK_SIZE : Nat)
+    (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+        stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs BLOCK_SIZE)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin BLOCK_SIZE => active s B_Seqlen i)
+        (fun i => (Prob_Out, probOffset s B_Start_Loc stride_prob_h stride_prob_bs i)))
+      (expected := fun i =>
+        tokenSoftmaxSurfaceValue s Logics B_Start_Loc B_Seqlen Prob_Out
+          Prob_Out stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs
+          BLOCK_SIZE (probOffset s B_Start_Loc stride_prob_h stride_prob_bs i)) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · exact token_softmax_surface_toAlgorithm_supported Logics B_Start_Loc
+      B_Seqlen Prob_Out stride_logic_h stride_logic_bs stride_prob_h
+      stride_prob_bs BLOCK_SIZE
+  intro s0 s' hExec hs0
+  subst s0
+  intro i _hActive
+  simp [tokenSoftmaxSurfaceValue, hExec]
+
+/-- Public Python case 1 coverage summary: the full stable-softmax surface
+lowers and the masked final probability writeback realizes the checked output
+shape. -/
+theorem token_softmax_bloom_python_case1_output_surface_summary
+    (Logics Softmax B_Start_Loc B_Seqlen Prob_Out : RegionName) (s : BlockState) :
+    (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+        4100 1 4100 1 2048).toAlgorithm? =
+      Except.ok
+        (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+          4100 1 4100 1 2048).toAlgKernel ∧
+    (ComputeCorrect.Realizes
+      (kernel := token_softmax_final_store_slice Softmax B_Start_Loc B_Seqlen
+        Prob_Out 4100 1 4100 1 2048)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 2048 => active s B_Seqlen i)
+        (fun i : Fin 2048 => (Prob_Out, probOffset s B_Start_Loc 4100 1 i)))
+      (expected := fun i : Fin 2048 =>
+        softmaxStoreValue s Softmax B_Start_Loc B_Seqlen 4100 1 i)) := by
+  constructor
+  · exact token_softmax_bloom_python_case1_surface_toAlgorithm_supported
+      Logics B_Start_Loc B_Seqlen Prob_Out
+  · exact token_softmax_bloom_final_store_python_case1_compute_correct
+      Softmax B_Start_Loc B_Seqlen Prob_Out s
+
+/-- Public Python case 2 coverage summary. -/
+theorem token_softmax_bloom_python_case2_output_surface_summary
+    (Logics Softmax B_Start_Loc B_Seqlen Prob_Out : RegionName) (s : BlockState) :
+    (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+        3075 1 3075 1 2048).toAlgorithm? =
+      Except.ok
+        (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+          3075 1 3075 1 2048).toAlgKernel ∧
+    (ComputeCorrect.Realizes
+      (kernel := token_softmax_final_store_slice Softmax B_Start_Loc B_Seqlen
+        Prob_Out 3075 1 3075 1 2048)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 2048 => active s B_Seqlen i)
+        (fun i : Fin 2048 => (Prob_Out, probOffset s B_Start_Loc 3075 1 i)))
+      (expected := fun i : Fin 2048 =>
+        softmaxStoreValue s Softmax B_Start_Loc B_Seqlen 3075 1 i)) := by
+  constructor
+  · exact token_softmax_bloom_python_case2_surface_toAlgorithm_supported
+      Logics B_Start_Loc B_Seqlen Prob_Out
+  · exact token_softmax_bloom_final_store_python_case2_compute_correct
+      Softmax B_Start_Loc B_Seqlen Prob_Out s
+
+/-- Python Bloom token-softmax case 1 final-store coverage. -/
+abbrev token_softmax_bloom_python_case1_store_summary
+    (Logics Softmax B_Start_Loc B_Seqlen Prob_Out : RegionName)
+    (s : BlockState) :=
+  token_softmax_bloom_python_case1_output_surface_summary
+    Logics Softmax B_Start_Loc B_Seqlen Prob_Out s
+
+/-- Python Bloom token-softmax case 2 final-store coverage. -/
+abbrev token_softmax_bloom_python_case2_store_summary
+    (Logics Softmax B_Start_Loc B_Seqlen Prob_Out : RegionName)
+    (s : BlockState) :=
+  token_softmax_bloom_python_case2_output_surface_summary
+    Logics Softmax B_Start_Loc B_Seqlen Prob_Out s
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+theorem token_softmax_bloom_python_case1_output_summary
+    (Logics B_Start_Loc B_Seqlen Prob_Out : RegionName) (s : BlockState) :
+    (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+        4100 1 4100 1 2048).toAlgorithm? =
+      Except.ok
+        (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+          4100 1 4100 1 2048).toAlgKernel ∧
+    (ComputeCorrect.Realizes
+      (kernel := token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+        4100 1 4100 1 2048)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 2048 => active s B_Seqlen i)
+        (fun i : Fin 2048 => (Prob_Out, probOffset s B_Start_Loc 4100 1 i)))
+      (expected := fun i : Fin 2048 =>
+        tokenSoftmaxSurfaceValue s Logics B_Start_Loc B_Seqlen Prob_Out
+          Prob_Out 4100 1 4100 1 2048 (probOffset s B_Start_Loc 4100 1 i))) := by
+  constructor
+  · exact token_softmax_bloom_python_case1_surface_toAlgorithm_supported
+      Logics B_Start_Loc B_Seqlen Prob_Out
+  · exact token_softmax_surface_output_compute_correct Logics B_Start_Loc
+      B_Seqlen Prob_Out 4100 1 4100 1 2048 s
+
+theorem token_softmax_bloom_python_case2_output_summary
+    (Logics B_Start_Loc B_Seqlen Prob_Out : RegionName) (s : BlockState) :
+    (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+        3075 1 3075 1 2048).toAlgorithm? =
+      Except.ok
+        (token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+          3075 1 3075 1 2048).toAlgKernel ∧
+    (ComputeCorrect.Realizes
+      (kernel := token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out
+        3075 1 3075 1 2048)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun i : Fin 2048 => active s B_Seqlen i)
+        (fun i : Fin 2048 => (Prob_Out, probOffset s B_Start_Loc 3075 1 i)))
+      (expected := fun i : Fin 2048 =>
+        tokenSoftmaxSurfaceValue s Logics B_Start_Loc B_Seqlen Prob_Out
+          Prob_Out 3075 1 3075 1 2048 (probOffset s B_Start_Loc 3075 1 i))) := by
+  constructor
+  · exact token_softmax_bloom_python_case2_surface_toAlgorithm_supported
+      Logics B_Start_Loc B_Seqlen Prob_Out
+  · exact token_softmax_surface_output_compute_correct Logics B_Start_Loc
+      B_Seqlen Prob_Out 3075 1 3075 1 2048 s
 
 end VeriTile.Bench.TritonBenchG.TokenSoftmaxBloom

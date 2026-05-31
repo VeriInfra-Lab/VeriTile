@@ -86,6 +86,7 @@ inductive Op : TileDType → TileShape → Type where
   | castFloat : (src dst : FloatDType) → Op src.toTileDType shape → Op dst.toTileDType shape
   | castNatToInt : Op .nat shape → Op .int shape
   | castIntToNat : Op .int shape → Op .nat shape
+  | castRealToInt8 : Op .real shape → Op .int shape
   | add       : NumericDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
   | sub       : NumericDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
   | mul       : NumericDType dtype → Broadcast a b out → Op dtype a → Op dtype b → Op dtype out
@@ -231,6 +232,10 @@ inductive Op : TileDType → TileShape → Type where
   | makeBlockPtrDyn : (region : RegionName) → (baseOffset : Op .nat []) →
                 (parentShape : List Nat) → (blockShape : TileShape) →
                 (strides offsets : List Nat) →
+                Op .blockPtr blockShape
+  | makeBlockPtrDynOffsets : (region : RegionName) → (baseOffset : Op .nat []) →
+                (parentShape : List Nat) → (blockShape : TileShape) →
+                (strides : List Nat) → (offsets : List (Op .nat [])) →
                 Op .blockPtr blockShape
   | advanceBlockPtr : Op .blockPtr shape → (offsetDeltas : List Nat) → Op .blockPtr shape
   | load      : (dtype : TileDType) → MemAccess dtype shape →
@@ -538,12 +543,16 @@ end ComputeOp
 inductive ComputeExpr : AlgDType → TileShape → Type where
   | alg : Op dtype shape → ComputeExpr dtype shape
   | compute : ComputeOp cdtype shape → ComputeExpr cdtype.eraseDType shape
+  | opaque : (op : String) → ComputeExpr dtype shape
+  | llrint : ComputeExpr .real shape → ComputeExpr .int shape
 
 namespace ComputeExpr
 
 def toAlgorithm? : ComputeExpr dtype shape → Except EraseDTypeError (Op dtype shape)
   | .alg e => Except.ok e
   | .compute e => ComputeOp.toAlgorithm? e
+  | .opaque op => Except.error (.requiresComputeSemantics op)
+  | .llrint _ => Except.error (.requiresComputeSemantics "runtime CUDA llrint")
 
 @[simp] theorem toAlgorithm?_alg (e : Op dtype shape) :
     (ComputeExpr.alg e).toAlgorithm? = Except.ok e := rfl

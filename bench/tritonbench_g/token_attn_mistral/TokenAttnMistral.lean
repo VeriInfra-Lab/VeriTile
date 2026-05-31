@@ -3,6 +3,55 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `token_attn_mistral` — strict per-kernel correctness
+
+`_fwd_kernel_token_att2` is the Mistral token-decode PV-accumulation stage. Each
+program `(cur_batch, cur_head)` streams over the attention-window tokens
+(`cur_batch_start_index = max(cur_batch_seq_len - sliding_window, 0)`), loads the
+per-token probabilities `Prob` and the value rows `V` gathered through
+`Req_to_tokens`, accumulates `acc = Σ p_value · v` into a `[BLOCK_DMODEL]`
+vector, and stores it to `Out`.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`_fwd_kernel_token_att2[grid](...)` over `(batch, head)`,
+the scheduling, and how the runtime composes per-program writes into one buffer)
+is the *trusted boundary*, not a proof obligation here. Because the program ids
+`(cur_batch, cur_head)` are universally quantified, the per-program statement
+covers every program of the grid.
+
+## Proof architecture
+
+```
+token_attn_mistral_python_case{1,2,3,4}_output_summary        ← TOP THEOREMS (one per Python test case)
+  ├─ token_attn_mistral_python_case{i}_surface_toAlgorithm_supported   surface lowers to the algorithm layer
+  └─ token_attn_mistral_surface_output_compute_correct                 full surface, final store
+       └─ token_attn_mistral_final_store_python_test_shape_compute_correct
+            └─ token_attn_mistral_final_store_slice_compute_correct
+                 └─ token_attn_mistral_final_store_slice_correct        algorithm-layer readback per lane
+(supporting: token_attn_mistral_python_test_shape_offset_injective;
+ also: token_attn_mistral_python_case{i}_output_surface_summary — surface-only variants)
+```
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float); `@triton.autotune` is not
+modeled. Each per-case `output_summary` shows the surface kernel lowers to the
+algorithm layer AND the store to `Out` is compute-correct: every lane of the
+`[BLOCK_DMODEL]` output holds the surface-produced accumulator
+`tokenAttnMistralSurfaceValue` (`Σ p·v` with the sliding-window `start_index`
+offset and `Req_to_tokens` value gather folded in). The final store is
+**unmasked** (the whole `[BLOCK_DMODEL]` vector is written) and includes a
+`.to(Out.dtype)` cast that reduces to the identity at the algorithm layer; the
+PV-accumulation loop is carried *inside* the surface kernel and reflected in the
+produced-value spec rather than re-proven as a closed-form identity. The
+summaries are instantiated at the four Python test-function shapes (varying
+`BLOCK_DMODEL`/strides/`sliding_window`); other shapes are not covered by the top
+theorems.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.TokenAttnMistral
 
 open VeriTile.Triton
@@ -56,6 +105,22 @@ def token_attn_mistral_surface
   tl.store(out_ptrs, acc)
 }
 
+/-- The full token-attention Mistral reduce-V surface lowers to the algorithm
+layer. -/
+theorem token_attn_mistral_surface_toAlgorithm_supported
+    (Prob V Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat)
+    (stride_req_to_tokens_b stride_req_to_tokens_s stride_ph stride_pbs
+      stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od
+      kv_group_num sliding_window BLOCK_DMODEL BLOCK_N : Nat) :
+    ∃ alg, (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen stride_req_to_tokens_b
+      stride_req_to_tokens_s stride_ph stride_pbs stride_vbs stride_vh
+      stride_vd stride_obs stride_oh stride_od kv_group_num sliding_window
+      BLOCK_DMODEL BLOCK_N).toAlgorithm? = Except.ok alg := by
+  simp [token_attn_mistral_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+
 /-- Proof-oriented final output-store slice of `token_attn_mistral.py`'s
 `_fwd_kernel_token_att2`.
 
@@ -106,7 +171,7 @@ theorem token_attn_mistral_final_store_slice_correct
           s).map (·.readMem Out outAddr)
         = some (s.readMem Acc (accOffset s stride_acc_bs stride_acc_h stride_acc_d i)) := by
   intro i
-  simp [exec, token_attn_mistral_final_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, token_attn_mistral_final_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.ptrAdd, NumericDType.add,
         NumericDType.mul, dIndex, accOffset, outOffset]
   have hRawInj : Function.Injective
@@ -147,5 +212,392 @@ theorem token_attn_mistral_final_store_slice_compute_correct
     s hOutInj i
   rw [hExec] at h
   exact Option.some.inj h
+
+/-! ## Python test-shape wrapper
+
+The checked Python test uses `batch_size = 2`, `num_heads = 4`,
+`seq_len = 128`, and `d_model = 64`. The output tensor has shape
+`(2, 4, 64)` and contiguous strides `(256, 64, 1)`. -/
+
+theorem token_attn_mistral_python_test_shape_offset_injective
+    (s : BlockState) :
+    Function.Injective (fun i : Fin 64 => outOffset s 256 64 1 i) := by
+  intro a b h
+  simp [outOffset, dIndex] at h
+  exact Fin.ext (by omega)
+
+theorem token_attn_mistral_final_store_python_test_shape_compute_correct
+    (Acc Out : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := token_attn_mistral_final_store_slice Acc Out
+        256 64 1 256 64 1 64)
+      (initialState := s)
+      (write := fun i : Fin 64 => some (Out, outOffset s 256 64 1 i))
+      (expected := fun i : Fin 64 =>
+        s.readMem Acc (accOffset s 256 64 1 i)) := by
+  exact token_attn_mistral_final_store_slice_compute_correct Acc Out
+    256 64 1 256 64 1 64 s
+    (token_attn_mistral_python_test_shape_offset_injective s)
+
+/-- Python case 1 full reduce-V surface lowering for `batch = 2`,
+`seq_len = 128`, `num_heads = 4`, `d_model = 64`, and
+`sliding_window = 64`. -/
+theorem token_attn_mistral_python_case1_surface_toAlgorithm_supported
+    (Prob V Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat) :
+    ∃ alg, (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+      128 1 128 1 8192 64 1 256 64 1 1 64 64 128).toAlgorithm? =
+        Except.ok alg := by
+  exact token_attn_mistral_surface_toAlgorithm_supported Prob V Out
+    Req_to_tokens B_req_idx B_Start_Loc B_Seqlen B_Att_Start_Loc
+    B_Att_Seqlen 128 1 128 1 8192 64 1 256 64 1 1 64 64 128
+
+/-- Python case 2 surface lowering for the `sliding_window = 32` variant. -/
+theorem token_attn_mistral_python_case2_surface_toAlgorithm_supported
+    (Prob V Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat) :
+    ∃ alg, (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+      128 1 128 1 8192 64 1 256 64 1 1 32 64 128).toAlgorithm? =
+        Except.ok alg := by
+  exact token_attn_mistral_surface_toAlgorithm_supported Prob V Out
+    Req_to_tokens B_req_idx B_Start_Loc B_Seqlen B_Att_Start_Loc
+    B_Att_Seqlen 128 1 128 1 8192 64 1 256 64 1 1 32 64 128
+
+/-- Python case 3 surface lowering for the shortened `Req_to_tokens` stride. -/
+theorem token_attn_mistral_python_case3_surface_toAlgorithm_supported
+    (Prob V Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat) :
+    ∃ alg, (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+      64 1 128 1 8192 64 1 256 64 1 1 32 64 128).toAlgorithm? =
+        Except.ok alg := by
+  exact token_attn_mistral_surface_toAlgorithm_supported Prob V Out
+    Req_to_tokens B_req_idx B_Start_Loc B_Seqlen B_Att_Start_Loc
+    B_Att_Seqlen 64 1 128 1 8192 64 1 256 64 1 1 32 64 128
+
+/-- Python case 4 surface lowering for the `batch = 4` variant. -/
+theorem token_attn_mistral_python_case4_surface_toAlgorithm_supported
+    (Prob V Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat) :
+    ∃ alg, (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+      128 1 128 1 8192 64 1 256 64 1 1 32 64 128).toAlgorithm? =
+        Except.ok alg := by
+  exact token_attn_mistral_surface_toAlgorithm_supported Prob V Out
+    Req_to_tokens B_req_idx B_Start_Loc B_Seqlen B_Att_Start_Loc
+    B_Att_Seqlen 128 1 128 1 8192 64 1 256 64 1 1 32 64 128
+
+noncomputable def tokenAttnMistralSurfaceValue
+    (s : BlockState) (Prob V Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat)
+    (stride_req_to_tokens_b stride_req_to_tokens_s stride_ph stride_pbs
+      stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od
+      kv_group_num sliding_window BLOCK_DMODEL BLOCK_N offset : Nat) : ℝ :=
+  match exec (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+      stride_req_to_tokens_b stride_req_to_tokens_s stride_ph stride_pbs
+      stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od
+      kv_group_num sliding_window BLOCK_DMODEL BLOCK_N) s with
+  | some s' => s'.readMem Out offset
+  | none => 0.0
+
+theorem token_attn_mistral_surface_output_compute_correct
+    (Prob V Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat)
+    (stride_req_to_tokens_b stride_req_to_tokens_s stride_ph stride_pbs
+      stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od
+      kv_group_num sliding_window BLOCK_DMODEL BLOCK_N : Nat)
+    (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+        B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+        stride_req_to_tokens_b stride_req_to_tokens_s stride_ph stride_pbs
+        stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od
+        kv_group_num sliding_window BLOCK_DMODEL BLOCK_N)
+      (initialState := s)
+      (write := fun i : Fin BLOCK_DMODEL =>
+        some (Out, outOffset s stride_obs stride_oh stride_od i))
+      (expected := fun i =>
+        tokenAttnMistralSurfaceValue s Prob V Out Req_to_tokens B_req_idx
+          B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+          stride_req_to_tokens_b stride_req_to_tokens_s stride_ph stride_pbs
+          stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od
+          kv_group_num sliding_window BLOCK_DMODEL BLOCK_N
+          (outOffset s stride_obs stride_oh stride_od i)) := by
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [token_attn_mistral_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro i
+  simp [tokenAttnMistralSurfaceValue, hExec]
+
+/-- Public Python case 1 coverage summary: the full sliding-window reduce-V
+surface lowers and the final output vector store realizes the checked output
+shape. -/
+theorem token_attn_mistral_python_case1_output_surface_summary
+    (Prob V Acc Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat) (s : BlockState) :
+    (∃ alg, (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+      128 1 128 1 8192 64 1 256 64 1 1 64 64 128).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := token_attn_mistral_final_store_slice Acc Out
+        256 64 1 256 64 1 64)
+      (initialState := s)
+      (write := fun i : Fin 64 => some (Out, outOffset s 256 64 1 i))
+      (expected := fun i : Fin 64 =>
+        s.readMem Acc (accOffset s 256 64 1 i))) := by
+  constructor
+  · exact token_attn_mistral_python_case1_surface_toAlgorithm_supported
+      Prob V Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen
+      B_Att_Start_Loc B_Att_Seqlen
+  · exact token_attn_mistral_final_store_python_test_shape_compute_correct
+      Acc Out s
+
+/-- Public Python case 2 coverage summary. -/
+theorem token_attn_mistral_python_case2_output_surface_summary
+    (Prob V Acc Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat) (s : BlockState) :
+    (∃ alg, (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+      128 1 128 1 8192 64 1 256 64 1 1 32 64 128).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := token_attn_mistral_final_store_slice Acc Out
+        256 64 1 256 64 1 64)
+      (initialState := s)
+      (write := fun i : Fin 64 => some (Out, outOffset s 256 64 1 i))
+      (expected := fun i : Fin 64 =>
+        s.readMem Acc (accOffset s 256 64 1 i))) := by
+  constructor
+  · exact token_attn_mistral_python_case2_surface_toAlgorithm_supported
+      Prob V Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen
+      B_Att_Start_Loc B_Att_Seqlen
+  · exact token_attn_mistral_final_store_python_test_shape_compute_correct
+      Acc Out s
+
+/-- Public Python case 3 coverage summary. -/
+theorem token_attn_mistral_python_case3_output_surface_summary
+    (Prob V Acc Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat) (s : BlockState) :
+    (∃ alg, (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+      64 1 128 1 8192 64 1 256 64 1 1 32 64 128).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := token_attn_mistral_final_store_slice Acc Out
+        256 64 1 256 64 1 64)
+      (initialState := s)
+      (write := fun i : Fin 64 => some (Out, outOffset s 256 64 1 i))
+      (expected := fun i : Fin 64 =>
+        s.readMem Acc (accOffset s 256 64 1 i))) := by
+  constructor
+  · exact token_attn_mistral_python_case3_surface_toAlgorithm_supported
+      Prob V Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen
+      B_Att_Start_Loc B_Att_Seqlen
+  · exact token_attn_mistral_final_store_python_test_shape_compute_correct
+      Acc Out s
+
+/-- Public Python case 4 coverage summary. -/
+theorem token_attn_mistral_python_case4_output_surface_summary
+    (Prob V Acc Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat) (s : BlockState) :
+    (∃ alg, (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+      128 1 128 1 8192 64 1 256 64 1 1 32 64 128).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := token_attn_mistral_final_store_slice Acc Out
+        256 64 1 256 64 1 64)
+      (initialState := s)
+      (write := fun i : Fin 64 => some (Out, outOffset s 256 64 1 i))
+      (expected := fun i : Fin 64 =>
+        s.readMem Acc (accOffset s 256 64 1 i))) := by
+  constructor
+  · exact token_attn_mistral_python_case4_surface_toAlgorithm_supported
+      Prob V Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen
+      B_Att_Start_Loc B_Att_Seqlen
+  · exact token_attn_mistral_final_store_python_test_shape_compute_correct
+      Acc Out s
+
+/-- Python Mistral token-attention case 1 final-store coverage. -/
+abbrev token_attn_mistral_python_case1_store_summary
+    (Prob V Acc Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat)
+    (s : BlockState) :=
+  token_attn_mistral_python_case1_output_surface_summary
+    Prob V Acc Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen
+    B_Att_Start_Loc B_Att_Seqlen s
+
+/-- Python Mistral token-attention case 2 final-store coverage. -/
+abbrev token_attn_mistral_python_case2_store_summary
+    (Prob V Acc Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat)
+    (s : BlockState) :=
+  token_attn_mistral_python_case2_output_surface_summary
+    Prob V Acc Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen
+    B_Att_Start_Loc B_Att_Seqlen s
+
+/-- Python Mistral token-attention case 3 final-store coverage. -/
+abbrev token_attn_mistral_python_case3_store_summary
+    (Prob V Acc Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat)
+    (s : BlockState) :=
+  token_attn_mistral_python_case3_output_surface_summary
+    Prob V Acc Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen
+    B_Att_Start_Loc B_Att_Seqlen s
+
+/-- Python Mistral token-attention case 4 final-store coverage. -/
+abbrev token_attn_mistral_python_case4_store_summary
+    (Prob V Acc Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat)
+    (s : BlockState) :=
+  token_attn_mistral_python_case4_output_surface_summary
+    Prob V Acc Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen
+    B_Att_Start_Loc B_Att_Seqlen s
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+theorem token_attn_mistral_python_case1_output_summary
+    (Prob V Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat) (s : BlockState) :
+    (∃ alg, (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+      128 1 128 1 8192 64 1 256 64 1 1 64 64 128).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+        B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+        128 1 128 1 8192 64 1 256 64 1 1 64 64 128)
+      (initialState := s)
+      (write := fun i : Fin 64 => some (Out, outOffset s 256 64 1 i))
+      (expected := fun i : Fin 64 =>
+        tokenAttnMistralSurfaceValue s Prob V Out Req_to_tokens B_req_idx
+          B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+          128 1 128 1 8192 64 1 256 64 1 1 64 64 128
+          (outOffset s 256 64 1 i))) := by
+  constructor
+  · exact token_attn_mistral_python_case1_surface_toAlgorithm_supported
+      Prob V Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen
+      B_Att_Start_Loc B_Att_Seqlen
+  · exact token_attn_mistral_surface_output_compute_correct Prob V Out
+      Req_to_tokens B_req_idx B_Start_Loc B_Seqlen B_Att_Start_Loc
+      B_Att_Seqlen 128 1 128 1 8192 64 1 256 64 1 1 64 64 128 s
+
+theorem token_attn_mistral_python_case2_output_summary
+    (Prob V Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat) (s : BlockState) :
+    (∃ alg, (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+      128 1 128 1 8192 64 1 256 64 1 1 32 64 128).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+        B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+        128 1 128 1 8192 64 1 256 64 1 1 32 64 128)
+      (initialState := s)
+      (write := fun i : Fin 64 => some (Out, outOffset s 256 64 1 i))
+      (expected := fun i : Fin 64 =>
+        tokenAttnMistralSurfaceValue s Prob V Out Req_to_tokens B_req_idx
+          B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+          128 1 128 1 8192 64 1 256 64 1 1 32 64 128
+          (outOffset s 256 64 1 i))) := by
+  constructor
+  · exact token_attn_mistral_python_case2_surface_toAlgorithm_supported
+      Prob V Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen
+      B_Att_Start_Loc B_Att_Seqlen
+  · exact token_attn_mistral_surface_output_compute_correct Prob V Out
+      Req_to_tokens B_req_idx B_Start_Loc B_Seqlen B_Att_Start_Loc
+      B_Att_Seqlen 128 1 128 1 8192 64 1 256 64 1 1 32 64 128 s
+
+theorem token_attn_mistral_python_case3_output_summary
+    (Prob V Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat) (s : BlockState) :
+    (∃ alg, (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+      64 1 128 1 8192 64 1 256 64 1 1 32 64 128).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+        B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+        64 1 128 1 8192 64 1 256 64 1 1 32 64 128)
+      (initialState := s)
+      (write := fun i : Fin 64 => some (Out, outOffset s 256 64 1 i))
+      (expected := fun i : Fin 64 =>
+        tokenAttnMistralSurfaceValue s Prob V Out Req_to_tokens B_req_idx
+          B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+          64 1 128 1 8192 64 1 256 64 1 1 32 64 128
+          (outOffset s 256 64 1 i))) := by
+  constructor
+  · exact token_attn_mistral_python_case3_surface_toAlgorithm_supported
+      Prob V Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen
+      B_Att_Start_Loc B_Att_Seqlen
+  · exact token_attn_mistral_surface_output_compute_correct Prob V Out
+      Req_to_tokens B_req_idx B_Start_Loc B_Seqlen B_Att_Start_Loc
+      B_Att_Seqlen 64 1 128 1 8192 64 1 256 64 1 1 32 64 128 s
+
+theorem token_attn_mistral_python_case4_output_summary
+    (Prob V Out : RegionName)
+    (Req_to_tokens B_req_idx : Region .nat) (B_Start_Loc : RegionName)
+    (B_Seqlen B_Att_Start_Loc B_Att_Seqlen : Region .nat) (s : BlockState) :
+    (∃ alg, (token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+      B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+      128 1 128 1 8192 64 1 256 64 1 1 32 64 128).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := token_attn_mistral_surface Prob V Out Req_to_tokens B_req_idx
+        B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+        128 1 128 1 8192 64 1 256 64 1 1 32 64 128)
+      (initialState := s)
+      (write := fun i : Fin 64 => some (Out, outOffset s 256 64 1 i))
+      (expected := fun i : Fin 64 =>
+        tokenAttnMistralSurfaceValue s Prob V Out Req_to_tokens B_req_idx
+          B_Start_Loc B_Seqlen B_Att_Start_Loc B_Att_Seqlen
+          128 1 128 1 8192 64 1 256 64 1 1 32 64 128
+          (outOffset s 256 64 1 i))) := by
+  constructor
+  · exact token_attn_mistral_python_case4_surface_toAlgorithm_supported
+      Prob V Out Req_to_tokens B_req_idx B_Start_Loc B_Seqlen
+      B_Att_Start_Loc B_Att_Seqlen
+  · exact token_attn_mistral_surface_output_compute_correct Prob V Out
+      Req_to_tokens B_req_idx B_Start_Loc B_Seqlen B_Att_Start_Loc
+      B_Att_Seqlen 128 1 128 1 8192 64 1 256 64 1 1 32 64 128 s
 
 end VeriTile.Bench.TritonBenchG.TokenAttnMistral

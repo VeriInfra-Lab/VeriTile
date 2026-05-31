@@ -3,6 +3,58 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `matmul_kernel` — strict per-kernel correctness
+
+`matmul_kernel` is a tiled GEMM: program `(pid_m, pid_n)` accumulates a
+`BLOCK_SIZE_M × BLOCK_SIZE_N` output tile by looping over the K dimension,
+loading `A`/`B` blocks and fusing them with `accumulator = tl.dot(a, b,
+accumulator)`, then casts the accumulator to float16 and stores it into `C`. The
+sizes `M = N = K = 4096` and contiguous strides are hard-coded in the kernel.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`matmul_kernel[cdiv(M, BLOCK_SIZE_M), cdiv(N,
+BLOCK_SIZE_N)](...)`, the grid scheduling, and how the runtime composes
+per-program output tiles into one `C` buffer) is the *trusted boundary*, not a
+proof obligation here. Because the program coordinates are universally
+quantified over `s`, the per-program statement covers every program of the grid.
+
+## Proof architecture
+
+```
+matmul_kernel_python_case{1,2,3,4}_output_summary          ← TOP THEOREMS (full surface)
+  ├─ matmul_kernel_python_case{1..4}_surface_toAlgorithm_supported  full surface lowers to algorithm layer
+  │    └─ matmul_kernel_surface_toAlgorithm_supported
+  └─ matmul_kernel_surface_output_compute_correct          ← ComputeCorrect of the surface output tile
+
+matmul_kernel_python_case{1,2,3,4}_store_summary           ← store-slice summaries
+  ├─ matmul_kernel_python_case{1..4}_surface_toAlgorithm_supported
+  └─ matmul_output_store_slice_compute_correct             ← ComputeCorrect over the fp16 output store
+       ├─ matmul_output_store_slice_correct                ← algorithm-layer fp16 scatter readback
+       │    └─ scatter_memcell_fp16_nd / foldl_writeMemTyped_fp16_preserves
+       └─ matmul_kernel_python_output_offset_injective     output-address injectivity (contiguous 4096×4096)
+```
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float); `@triton.autotune` /
+`num_warps` are not modeled. The **K-loop dot-accumulator** — the
+`accumulator = tl.dot(a, b, accumulator)` reduction over `range(0, cdiv(K,
+BLOCK_SIZE_K))` — is the key honesty point. The full surface
+(`matmul_kernel_surface`) lowers to the algorithm layer and its output store is
+proved compute-correct against `matmulKernelSurfaceCell` (the actual executed
+cell), but that spec is *the kernel's own emitted value*, not an independent
+`Σ_k a·b` matrix-product reference: the dot reduction itself is not re-derived
+against a mathematical GEMM here. What is independently verified is the **output
+store** (`matmul_output_store_slice`): starting from a precomputed accumulator
+tile `Acc`, the float16 cast and masked 2D writeback into `C` are proved correct,
+including output-address injectivity for the four Python block shapes. The
+matmul output-store accumulator is therefore the modeled boundary; relating the
+K-loop accumulator to a closed-form dot product is the remaining blocker.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.MatmulKernel
 
 open VeriTile.Triton
@@ -45,6 +97,13 @@ def matmul_kernel_surface
   c_ptrs = C + stride_cm * offs_cm[:, None] + stride_cn * offs_cn[None, :]
   tl.store(c_ptrs, c)
 }
+
+/-- The full matmul kernel surface lowers to the algorithm layer. -/
+theorem matmul_kernel_surface_toAlgorithm_supported
+    (C A B : RegionName) (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) :
+    ∃ alg, (matmul_kernel_surface C A B BLOCK_SIZE_M BLOCK_SIZE_N
+      BLOCK_SIZE_K).toAlgorithm? = Except.ok alg := by
+  simp [matmul_kernel_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
 
 /-- Proof-oriented output-store slice of `matmul_kernel.py`'s `matmul_kernel`.
 
@@ -184,7 +243,7 @@ theorem matmul_output_store_slice_correct
             (some (s.readMem Acc
               (accOffset s stride_accm stride_accn BLOCK_SIZE_M BLOCK_SIZE_N idx)))) := by
   intro idx
-  simp [exec, matmul_output_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, matmul_output_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.expandDim, Tile.ptrAdd,
         NumericDType.add, NumericDType.mul, TileShape.dropInsertedIndex] at hExec
   rw [← hExec]
@@ -232,5 +291,228 @@ theorem matmul_output_store_slice_compute_correct
   intro idx
   exact matmul_output_store_slice_correct C Acc stride_cm stride_cn
     stride_accm stride_accn BLOCK_SIZE_M BLOCK_SIZE_N s s' hOutInj hExec idx
+
+/-- Contiguous `4096 × 4096` output tiles have injective addresses for the
+Python block widths used by `matmul_kernel.py`. -/
+theorem matmul_kernel_python_output_offset_injective
+    (s : BlockState) {BLOCK_SIZE_M BLOCK_SIZE_N : Nat}
+    (hN : BLOCK_SIZE_N ≤ 4096) :
+    Function.Injective (cOffset s 4096 1 BLOCK_SIZE_M BLOCK_SIZE_N) := by
+  intro a b h
+  simp [cOffset, rowIndex, colIndex] at h
+  ext <;> omega
+
+/-- Python case 1 full surface lowering for block shape `(64, 128, 64)`. -/
+theorem matmul_kernel_python_case1_surface_toAlgorithm_supported
+    (C A B : RegionName) :
+    ∃ alg, (matmul_kernel_surface C A B 64 128 64).toAlgorithm? =
+        Except.ok alg := by
+  exact matmul_kernel_surface_toAlgorithm_supported C A B 64 128 64
+
+/-- Python case 2 full surface lowering for block shape `(128, 64, 128)`. -/
+theorem matmul_kernel_python_case2_surface_toAlgorithm_supported
+    (C A B : RegionName) :
+    ∃ alg, (matmul_kernel_surface C A B 128 64 128).toAlgorithm? =
+        Except.ok alg := by
+  exact matmul_kernel_surface_toAlgorithm_supported C A B 128 64 128
+
+/-- Python case 3 full surface lowering for block shape `(256, 256, 64)`. -/
+theorem matmul_kernel_python_case3_surface_toAlgorithm_supported
+    (C A B : RegionName) :
+    ∃ alg, (matmul_kernel_surface C A B 256 256 64).toAlgorithm? =
+        Except.ok alg := by
+  exact matmul_kernel_surface_toAlgorithm_supported C A B 256 256 64
+
+/-- Python case 4 full surface lowering for block shape `(32, 32, 32)`. -/
+theorem matmul_kernel_python_case4_surface_toAlgorithm_supported
+    (C A B : RegionName) :
+    ∃ alg, (matmul_kernel_surface C A B 32 32 32).toAlgorithm? =
+        Except.ok alg := by
+  exact matmul_kernel_surface_toAlgorithm_supported C A B 32 32 32
+
+noncomputable def matmulKernelSurfaceCell
+    (s : BlockState) (C A B Out : RegionName)
+    (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K offset : Nat) : MemCell :=
+  match exec (matmul_kernel_surface C A B BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K) s with
+  | some s' => s'.mem Out offset
+  | none => 0
+
+theorem matmul_kernel_surface_output_compute_correct
+    (C A B : RegionName) (BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat)
+    (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := matmul_kernel_surface C A B BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K)
+      (initialState := s)
+      (write := fun idx : TileIndex [BLOCK_SIZE_M, BLOCK_SIZE_N] =>
+        some (C, cOffset s 4096 1 BLOCK_SIZE_M BLOCK_SIZE_N idx))
+      (expected := fun idx =>
+        matmulKernelSurfaceCell s C A B C BLOCK_SIZE_M BLOCK_SIZE_N
+          BLOCK_SIZE_K (cOffset s 4096 1 BLOCK_SIZE_M BLOCK_SIZE_N idx)) := by
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [matmul_kernel_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx
+  simp [matmulKernelSurfaceCell, hExec]
+
+/-- Public Python case 1 coverage summary: the full surface lowers and the
+final fp16 output tile store realizes the side-effected `c` tensor. -/
+theorem matmul_kernel_python_case1_store_summary
+    (C A B Acc : RegionName) (s : BlockState) :
+    (∃ alg, (matmul_kernel_surface C A B 64 128 64).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := matmul_output_store_slice C Acc 4096 1 4096 1 64 128)
+      (initialState := s)
+      (write := fun idx : TileIndex [64, 128] =>
+        some (C, cOffset s 4096 1 64 128 idx))
+      (expected := fun idx =>
+        MemCell.of .fp16
+          (FloatDType.real.cast FloatDType.fp16
+            (some (s.readMem Acc (accOffset s 4096 1 64 128 idx)))))) := by
+  constructor
+  · exact matmul_kernel_python_case1_surface_toAlgorithm_supported C A B
+  · exact matmul_output_store_slice_compute_correct C Acc 4096 1 4096 1
+      64 128 s (matmul_kernel_python_output_offset_injective s (by omega))
+
+/-- Public Python case 2 coverage summary. -/
+theorem matmul_kernel_python_case2_store_summary
+    (C A B Acc : RegionName) (s : BlockState) :
+    (∃ alg, (matmul_kernel_surface C A B 128 64 128).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := matmul_output_store_slice C Acc 4096 1 4096 1 128 64)
+      (initialState := s)
+      (write := fun idx : TileIndex [128, 64] =>
+        some (C, cOffset s 4096 1 128 64 idx))
+      (expected := fun idx =>
+        MemCell.of .fp16
+          (FloatDType.real.cast FloatDType.fp16
+            (some (s.readMem Acc (accOffset s 4096 1 128 64 idx)))))) := by
+  constructor
+  · exact matmul_kernel_python_case2_surface_toAlgorithm_supported C A B
+  · exact matmul_output_store_slice_compute_correct C Acc 4096 1 4096 1
+      128 64 s (matmul_kernel_python_output_offset_injective s (by omega))
+
+/-- Public Python case 3 coverage summary. -/
+theorem matmul_kernel_python_case3_store_summary
+    (C A B Acc : RegionName) (s : BlockState) :
+    (∃ alg, (matmul_kernel_surface C A B 256 256 64).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := matmul_output_store_slice C Acc 4096 1 4096 1 256 256)
+      (initialState := s)
+      (write := fun idx : TileIndex [256, 256] =>
+        some (C, cOffset s 4096 1 256 256 idx))
+      (expected := fun idx =>
+        MemCell.of .fp16
+          (FloatDType.real.cast FloatDType.fp16
+            (some (s.readMem Acc (accOffset s 4096 1 256 256 idx)))))) := by
+  constructor
+  · exact matmul_kernel_python_case3_surface_toAlgorithm_supported C A B
+  · exact matmul_output_store_slice_compute_correct C Acc 4096 1 4096 1
+      256 256 s (matmul_kernel_python_output_offset_injective s (by omega))
+
+/-- Public Python case 4 coverage summary. -/
+theorem matmul_kernel_python_case4_store_summary
+    (C A B Acc : RegionName) (s : BlockState) :
+    (∃ alg, (matmul_kernel_surface C A B 32 32 32).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := matmul_output_store_slice C Acc 4096 1 4096 1 32 32)
+      (initialState := s)
+      (write := fun idx : TileIndex [32, 32] =>
+        some (C, cOffset s 4096 1 32 32 idx))
+      (expected := fun idx =>
+        MemCell.of .fp16
+          (FloatDType.real.cast FloatDType.fp16
+            (some (s.readMem Acc (accOffset s 4096 1 32 32 idx)))))) := by
+  constructor
+  · exact matmul_kernel_python_case4_surface_toAlgorithm_supported C A B
+  · exact matmul_output_store_slice_compute_correct C Acc 4096 1 4096 1
+      32 32 s (matmul_kernel_python_output_offset_injective s (by omega))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+theorem matmul_kernel_python_case1_output_summary
+    (C A B : RegionName) (s : BlockState) :
+    (∃ alg, (matmul_kernel_surface C A B 64 128 64).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := matmul_kernel_surface C A B 64 128 64)
+      (initialState := s)
+      (write := fun idx : TileIndex [64, 128] =>
+        some (C, cOffset s 4096 1 64 128 idx))
+      (expected := fun idx =>
+        matmulKernelSurfaceCell s C A B C 64 128 64
+          (cOffset s 4096 1 64 128 idx))) := by
+  constructor
+  · exact matmul_kernel_python_case1_surface_toAlgorithm_supported C A B
+  · exact matmul_kernel_surface_output_compute_correct C A B 64 128 64 s
+
+theorem matmul_kernel_python_case2_output_summary
+    (C A B : RegionName) (s : BlockState) :
+    (∃ alg, (matmul_kernel_surface C A B 128 64 128).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := matmul_kernel_surface C A B 128 64 128)
+      (initialState := s)
+      (write := fun idx : TileIndex [128, 64] =>
+        some (C, cOffset s 4096 1 128 64 idx))
+      (expected := fun idx =>
+        matmulKernelSurfaceCell s C A B C 128 64 128
+          (cOffset s 4096 1 128 64 idx))) := by
+  constructor
+  · exact matmul_kernel_python_case2_surface_toAlgorithm_supported C A B
+  · exact matmul_kernel_surface_output_compute_correct C A B 128 64 128 s
+
+theorem matmul_kernel_python_case3_output_summary
+    (C A B : RegionName) (s : BlockState) :
+    (∃ alg, (matmul_kernel_surface C A B 256 256 64).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := matmul_kernel_surface C A B 256 256 64)
+      (initialState := s)
+      (write := fun idx : TileIndex [256, 256] =>
+        some (C, cOffset s 4096 1 256 256 idx))
+      (expected := fun idx =>
+        matmulKernelSurfaceCell s C A B C 256 256 64
+          (cOffset s 4096 1 256 256 idx))) := by
+  constructor
+  · exact matmul_kernel_python_case3_surface_toAlgorithm_supported C A B
+  · exact matmul_kernel_surface_output_compute_correct C A B 256 256 64 s
+
+theorem matmul_kernel_python_case4_output_summary
+    (C A B : RegionName) (s : BlockState) :
+    (∃ alg, (matmul_kernel_surface C A B 32 32 32).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := matmul_kernel_surface C A B 32 32 32)
+      (initialState := s)
+      (write := fun idx : TileIndex [32, 32] =>
+        some (C, cOffset s 4096 1 32 32 idx))
+      (expected := fun idx =>
+        matmulKernelSurfaceCell s C A B C 32 32 32
+          (cOffset s 4096 1 32 32 idx))) := by
+  constructor
+  · exact matmul_kernel_python_case4_surface_toAlgorithm_supported C A B
+  · exact matmul_kernel_surface_output_compute_correct C A B 32 32 32 s
 
 end VeriTile.Bench.TritonBenchG.MatmulKernel

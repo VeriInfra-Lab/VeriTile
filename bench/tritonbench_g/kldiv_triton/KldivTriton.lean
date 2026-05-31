@@ -3,6 +3,61 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `kldiv_triton` — strict per-kernel correctness
+
+`kldiv_triton.py` provides the forward KL-divergence kernel
+`_kldiv_kernel_forward` (per row `pid`, streams `n_cols` in `BLOCK_SIZE` tiles,
+computing `y_true * (log(y_true) - y)` or, for `log_target`,
+`exp(y_true) * (y_true - y)`; stores per element for `reduction=none` or sums
+otherwise) and the backward kernel `_kldiv_kernel_backward` (`-target`, or
+`-exp(target)` for `log_target`).
+
+## Scope
+
+This file verifies **the Triton kernels themselves** — the per-program
+`@triton.jit` bodies. The host launch (grid `(B,)`, the
+`BLOCK_SIZE`/`num_warps` choices, the `reduction`-mode string mapping and the
+host-side post-reduction `sum/mean/batchmean`, and how the runtime composes
+per-program writes) is the *trusted boundary*, not a proof obligation here. The
+row id `pid` is universally quantified, so each per-program statement covers
+every row of the grid.
+
+## Proof architecture
+
+This is a multi-branch port (`log_target` × `reduction` × forward/backward);
+there is no single top theorem. Each verified constexpr branch has its own
+compute-facing correctness theorem:
+
+```
+kldiv_backward_default_compute_correct          (-target)        ← defaultSpec
+  └─ kldiv_backward_default_correct
+kldiv_backward_log_target_compute_correct       (-exp target)    ← logTargetSpec
+  └─ kldiv_backward_log_target_correct
+kldiv_forward_default_none_compute_correct      (reduction=none) ← forwardDefaultSpec
+  └─ kldiv_forward_default_none_correct
+kldiv_forward_log_target_none_compute_correct   (reduction=none) ← forwardLogTargetSpec
+  └─ kldiv_forward_log_target_none_correct
+
+kldiv_forward_surface_toAlgorithm_supported     full surface lowers (lowering only)
+```
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float); `@triton.autotune` /
+`num_warps` are not modeled. **This port is partial.** The full reduction-mode
+forward surface `kldiv_forward_surface` is only proved to *lower* to the
+algorithm layer; value correctness targets the `reduction=0` (none) elementwise
+branches plus both backward branches. The KL loss spec is the per-element
+expression `y_true * (log(y_true) - y)` / `exp(y_true) * (y_true - y)` (this port
+has **no `eps` clamp**, unlike the `kldiv_ops` port). Proofs target the
+Python-tested **single-chunk regime `0 < n_cols ≤ BLOCK_SIZE`**, where the
+column loop runs once; masked lanes use `other=0.0` and out-of-bounds lanes
+(`i ≥ n_cols`) are preserved. Output offset injectivity is an explicit
+hypothesis. The specs reference `Real.log` / `Real.exp` directly, not
+`VeriTile.Triton.Math.*`.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.KldivTriton
 
 open VeriTile.Triton
@@ -47,6 +102,18 @@ def kldiv_forward_surface
     }
   }
 }
+
+/-- The full KL-divergence forward surface lowers to the algorithm layer,
+including the `log_target` branch, dynamic column loop, and reduction modes. -/
+theorem kldiv_forward_surface_toAlgorithm_supported
+    (y_ptr gt_ptr loss_ptr : RegionName)
+    (y_stride gt_stride loss_stride n_cols BLOCK_SIZE : Nat)
+    (log_target : Bool) (reduction : Nat) :
+    ∃ alg,
+      (kldiv_forward_surface y_ptr gt_ptr loss_ptr y_stride gt_stride
+        loss_stride n_cols BLOCK_SIZE log_target reduction).toAlgorithm? =
+        Except.ok alg := by
+  simp [kldiv_forward_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
 
 /-- Faithful transcription of `kldiv_triton.py`'s `_kldiv_kernel_backward`
 for the `log_target = False` constexpr branch.
@@ -145,9 +212,6 @@ def kldiv_backward_log_target
   }
 }
 
-def outOffset (s : BlockState) (input_stride : Nat) (i : Fin BLOCK_SIZE) :
-    Nat :=
-  s.pid * input_stride + i.val
 
 def inOffset (s : BlockState) (target_stride : Nat) (i : Fin BLOCK_SIZE) :
     Nat :=
@@ -191,26 +255,28 @@ theorem kldiv_backward_default_correct
     (hLen : n_cols ≤ BLOCK_SIZE)
     (hLenPos : 0 < n_cols)
     (_hOutInj : Function.Injective
-      (fun i : Fin BLOCK_SIZE => outOffset s input_stride i))
+      (fun i : Fin BLOCK_SIZE => linearOffset s input_stride i))
     (hExec : exec (kldiv_backward_default input_ptr target_ptr
         input_stride target_stride n_cols BLOCK_SIZE) s = some s') :
     ∀ i : Fin BLOCK_SIZE,
-      s'.readMem input_ptr (outOffset s input_stride i) =
+      s'.readMem input_ptr (linearOffset s input_stride i) =
         if i.val < n_cols then
           defaultSpec s target_ptr target_stride i
-        else s.readMem input_ptr (outOffset s input_stride i) := by
+        else s.readMem input_ptr (linearOffset s input_stride i) := by
   intro i
   have hBSne : BLOCK_SIZE ≠ 0 := Nat.pos_iff_ne_zero.mp hBS
-  simp [exec, kldiv_backward_default, stepStmts, stepStmt, evalOp,
+  simp [exec, kldiv_backward_default, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.uop, Tile.ptrAdd,
         NumericDType.add, NumericDType.mul, NumericDType.sub,
         ComparableDType.lt, hBS, hBSne, hLenPos, hLen,
         stepForRangeAux.forRangeDyn_unfold, stepForRangeAux.step_lt,
         stepForRangeAux.step_ge, Nat.zero_add] at hExec
   rw [← hExec]
-  simp only [outOffset]
+  simp only [linearOffset]
+  rw [← Int.natCast_mul, Int.toNat_natCast]
   rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
         (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
+  rw [← Int.natCast_mul, Int.toNat_natCast]
   by_cases h : i.val < n_cols
   · simp [defaultSpec, inOffset, h]
   · simp [h]
@@ -224,26 +290,28 @@ theorem kldiv_backward_log_target_correct
     (hLen : n_cols ≤ BLOCK_SIZE)
     (hLenPos : 0 < n_cols)
     (_hOutInj : Function.Injective
-      (fun i : Fin BLOCK_SIZE => outOffset s input_stride i))
+      (fun i : Fin BLOCK_SIZE => linearOffset s input_stride i))
     (hExec : exec (kldiv_backward_log_target input_ptr target_ptr
         input_stride target_stride n_cols BLOCK_SIZE) s = some s') :
     ∀ i : Fin BLOCK_SIZE,
-      s'.readMem input_ptr (outOffset s input_stride i) =
+      s'.readMem input_ptr (linearOffset s input_stride i) =
         if i.val < n_cols then
           logTargetSpec s target_ptr target_stride i
-        else s.readMem input_ptr (outOffset s input_stride i) := by
+        else s.readMem input_ptr (linearOffset s input_stride i) := by
   intro i
   have hBSne : BLOCK_SIZE ≠ 0 := Nat.pos_iff_ne_zero.mp hBS
-  simp [exec, kldiv_backward_log_target, stepStmts, stepStmt, evalOp,
+  simp [exec, kldiv_backward_log_target, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.uop, Tile.ptrAdd,
         NumericDType.add, NumericDType.mul, NumericDType.sub,
         ComparableDType.lt, hBS, hBSne, hLenPos, hLen,
         stepForRangeAux.forRangeDyn_unfold, stepForRangeAux.step_lt,
         stepForRangeAux.step_ge, Nat.zero_add] at hExec
   rw [← hExec]
-  simp only [outOffset]
+  simp only [linearOffset]
+  rw [← Int.natCast_mul, Int.toNat_natCast]
   rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
         (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
+  rw [← Int.natCast_mul, Int.toNat_natCast]
   by_cases h : i.val < n_cols
   · simp [logTargetSpec, inOffset, h]
   · simp [h]
@@ -257,14 +325,14 @@ theorem kldiv_backward_default_compute_correct
     (hLen : n_cols ≤ BLOCK_SIZE)
     (hLenPos : 0 < n_cols)
     (hOutInj : Function.Injective
-      (fun i : Fin BLOCK_SIZE => outOffset s input_stride i)) :
+      (fun i : Fin BLOCK_SIZE => linearOffset s input_stride i)) :
     ComputeCorrect.Realizes
       (kernel := kldiv_backward_default input_ptr target_ptr
         input_stride target_stride n_cols BLOCK_SIZE)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
         (fun i : Fin BLOCK_SIZE => i.val < n_cols)
-        (fun i => (input_ptr, outOffset s input_stride i)))
+        (fun i => (input_ptr, linearOffset s input_stride i)))
       (expected := fun i => defaultSpec s target_ptr target_stride i) := by
   rw [ComputeCorrect.realizes_writeIf_iff]
   apply ComputeKernel.computeCorrect_of_toAlgKernel
@@ -286,14 +354,14 @@ theorem kldiv_backward_log_target_compute_correct
     (hLen : n_cols ≤ BLOCK_SIZE)
     (hLenPos : 0 < n_cols)
     (hOutInj : Function.Injective
-      (fun i : Fin BLOCK_SIZE => outOffset s input_stride i)) :
+      (fun i : Fin BLOCK_SIZE => linearOffset s input_stride i)) :
     ComputeCorrect.Realizes
       (kernel := kldiv_backward_log_target input_ptr target_ptr
         input_stride target_stride n_cols BLOCK_SIZE)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
         (fun i : Fin BLOCK_SIZE => i.val < n_cols)
-        (fun i => (input_ptr, outOffset s input_stride i)))
+        (fun i => (input_ptr, linearOffset s input_stride i)))
       (expected := fun i => logTargetSpec s target_ptr target_stride i) := by
   rw [ComputeCorrect.realizes_writeIf_iff]
   apply ComputeKernel.computeCorrect_of_toAlgKernel
@@ -316,28 +384,31 @@ theorem kldiv_forward_default_none_correct
     (hLen : n_cols ≤ BLOCK_SIZE)
     (hLenPos : 0 < n_cols)
     (_hOutInj : Function.Injective
-      (fun i : Fin BLOCK_SIZE => outOffset s loss_stride i))
+      (fun i : Fin BLOCK_SIZE => linearOffset s loss_stride i))
     (hExec : exec (kldiv_forward_default_none y_ptr gt_ptr loss_ptr
         y_stride gt_stride loss_stride n_cols BLOCK_SIZE) s = some s') :
     ∀ i : Fin BLOCK_SIZE,
-      s'.readMem loss_ptr (outOffset s loss_stride i) =
+      s'.readMem loss_ptr (linearOffset s loss_stride i) =
         if i.val < n_cols then
           forwardDefaultSpec s y_ptr gt_ptr y_stride gt_stride i
-        else s.readMem loss_ptr (outOffset s loss_stride i) := by
+        else s.readMem loss_ptr (linearOffset s loss_stride i) := by
   intro i
   have hBSne : BLOCK_SIZE ≠ 0 := Nat.pos_iff_ne_zero.mp hBS
-  simp [exec, kldiv_forward_default_none, stepStmts, stepStmt, evalOp,
+  simp [exec, kldiv_forward_default_none, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.uop, Tile.ptrAdd,
         NumericDType.add, NumericDType.mul, NumericDType.sub,
         ComparableDType.lt, hBS, hBSne, hLenPos, hLen,
         stepForRangeAux.forRangeDyn_unfold, stepForRangeAux.step_lt,
         stepForRangeAux.step_ge, Nat.zero_add] at hExec
   rw [← hExec]
-  simp only [outOffset]
+  simp only [linearOffset]
+  rw [← Int.natCast_mul, Int.toNat_natCast]
   rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
         (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
+  rw [← Int.natCast_mul, Int.toNat_natCast]
   by_cases h : i.val < n_cols
-  · simp [forwardDefaultSpec, inOffset, h]
+  · rw [← Int.natCast_mul, Int.toNat_natCast]
+    simp [forwardDefaultSpec, inOffset, h]
   · simp [h]
 
 /-- Compute-facing correctness for the forward `log_target=False`,
@@ -351,14 +422,14 @@ theorem kldiv_forward_default_none_compute_correct
     (hLen : n_cols ≤ BLOCK_SIZE)
     (hLenPos : 0 < n_cols)
     (hOutInj : Function.Injective
-      (fun i : Fin BLOCK_SIZE => outOffset s loss_stride i)) :
+      (fun i : Fin BLOCK_SIZE => linearOffset s loss_stride i)) :
     ComputeCorrect.Realizes
       (kernel := kldiv_forward_default_none y_ptr gt_ptr loss_ptr
         y_stride gt_stride loss_stride n_cols BLOCK_SIZE)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
         (fun i : Fin BLOCK_SIZE => i.val < n_cols)
-        (fun i => (loss_ptr, outOffset s loss_stride i)))
+        (fun i => (loss_ptr, linearOffset s loss_stride i)))
       (expected := fun i =>
         forwardDefaultSpec s y_ptr gt_ptr y_stride gt_stride i) := by
   rw [ComputeCorrect.realizes_writeIf_iff]
@@ -383,28 +454,31 @@ theorem kldiv_forward_log_target_none_correct
     (hLen : n_cols ≤ BLOCK_SIZE)
     (hLenPos : 0 < n_cols)
     (_hOutInj : Function.Injective
-      (fun i : Fin BLOCK_SIZE => outOffset s loss_stride i))
+      (fun i : Fin BLOCK_SIZE => linearOffset s loss_stride i))
     (hExec : exec (kldiv_forward_log_target_none y_ptr gt_ptr loss_ptr
         y_stride gt_stride loss_stride n_cols BLOCK_SIZE) s = some s') :
     ∀ i : Fin BLOCK_SIZE,
-      s'.readMem loss_ptr (outOffset s loss_stride i) =
+      s'.readMem loss_ptr (linearOffset s loss_stride i) =
         if i.val < n_cols then
           forwardLogTargetSpec s y_ptr gt_ptr y_stride gt_stride i
-        else s.readMem loss_ptr (outOffset s loss_stride i) := by
+        else s.readMem loss_ptr (linearOffset s loss_stride i) := by
   intro i
   have hBSne : BLOCK_SIZE ≠ 0 := Nat.pos_iff_ne_zero.mp hBS
-  simp [exec, kldiv_forward_log_target_none, stepStmts, stepStmt, evalOp,
+  simp [exec, kldiv_forward_log_target_none, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.uop, Tile.ptrAdd,
         NumericDType.add, NumericDType.mul, NumericDType.sub,
         ComparableDType.lt, hBS, hBSne, hLenPos, hLen,
         stepForRangeAux.forRangeDyn_unfold, stepForRangeAux.step_lt,
         stepForRangeAux.step_ge, Nat.zero_add] at hExec
   rw [← hExec]
-  simp only [outOffset]
+  simp only [linearOffset]
+  rw [← Int.natCast_mul, Int.toNat_natCast]
   rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
         (BlockState.tileIndex1d_base_offset_injective _) (i, PUnit.unit)]
+  rw [← Int.natCast_mul, Int.toNat_natCast]
   by_cases h : i.val < n_cols
-  · simp [forwardLogTargetSpec, inOffset, h]
+  · rw [← Int.natCast_mul, Int.toNat_natCast]
+    simp [forwardLogTargetSpec, inOffset, h]
   · simp [h]
 
 /-- Compute-facing correctness for the forward log-target kernel under the
@@ -417,14 +491,14 @@ theorem kldiv_forward_log_target_none_compute_correct
     (hLen : n_cols ≤ BLOCK_SIZE)
     (hLenPos : 0 < n_cols)
     (hOutInj : Function.Injective
-      (fun i : Fin BLOCK_SIZE => outOffset s loss_stride i)) :
+      (fun i : Fin BLOCK_SIZE => linearOffset s loss_stride i)) :
     ComputeCorrect.Realizes
       (kernel := kldiv_forward_log_target_none y_ptr gt_ptr loss_ptr
         y_stride gt_stride loss_stride n_cols BLOCK_SIZE)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
         (fun i : Fin BLOCK_SIZE => i.val < n_cols)
-        (fun i => (loss_ptr, outOffset s loss_stride i)))
+        (fun i => (loss_ptr, linearOffset s loss_stride i)))
       (expected := fun i =>
         forwardLogTargetSpec s y_ptr gt_ptr y_stride gt_stride i) := by
   rw [ComputeCorrect.realizes_writeIf_iff]

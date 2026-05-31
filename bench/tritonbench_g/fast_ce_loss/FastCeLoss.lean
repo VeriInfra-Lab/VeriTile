@@ -3,6 +3,60 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `fast_ce_loss` — strict per-kernel correctness
+
+`_cross_entropy_forward` computes, per row program, the row log-sum-exp of the
+logits (with optional logit scaling and softcapping), and the cross-entropy loss
+`logsumexp − x_label` (or `0` for the ignored `-100` label), storing both. The
+`_chunked_cross_entropy_forward` variant computes a per-chunk log-sum-exp and the
+partial `-x_label` loss in chunk 0. `_cross_entropy_backward` builds the softmax
+gradient `exp(x − logsumexp)`, subtracts one at the label, applies the scaling /
+softcap derivative factors, and writes `dloss · y` back in place, masked by
+`col_offsets < VOCAB_SIZE`.
+
+## Scope
+
+This file verifies **the Triton kernels themselves** — the per-program
+`@triton.jit` bodies. The host launch (the grids `(n_rows,)` /
+`(n_rows, cdiv(VOCAB_SIZE, BLOCK_SIZE))`, scheduling, and how the runtime
+composes per-program writes / reduces the per-chunk log-sum-exp side outputs) is
+the *trusted boundary*. Because the program ids are universally quantified, the
+per-program statements cover every program of the grid.
+
+## Proof architecture
+
+```
+cross_entropy_forward_surface_toAlgorithm_supported         ← fwd surface lowers
+chunked_cross_entropy_forward_surface_toAlgorithm_supported ← chunked fwd lowers
+cross_entropy_backward_surface_toAlgorithm_supported        ← bwd surface lowers
+cross_entropy_backward_store_slice_compute_correct          ← masked dloss·y writeback
+  └─ cross_entropy_backward_store_slice_correct
+cross_entropy_lse_store_slice_compute_correct               ← scalar logsumexp writeback
+  └─ cross_entropy_lse_store_slice_correct
+cross_entropy_loss_store_slice_compute_correct              ← scalar loss writeback
+  └─ cross_entropy_loss_store_slice_correct
+```
+
+The full forward / chunked-forward / backward kernels are proved only to *lower*
+to the algorithm layer (`toAlgorithm? = Except.ok _`); their end-to-end value
+specs are **not** discharged, so no per-kernel `output_summary` is asserted. The
+discharged ComputeCorrect results are the proof-oriented store *slices*
+(precomputed `Grad`/`LsumPre`/`LossPre` tiles → masked or scalar writeback).
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float); `@triton.heuristics` and
+`@triton.autotune` are not modeled (`DO_SOFTCAPPING`/`DO_LOGIT_SCALING` are plain
+`Bool` parameters). The hard-coded `label_idx != -100` sentinel is preserved as
+the literal `-100`. The `.to(tl.float32)`/`.to(tl.int32)`/`.to(tl.int64)` casts
+erase to identity at the algorithm layer. The forward logits load uses
+`other = -float("inf")` for out-of-vocab lanes. The masked backward store leaves
+inactive lanes (`col_offsets ≥ VOCAB_SIZE`) untouched and assumes the per-tile
+output offset is injective. The spec is built inline; it does not reference a
+`VeriTile.Triton.Math.*` oracle.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.FastCeLoss
 
 open VeriTile.Triton
@@ -53,6 +107,19 @@ def cross_entropy_forward_surface
   tl.store(loss_ptr, loss)
 }
 
+/-- The faithful full forward surface lowers to the algorithm layer, including
+optional logit scaling and softcapping branches. -/
+theorem cross_entropy_forward_surface_toAlgorithm_supported
+    (logits_ptr loss_ptr logsumexp_ptr : RegionName) (labels_ptr : Region .int)
+    (VOCAB_SIZE logits_row_stride BLOCK_SIZE : Nat)
+    (SOFTCAP LOGIT_SCALE : ℝ)
+    (DO_SOFTCAPPING DO_LOGIT_SCALING : Bool) :
+    ∃ alg,
+      (cross_entropy_forward_surface logits_ptr loss_ptr logsumexp_ptr labels_ptr
+        VOCAB_SIZE logits_row_stride BLOCK_SIZE SOFTCAP LOGIT_SCALE
+        DO_SOFTCAPPING DO_LOGIT_SCALING).toAlgorithm? = Except.ok alg := by
+  simp [cross_entropy_forward_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+
 /-- Surface transcription of `fast_ce_loss.py`'s
 `_chunked_cross_entropy_forward`.
 
@@ -101,6 +168,21 @@ def chunked_cross_entropy_forward_surface
   }
 }
 
+/-- The faithful chunked forward surface lowers to the algorithm layer,
+including optional logit scaling and softcapping branches. -/
+theorem chunked_cross_entropy_forward_surface_toAlgorithm_supported
+    (logits_ptr loss_ptr logsumexp_ptr : RegionName) (labels_ptr : Region .int)
+    (VOCAB_SIZE N_CHUNKS logits_row_stride BLOCK_SIZE : Nat)
+    (SOFTCAP LOGIT_SCALE : ℝ)
+    (DO_SOFTCAPPING DO_LOGIT_SCALING : Bool) :
+    ∃ alg,
+      (chunked_cross_entropy_forward_surface logits_ptr loss_ptr logsumexp_ptr
+        labels_ptr VOCAB_SIZE N_CHUNKS logits_row_stride BLOCK_SIZE SOFTCAP
+        LOGIT_SCALE DO_SOFTCAPPING DO_LOGIT_SCALING).toAlgorithm? =
+        Except.ok alg := by
+  simp [chunked_cross_entropy_forward_surface, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?]
+
 /-- Surface transcription of `fast_ce_loss.py`'s `_cross_entropy_backward`.
 
 This preserves the block logits load, optional logit scaling, optional softcap
@@ -145,6 +227,21 @@ def cross_entropy_backward_surface
   }
   tl.store(logits_ptr + col_offsets, dloss * y, mask=mask)
 }
+
+/-- The faithful full backward surface lowers to the algorithm layer, including
+the ignored-label, logit scaling, softcapping derivative, and masked writeback
+branches. -/
+theorem cross_entropy_backward_surface_toAlgorithm_supported
+    (logits_ptr dloss_ptr logsumexp_ptr : RegionName) (labels_ptr : Region .int)
+    (VOCAB_SIZE logits_row_stride dloss_row_stride BLOCK_SIZE : Nat)
+    (SOFTCAP LOGIT_SCALE : ℝ)
+    (DO_SOFTCAPPING DO_LOGIT_SCALING : Bool) :
+    ∃ alg,
+      (cross_entropy_backward_surface logits_ptr dloss_ptr logsumexp_ptr labels_ptr
+        VOCAB_SIZE logits_row_stride dloss_row_stride BLOCK_SIZE SOFTCAP
+        LOGIT_SCALE DO_SOFTCAPPING DO_LOGIT_SCALING).toAlgorithm? =
+        Except.ok alg := by
+  simp [cross_entropy_backward_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
 
 /-- Proof-oriented backward final-store slice of `fast_ce_loss.py`'s
 `_cross_entropy_backward`.
@@ -229,7 +326,7 @@ theorem cross_entropy_backward_store_slice_correct
     simp only at hab
     cases hab
     rfl
-  simp [exec, cross_entropy_backward_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, cross_entropy_backward_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.ptrAdd, NumericDType.add,
         NumericDType.mul, ComparableDType.lt] at hExec
   rw [← hExec]
@@ -286,7 +383,7 @@ theorem cross_entropy_lse_store_slice_correct
     (LsumPre logsumexp_ptr : RegionName) (s s' : BlockState)
     (hExec : exec (cross_entropy_lse_store_slice LsumPre logsumexp_ptr) s = some s') :
     s'.readMem logsumexp_ptr (lseOutOffset s) = lseStoreSpec s LsumPre := by
-  simp [exec, cross_entropy_lse_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, cross_entropy_lse_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd,
         NumericDType.add] at hExec
   subst s'
@@ -325,7 +422,7 @@ theorem cross_entropy_loss_store_slice_correct
     (LossPre loss_ptr : RegionName) (s s' : BlockState)
     (hExec : exec (cross_entropy_loss_store_slice LossPre loss_ptr) s = some s') :
     s'.readMem loss_ptr (lseOutOffset s) = lossStoreSpec s LossPre := by
-  simp [exec, cross_entropy_loss_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, cross_entropy_loss_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd,
         NumericDType.add] at hExec
   subst s'

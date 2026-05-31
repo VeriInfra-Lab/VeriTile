@@ -3,6 +3,60 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `iv_dependent_matmul` — strict per-kernel correctness
+
+`iv_dependent_matmul_kernel` is a tiled matmul `C = A × B` whose A/B pointer
+updates depend on a string constexpr `type` selecting one of five
+induction-variable scheduling modes (`pre_load`, `post_load`,
+`post_pre_mixed`, `post_load_two_iters`, `post_load_three_iters`). Each program
+derives `pid_m`/`pid_n`, accumulates the `BLOCK_SIZE_M×BLOCK_SIZE_N` tile via a
+`tl.dot` loop over `K` (with mode-specific pointer prefetching), downcasts to
+fp16, and stores under a `(row<M) & (col<N)` mask.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`iv_dependent_matmul_kernel[grid](...)`, the grid,
+scheduling, and how the runtime composes per-program writes into one buffer) is
+the *trusted boundary*, not a proof obligation here. Program ids are
+universally quantified, so the per-program statements cover every program of
+the grid.
+
+## Proof architecture
+
+```
+iv_dependent_matmul_python_test_shape_output_summary  ← TOP THEOREM
+  ├─ iv_dependent_matmul_python_test_shape_surfaces_prop  (all 5 modes lower)
+  │    └─ iv_dependent_matmul_python_test_<mode>_surface_toAlgorithm_supported
+  │         └─ iv_dependent_matmul_<mode>_surface_toAlgorithm_supported
+  └─ iv_dependent_matmul_surface_output_compute_correct  ← ComputeCorrect, per mode
+
+iv_dependent_matmul_python_test_shape_store_summary   ← masked store-slice summary
+  └─ iv_dependent_matmul_python_test_shape_masked_output_store_compute_correct
+       └─ iv_dependent_matmul_masked_output_store_slice_compute_correct
+            └─ iv_dependent_matmul_masked_output_store_slice_correct  ← fp16 readback
+```
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float). The honesty point is the
+**K-loop dot-accumulator**: `accumulator += tl.dot(a, b)` iterated over
+`cdiv(K, BLOCK_SIZE_K)`, with each mode mutating the A/B pointers differently.
+This inner contraction (and the equivalence of the five scheduling modes) is
+**left as a blocker** — the surface-level `*_output_summary` theorems
+characterize the C store per mode as `ivDependentMatmulSurfaceCell ... s C ...`
+(whatever each surface accumulated) rather than proving it equals the
+mathematical sum-over-`K` product or proving the five modes agree. The
+`iv_dependent_matmul_masked_output_store_slice` proves only the masked 2D fp16
+writeback (acc tile to C, mask `(row<M)&(col<N)`, fp16 downcast as `castFloat`)
+from a precomputed accumulator. So the dot-product value and the
+scheduling-mode equivalence are the trusted/blocked part. The string-valued
+`type` branch is split into five separate surface defs rather than encoded as a
+runtime string; `@triton.autotune`/`num_warps` are not modeled. No output/input
+disjointness is assumed beyond an injective C offset map.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.IvDependentMatmul
 
 open VeriTile.Triton
@@ -124,6 +178,17 @@ def iv_dependent_matmul_pre_load_surface
   tl.store(c_ptrs, c, mask=c_mask)
 }
 
+/-- The `pre_load` IV-dependent matmul surface lowers to the algorithm layer. -/
+theorem iv_dependent_matmul_pre_load_surface_toAlgorithm_supported
+    (A B C : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) :
+    ∃ alg, (iv_dependent_matmul_pre_load_surface A B C M N K stride_am
+      stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M
+      BLOCK_SIZE_N BLOCK_SIZE_K).toAlgorithm? = Except.ok alg := by
+  simp [iv_dependent_matmul_pre_load_surface, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?]
+
 /-- Surface transcription of the `type == "post_load"` scheduling path. -/
 def iv_dependent_matmul_post_load_surface
     (A B C : RegionName)
@@ -159,6 +224,17 @@ def iv_dependent_matmul_post_load_surface
     c, mask=c_mask)
 }
 
+/-- The `post_load` IV-dependent matmul surface lowers to the algorithm layer. -/
+theorem iv_dependent_matmul_post_load_surface_toAlgorithm_supported
+    (A B C : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) :
+    ∃ alg, (iv_dependent_matmul_post_load_surface A B C M N K stride_am
+      stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M
+      BLOCK_SIZE_N BLOCK_SIZE_K).toAlgorithm? = Except.ok alg := by
+  simp [iv_dependent_matmul_post_load_surface, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?]
+
 /-- Surface transcription of the `type == "post_pre_mixed"` scheduling path. -/
 def iv_dependent_matmul_post_pre_mixed_surface
     (A B C : RegionName)
@@ -193,6 +269,18 @@ def iv_dependent_matmul_post_pre_mixed_surface
   tl.store(C + $(stride_cm) * offs_cm[:, None] + $(stride_cn) * offs_cn[None, :],
     c, mask=c_mask)
 }
+
+/-- The `post_pre_mixed` IV-dependent matmul surface lowers to the algorithm
+layer. -/
+theorem iv_dependent_matmul_post_pre_mixed_surface_toAlgorithm_supported
+    (A B C : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) :
+    ∃ alg, (iv_dependent_matmul_post_pre_mixed_surface A B C M N K stride_am
+      stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M
+      BLOCK_SIZE_N BLOCK_SIZE_K).toAlgorithm? = Except.ok alg := by
+  simp [iv_dependent_matmul_post_pre_mixed_surface, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?]
 
 /-- Surface transcription of the `type == "post_load_two_iters"` scheduling path. -/
 def iv_dependent_matmul_post_load_two_iters_surface
@@ -232,6 +320,18 @@ def iv_dependent_matmul_post_load_two_iters_surface
   tl.store(C + $(stride_cm) * offs_cm[:, None] + $(stride_cn) * offs_cn[None, :],
     c, mask=c_mask)
 }
+
+/-- The `post_load_two_iters` IV-dependent matmul surface lowers to the
+algorithm layer. -/
+theorem iv_dependent_matmul_post_load_two_iters_surface_toAlgorithm_supported
+    (A B C : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) :
+    ∃ alg, (iv_dependent_matmul_post_load_two_iters_surface A B C M N K
+      stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M
+      BLOCK_SIZE_N BLOCK_SIZE_K).toAlgorithm? = Except.ok alg := by
+  simp [iv_dependent_matmul_post_load_two_iters_surface, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?]
 
 /-- Surface transcription of the `type == "post_load_three_iters"` scheduling path. -/
 def iv_dependent_matmul_post_load_three_iters_surface
@@ -275,6 +375,65 @@ def iv_dependent_matmul_post_load_three_iters_surface
   tl.store(C + $(stride_cm) * offs_cm[:, None] + $(stride_cn) * offs_cn[None, :],
     c, mask=c_mask)
 }
+
+/-- The `post_load_three_iters` IV-dependent matmul surface lowers to the
+algorithm layer. -/
+theorem iv_dependent_matmul_post_load_three_iters_surface_toAlgorithm_supported
+    (A B C : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K : Nat) :
+    ∃ alg, (iv_dependent_matmul_post_load_three_iters_surface A B C M N K
+      stride_am stride_ak stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M
+      BLOCK_SIZE_N BLOCK_SIZE_K).toAlgorithm? = Except.ok alg := by
+  simp [iv_dependent_matmul_post_load_three_iters_surface, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?]
+
+/-! ## Python test-case surface wrappers
+
+The Python regression uses contiguous `a : (256, 256)`, `b : (256, 256)`,
+and `c : (256, 256)` tensors with `BLOCK_SIZE_M = BLOCK_SIZE_N =
+BLOCK_SIZE_K = 32`. It checks all five scheduling modes below; these wrappers
+pin each full surface to the exact tested shape and strides. -/
+
+theorem iv_dependent_matmul_python_test_pre_load_surface_toAlgorithm_supported
+    (A B C : RegionName) :
+    ∃ alg, (iv_dependent_matmul_pre_load_surface A B C
+      256 256 256 256 1 256 1 256 1 32 32 32).toAlgorithm? =
+        Except.ok alg := by
+  exact iv_dependent_matmul_pre_load_surface_toAlgorithm_supported A B C
+    256 256 256 256 1 256 1 256 1 32 32 32
+
+theorem iv_dependent_matmul_python_test_post_load_surface_toAlgorithm_supported
+    (A B C : RegionName) :
+    ∃ alg, (iv_dependent_matmul_post_load_surface A B C
+      256 256 256 256 1 256 1 256 1 32 32 32).toAlgorithm? =
+        Except.ok alg := by
+  exact iv_dependent_matmul_post_load_surface_toAlgorithm_supported A B C
+    256 256 256 256 1 256 1 256 1 32 32 32
+
+theorem iv_dependent_matmul_python_test_post_pre_mixed_surface_toAlgorithm_supported
+    (A B C : RegionName) :
+    ∃ alg, (iv_dependent_matmul_post_pre_mixed_surface A B C
+      256 256 256 256 1 256 1 256 1 32 32 32).toAlgorithm? =
+        Except.ok alg := by
+  exact iv_dependent_matmul_post_pre_mixed_surface_toAlgorithm_supported A B C
+    256 256 256 256 1 256 1 256 1 32 32 32
+
+theorem iv_dependent_matmul_python_test_post_load_two_iters_surface_toAlgorithm_supported
+    (A B C : RegionName) :
+    ∃ alg, (iv_dependent_matmul_post_load_two_iters_surface A B C
+      256 256 256 256 1 256 1 256 1 32 32 32).toAlgorithm? =
+        Except.ok alg := by
+  exact iv_dependent_matmul_post_load_two_iters_surface_toAlgorithm_supported
+    A B C 256 256 256 256 1 256 1 256 1 32 32 32
+
+theorem iv_dependent_matmul_python_test_post_load_three_iters_surface_toAlgorithm_supported
+    (A B C : RegionName) :
+    ∃ alg, (iv_dependent_matmul_post_load_three_iters_surface A B C
+      256 256 256 256 1 256 1 256 1 32 32 32).toAlgorithm? =
+        Except.ok alg := by
+  exact iv_dependent_matmul_post_load_three_iters_surface_toAlgorithm_supported
+    A B C 256 256 256 256 1 256 1 256 1 32 32 32
 
 /-- Proof-oriented masked output-store slice of `iv_dependent_matmul.py`'s
 `iv_dependent_matmul_kernel`.
@@ -467,7 +626,7 @@ theorem iv_dependent_matmul_masked_output_store_slice_correct
         else
           s.mem C (cOffset s stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N idx) := by
   intro idx
-  simp [exec, iv_dependent_matmul_masked_output_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, iv_dependent_matmul_masked_output_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
         Tile.ptrAdd, NumericDType.add, NumericDType.mul, ComparableDType.lt,
         TileShape.dropInsertedIndex] at hExec
@@ -528,5 +687,259 @@ theorem iv_dependent_matmul_masked_output_store_slice_compute_correct
   have h := iv_dependent_matmul_masked_output_store_slice_correct C Acc M N stride_cm stride_cn
     stride_accm stride_accn BLOCK_SIZE_M BLOCK_SIZE_N s s' hOutInj hExec idx
   simpa [hActive] using h
+
+/-- Python test-shape final-output coverage for all scheduling modes.
+
+The benchmark fixes `M = N = K = 256` and `BLOCK_SIZE_M = BLOCK_SIZE_N = 32`.
+All string-controlled scheduling modes feed the same final masked `C` store;
+this theorem pins the concrete row-major output shape so downstream references
+do not need to rebuild the 2D offset injectivity proof. -/
+theorem iv_dependent_matmul_python_test_shape_masked_output_store_compute_correct
+    (C Acc : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := iv_dependent_matmul_masked_output_store_slice C Acc
+        256 256 256 1 256 1 32 32)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 256 256 32 32)
+        (fun idx => (C, cOffset s 256 1 32 32 idx)))
+      (expected := fun idx =>
+        MemCell.of .fp16
+          (FloatDType.real.cast FloatDType.fp16
+            (some (s.readMem Acc (accOffset s 256 1 32 32 idx))))) := by
+  apply iv_dependent_matmul_masked_output_store_slice_compute_correct
+  rintro ⟨⟨ra, hra⟩, ⟨ca, hca⟩, _⟩ ⟨⟨rb, hrb⟩, ⟨cb, hcb⟩, _⟩ h
+  simp [cOffset, rowIndex, colIndex] at h
+  have hr : ra = rb := by omega
+  have hc : ca = cb := by omega
+  subst rb
+  subst cb
+  rfl
+
+/-- Python test-shape surface coverage for all string-controlled scheduling
+modes in `iv_dependent_matmul.py`.
+
+This is intentionally kernel-local glue: the scheduling surfaces depend on the
+benchmark's concrete layout and string modes, so #112 keeps them out of
+`Semantics/`. -/
+abbrev iv_dependent_matmul_python_test_shape_surfaces_prop
+    (A B C : RegionName) : Prop :=
+  (∃ alg, (iv_dependent_matmul_pre_load_surface A B C
+    256 256 256 256 1 256 1 256 1 32 32 32).toAlgorithm? =
+      Except.ok alg) ∧
+  (∃ alg, (iv_dependent_matmul_post_load_surface A B C
+    256 256 256 256 1 256 1 256 1 32 32 32).toAlgorithm? =
+      Except.ok alg) ∧
+  (∃ alg, (iv_dependent_matmul_post_pre_mixed_surface A B C
+    256 256 256 256 1 256 1 256 1 32 32 32).toAlgorithm? =
+      Except.ok alg) ∧
+  (∃ alg, (iv_dependent_matmul_post_load_two_iters_surface A B C
+    256 256 256 256 1 256 1 256 1 32 32 32).toAlgorithm? =
+      Except.ok alg) ∧
+  (∃ alg, (iv_dependent_matmul_post_load_three_iters_surface A B C
+    256 256 256 256 1 256 1 256 1 32 32 32).toAlgorithm? =
+      Except.ok alg)
+
+/-- Python test-shape final output prop for the shared masked fp16 store. -/
+abbrev iv_dependent_matmul_python_test_shape_output_prop
+    (C Acc : RegionName) (s : BlockState) : Prop :=
+  ComputeCorrect.Realizes
+    (kernel := iv_dependent_matmul_masked_output_store_slice C Acc
+      256 256 256 1 256 1 32 32)
+    (initialState := s)
+    (write := ComputeCorrect.WriteMap.writeIf
+      (active s 256 256 32 32)
+      (fun idx => (C, cOffset s 256 1 32 32 idx)))
+    (expected := fun idx =>
+      MemCell.of .fp16
+        (FloatDType.real.cast FloatDType.fp16
+          (some (s.readMem Acc (accOffset s 256 1 32 32 idx)))))
+
+noncomputable def ivDependentMatmulSurfaceCell
+    (kernel : ComputeKernel) (s : BlockState) (Out : RegionName)
+    (offset : Nat) : MemCell :=
+  match exec kernel s with
+  | some s' => s'.mem Out offset
+  | none => 0
+
+theorem iv_dependent_matmul_surface_output_compute_correct
+    (kernel : ComputeKernel) (C : RegionName) (s : BlockState)
+    (hSurfaceAlg : kernel.toAlgorithm? = Except.ok kernel.toAlgKernel) :
+    ComputeCorrect.Realizes
+      (kernel := kernel)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 256 256 32 32)
+        (fun idx => (C, cOffset s 256 1 32 32 idx)))
+      (expected := fun idx =>
+        ivDependentMatmulSurfaceCell kernel s C
+          (cOffset s 256 1 32 32 idx)) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · exact hSurfaceAlg
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx _hActive
+  simp [ivDependentMatmulSurfaceCell, hExec]
+
+/-- Public Python test-shape summary for `iv_dependent_matmul.py`.
+
+The long proposition is factored into surface and output props so downstream
+targets can refer to either side without duplicating the benchmark-specific
+shape tuple. -/
+theorem iv_dependent_matmul_python_test_shape_store_summary
+    (A B C Acc : RegionName) (s : BlockState) :
+    iv_dependent_matmul_python_test_shape_surfaces_prop A B C ∧
+    iv_dependent_matmul_python_test_shape_output_prop C Acc s := by
+  constructor
+  · constructor
+    · exact iv_dependent_matmul_python_test_pre_load_surface_toAlgorithm_supported
+        A B C
+    · constructor
+      · exact iv_dependent_matmul_python_test_post_load_surface_toAlgorithm_supported
+          A B C
+      · constructor
+        · exact
+            iv_dependent_matmul_python_test_post_pre_mixed_surface_toAlgorithm_supported
+              A B C
+        · constructor
+          · exact
+              iv_dependent_matmul_python_test_post_load_two_iters_surface_toAlgorithm_supported
+                A B C
+          · exact
+              iv_dependent_matmul_python_test_post_load_three_iters_surface_toAlgorithm_supported
+                A B C
+  · exact iv_dependent_matmul_python_test_shape_masked_output_store_compute_correct
+      C Acc s
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+theorem iv_dependent_matmul_python_test_shape_output_summary
+    (A B C : RegionName) (s : BlockState) :
+    iv_dependent_matmul_python_test_shape_surfaces_prop A B C ∧
+    (ComputeCorrect.Realizes
+      (kernel := iv_dependent_matmul_pre_load_surface A B C
+        256 256 256 256 1 256 1 256 1 32 32 32)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 256 256 32 32)
+        (fun idx => (C, cOffset s 256 1 32 32 idx)))
+      (expected := fun idx =>
+        ivDependentMatmulSurfaceCell
+          (iv_dependent_matmul_pre_load_surface A B C
+            256 256 256 256 1 256 1 256 1 32 32 32)
+          s C (cOffset s 256 1 32 32 idx))) ∧
+    (ComputeCorrect.Realizes
+      (kernel := iv_dependent_matmul_post_load_surface A B C
+        256 256 256 256 1 256 1 256 1 32 32 32)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 256 256 32 32)
+        (fun idx => (C, cOffset s 256 1 32 32 idx)))
+      (expected := fun idx =>
+        ivDependentMatmulSurfaceCell
+          (iv_dependent_matmul_post_load_surface A B C
+            256 256 256 256 1 256 1 256 1 32 32 32)
+          s C (cOffset s 256 1 32 32 idx))) ∧
+    (ComputeCorrect.Realizes
+      (kernel := iv_dependent_matmul_post_pre_mixed_surface A B C
+        256 256 256 256 1 256 1 256 1 32 32 32)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 256 256 32 32)
+        (fun idx => (C, cOffset s 256 1 32 32 idx)))
+      (expected := fun idx =>
+        ivDependentMatmulSurfaceCell
+          (iv_dependent_matmul_post_pre_mixed_surface A B C
+            256 256 256 256 1 256 1 256 1 32 32 32)
+          s C (cOffset s 256 1 32 32 idx))) ∧
+    (ComputeCorrect.Realizes
+      (kernel := iv_dependent_matmul_post_load_two_iters_surface A B C
+        256 256 256 256 1 256 1 256 1 32 32 32)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 256 256 32 32)
+        (fun idx => (C, cOffset s 256 1 32 32 idx)))
+      (expected := fun idx =>
+        ivDependentMatmulSurfaceCell
+          (iv_dependent_matmul_post_load_two_iters_surface A B C
+            256 256 256 256 1 256 1 256 1 32 32 32)
+          s C (cOffset s 256 1 32 32 idx))) ∧
+    (ComputeCorrect.Realizes
+      (kernel := iv_dependent_matmul_post_load_three_iters_surface A B C
+        256 256 256 256 1 256 1 256 1 32 32 32)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 256 256 32 32)
+        (fun idx => (C, cOffset s 256 1 32 32 idx)))
+      (expected := fun idx =>
+        ivDependentMatmulSurfaceCell
+          (iv_dependent_matmul_post_load_three_iters_surface A B C
+            256 256 256 256 1 256 1 256 1 32 32 32)
+          s C (cOffset s 256 1 32 32 idx))) := by
+  constructor
+  · constructor
+    · exact iv_dependent_matmul_python_test_pre_load_surface_toAlgorithm_supported
+        A B C
+    · constructor
+      · exact iv_dependent_matmul_python_test_post_load_surface_toAlgorithm_supported
+          A B C
+      · constructor
+        · exact
+            iv_dependent_matmul_python_test_post_pre_mixed_surface_toAlgorithm_supported
+              A B C
+        · constructor
+          · exact
+              iv_dependent_matmul_python_test_post_load_two_iters_surface_toAlgorithm_supported
+                A B C
+          · exact
+              iv_dependent_matmul_python_test_post_load_three_iters_surface_toAlgorithm_supported
+                A B C
+  · constructor
+    · exact iv_dependent_matmul_surface_output_compute_correct
+        (iv_dependent_matmul_pre_load_surface A B C
+          256 256 256 256 1 256 1 256 1 32 32 32) C s
+        (by simp [iv_dependent_matmul_pre_load_surface, ComputeExpr.toAlgorithm?,
+          ComputeOp.toAlgorithm?])
+    · constructor
+      · exact iv_dependent_matmul_surface_output_compute_correct
+          (iv_dependent_matmul_post_load_surface A B C
+            256 256 256 256 1 256 1 256 1 32 32 32) C s
+          (by simp [iv_dependent_matmul_post_load_surface, ComputeExpr.toAlgorithm?,
+            ComputeOp.toAlgorithm?])
+      · constructor
+        · exact iv_dependent_matmul_surface_output_compute_correct
+            (iv_dependent_matmul_post_pre_mixed_surface A B C
+              256 256 256 256 1 256 1 256 1 32 32 32) C s
+            (by simp [iv_dependent_matmul_post_pre_mixed_surface,
+              ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?])
+        · constructor
+          · exact iv_dependent_matmul_surface_output_compute_correct
+              (iv_dependent_matmul_post_load_two_iters_surface A B C
+                256 256 256 256 1 256 1 256 1 32 32 32) C s
+              (by simp [iv_dependent_matmul_post_load_two_iters_surface,
+                ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?])
+          · exact iv_dependent_matmul_surface_output_compute_correct
+              (iv_dependent_matmul_post_load_three_iters_surface A B C
+                256 256 256 256 1 256 1 256 1 32 32 32) C s
+              (by simp [iv_dependent_matmul_post_load_three_iters_surface,
+                ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?])
 
 end VeriTile.Bench.TritonBenchG.IvDependentMatmul

@@ -1,18 +1,17 @@
 /-
-VeriTile.Examples.FlashAttention1.Common.Streaming
+VeriTile.Triton.Semantics.StreamingAccumulator
 
-FA-1 non-boundary online-softmax Real recurrence and tile helper lemmas.
+Online-softmax streaming `(m, l, O)` accumulator recurrence and tile helper
+lemmas for blockwise attention reductions.
 -/
 
-import VeriTile.Examples.FlashAttention1.Common.Spec
+import VeriTile.Triton.Math.Attention
+import VeriTile.Triton.Semantics.TileOps
 
-namespace VeriTile.Examples
+namespace VeriTile.Triton
+/-! ## Streaming math model (online softmax recurrence)
 
-open VeriTile.Triton
-/-! ## Streaming math model (FA-1 online softmax recurrence)
-
-Mirrors what `fa1ForwardKernel` computes block by block. Three running
-quantities, each parameterized by the number of completed KV blocks
+Three running quantities, each parameterized by the number of completed KV blocks
 `k ∈ [0, numKVBlocks]`:
 
 * `mPartial` — running per-row max of scaled scores. Uses `WithBot ℝ`
@@ -28,135 +27,27 @@ kernel) proves that
 `oPartial numKVBlocks idx / lPartial numKVBlocks i = attentionReal idx`,
 which the kernel's post-loop `out := o_acc / l_i[:, None]` realizes. -/
 
-namespace FA1Math
+namespace StreamingAccumulator
 
-/-- Scaled score `(Q · Kᵀ · scale)[i, j]` at a flat KV index `j ∈ [0, S)`.
-The streaming form indexes K/V by `k * Bk + jLocal` for the k-th block;
-this helper normalizes that to a single `j` so the recurrence can sum
-over the whole input length uniformly. -/
+/-- Scaled score used by the streaming accumulator recurrence. This matches
+`VeriTile.Triton.scaledScore` from `Math.Attention`, but stays under the
+accumulator namespace for proof-local rewriting. -/
 noncomputable def scaledScore {M S D : Nat}
     (Q : TileIndex [M, D] → ℝ) (K : TileIndex [S, D] → ℝ) (scale : ℝ)
     (i : Fin M) (j : Fin S) : ℝ :=
   scale * Finset.univ.sum (fun d : Fin D =>
     Q (i, d, PUnit.unit) * K (j, d, PUnit.unit))
 
-theorem scaledScore_padHeadD_eq {M S D Bd : Nat} (hDLe : D ≤ Bd)
-    (Q : TileIndex [M, D] → ℝ) (K : TileIndex [S, D] → ℝ)
-    (scale : ℝ) (i : Fin M) (j : Fin S) :
-    scaledScore (D := Bd) (padHeadD (Bd := Bd) Q) (padHeadD (Bd := Bd) K) scale i j =
-      scaledScore Q K scale i j := by
-  unfold scaledScore
-  congr 1
-  rw [show (Finset.univ : Finset (Fin Bd)).sum (fun d : Fin Bd =>
-        padHeadD Q (i, d, PUnit.unit) * padHeadD K (j, d, PUnit.unit)) =
-      (Finset.univ : Finset (Fin Bd)).sum (fun d : Fin Bd =>
-        if h : d.val < D then
-          Q (i, ⟨d.val, h⟩, PUnit.unit) * K (j, ⟨d.val, h⟩, PUnit.unit)
-        else
-          0) by
-    apply Finset.sum_congr rfl
-    intro d _
-    by_cases h : d.val < D
-    · simp [padHeadD, h]
-    · simp [padHeadD, h]]
-  rw [sum_padHeadD_eq hDLe (fun d : Fin D =>
-    Q (i, d, PUnit.unit) * K (j, d, PUnit.unit))]
-
-/-- Causal block attention is invariant under zero-padding the hidden
-dimension, on logical output lanes `d < D`. -/
-theorem attentionRealCausalBlock_padHeadD_eq {M S D Bd : Nat} (hDLe : D ≤ Bd)
-    (qStart : Nat)
-    (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [S, D] → ℝ)
-    (scale : ℝ) (idx : TileIndex [M, Bd]) (hDIdx : idx.2.1.val < D) :
-    attentionRealCausalBlock qStart
-        (padHeadD (Bd := Bd) Q) (padHeadD (Bd := Bd) K) (padHeadD (Bd := Bd) V)
-        scale idx =
-    attentionRealCausalBlock qStart Q K V scale
-        (idx.1, ⟨idx.2.1.val, hDIdx⟩, PUnit.unit) := by
-  obtain ⟨i, d, u⟩ := idx
-  cases u
-  have hD : d.val < D := hDIdx
-  unfold attentionRealCausalBlock
-  have hScore : ∀ j : Fin S,
-      scale * (Finset.univ.sum fun d' : Fin Bd =>
-        padHeadD Q (i, d', PUnit.unit) * padHeadD K (j, d', PUnit.unit)) =
-      scale * (Finset.univ.sum fun d' : Fin D =>
-        Q (i, d', PUnit.unit) * K (j, d', PUnit.unit)) := by
-    intro j
-    simpa [scaledScore] using
-      scaledScore_padHeadD_eq hDLe Q K scale i j
-  have hV : ∀ j : Fin S,
-      padHeadD V (j, d, PUnit.unit) = V (j, ⟨d.val, hD⟩, PUnit.unit) := by
-    intro j
-    simp [padHeadD, hD]
-  simp [hScore, hV]
-
-/-- Causal attention is invariant under zero-padding the hidden dimension,
-on logical output lanes `d < D`. -/
-theorem attentionRealCausal_padHeadD_eq {M S D Bd : Nat} (hDLe : D ≤ Bd)
-    (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [S, D] → ℝ)
-    (scale : ℝ) (idx : TileIndex [M, Bd]) (hDIdx : idx.2.1.val < D) :
-    attentionRealCausal
-        (padHeadD (Bd := Bd) Q) (padHeadD (Bd := Bd) K) (padHeadD (Bd := Bd) V)
-        scale idx =
-    attentionRealCausal Q K V scale
-        (idx.1, ⟨idx.2.1.val, hDIdx⟩, PUnit.unit) := by
-  obtain ⟨i, d, u⟩ := idx
-  cases u
-  have hD : d.val < D := hDIdx
-  unfold attentionRealCausal
-  have hScore : ∀ j : Fin S,
-      scale * (Finset.univ.sum fun d' : Fin Bd =>
-        padHeadD Q (i, d', PUnit.unit) * padHeadD K (j, d', PUnit.unit)) =
-      scale * (Finset.univ.sum fun d' : Fin D =>
-        Q (i, d', PUnit.unit) * K (j, d', PUnit.unit)) := by
-    intro j
-    simpa [scaledScore] using
-      scaledScore_padHeadD_eq hDLe Q K scale i j
-  have hV : ∀ j : Fin S,
-      padHeadD V (j, d, PUnit.unit) = V (j, ⟨d.val, hD⟩, PUnit.unit) := by
-    intro j
-    simp [padHeadD, hD]
-  simp [hScore, hV]
-
-/-- Non-causal attention is invariant under zero-padding the hidden
-dimension, on logical output lanes `d < D`. -/
-theorem attentionReal_padHeadD_eq {M S D Bd : Nat} (hDLe : D ≤ Bd)
-    (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [S, D] → ℝ)
-    (scale : ℝ) (idx : TileIndex [M, Bd]) (hDIdx : idx.2.1.val < D) :
-    attentionReal
-        (padHeadD (Bd := Bd) Q) (padHeadD (Bd := Bd) K) (padHeadD (Bd := Bd) V)
-        scale idx =
-      attentionReal Q K V scale
-        (idx.1, ⟨idx.2.1.val, hDIdx⟩, PUnit.unit) := by
-  obtain ⟨i, d, u⟩ := idx
-  cases u
-  have hD : d.val < D := hDIdx
-  have hScore : ∀ j : Fin S,
-      (∑ x : Fin Bd, padHeadD Q (i, x, PUnit.unit) * padHeadD K (j, x, PUnit.unit)) =
-      (∑ x : Fin D, Q (i, x, PUnit.unit) * K (j, x, PUnit.unit)) := by
-    intro j
-    rw [show (Finset.univ : Finset (Fin Bd)).sum
-          (fun x : Fin Bd => padHeadD Q (i, x, PUnit.unit) * padHeadD K (j, x, PUnit.unit)) =
-        (Finset.univ : Finset (Fin Bd)).sum
-          (fun x : Fin Bd =>
-            if h : x.val < D then
-              Q (i, ⟨x.val, h⟩, PUnit.unit) * K (j, ⟨x.val, h⟩, PUnit.unit)
-            else
-              0) by
-      apply Finset.sum_congr rfl
-      intro x _
-      by_cases hx : x.val < D
-      · simp [padHeadD, hx]
-      · simp [padHeadD, hx]]
-    rw [sum_padHeadD_eq hDLe (fun x : Fin D =>
-      Q (i, x, PUnit.unit) * K (j, x, PUnit.unit))]
-  have hV : ∀ j : Fin S,
-      padHeadD V (j, d, PUnit.unit) = V (j, ⟨d.val, hD⟩, PUnit.unit) := by
-    intro j
-    simp [padHeadD, hD]
-  unfold attentionReal attention softmaxRow
-  simp [Tile.dot, Tile.transpose, Tile.ofReal, hScore, hV]
+/-- Row-wise softmax along the trailing axis on a `Tile .real`.
+Local tile-level helper used only to connect `Tile.dot` data lemmas to the
+pure real attention formulas. -/
+noncomputable def softmaxRow {M N : Nat} (s : Tile .real [M, N]) :
+    Tile .real [M, N] :=
+  ⟨fun (m, n, _) =>
+    let row := fun j : Fin N => (s.data (m, j, PUnit.unit)).unbotD 0
+    let num := Real.exp (row n)
+    let denom := Finset.univ.sum (fun j : Fin N => Real.exp (row j))
+    some (num / denom)⟩
 
 /-- Flat KV index of the `jLocal`-th lane of the `k`-th block. Factored
 out as a non-dependent helper so `Finset.le_sup`-style lemmas can
@@ -173,7 +64,7 @@ def blockIndex (Bk numKVBlocks k : Nat) (h : k + 1 ≤ numKVBlocks)
 
 /-- Running per-row max of scaled scores over the first `k` KV blocks.
 Seeded at `⊥` so the `max` is right at `k = 0` (no scores seen).
-Closely mirrors `onlineSoftmaxM` from `Examples/OnlineSoftmax.lean`. -/
+Closely mirrors the standard online-softmax max recurrence. -/
 noncomputable def mPartial {M D : Nat} (Bk : Nat)
     (Q : TileIndex [M, D] → ℝ) (numKVBlocks : Nat)
     (K : TileIndex [Bk * numKVBlocks, D] → ℝ) (scale : ℝ) :
@@ -188,7 +79,7 @@ noncomputable def mPartial {M D : Nat} (Bk : Nat)
       else
         mPartial Bk Q numKVBlocks K scale k i
 
-/-- The α multiplier `exp(m_k - m_{k+1})` produced by FA-1's online
+/-- The α multiplier `exp(m_k - m_{k+1})` produced by the online
 softmax. At `k = 0` this collapses to `0` (since `m_0 = ⊥` and
 `exp ⊥ = 0`), zeroing out the first iteration's contribution from the
 empty seed. -/
@@ -1123,8 +1014,8 @@ theorem block_oAcc_tile_eq {M D Bk N : Nat}
   rw [oPartial_succ_of_lt Q N K V scale k hk (i, d, PUnit.unit)]
 
 /-- The m-free reference sums `oFree N` and `lFree N` connect to
-`attentionReal` directly through `Tile.dot` / `softmaxRow`. This is the
-specification-side identity (no streaming algebra involved). -/
+`attentionReal` directly. This is the specification-side identity
+(no streaming algebra involved). -/
 theorem oFree_div_lFree_eq_attentionReal {M D Bk N : Nat}
     (Q : TileIndex [M, D] → ℝ) (K V : TileIndex [Bk * N, D] → ℝ)
     (scale : ℝ) (idx : TileIndex [M, D])
@@ -1132,46 +1023,11 @@ theorem oFree_div_lFree_eq_attentionReal {M D Bk N : Nat}
     oFree Q K V scale N (le_refl N) idx /
         lFree Q K scale N (le_refl N) idx.1
       = attentionReal Q K V scale idx := by
+  rcases idx with ⟨i, d, u⟩
+  cases u
   rw [oFree_eq_flat, lFree_eq_flat]
-  unfold attentionReal attention
-  rw [Tile.dot_nil_data]
-  -- Match the WithBot Σ to a coerced real Σ via Finset.sum_congr +
-  -- softmaxRow_scaled_data_eq, then push the coercion out via map_sum,
-  -- unbotD it, and factor the constant denominator with Finset.sum_div.
-  rw [Finset.sum_congr rfl (g := fun k : Fin (Bk * N) =>
-        (((Real.exp (scaledScore Q K scale idx.1 k) /
-          Finset.univ.sum (fun j' : Fin (Bk * N) =>
-            Real.exp (scaledScore Q K scale idx.1 j')) *
-          V (k, idx.2.1, PUnit.unit)) : ℝ) : WithBot ℝ))
-    (by
-      intro k _
-      let scaled : Tile .real [M, Bk * N] :=
-        { data := fun idx =>
-            Option.map (fun x => x * scale)
-              ((Tile.dot [] (Tile.ofReal Q)
-                (Tile.transpose [] (Tile.ofReal K))).data idx) }
-      change
-        Option.map₂ (fun x1 x2 => x1 * x2)
-          ((softmaxRow scaled).data (idx.1, k, PUnit.unit))
-          (some (V (k, idx.2.1, PUnit.unit))) =
-        (((Real.exp (scaledScore Q K scale idx.1 k) /
-            Finset.univ.sum (fun j' : Fin (Bk * N) =>
-              Real.exp (scaledScore Q K scale idx.1 j')) *
-            V (k, idx.2.1, PUnit.unit)) : ℝ) : WithBot ℝ)
-      have hsoft := softmaxRow_scaled_data_eq Q K scale idx.1 k
-      change
-        (softmaxRow scaled).data (idx.1, k, PUnit.unit) =
-          ((Real.exp (scaledScore Q K scale idx.1 k) /
-            Finset.univ.sum (fun j' : Fin (Bk * N) =>
-              Real.exp (scaledScore Q K scale idx.1 j')) : ℝ) : WithBot ℝ) at hsoft
-      rw [hsoft]
-      rfl)]
-  rw [WithBot.sum_some_eq_some]
-  rw [WithBot.unbotD_coe]
-  rw [Finset.sum_div]
-  apply Finset.sum_congr rfl
-  intro k _
-  ring
+  unfold attentionReal
+  rfl
 
 /-- **Math identity (paper centerpiece).** After all `numKVBlocks`
 iterations, the streaming `(oPartial, lPartial)` ratio computes the
@@ -1219,8 +1075,8 @@ theorem lFree_final_pos {M D Bk N : Nat} (hBk : 0 < Bk) (hN : 0 < N)
     exact Real.exp_pos _
   · exact ⟨⟨0, Nat.mul_pos hBk hN⟩, Finset.mem_univ _⟩
 
-/-- The final streaming normalizer is non-zero under FA-1's non-empty KV
-scope. This is the denominator fact needed by the readout stage. -/
+/-- The final streaming normalizer is non-zero under a non-empty KV scope.
+This is the denominator fact needed by the readout stage. -/
 theorem lPartial_final_ne_zero {M D Bk : Nat} (hBk : 0 < Bk)
     (Q : TileIndex [M, D] → ℝ) (numKVBlocks : Nat)
     (hN : 0 < numKVBlocks)
@@ -1232,6 +1088,6 @@ theorem lPartial_final_ne_zero {M D Bk : Nat} (hBk : 0 < Bk)
   exact mul_ne_zero (Real.exp_ne_zero _)
     (ne_of_gt (lFree_final_pos hBk hN Q K scale i))
 
-end FA1Math
+end StreamingAccumulator
 
-end VeriTile.Examples
+end VeriTile.Triton

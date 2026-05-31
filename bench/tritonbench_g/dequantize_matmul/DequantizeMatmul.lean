@@ -3,6 +3,54 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `dequantize_matmul` — strict per-kernel correctness
+
+`dequantize_kernel` is the dequantization prologue of an int8 matmul: program
+`(k_block_idx, n_block_idx)` loads a `[BLOCK_SIZE_K, BLOCK_SIZE_N]` tile of the
+int8 weight `b`, loads the per-column scale `b_scale`, and stores the
+dequantized `int_b * scale_b` into `fpb`, masked by
+`(k·K + offs_k < K) & (n·N + offs_n < N)`. The downstream `torch.mm(a, fp_b)` is
+host code, not part of this kernel.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`dequantize_kernel[grid](...)`, the 2-D grid
+`(cdiv(K, BSK), cdiv(N, BSN))`, the strides, the subsequent `torch.mm`, and the
+runtime composition of per-program writes) is the *trusted boundary*. Both
+program ids (`k_block_idx`, `n_block_idx`) are universally quantified, so the
+per-program statement covers every program of the grid.
+
+## Proof architecture
+
+```
+dequantize_matmul_python_<BSN>x<BSK>_output_summary    ← TOP THEOREMS (4 shapes)
+  ├─ (toAlgorithm? = Except.ok _)                       surface lowers to algorithm
+  └─ dequantize_matmul_python_<BSN>x<BSK>_compute_correct
+       └─ dequantize_kernel_compute_correct             ComputeCorrect over the store
+            ├─ dequantize_kernel_correct                algorithm-layer readback per lane
+            └─ dequantize_matmul_python_..._offset_injective   no-collision lemmas
+```
+
+The four shapes (128x128, 64x256, 32x256, 256x64) mirror the `@triton.autotune`
+configs exercised by the Python test. The spec is the elementwise dequantize
+`int_b * scale_b`, with the masked `other=0.0` default modeled on lanes that
+fall outside `K`/`N`.
+
+## Modeling boundary
+
+Arithmetic is over `ℝ`, not bit-accurate IEEE float. The quantization semantics
+here are the **dequantization direction only**: the proof models `int_b *
+scale_b` as a plain real product, where `int_b` is the value loaded from the
+int8 weight region and `scale_b` the loaded float scale. There is no rounding or
+int cast on the output side, so this kernel has no `to(tl.int8)` / `llrint`
+blocker — `int_b` is taken as the loaded real value and the store is exact. The
+masked `other=0.0` default is modeled. `@triton.autotune` is not modeled;
+instead the four representative `(BLOCK_SIZE_N, BLOCK_SIZE_K)` configs are
+instantiated as separate theorems.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.DequantizeMatmul
 
 open VeriTile.Triton
@@ -31,6 +79,17 @@ def dequantize_kernel
   scale_b = tl.load(b_scale_ptr + bs_offs, mask=n_mask, other=0.0)
   tl.store(fpb_ptr + fpb_offs, int_b * scale_b, mask=mask)
 }
+
+/-- The Python `dequantize_kernel` surface lowers to the algorithm layer,
+including the 2D masked int8 load, column scale load, multiply, and masked
+`fp_b` store. The bundled Python wrapper then calls `torch.mm`; this theorem is
+only about the Triton dequantization kernel. -/
+theorem dequantize_kernel_surface_toAlgorithm_supported
+    (b_ptr b_scale_ptr fpb_ptr : RegionName)
+    (K N stride_bk stride_bn stride_fpbk stride_fpbn BLOCK_SIZE_N BLOCK_SIZE_K : Nat) :
+    ∃ alg, (dequantize_kernel b_ptr b_scale_ptr fpb_ptr K N stride_bk stride_bn
+      stride_fpbk stride_fpbn BLOCK_SIZE_N BLOCK_SIZE_K).toAlgorithm? = Except.ok alg := by
+  simp [dequantize_kernel]
 
 def bOffset (s : BlockState) (stride_bk stride_bn BLOCK_SIZE_N BLOCK_SIZE_K : Nat)
     (idx : TileIndex [BLOCK_SIZE_K, BLOCK_SIZE_N]) : Nat :=
@@ -112,7 +171,7 @@ theorem dequantize_kernel_correct
           s.readMem fpb_ptr
             (fpbOffset s stride_fpbk stride_fpbn BLOCK_SIZE_N BLOCK_SIZE_K idx) := by
   intro idx
-  simp [exec, dequantize_kernel, stepStmts, stepStmt, evalOp, Option.bind,
+  simp [exec, dequantize_kernel, stepStmts, stepStmt, evalOp.eq_def, Option.bind,
         Tile.bop, Tile.cop, Tile.expandDim,
         NumericDType.add, NumericDType.mul, ComparableDType.lt,
         TileShape.dropInsertedIndex] at hExec
@@ -183,5 +242,223 @@ theorem dequantize_kernel_compute_correct
   have h := dequantize_kernel_correct b_ptr b_scale_ptr fpb_ptr K N stride_bk stride_bn
     stride_fpbk stride_fpbn BLOCK_SIZE_N BLOCK_SIZE_K s s' hOutInj hExec idx
   simpa [hActive] using h
+
+/-- Python test path `(K,N)=(128,256)`, contiguous `fp_b`, config
+`BLOCK_SIZE_N=128`, `BLOCK_SIZE_K=128`. -/
+theorem dequantize_matmul_python_128x128_offset_injective
+    (s : BlockState) :
+    Function.Injective (fpbOffset s 256 1 128 128) := by
+  intro a b h
+  rcases a with ⟨ka, na, ha⟩
+  rcases b with ⟨kb, nb, hb⟩
+  rcases na with ⟨na, hna⟩
+  rcases nb with ⟨nb, hnb⟩
+  simp [fpbOffset] at h
+  have hk : ka = kb := by omega
+  have hn : na = nb := by omega
+  subst kb
+  subst nb
+  rfl
+
+/-- Python test path `(K,N)=(128,256)`, contiguous `fp_b`, config
+`BLOCK_SIZE_N=64`, `BLOCK_SIZE_K=256`. -/
+theorem dequantize_matmul_python_64x256_offset_injective
+    (s : BlockState) :
+    Function.Injective (fpbOffset s 256 1 64 256) := by
+  intro a b h
+  rcases a with ⟨ka, na, ha⟩
+  rcases b with ⟨kb, nb, hb⟩
+  rcases na with ⟨na, hna⟩
+  rcases nb with ⟨nb, hnb⟩
+  simp [fpbOffset] at h
+  have hk : ka = kb := by omega
+  have hn : na = nb := by omega
+  subst kb
+  subst nb
+  rfl
+
+/-- Python test path `(K,N)=(128,256)`, contiguous `fp_b`, config
+`BLOCK_SIZE_N=32`, `BLOCK_SIZE_K=256`. -/
+theorem dequantize_matmul_python_32x256_offset_injective
+    (s : BlockState) :
+    Function.Injective (fpbOffset s 256 1 32 256) := by
+  intro a b h
+  rcases a with ⟨ka, na, ha⟩
+  rcases b with ⟨kb, nb, hb⟩
+  rcases na with ⟨na, hna⟩
+  rcases nb with ⟨nb, hnb⟩
+  simp [fpbOffset] at h
+  have hk : ka = kb := by omega
+  have hn : na = nb := by omega
+  subst kb
+  subst nb
+  rfl
+
+/-- Python test path `(K,N)=(128,256)`, contiguous `fp_b`, config
+`BLOCK_SIZE_N=256`, `BLOCK_SIZE_K=64`. -/
+theorem dequantize_matmul_python_256x64_offset_injective
+    (s : BlockState) :
+    Function.Injective (fpbOffset s 256 1 256 64) := by
+  intro a b h
+  rcases a with ⟨ka, na, ha⟩
+  rcases b with ⟨kb, nb, hb⟩
+  rcases na with ⟨na, hna⟩
+  rcases nb with ⟨nb, hnb⟩
+  simp [fpbOffset] at h
+  have hk : ka = kb := by omega
+  have hn : na = nb := by omega
+  subst kb
+  subst nb
+  rfl
+
+/-- Python `test_matmul_dequantize_int8`, config
+`BLOCK_SIZE_N=128`, `BLOCK_SIZE_K=128`. -/
+theorem dequantize_matmul_python_128x128_compute_correct
+    (b_ptr b_scale_ptr fpb_ptr : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := dequantize_kernel b_ptr b_scale_ptr fpb_ptr 128 256 256 1 256 1
+        128 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+          (dequantizeActive s 128 256 128 128)
+          (fun idx => (fpb_ptr, fpbOffset s 256 1 128 128 idx)))
+      (expected := fun idx =>
+        dequantizeSpec s b_ptr b_scale_ptr 256 1 128 128 idx) := by
+  exact dequantize_kernel_compute_correct b_ptr b_scale_ptr fpb_ptr
+    128 256 256 1 256 1 128 128 s
+    (dequantize_matmul_python_128x128_offset_injective s)
+
+/-- Python `test_matmul_dequantize_int8`, config
+`BLOCK_SIZE_N=64`, `BLOCK_SIZE_K=256`. -/
+theorem dequantize_matmul_python_64x256_compute_correct
+    (b_ptr b_scale_ptr fpb_ptr : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := dequantize_kernel b_ptr b_scale_ptr fpb_ptr 128 256 256 1 256 1
+        64 256)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+          (dequantizeActive s 128 256 64 256)
+          (fun idx => (fpb_ptr, fpbOffset s 256 1 64 256 idx)))
+      (expected := fun idx =>
+        dequantizeSpec s b_ptr b_scale_ptr 256 1 64 256 idx) := by
+  exact dequantize_kernel_compute_correct b_ptr b_scale_ptr fpb_ptr
+    128 256 256 1 256 1 64 256 s
+    (dequantize_matmul_python_64x256_offset_injective s)
+
+/-- Python `test_matmul_dequantize_int8`, config
+`BLOCK_SIZE_N=32`, `BLOCK_SIZE_K=256`. -/
+theorem dequantize_matmul_python_32x256_compute_correct
+    (b_ptr b_scale_ptr fpb_ptr : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := dequantize_kernel b_ptr b_scale_ptr fpb_ptr 128 256 256 1 256 1
+        32 256)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+          (dequantizeActive s 128 256 32 256)
+          (fun idx => (fpb_ptr, fpbOffset s 256 1 32 256 idx)))
+      (expected := fun idx =>
+        dequantizeSpec s b_ptr b_scale_ptr 256 1 32 256 idx) := by
+  exact dequantize_kernel_compute_correct b_ptr b_scale_ptr fpb_ptr
+    128 256 256 1 256 1 32 256 s
+    (dequantize_matmul_python_32x256_offset_injective s)
+
+/-- Python `test_matmul_dequantize_int8`, config
+`BLOCK_SIZE_N=256`, `BLOCK_SIZE_K=64`. -/
+theorem dequantize_matmul_python_256x64_compute_correct
+    (b_ptr b_scale_ptr fpb_ptr : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := dequantize_kernel b_ptr b_scale_ptr fpb_ptr 128 256 256 1 256 1
+        256 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+          (dequantizeActive s 128 256 256 64)
+          (fun idx => (fpb_ptr, fpbOffset s 256 1 256 64 idx)))
+      (expected := fun idx =>
+        dequantizeSpec s b_ptr b_scale_ptr 256 1 256 64 idx) := by
+  exact dequantize_kernel_compute_correct b_ptr b_scale_ptr fpb_ptr
+    128 256 256 1 256 1 256 64 s
+    (dequantize_matmul_python_256x64_offset_injective s)
+
+/-- Public Python config summary for `dequantize_matmul.py`,
+`BLOCK_SIZE_N=128`, `BLOCK_SIZE_K=128`.
+
+This summarizes the Triton dequantization store into `fp_b`. -/
+theorem dequantize_matmul_python_128x128_output_summary
+    (b_ptr b_scale_ptr fpb_ptr : RegionName) (s : BlockState) :
+    (∃ alg, (dequantize_kernel b_ptr b_scale_ptr fpb_ptr
+      128 256 256 1 256 1 128 128).toAlgorithm? = Except.ok alg) ∧
+    ComputeCorrect.Realizes
+      (kernel := dequantize_kernel b_ptr b_scale_ptr fpb_ptr
+        128 256 256 1 256 1 128 128)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+          (dequantizeActive s 128 256 128 128)
+          (fun idx => (fpb_ptr, fpbOffset s 256 1 128 128 idx)))
+      (expected := fun idx =>
+        dequantizeSpec s b_ptr b_scale_ptr 256 1 128 128 idx) := by
+  constructor
+  · exact dequantize_kernel_surface_toAlgorithm_supported b_ptr b_scale_ptr fpb_ptr
+      128 256 256 1 256 1 128 128
+  · exact dequantize_matmul_python_128x128_compute_correct b_ptr b_scale_ptr fpb_ptr s
+
+/-- Public Python config summary for `dequantize_matmul.py`,
+`BLOCK_SIZE_N=64`, `BLOCK_SIZE_K=256`. -/
+theorem dequantize_matmul_python_64x256_output_summary
+    (b_ptr b_scale_ptr fpb_ptr : RegionName) (s : BlockState) :
+    (∃ alg, (dequantize_kernel b_ptr b_scale_ptr fpb_ptr
+      128 256 256 1 256 1 64 256).toAlgorithm? = Except.ok alg) ∧
+    ComputeCorrect.Realizes
+      (kernel := dequantize_kernel b_ptr b_scale_ptr fpb_ptr
+        128 256 256 1 256 1 64 256)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+          (dequantizeActive s 128 256 64 256)
+          (fun idx => (fpb_ptr, fpbOffset s 256 1 64 256 idx)))
+      (expected := fun idx =>
+        dequantizeSpec s b_ptr b_scale_ptr 256 1 64 256 idx) := by
+  constructor
+  · exact dequantize_kernel_surface_toAlgorithm_supported b_ptr b_scale_ptr fpb_ptr
+      128 256 256 1 256 1 64 256
+  · exact dequantize_matmul_python_64x256_compute_correct b_ptr b_scale_ptr fpb_ptr s
+
+/-- Public Python config summary for `dequantize_matmul.py`,
+`BLOCK_SIZE_N=32`, `BLOCK_SIZE_K=256`. -/
+theorem dequantize_matmul_python_32x256_output_summary
+    (b_ptr b_scale_ptr fpb_ptr : RegionName) (s : BlockState) :
+    (∃ alg, (dequantize_kernel b_ptr b_scale_ptr fpb_ptr
+      128 256 256 1 256 1 32 256).toAlgorithm? = Except.ok alg) ∧
+    ComputeCorrect.Realizes
+      (kernel := dequantize_kernel b_ptr b_scale_ptr fpb_ptr
+        128 256 256 1 256 1 32 256)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+          (dequantizeActive s 128 256 32 256)
+          (fun idx => (fpb_ptr, fpbOffset s 256 1 32 256 idx)))
+      (expected := fun idx =>
+        dequantizeSpec s b_ptr b_scale_ptr 256 1 32 256 idx) := by
+  constructor
+  · exact dequantize_kernel_surface_toAlgorithm_supported b_ptr b_scale_ptr fpb_ptr
+      128 256 256 1 256 1 32 256
+  · exact dequantize_matmul_python_32x256_compute_correct b_ptr b_scale_ptr fpb_ptr s
+
+/-- Public Python config summary for `dequantize_matmul.py`,
+`BLOCK_SIZE_N=256`, `BLOCK_SIZE_K=64`. -/
+theorem dequantize_matmul_python_256x64_output_summary
+    (b_ptr b_scale_ptr fpb_ptr : RegionName) (s : BlockState) :
+    (∃ alg, (dequantize_kernel b_ptr b_scale_ptr fpb_ptr
+      128 256 256 1 256 1 256 64).toAlgorithm? = Except.ok alg) ∧
+    ComputeCorrect.Realizes
+      (kernel := dequantize_kernel b_ptr b_scale_ptr fpb_ptr
+        128 256 256 1 256 1 256 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+          (dequantizeActive s 128 256 256 64)
+          (fun idx => (fpb_ptr, fpbOffset s 256 1 256 64 idx)))
+      (expected := fun idx =>
+        dequantizeSpec s b_ptr b_scale_ptr 256 1 256 64 idx) := by
+  constructor
+  · exact dequantize_kernel_surface_toAlgorithm_supported b_ptr b_scale_ptr fpb_ptr
+      128 256 256 1 256 1 256 64
+  · exact dequantize_matmul_python_256x64_compute_correct b_ptr b_scale_ptr fpb_ptr s
 
 end VeriTile.Bench.TritonBenchG.DequantizeMatmul

@@ -3,6 +3,53 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `quant_transpose_kernel` — strict per-kernel correctness
+
+`_quantize_global_transpose` reads a `BLOCK_M × BLOCK_N` tile of `A` under a
+grouped one-dimensional program-id schedule, multiplies by a single global
+inverse-absmax scale, rounds `127.0 · (a · absmax_inv)` to int8 via CUDA
+`llrint`, and stores the result into `B` with transposed addressing
+(`stride_bm`/`stride_bn`), masked by `(rm < M) & (rn < N)`.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`_quantize_global_transpose[grid](...)`, the grid size
+`cdiv(M, BLOCK_M) · cdiv(N, BLOCK_N)`, the grouped pid scheduling, and how the
+runtime composes per-program writes into one buffer) is the *trusted boundary*,
+not a proof obligation here. Because the program coordinates are universally
+quantified over `s`, the per-program statement covers every program of the grid.
+
+## Proof architecture
+
+```
+quantize_global_transpose_python_case{1,2,3,4}_blocked_output_summary  ← TOP THEOREMS
+  ├─ quantize_global_transpose_real_surface_toAlgorithm_blocked        faithful surface is blocked at erasure (llrint)
+  └─ quantize_global_transpose_python_case{1..4}_compute_correct       per-Python-shape compute correctness
+       ├─ quantize_global_transpose_scaled_store_slice_compute_correct ← ComputeCorrect over the masked transposed store
+       │    └─ quantize_global_transpose_scaled_store_slice_correct    ← algorithm-layer readback per tile lane
+       └─ quantize_global_transpose_python_case{1,2,3,4}_offset_injective  output-address injectivity per shape
+```
+
+The pre-rounding spec is `scale127 · (a · absmax_inv)` per lane
+(`quantTransposeScaledSpec`); inputs are read from `BlockState` memory.
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float); `@triton.autotune` /
+`num_warps` are not modeled. The **faithful surface**
+(`quantize_global_transpose_real_surface`) is *blocked* at algorithm erasure: the
+CUDA `tl.extra.cuda.libdevice.llrint` rounding and int8 cast are outside
+VeriTile's real-tile arithmetic layer, so `toAlgorithm?` returns `Except.error`.
+What is positively verified is the pre-rounding *scaled-store slice*: the masked
+transposed writeback of `scale127 · (a · absmax_inv)`, including output-address
+injectivity for the four Python test shapes. The `llrint` rounding / int8 cast
+itself is the honest blocker, recorded in each summary. Python's returned
+`absmax` is computed on the host before the kernel and is outside this store
+proof.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.QuantTransposeKernel
 
 open VeriTile.Triton
@@ -40,6 +87,18 @@ def quantize_global_transpose_real_surface
   output = tl.extra.cuda.libdevice.llrint(127.0 * (a * absmax_inv))
   tl.store(B, output, mask=mask)
 }
+
+/-- The faithful quantize-global-transpose surface is blocked at algorithm
+erasure by the CUDA `llrint` rounding operation. The scaled-store slice below
+proves the real-valued expression before backend-specific rounding/cast. -/
+theorem quantize_global_transpose_real_surface_toAlgorithm_blocked
+    (A AbsmaxInv B : RegionName)
+    (stride_am stride_an stride_bn stride_bm M N BLOCK_M BLOCK_N GROUP_M : Nat) :
+    ∃ err,
+      (quantize_global_transpose_real_surface A AbsmaxInv B stride_am stride_an
+        stride_bn stride_bm M N BLOCK_M BLOCK_N GROUP_M).toAlgorithm? =
+        Except.error err := by
+  simp [quantize_global_transpose_real_surface, ComputeExpr.toAlgorithm?]
 
 /-- Proof-oriented scaled-store tile slice of `quant_transpose_kernel.py`'s
 `_quantize_global_transpose`.
@@ -124,7 +183,7 @@ theorem quantize_global_transpose_scaled_store_slice_correct
           else s.readMem B outAddr) := by
   intro idx
   simp [exec, quantize_global_transpose_scaled_store_slice, stepStmts, stepStmt,
-        evalOp, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
+        evalOp, evalOp.eq_def, Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
         Tile.ptrAdd, NumericDType.add, NumericDType.mul, ComparableDType.lt,
         rowIndex, colIndex, aOffset, bOffset, TileShape.dropInsertedIndex]
   let offsetFn : TileIndex [BLOCK_M, BLOCK_N] → Nat :=
@@ -194,5 +253,182 @@ theorem quantize_global_transpose_scaled_store_slice_compute_correct
     s hOutInj idx
   rw [hExec] at h
   simpa [hActive] using Option.some.inj h
+
+theorem quantize_global_transpose_python_case1_offset_injective
+    (s : BlockState) :
+    Function.Injective
+      (fun idx : TileIndex [128, 128] => bOffset s 1 128 128 128 idx) := by
+  rintro ⟨⟨ra, hra⟩, ⟨ca, hca⟩, _⟩ ⟨⟨rb, hrb⟩, ⟨cb, hcb⟩, _⟩ h
+  simp [bOffset, rowIndex, colIndex] at h
+  have hr : ra = rb := by omega
+  have hc : ca = cb := by omega
+  subst rb
+  subst cb
+  rfl
+
+theorem quantize_global_transpose_python_case2_case4_offset_injective
+    (s : BlockState) :
+    Function.Injective
+      (fun idx : TileIndex [128, 128] => bOffset s 1 256 128 128 idx) := by
+  rintro ⟨⟨ra, hra⟩, ⟨ca, hca⟩, _⟩ ⟨⟨rb, hrb⟩, ⟨cb, hcb⟩, _⟩ h
+  simp [bOffset, rowIndex, colIndex] at h
+  have hr : ra = rb := by omega
+  have hc : ca = cb := by omega
+  subst rb
+  subst cb
+  rfl
+
+theorem quantize_global_transpose_python_case3_offset_injective
+    (s : BlockState) :
+    Function.Injective
+      (fun idx : TileIndex [128, 128] => bOffset s 1 512 128 128 idx) := by
+  rintro ⟨⟨ra, hra⟩, ⟨ca, hca⟩, _⟩ ⟨⟨rb, hrb⟩, ⟨cb, hcb⟩, _⟩ h
+  simp [bOffset, rowIndex, colIndex] at h
+  have hr : ra = rb := by omega
+  have hc : ca = cb := by omega
+  subst rb
+  subst cb
+  rfl
+
+theorem quantize_global_transpose_python_case1_compute_correct
+    (A AbsmaxInv B : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := quantize_global_transpose_scaled_store_slice A AbsmaxInv B
+        256 1 128 1 128 256 128 128 127.0)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 128 256 128 128)
+        (fun idx => (B, bOffset s 1 128 128 128 idx)))
+      (expected := fun idx =>
+        quantTransposeScaledSpec s A AbsmaxInv 256 1 128 128 127.0 idx) := by
+  exact quantize_global_transpose_scaled_store_slice_compute_correct A AbsmaxInv B
+    256 1 128 1 128 256 128 128 127.0 s
+    (quantize_global_transpose_python_case1_offset_injective s)
+
+theorem quantize_global_transpose_python_case2_compute_correct
+    (A AbsmaxInv B : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := quantize_global_transpose_scaled_store_slice A AbsmaxInv B
+        128 1 256 1 256 128 128 128 127.0)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 256 128 128 128)
+        (fun idx => (B, bOffset s 1 256 128 128 idx)))
+      (expected := fun idx =>
+        quantTransposeScaledSpec s A AbsmaxInv 128 1 128 128 127.0 idx) := by
+  exact quantize_global_transpose_scaled_store_slice_compute_correct A AbsmaxInv B
+    128 1 256 1 256 128 128 128 127.0 s
+    (quantize_global_transpose_python_case2_case4_offset_injective s)
+
+theorem quantize_global_transpose_python_case3_compute_correct
+    (A AbsmaxInv B : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := quantize_global_transpose_scaled_store_slice A AbsmaxInv B
+        256 1 512 1 512 256 128 128 127.0)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 512 256 128 128)
+        (fun idx => (B, bOffset s 1 512 128 128 idx)))
+      (expected := fun idx =>
+        quantTransposeScaledSpec s A AbsmaxInv 256 1 128 128 127.0 idx) := by
+  exact quantize_global_transpose_scaled_store_slice_compute_correct A AbsmaxInv B
+    256 1 512 1 512 256 128 128 127.0 s
+    (quantize_global_transpose_python_case3_offset_injective s)
+
+theorem quantize_global_transpose_python_case4_compute_correct
+    (A AbsmaxInv B : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := quantize_global_transpose_scaled_store_slice A AbsmaxInv B
+        512 1 256 1 256 512 128 128 127.0)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 256 512 128 128)
+        (fun idx => (B, bOffset s 1 256 128 128 idx)))
+      (expected := fun idx =>
+        quantTransposeScaledSpec s A AbsmaxInv 512 1 128 128 127.0 idx) := by
+  exact quantize_global_transpose_scaled_store_slice_compute_correct A AbsmaxInv B
+    512 1 256 1 256 512 128 128 127.0 s
+    (quantize_global_transpose_python_case2_case4_offset_injective s)
+
+/-- Public Python case-1 summary for `_quantize_global_transpose`.
+
+The faithful surface uses CUDA `llrint`, so the summary records algorithm
+projection as blocked and pairs it with the checked pre-rounding scaled-store
+slice. Python's returned `absmax` is computed before the Triton kernel and is
+outside this store proof. -/
+theorem quantize_global_transpose_python_case1_blocked_output_summary
+    (A AbsmaxInv B : RegionName) (s : BlockState) :
+    (∃ err, (quantize_global_transpose_real_surface A AbsmaxInv B
+      256 1 128 1 128 256 128 128 8).toAlgorithm? = Except.error err) ∧
+    ComputeCorrect.Realizes
+      (kernel := quantize_global_transpose_scaled_store_slice A AbsmaxInv B
+        256 1 128 1 128 256 128 128 127.0)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 128 256 128 128)
+        (fun idx => (B, bOffset s 1 128 128 128 idx)))
+      (expected := fun idx =>
+        quantTransposeScaledSpec s A AbsmaxInv 256 1 128 128 127.0 idx) := by
+  constructor
+  · exact quantize_global_transpose_real_surface_toAlgorithm_blocked
+      A AbsmaxInv B 256 1 128 1 128 256 128 128 8
+  · exact quantize_global_transpose_python_case1_compute_correct A AbsmaxInv B s
+
+/-- Public Python case-2 summary for `_quantize_global_transpose`. -/
+theorem quantize_global_transpose_python_case2_blocked_output_summary
+    (A AbsmaxInv B : RegionName) (s : BlockState) :
+    (∃ err, (quantize_global_transpose_real_surface A AbsmaxInv B
+      128 1 256 1 256 128 128 128 8).toAlgorithm? = Except.error err) ∧
+    ComputeCorrect.Realizes
+      (kernel := quantize_global_transpose_scaled_store_slice A AbsmaxInv B
+        128 1 256 1 256 128 128 128 127.0)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 256 128 128 128)
+        (fun idx => (B, bOffset s 1 256 128 128 idx)))
+      (expected := fun idx =>
+        quantTransposeScaledSpec s A AbsmaxInv 128 1 128 128 127.0 idx) := by
+  constructor
+  · exact quantize_global_transpose_real_surface_toAlgorithm_blocked
+      A AbsmaxInv B 128 1 256 1 256 128 128 128 8
+  · exact quantize_global_transpose_python_case2_compute_correct A AbsmaxInv B s
+
+/-- Public Python case-3 summary for `_quantize_global_transpose`. -/
+theorem quantize_global_transpose_python_case3_blocked_output_summary
+    (A AbsmaxInv B : RegionName) (s : BlockState) :
+    (∃ err, (quantize_global_transpose_real_surface A AbsmaxInv B
+      256 1 512 1 512 256 128 128 8).toAlgorithm? = Except.error err) ∧
+    ComputeCorrect.Realizes
+      (kernel := quantize_global_transpose_scaled_store_slice A AbsmaxInv B
+        256 1 512 1 512 256 128 128 127.0)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 512 256 128 128)
+        (fun idx => (B, bOffset s 1 512 128 128 idx)))
+      (expected := fun idx =>
+        quantTransposeScaledSpec s A AbsmaxInv 256 1 128 128 127.0 idx) := by
+  constructor
+  · exact quantize_global_transpose_real_surface_toAlgorithm_blocked
+      A AbsmaxInv B 256 1 512 1 512 256 128 128 8
+  · exact quantize_global_transpose_python_case3_compute_correct A AbsmaxInv B s
+
+/-- Public Python case-4 summary for `_quantize_global_transpose`. -/
+theorem quantize_global_transpose_python_case4_blocked_output_summary
+    (A AbsmaxInv B : RegionName) (s : BlockState) :
+    (∃ err, (quantize_global_transpose_real_surface A AbsmaxInv B
+      512 1 256 1 256 512 128 128 8).toAlgorithm? = Except.error err) ∧
+    ComputeCorrect.Realizes
+      (kernel := quantize_global_transpose_scaled_store_slice A AbsmaxInv B
+        512 1 256 1 256 512 128 128 127.0)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 256 512 128 128)
+        (fun idx => (B, bOffset s 1 256 128 128 idx)))
+      (expected := fun idx =>
+        quantTransposeScaledSpec s A AbsmaxInv 512 1 128 128 127.0 idx) := by
+  constructor
+  · exact quantize_global_transpose_real_surface_toAlgorithm_blocked
+      A AbsmaxInv B 512 1 256 1 256 512 128 128 8
+  · exact quantize_global_transpose_python_case4_compute_correct A AbsmaxInv B s
 
 end VeriTile.Bench.TritonBenchG.QuantTransposeKernel

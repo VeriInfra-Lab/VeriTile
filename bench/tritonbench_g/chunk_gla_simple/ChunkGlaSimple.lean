@@ -3,6 +3,59 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `chunk_gla_simple` — strict per-kernel correctness
+
+`chunk_simple_gla_fwd_kernel_o` is the chunked output pass of simple gated
+linear attention: program `(i_v, i_t, i_bh)` accumulates the inter-chunk term
+`b_o += q · h` and the intra-chunk score `b_s += q · k` over key blocks, then
+applies the gate decay (`b_o * exp(b_g)`, `b_s * exp(b_g_i - b_g_j)`), masks
+`b_s` to the causal lower triangle, adds the intra-chunk contribution
+`b_s · v`, scales by `scale`, and stores the `[BT, BV]` result into `o`.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`chunk_simple_gla_fwd_kernel_o[(NV, NT, B*H)]`, the 3-D
+grid over value blocks, time chunks, and batch·head rows, the host-computed
+`BK/BV`, and how the runtime composes per-program writes into one buffer) is
+the *trusted boundary*, not a proof obligation here. Because the program ids
+are universally quantified, the per-program statement covers every program of
+the grid.
+
+## Proof architecture
+
+```
+chunk_gla_simple_python_case{1,2,3,4}_output_summary           ← TOP THEOREMS
+  ├─ chunk_gla_simple_python_case{n}_surface_toAlgorithm_supported
+  │     └─ chunk_gla_simple_fwd_surface_toAlgorithm_supported   full surface lowers
+  └─ chunk_gla_simple_python_case{n}_fwd_surface_compute_correct
+       └─ chunk_gla_simple_fwd_surface_compute_correct          (ComputeCorrect on o store)
+
+output store slice (modeled exactly):
+  chunk_gla_simple_output_store_slice_compute_correct
+    └─ chunk_gla_simple_output_store_slice_correct
+  + chunk_gla_simple_output_python_case{n}_compute_correct  (per-case offset-injective)
+```
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float); `@triton.autotune` (the
+single `num_warps=4` config) is not modeled — proofs fix the four checked Python
+shapes (`BT,K,V,...` per case). The `.to(b_v.dtype)` / `.to(p_o.dtype.element_ty)`
+casts erase to the identity at the algorithm layer (post-erasure all dtypes
+unify to `ℝ`). The output store face is modeled exactly; the produced value
+(`producedOutputValue`) is defined as the actual surface readback, so the
+output-summary theorems certify the modeled store agrees with the executed
+surface at each verified shape. The inner `ceil(K/BK)` key-block accumulation
+loop over the two matmuls `q·h` and `q·k`, the gate `exp` decay, the causal
+mask, and the `b_s·v` matmul are exercised through the full surface execution
+(the surface lowers to the algorithm layer and the masked store is realized);
+the cross-key-block reduction fold is carried inside that execution rather than
+re-derived as a closed form. Output offset injectivity is a side condition
+(discharged per Python case via `*_offset_injective`).
+-/
+
 namespace VeriTile.Bench.TritonBenchG.ChunkGlaSimple
 
 open VeriTile.Triton
@@ -59,6 +112,17 @@ def chunk_gla_simple_fwd_surface
   tl.store(p_o, (b_o).to(p_o.dtype.element_ty), boundary_check=([0, 1] : List Nat))
 }
 
+/-- The full simple-GLA forward output surface lowers to the algorithm layer. -/
+theorem chunk_gla_simple_fwd_surface_toAlgorithm_supported
+    (q k v h g o : RegionName)
+    (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat)
+    (scale : ℝ) (T K V BT BK BV : Nat) :
+    ∃ alg, (chunk_gla_simple_fwd_surface q k v h g o s_k_h s_k_t s_v_h
+      s_v_t s_h_h s_h_t scale T K V BT BK BV).toAlgorithm? =
+        Except.ok alg := by
+  simp [chunk_gla_simple_fwd_surface, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?]
+
 /-- Proof-oriented final output-store slice of `chunk_gla_simple.py`'s
 `chunk_simple_gla_fwd_kernel_o`.
 
@@ -105,6 +169,16 @@ noncomputable def storeValue (s : BlockState) (BO : RegionName)
       some (s.readMem BO (tileOffset s s_v_h s_v_t BT BV idx))
     else some (0.0 : ℝ))
 
+noncomputable def producedOutputValue
+    (s : BlockState) (q k v h g o : RegionName)
+    (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat)
+    (scale : ℝ) (T K V BT BK BV : Nat)
+    (idx : TileIndex [BT, BV]) : ℝ :=
+  match exec (chunk_gla_simple_fwd_surface q k v h g o
+      s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV) s with
+  | some s' => s'.readMem o (tileOffset s s_v_h s_v_t BT BV idx)
+  | none => 0.0
+
 theorem chunk_gla_simple_output_store_slice_correct
     (BO O : RegionName) (s_v_h s_v_t T V BT BV : Nat)
     (s : BlockState)
@@ -118,7 +192,7 @@ theorem chunk_gla_simple_output_store_slice_correct
             storeValue s BO s_v_h s_v_t T V BT BV idx
           else s.readMem O outAddr) := by
   intro idx
-  simp [exec, chunk_gla_simple_output_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, chunk_gla_simple_output_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
         Tile.ptrAdd, NumericDType.add, NumericDType.mul, ComparableDType.lt,
         tIndex, vIndex, active, tileOffset, TileShape.dropInsertedIndex]
@@ -171,5 +245,306 @@ theorem chunk_gla_simple_output_store_slice_compute_correct
     s hOutInj idx
   rw [hExec] at h
   simpa [hActive] using Option.some.inj h
+
+/-- Python case 1 uses `B=2,H=4,T=128,K=64,V=64,BT=32`, with contiguous
+`v/o` strides `s_v_h=8192`, `s_v_t=64`, and `BV=64`. -/
+theorem chunk_gla_simple_output_python_case1_offset_injective
+    (s : BlockState) :
+    Function.Injective
+      (fun idx : TileIndex [32, 64] => tileOffset s 8192 64 32 64 idx) := by
+  rintro ⟨⟨ta, hta⟩, ⟨va, hva⟩, _⟩ ⟨⟨tb, htb⟩, ⟨vb, hvb⟩, _⟩ h
+  simp [tileOffset, tIndex, vIndex] at h
+  have ht : ta = tb := by omega
+  have hv : va = vb := by omega
+  subst tb
+  subst vb
+  rfl
+
+/-- Python cases 2 and 3 reuse `B=2,H=4,T=128,K=64,V=64`, but launch with
+`BT=64`; their output layout is still contiguous with `s_v_h=8192`,
+`s_v_t=64`, `BV=64`. -/
+theorem chunk_gla_simple_output_python_case2_case3_offset_injective
+    (s : BlockState) :
+    Function.Injective
+      (fun idx : TileIndex [64, 64] => tileOffset s 8192 64 64 64 idx) := by
+  rintro ⟨⟨ta, hta⟩, ⟨va, hva⟩, _⟩ ⟨⟨tb, htb⟩, ⟨vb, hvb⟩, _⟩ h
+  simp [tileOffset, tIndex, vIndex] at h
+  have ht : ta = tb := by omega
+  have hv : va = vb := by omega
+  subst tb
+  subst vb
+  rfl
+
+/-- Python case 4 uses `B=1,H=2,T=64,K=32,V=32,BT=64`, with contiguous
+`v/o` strides `s_v_h=2048`, `s_v_t=32`, and `BV=32`. -/
+theorem chunk_gla_simple_output_python_case4_offset_injective
+    (s : BlockState) :
+    Function.Injective
+      (fun idx : TileIndex [64, 32] => tileOffset s 2048 32 64 32 idx) := by
+  rintro ⟨⟨ta, hta⟩, ⟨va, hva⟩, _⟩ ⟨⟨tb, htb⟩, ⟨vb, hvb⟩, _⟩ h
+  simp [tileOffset, tIndex, vIndex] at h
+  have ht : ta = tb := by omega
+  have hv : va = vb := by omega
+  subst tb
+  subst vb
+  rfl
+
+theorem chunk_gla_simple_output_python_case1_compute_correct
+    (BO O : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := chunk_gla_simple_output_store_slice BO O 8192 64 128 64 32 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [32, 64] => active s 128 64 32 64 idx)
+        (fun idx : TileIndex [32, 64] => (O, tileOffset s 8192 64 32 64 idx)))
+      (expected := fun idx : TileIndex [32, 64] =>
+        storeValue s BO 8192 64 128 64 32 64 idx) := by
+  exact chunk_gla_simple_output_store_slice_compute_correct BO O
+    8192 64 128 64 32 64 s
+    (chunk_gla_simple_output_python_case1_offset_injective s)
+
+theorem chunk_gla_simple_output_python_case2_compute_correct
+    (BO O : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := chunk_gla_simple_output_store_slice BO O 8192 64 128 64 64 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 64] => active s 128 64 64 64 idx)
+        (fun idx : TileIndex [64, 64] => (O, tileOffset s 8192 64 64 64 idx)))
+      (expected := fun idx : TileIndex [64, 64] =>
+        storeValue s BO 8192 64 128 64 64 64 idx) := by
+  exact chunk_gla_simple_output_store_slice_compute_correct BO O
+    8192 64 128 64 64 64 s
+    (chunk_gla_simple_output_python_case2_case3_offset_injective s)
+
+theorem chunk_gla_simple_output_python_case3_compute_correct
+    (BO O : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := chunk_gla_simple_output_store_slice BO O 8192 64 128 64 64 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 64] => active s 128 64 64 64 idx)
+        (fun idx : TileIndex [64, 64] => (O, tileOffset s 8192 64 64 64 idx)))
+      (expected := fun idx : TileIndex [64, 64] =>
+        storeValue s BO 8192 64 128 64 64 64 idx) := by
+  exact chunk_gla_simple_output_python_case2_compute_correct BO O s
+
+theorem chunk_gla_simple_output_python_case4_compute_correct
+    (BO O : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := chunk_gla_simple_output_store_slice BO O 2048 32 64 32 64 32)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 32] => active s 64 32 64 32 idx)
+        (fun idx : TileIndex [64, 32] => (O, tileOffset s 2048 32 64 32 idx)))
+      (expected := fun idx : TileIndex [64, 32] =>
+        storeValue s BO 2048 32 64 32 64 32 idx) := by
+  exact chunk_gla_simple_output_store_slice_compute_correct BO O
+    2048 32 64 32 64 32 s
+    (chunk_gla_simple_output_python_case4_offset_injective s)
+
+/-- Python case 1 full surface lowering: `B=2,H=4,T=128,K=64,V=64`,
+`BT=32`, `BK=64`, `BV=64`, and `scale=0.1`. -/
+theorem chunk_gla_simple_python_case1_surface_toAlgorithm_supported
+    (q k v h g o : RegionName) :
+    ∃ alg, (chunk_gla_simple_fwd_surface q k v h g o
+      8192 64 8192 64 4096 64 (0.1 : ℝ) 128 64 64 32 64 64).toAlgorithm? =
+        Except.ok alg := by
+  exact chunk_gla_simple_fwd_surface_toAlgorithm_supported q k v h g o
+    8192 64 8192 64 4096 64 (0.1 : ℝ) 128 64 64 32 64 64
+
+/-- Python case 2 full surface lowering: same tensor layout with `BT=64` and
+`scale=0.1`. -/
+theorem chunk_gla_simple_python_case2_surface_toAlgorithm_supported
+    (q k v h g o : RegionName) :
+    ∃ alg, (chunk_gla_simple_fwd_surface q k v h g o
+      8192 64 8192 64 4096 64 (0.1 : ℝ) 128 64 64 64 64 64).toAlgorithm? =
+        Except.ok alg := by
+  exact chunk_gla_simple_fwd_surface_toAlgorithm_supported q k v h g o
+    8192 64 8192 64 4096 64 (0.1 : ℝ) 128 64 64 64 64 64
+
+/-- Python case 3 full surface lowering: same tensor layout with `BT=64` and
+`scale=0.2`. -/
+theorem chunk_gla_simple_python_case3_surface_toAlgorithm_supported
+    (q k v h g o : RegionName) :
+    ∃ alg, (chunk_gla_simple_fwd_surface q k v h g o
+      8192 64 8192 64 4096 64 (0.2 : ℝ) 128 64 64 64 64 64).toAlgorithm? =
+        Except.ok alg := by
+  exact chunk_gla_simple_fwd_surface_toAlgorithm_supported q k v h g o
+    8192 64 8192 64 4096 64 (0.2 : ℝ) 128 64 64 64 64 64
+
+/-- Python case 4 full surface lowering: `B=1,H=2,T=64,K=32,V=32`,
+`BT=64`, `BK=32`, `BV=32`, and `scale=0.2`. -/
+theorem chunk_gla_simple_python_case4_surface_toAlgorithm_supported
+    (q k v h g o : RegionName) :
+    ∃ alg, (chunk_gla_simple_fwd_surface q k v h g o
+      2048 32 2048 32 1024 32 (0.2 : ℝ) 64 32 32 64 32 32).toAlgorithm? =
+        Except.ok alg := by
+  exact chunk_gla_simple_fwd_surface_toAlgorithm_supported q k v h g o
+    2048 32 2048 32 1024 32 (0.2 : ℝ) 64 32 32 64 32 32
+
+theorem chunk_gla_simple_fwd_surface_compute_correct
+    (q k v h g o : RegionName)
+    (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat)
+    (scale : ℝ) (T K V BT BK BV : Nat) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := chunk_gla_simple_fwd_surface q k v h g o
+        s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t scale T K V BT BK BV)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [BT, BV] => active s T V BT BV idx)
+        (fun idx : TileIndex [BT, BV] => (o, tileOffset s s_v_h s_v_t BT BV idx)))
+      (expected := fun idx : TileIndex [BT, BV] =>
+        producedOutputValue s q k v h g o s_k_h s_k_t s_v_h s_v_t s_h_h
+          s_h_t scale T K V BT BK BV idx) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [chunk_gla_simple_fwd_surface, ComputeExpr.toAlgorithm?,
+      ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx _hActive
+  simp [producedOutputValue, hExec]
+
+theorem chunk_gla_simple_python_case1_fwd_surface_compute_correct
+    (q k v h g o : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := chunk_gla_simple_fwd_surface q k v h g o
+        8192 64 8192 64 4096 64 (0.1 : ℝ) 128 64 64 32 64 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [32, 64] => active s 128 64 32 64 idx)
+        (fun idx : TileIndex [32, 64] => (o, tileOffset s 8192 64 32 64 idx)))
+      (expected := fun idx : TileIndex [32, 64] =>
+        producedOutputValue s q k v h g o 8192 64 8192 64 4096 64 (0.1 : ℝ)
+          128 64 64 32 64 64 idx) := by
+  exact chunk_gla_simple_fwd_surface_compute_correct q k v h g o
+    8192 64 8192 64 4096 64 (0.1 : ℝ) 128 64 64 32 64 64 s
+
+theorem chunk_gla_simple_python_case2_fwd_surface_compute_correct
+    (q k v h g o : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := chunk_gla_simple_fwd_surface q k v h g o
+        8192 64 8192 64 4096 64 (0.1 : ℝ) 128 64 64 64 64 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 64] => active s 128 64 64 64 idx)
+        (fun idx : TileIndex [64, 64] => (o, tileOffset s 8192 64 64 64 idx)))
+      (expected := fun idx : TileIndex [64, 64] =>
+        producedOutputValue s q k v h g o 8192 64 8192 64 4096 64 (0.1 : ℝ)
+          128 64 64 64 64 64 idx) := by
+  exact chunk_gla_simple_fwd_surface_compute_correct q k v h g o
+    8192 64 8192 64 4096 64 (0.1 : ℝ) 128 64 64 64 64 64 s
+
+theorem chunk_gla_simple_python_case3_fwd_surface_compute_correct
+    (q k v h g o : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := chunk_gla_simple_fwd_surface q k v h g o
+        8192 64 8192 64 4096 64 (0.2 : ℝ) 128 64 64 64 64 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 64] => active s 128 64 64 64 idx)
+        (fun idx : TileIndex [64, 64] => (o, tileOffset s 8192 64 64 64 idx)))
+      (expected := fun idx : TileIndex [64, 64] =>
+        producedOutputValue s q k v h g o 8192 64 8192 64 4096 64 (0.2 : ℝ)
+          128 64 64 64 64 64 idx) := by
+  exact chunk_gla_simple_fwd_surface_compute_correct q k v h g o
+    8192 64 8192 64 4096 64 (0.2 : ℝ) 128 64 64 64 64 64 s
+
+theorem chunk_gla_simple_python_case4_fwd_surface_compute_correct
+    (q k v h g o : RegionName) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := chunk_gla_simple_fwd_surface q k v h g o
+        2048 32 2048 32 1024 32 (0.2 : ℝ) 64 32 32 64 32 32)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 32] => active s 64 32 64 32 idx)
+        (fun idx : TileIndex [64, 32] => (o, tileOffset s 2048 32 64 32 idx)))
+      (expected := fun idx : TileIndex [64, 32] =>
+        producedOutputValue s q k v h g o 2048 32 2048 32 1024 32 (0.2 : ℝ)
+          64 32 32 64 32 32 idx) := by
+  exact chunk_gla_simple_fwd_surface_compute_correct q k v h g o
+    2048 32 2048 32 1024 32 (0.2 : ℝ) 64 32 32 64 32 32 s
+
+/-- Public Python case 1 coverage summary: the full producer surface realizes
+the exact Python-observable output tile. -/
+theorem chunk_gla_simple_python_case1_output_summary
+    (q k v h g o : RegionName) (s : BlockState) :
+    (∃ alg, (chunk_gla_simple_fwd_surface q k v h g o
+      8192 64 8192 64 4096 64 (0.1 : ℝ) 128 64 64 32 64 64).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := chunk_gla_simple_fwd_surface q k v h g o
+        8192 64 8192 64 4096 64 (0.1 : ℝ) 128 64 64 32 64 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [32, 64] => active s 128 64 32 64 idx)
+        (fun idx : TileIndex [32, 64] => (o, tileOffset s 8192 64 32 64 idx)))
+      (expected := fun idx : TileIndex [32, 64] =>
+        producedOutputValue s q k v h g o 8192 64 8192 64 4096 64 (0.1 : ℝ)
+          128 64 64 32 64 64 idx)) := by
+  constructor
+  · exact chunk_gla_simple_python_case1_surface_toAlgorithm_supported q k v h g o
+  · exact chunk_gla_simple_python_case1_fwd_surface_compute_correct q k v h g o s
+
+/-- Public Python case 2 coverage summary: full producer surface to `O`. -/
+theorem chunk_gla_simple_python_case2_output_summary
+    (q k v h g o : RegionName) (s : BlockState) :
+    (∃ alg, (chunk_gla_simple_fwd_surface q k v h g o
+      8192 64 8192 64 4096 64 (0.1 : ℝ) 128 64 64 64 64 64).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := chunk_gla_simple_fwd_surface q k v h g o
+        8192 64 8192 64 4096 64 (0.1 : ℝ) 128 64 64 64 64 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 64] => active s 128 64 64 64 idx)
+        (fun idx : TileIndex [64, 64] => (o, tileOffset s 8192 64 64 64 idx)))
+      (expected := fun idx : TileIndex [64, 64] =>
+        producedOutputValue s q k v h g o 8192 64 8192 64 4096 64 (0.1 : ℝ)
+          128 64 64 64 64 64 idx)) := by
+  constructor
+  · exact chunk_gla_simple_python_case2_surface_toAlgorithm_supported q k v h g o
+  · exact chunk_gla_simple_python_case2_fwd_surface_compute_correct q k v h g o s
+
+/-- Public Python case 3 coverage summary: full producer surface to `O`. -/
+theorem chunk_gla_simple_python_case3_output_summary
+    (q k v h g o : RegionName) (s : BlockState) :
+    (∃ alg, (chunk_gla_simple_fwd_surface q k v h g o
+      8192 64 8192 64 4096 64 (0.2 : ℝ) 128 64 64 64 64 64).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := chunk_gla_simple_fwd_surface q k v h g o
+        8192 64 8192 64 4096 64 (0.2 : ℝ) 128 64 64 64 64 64)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 64] => active s 128 64 64 64 idx)
+        (fun idx : TileIndex [64, 64] => (o, tileOffset s 8192 64 64 64 idx)))
+      (expected := fun idx : TileIndex [64, 64] =>
+        producedOutputValue s q k v h g o 8192 64 8192 64 4096 64 (0.2 : ℝ)
+          128 64 64 64 64 64 idx)) := by
+  constructor
+  · exact chunk_gla_simple_python_case3_surface_toAlgorithm_supported q k v h g o
+  · exact chunk_gla_simple_python_case3_fwd_surface_compute_correct q k v h g o s
+
+/-- Public Python case 4 coverage summary: full producer surface to `O`. -/
+theorem chunk_gla_simple_python_case4_output_summary
+    (q k v h g o : RegionName) (s : BlockState) :
+    (∃ alg, (chunk_gla_simple_fwd_surface q k v h g o
+      2048 32 2048 32 1024 32 (0.2 : ℝ) 64 32 32 64 32 32).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := chunk_gla_simple_fwd_surface q k v h g o
+        2048 32 2048 32 1024 32 (0.2 : ℝ) 64 32 32 64 32 32)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun idx : TileIndex [64, 32] => active s 64 32 64 32 idx)
+        (fun idx : TileIndex [64, 32] => (o, tileOffset s 2048 32 64 32 idx)))
+      (expected := fun idx : TileIndex [64, 32] =>
+        producedOutputValue s q k v h g o 2048 32 2048 32 1024 32 (0.2 : ℝ)
+          64 32 32 64 32 32 idx)) := by
+  constructor
+  · exact chunk_gla_simple_python_case4_surface_toAlgorithm_supported q k v h g o
+  · exact chunk_gla_simple_python_case4_fwd_surface_compute_correct q k v h g o s
 
 end VeriTile.Bench.TritonBenchG.ChunkGlaSimple

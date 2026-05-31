@@ -3,6 +3,58 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `cross_entropy2` — strict per-kernel correctness
+
+`cross_entropy_fwd_kernel` computes, per `(row_idx, col_block_idx)` program, the
+block log-sum-exp of the `logit_scale`-scaled logits row (with optional label
+smoothing and an optional `SPLIT`/tensor-parallel mode), stores the LSE side
+output, selects the per-row cross-entropy loss for the label in this column
+block, adds an optional `lse_square_scale·lse²` z-loss term (also stored to
+`z_loss_ptr` when not split), and stores the loss. The companion
+`cross_entropy_bwd_kernel` writes `dlogits = (dloss·logit_scale)·probs`.
+
+## Scope
+
+This file verifies **the Triton kernels themselves** — the per-program
+`@triton.jit` bodies. The host launch (the grid `(n_rows, cdiv(n_cols,
+BLOCK_SIZE))`, scheduling, and how the runtime composes per-program writes /
+reduces the per-block LSE/z-loss side outputs across column blocks) is the
+*trusted boundary*. Because `row_idx`/`col_block_idx` are universally
+quantified, the per-program statements cover every program of the grid.
+
+## Proof architecture
+
+```
+cross_entropy_fwd_surface_toAlgorithm_supported        ← full fwd surface lowers
+cross_entropy_bwd_store_slice_compute_correct          ← masked (dloss·scale)·probs
+  └─ cross_entropy_bwd_store_slice_correct
+cross_entropy_lse_store_slice_compute_correct          ← scalar LSE writeback
+  └─ cross_entropy_lse_store_slice_correct
+cross_entropy_loss_store_slice_compute_correct         ← scalar loss writeback
+  └─ cross_entropy_loss_store_slice_correct
+cross_entropy_z_loss_store_slice_compute_correct       ← scalar z-loss writeback
+  └─ cross_entropy_z_loss_store_slice_correct
+```
+
+The full forward kernel is proved only to *lower* to the algorithm layer
+(`toAlgorithm? = Except.ok _`); its end-to-end value spec is **not** discharged,
+so no per-kernel `output_summary` is asserted. The discharged ComputeCorrect
+results are the proof-oriented store *slices* (precomputed
+`Probs`/`LsePre`/`LossPre`/`ZLossPre` tiles → masked or scalar writeback).
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float); `@triton.heuristics`
+(`HAS_SMOOTHING`) and `@triton.autotune` are not modeled (`HAS_SMOOTHING`/`SPLIT`
+are plain `Bool` parameters). The `.to(tl.float32)`/`.to(tl.int64)` casts erase
+to identity at the algorithm layer. The forward LSE uses
+`other = -float("inf")` for out-of-block lanes. The masked `dlogits` store leaves
+inactive lanes (`col_offsets ≥ n_cols`) untouched and assumes the per-tile output
+offset is injective. The spec is built inline; it does not reference a
+`VeriTile.Triton.Math.*` oracle.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.CrossEntropy2
 
 open VeriTile.Triton
@@ -71,6 +123,22 @@ def cross_entropy_fwd_surface
     tl.store(z_loss_ptr + col_block_idx * $(n_rows) + row_idx, z_loss)
   }
 }
+
+/-- The faithful full forward surface lowers to the algorithm layer, including
+the smoothing, split, ignored-label, LSE/z-loss side-store branches. -/
+theorem cross_entropy_fwd_surface_toAlgorithm_supported
+    (loss_ptr lse_ptr z_loss_ptr logits_ptr : RegionName) (labels_ptr : Region .int)
+    (smoothing logit_scale lse_square_scale : ℝ)
+    (ignored_index : Int)
+    (total_classes : Nat) (class_start_idx : Int)
+    (n_cols n_rows logits_row_stride BLOCK_SIZE : Nat)
+    (HAS_SMOOTHING SPLIT : Bool) :
+    ∃ alg,
+      (cross_entropy_fwd_surface loss_ptr lse_ptr z_loss_ptr logits_ptr labels_ptr
+        smoothing logit_scale lse_square_scale ignored_index total_classes
+        class_start_idx n_cols n_rows logits_row_stride BLOCK_SIZE
+        HAS_SMOOTHING SPLIT).toAlgorithm? = Except.ok alg := by
+  simp [cross_entropy_fwd_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
 
 /-- Proof-oriented final-store slice of `cross_entropy2.py`'s
 `cross_entropy_bwd_kernel`.
@@ -153,7 +221,7 @@ theorem cross_entropy_bwd_store_slice_correct
     simp only at hab
     cases hab
     rfl
-  simp [exec, cross_entropy_bwd_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, cross_entropy_bwd_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.ptrAdd, NumericDType.add,
         NumericDType.mul, ComparableDType.lt] at hExec
   rw [← hExec]
@@ -215,7 +283,7 @@ theorem cross_entropy_lse_store_slice_correct
     (hExec : exec (cross_entropy_lse_store_slice LsePre lse_ptr n_rows) s = some s') :
     s'.readMem lse_ptr (lseOutOffset s n_rows) =
       lseStoreSpec s LsePre n_rows := by
-  simp [exec, cross_entropy_lse_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, cross_entropy_lse_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd,
         NumericDType.add, NumericDType.mul] at hExec
   subst s'
@@ -257,7 +325,7 @@ theorem cross_entropy_loss_store_slice_correct
       s = some s') :
     s'.readMem loss_ptr (lseOutOffset s n_rows) =
       lossStoreSpec s LossPre n_rows := by
-  simp [exec, cross_entropy_loss_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, cross_entropy_loss_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd,
         NumericDType.add, NumericDType.mul] at hExec
   subst s'
@@ -299,7 +367,7 @@ theorem cross_entropy_z_loss_store_slice_correct
       s = some s') :
     s'.readMem z_loss_ptr (lseOutOffset s n_rows) =
       zLossStoreSpec s ZLossPre n_rows := by
-  simp [exec, cross_entropy_z_loss_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, cross_entropy_z_loss_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd,
         NumericDType.add, NumericDType.mul] at hExec
   subst s'

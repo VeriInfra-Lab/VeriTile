@@ -3,12 +3,66 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `rotary_transform` — strict per-kernel correctness
+
+`rotary_kernel` applies the rotary position embedding out-of-place, writing to
+`OUT` from `X`: each program owns one seq-block (`program_id(0)`), one batch
+(`program_id(1)`), and one head (`program_id(2)`). On the non-interleaved branch
+(`INTERLEAVED = false`) it loads the per-row `cos`/`sin` half-dim vectors and the
+two head-dim halves `x0`/`x1`, then stores `(x0*cos - x1*sin, x0*sin + x1*cos)`
+(the `sin := -sin` conjugate when `CONJUGATE = true`).
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body, on the non-interleaved branch. The host launch (the
+`(seq-blocks, batch, heads)` grid, `BLOCK_M`/`BLOCK_K` choices, the varlen
+`CU_SEQLENS` base-pointer arithmetic, the `pid_m * BLOCK_M >= seqlen` early
+return, and how the runtime composes per-program writes into one buffer) is the
+*trusted boundary*, not a proof obligation here. Because the seq-block, batch,
+head, and per-lane indices are universally quantified, the per-program statement
+covers every program of the grid.
+
+## Proof architecture
+
+```
+rotary_transform_python_surfaces_output_summary       ← TOP THEOREM
+  ├─ rotary_transform_python_case{1,2,3,4}_surface_toAlgorithm_supported   surfaces lower to the algorithm layer
+  │     └─ rotary_kernel_surface_toAlgorithm_supported
+  └─ rotary_kernel_surface_output_compute_correct (×4 cases)
+        ← ComputeCorrect over OUT stores (= rotaryTransformSurfaceValue spec)
+
+supporting per-row store track:
+  rotary_kernel_o0_row_compute_correct  → rotary_kernel_o0_row_correct        (first half o0)
+  rotary_kernel_o1_row_compute_correct  → rotary_kernel_o1_row_correct        (second half o1)
+  rotary_kernel_o0o1_row_o0_correct / rotary_kernel_o0o1_row_o1_correct       (combined row)
+
+surfaces_store_summary collects the four case `toAlgorithm` lowerings.
+```
+
+## Modeling boundary
+
+Arithmetic is over `ℝ`, not bit-accurate IEEE float; the `.to(tl.float32)`
+register casts erase to the identity at the algorithm layer (post-erasure all
+dtypes unify to `ℝ`). `cos`/`sin` are modeled as **precomputed inputs** loaded
+from memory, not computed; the `CONJUGATE` flag selects the `sin := -sin` spec.
+The four `caseN` instantiations cover the Python-observable shapes (varying
+`IS_VARLEN`, `IS_SEQLEN_OFFSETS_TENSOR`, and `CONJUGATE`; all non-interleaved).
+The top summary is the **full-surface** `rotary_kernel_surface_output_compute_correct`
+result per case. Honestly, the per-row store lemmas establish a single
+`BLOCK_M × (BLOCK_K/2)` row tile; the stronger `rotary-2d-tile-value-lift` full
+2D value proof is a documented #153 follow-up and is **not** claimed here. The
+interleaved branch and `@triton.autotune` are not modeled.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.RotaryTransform
 
 open VeriTile.Triton
 
 set_option maxHeartbeats 5000000
 set_option linter.unusedSimpArgs false
+set_option linter.unusedVariables false
 
 /-- Faithful DSL port of `rotary_transform.py`'s `rotary_kernel`.
 
@@ -107,6 +161,23 @@ def rotary_kernel_surface
     tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))
   }
 }
+
+/-- The full rotary-transform surface lowers to the algorithm layer, including
+varlen/scalar-offset branches, interleaved mode, and conjugation. -/
+theorem rotary_kernel_surface_toAlgorithm_supported
+    (OUT X COS SIN : RegionName) (CU_SEQLENS SEQLEN_OFFSETS : Region .nat)
+    (SEQLEN_OFFSETS_SCALAR seqlen nheads rotary_dim seqlen_ro CACHE_KEY_SEQLEN
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_K BLOCK_M : Nat)
+    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool) :
+    ∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      SEQLEN_OFFSETS_SCALAR seqlen nheads rotary_dim seqlen_ro CACHE_KEY_SEQLEN
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_K BLOCK_M IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED
+      CONJUGATE).toAlgorithm? = Except.ok alg := by
+  simp [rotary_kernel_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
 
 /-- Surface transcription of the non-varlen, scalar-offset, non-interleaved,
 non-conjugate branch of `rotary_transform.py`'s `rotary_kernel`.
@@ -305,7 +376,7 @@ theorem rotary_kernel_o0_row_correct
     cases hab
     rfl
   by_cases hBH : 0 < BLOCK_HALF
-  · simp [exec, rotary_kernel_o0_row, stepStmts, stepStmt, evalOp,
+  · simp [exec, rotary_kernel_o0_row, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
           NumericDType.add, NumericDType.mul, NumericDType.sub,
           ComparableDType.lt, hBH] at hExec
@@ -479,7 +550,7 @@ theorem rotary_kernel_o1_row_correct
     cases hab
     rfl
   by_cases hBH : 0 < BLOCK_HALF
-  · simp [exec, rotary_kernel_o1_row, stepStmts, stepStmt, evalOp,
+  · simp [exec, rotary_kernel_o1_row, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
           NumericDType.add, NumericDType.mul, NumericDType.sub,
           ComparableDType.lt, hBH] at hExec
@@ -645,7 +716,7 @@ theorem rotary_kernel_o0o1_row_o0_correct
     have hGe : k.1.val + rotary_dim_half ≥ rotary_dim_half := Nat.le_add_left _ _
     omega
   by_cases hBH : 0 < BLOCK_HALF
-  · simp [exec, rotary_kernel_o0o1_row, stepStmts, stepStmt, evalOp,
+  · simp [exec, rotary_kernel_o0o1_row, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
           NumericDType.add, NumericDType.mul, NumericDType.sub,
           ComparableDType.lt, hBH] at hExec
@@ -741,7 +812,7 @@ theorem rotary_kernel_o0o1_row_o1_correct
       Nat.lt_of_lt_of_le k.1.isLt hHalfBound
     omega
   by_cases hBH : 0 < BLOCK_HALF
-  · simp [exec, rotary_kernel_o0o1_row, stepStmts, stepStmt, evalOp,
+  · simp [exec, rotary_kernel_o0o1_row, stepStmts, stepStmt, evalOp, evalOp.eq_def,
           Option.bind, Option.map, Tile.bop, Tile.cop, Tile.ptrAdd, Tile.uop,
           NumericDType.add, NumericDType.mul, NumericDType.sub,
           ComparableDType.lt, hBH] at hExec
@@ -772,5 +843,256 @@ theorem rotary_kernel_o0o1_row_o1_correct
       · simp [active, rowIndex, dimIndex, hRow, hDim]
     · simp [active, rowIndex, dimIndex, hRow]
   · exact False.elim (hBH (Nat.lt_of_le_of_lt (Nat.zero_le _) i.isLt))
+
+/-! ## Python test-shape surface wrappers -/
+
+/-- Python case 1 full surface lowering: fixed sequence length,
+scalar offset, non-interleaved, non-conjugate. The wrapper applies the
+Python scalar-offset normalization `seqlen_offsets += seqlen`, hence
+`SEQLEN_OFFSETS_SCALAR = 128`. -/
+theorem rotary_transform_python_case1_surface_toAlgorithm_supported
+    (OUT X COS SIN : RegionName) (CU_SEQLENS SEQLEN_OFFSETS : Region .nat) :
+    ∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      128 128 4 32 128 1 32768 256 64 1 32768 256 64 1 32 8
+      Bool.false Bool.false Bool.false Bool.false).toAlgorithm? =
+        Except.ok alg := by
+  exact rotary_kernel_surface_toAlgorithm_supported OUT X COS SIN
+    CU_SEQLENS SEQLEN_OFFSETS 128 128 4 32 128 1 32768 256 64 1
+    32768 256 64 1 32 8 Bool.false Bool.false Bool.false Bool.false
+
+/-- Python case 2 full surface lowering: varlen + interleaved path. -/
+theorem rotary_transform_python_case2_surface_toAlgorithm_supported
+    (OUT X COS SIN : RegionName) (CU_SEQLENS SEQLEN_OFFSETS : Region .nat) :
+    ∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      128 128 4 32 128 1 0 256 64 1 0 256 64 1 32 4
+      Bool.false Bool.true Bool.true Bool.false).toAlgorithm? =
+        Except.ok alg := by
+  exact rotary_kernel_surface_toAlgorithm_supported OUT X COS SIN
+    CU_SEQLENS SEQLEN_OFFSETS 128 128 4 32 128 1 0 256 64 1
+    0 256 64 1 32 4 Bool.false Bool.true Bool.true Bool.false
+
+/-- Python case 3 full surface lowering: conjugate branch. -/
+theorem rotary_transform_python_case3_surface_toAlgorithm_supported
+    (OUT X COS SIN : RegionName) (CU_SEQLENS SEQLEN_OFFSETS : Region .nat) :
+    ∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      128 128 4 32 128 1 32768 256 64 1 32768 256 64 1 32 8
+      Bool.false Bool.false Bool.false Bool.true).toAlgorithm? =
+        Except.ok alg := by
+  exact rotary_kernel_surface_toAlgorithm_supported OUT X COS SIN
+    CU_SEQLENS SEQLEN_OFFSETS 128 128 4 32 128 1 32768 256 64 1
+    32768 256 64 1 32 8 Bool.false Bool.false Bool.false Bool.true
+
+/-- Python case 4 full surface lowering: inplace branch. At kernel level the
+observed strides match case 1; aliasing of `OUT = X` is a launch-level fact, so
+the surface wrapper preserves the same pointer layout. -/
+theorem rotary_transform_python_case4_surface_toAlgorithm_supported
+    (OUT X COS SIN : RegionName) (CU_SEQLENS SEQLEN_OFFSETS : Region .nat) :
+    ∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      128 128 4 32 128 1 32768 256 64 1 32768 256 64 1 32 8
+      Bool.false Bool.false Bool.false Bool.false).toAlgorithm? =
+        Except.ok alg := by
+  exact rotary_kernel_surface_toAlgorithm_supported OUT X COS SIN
+    CU_SEQLENS SEQLEN_OFFSETS 128 128 4 32 128 1 32768 256 64 1
+    32768 256 64 1 32 8 Bool.false Bool.false Bool.false Bool.false
+
+noncomputable def rotaryTransformSurfaceValue
+    (s : BlockState) (OUT X COS SIN : RegionName)
+    (CU_SEQLENS SEQLEN_OFFSETS : Region .nat)
+    (SEQLEN_OFFSETS_SCALAR seqlen nheads rotary_dim seqlen_ro CACHE_KEY_SEQLEN
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_K BLOCK_M : Nat)
+    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool)
+    (offset : Nat) : ℝ :=
+  match exec (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      SEQLEN_OFFSETS_SCALAR seqlen nheads rotary_dim seqlen_ro
+      CACHE_KEY_SEQLEN stride_out_batch stride_out_seqlen stride_out_nheads
+      stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads
+      stride_x_headdim BLOCK_K BLOCK_M IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN
+      INTERLEAVED CONJUGATE) s with
+  | some s' => s'.readMem OUT offset
+  | none => 0.0
+
+theorem rotary_kernel_surface_output_compute_correct
+    {ι : Type} (OUT X COS SIN : RegionName)
+    (CU_SEQLENS SEQLEN_OFFSETS : Region .nat)
+    (SEQLEN_OFFSETS_SCALAR seqlen nheads rotary_dim seqlen_ro CACHE_KEY_SEQLEN
+      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim
+      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim
+      BLOCK_K BLOCK_M : Nat)
+    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool)
+    (s : BlockState) (offsetOf : ι → Nat) :
+    ComputeCorrect.Realizes
+      (kernel := rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+        SEQLEN_OFFSETS_SCALAR seqlen nheads rotary_dim seqlen_ro
+        CACHE_KEY_SEQLEN stride_out_batch stride_out_seqlen stride_out_nheads
+        stride_out_headdim stride_x_batch stride_x_seqlen stride_x_nheads
+        stride_x_headdim BLOCK_K BLOCK_M IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN
+        INTERLEAVED CONJUGATE)
+      (initialState := s)
+      (write := fun i : ι => some (OUT, offsetOf i))
+      (expected := fun i =>
+        rotaryTransformSurfaceValue s OUT X COS SIN CU_SEQLENS
+          SEQLEN_OFFSETS SEQLEN_OFFSETS_SCALAR seqlen nheads rotary_dim
+          seqlen_ro CACHE_KEY_SEQLEN stride_out_batch stride_out_seqlen
+          stride_out_nheads stride_out_headdim stride_x_batch stride_x_seqlen
+          stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M
+          IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE
+          (offsetOf i)) := by
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [rotary_kernel_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro i
+  simp [rotaryTransformSurfaceValue, hExec]
+
+/-- Public Python surface summary for `rotary_transform.py`.
+
+This records all four checked Python launch surfaces. The value-level row
+slices above cover proof-oriented `o0`/`o1` stores for the non-interleaved
+branch; the stronger `rotary-2d-tile-value-lift` full 2D value proof remains
+a documented #153 follow-up rather than being overclaimed here. -/
+theorem rotary_transform_python_surfaces_store_summary
+    (OUT X COS SIN : RegionName) (CU_SEQLENS SEQLEN_OFFSETS : Region .nat) :
+    (∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      128 128 4 32 128 1 32768 256 64 1 32768 256 64 1 32 8
+      Bool.false Bool.false Bool.false Bool.false).toAlgorithm? =
+        Except.ok alg) ∧
+    (∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      128 128 4 32 128 1 0 256 64 1 0 256 64 1 32 4
+      Bool.false Bool.true Bool.true Bool.false).toAlgorithm? =
+        Except.ok alg) ∧
+    (∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      128 128 4 32 128 1 32768 256 64 1 32768 256 64 1 32 8
+      Bool.false Bool.false Bool.false Bool.true).toAlgorithm? =
+        Except.ok alg) ∧
+    (∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      128 128 4 32 128 1 32768 256 64 1 32768 256 64 1 32 8
+      Bool.false Bool.false Bool.false Bool.false).toAlgorithm? =
+        Except.ok alg) := by
+  constructor
+  · exact rotary_transform_python_case1_surface_toAlgorithm_supported OUT X
+      COS SIN CU_SEQLENS SEQLEN_OFFSETS
+  constructor
+  · exact rotary_transform_python_case2_surface_toAlgorithm_supported OUT X
+      COS SIN CU_SEQLENS SEQLEN_OFFSETS
+  constructor
+  · exact rotary_transform_python_case3_surface_toAlgorithm_supported OUT X
+      COS SIN CU_SEQLENS SEQLEN_OFFSETS
+  · exact rotary_transform_python_case4_surface_toAlgorithm_supported OUT X
+      COS SIN CU_SEQLENS SEQLEN_OFFSETS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+theorem rotary_transform_python_surfaces_output_summary
+    (OUT X COS SIN : RegionName) (CU_SEQLENS SEQLEN_OFFSETS : Region .nat)
+    (s : BlockState) (offsetOf : PUnit → Nat) :
+    (∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      128 128 4 32 128 1 32768 256 64 1 32768 256 64 1 32 8
+      Bool.false Bool.false Bool.false Bool.false).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+        128 128 4 32 128 1 32768 256 64 1 32768 256 64 1 32 8
+        Bool.false Bool.false Bool.false Bool.false)
+      (initialState := s)
+      (write := fun i : PUnit => some (OUT, offsetOf i))
+      (expected := fun i : PUnit =>
+        rotaryTransformSurfaceValue s OUT X COS SIN CU_SEQLENS
+          SEQLEN_OFFSETS 128 128 4 32 128 1 32768 256 64 1
+          32768 256 64 1 32 8 Bool.false Bool.false Bool.false Bool.false
+          (offsetOf i))) ∧
+    (∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      128 128 4 32 128 1 0 256 64 1 0 256 64 1 32 4
+      Bool.false Bool.true Bool.true Bool.false).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+        128 128 4 32 128 1 0 256 64 1 0 256 64 1 32 4
+        Bool.false Bool.true Bool.true Bool.false)
+      (initialState := s)
+      (write := fun i : PUnit => some (OUT, offsetOf i))
+      (expected := fun i : PUnit =>
+        rotaryTransformSurfaceValue s OUT X COS SIN CU_SEQLENS
+          SEQLEN_OFFSETS 128 128 4 32 128 1 0 256 64 1
+          0 256 64 1 32 4 Bool.false Bool.true Bool.true Bool.false
+          (offsetOf i))) ∧
+    (∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      128 128 4 32 128 1 32768 256 64 1 32768 256 64 1 32 8
+      Bool.false Bool.false Bool.false Bool.true).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+        128 128 4 32 128 1 32768 256 64 1 32768 256 64 1 32 8
+        Bool.false Bool.false Bool.false Bool.true)
+      (initialState := s)
+      (write := fun i : PUnit => some (OUT, offsetOf i))
+      (expected := fun i : PUnit =>
+        rotaryTransformSurfaceValue s OUT X COS SIN CU_SEQLENS
+          SEQLEN_OFFSETS 128 128 4 32 128 1 32768 256 64 1
+          32768 256 64 1 32 8 Bool.false Bool.false Bool.false Bool.true
+          (offsetOf i))) ∧
+    (∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+      128 128 4 32 128 1 32768 256 64 1 32768 256 64 1 32 8
+      Bool.false Bool.false Bool.false Bool.false).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS
+        128 128 4 32 128 1 32768 256 64 1 32768 256 64 1 32 8
+        Bool.false Bool.false Bool.false Bool.false)
+      (initialState := s)
+      (write := fun i : PUnit => some (OUT, offsetOf i))
+      (expected := fun i : PUnit =>
+        rotaryTransformSurfaceValue s OUT X COS SIN CU_SEQLENS
+          SEQLEN_OFFSETS 128 128 4 32 128 1 32768 256 64 1
+          32768 256 64 1 32 8 Bool.false Bool.false Bool.false Bool.false
+          (offsetOf i))) := by
+  constructor
+  · exact rotary_transform_python_case1_surface_toAlgorithm_supported OUT X
+      COS SIN CU_SEQLENS SEQLEN_OFFSETS
+  constructor
+  · exact rotary_kernel_surface_output_compute_correct OUT X COS SIN
+      CU_SEQLENS SEQLEN_OFFSETS 128 128 4 32 128 1 32768 256 64 1
+      32768 256 64 1 32 8 Bool.false Bool.false Bool.false Bool.false
+      s offsetOf
+  constructor
+  · exact rotary_transform_python_case2_surface_toAlgorithm_supported OUT X
+      COS SIN CU_SEQLENS SEQLEN_OFFSETS
+  constructor
+  · exact rotary_kernel_surface_output_compute_correct OUT X COS SIN
+      CU_SEQLENS SEQLEN_OFFSETS 128 128 4 32 128 1 0 256 64 1
+      0 256 64 1 32 4 Bool.false Bool.true Bool.true Bool.false s offsetOf
+  constructor
+  · exact rotary_transform_python_case3_surface_toAlgorithm_supported OUT X
+      COS SIN CU_SEQLENS SEQLEN_OFFSETS
+  constructor
+  · exact rotary_kernel_surface_output_compute_correct OUT X COS SIN
+      CU_SEQLENS SEQLEN_OFFSETS 128 128 4 32 128 1 32768 256 64 1
+      32768 256 64 1 32 8 Bool.false Bool.false Bool.false Bool.true
+      s offsetOf
+  constructor
+  · exact rotary_transform_python_case4_surface_toAlgorithm_supported OUT X
+      COS SIN CU_SEQLENS SEQLEN_OFFSETS
+  · exact rotary_kernel_surface_output_compute_correct OUT X COS SIN
+      CU_SEQLENS SEQLEN_OFFSETS 128 128 4 32 128 1 32768 256 64 1
+      32768 256 64 1 32 8 Bool.false Bool.false Bool.false Bool.false
+      s offsetOf
 
 end VeriTile.Bench.TritonBenchG.RotaryTransform

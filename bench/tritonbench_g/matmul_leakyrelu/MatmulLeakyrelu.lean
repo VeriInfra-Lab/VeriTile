@@ -3,6 +3,71 @@ import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.DSL
 
+/-!
+# `matmul_leakyrelu` — strict per-kernel correctness
+
+`matmul_kernel` is a group-scheduled tiled GEMM with a fused activation: program
+`pid` is mapped through an L2-grouping schedule to a tile coordinate
+`(pid_m, pid_n)`, accumulates a `BLOCK_SIZE_M × BLOCK_SIZE_N` tile via
+`accumulator += tl.dot(a, b)` over K (with K-tail masking on the loads),
+optionally applies `leaky_relu(x) = where(x >= 0, x, 0.01·x)` when
+`ACTIVATION == "leaky_relu"`, casts to float16, and stores into `C` masked by
+`(offs_cm < M) & (offs_cn < N)`.
+
+## Scope
+
+This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
+body. The host launch (`matmul_kernel[grid](...)`, the grid size
+`cdiv(M, BLOCK_M) · cdiv(N, BLOCK_N)`, the grouped-pid scheduling, and how the
+runtime composes per-program output tiles into one `C` buffer) is the *trusted
+boundary*, not a proof obligation here. Because the program coordinates are
+universally quantified over `s`, the per-program statement covers every program
+of the grid. The Python string constexpr `ACTIVATION == "leaky_relu"` is modeled
+by the Lean `Bool` parameter `ACTIVATION`.
+
+## Proof architecture
+
+```
+matmul_leakyrelu_python_case{1,2}_output_summary           ← TOP THEOREMS (full surface, activation on/off)
+  ├─ matmul_leakyrelu_python_case{1,2}_surface_toAlgorithm_supported  full surface lowers to algorithm layer
+  │    └─ matmul_kernel_surface_toAlgorithm_supported
+  └─ matmul_leakyrelu_surface_output_compute_correct        ← ComputeCorrect of the masked surface output tile
+
+matmul_leakyrelu_python_case{1,2}_store_summary            ← store-slice summaries
+  ├─ matmul_leakyrelu_python_case{1,2}_surface_toAlgorithm_supported
+  ├─ matmul_leaky_relu_tail_surface_toAlgorithm_supported   (case 1) activation-tail surface lowers
+  └─ matmul_masked_output_store_slice_compute_correct       ← ComputeCorrect over the masked fp16 output store
+       ├─ matmul_masked_output_store_slice_correct          ← algorithm-layer masked fp16 scatter readback
+       │    └─ scatter_memcell_fp16_prop_masked_nd / foldl_writeMemTyped_fp16_preserves
+       └─ matmul_leakyrelu_python_test_output_offset_injective  output-address injectivity (64×64, 32×32 blocks)
+```
+
+There are also standalone surface-lowering lemmas
+(`matmul_leaky_relu_surface_toAlgorithm_supported` for the activation-specialized
+variant, `matmul_leaky_relu_tail_surface_toAlgorithm_supported` for the tail).
+
+## Modeling boundary
+
+Arithmetic is over `ℝ` (not bit-accurate IEEE float); `@triton.autotune` /
+`num_warps` are not modeled. The **K-loop dot-accumulator** — the
+`accumulator += tl.dot(a, b)` reduction over `range(0, cdiv(K, BLOCK_SIZE_K))` —
+is the key honesty point. The full surface (`matmul_kernel_surface`) lowers to
+the algorithm layer and its masked output store is proved compute-correct against
+`matmulLeakyreluSurfaceCell` (the actual executed cell), but that spec is *the
+kernel's own emitted value*, not an independent `Σ_k a·b` matrix-product
+reference: the dot reduction itself is not re-derived against a mathematical GEMM
+here. What is independently verified is the **masked output store**
+(`matmul_masked_output_store_slice`): starting from a precomputed accumulator
+tile `Acc`, the float16 cast and masked 2D writeback into `C` (active lanes get
+`Acc` cast to fp16, out-of-bounds lanes preserved) is proved correct, including
+output-address injectivity. The leaky-ReLU activation `where(x >= 0, x, 0.01·x)`
+is faithfully present in the surface and in the activation-tail surface
+(`matmul_leaky_relu_tail_surface`); the store-slice spec is stated over the
+post-activation accumulator `Acc`. The matmul output-store accumulator is the
+modeled boundary; relating the K-loop accumulator to a closed-form dot product is
+the remaining blocker.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.MatmulLeakyrelu
 
 open VeriTile.Triton
@@ -54,6 +119,17 @@ def matmul_kernel_surface
   tl.store(c_ptrs, c, mask=c_mask)
 }
 
+/-- The full matmul/leaky-ReLU surface lowers to the algorithm layer. -/
+theorem matmul_kernel_surface_toAlgorithm_supported
+    (A B C : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat)
+    (ACTIVATION : Bool) :
+    ∃ alg, (matmul_kernel_surface A B C M N K stride_am stride_ak stride_bk
+      stride_bn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K
+      GROUP_SIZE_M ACTIVATION).toAlgorithm? = Except.ok alg := by
+  simp [matmul_kernel_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+
 /-- Surface transcription of `matmul_leakyrelu.py`'s `matmul_kernel` for
 `ACTIVATION == "leaky_relu"`. -/
 def matmul_leaky_relu_surface
@@ -92,6 +168,16 @@ def matmul_leaky_relu_surface
   tl.store(c_ptrs, c, mask=c_mask)
 }
 
+/-- The leaky-ReLU specialized matmul surface lowers to the algorithm layer. -/
+theorem matmul_leaky_relu_surface_toAlgorithm_supported
+    (A B C : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat) :
+    ∃ alg, (matmul_leaky_relu_surface A B C M N K stride_am stride_ak
+      stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N
+      BLOCK_SIZE_K GROUP_SIZE_M).toAlgorithm? = Except.ok alg := by
+  simp [matmul_leaky_relu_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+
 /-- Surface transcription of the `ACTIVATION == "leaky_relu"` tail of
 `matmul_leakyrelu.py`'s `matmul_kernel`.
 
@@ -115,6 +201,17 @@ def matmul_leaky_relu_tail_surface
   tl.store(C + $(stride_cm) * offs_cm[:, None] + $(stride_cn) * offs_cn[None, :],
     c, mask=c_mask)
 }
+
+/-- The leaky-ReLU tail surface lowers to the algorithm layer. -/
+theorem matmul_leaky_relu_tail_surface_toAlgorithm_supported
+    (Acc C : RegionName)
+    (M N stride_accm stride_accn stride_cm stride_cn
+      BLOCK_SIZE_M BLOCK_SIZE_N : Nat) :
+    ∃ alg, (matmul_leaky_relu_tail_surface Acc C M N stride_accm stride_accn
+      stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N).toAlgorithm? =
+        Except.ok alg := by
+  simp [matmul_leaky_relu_tail_surface, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?]
 
 /-- Proof-oriented masked output-store slice of `matmul_leakyrelu.py`'s
 `matmul_kernel`.
@@ -305,7 +402,7 @@ theorem matmul_masked_output_store_slice_correct
         else
           s.mem C (cOffset s stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N idx) := by
   intro idx
-  simp [exec, matmul_masked_output_store_slice, stepStmts, stepStmt, evalOp,
+  simp [exec, matmul_masked_output_store_slice, stepStmts, stepStmt, evalOp, evalOp.eq_def,
         Option.bind, Option.map, Tile.bop, Tile.cop, Tile.expandDim,
         Tile.ptrAdd, NumericDType.add, NumericDType.mul, ComparableDType.lt,
         TileShape.dropInsertedIndex] at hExec
@@ -366,5 +463,189 @@ theorem matmul_masked_output_store_slice_compute_correct
   have h := matmul_masked_output_store_slice_correct C Acc M N stride_cm stride_cn
     stride_accm stride_accn BLOCK_SIZE_M BLOCK_SIZE_N s s' hOutInj hExec idx
   simpa [hActive] using h
+
+/-- Contiguous `64 × 64` Python-test output tiles have injective addresses for
+the fixed `32 × 32` block shape in `matmul_leakyrelu.py`. -/
+theorem matmul_leakyrelu_python_test_output_offset_injective
+    (s : BlockState) :
+    Function.Injective (cOffset s 64 1 32 32) := by
+  intro a b h
+  simp [cOffset, rowIndex, colIndex] at h
+  ext <;> omega
+
+/-- Python test case 1 full surface lowering: `64×128 @ 128×64` with leaky
+ReLU enabled and `BLOCK_SIZE_M/N/K = 32`, `GROUP_SIZE_M = 4`. -/
+theorem matmul_leakyrelu_python_case1_surface_toAlgorithm_supported
+    (A B C : RegionName) :
+    ∃ alg, (matmul_kernel_surface A B C
+      64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.true).toAlgorithm? =
+        Except.ok alg := by
+  exact matmul_kernel_surface_toAlgorithm_supported A B C
+    64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.true
+
+/-- Python test case 1 activation-tail surface lowering. -/
+theorem matmul_leakyrelu_python_case1_tail_surface_toAlgorithm_supported
+    (Acc C : RegionName) :
+    ∃ alg, (matmul_leaky_relu_tail_surface Acc C
+      64 64 64 1 64 1 32 32).toAlgorithm? = Except.ok alg := by
+  exact matmul_leaky_relu_tail_surface_toAlgorithm_supported Acc C
+    64 64 64 1 64 1 32 32
+
+/-- Python test case 2 full surface lowering: same dimensions with activation
+disabled. -/
+theorem matmul_leakyrelu_python_case2_surface_toAlgorithm_supported
+    (A B C : RegionName) :
+    ∃ alg, (matmul_kernel_surface A B C
+      64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.false).toAlgorithm? =
+        Except.ok alg := by
+  exact matmul_kernel_surface_toAlgorithm_supported A B C
+    64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.false
+
+noncomputable def matmulLeakyreluSurfaceCell
+    (s : BlockState) (A B C Out : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat)
+    (ACTIVATION : Bool) (offset : Nat) : MemCell :=
+  match exec (matmul_kernel_surface A B C M N K stride_am stride_ak stride_bk
+      stride_bn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K
+      GROUP_SIZE_M ACTIVATION) s with
+  | some s' => s'.mem Out offset
+  | none => 0
+
+theorem matmul_leakyrelu_surface_output_compute_correct
+    (A B C : RegionName)
+    (M N K stride_am stride_ak stride_bk stride_bn stride_cm stride_cn
+      BLOCK_SIZE_M BLOCK_SIZE_N BLOCK_SIZE_K GROUP_SIZE_M : Nat)
+    (ACTIVATION : Bool) (s : BlockState) :
+    ComputeCorrect.Realizes
+      (kernel := matmul_kernel_surface A B C M N K stride_am stride_ak
+        stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N
+        BLOCK_SIZE_K GROUP_SIZE_M ACTIVATION)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s M N BLOCK_SIZE_M BLOCK_SIZE_N)
+        (fun idx => (C, cOffset s stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N idx)))
+      (expected := fun idx =>
+        matmulLeakyreluSurfaceCell s A B C C M N K stride_am stride_ak
+          stride_bk stride_bn stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N
+          BLOCK_SIZE_K GROUP_SIZE_M ACTIVATION
+          (cOffset s stride_cm stride_cn BLOCK_SIZE_M BLOCK_SIZE_N idx)) := by
+  rw [ComputeCorrect.realizes_writeIf_iff]
+  apply ComputeKernel.computeCorrect_of_toAlgKernel
+  · simp [matmul_kernel_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
+  intro s0 s' hExec hs0
+  subst s0
+  intro idx _hActive
+  simp [matmulLeakyreluSurfaceCell, hExec]
+
+/-- Public Python case 1 coverage summary: full activated surface,
+activation-tail surface, and masked fp16 output-store tile. -/
+theorem matmul_leakyrelu_python_case1_store_summary
+    (A B C Acc : RegionName) (s : BlockState) :
+    (∃ alg, (matmul_kernel_surface A B C
+      64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.true).toAlgorithm? =
+        Except.ok alg) ∧
+    (∃ alg, (matmul_leaky_relu_tail_surface Acc C
+      64 64 64 1 64 1 32 32).toAlgorithm? = Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := matmul_masked_output_store_slice C Acc 64 64 64 1 64 1 32 32)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 64 64 32 32)
+        (fun idx => (C, cOffset s 64 1 32 32 idx)))
+      (expected := fun idx =>
+        MemCell.of .fp16
+          (FloatDType.real.cast FloatDType.fp16
+            (some (s.readMem Acc (accOffset s 64 1 32 32 idx)))))) := by
+  constructor
+  · exact matmul_leakyrelu_python_case1_surface_toAlgorithm_supported A B C
+  constructor
+  · exact matmul_leakyrelu_python_case1_tail_surface_toAlgorithm_supported Acc C
+  · exact matmul_masked_output_store_slice_compute_correct C Acc
+      64 64 64 1 64 1 32 32 s
+      (matmul_leakyrelu_python_test_output_offset_injective s)
+
+/-- Public Python case 2 coverage summary. -/
+theorem matmul_leakyrelu_python_case2_store_summary
+    (A B C Acc : RegionName) (s : BlockState) :
+    (∃ alg, (matmul_kernel_surface A B C
+      64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.false).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := matmul_masked_output_store_slice C Acc 64 64 64 1 64 1 32 32)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 64 64 32 32)
+        (fun idx => (C, cOffset s 64 1 32 32 idx)))
+      (expected := fun idx =>
+        MemCell.of .fp16
+          (FloatDType.real.cast FloatDType.fp16
+            (some (s.readMem Acc (accOffset s 64 1 32 32 idx)))))) := by
+  constructor
+  · exact matmul_leakyrelu_python_case2_surface_toAlgorithm_supported A B C
+  · exact matmul_masked_output_store_slice_compute_correct C Acc
+      64 64 64 1 64 1 32 32 s
+      (matmul_leakyrelu_python_test_output_offset_injective s)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+theorem matmul_leakyrelu_python_case1_output_summary
+    (A B C : RegionName) (s : BlockState) :
+    (∃ alg, (matmul_kernel_surface A B C
+      64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.true).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := matmul_kernel_surface A B C
+        64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.true)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 64 64 32 32)
+        (fun idx => (C, cOffset s 64 1 32 32 idx)))
+      (expected := fun idx =>
+        matmulLeakyreluSurfaceCell s A B C C
+          64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.true
+          (cOffset s 64 1 32 32 idx))) := by
+  constructor
+  · exact matmul_leakyrelu_python_case1_surface_toAlgorithm_supported A B C
+  · exact matmul_leakyrelu_surface_output_compute_correct A B C
+      64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.true s
+
+theorem matmul_leakyrelu_python_case2_output_summary
+    (A B C : RegionName) (s : BlockState) :
+    (∃ alg, (matmul_kernel_surface A B C
+      64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.false).toAlgorithm? =
+        Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := matmul_kernel_surface A B C
+        64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.false)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (active s 64 64 32 32)
+        (fun idx => (C, cOffset s 64 1 32 32 idx)))
+      (expected := fun idx =>
+        matmulLeakyreluSurfaceCell s A B C C
+          64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.false
+          (cOffset s 64 1 32 32 idx))) := by
+  constructor
+  · exact matmul_leakyrelu_python_case2_surface_toAlgorithm_supported A B C
+  · exact matmul_leakyrelu_surface_output_compute_correct A B C
+      64 64 128 128 1 64 1 64 1 32 32 32 4 Bool.false s
 
 end VeriTile.Bench.TritonBenchG.MatmulLeakyrelu
