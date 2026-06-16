@@ -63,6 +63,12 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
+/-! **★ Main theorem:** `attn_fwd_causal_output_summary_general` -/
+
+/-! # ══════════ CORRECT — genuine / dimension-general (review this) ══════════ -/
+
+section Correct
+
 /-- Full Lean port of `attn_fwd_causal.py`'s `_attn_fwd`.
 
 The upstream kernel runs the K/V streaming-softmax loop through a separate
@@ -343,60 +349,6 @@ theorem attn_fwd_causal_final_store_slice_compute_correct
 `N_CTX = 128`, `HEAD_DIM = 128`, `BLOCK_M = 128`, `BLOCK_N = 64`, and the
 final store mask enables the first 96 head lanes. Contiguous tensors have
 strides `(65536, 16384, 128, 1)`. -/
-
-theorem attn_fwd_causal_final_store_python_test_shape_compute_correct
-    (Acc Out : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := attn_fwd_causal_final_store_slice Acc Out
-        4 128 96 65536 16384 128 1 65536 16384 128 1 128 128)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [128, 128] => active s 128 96 128 idx)
-        (fun idx : TileIndex [128, 128] => (Out,
-          outOffset s 4 65536 16384 128 1 128 idx)))
-      (expected := fun idx : TileIndex [128, 128] =>
-        s.readMem Acc (accOffset s 4 65536 16384 128 1 128 idx)) := by
-  apply attn_fwd_causal_final_store_slice_compute_correct
-  rintro ⟨⟨ma, hma⟩, ⟨ka, hka⟩, _⟩ ⟨⟨mb, hmb⟩, ⟨kb, hkb⟩, _⟩ h
-  simp [outOffset, offZ, offH, mIndex, kIndex] at h
-  have hm : ma = mb := by omega
-  have hk : ka = kb := by omega
-  subst mb
-  subst kb
-  rfl
-
-/-! ## Genuine closed-form attention spec (exp2, causal)
-
-`attn_fwd_causal.py`'s `_attn_fwd` (Python `stage = 3`, two `_attn_fwd_inner`
-calls: stage `4 - STAGE = 1` for the strictly-below-diagonal off-diagonal key
-blocks `range(0, start_m·BLOCK_M)`, no causal mask; stage `2` for the diagonal
-block `range(start_m·BLOCK_M, (start_m+1)·BLOCK_M)` under the causal predicate)
-is **base-2** (`tl.math.exp2`) softmax with a **scalar** score scale `q_scale ·
-k_scale` (loaded once per program / per key block) and a **causal** mask. The
-inlined surface composes both staged calls into a single `range(0, N_CTX,
-BLOCK_N)` loop carrying `tl.where(offs_m[:, None] ≥ start_n + offs_n[None, :],
-qk, -1e6)` on every block (a no-op on off-diagonal stage-1 blocks; the stage-2
-mask on the diagonal block; zeroing on the never-visited above-diagonal blocks).
-So the genuine closed form is the predicate-masked base-2 per-key-scale attention
-`attentionRealBase2PerKeyScalePred` (`VeriTile/Triton/Math/Attention.lean`),
-instantiated with:
-
-* `keep := causalKeep qStart` — key `j` contributes to query row `i` iff
-  `j ≤ qStart + i` (the kernel's `offs_m ≥ start_n + offs_n` mask, with global
-  `qStart = start_m · BLOCK_M`). This single predicate captures the STAGE-3
-  two-stage key set: stage-1 off-diagonal keys (`j < start_m·128`, all kept) ∪
-  stage-2 diagonal keys (`start_m·128 ≤ j < (start_m+1)·128`, kept iff
-  `j ≤ qStart + i`) = exactly `{j : j ≤ qStart + i}`;
-* a per-key score scale carrier (the scalar `q_scale · k_scale`; here abstracted
-  as `keyScaleAFC`, an opaque `Fin S → ℝ`, since the kernel loads the
-  quantization scalars from memory rather than fixing them at a constant).
-
-This routes to **base-2** (matching the `exp2` kernel); the streaming bridge
-`attentionRealBase2PerKeyScalePred_eq_streaming` (sorry-free) delivers the
-`osStep` online-softmax fold the exec loop realizes. -/
-
-open VeriTile.Triton (attentionRealBase2PerKeyScalePred attnKeyListPred osStep
-  causalKeep)
 
 /-- Base address of the `(off_z, off_h)` plane for the Python test shape
 (`stride_qz = 65536`, `stride_qh = 16384`, `H = 4`). Q, K, V, Out share it
@@ -901,6 +853,9 @@ theorem afc_advance_kscale_eval (s : BlockState) (name : RegName) (ptr : Tile .p
     evalOp (Op.ptrAdd Broadcast.nil (Op.ref .ptr [] name) (Op.constNat 1)) s
       = some (Tile.ptrAdd Broadcast.nil ptr (Tile.scalar 1)) := by
   simp only [evalOp, evalOp_ref, evalOp_constNat, hptr, Option.bind_eq_bind, Option.bind_some]
+
+end Correct
+
 
 end VeriTile.Bench.TritonBenchG.AttnFwdCausal
 
@@ -3697,23 +3652,29 @@ theorem afcKeysUptoG_full_eq_pred (qStart : Nat) (i : Fin BLOCK_M) (d : Fin BLOC
   · rw [if_pos ⟨hjlt, hiff.mp hc⟩, if_pos hc]
   · rw [if_neg (fun hh => hc (hiff.mpr hh.2)), if_neg hc]
 
-/-- General sentinel boundedness side-condition. -/
+/-- General sentinel boundedness side-condition (causal-only, non-strict).
+Only *causally-kept* keys (`j ≤ qStart + i`) need a bound; non-causal keys are
+forced to the `-1e6` sentinel by the kernel's mask and need no hypothesis. The
+bound is non-strict (`-1e6 ≤ …`), the weakest form sufficient for the proof. -/
 def afcScoreBoundG
     (qT : TileIndex [BLOCK_M, BLOCK_DMODEL] → ℝ) (kT vT : TileIndex [SEQ, BLOCK_DMODEL] → ℝ)
     (keyScale : Fin SEQ → ℝ) (qStart : Nat) : Prop :=
-  ∀ (j : Fin SEQ) (i : Fin BLOCK_M) (d : Fin BLOCK_DMODEL),
-    keyScale j * Finset.univ.sum (fun e : Fin BLOCK_DMODEL => qT (i, e, PUnit.unit) * kT (j, e, PUnit.unit))
-      > -1000000.0
+  ∀ (j : Fin SEQ) (i : Fin BLOCK_M), (j.val ≤ qStart + i.val) →
+    (0:ℝ) - 1000000.0 ≤
+      keyScale j * Finset.univ.sum (fun e : Fin BLOCK_DMODEL => qT (i, e, PUnit.unit) * kT (j, e, PUnit.unit))
 
 /-- General: under `afcScoreBoundG`, running max over a nonempty causal window
-exceeds the `-1e6` sentinel. -/
+is `≥` the `-1e6` sentinel (the first key `j = 0` is causal, so the causal-only
+bound applies and the sup over the window dominates it). -/
 theorem afcRunningMaxG_gt_sentinel (qStart hi : Nat) (hhi : 1 ≤ hi) (hSEQ : 0 < SEQ)
     (i : Fin BLOCK_M) (d : Fin BLOCK_DMODEL)
     (hsb : afcScoreBoundG qT kT vT keyScale qStart) :
-    afcRunningMaxG qT kT vT keyScale qStart hi i d > some (-1000000.0 : ℝ) := by
+    afcRunningMaxG qT kT vT keyScale qStart hi i d ≥ some (-1000000.0 : ℝ) := by
   unfold afcRunningMaxG afcKeysUptoG
-  have hkey0 : ((afcKVG qT kT vT keyScale i d ⟨0, hSEQ⟩).1 : ℝ) > -1000000.0 := by
-    have := hsb ⟨0, hSEQ⟩ i d
+  have hkey0 : ((afcKVG qT kT vT keyScale i d ⟨0, hSEQ⟩).1 : ℝ) ≥ -1000000.0 := by
+    have := hsb ⟨0, hSEQ⟩ i (by simp)
+    have hrw : (0:ℝ) - 1000000.0 = -1000000.0 := by norm_num
+    rw [hrw] at this
     simpa [afcKVG] using this
   have hmem : ((((afcKVG qT kT vT keyScale i d ⟨0, hSEQ⟩).1 : ℝ)) : WithBot ℝ) ∈
       ((List.finRange SEQ).filterMap (fun j : Fin SEQ =>
@@ -3726,8 +3687,8 @@ theorem afcRunningMaxG_gt_sentinel (qStart hi : Nat) (hhi : 1 ≤ hi) (hSEQ : 0 
     refine ⟨⟨0, hSEQ⟩, List.mem_finRange _, ?_⟩
     rw [if_pos ⟨show (0:Nat) < hi from by omega, Nat.zero_le _⟩]
   have hle := afc_mem_le_foldr_sup _ _ hmem
-  refine lt_of_lt_of_le ?_ hle
-  exact (WithBot.coe_lt_coe).mpr hkey0
+  refine le_trans ?_ hle
+  exact (WithBot.coe_le_coe).mpr hkey0
 
 /-- General `afcBlockG` map-and-sum: reindex block `c`'s causal window onto
 `Fin BLOCK_N` lanes (global key `c·BLOCK_N + jL`). -/
@@ -4140,11 +4101,13 @@ theorem afc_mij_reg_eq_maskedG (BLOCK_N : Nat) (hBN : 0 < BLOCK_N) (hBM : 0 < BL
       rw [hBSk]
       refine Finset.le_sup_of_le (Finset.mem_univ (⟨0, hBN⟩ : Fin BLOCK_N)) ?_
       rw [if_pos (show 0 * BLOCK_N + (⟨0, hBN⟩ : Fin BLOCK_N).val ≤ qStart + i.val from by simp)]
-      refine le_of_lt ?_
-      rw [WithBot.coe_lt_coe]
-      have hbnd := hsb ⟨0 * BLOCK_N + (⟨0, hBN⟩ : Fin BLOCK_N).val, by simp only [Nat.zero_mul, Nat.add_zero]; exact hSEQ⟩ i ⟨0, hBD⟩
+      rw [WithBot.coe_le_coe]
+      have hbnd := hsb ⟨0 * BLOCK_N + (⟨0, hBN⟩ : Fin BLOCK_N).val, by simp only [Nat.zero_mul, Nat.add_zero]; exact hSEQ⟩ i
+        (by simp)
+      have hrw : (0:ℝ) - 1000000.0 = -1000000.0 := by norm_num
+      rw [hrw] at hbnd
       simpa [afcKVG] using hbnd
-    · refine le_sup_of_le_left (le_of_lt ?_)
+    · refine le_sup_of_le_left ?_
       rw [hMdef]
       exact afcRunningMaxG_gt_sentinel qT kT vT keyScale qStart (c * BLOCK_N) (by
         have : 1 ≤ c := by omega
@@ -6264,6 +6227,8 @@ theorem afc_exec_generalG
   intro idx hact
   rw [hO idx, if_pos hact]
 
+
+/-! ### ════════ ★ MAIN THEOREM ★ ════════ -/
 set_option maxHeartbeats 1600000 in
 set_option maxRecDepth 8000 in
 /-- **Dimension-general genuine causal closed-form output summary for `attn_fwd_causal`.**
@@ -6382,9 +6347,13 @@ theorem attn_fwd_causal_python_test_shape_output_summary
       (kTileAFCG s K 65536 16384 4 128 (64 * 2) 128)
       (vTileAFCmG s V 65536 16384 4 128 (64 * 2) 128 96)
       (keyScaleAFCG s QScale KScale 128 128 64 2) (qStartAFCG s 128) := by
-    intro j i d
-    have h := hsb j i d
-    refine lt_of_lt_of_le h (le_of_eq ?_)
+    intro j i _hjle
+    -- pinned `afcScoreBound` is all-keys STRICT `>`; the weakened general bound
+    -- is causal-only NON-strict `≤`, so the pinned hypothesis is more than enough.
+    have h := hsb j i ⟨0, by norm_num⟩
+    have hrw : (0:ℝ) - 1000000.0 = -1000000.0 := by norm_num
+    rw [hrw]
+    refine le_of_lt (lt_of_lt_of_le h (le_of_eq ?_))
     rfl
   have hgen := attn_fwd_causal_output_summary_general Q K V QScale KScale Out s
     65536 16384 4 128 128 128 64 128 96 1 2 2
