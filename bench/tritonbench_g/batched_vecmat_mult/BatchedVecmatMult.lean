@@ -72,6 +72,12 @@ set_option maxHeartbeats 5000000
 set_option linter.unusedSimpArgs false
 set_option linter.unusedVariables false
 
+/-! **★ Main theorem:** `batched_vecmat_closed_form_correct` -/
+
+/-! # ══════════ CORRECT — genuine / dimension-general (review this) ══════════ -/
+
+section Correct
+
 /-- Faithful transcription of `batched_vecmat_mult.py`'s `batched_vecmat_kernel`.
 
 The Python wrapper asserts that `M`, `N`, and `K` are divisible by their block
@@ -1517,6 +1523,8 @@ theorem vecmat_exec_closed_form (A B output : RegionName) (s : BlockState)
   rw [hexec]
   exact hpost idx
 
+
+/-! ### ════════ ★ MAIN THEOREM ★ ════════ -/
 /-- **Closed-form GEMV correctness for `batched_vecmat_mult` (general statement).**
 
 For arbitrary `dim_n`, tile dims `BLOCK_M`/`BLOCK_N`, K-block size `BLOCK_K`, and
@@ -1561,36 +1569,7 @@ theorem batched_vecmat_closed_form_correct
 `test_vecmat` runs `M = N = K = 128`, `block_m = 16`, `block_n = 32`,
 `block_k = 64`, so `numKBlocks = 128 / 64 = 2`. -/
 
-/-- Output-offset injectivity for the checked `16 × 32` tile shape. -/
-theorem batched_vecmat_python_test_shape_offset_injective (s : BlockState) :
-    Function.Injective (vecmatOutOffset s 128 16 32) := by
-  intro a b h
-  simp only [vecmatOutOffset, gRow, gCol] at h
-  obtain ⟨⟨ma, hma⟩, ⟨na, hna⟩, _⟩ := a
-  obtain ⟨⟨mb, hmb⟩, ⟨nb, hnb⟩, _⟩ := b
-  simp only at h ⊢
-  have hm : ma = mb := by omega
-  have hn : na = nb := by omega
-  subst hm; subst hn; rfl
+end Correct
 
-/-- **Public Python `test_vecmat` summary**: the full `128 × 128 × 128` batched
-vecmat surface (`block_m = 16`, `block_n = 32`, `block_k = 64`, two K-blocks)
-lowers to the algorithm layer and realizes the genuine batched vector-matrix
-reference `out[m,n] = Σ_{kk < 128} A[m,kk]·B[m,n,kk]`. -/
-theorem batched_vecmat_python_test_shape_output_summary
-    (A B output : RegionName) (s : BlockState) (hundef : ∀ rg o, s.undef rg o = 0) :
-    (∃ alg, (batched_vecmat_surface A B output 128 128 128 16 32 64).toAlgorithm? = Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := batched_vecmat_surface A B output 128 128 128 16 32 64)
-      (initialState := s)
-      (write := fun idx : TileIndex [16, 32] =>
-        some (output, vecmatOutOffset s 128 16 32 idx))
-      (expected := fun idx : TileIndex [16, 32] =>
-        gemvSpec s A B 128 128 16 32 64 2 idx.1 idx.2.1)) := by
-  refine ⟨batched_vecmat_surface_toAlgorithm_supported A B output 128 128 128 16 32 64, ?_⟩
-  have h := batched_vecmat_closed_form_correct A B output s 128 128 16 32 64 2
-    (by norm_num) (by norm_num) (by norm_num)
-    (batched_vecmat_python_test_shape_offset_injective s) hundef
-  simpa using h
 
 end VeriTile.Bench.TritonBenchG.BatchedVecmatMult
