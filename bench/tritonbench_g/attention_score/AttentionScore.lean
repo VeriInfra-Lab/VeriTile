@@ -59,10 +59,14 @@ window; case4: smaller sliding-window size). `case1` is a standalone theorem;
 `*_output_surface_summary` theorems.
 
 ```
-attention_score_python_case1_output_summary                  ← TOP THEOREM (genuine closed form)
-  ├─ attention_score_python_case1_surface_toAlgorithm_supported   surface lowers to algorithm layer
-  └─ attention_score_case1_genuine_compute_correct                masked Out store = case1OutClosedForm
-       └─ attention_score_case1_exec_eq_closedForm               full exec unfold (preLoop+loop+post)
+attention_score_python_case1_output_summary_general          ← GENERAL TOP THEOREM (dimension-parameterized, genuine closed form)
+  ├─ attention_score_kernel_toAlgorithm_supported                 surface lowers to algorithm layer
+  └─ attention_score_case1_genuine_compute_correct_general        masked Out store = case1OutClosedFormG
+       └─ attention_score_case1_exec_eq_closedForm_general       full exec unfold (preLoop+loop+post)
+
+attention_score_python_case1_output_summary                  ← TEST-SHAPE PINNED SUMMARY (case 1, independent chain)
+  ├─ attention_score_python_case1_surface_toAlgorithm_supported
+  └─ attention_score_case1_genuine_compute_correct (→ attention_score_case1_exec_eq_closedForm)
 
 attention_score_python_case{2,3,4}_output_summary            ← abbrev = *_output_surface_summary
   └─ attention_score_python_case{2,3,4}_output_surface_summary
@@ -77,9 +81,12 @@ attention_score_final_store_python_test_shape_compute_correct
 
 Arithmetic is over `ℝ` (not bit-accurate IEEE float); the output-dtype cast
 collapses to the identity post-erasure; `@triton.autotune`/`@triton.heuristics`
-and `num_warps`/`num_stages` are not modeled. The summaries are stated at the
-Python test shape (`B=2, H=4, N_CTX=NKV_CTX=128, D_MODEL=64,
-BLOCK_M=BLOCK_N=64`, contiguous strides) with the case-specific
+and `num_warps`/`num_stages` are not modeled. The case 1 main summary is
+dimension-general (`attention_score_python_case1_output_summary_general`, symbolic
+shape/strides); the Python test shape (`B=2, H=4, N_CTX=NKV_CTX=128, D_MODEL=64,
+BLOCK_M=BLOCK_N=64`, contiguous strides) is the special case (recovered by the
+pinned `attention_score_python_case1_output_summary`). Cases 2/3/4 remain pinned
+at the test shape, with the case-specific
 `SLIDING_WINDOW`/`COMPLEMENT_SLIDING_WINDOW` flags and window sizes baked into
 the launch arguments; `sm_scale` is kept universally quantified. The `Out`
 writeback is stated against the genuine `case1OutClosedForm` (the masked-`exp2`
@@ -789,10 +796,10 @@ theorem attention_score_case1_body_length
         Bool.true Bool.false Bool.true Bool.true rfl).toAlgKernel.body.length = 21 := by
   rfl
 
-/-- The case-1 loop sits at body index 16 and is a `forRangeDyn` over `start_m`
-with the static `[0, 128)` step-`64` range (the `lo`/`hi` register bounds), i.e.
-exactly two iterations. The `drop 16` tail (loop + 4 post statements) has length 5,
-and the loop body itself (`headLoopBody`) has length 14. Verified by `rfl` on the
+/-- The case-1 loop sits at body index 16: `drop 16` of the lowered body is a
+`forRangeDyn` over `start_m` with step `64` (the `lo`/`hi` register bounds give the
+`[0, 128)` range, i.e. exactly two iterations) followed by the post statements.
+The loop body itself is `attentionScoreCase1LoopBody`. Proved by `rfl` on the
 lowered body. -/
 theorem attention_score_case1_loop_at_16
     (Q K M Out : RegionName) (sm_scale : ℝ) :
@@ -955,7 +962,7 @@ def attentionScoreCase1LoopBody : List Stmt :=
       (Op.add NumericDType.real (Broadcast.consSame Broadcast.nil) (Op.ref TileDType.real [64] "o")
         (Op.reduceSum ⟨0, by simp⟩ Bool.false (Op.ref TileDType.real [64, 64] "p"))),
     Stmt.assign TileDType.blockPtr [64, 64] "Q_block_ptr"
-      (Op.advanceBlockPtr (Op.ref TileDType.blockPtr [64, 64] "Q_block_ptr") [64, 0]),
+      (Op.advanceBlockPtr (Op.ref TileDType.blockPtr [64, 64] "Q_block_ptr") [(64:Nat), (0:Nat)]),
     Stmt.assign TileDType.ptr [64] "m_ptrs"
       (Op.ptrAdd Broadcast.scalarR (Op.ref TileDType.ptr [64] "m_ptrs") (Op.constNat 64))]
 
@@ -1024,7 +1031,7 @@ def attentionScoreCase1LoopBodyG (BN BD swo sws N_CTX : Nat) : List Stmt :=
       (Op.add NumericDType.real (Broadcast.consSame Broadcast.nil) (Op.ref TileDType.real [BN] "o")
         (Op.reduceSum ⟨0, by simp⟩ Bool.false (Op.ref TileDType.real [BN, BN] "p"))),
     Stmt.assign TileDType.blockPtr [BN, BD] "Q_block_ptr"
-      (Op.advanceBlockPtr (Op.ref TileDType.blockPtr [BN, BD] "Q_block_ptr") [BN, 0]),
+      (Op.advanceBlockPtr (Op.ref TileDType.blockPtr [BN, BD] "Q_block_ptr") [BN, (0:Nat)]),
     Stmt.assign TileDType.ptr [BN] "m_ptrs"
       (Op.ptrAdd Broadcast.scalarR (Op.ref TileDType.ptr [BN] "m_ptrs") (Op.constNat BN))]
 
@@ -1512,12 +1519,13 @@ theorem score_loopBody_eval
       (by simp [ho]) (by simp)))]
   -- stmt 12: Q_block_ptr = advance [64, 0]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [64,64] "Q_block_ptr") [64, 0]) _
+    (show evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [64,64] "Q_block_ptr") [(64:Nat), (0:Nat)]) _
         = some (⟨fun _ : TileIndex [64, 64] =>
             { region := Q, baseOffset := case1QKOffset s, parentShape := [128, 64],
               blockShape := [64, 64], strides := [64, 1], offsets := [c * 64 + 64, 0] }⟩
             : Tile .blockPtr [64,64]) from by
-      rw [advanceBlockPtr_eval]; simp [hQbp]))]
+      rw [advanceBlockPtr_eval]; simp [hQbp]
+      funext i; congr 1 <;> omega))]
   -- stmt 13: m_ptrs += 64
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (Op.ptrAdd Broadcast.scalarR (Op.ref .ptr [64] "m_ptrs") (Op.constNat 64)) _
@@ -1726,12 +1734,13 @@ theorem score_loopBody_evalG
         (⟨fun _ : TileIndex [BN,BN] => some (0:ℝ)⟩ : Tile .real [BN,BN]))
       (by simp [ho]) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (show evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BN,BD] "Q_block_ptr") [BN, 0]) _
+    (show evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BN,BD] "Q_block_ptr") [BN, (0:Nat)]) _
         = some (⟨fun _ : TileIndex [BN, BD] =>
             { region := Q, baseOffset := case1QKOffsetQG s H stride_qz stride_qh, parentShape := [N_CTX, BD],
               blockShape := [BN, BD], strides := [stride_qm, stride_qk], offsets := [c * BN + BN, 0] }⟩
             : Tile .blockPtr [BN,BD]) from by
-      rw [advanceBlockPtr_eval]; simp [hQbp]))]
+      rw [advanceBlockPtr_eval]; simp [hQbp]
+      funext i; congr 1 <;> omega))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (Op.ptrAdd Broadcast.scalarR (Op.ref .ptr [BN] "m_ptrs") (Op.constNat BN)) _
         = some (⟨fun idx : TileIndex [BN] =>

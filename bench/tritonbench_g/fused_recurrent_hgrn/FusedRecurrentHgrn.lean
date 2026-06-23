@@ -8,7 +8,7 @@ import VeriTile.Triton.DSL
 
 `fused_recurrent_hgrn_fwd_kernel` is the HGRN forward recurrent state scan:
 each program carries a hidden-state vector `b_h` across a `0..T` time loop,
-updating `b_h = b_h * exp(g_t) + (1 - exp(g_t)) * x_t` per step, optionally
+updating `b_h = g_t * b_h + x_t` per step, optionally
 seeded by an initial state and optionally storing the final state. The
 companion backward kernel performs the reverse-time gradient scan.
 
@@ -24,16 +24,20 @@ per-program statement covers every program of the grid.
 ## Proof architecture
 
 ```
-fused_recurrent_hgrn_python_test_shape_complete_summary   ← TOP THEOREM
-  ├─ fused_recurrent_hgrn_test_case{1..4}_output_summary   per-case summaries
-  │    ├─ *_surface_toAlgorithm_supported                  surface lowers to algorithm layer
-  │    └─ *_python_test_shape_all_outputs_compute_correct  ComputeCorrect over all stores
-  │         ├─ fused_recurrent_hgrn_output_store_slice_compute_correct
-  │         ├─ fused_recurrent_hgrn_forward_step_store_slice_compute_correct
-  │         ├─ fused_recurrent_hgrn_final_state_store_slice_compute_correct
-  │         ├─ fused_recurrent_hgrn_bwd_dx_step_store_slice_compute_correct
-  │         └─ fused_recurrent_hgrn_bwd_dg_step_store_slice_compute_correct
-  └─ (each *_compute_correct over a *_correct algorithm-layer readback per lane)
+fused_recurrent_hgrn_output_summary_general               ← TOP THEOREM (dimension-general)
+  ├─ (surface lowers to algorithm layer)
+  ├─ fused_recurrent_hgrn_forward_step_closed_form                 (hgrnStateClosed forward)
+  ├─ fused_recurrent_hgrn_final_state_closed_form
+  ├─ fused_recurrent_hgrn_bwd_dx_step_store_slice_compute_correct
+  └─ fused_recurrent_hgrn_bwd_dg_step_store_slice_compute_correct
+
+Thin Python-shape corollaries (section TestShape, recovered by projecting the
+clauses each flag configuration exercises):
+fused_recurrent_hgrn_python_test_shape_complete_summary
+  └─ fused_recurrent_hgrn_test_case{1..4}_output_summary
+       ├─ *_surface_toAlgorithm_supported                 surface lowers to algorithm layer
+       └─ *_python_test_shape_all_outputs_compute_correct ComputeCorrect over all stores
+            (over the same *_store_slice_compute_correct lemmas above)
 ```
 
 ## Modeling boundary
@@ -1629,8 +1633,9 @@ case propositions so the manifest context reflects its full-surface statement. -
 
 /-- Case 1 end-to-end summary for the Python regression shape: exact
 forward/backward DSL surfaces plus the genuine `o` recurrence step (realizing
-`hgrnStateClosed(t+1)`) and the backward `dx`/`dg` row writebacks. Thin
-corollary projecting `fused_recurrent_hgrn_output_summary_general`. -/
+`hgrnStateClosed(t+1)`) and the backward `dx`/`dg` row writebacks. Independent
+pinned-shape proof (from the `test_case1_python_path_summary` and
+`test_case1_python_test_shape_all_outputs_compute_correct` faces). -/
 theorem fused_recurrent_hgrn_test_case1_output_summary
     (X G O H0 Ht DO DX DG BHPrev DHPrev BO : RegionName) (t_rel : Fin 2)
     (s : BlockState) :

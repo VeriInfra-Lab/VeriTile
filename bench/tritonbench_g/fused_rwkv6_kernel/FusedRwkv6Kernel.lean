@@ -28,7 +28,8 @@ b_h^(m)[j_v,j_k] = h0[j_v,j_k] · ∏_{j<m} exp(w_j[j_k])
 ```
 
 — `stateClosed` below, a standalone specification over the *input* regions
-`q,k,v,w,u,h0`, never a read-back of the kernel's own output. This is the
+`k,v,w,h0` (the `q`/`u` channels enter only in `outputClosed`), never a
+read-back of the kernel's own output. This is the
 gated-recurrence carry-fold of `chunk_gate_recurrence` (PR #290), generalized
 from a *scalar* gate to the per-channel decay gate `exp(w_t[j_k])` and an
 outer-product source `k_t ⊗ v_t`. The per-step output is the reduction
@@ -42,7 +43,7 @@ o_m[j_v] = Σ_{j_k} ( b_h^(m)[j_v,j_k] + k_m[j_k]·v_m[j_v]·u[j_k] ) · scale·
 ## Proof architecture
 
 ```
-fused_recurrent_rwkv6_python_test_case{1..4}_output_summary    ← TOP THEOREMS
+fused_recurrent_rwkv6_output_summary_general                  ← TOP THEOREM (dimension-general)
   ├─ fused_recurrent_rwkv6_*_surface_toAlgorithm_supported     surface lowers
   ├─ fused_recurrent_rwkv6_state_step_closed_form              state carry-fold
   │      └─ stateStepSpec_eq_stateClosed_succ
@@ -51,6 +52,9 @@ fused_recurrent_rwkv6_python_test_case{1..4}_output_summary    ← TOP THEOREMS
   │      └─ outputStepSpec_eq_outputClosed   (Σ_{j_k} … = o_m)
   └─ fused_recurrent_rwkv6_final_state_closed_form             ht = b_h^(T)
        └─ stateClosed at m = T  +  final_state_store_slice
+
+fused_recurrent_rwkv6_python_test_case{1..4}_output_summary  ← thin Python-shape corollaries
+  └─ (instantiations of fused_recurrent_rwkv6_output_summary_general; section TestShape)
 ```
 
 ## Modeling boundary
@@ -191,7 +195,7 @@ instance activeDecidable (s : BlockState) (V BV : Nat) (jv : Fin BV) :
 
 /-! ## Genuine closed-form data (over the *input* regions)
 
-`qVal/kVal/vVal/wVal/uVal/h0Val` read the kernel's exact block-pointer layouts at
+`qVal/kVal/vVal/uVal/h0Val` read the kernel's exact block-pointer layouts at
 time row `t`. The decay gate is the per-channel `decay s w t j_k = exp(w_t[j_k])`. -/
 
 /-- `q[t][j_k]·scale` — the kernel multiplies the loaded `q` row by `scale`. -/
@@ -228,7 +232,7 @@ noncomputable def stateSeed (s : BlockState) (h0 : RegionName)
 
 /-- **Genuine closed form for the state after `m` steps**, tile element `idx`:
 `seed · ∏_{j<m} exp(w_j) + Σ_{t<m} (k_t·v_t) · ∏_{t<j<m} exp(w_j)`. This is a
-standalone specification over the input regions `q,k,v,w,h0` — never a read-back
+standalone specification over the input regions `k,v,w,h0` — never a read-back
 of the kernel's own output. -/
 noncomputable def stateClosed
     (s : BlockState) (k v w h0 : RegionName) (USE_INITIAL_STATE : Bool)
@@ -836,7 +840,9 @@ theorem fused_recurrent_rwkv6_out_step_offset_injective
 
 /-! ## Genuine Python test-case summaries
 
-Each top theorem states: (i) the full RWKV6 surface lowers to the algorithm
+Each of these is a Python-shape corollary of
+`fused_recurrent_rwkv6_output_summary_general` (the dimension-general main
+theorem). Each states: (i) the full RWKV6 surface lowers to the algorithm
 layer, and (ii) the genuine per-step output reduction realizes `outputClosed(t)`
 and the state update realizes `stateClosed(t+1)` — closed forms over the *input*
 regions, never a read-back of the kernel's own output. Case 1: no initial / no

@@ -27,8 +27,8 @@ statement covers every program of the grid.
 ## Proof architecture
 
 ```
-context_attn_nopad_python_test_shape_output_summary         ← TOP THEOREM
-  └─ nopad_exec                              full surface exec → genuine closed form
+context_attn_nopad_output_summary_general                   ← TOP THEOREM (symbolic, dimension-general)
+  └─ nopad_exec                              full surface exec → genuine closed form (concrete shape)
        ├─ nopadPreLoop_eval                  19 preLoop stmts → nopadInvariant … 0
        ├─ forRangeDyn_inv ∘ nopad_attn_step  loop body advances nopadInvariant c → c+1
        │    └─ osNormStepBot_block_eq + nopadBlockM_{sup,lij,acc} bridges
@@ -54,9 +54,11 @@ The online-softmax streaming loop (`m_i`/`l_i`/`acc` updates, `tl.dot`, the caus
 (`nopadPreLoop_eval`/`nopad_attn_step`/`nopadPostLoop_eval`, assembled in
 `nopad_exec`) and *proven* to collapse to this closed form, not re-stated as a
 spec. `toAlgorithm?` lowering is available separately as
-`context_attn_nopad_fwd_kernel_surface_toAlgorithm_supported`. The summary is
-instantiated at the single Python test shape (`BLOCK_M=BLOCK_DMODEL=BLOCK_N=128`);
-other shapes are not covered by the top theorem.
+`context_attn_nopad_fwd_kernel_surface_toAlgorithm_supported`. The top theorem is
+dimension-general: it is stated over symbolic `BLK`/`DM` (with
+`BLOCK_M = BLOCK_N = BLK`, `BLOCK_DMODEL = DM`) and the contiguous layout strides
+`(rs, hs, 1)`. The Python test shape (`BLK = DM = 128`, `rs = 768`, `hs = 128`) is
+recovered as a concrete special case.
 -/
 
 namespace VeriTile.Bench.TritonBenchG.ContextAttnNopad
@@ -1024,7 +1026,7 @@ def nopadPreLoop (Q K V : RegionName) (B_Start_Loc B_Seqlen : Region .nat) : Lis
             (Op.ref .nat [] "cur_batch_seq_len")).where
         (Op.constNat 1) (Op.constNat 0)) ]
 
-/-- The 21 lowered loop-body statements of the Python-shape `context_attn_nopad`
+/-- The 22 lowered loop-body statements of the Python-shape `context_attn_nopad`
 forward `forRangeDyn` body (online-normalized streaming softmax over one KV
 block). `start_n = start_n` and `p = p` are the lowered `tl.multiple_of` /
 `p.to(v.dtype)` no-ops. -/
@@ -4632,7 +4634,7 @@ def nopadPreLoopG (Q K V : RegionName) (B_Start_Loc B_Seqlen : Region .nat)
             (Op.ref .nat [] "cur_batch_seq_len")).where
         (Op.constNat 1) (Op.constNat 0)) ]
 
-/-- General loop-body statement list (21 stmts), strides `(rs, hs, 1)`. -/
+/-- General loop-body statement list (22 stmts), strides `(rs, hs, 1)`. -/
 def nopadLoopBodyG (sc : ℝ) (rs hs BLK DM : Nat) : List Stmt :=
   [ Stmt.assign .nat [] "start_n" (Op.ref .nat [] "start_n"),
     Stmt.assign .real [DM, BLK] "k"
@@ -6415,7 +6417,7 @@ instance activeGDecidable (s : BlockState) (B_Seqlen : RegionName) (BLK DM : Nat
 
 end Correct
 
-/-! # ══════════ TEST-SHAPE — concrete instances / pinned scaffolding ══════════ -/
+/-! # ══════════ GENERAL — dimension-general public summary ══════════ -/
 
 
 section General
@@ -6434,7 +6436,7 @@ value: the streaming `m_i`/`l_i`/`acc` recurrence is decoded statement-by-statem
 and proven to collapse to the closed form. Side conditions: `0 < BLK`, `0 < DM`,
 `DM ≤ rs` (output-offset injectivity; contiguous layout has `rs = H·DM ≥ DM`),
 `hundef`. Instantiating `BLK = DM = 128`, `rs = 768`, `hs = 128` recovers the
-Python test-shape summary. -/
+concrete Python test shape. -/
 theorem context_attn_nopad_output_summary_general
     (Q K V : RegionName) (B_Start_Loc B_Seqlen : Region .nat)
     (Out : RegionName) (sm_scale : ℝ) (rs hs BLK DM : Nat)

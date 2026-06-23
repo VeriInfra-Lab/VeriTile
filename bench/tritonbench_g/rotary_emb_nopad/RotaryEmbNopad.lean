@@ -12,7 +12,7 @@ one head (`program_id(0)`) and one token-block (`program_id(1)`), loads the
 per-token `cos`/`sin` half-dim vectors, and rewrites the two head-dim halves via
 `(q0*cos - q1*sin, q0*sin + q1*cos)` for Q, and the same for K only on the GQA
 group leader (`cur_head_idx % KV_GROUP_NUM == 0`). The file also covers the
-`fused_rotary_embedding_v2` KV-cache writeback variant.
+`fused_rotary_embedding_kernel_v2` KV-cache writeback variant.
 
 ## Scope
 
@@ -59,8 +59,8 @@ computed. Scoping is **one half-store at a time** (q0/q1/k0/k1), each over the
 active lanes (`tokens_range < q_total_tokens`, `cur_head_idx < Q_HEAD_NUM`, and
 for K the GQA-leader predicate); out-of-bounds lanes are preserved verbatim. The
 top summary covers the no-cache `case1` Python shape (contiguous
-`(512, 8, 64)` Q / `(256, 2, 64)` K, `HEAD_DIM = 64`, `BLOCK_TOKENS = 4`,
-`KV_GROUP_NUM = 4`). The `fused_rotary_embedding_v2` KV-cache/Q track is verified
+`(32, 8, 64)` Q / `(32, 4, 64)` K, `HEAD_DIM = 64`, `BLOCK_TOKENS = 4`,
+`KV_GROUP_NUM = 2`). The `fused_rotary_embedding_kernel_v2` KV-cache/Q track is verified
 at the per-store-slice level (including the context paged-cache offsets) but is
 **not folded into a single top-level v2 summary** here — honestly, only `case1`
 has a public `output_summary`. `@triton.autotune` is not modeled.

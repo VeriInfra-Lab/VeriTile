@@ -26,7 +26,7 @@ the leaky-ReLU activation, derived from the loaded `A`/`B` tiles.
 
 ```
 matmul_leakyrelu_closed_form_correct                 ← TOP THEOREM (ComputeCorrect.Realizes)
-  └─ matmul_leakyrelu_exec_closed_form               ← exec-side closed form (every active cell = fp16(leakyrelu(∑_k A·B)))
+  └─ mlr_exec_closed_form               ← exec-side closed form (every active cell = fp16(leakyrelu(∑_k A·B)))
        ├─ mlr_preLoop      (P 0: accumulator = 0, a/b pointers seeded)
        ├─ mlr_step         (one K-block: accumulator += tl.dot advances the partial sum)
        ├─ mlr_postLoop     (activation + fp16 cast + masked store = the closed form)
@@ -36,8 +36,7 @@ matmul_leakyrelu_closed_form_correct                 ← TOP THEOREM (ComputeCor
 ## Modeling boundary
 
 Arithmetic is over `ℝ` (not bit-accurate IEEE float, except that the final fp16
-output cast is modeled by `FloatDType.real.cast .fp16`); `@triton.autotune` /
-`num_warps` are not modeled. The grouped program-id schedule (`pid_m`/`pid_n`
+output cast is modeled by `FloatDType.real.cast .fp16`). The grouped program-id schedule (`pid_m`/`pid_n`
 derivation) is the kernel's own deterministic computation; the spec is stated in
 terms of the resulting `pid_m`/`pid_n` (carried as `PM`/`PN`), so it covers every
 program of the grid. The layout contract is the kernel's own strided pointer

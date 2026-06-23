@@ -27,7 +27,7 @@ independent closed-form `∑_k A·B` GEMM reference, derived from the loaded
 ```
 matmul_triton2_closed_form_correct                ← TOP THEOREM (ComputeCorrect.Realizes)
   └─ matmul_triton2_exec_closed_form              ← exec-side closed form (every active cell = ∑_k A·B)
-       ├─ matmul_preLoop      (P 0: accumulator = 0, pointers seeded)
+       ├─ preLoop      (P 0: accumulator = 0, pointers seeded)
        ├─ matmul_step         (one K-block: acc += dot(a,b) advances the partial sum)
        ├─ matmul_postLoop     (final masked store = the closed form on active lanes)
        └─ forRangeDyn_inv     (dynamic loop-invariant principle, drives the K-loop)
@@ -437,7 +437,7 @@ theorem matmul_body_split (A B C : RegionName)
 
 /-! ## Loop invariant -/
 
-/-- **Loop invariant** (counter `i = c · BLOCK_K`).
+/-- **Loop invariant** (counter `i = c`).
 
 After `c` K-blocks: program ids and `mem`/`undef` fixed; the `offs_am` / `offs_bn`
 / `offs_k` registers seeded; `accumulator` equals the partial GEMM accumulator
