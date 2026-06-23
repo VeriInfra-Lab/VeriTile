@@ -39,7 +39,7 @@ apply_penalty_output_summary                  ← TOP THEOREM
             │                                         apply_penalty_correct_target)
             ├─ foldl_step_readMem_congr             base-memory + per-lane step congruence
             ├─ apply_penalty_masked_scatter_store_value_readback_tile_from'
-            │     └─ scatter_readback_prop_masked_list_active_injective
+            │     └─ BlockState.scatter_readback_prop_masked_list_of_true
             └─ penaltyStoreValue_active_eq_penaltyValue   exec value → clean penaltyValue
 ```
 
@@ -51,8 +51,8 @@ register-set base and `s` read back identically (`foldl_step_readMem_congr`).
 
 ## Modeling boundary
 
-Arithmetic is over `ℝ` (not bit-accurate IEEE float); `@triton.autotune` is not
-modeled. The masked load uses `other=0`/`other=0.0` for out-of-range token slots.
+Arithmetic is over `ℝ` (not bit-accurate IEEE float). The masked load uses
+`other=0`/`other=0.0` for out-of-range token slots.
 Because the store address is data-dependent (gathered token ids), the masked
 scatter readback weakens global offset injectivity to **injectivity over the
 active (masked-true) lanes only** (`hUniq : ∀ i j, active i → active j →
@@ -61,8 +61,10 @@ This is satisfiable for normal padded blocks (inactive/out-of-window lanes may
 hold default or duplicated token ids and are simply not constrained); the
 correctness claim is correspondingly restricted to the active lanes. The
 integer-to-float promotion in `batch_ids_count * cur_freqency` and the
-`tl.where(logit > 0, …)` branch are modeled directly. The specs reference the
-`ℝ` ordered-field operations directly, not `VeriTile.Triton.Math.*`.
+`tl.where(logit > 0, …)` branch are modeled directly. The penalty spec
+`penaltyValue` goes through `VeriTile.Triton.Math.Optimizer`'s Lion oracle
+(`TiledOptimizer.lionPenalty`); the surrounding arithmetic is the `ℝ`
+ordered-field operations directly.
 -/
 
 namespace VeriTile.Bench.TritonBenchG.ApplyPenalty

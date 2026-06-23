@@ -72,7 +72,7 @@ sorry-free in `VeriTile/Triton/Semantics/BlockPtrEval.lean` +
 `VeriTile/Triton/Core/{Types,Shape}.lean` (`address_2d_offsets`,
 `advance_2d_offsets`, the `blockPtr_*_index` forms, `inBounds_nil_*`), the
 dynamic-loop driver `forRangeDyn_inv` lives in
-`VeriTile/Triton/LoopInvariant.lean`, and the flash-attn-specific recipes
+`VeriTile/Triton/Kernel/LoopInvariant.lean`, and the flash-attn-specific recipes
 `flash_makeBlockPtrDyn_eval` / `flash_makeBlockPtr_rowcol_eval` /
 `flash_advance_{col,row}_eval` / `flash_load_{K,Q}_eval` (below) specialize them
 to this kernel's exact `make_block_ptr` AST.
@@ -86,24 +86,26 @@ its one-block advance `flashState_succ` (= the kernel's per-block update
 `flashState_full_eq_spec{,_causal}` (final state reads off `flashAttnOValueSpec{,
 Causal}`), the `max`/`denom` channel-independence lemmas
 `flashState_{fst,snd_fst}_eq`, and the `attnInvariant` definition binding the
-kernel's 14 live registers to `flashState` after `c` blocks.
+kernel's 12 live registers to `flashState` after `c` blocks.
 
-The **remaining stage** (not yet closed) is the exec-side `preLoop`/`attn_step`/
-`attn_postLoop` proofs over this `attnInvariant` (threading the loop-body op-eval
-recipes — including the causal `tl.where(off_m ≥ start_n+off_n, qk, -inf)` mask —
-and the WithBot `reduceMaxDrop`/`realExp2 ⊥ = 0`/masked-dot bridges into one
-`flashState_succ` step), plus the dual `O`/`L` stores composed via
-`forRangeDyn_inv` and read off through `flashState_full_eq_spec{,_causal}`. That
-mirrors `VeriTile/Examples/AttentionForwardClosedForm.lean`'s preLoop/step/postLoop
-skeleton, now retargeted onto the block-pointer foundation and the `flashState`
-recurrence above. No self-referential / tautological summary is asserted in its
-place.
+The exec-side `preLoop`/`attn_step`/`attn_postLoop` stage over this
+`attnInvariant` is now **closed, sorry-free**: the loop-body step
+`flash_attn_step_general` threads the loop-body op-eval recipes — including the
+causal `tl.where(off_m ≥ start_n+off_n, qk, -inf)` mask — and the WithBot
+`reduceMaxDrop`/`realExp2 ⊥ = 0`/masked-dot bridges into one `flashState_succ`
+step; `flash_attn_exec_general` composes it via `forRangeDyn_inv` together with
+the dual `O`/`L` stores, read off through `flashState_full_eq_spec{,_causal}`.
+These assemble into the genuine top theorems
+`flash_attn_python_case1/2_genuine_compute_correct_general`. That mirrors
+`VeriTile/Examples/AttentionForwardClosedForm.lean`'s preLoop/step/postLoop
+skeleton, retargeted onto the block-pointer foundation and the `flashState`
+recurrence above. No self-referential / tautological summary is asserted.
 
 ## Modeling boundary
 
 Arithmetic is over `ℝ` (not bit-accurate IEEE float; `exp2`, `log2`, `tl.dot`,
 and the `sm_scale · log2(e)` scaling are not modeled at the bit level);
-`@triton.autotune`/`num_warps`/`num_stages` are not modeled. Side conditions:
+`num_warps`/`num_stages` are not modeled. Side conditions:
 layout `(BS,HEAD,SEQLEN,DIM) = (2,2,128,64)`, `BLOCK_M = 128`, `BLOCK_N = 64`,
 strides `(16384, 8192, 64, 1)`; case 1 is `IS_CAUSAL = true`, case 2 is `false`.
 -/
@@ -668,8 +670,8 @@ noncomputable def flashAttnOValueSpecCausal
 
 /-- The genuine non-causal `O`-value spec unfolds to the streaming online-softmax
 fold over every key (the form the `exec`-side loop produces). Sorry-free bridge to
-`Math/Attention.lean`; the remaining `exec` proof has to identify the kernel's
-`out_buffer/denom` with this fold. -/
+`Math/Attention.lean`; the `exec` proof (`flash_attn_exec_general`) identifies the
+kernel's `out_buffer/denom` with this fold. -/
 theorem flashAttnOValueSpec_eq_streaming
     (s : BlockState) (Q K V : RegionName)
     (sm_scale : ℝ) (stride_q_head DIM SEQLEN BLOCK_M : Nat)
@@ -703,12 +705,13 @@ theorem flashAttnOValueSpecCausal_eq_streaming
          st.2.2 / st.2.1) :=
   VeriTile.Triton.attentionRealBase2PerKeyScaleCausal_eq_streaming _ _ _ _ _ i d
 
-/-! ## exec-side block-pointer eval recipes (toward the loop-invariant proof)
+/-! ## exec-side block-pointer eval recipes (for the loop-invariant proof)
 
-The remaining gap is the `exec`-side proof that the `make_block_ptr` streaming
-loop realizes `flashAttnOValueSpec{,Causal}`. The reusable foundation for that
-proof — the block-pointer construction/advance/load `evalOp` reductions — now
-lives sorry-free in `VeriTile/Triton/Semantics/BlockPtrEval.lean` and
+The `exec`-side proof that the `make_block_ptr` streaming loop realizes
+`flashAttnOValueSpec{,Causal}` is closed sorry-free (`flash_attn_exec_general`).
+The reusable foundation for that proof — the block-pointer
+construction/advance/load `evalOp` reductions — lives sorry-free in
+`VeriTile/Triton/Semantics/BlockPtrEval.lean` and
 `VeriTile/Triton/Core/{Types,Shape}.lean`. These local wrappers specialize them
 to `flash_attn`'s exact AST: `Q`/`O` use `makeBlockPtrDynOffsets`
 (`offsets=(start_m·BLOCK_M, 0)`), `K`/`V` use `makeBlockPtrDyn`
@@ -759,7 +762,7 @@ theorem flash_advance_col_eval (s : BlockState) (region : RegionName)
       (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS], offsets := [0, colOff] }⟩)) :
-    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [0, d]) s
+    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [(0:Nat), d]) s
       = some (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS], offsets := [0, colOff + d] }⟩) := by
@@ -778,7 +781,7 @@ theorem flash_advance_row_eval (s : BlockState) (region : RegionName)
       (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS], offsets := [rowOff, 0] }⟩)) :
-    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [d, 0]) s
+    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [d, (0:Nat)]) s
       = some (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS], offsets := [rowOff + d, 0] }⟩) := by
@@ -1352,10 +1355,11 @@ noncomputable def flashStateBot
   (flashKeysUpto qT kT vT scale causal qStart hi i d).foldl osStepBot (⊥, 0, 0)
 
 /-- **Loop invariant** for the flash-attn streaming loop (counter
-`i = block c · BLOCK_N`, window `hi_c = i`). Binds the kernel's 14 live registers
-after `c` blocks: program ids, the loaded+scaled `q`, the index vectors
-`off_m`/`off_n`, `qk_scale`, `lo`/`hi`, the three block pointers (`K`/`V` advanced
-by `c·BLOCK_N`, `Q` fixed), and — the heart — `max`/`denom`/`out_buffer` equal the
+`i = block c · BLOCK_N`, window `hi_c = i`). Binds the kernel's 12 live registers
+after `c` blocks: the loaded+scaled `q`, the index vectors
+`off_m`/`off_n`, the scalars `start_m`/`off_bs_head`/`qkv_base_offset`, the three
+block pointers (`K`/`V` advanced by `c·BLOCK_N`, `Q` fixed), and — the heart —
+`max`/`denom`/`out_buffer` equal the
 three components of the ⊥-seeded `flashStateBot` over the first `i` keys (`max` =
 `flashRunningMax`, the `WithBot ⊔`-fold; `denom`/`out_buffer` = the ⊥-seeded
 `denom`/`acc`, per row / per `(row, channel)`). Memory/undef preserved. Strides specialized
@@ -1401,7 +1405,7 @@ noncomputable def attnInvariant
   (s.regs .nat [] "qkv_base_offset" = some (Tile.scalar (s0.pids 1 * stride_q_head))) ∧
   (∀ rg o, s.undef rg o = 0) ∧ (s.mem = s0.mem)
 
-/-! ## exec-side loop-invariant skeleton (in progress)
+/-! ## exec-side loop-invariant skeleton
 
 The compiled body of `flash_attn_fwd_kernel_surface` (verified by direct
 inspection of `(surface …).toAlgKernel.body`) is a 22-statement list:
@@ -1445,11 +1449,11 @@ loopBody (15):
 
 The body decomposes by `rfl` into `take 16 ++ (forRangeDyn … :: postLoop)`, so the
 loop driver `forRangeDyn_inv` applies with the abstract `loopBody`/postLoop supplied
-at the call site. The genuine remaining work — the per-statement op-eval recipes
-for the 15-stmt loop body (threading the causal `ifThen`/`where` `-inf` mask into
-the `osBlockStep`/`attnKeyListCausal` fold) and the `attnInvariant`/`preLoop`/
-`attn_step`/`attn_postLoop` skeleton composed via `forRangeDyn_inv` and bridged
-through `flashAttnOValueSpec{,Causal}_eq_streaming` — is tracked here. -/
+at the call site. The full chain is closed sorry-free: the per-statement op-eval
+recipes for the 15-stmt loop body (threading the causal `ifThen`/`where` `-inf`
+mask into the `osBlockStep`/`attnKeyListCausal` fold) and the
+`attnInvariant`/`preLoop`/`attn_step`/`attn_postLoop` skeleton composed via
+`forRangeDyn_inv` and bridged through `flashAttnOValueSpec{,Causal}_eq_streaming`. -/
 
 /-- The compiled body splits as `take 16 ++ drop 16`, with `drop 16` a `forRangeDyn`
 followed by the 5 post-loop statements. Pure `List` identity (`take_append_drop`),
@@ -2461,9 +2465,9 @@ def flashLoopBody (IS_CAUSAL : Bool) : List Stmt :=
         (Op.reduceSum (⟨1, by simp⟩ : Fin [128, 64].length) Bool.false (Op.ref .real [128, 64] "nume"))),
     Stmt.assign .real [128] "max" (Op.ref .real [128] "max_new"),
     Stmt.assign .blockPtr [64, 64] "K_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 64] "K_block_ptr") [0, 64]),
+      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 64] "K_block_ptr") [(0:Nat), (64:Nat)]),
     Stmt.assign .blockPtr [64, 64] "V_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 64] "V_block_ptr") [64, 0]) ]
+      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 64] "V_block_ptr") [(64:Nat), (0:Nat)]) ]
 
 /-- The lowered body `drop 16` is `forRangeDyn … flashLoopBody :: postLoop`. -/
 theorem flashLoopBody_check (Q K V L O : RegionName) (sm_scale : ℝ) (IS_CAUSAL : Bool) :
@@ -2596,9 +2600,9 @@ def flashLoopBodyTail (IS_CAUSAL : Bool) : List Stmt :=
         (Op.reduceSum (⟨1, by simp⟩ : Fin [128, 64].length) Bool.false (Op.ref .real [128, 64] "nume"))),
     Stmt.assign .real [128] "max" (Op.ref .real [128] "max_new"),
     Stmt.assign .blockPtr [64, 64] "K_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 64] "K_block_ptr") [0, 64]),
+      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 64] "K_block_ptr") [(0:Nat), (64:Nat)]),
     Stmt.assign .blockPtr [64, 64] "V_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 64] "V_block_ptr") [64, 0]) ]
+      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 64] "V_block_ptr") [(64:Nat), (0:Nat)]) ]
 
 /-- `flashLoopBody` is the 2 loads, then the qk seed/mask prefix, then the tail. -/
 theorem flashLoopBody_eq_tail (IS_CAUSAL : Bool) :
@@ -4498,9 +4502,9 @@ def flashLoopBodyG (IS_CAUSAL : Bool) (BLOCK_M BLOCK_N DIM : Nat) : List Stmt :=
         (Op.reduceSum (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "nume"))),
     Stmt.assign .real [BLOCK_M] "max" (Op.ref .real [BLOCK_M] "max_new"),
     Stmt.assign .blockPtr [DIM, BLOCK_N] "K_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [DIM, BLOCK_N] "K_block_ptr") [0, BLOCK_N]),
+      (Op.advanceBlockPtr (Op.ref .blockPtr [DIM, BLOCK_N] "K_block_ptr") [(0:Nat), BLOCK_N]),
     Stmt.assign .blockPtr [BLOCK_N, DIM] "V_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [BLOCK_N, DIM] "V_block_ptr") [BLOCK_N, 0]) ]
+      (Op.advanceBlockPtr (Op.ref .blockPtr [BLOCK_N, DIM] "V_block_ptr") [BLOCK_N, (0:Nat)]) ]
 
 /-- The general L4–L14 tail of `flashLoopBodyG`. -/
 def flashLoopBodyTailG (BLOCK_M BLOCK_N DIM : Nat) : List Stmt :=
@@ -4541,9 +4545,9 @@ def flashLoopBodyTailG (BLOCK_M BLOCK_N DIM : Nat) : List Stmt :=
         (Op.reduceSum (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "nume"))),
     Stmt.assign .real [BLOCK_M] "max" (Op.ref .real [BLOCK_M] "max_new"),
     Stmt.assign .blockPtr [DIM, BLOCK_N] "K_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [DIM, BLOCK_N] "K_block_ptr") [0, BLOCK_N]),
+      (Op.advanceBlockPtr (Op.ref .blockPtr [DIM, BLOCK_N] "K_block_ptr") [(0:Nat), BLOCK_N]),
     Stmt.assign .blockPtr [BLOCK_N, DIM] "V_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [BLOCK_N, DIM] "V_block_ptr") [BLOCK_N, 0]) ]
+      (Op.advanceBlockPtr (Op.ref .blockPtr [BLOCK_N, DIM] "V_block_ptr") [BLOCK_N, (0:Nat)]) ]
 
 /-- `flashLoopBodyG` is the 2 loads, then the qk seed/mask prefix, then the tail. -/
 theorem flashLoopBodyG_eq_tail (IS_CAUSAL : Bool) (BLOCK_M BLOCK_N DIM : Nat) :

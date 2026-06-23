@@ -25,7 +25,7 @@ reference value.
 ```
 matmul_kernel_closed_form_correct                 ← TOP THEOREM (ComputeCorrect.Realizes)
   └─ matmul_kernel_exec_closed_form               ← exec-side closed form (every cell = fp16(∑_k A·B))
-       ├─ matmul_preLoop      (P 0: accumulator = 0, pointers seeded)
+       ├─ preLoop      (P 0: accumulator = 0, pointers seeded)
        ├─ matmul_step         (one K-block: accumulator += dot advances the partial sum)
        ├─ matmul_postLoop     (cast to fp16 + final store = the closed form)
        └─ forRange_inv        (loop-invariant principle, drives the K-loop)
@@ -35,7 +35,7 @@ matmul_kernel_closed_form_correct                 ← TOP THEOREM (ComputeCorrec
 
 Arithmetic is over `ℝ` (not bit-accurate IEEE float); the dot reduction is
 accumulated over `ℝ` and the modeled `tl.cast(..., fp16)` is the placeholder
-`FloatDType.real.cast .fp16`. `@triton.autotune` / `num_warps` are not modeled.
+`FloatDType.real.cast .fp16`.
 The host launch (grid, 2-D program scheduling) is the trusted boundary; the
 per-program statement is universally quantified over `s`, covering every program
 of the grid. The layout contract is the kernel's hard-coded `4096×4096`

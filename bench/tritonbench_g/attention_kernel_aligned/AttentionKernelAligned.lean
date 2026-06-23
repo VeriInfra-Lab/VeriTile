@@ -32,16 +32,16 @@ per-program statement covers every program of the grid.
 ## Proof architecture
 
 ```
-attention_kernel_aligned_python_test_shape_output_summary    ← TOP THEOREM (genuine, NON-self-referential)
+attention_kernel_aligned_python_test_shape_output_summary_general    ← GENERAL TOP THEOREM (dimension-parameterized, genuine, NON-self-referential)
   ├─ attention_kernel_aligned_fwd_kernel_aligned_surface_toAlgorithm_supported   surface lowers to algorithm layer
-  └─ ClosedForm.aligned_genuine_output_compute_correct
-       └─ ClosedForm.aligned_exec    ← whole-kernel exec assembly (preLoop + forRangeDyn + postLoop)
+  └─ ClosedForm.aligned_genuine_output_compute_correct_general
+       └─ ClosedForm.aligned_exec_general    ← whole-kernel exec assembly (preLoop + forRangeDyn + postLoop)
             └─ (every Out lane = genuine closed form `alignedClosedForm`)
 
 genuine producer closed form (sorry-free; exec assembly now connected):
   alignedClosedForm  := attentionRealBase2ScalarScaleBias (loaded Q/K/V) (sm_scale·log2e) (rel_h+rel_w bias)
   alignedClosedForm_eq_streaming  → Math/Attention.lean (osStep fold == batch base-2 softmax)
-  aligned_exec : preLoop (→ invariant 0) + forRangeDyn_inv over aligned_step + aligned_postLoop;
+  aligned_exec : preLoop (→ invariant 0) + forRangeDyn_inv over attn_step + attn_postLoop;
     attnGenScore_eq_alignedClosedForm bridges the genuine `fscore` softmax to `alignedClosedForm`
     (with `log2e = 1.44269504`, the kernel's literal `qk_scale` constant).
 ```
@@ -50,9 +50,11 @@ genuine producer closed form (sorry-free; exec assembly now connected):
 
 Arithmetic is over `ℝ` (not bit-accurate IEEE float); the `OUT_DTYPE`
 (`fp16`/`bf16`) casts collapse to the identity post-erasure; `@triton.autotune`
-/ `num_warps`/`num_stages` are not modeled. The output summary is stated at the
-Python test shape (`B=2, H=4, N_CTX=128, D_MODEL=64, BLOCK_M=32, BLOCK_N=64`,
-`sm_scale=1.0`, `P_SEQ=0`, `fp16`, contiguous per-head strides `(8192,64,1)`).
+/ `num_warps`/`num_stages` are not modeled. The output summary is dimension-general
+(symbolic `BLOCK_M BLOCK_N HEAD BIAS_LAST_SIZE numKVBlocks sm_scale` and strides);
+the Python test shape (`B=2, H=4, N_CTX=128, D_MODEL=64, BLOCK_M=32, BLOCK_N=64`,
+`sm_scale=1.0`, `P_SEQ=0`, `fp16`, contiguous per-head strides `(8192,64,1)`)
+is the special case.
 The public summary asserts the **genuine** closed form: every observable `Out`
 lane equals the base-2 streaming-softmax `alignedClosedForm` of the loaded Q/K/V
 tiles under the scalar score scale `sm_scale·log2(e)` and the fused `rel_h+rel_w`
@@ -543,7 +545,7 @@ theorem advance_col_eval (s : BlockState) (region : RegionName)
       (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS], offsets := [0, colOff] }⟩)) :
-    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [0, d]) s
+    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [(0:Nat), d]) s
       = some (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS], offsets := [0, colOff + d] }⟩) := by
@@ -559,7 +561,7 @@ theorem advance_row_eval (s : BlockState) (region : RegionName)
       (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS], offsets := [rowOff, 0] }⟩)) :
-    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [d, 0]) s
+    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [d, (0:Nat)]) s
       = some (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS], offsets := [rowOff + d, 0] }⟩) := by
@@ -1113,9 +1115,9 @@ def attnLoopBody (B0 : RegionName) : List Stmt :=
         (Op.reduceSum (⟨1, by simp⟩ : Fin [32, 64].length) Bool.false (Op.ref .real [32, 64] "p"))),
     Stmt.assign .real [32] "m_i" (Op.ref .real [32] "m_i_new"),
     Stmt.assign .blockPtr [64, 64] "K_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 64] "K_block_ptr") [0, 64]),
+      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 64] "K_block_ptr") [(0:Nat), (64:Nat)]),
     Stmt.assign .blockPtr [64, 64] "V_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 64] "V_block_ptr") [64, 0]) ]
+      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 64] "V_block_ptr") [(64:Nat), (0:Nat)]) ]
 
 theorem attnLoopBody_check (Q K V B0 Out : RegionName) :
     (attention_kernel_aligned_fwd_kernel_aligned_surface Q K V B0 Out 1.0
@@ -2135,9 +2137,9 @@ def attnLoopBodyG (B0 : RegionName)
         (Op.reduceSum (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "p"))),
     Stmt.assign .real [BLOCK_M] "m_i" (Op.ref .real [BLOCK_M] "m_i_new"),
     Stmt.assign .blockPtr [HEAD_DIM, BLOCK_N] "K_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [HEAD_DIM, BLOCK_N] "K_block_ptr") [0, BLOCK_N]),
+      (Op.advanceBlockPtr (Op.ref .blockPtr [HEAD_DIM, BLOCK_N] "K_block_ptr") [(0:Nat), BLOCK_N]),
     Stmt.assign .blockPtr [BLOCK_N, HEAD_DIM] "V_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [BLOCK_N, HEAD_DIM] "V_block_ptr") [BLOCK_N, 0]) ]
+      (Op.advanceBlockPtr (Op.ref .blockPtr [BLOCK_N, HEAD_DIM] "V_block_ptr") [BLOCK_N, (0:Nat)]) ]
 
 @[simp] theorem computeOp_toAlgorithm?_alg {dtype : ComputeDType} {shape : TileShape}
     (e : Op dtype.eraseDType shape) :
@@ -3272,10 +3274,9 @@ Records the faithful aligned attention surface and asserts that every observable
 `rel_h + rel_w` bias `b0 + b1`) — NOT the kernel's own executed readback.
 Genuinely general over `BLOCK_M BLOCK_N HEAD BIAS_LAST_SIZE numKVBlocks sm_scale`
 and the head/bias strides (`P_SEQ = 0`, contiguous Q/K/V/Out layout). The Python
-test-shape theorem `attention_kernel_aligned_python_test_shape_output_summary` is
-the instance at `sm_scale = 1.0`, `stride_qh = 8192`, `stride_b0h = 8192`,
+test shape (`sm_scale = 1.0`, `stride_qh = 8192`, `stride_b0h = 8192`,
 `stride_b0m = 128`, `BLOCK_M = 32`, `BLOCK_N = HEAD = 64`, `BIAS_LAST_SIZE = 64`,
-`nB = 2`. -/
+`nB = 2`) is the special case. -/
 theorem attention_kernel_aligned_python_test_shape_output_summary_general
     (Q K V B0 Out : RegionName) (s : BlockState) (sm_scale : ℝ)
     (stride_qh stride_b0h BLOCK_M BLOCK_N HEAD BIAS_LAST_SIZE stride_b0m nB : Nat)

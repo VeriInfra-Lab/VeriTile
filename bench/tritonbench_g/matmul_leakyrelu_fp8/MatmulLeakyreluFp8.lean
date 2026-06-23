@@ -34,7 +34,7 @@ the leaky-ReLU activation, derived from the loaded `A`/`B` tiles.
 
 ```
 matmul_leakyrelu_fp8_closed_form_correct                 ← TOP THEOREM (ComputeCorrect.Realizes)
-  └─ matmul_leakyrelu_fp8_exec_closed_form               ← exec-side closed form (every active cell = fp16(leakyrelu(∑_k A·B)))
+  └─ mlr_exec_closed_form               ← exec-side closed form (every active cell = fp16(leakyrelu(∑_k A·B)))
        ├─ mlr_preLoop      (P 0: accumulator = 0, a/b pointers seeded)
        ├─ mlr_step         (one K-block: accumulator = tl.dot(a,b,accumulator) advances the partial sum)
        ├─ mlr_postLoop     (activation + fp16 cast + masked store = the closed form)
@@ -66,7 +66,7 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-- Faithful transcription of `matmul_leakyrelu.py`'s `matmul_kernel`.
+/-- Faithful transcription of `matmul_leakyrelu_fp8.py`'s `matmul_kernel`.
 
 This preserves the grouped program-id mapping, K-block dot loop, pointer
 advances, optional leaky-ReLU helper call, output dtype cast, and masked store.
@@ -122,7 +122,7 @@ theorem matmul_kernel_surface_toAlgorithm_supported
       GROUP_SIZE_M ACTIVATION).toAlgorithm? = Except.ok alg := by
   simp [matmul_kernel_surface, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
 
-/-- Surface transcription of `matmul_leakyrelu.py`'s `matmul_kernel` for
+/-- Surface transcription of `matmul_leakyrelu_fp8.py`'s `matmul_kernel` for
 `ACTIVATION == "leaky_relu"`. -/
 def matmul_leaky_relu_surface
     (A B C : RegionName)
@@ -1089,7 +1089,7 @@ theorem mlr_exec_closed_form (A B C : RegionName) (s : BlockState)
   rw [hexec]
   exact hpost idx
 
-/-- **Closed-form correctness for `matmul_leakyrelu` (general statement).**
+/-- **Closed-form correctness for `matmul_leakyrelu_fp8` (general statement).**
 
 For arbitrary `M`/`N`, tile dims `BM`/`BN`, strides, group size, K-block size
 `BK`, and K-block count `numKBlocks` (so `K = BK · numKBlocks`), every in-bounds

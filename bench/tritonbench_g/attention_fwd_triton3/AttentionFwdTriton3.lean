@@ -44,21 +44,22 @@ attention_fwd_triton3_python_caseN_output_summary            ← TOP THEOREMS (N
   └─ attention_fwd_triton3_caseN_surface_m_compute_correct     M-row store
 
 (supporting per-store slice lemmas, factored out:
-   attention_fwd_triton3_final_store_slice_compute_correct
    attention_fwd_triton3_end_output_formula_store_slice_compute_correct
-   attention_fwd_triton3_end_m_formula_store_slice_compute_correct
-   attention_fwd_triton3_l_store_slice_compute_correct
-   attention_fwd_triton3_m_store_slice_compute_correct)
+   attention_fwd_triton3_end_m_formula_store_slice_compute_correct)
 ```
 
 ## Modeling boundary
 
 Arithmetic is over `ℝ` (not bit-accurate IEEE float); dtype casts collapse to
 the identity post-erasure; `@triton.autotune`/`@triton.heuristics` and
-`num_warps`/`num_stages` are not modeled. The summaries are stated at the Python
-test shape (`B=2, H=4, N_CTX=128, HEAD_DIM=128, BLOCK_M=BLOCK_N=64`,
-`sm_scale = 1/8`, contiguous strides, 64 active lanes) with the case-specific
-`SLIDING_WINDOW`/`COMPLEMENT_SLIDING_WINDOW`/`INIT` flags baked into the launch
+`num_warps`/`num_stages` are not modeled. The case 1/2/3 main summaries are
+dimension-general (`attention_fwd_triton3_python_case{1,2,3}_output_summary_general`,
+symbolic shape/strides); the Python test shape
+(`B=2, H=4, N_CTX=128, HEAD_DIM=64, BLOCK_M=BLOCK_N=64`,
+`sm_scale = 1/8`, contiguous strides, 64 active lanes) is the special case
+(recovered by the pinned `..._python_case{1,2,3}_output_summary` corollaries).
+Only case 4 remains pinned at the test shape. The case-specific
+`SLIDING_WINDOW`/`COMPLEMENT_SLIDING_WINDOW`/`INIT` flags are baked into the launch
 arguments.
 
 ## Genuine closed forms (cases 1/2/3)
@@ -245,7 +246,7 @@ The full kernel runs separate streaming attention stages, including the causal
 stage when requested. This slice starts after those stages have produced a
 precomputed normalized `Acc` tile and proves the final masked writeback into
 `Out`, preserving the source store address and mask
-`(offs_m < N_CTX) & (offs_k < 96)`. The inner `tl.float32` accumulator is
+`(offs_m < N_CTX) & (offs_k < HEAD_ACTIVE)`. The inner `tl.float32` accumulator is
 outside this slice. -/
 def offZ (s : BlockState) (H : Nat) : Nat :=
   s.pids 1 / H
@@ -768,8 +769,9 @@ noncomputable def attentionFwdTriton3Case3OutSpec
   attentionRealBase2PerKeyScalePred (qTile3 s Q) (kTile3 s K) (vTile3 s V)
     keyScale3 (fun i j => noWindowKeep i j) idx
 
-/-- Streaming bridge, case 1: the closed form equals the `osStep` online-softmax
-fold over the masked key list — the form the exec loop realizes. -/
+/-- Streaming bridge, case 3 (no sliding window): the closed form equals the
+`osStep` online-softmax fold over the unmasked key list — the form the exec loop
+realizes. -/
 theorem attentionFwdTriton3Case3OutSpec_eq_streaming
     (s : BlockState) (Q K V : RegionName) (i d : Fin 64) :
     attentionFwdTriton3Case3OutSpec s Q K V (i, d, PUnit.unit)
@@ -865,7 +867,7 @@ theorem aft3_advance_k_eval (s : BlockState) (region : RegionName)
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS],
           offsets := [0, colOff] }⟩)) :
-    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [0, d]) s
+    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [(0:Nat), d]) s
       = some (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS],
@@ -873,7 +875,7 @@ theorem aft3_advance_k_eval (s : BlockState) (region : RegionName)
   simp only [evalOp, evalOp_ref, hkp, Option.bind]
   refine congrArg some ?_
   ext i
-  rfl
+  simp [BlockPtr.advance_2d_offsets]
 
 set_option maxHeartbeats 1600000 in
 set_option maxRecDepth 8000 in
@@ -886,7 +888,7 @@ theorem aft3_advance_v_eval (s : BlockState) (region : RegionName)
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS],
           offsets := [rowOff, 0] }⟩)) :
-    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [d, 0]) s
+    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [d, (0:Nat)]) s
       = some (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS],
@@ -894,7 +896,7 @@ theorem aft3_advance_v_eval (s : BlockState) (region : RegionName)
   simp only [evalOp, evalOp_ref, hkp, Option.bind]
   refine congrArg some ?_
   ext i
-  rfl
+  simp [BlockPtr.advance_2d_offsets]
 
 set_option maxHeartbeats 1600000 in
 set_option maxRecDepth 8000 in
@@ -1168,8 +1170,8 @@ def aft3LoopBody : List Stmt :=
     Stmt.assign TileDType.real [64, 64] "v" (Op.load TileDType.real (MemAccess.blockPtr (Op.ref TileDType.blockPtr [64, 64] "V_block_ptr") []) MaskOpt.none),
     Stmt.assign TileDType.real [64, 64] "acc" ((Op.add NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [64, 64] "acc") ((Op.dot (batch := []) (Op.ref TileDType.real [64, 64] "p") (Op.ref TileDType.real [64, 64] "v"))))),
     Stmt.assign TileDType.real [64] "m_i" ((Op.ref TileDType.real [64] "m_ij")),
-    Stmt.assign TileDType.blockPtr [64, 64] "V_block_ptr" ((Op.ref TileDType.blockPtr [64, 64] "V_block_ptr").advanceBlockPtr [64, 0]),
-    Stmt.assign TileDType.blockPtr [64, 64] "K_block_ptr" ((Op.ref TileDType.blockPtr [64, 64] "K_block_ptr").advanceBlockPtr [0, 64]) ]
+    Stmt.assign TileDType.blockPtr [64, 64] "V_block_ptr" ((Op.ref TileDType.blockPtr [64, 64] "V_block_ptr").advanceBlockPtr [(64:Nat), (0:Nat)]),
+    Stmt.assign TileDType.blockPtr [64, 64] "K_block_ptr" ((Op.ref TileDType.blockPtr [64, 64] "K_block_ptr").advanceBlockPtr [(0:Nat), (64:Nat)]) ]
 
 def aft3PostLoop (M Out L : RegionName) : List Stmt :=
   [ Stmt.ifThenElse (Op.ne ComparableDType.nat Broadcast.nil (Op.constNat 1) (Op.constNat 0)) [Stmt.assign TileDType.real [64] "m_i" ((Op.add NumericDType.real Broadcast.nil.consSame (Op.ref TileDType.real [64] "m_i") (Op.ref TileDType.real [64] "l_i").log2)), Stmt.assign TileDType.real [64, 64] "acc" ((Op.div NumericDType.real Broadcast.nil.consR.consSame (Op.ref TileDType.real [64, 64] "acc") (Op.expandDim ⟨1, by decide⟩ (Op.ref TileDType.real [64] "l_i"))))] [Stmt.store TileDType.real [64] (MemAccess.ptr (Op.ref TileDType.ptr [64] "l_ptrs")) ((Op.ref TileDType.real [64] "l_i")) MaskOpt.none],
@@ -2229,8 +2231,9 @@ noncomputable def aft3MaskCell2 (SM SN : Nat) (idx : TileIndex [64, 64]) : Bool 
 
 set_option maxHeartbeats 1600000 in
 set_option maxRecDepth 8000 in
-/-- **Complement sliding-window block (case 2).** The `ifThen` body steps to the
-state where `qk` is masked to `⊥` outside the complement window (`dist ≥ 64`). -/
+/-- **No-window block (case 3).** The windowing `ifThen` guards are
+constexpr-false (`0 ≠ 0`), so the masking body is skipped: `qk` keeps every key
+unmasked, matching the no-sliding-window case-3 path. -/
 def aft3LoopBody3 : List Stmt :=
   [ Stmt.assign TileDType.real [64, 64] "k" (Op.load TileDType.real (MemAccess.blockPtr (Op.ref TileDType.blockPtr [64, 64] "K_block_ptr") []) MaskOpt.none),
     Stmt.assign TileDType.real [64, 64] "qk" (Op.full [64, 64] (Op.const 0)),
@@ -2249,8 +2252,8 @@ def aft3LoopBody3 : List Stmt :=
     Stmt.assign TileDType.real [64, 64] "v" (Op.load TileDType.real (MemAccess.blockPtr (Op.ref TileDType.blockPtr [64, 64] "V_block_ptr") []) MaskOpt.none),
     Stmt.assign TileDType.real [64, 64] "acc" ((Op.add NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [64, 64] "acc") ((Op.dot (batch := []) (Op.ref TileDType.real [64, 64] "p") (Op.ref TileDType.real [64, 64] "v"))))),
     Stmt.assign TileDType.real [64] "m_i" ((Op.ref TileDType.real [64] "m_ij")),
-    Stmt.assign TileDType.blockPtr [64, 64] "V_block_ptr" ((Op.ref TileDType.blockPtr [64, 64] "V_block_ptr").advanceBlockPtr [64, 0]),
-    Stmt.assign TileDType.blockPtr [64, 64] "K_block_ptr" ((Op.ref TileDType.blockPtr [64, 64] "K_block_ptr").advanceBlockPtr [0, 64]) ]
+    Stmt.assign TileDType.blockPtr [64, 64] "V_block_ptr" ((Op.ref TileDType.blockPtr [64, 64] "V_block_ptr").advanceBlockPtr [(64:Nat), (0:Nat)]),
+    Stmt.assign TileDType.blockPtr [64, 64] "K_block_ptr" ((Op.ref TileDType.blockPtr [64, 64] "K_block_ptr").advanceBlockPtr [(0:Nat), (64:Nat)]) ]
 
 
 set_option maxHeartbeats 1600000 in
@@ -3431,11 +3434,12 @@ theorem aft3_M_ptr_offset_injective (p0 p1 : Nat) :
 
 set_option maxHeartbeats 1600000 in
 set_option maxRecDepth 8000 in
-/-- **postLoop evaluation (cases 1/2, ⊥-carry).** Generic over `keep`: from a
-loop-end state satisfying `attnInvariantK … keep 128`, the `O` writeback holds the
-raw `aft3StateBotK` ratio `acc/l_i` and the `M` writeback holds the raw finalize
-`(M ⊔ ... )`-`unbotD` value, for *every* row — including the empty-window rows
-where the running max is `⊥` (there `acc/l_i = 0/0 = 0`). No `ne_bot` assumption. -/
+/-- **postLoop evaluation (case 3, no window, ⊥-carry).** Generic over `keep`: from
+a loop-end state satisfying `attnInvariant … noWindowKeep 128`, the `O` writeback
+holds the raw `aft3StateBotK` ratio `acc/l_i` and the `M` writeback holds the raw
+finalize `(M ⊔ ... )`-`unbotD` value, for *every* row — including the empty-window
+rows where the running max is `⊥` (there `acc/l_i = 0/0 = 0`). No `ne_bot`
+assumption. -/
 theorem aft3PostLoop_eval
     (Q K V M Out L : RegionName) (s0 : BlockState) (s : BlockState)
     (hMO : M ≠ Out)
@@ -3713,11 +3717,9 @@ noncomputable def attentionFwdTriton3KMSpec
 
 set_option maxHeartbeats 4000000 in
 set_option maxRecDepth 8000 in
-/-- **Full kernel execution (case 1, sliding window).** Mirrors `aft3_attn_exec`
-but with the masked loop body, the ⊥-carry invariant `attnInvariantK`
-(`natSlidingWindowKeep`), and the empty-window-safe postLoop. The `O` writeback
-realizes the faithful case-1 closed form `attentionFwdTriton3Case1OutSpec`
-(`0/0 = 0` at fully-masked rows); the `M` writeback realizes the raw finalize. -/
+/-- **Case-3 `M`-row spec (no sliding window).** The raw finalize value the `M`
+writeback realizes: the running max plus `log2(l_i)`, over the `noWindowKeep`
+(every-key) predicate, evaluated at each row of the query tile. -/
 noncomputable def attentionFwdTriton3Case3MSpec
     (s : BlockState) (Q K V : RegionName) (i : Fin 64) : ℝ :=
   (aft3RunningMax (qTile3 s Q) (kTile3 s K) (vTile3 s V) keyScale3
@@ -3728,8 +3730,8 @@ noncomputable def attentionFwdTriton3Case3MSpec
 
 set_option maxHeartbeats 1600000 in
 set_option maxRecDepth 8000 in
-/-- Genuine case-3 `Out`-store correctness: the masked `Out` writeback realizes the
-closed-form attention ratio at every active lane. -/
+/-- General query tile: query row `i`, head lane `e`, at
+`base + (pid0·BM + i)·sqm + e·sqk`. -/
 noncomputable def qTile3G (s : BlockState) (Q : RegionName)
     (base BM ND sqm sqk : Nat) : TileIndex [BM, ND] → ℝ :=
   fun (i, e, _) => s.readMem Q (base + (s.pids 0 * BM + i.val) * sqm + e.val * sqk)
@@ -4466,8 +4468,8 @@ def aft3LoopBodyG (sm_scale : ℝ) (off size BM ND BN : Nat) : List Stmt :=
     Stmt.assign TileDType.real [BN, ND] "v" (Op.load TileDType.real (MemAccess.blockPtr (Op.ref TileDType.blockPtr [BN, ND] "V_block_ptr") []) MaskOpt.none),
     Stmt.assign TileDType.real [BM, ND] "acc" ((Op.add NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [BM, ND] "acc") ((Op.dot (batch := []) (Op.ref TileDType.real [BM, BN] "p") (Op.ref TileDType.real [BN, ND] "v"))))),
     Stmt.assign TileDType.real [BM] "m_i" ((Op.ref TileDType.real [BM] "m_ij")),
-    Stmt.assign TileDType.blockPtr [BN, ND] "V_block_ptr" ((Op.ref TileDType.blockPtr [BN, ND] "V_block_ptr").advanceBlockPtr [BN, 0]),
-    Stmt.assign TileDType.blockPtr [ND, BN] "K_block_ptr" ((Op.ref TileDType.blockPtr [ND, BN] "K_block_ptr").advanceBlockPtr [0, BN]) ]
+    Stmt.assign TileDType.blockPtr [BN, ND] "V_block_ptr" ((Op.ref TileDType.blockPtr [BN, ND] "V_block_ptr").advanceBlockPtr [BN, (0:Nat)]),
+    Stmt.assign TileDType.blockPtr [ND, BN] "K_block_ptr" ((Op.ref TileDType.blockPtr [ND, BN] "K_block_ptr").advanceBlockPtr [(0:Nat), BN]) ]
 
 /-- General lowered loop body (case 2, complement sliding window) — inner select
 condition is constexpr-true. -/
@@ -4489,8 +4491,8 @@ def aft3LoopBodyG2 (sm_scale : ℝ) (off size BM ND BN : Nat) : List Stmt :=
     Stmt.assign TileDType.real [BN, ND] "v" (Op.load TileDType.real (MemAccess.blockPtr (Op.ref TileDType.blockPtr [BN, ND] "V_block_ptr") []) MaskOpt.none),
     Stmt.assign TileDType.real [BM, ND] "acc" ((Op.add NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [BM, ND] "acc") ((Op.dot (batch := []) (Op.ref TileDType.real [BM, BN] "p") (Op.ref TileDType.real [BN, ND] "v"))))),
     Stmt.assign TileDType.real [BM] "m_i" ((Op.ref TileDType.real [BM] "m_ij")),
-    Stmt.assign TileDType.blockPtr [BN, ND] "V_block_ptr" ((Op.ref TileDType.blockPtr [BN, ND] "V_block_ptr").advanceBlockPtr [BN, 0]),
-    Stmt.assign TileDType.blockPtr [ND, BN] "K_block_ptr" ((Op.ref TileDType.blockPtr [ND, BN] "K_block_ptr").advanceBlockPtr [0, BN]) ]
+    Stmt.assign TileDType.blockPtr [BN, ND] "V_block_ptr" ((Op.ref TileDType.blockPtr [BN, ND] "V_block_ptr").advanceBlockPtr [BN, (0:Nat)]),
+    Stmt.assign TileDType.blockPtr [ND, BN] "K_block_ptr" ((Op.ref TileDType.blockPtr [ND, BN] "K_block_ptr").advanceBlockPtr [(0:Nat), BN]) ]
 
 /-- General lowered loop body (case 3, no window) — both sliding-window guards
 constexpr-false. -/
@@ -4512,8 +4514,8 @@ def aft3LoopBodyG3 (sm_scale : ℝ) (off BM ND BN : Nat) : List Stmt :=
     Stmt.assign TileDType.real [BN, ND] "v" (Op.load TileDType.real (MemAccess.blockPtr (Op.ref TileDType.blockPtr [BN, ND] "V_block_ptr") []) MaskOpt.none),
     Stmt.assign TileDType.real [BM, ND] "acc" ((Op.add NumericDType.real Broadcast.nil.consSame.consSame (Op.ref TileDType.real [BM, ND] "acc") ((Op.dot (batch := []) (Op.ref TileDType.real [BM, BN] "p") (Op.ref TileDType.real [BN, ND] "v"))))),
     Stmt.assign TileDType.real [BM] "m_i" ((Op.ref TileDType.real [BM] "m_ij")),
-    Stmt.assign TileDType.blockPtr [BN, ND] "V_block_ptr" ((Op.ref TileDType.blockPtr [BN, ND] "V_block_ptr").advanceBlockPtr [BN, 0]),
-    Stmt.assign TileDType.blockPtr [ND, BN] "K_block_ptr" ((Op.ref TileDType.blockPtr [ND, BN] "K_block_ptr").advanceBlockPtr [0, BN]) ]
+    Stmt.assign TileDType.blockPtr [BN, ND] "V_block_ptr" ((Op.ref TileDType.blockPtr [BN, ND] "V_block_ptr").advanceBlockPtr [BN, (0:Nat)]),
+    Stmt.assign TileDType.blockPtr [ND, BN] "K_block_ptr" ((Op.ref TileDType.blockPtr [ND, BN] "K_block_ptr").advanceBlockPtr [(0:Nat), BN]) ]
 
 /-- General lowered postLoop statements. -/
 def aft3PostLoopG (M Out L : RegionName) (BM ND : Nat) : List Stmt :=

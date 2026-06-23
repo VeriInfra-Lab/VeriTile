@@ -27,11 +27,11 @@ quantified, the per-program statement covers every program of the grid.
 ## Proof architecture
 
 ```
-context_attn_fwd_python_test_shape_output_summary          ← TOP THEOREM (bundles both block shapes)
+context_attn_fwd_surface_compute_correct_general           ← TOP THEOREM (symbolic, dimension-general)
   ├─ context_attn_fwd_kernel_int8kv_surface_toAlgorithm_supported   surface lowers to the algorithm layer
-  ├─ context_attn_fwd_surface_python_block128_compute_correct       full surface, BLOCK_M=128 genuine fold
+  ├─ context_attn_fwd_surface_python_block128_compute_correct       concrete shape, BLOCK_M=128 genuine fold
   │    └─ context_attn_fwd_exec_block128                            whole-kernel exec → contextAttnExactFoldM
-  └─ context_attn_fwd_surface_python_block64_compute_correct        full surface, BLOCK_M=64 genuine fold
+  └─ context_attn_fwd_surface_python_block64_compute_correct        concrete shape, BLOCK_M=64 genuine fold
        └─ context_attn_fwd_exec_block64                             whole-kernel exec → contextAttnExactFoldM
 (both branches read off the genuine boundary-masked causal-softmax closed form
  `contextAttnExactFoldM` of Q/K/V memory; BLOCK_N = BLOCK_DMODEL = 128, BLOCK_M ∈ {128, 64})
@@ -47,10 +47,11 @@ slice) holds the genuine boundary-masked causal-softmax closed form
 (`ctxFwdGenuineOutValue128/64` = `contextAttnExactFoldM`), and out-of-bounds lanes
 are preserved. The online-softmax streaming loop (`m_i`/`l_i`/`acc` updates,
 `tl.dot`, the `prompt_cache_len`-offset causal mask) is stepped through `exec` and
-proven to collapse to that closed form (no self-reference). The summary is
-instantiated at the Python test shape
-(`H=16`, `BLOCK_DMODEL=BLOCK_N=128`, `BLOCK_M ∈ {128, 64}`); other shapes are not
-covered by the top theorem.
+proven to collapse to that closed form (no self-reference). The top theorem is
+dimension-general: it is stated over symbolic `BLOCK_M`/`BLOCK_N`/`BLOCK_DMODEL`/
+`H` and the per-axis strides. The Python test shape
+(`H=16`, `BLOCK_DMODEL=BLOCK_N=128`, `BLOCK_M ∈ {128, 64}`) is recovered as a
+concrete special case.
 -/
 
 namespace VeriTile.Bench.TritonBenchG.ContextAttnFwd
@@ -2776,7 +2777,7 @@ theorem gStateBot_score_congr (S hi : Nat) (g1 g2 : Fin S → ℝ × ℝ)
 after `c+1` blocks equals the kernel's one-shot rescale-and-add over block `c`'s
 reindexed `Fin BN` lanes, anchored to the state after `c` blocks. This is the
 exact tuple `(m_ij, l_i', acc')` the loop body computes (instantiated at `BN = 128`
-for the regular path, `BN = 64` for the Tesla path). -/
+for both paths; only `BLOCK_M` differs between the regular and Tesla paths). -/
 theorem gStateBot_succ_explicit (S BN c : Nat) (g : Fin S → ℝ × ℝ) (hwin : (c + 1) * BN ≤ S) :
     let st := gStateBot S (c * BN) g
     let M' := st.1 ⊔ Finset.univ.sup (fun jL : Fin BN =>
@@ -3592,7 +3593,7 @@ noncomputable def ctxFwdGenuineOutValue128
     (ctxFwdBel s B_Seqlen B_Prompt_Cache_Len 128) idx
 
 /-! ## BLOCK_M = 64 (Tesla) exec assembly — duplicate of the BLOCK_M=128 chain at
-the `[64,...]` tile shapes (`BLOCK_M = BLOCK_N = 64`, `BLOCK_DMODEL = 128`).
+the `[64,...]` tile shapes (`BLOCK_M = 64`, `BLOCK_N = BLOCK_DMODEL = 128`).
 
 The block math (`gStateBot`/`gStateBot_succ_explicit`/…) and all op-eval recipes
 and tile bridges are BN/BM/D-parametric (shared with the 128 path). Only the

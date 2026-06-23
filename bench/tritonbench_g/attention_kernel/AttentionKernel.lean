@@ -30,30 +30,27 @@ per-program statement covers every program of the grid.
 ## Proof architecture
 
 ```
-attention_kernel_python_test_shape_output_summary            ← TOP THEOREM
-  ├─ attention_kernel_fwd_kernel_aligned_surface_toAlgorithm_supported   surface lowers to algorithm layer
-  └─ ClosedForm.attention_kernel_genuine_output_compute_correct
-       └─ ClosedForm.attention_kernel_exec    ← whole-kernel exec assembly (preLoop + forRangeDyn + postLoop)
-            └─ (every Out lane = genuine closed form `attentionKernelSpec`)
-
-attention_kernel_final_store_python_test_shape_compute_correct
-  └─ attention_kernel_final_store_slice_compute_correct       ← ComputeCorrect over the final Out store
-       └─ attention_kernel_final_store_slice_correct          ← algorithm-layer readback (normalizedAccValue)
+ClosedForm.attention_kernel_genuine_output_compute_correct_general  ← GENERAL TOP THEOREM (dimension-parameterized)
+       (lowers surface → algorithm inline via computeCorrect_of_toAlgKernel)
+  └─ ClosedForm.attention_kernel_exec_general    ← whole-kernel exec assembly (preLoop + forRangeDyn + postLoop)
+       └─ (every Out lane = genuine closed form `attentionKernelSpec`)
 ```
 
 ## Modeling boundary
 
 Arithmetic is over `ℝ` (not bit-accurate IEEE float); the `OUT_DTYPE`
 (`fp16`/`bf16`) casts collapse to the identity post-erasure; `@triton.autotune`
-/ `num_warps`/`num_stages` are not modeled. The output summary is stated at the
-Python test shape (`B=2, H=4, N_CTX=128, D_MODEL=128, BLOCK_M=BLOCK_N=64`,
-`sm_scale=0.1`, `P_SEQ=0`, `fp16`, contiguous per-head strides `(16384,128,1)`).
+/ `num_warps`/`num_stages` are not modeled. The output summary is dimension-general
+(symbolic `BLOCK_M BLOCK_N HEAD BIAS_LAST_SIZE numKVBlocks sm_scale` and strides);
+the Python test shape (`B=2, H=4, N_CTX=128, D_MODEL=128, BLOCK_M=BLOCK_N=64`,
+`sm_scale=0.1`, `P_SEQ=0`, `fp16`, contiguous per-head strides `(16384,128,1)`)
+is the special case (the pinned `attention_kernel_genuine_output_compute_correct`
+is that corollary).
 The top summary asserts the **genuine** closed form: every observable `Out` lane
 equals the base-2 streaming-softmax `attentionKernelSpec` (= `attnGenScore fscore
 vFlat`) of the loaded Q/K/V tiles under the kernel's actual bias-augmented per-key
 score `fscore` — discharged whole-kernel by `ClosedForm.attention_kernel_exec`,
-NOT a self-referential readback. The `final_store` lemmas isolate the final
-`acc / l_i` store (`normalizedAccValue`). This is a single-program
+NOT a self-referential readback. This is a single-program
 scope (the store is unmasked at this shape since `N_CTX` is a multiple of
 `BLOCK_M`); cross-program composition into the full output is the trusted host
 boundary.
@@ -198,12 +195,12 @@ sorry-free; this section supplies the kernel-specific `evalOp` reductions
 (`makeBlockPtrDyn`/`makeBlockPtr`-with-dynamic-row-offset and the K/V/Q
 block-pointer loads at their resolved contiguous addresses) plus the genuine
 score/tile specification `fscore`/`qRaw`/`kFlat`/`vFlat`/`b0Val`/`b1Val`. The
-remaining `exec`-side assembly (preLoop base case, the 15-statement loop-body
+`exec`-side assembly (preLoop base case, the 15-statement loop-body
 invariant step over `forRangeDyn`, the `acc /= l_i` + block-pointer-store
-epilogue, and the `ComputeCorrect.Realizes` bench bridge) mirrors
-`VeriTile.Examples.AttentionForwardClosedForm`, swapping in the generalized
-`mPg`/`lPg`/`oPg` invariant, the `forRangeDyn` loop driver, and these block-ptr
-lemmas. -/
+epilogue, and the `ComputeCorrect.Realizes` bench bridge) is built in-file,
+mirroring `VeriTile.Examples.AttentionForwardClosedForm`, swapping in the
+generalized `mPg`/`lPgK`/`oPg` invariant, the `forRangeDyn` loop driver, and
+these block-ptr lemmas. -/
 
 namespace ClosedForm
 
@@ -248,7 +245,7 @@ theorem advance_col_eval (s : BlockState) (region : RegionName)
       (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS], offsets := [0, colOff] }⟩)) :
-    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [0, d]) s
+    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [(0:Nat), d]) s
       = some (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS], offsets := [0, colOff + d] }⟩) := by
@@ -266,7 +263,7 @@ theorem advance_row_eval (s : BlockState) (region : RegionName)
       (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS], offsets := [rowOff, 0] }⟩)) :
-    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [d, 0]) s
+    evalOp (Op.advanceBlockPtr (Op.ref .blockPtr [BT, BS] name) [d, (0:Nat)]) s
       = some (⟨fun _ : TileIndex [BT, BS] =>
         { region := region, baseOffset := base, parentShape := [rows, cols],
           blockShape := [BT, BS], strides := [strideT, strideS], offsets := [rowOff + d, 0] }⟩) := by
@@ -875,9 +872,9 @@ def attnLoopBody (B0 : RegionName) : List Stmt :=
         (Op.reduceSum (⟨1, by simp⟩ : Fin [64, 64].length) Bool.false (Op.ref .real [64, 64] "p"))),
     Stmt.assign .real [64] "m_i" (Op.ref .real [64] "m_i_new"),
     Stmt.assign .blockPtr [128, 64] "K_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [128, 64] "K_block_ptr") [0, 64]),
+      (Op.advanceBlockPtr (Op.ref .blockPtr [128, 64] "K_block_ptr") [(0:Nat), (64:Nat)]),
     Stmt.assign .blockPtr [64, 128] "V_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 128] "V_block_ptr") [64, 0]) ]
+      (Op.advanceBlockPtr (Op.ref .blockPtr [64, 128] "V_block_ptr") [(64:Nat), (0:Nat)]) ]
 
 /-- The lowered 15-statement `forRangeDyn` body, dimension-parameterized over
 `BLOCK_M BLOCK_N HEAD_DIM stride_b0m`. Specializes to `attnLoopBody` at the
@@ -938,9 +935,9 @@ def attnLoopBodyG (B0 : RegionName)
         (Op.reduceSum (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "p"))),
     Stmt.assign .real [BLOCK_M] "m_i" (Op.ref .real [BLOCK_M] "m_i_new"),
     Stmt.assign .blockPtr [HEAD_DIM, BLOCK_N] "K_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [HEAD_DIM, BLOCK_N] "K_block_ptr") [0, BLOCK_N]),
+      (Op.advanceBlockPtr (Op.ref .blockPtr [HEAD_DIM, BLOCK_N] "K_block_ptr") [(0:Nat), BLOCK_N]),
     Stmt.assign .blockPtr [BLOCK_N, HEAD_DIM] "V_block_ptr"
-      (Op.advanceBlockPtr (Op.ref .blockPtr [BLOCK_N, HEAD_DIM] "V_block_ptr") [BLOCK_N, 0]) ]
+      (Op.advanceBlockPtr (Op.ref .blockPtr [BLOCK_N, HEAD_DIM] "V_block_ptr") [BLOCK_N, (0:Nat)]) ]
 
 /-- The Python-shape lowered body `drop 19` is the `forRangeDyn` loop over
 `attnLoopBody`, then the 3 post-loop statements. By `rfl`. -/
