@@ -25,20 +25,16 @@ are universally quantified, each per-program statement covers every program.
 ## Proof architecture
 
 ```
-lightning_attention_python_test_shape_complete_summary    ← TOP THEOREM
-  ├─ lightning_attention_python_test_shape_store_summary    surface + masked stores
-  │    ├─ lightning_attention_{forward,bwd_intra,bwd_inter}_surface_toAlgorithm_supported
-  │    ├─ lightning_attention_forward_store_slice_compute_correct  (Out writeback)
-  │    └─ lightning_attention_bwd_{dq,dk,dv}_store_slice_compute_correct
-  └─ lightning_attention_bwd_dq_inter_python_test_shape_formula_summary
+lightning_attention_output_summary_general               ← TOP THEOREM (dimension-general)
+  ├─ lightning_attention_{forward,bwd_intra,bwd_inter}_surface_toAlgorithm_supported
+  ├─ lightning_attention_forward_store_slice_compute_correct  (Out writeback)
+  └─ lightning_attention_bwd_{dq,dk,dv}_store_slice_compute_correct
 
 Genuine forward closed form (NOT self-referential):
   kvClosed / kvClosed_succ                          kv carry-fold over K·V
-  oRowClosed                                        causal linear-attention output row
   kvStepSpec_eq_kvClosed_succ                       carry invariant: body advances kvClosed
   lightning_attention_forward_kv_step_slice_compute_correct      kv += dot(k_trans, v) body
   lightning_attention_forward_o_inter_dot_slice_compute_correct  o_inter = dot(q, kv) body
-  lightning_attention_python_test_shape_output_summary     genuine launched-surface summary
 ```
 
 ## Modeling boundary
@@ -49,8 +45,8 @@ standalone specification over the input regions `K,V` — the running `kᵀ·v` 
 over the first `m` key blocks — and `kvClosed_succ` is the exact closed-form
 counterpart of the Python `kv += tl.dot(k_trans, v)`. The carry-fold step lemma
 `kvStepSpec_eq_kvClosed_succ` shows one loop body advances `kvClosed` by one
-block under the carry invariant `KVPrev = kvClosed m`; `oRowClosed` is the
-genuine causal linear-attention output `Σ_{s≤t}(q_t·k_s)·v_s`. The remaining
+block under the carry invariant `KVPrev = kvClosed m`; the genuine causal
+linear-attention output row is `Σ_{s≤t}(q_t·k_s)·v_s`. The remaining
 boundary is the cross-block `NUM_BLOCK` loop *driver* threading the invariant
 (the carry hypotheses `hPrev`/`hK`/`hV` of `kvStepSpec_eq_kvClosed_succ`, the
 documented loop boundary as in #290/#291), and the host launch (grid/block-model
@@ -67,8 +63,7 @@ set_option linter.unusedSimpArgs false
 set_option linter.unusedVariables false
 
 /-! **★ Main theorem:** `lightning_attention_output_summary_general`
-(dimension-general); the pinned
-`lightning_attention_python_test_shape_output_summary` is a concrete corollary. -/
+(dimension-general genuine launched-surface summary). -/
 
 /-! # ══════════ CORRECT — genuine / dimension-general (review this) ══════════ -/
 
@@ -140,8 +135,8 @@ o[t, c] = Σ_{s ≤ t} (Σ_a q[t,a]·k[s,a]) · v[s,c].
 The definitions below are a **standalone specification over the input regions**
 `Q,K,V` — never a read-back of the kernel's own output. `kvClosed m` is the
 genuine `kv` state entering block `m` (the sum of `kᵀ·v` over the first `m`
-blocks); `oRowClosed` is the genuine output row. `kvClosed_succ` is the exact
-closed-form counterpart of the Python loop's `kv += tl.dot(k_trans, v)`. -/
+blocks); the genuine output row is the causal linear-attention sum. `kvClosed_succ`
+is the exact closed-form counterpart of the Python loop's `kv += tl.dot(k_trans, v)`. -/
 
 /-- `K[qk_offset + s·d + a]`: the key entry at global key row `s`, head channel
 `a`, for the program `off_bh`. -/
@@ -155,12 +150,6 @@ noncomputable def fwdVVal (s : BlockState) (V : RegionName)
     (n e BLOCK_MODEL : Nat) (c : Nat) (keyRow : Nat) : ℝ :=
   s.readMem V (s.pids 0 * n * e + keyRow * e + s.pids 1 * BLOCK_MODEL + c)
 
-/-- `Q[qk_offset + t·d + a]`: the query entry at global row `t`, head channel
-`a`, for the program. -/
-noncomputable def fwdQVal (s : BlockState) (Q : RegionName)
-    (n d : Nat) (a : Nat) (row : Nat) : ℝ :=
-  s.readMem Q (s.pids 0 * n * d + row * d + a)
-
 /-- **Genuine closed form for the `kv` state entering block `m`**, element
 `(a, c)`: `Σ_{s < m·BLOCK} K[s,a]·V[s,c]`, the running sum of `kᵀ·v` over the
 first `m` key blocks. This is the carry state the Python loop accumulates with
@@ -169,12 +158,6 @@ noncomputable def kvClosed (s : BlockState) (K V : RegionName)
     (n d e BLOCK BLOCK_MODEL : Nat) (m : Nat) (a c : Nat) : ℝ :=
   ∑ keyRow ∈ Finset.range (m * BLOCK),
     fwdKVal s K n d a keyRow * fwdVVal s V n e BLOCK_MODEL c keyRow
-
-/-- `kvClosed` at `m = 0` is the zero seed `tl.zeros([d, BLOCK_MODEL])`. -/
-theorem kvClosed_zero (s : BlockState) (K V : RegionName)
-    (n d e BLOCK BLOCK_MODEL : Nat) (a c : Nat) :
-    kvClosed s K V n d e BLOCK BLOCK_MODEL 0 a c = 0 := by
-  simp [kvClosed]
 
 /-- **The `kv` carry-fold recurrence.** Unrolling one block:
 `kv^(m+1) = kv^(m) + Σ_{j < BLOCK} K[m·BLOCK+j, a]·V[m·BLOCK+j, c]`. This is the
@@ -190,16 +173,6 @@ theorem kvClosed_succ (s : BlockState) (K V : RegionName)
   unfold kvClosed
   rw [show (m + 1) * BLOCK = m * BLOCK + BLOCK by ring]
   rw [Finset.sum_range_add]
-
-/-- **Genuine closed form for the linear-attention output row** `t` (global
-position), value channel `c`: the full causal sum `Σ_{s ≤ t} (Σ_a
-q[t,a]·k[s,a])·v[s,c]`. This is what `o = o_intra + o_inter` computes for the
-row sitting in block `m` once `kv` holds `kvClosed m`. -/
-noncomputable def oRowClosed (s : BlockState) (Q K V : RegionName)
-    (n d e BLOCK_MODEL : Nat) (row c : Nat) : ℝ :=
-  ∑ keyRow ∈ Finset.range (row + 1),
-    (∑ a ∈ Finset.range d, fwdQVal s Q n d a row * fwdKVal s K n d a keyRow) *
-      fwdVVal s V n e BLOCK_MODEL c keyRow
 
 /-! ### `kv`-update step slice (the per-block `kv += tl.dot(k_trans, v)` body)
 
@@ -340,7 +313,7 @@ The inter-block contribution to the output: with the carried state `kv` loaded
 from a materialized `KVPrev` tile, `o_inter[r, c] = Σ_a q[r,a]·kv[a,c]`. This is
 the `tl.dot(q, kv)` producer; under the carry invariant `KVPrev = kvClosed m`
 its value is exactly `Σ_a q[r,a]·(Σ_{s<m·BLOCK} k[s,a]·v[s,c])`, the inter-block
-half of `oRowClosed`. -/
+half of the causal linear-attention output row. -/
 
 def lightning_attention_forward_o_inter_dot_slice
     (Q KVPrev OInter : RegionName) (BLOCK D BLOCK_MODEL : Nat) :
@@ -1266,7 +1239,7 @@ materialized carry buffer; no dimension is pinned. Exposes:
    input regions `K`, `V`, never an `exec` read-back.
 3. **`o_inter = tl.dot(q, kv)` inter-block producer.** Realizes its genuine spec
    `oInterDotSpec` — `Σ_a q[r,a]·kv[a,c]` against the carried state — which is
-   the inter-block half of `oRowClosed`.
+   the inter-block half of the causal linear-attention output row.
 
 Honest side-conditions only: `0 < BLOCK_MODEL` (column tiling is nonempty) is
 not even needed here because injectivity holds unconditionally from the `Fin`
@@ -1344,509 +1317,6 @@ end Correct
 /-! # ══════════ TEST-SHAPE — concrete instances / pinned scaffolding ══════════ -/
 
 section TestShape
-
-theorem lightning_attention_forward_python_test_shape_offset_injective
-    (s : BlockState) :
-    Function.Injective
-      (fun idx : TileIndex [64, 32] =>
-        tileOffset s 128 128 64 32 idx) := by
-  intro a b h
-  rcases a with ⟨ra, ca, hta⟩
-  rcases b with ⟨rb, cb, htb⟩
-  rcases ca with ⟨ca, hca⟩
-  rcases cb with ⟨cb, hcb⟩
-  simp [tileOffset, rowIndex, colIndex] at h
-  have hr : ra = rb := by omega
-  have hc : ca = cb := by omega
-  subst rb
-  subst cb
-  rfl
-
-theorem lightning_attention_bwd_qk_python_test_shape_offset_injective
-    (s : BlockState) :
-    Function.Injective
-      (fun idx : TileIndex [64, 64] =>
-        gradTileOffset s 128 64 64 64 idx) := by
-  intro a b h
-  rcases a with ⟨ra, ca, hta⟩
-  rcases b with ⟨rb, cb, htb⟩
-  rcases ca with ⟨ca, hca⟩
-  rcases cb with ⟨cb, hcb⟩
-  simp [gradTileOffset, gradRowIndex, gradColIndex] at h
-  have hr : ra = rb := by omega
-  have hc : ca = cb := by omega
-  subst rb
-  subst cb
-  rfl
-
-theorem lightning_attention_bwd_v_python_test_shape_offset_injective
-    (s : BlockState) :
-    Function.Injective
-      (fun idx : TileIndex [64, 128] =>
-        gradTileOffset s 128 128 64 128 idx) := by
-  intro a b h
-  rcases a with ⟨ra, ca, hta⟩
-  rcases b with ⟨rb, cb, htb⟩
-  rcases ca with ⟨ca, hca⟩
-  rcases cb with ⟨cb, hcb⟩
-  simp [gradTileOffset, gradRowIndex, gradColIndex] at h
-  have hr : ra = rb := by omega
-  have hc : ca = cb := by omega
-  subst rb
-  subst cb
-  rfl
-
-theorem lightning_attention_forward_store_python_test_shape_compute_correct
-    (OAcc Out : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := lightning_attention_forward_store_slice OAcc Out 128 128 64 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 32] => active s 128 64 idx)
-        (fun idx : TileIndex [64, 32] =>
-          (Out, tileOffset s 128 128 64 32 idx)))
-      (expected := fun idx : TileIndex [64, 32] =>
-        storeValue s OAcc 128 128 64 32 idx) := by
-  exact lightning_attention_forward_store_slice_compute_correct OAcc Out
-    128 128 64 32 s
-    (lightning_attention_forward_python_test_shape_offset_injective s)
-
-theorem lightning_attention_forward_sum_store_python_test_shape_compute_correct
-    (OIntra OInter Out : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := lightning_attention_forward_sum_store_slice OIntra OInter Out
-        128 128 64 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 32] => active s 128 64 idx)
-        (fun idx : TileIndex [64, 32] =>
-          (Out, tileOffset s 128 128 64 32 idx)))
-      (expected := fun idx : TileIndex [64, 32] =>
-        sumStoreValue s OIntra OInter 128 128 64 32 idx) := by
-  exact lightning_attention_forward_sum_store_slice_compute_correct OIntra
-    OInter Out 128 128 64 32 s
-    (lightning_attention_forward_python_test_shape_offset_injective s)
-
-theorem lightning_attention_bwd_dq_store_python_test_shape_compute_correct
-    (DQPre DQ : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_grad_store_slice DQPre DQ 128 64 64 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 64] => activeGrad s 128 64 idx)
-        (fun idx : TileIndex [64, 64] =>
-          (DQ, gradTileOffset s 128 64 64 64 idx)))
-      (expected := fun idx : TileIndex [64, 64] =>
-        gradStoreValue s DQPre 128 64 64 64 idx) := by
-  exact lightning_attention_bwd_dq_store_slice_compute_correct DQPre DQ
-    128 64 64 64 s
-    (lightning_attention_bwd_qk_python_test_shape_offset_injective s)
-
-theorem lightning_attention_bwd_dq_accum_python_test_shape_compute_correct
-    (DQInter DQ : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_dq_accum_store_slice DQInter DQ
-        128 64 64 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 64] => activeGrad s 128 64 idx)
-        (fun idx : TileIndex [64, 64] =>
-          (DQ, gradTileOffset s 128 64 64 64 idx)))
-      (expected := fun idx : TileIndex [64, 64] =>
-        dqAccumStoreValue s DQInter DQ 128 64 64 64 idx) := by
-  exact lightning_attention_bwd_dq_accum_store_slice_compute_correct DQInter DQ
-    128 64 64 64 s
-    (lightning_attention_bwd_qk_python_test_shape_offset_injective s)
-
-theorem lightning_attention_bwd_dq_inter_offset_python_test_shape_injective :
-    Function.Injective
-      (fun idx : TileIndex [64, 64] => dqInterOffset 64 idx) := by
-  rintro ⟨⟨ra, hra⟩, ⟨ca, hca⟩, _⟩ ⟨⟨rb, hrb⟩, ⟨cb, hcb⟩, _⟩ h
-  simp [dqInterOffset] at h
-  have hr : ra = rb := by omega
-  have hc : ca = cb := by omega
-  subst rb
-  subst cb
-  rfl
-
-theorem lightning_attention_bwd_dq_inter_dot_python_test_shape_compute_correct
-    (DO KVTrans DQInter : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_dq_inter_dot_slice DO KVTrans DQInter
-        64 128 64)
-      (initialState := s)
-      (write := fun idx : TileIndex [64, 64] =>
-        some (DQInter, dqInterOffset 64 idx))
-      (expected := fun idx : TileIndex [64, 64] =>
-        dqInterDotSpec s DO KVTrans 64 128 64 idx) := by
-  exact lightning_attention_bwd_dq_inter_dot_slice_compute_correct DO KVTrans
-    DQInter 64 128 64 s
-    lightning_attention_bwd_dq_inter_offset_python_test_shape_injective
-
-theorem lightning_attention_bwd_dk_store_python_test_shape_compute_correct
-    (DKPre DK : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_grad_store_slice DKPre DK 128 64 64 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 64] => activeGrad s 128 64 idx)
-        (fun idx : TileIndex [64, 64] =>
-          (DK, gradTileOffset s 128 64 64 64 idx)))
-      (expected := fun idx : TileIndex [64, 64] =>
-        gradStoreValue s DKPre 128 64 64 64 idx) := by
-  exact lightning_attention_bwd_dk_store_slice_compute_correct DKPre DK
-    128 64 64 64 s
-    (lightning_attention_bwd_qk_python_test_shape_offset_injective s)
-
-theorem lightning_attention_bwd_dv_store_python_test_shape_compute_correct
-    (DVPre DV : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_grad_store_slice DVPre DV 128 128 64 128)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 128] => activeGrad s 128 64 idx)
-        (fun idx : TileIndex [64, 128] =>
-          (DV, gradTileOffset s 128 128 64 128 idx)))
-      (expected := fun idx : TileIndex [64, 128] =>
-        gradStoreValue s DVPre 128 128 64 128 idx) := by
-  exact lightning_attention_bwd_dv_store_slice_compute_correct DVPre DV
-    128 128 64 128 s
-    (lightning_attention_bwd_v_python_test_shape_offset_injective s)
-
-/-- Python forward test-shape output coverage for Lightning Attention: both the
-direct precomputed output writeback and the summed intra/inter writeback realize
-the masked `Out` store shape used by the checked launcher. -/
-theorem lightning_attention_forward_python_test_shape_all_outputs_compute_correct
-    (OAcc OIntra OInter Out : RegionName) (s : BlockState) :
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_forward_store_slice OAcc Out 128 128 64 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 32] => active s 128 64 idx)
-        (fun idx : TileIndex [64, 32] =>
-          (Out, tileOffset s 128 128 64 32 idx)))
-      (expected := fun idx : TileIndex [64, 32] =>
-        storeValue s OAcc 128 128 64 32 idx)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_forward_sum_store_slice OIntra OInter Out
-        128 128 64 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 32] => active s 128 64 idx)
-        (fun idx : TileIndex [64, 32] =>
-          (Out, tileOffset s 128 128 64 32 idx)))
-      (expected := fun idx : TileIndex [64, 32] =>
-        sumStoreValue s OIntra OInter 128 128 64 32 idx)) := by
-  constructor
-  · exact lightning_attention_forward_store_python_test_shape_compute_correct
-      OAcc Out s
-  · exact lightning_attention_forward_sum_store_python_test_shape_compute_correct
-      OIntra OInter Out s
-
-/-- Python backward test-shape output coverage for Lightning Attention: the DQ
-inter-kernel accumulation and the final `DQ`/`DK`/`DV` gradient writebacks all
-realize the masked store shapes used by the checked launcher. -/
-theorem lightning_attention_bwd_python_test_shape_all_outputs_compute_correct
-    (DQInter DQPre DKPre DVPre DQ DK DV : RegionName) (s : BlockState) :
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_dq_accum_store_slice DQInter DQ
-        128 64 64 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 64] => activeGrad s 128 64 idx)
-        (fun idx : TileIndex [64, 64] =>
-          (DQ, gradTileOffset s 128 64 64 64 idx)))
-      (expected := fun idx : TileIndex [64, 64] =>
-        dqAccumStoreValue s DQInter DQ 128 64 64 64 idx)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_grad_store_slice DQPre DQ
-        128 64 64 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 64] => activeGrad s 128 64 idx)
-        (fun idx : TileIndex [64, 64] =>
-          (DQ, gradTileOffset s 128 64 64 64 idx)))
-      (expected := fun idx : TileIndex [64, 64] =>
-        gradStoreValue s DQPre 128 64 64 64 idx)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_grad_store_slice DKPre DK
-        128 64 64 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 64] => activeGrad s 128 64 idx)
-        (fun idx : TileIndex [64, 64] =>
-          (DK, gradTileOffset s 128 64 64 64 idx)))
-      (expected := fun idx : TileIndex [64, 64] =>
-        gradStoreValue s DKPre 128 64 64 64 idx)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_grad_store_slice DVPre DV
-        128 128 64 128)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 128] => activeGrad s 128 64 idx)
-        (fun idx : TileIndex [64, 128] =>
-          (DV, gradTileOffset s 128 128 64 128 idx)))
-      (expected := fun idx : TileIndex [64, 128] =>
-        gradStoreValue s DVPre 128 128 64 128 idx)) := by
-  constructor
-  · exact lightning_attention_bwd_dq_accum_python_test_shape_compute_correct
-      DQInter DQ s
-  constructor
-  · exact lightning_attention_bwd_dq_store_python_test_shape_compute_correct
-      DQPre DQ s
-  constructor
-  · exact lightning_attention_bwd_dk_store_python_test_shape_compute_correct
-      DKPre DK s
-  · exact lightning_attention_bwd_dv_store_python_test_shape_compute_correct
-      DVPre DV s
-
-/-- Checked-shape producer for the DQ inter-kernel accumulator used before the
-in-place DQ accumulation writeback. -/
-theorem lightning_attention_bwd_dq_inter_python_test_shape_formula_summary
-    (DO KVTrans DQInter : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_dq_inter_dot_slice DO KVTrans DQInter
-        64 128 64)
-      (initialState := s)
-      (write := fun idx : TileIndex [64, 64] =>
-        some (DQInter, dqInterOffset 64 idx))
-      (expected := fun idx : TileIndex [64, 64] =>
-        dqInterDotSpec s DO KVTrans 64 128 64 idx) := by
-  exact lightning_attention_bwd_dq_inter_dot_python_test_shape_compute_correct
-    DO KVTrans DQInter s
-
-/-- Python test-shape lowering proposition for all Lightning Attention kernels
-launched by `LightningAttention2NoDecay`: one forward kernel plus the intra- and
-inter-block backward kernels. -/
-abbrev lightning_attention_python_test_shape_surface_prop
-    (Q K V Out DO DQ DK DV : RegionName) : Prop :=
-    (∃ alg, (lightning_attention_forward_surface Q K V Out 2 8 128 64 128
-      64 2 32).toAlgorithm? = Except.ok alg) ∧
-    (∃ alg, (lightning_attention_bwd_intra_surface Q K V DO DQ DK DV
-      2 8 128 64 128 64 2 32 2).toAlgorithm? = Except.ok alg) ∧
-    (∃ alg, (lightning_attention_bwd_inter_surface Q K V DO DQ DK DV
-      2 8 128 64 128 64 2 32 2).toAlgorithm? = Except.ok alg)
-
-/-- Python test-shape output proposition for the checked result tuple:
-forward `Out`, plus backward `DQ`, `DK`, and `DV`. -/
-abbrev lightning_attention_python_test_shape_outputs_prop
-    (OAcc OIntra OInter DQInter DQPre DKPre DVPre Out DQ DK DV : RegionName)
-    (s : BlockState) : Prop :=
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_forward_store_slice OAcc Out 128 128 64 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 32] => active s 128 64 idx)
-        (fun idx : TileIndex [64, 32] =>
-          (Out, tileOffset s 128 128 64 32 idx)))
-      (expected := fun idx : TileIndex [64, 32] =>
-        storeValue s OAcc 128 128 64 32 idx)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_forward_sum_store_slice OIntra OInter Out
-        128 128 64 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 32] => active s 128 64 idx)
-        (fun idx : TileIndex [64, 32] =>
-          (Out, tileOffset s 128 128 64 32 idx)))
-      (expected := fun idx : TileIndex [64, 32] =>
-        sumStoreValue s OIntra OInter 128 128 64 32 idx)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_dq_accum_store_slice DQInter DQ
-        128 64 64 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 64] => activeGrad s 128 64 idx)
-        (fun idx : TileIndex [64, 64] =>
-          (DQ, gradTileOffset s 128 64 64 64 idx)))
-      (expected := fun idx : TileIndex [64, 64] =>
-        dqAccumStoreValue s DQInter DQ 128 64 64 64 idx)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_grad_store_slice DQPre DQ
-        128 64 64 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 64] => activeGrad s 128 64 idx)
-        (fun idx : TileIndex [64, 64] =>
-          (DQ, gradTileOffset s 128 64 64 64 idx)))
-      (expected := fun idx : TileIndex [64, 64] =>
-        gradStoreValue s DQPre 128 64 64 64 idx)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_grad_store_slice DKPre DK
-        128 64 64 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 64] => activeGrad s 128 64 idx)
-        (fun idx : TileIndex [64, 64] =>
-          (DK, gradTileOffset s 128 64 64 64 idx)))
-      (expected := fun idx : TileIndex [64, 64] =>
-        gradStoreValue s DKPre 128 64 64 64 idx)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_grad_store_slice DVPre DV
-        128 128 64 128)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun idx : TileIndex [64, 128] => activeGrad s 128 64 idx)
-        (fun idx : TileIndex [64, 128] =>
-          (DV, gradTileOffset s 128 128 64 128 idx)))
-      (expected := fun idx : TileIndex [64, 128] =>
-        gradStoreValue s DVPre 128 128 64 128 idx))
-
-/-- End-to-end checked-shape summary for `test_lightning_attention2_no_decay`.
-
-This ties the exact Python-launched forward/backward DSL surfaces to the
-observable result tuple `Out`, `DQ`, `DK`, and `DV`. The arithmetic loop bodies
-are preserved as surfaces; the compute-correct part remains at the existing
-masked output-slice granularity. -/
-theorem lightning_attention_python_test_shape_store_summary
-    (Q K V Out DO DQ DK DV OAcc OIntra OInter DQInter DQPre DKPre DVPre :
-      RegionName)
-    (s : BlockState) :
-    lightning_attention_python_test_shape_surface_prop Q K V Out DO DQ DK DV ∧
-    lightning_attention_python_test_shape_outputs_prop OAcc OIntra OInter
-      DQInter DQPre DKPre DVPre Out DQ DK DV s := by
-  constructor
-  · constructor
-    · exact lightning_attention_forward_surface_toAlgorithm_supported Q K V Out
-        2 8 128 64 128 64 2 32
-    constructor
-    · exact lightning_attention_bwd_intra_surface_toAlgorithm_supported Q K V
-        DO DQ DK DV 2 8 128 64 128 64 2 32 2
-    · exact lightning_attention_bwd_inter_surface_toAlgorithm_supported Q K V
-        DO DQ DK DV 2 8 128 64 128 64 2 32 2
-  · constructor
-    · exact (lightning_attention_forward_python_test_shape_all_outputs_compute_correct
-        OAcc OIntra OInter Out s).1
-    constructor
-    · exact (lightning_attention_forward_python_test_shape_all_outputs_compute_correct
-        OAcc OIntra OInter Out s).2
-    exact lightning_attention_bwd_python_test_shape_all_outputs_compute_correct
-      DQInter DQPre DKPre DVPre DQ DK DV s
-
-
-/-! ## Genuine forward closed-form realizations at the Python test shape
-
-The Python launcher fixes `d = 64`, `BLOCK = 64`, `BLOCK_MODEL = 32`, so the
-`kv` carry tile and the per-block `o_inter` output tile both have shape
-`[64, 32]`. The realizes theorems below pin the two forward producers — the
-`kv += tl.dot(k_trans, v)` carry-fold body and the `o_inter = tl.dot(q, kv)`
-inter-block output — to their **genuine** closed-form specs (`kvStepSpec` /
-`oInterDotSpec`), never an `exec` read-back of the kernel's own output. -/
-
-theorem lightning_attention_forward_kv_offset_python_test_shape_injective :
-    Function.Injective
-      (fun idx : TileIndex [64, 32] => kvOffset 32 idx) := by
-  rintro ⟨⟨ra, hra⟩, ⟨ca, hca⟩, _⟩ ⟨⟨rb, hrb⟩, ⟨cb, hcb⟩, _⟩ h
-  simp [kvOffset] at h
-  have hr : ra = rb := by omega
-  have hc : ca = cb := by omega
-  subst rb; subst cb; rfl
-
-theorem lightning_attention_forward_o_inter_offset_python_test_shape_injective :
-    Function.Injective
-      (fun idx : TileIndex [64, 32] => oInterOffset 32 idx) := by
-  rintro ⟨⟨ra, hra⟩, ⟨ca, hca⟩, _⟩ ⟨⟨rb, hrb⟩, ⟨cb, hcb⟩, _⟩ h
-  simp [oInterOffset] at h
-  have hr : ra = rb := by omega
-  have hc : ca = cb := by omega
-  subst rb; subst cb; rfl
-
-/-- Checked-shape `kv` carry-fold producer: one `kv += tl.dot(k_trans, v)` body
-realizes its genuine spec `kvStepSpec` (materialized previous state plus the
-block outer product) at the `[64, 32]` carry-tile shape. -/
-theorem lightning_attention_forward_kv_step_python_test_shape_compute_correct
-    (KVPrev KTrans V KVOut : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := lightning_attention_forward_kv_step_slice KVPrev KTrans V KVOut
-        64 64 32)
-      (initialState := s)
-      (write := fun idx : TileIndex [64, 32] => some (KVOut, kvOffset 32 idx))
-      (expected := fun idx : TileIndex [64, 32] =>
-        kvStepSpec s KVPrev KTrans V 64 64 32 idx) := by
-  exact lightning_attention_forward_kv_step_slice_compute_correct KVPrev KTrans
-    V KVOut 64 64 32 s lightning_attention_forward_kv_offset_python_test_shape_injective
-
-/-- Checked-shape `o_inter` producer: one `o_inter = tl.dot(q, kv)` body realizes
-its genuine spec `oInterDotSpec` (the inter-block dot of `q` against the carried
-`kv` state) at the `[64, 32]` output-tile shape. -/
-theorem lightning_attention_forward_o_inter_python_test_shape_compute_correct
-    (Q KVPrev OInter : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := lightning_attention_forward_o_inter_dot_slice Q KVPrev OInter
-        64 64 32)
-      (initialState := s)
-      (write := fun idx : TileIndex [64, 32] => some (OInter, oInterOffset 32 idx))
-      (expected := fun idx : TileIndex [64, 32] =>
-        oInterDotSpec s Q KVPrev 64 64 32 idx) := by
-  exact lightning_attention_forward_o_inter_dot_slice_compute_correct Q KVPrev
-    OInter 64 64 32 s lightning_attention_forward_o_inter_offset_python_test_shape_injective
-
-
-
-/-! ### Concrete-shape corollary of the dimension-general main theorem -/
-/-- **Genuine** launched-surface output summary for the checked Python forward
-shape — a thin concrete-dimension instance of the dimension-general headline
-`lightning_attention_output_summary_general` (`d = 64`, `BLOCK = 64`,
-`BLOCK_MODEL = 32`). Exposes (1) the surface lowering of the forward + both
-backward kernels, (2) the `kv += tl.dot(k_trans, v)` carry-fold body realizing
-its genuine spec `kvStepSpec` and (3) the `o_inter = tl.dot(q, kv)` inter-block
-producer realizing its genuine spec `oInterDotSpec`. Every `expected` is a
-closed-form value over the input/state regions — there is no `exec` read-back of
-the kernel's own output. -/
-theorem lightning_attention_python_test_shape_output_summary
-    (Q K V Out DO DQ DK DV KVPrev KTrans KVOut OInter : RegionName)
-    (s : BlockState) :
-    lightning_attention_python_test_shape_surface_prop Q K V Out DO DQ DK DV ∧
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_forward_kv_step_slice KVPrev KTrans V KVOut
-        64 64 32)
-      (initialState := s)
-      (write := fun idx : TileIndex [64, 32] => some (KVOut, kvOffset 32 idx))
-      (expected := fun idx : TileIndex [64, 32] =>
-        kvStepSpec s KVPrev KTrans V 64 64 32 idx)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := lightning_attention_forward_o_inter_dot_slice Q KVPrev OInter
-        64 64 32)
-      (initialState := s)
-      (write := fun idx : TileIndex [64, 32] => some (OInter, oInterOffset 32 idx))
-      (expected := fun idx : TileIndex [64, 32] =>
-        oInterDotSpec s Q KVPrev 64 64 32 idx)) := by
-  refine ⟨⟨?_, ?_, ?_⟩, ?_, ?_⟩
-  · exact lightning_attention_forward_surface_toAlgorithm_supported Q K V Out
-      2 8 128 64 128 64 2 32
-  · exact lightning_attention_bwd_intra_surface_toAlgorithm_supported Q K V
-      DO DQ DK DV 2 8 128 64 128 64 2 32 2
-  · exact lightning_attention_bwd_inter_surface_toAlgorithm_supported Q K V
-      DO DQ DK DV 2 8 128 64 128 64 2 32 2
-  · exact lightning_attention_forward_kv_step_python_test_shape_compute_correct
-      KVPrev KTrans V KVOut s
-  · exact lightning_attention_forward_o_inter_python_test_shape_compute_correct
-      Q KVPrev OInter s
-
-/-- Combined checked-shape summary for `test_lightning_attention2_no_decay`.
-
-This exposes the launched forward/backward surfaces, observable `Out`/`DQ`/`DK`/`DV`
-writebacks, and the `DQInter = dot(DO, KVTrans)` producer in one public target. -/
-theorem lightning_attention_python_test_shape_complete_summary
-    (Q K V Out DO DQ DK DV OAcc OIntra OInter DQInter DQPre DKPre DVPre
-      KVTrans : RegionName)
-    (s : BlockState) :
-    (lightning_attention_python_test_shape_surface_prop Q K V Out DO DQ DK DV ∧
-      lightning_attention_python_test_shape_outputs_prop OAcc OIntra OInter
-        DQInter DQPre DKPre DVPre Out DQ DK DV s) ∧
-    ComputeCorrect.Realizes
-      (kernel := lightning_attention_bwd_dq_inter_dot_slice DO KVTrans DQInter
-        64 128 64)
-      (initialState := s)
-      (write := fun idx : TileIndex [64, 64] =>
-        some (DQInter, dqInterOffset 64 idx))
-      (expected := fun idx : TileIndex [64, 64] =>
-        dqInterDotSpec s DO KVTrans 64 128 64 idx) := by
-  constructor
-  · exact lightning_attention_python_test_shape_store_summary Q K V Out DO DQ
-      DK DV OAcc OIntra OInter DQInter DQPre DKPre DVPre s
-  · exact lightning_attention_bwd_dq_inter_python_test_shape_formula_summary DO
-      KVTrans DQInter s
 
 end TestShape
 

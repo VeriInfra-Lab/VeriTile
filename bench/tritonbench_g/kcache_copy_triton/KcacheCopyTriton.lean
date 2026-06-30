@@ -37,9 +37,8 @@ copy_to_kcache_seqlen_n1_surface_output_summary       ← TOP THEOREM (decode pa
   copy_to_kcache_seqlen_n1_new_layout_xblock_compute_correct  (split-x layout))
 ```
 The `n_tokens > 1` (prefill) path is covered at the surface-lowering level only
-(`copy_to_kcache_seqlen_n_kernel{,_signed}_toAlgorithm_supported` plus the
-Python `n = 2` test-shape lowerings and the `signedPastKvSeqLen` position
-sanity check). The post-arithmetic split-x slice
+(`copy_to_kcache_seqlen_n_kernel_toAlgorithm_supported`).
+The post-arithmetic split-x slice
 `copy_to_kcache_split_x_block_{correct,compute_correct}` proves the store once
 the cache slot has been selected.
 
@@ -167,125 +166,6 @@ theorem copy_to_kcache_seqlen_n_signed_kernel_toAlgorithm_supported
       n_tokens _HEAD_DIM KCACHE_X).toAlgorithm? = Except.ok alg := by
   simp [copy_to_kcache_seqlen_n_signed_kernel, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?]
-
-/-- Python test `n = 2`, legacy cache layout
-`[num_blocks, num_kv_heads, block_size, head_dim]`.
-
-For the checked test:
-* `k.shape = (bsz*n, num_kv_heads, head_dim) = (4, 4, 64)`,
-  so `k.stride = (256, 64, 1)`;
-* `k_cache.shape = (10, 4, 16, 64)`,
-  so `k_cache.stride = (4096, 1024, 64, 1)`;
-* `block_tables.shape = (2, 10)`, stride `(10, 1)`;
-* `block_size = 16`, `n_tokens = 2`, `HEAD_DIM = KCACHE_X = 64`.
-
-The theorem pins those parameters on the complete signed kernel. -/
-theorem copy_to_kcache_seqlen_n2_old_layout_python_toAlgorithm_supported
-    (K KCache : RegionName) (BLOCK_TABLES seq_lengths : Region .int) :
-    ∃ alg, (copy_to_kcache_seqlen_n_kernel K KCache BLOCK_TABLES seq_lengths
-      256 64 1 4096 1024 0 64 1 10 1 16 2 64 64).toAlgorithm? =
-        Except.ok alg := by
-  exact copy_to_kcache_seqlen_n_kernel_toAlgorithm_supported K KCache
-    BLOCK_TABLES seq_lengths 256 64 1 4096 1024 0 64 1 10 1 16 2 64 64
-
-theorem copy_to_kcache_seqlen_n2_old_layout_python_signed_toAlgorithm_supported
-    (K KCache : RegionName) (BLOCK_TABLES seq_lengths : Region .int) :
-    ∃ alg, (copy_to_kcache_seqlen_n_signed_kernel K KCache BLOCK_TABLES
-      seq_lengths 256 64 1 4096 1024 0 64 1 10 1 16 2 64 64).toAlgorithm? =
-        Except.ok alg := by
-  exact copy_to_kcache_seqlen_n_signed_kernel_toAlgorithm_supported K KCache
-    BLOCK_TABLES seq_lengths 256 64 1 4096 1024 0 64 1 10 1 16 2 64 64
-
-/-- Python test `n = 2`, new split-x cache layout
-`[num_blocks, num_kv_heads, head_dim // x, block_size, x]`.
-
-For the checked test:
-* `k.shape = (4, 4, 64)`, so `k.stride = (256, 64, 1)`;
-* `k_cache.shape = (10, 4, 8, 16, 8)`,
-  so `k_cache.stride = (4096, 1024, 128, 8, 1)`;
-* `block_tables.shape = (2, 10)`, stride `(10, 1)`;
-* `block_size = 16`, `n_tokens = 2`, `HEAD_DIM = 64`, `KCACHE_X = 8`.
-
-This keeps the signed `cur_token_shift`/`past_kv_seq_len` path intact. -/
-theorem copy_to_kcache_seqlen_n2_new_layout_python_toAlgorithm_supported
-    (K KCache : RegionName) (BLOCK_TABLES seq_lengths : Region .int) :
-    ∃ alg, (copy_to_kcache_seqlen_n_kernel K KCache BLOCK_TABLES seq_lengths
-      256 64 1 4096 1024 128 8 1 10 1 16 2 64 8).toAlgorithm? =
-        Except.ok alg := by
-  exact copy_to_kcache_seqlen_n_kernel_toAlgorithm_supported K KCache
-    BLOCK_TABLES seq_lengths 256 64 1 4096 1024 128 8 1 10 1 16 2 64 8
-
-theorem copy_to_kcache_seqlen_n2_new_layout_python_signed_toAlgorithm_supported
-    (K KCache : RegionName) (BLOCK_TABLES seq_lengths : Region .int) :
-    ∃ alg, (copy_to_kcache_seqlen_n_signed_kernel K KCache BLOCK_TABLES
-      seq_lengths 256 64 1 4096 1024 128 8 1 10 1 16 2 64 8).toAlgorithm? =
-        Except.ok alg := by
-  exact copy_to_kcache_seqlen_n_signed_kernel_toAlgorithm_supported K KCache
-    BLOCK_TABLES seq_lengths 256 64 1 4096 1024 128 8 1 10 1 16 2 64 8
-
-def signedCurSeqIdx (cur_token_idx n_tokens : Nat) : Nat :=
-  cur_token_idx / n_tokens
-
-def signedCurTokenShift (cur_token_idx n_tokens : Nat) : Int :=
-  (cur_token_idx : Int) -
-    (n_tokens : Int) * ((signedCurSeqIdx cur_token_idx n_tokens : Int) + 1)
-
-def signedPastKvSeqLen (seq_len : Int) (cur_token_idx n_tokens : Nat) : Int :=
-  seq_len + signedCurTokenShift cur_token_idx n_tokens
-
-/-- Sanity check for the checked Python `n = 2` path.
-
-With `kv_lengths = [5, 10]`, Python's signed formula copies flat token ids
-`0,1,2,3` to sequence positions `3,4,8,9`: for each sequence, the provided
-length already includes the two new tokens, and `cur_token_shift` backs up to
-the first token being copied. -/
-theorem signedPastKvSeqLen_n2_python_test_positions :
-    [ signedPastKvSeqLen 5 0 2
-    , signedPastKvSeqLen 5 1 2
-    , signedPastKvSeqLen 10 2 2
-    , signedPastKvSeqLen 10 3 2 ] = [3, 4, 8, 9] := by
-  decide
-
-def signedCurSeqIdxState (s : BlockState) (n_tokens : Nat) : Nat :=
-  s.pids 0 / n_tokens
-
-def signedCurTokenShiftState (s : BlockState) (n_tokens : Nat) : Int :=
-  (s.pids 0 : Int) -
-    (n_tokens : Int) * ((signedCurSeqIdxState s n_tokens : Int) + 1)
-
-def signedPastKvSeqLenState
-    (s : BlockState) (seq_lengths : RegionName) (n_tokens : Nat) : Int :=
-  s.readMemValue .int seq_lengths (signedCurSeqIdxState s n_tokens) +
-    signedCurTokenShiftState s n_tokens
-
-def signedLastBlockIdx
-    (s : BlockState) (seq_lengths : RegionName)
-    (block_size n_tokens : Nat) : Int :=
-  signedPastKvSeqLenState s seq_lengths n_tokens / (block_size : Int)
-
-def signedOffsetLastBlock
-    (s : BlockState) (seq_lengths : RegionName)
-    (block_size n_tokens : Nat) : Int :=
-  signedPastKvSeqLenState s seq_lengths n_tokens % (block_size : Int)
-
-def signedBlockId
-    (s : BlockState) (BLOCK_TABLES seq_lengths : RegionName)
-    (stride_bts stride_btb block_size n_tokens : Nat) : Int :=
-  s.readMemValue .int BLOCK_TABLES
-    (signedCurSeqIdxState s n_tokens * stride_bts +
-      (signedLastBlockIdx s seq_lengths block_size n_tokens *
-        (stride_btb : Int)).toNat)
-
-def signedKCacheOffset
-    (s : BlockState) (BLOCK_TABLES seq_lengths : RegionName)
-    (stride_kcb stride_kch stride_kcsplit_x stride_kcs
-      stride_bts stride_btb block_size n_tokens : Nat)
-    (i : Fin KCACHE_X) : Nat :=
-  (signedBlockId s BLOCK_TABLES seq_lengths stride_bts stride_btb block_size
-      n_tokens * (stride_kcb : Int)).toNat +
-    s.pids 1 * stride_kch + s.pids 2 * stride_kcsplit_x +
-    (signedOffsetLastBlock s seq_lengths block_size n_tokens *
-      (stride_kcs : Int)).toNat + i.val
 
 /-- Surface transcription of `kcache_copy_triton.py`'s
 `_copy_to_kcache_seqlen_n_kernel` for the `n_tokens = 1` decode path.

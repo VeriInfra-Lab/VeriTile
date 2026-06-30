@@ -26,21 +26,20 @@ every program of the grid.
 ## Proof architecture
 
 ```
-rotary_emb_python_case{1,2,3,4}_output_summary        ← TOP THEOREMS
+rotary_emb_output_summary_general                     ← TOP THEOREM (dimension-general)
   ├─ rotary_kernel_surface_toAlgorithm_supported       surface lowers to the algorithm layer
-  └─ rotary_emb_python_caseN_all_outputs_compute_correct
+  └─ (four Python-observable stores, on every active lane)
        ├─ rotary_emb_q0_block_compute_correct → rotary_emb_q0_block_correct   (Q even lanes)
        ├─ rotary_emb_q1_block_compute_correct → rotary_emb_q1_block_correct   (Q odd lanes)
        ├─ rotary_emb_k0_block_compute_correct → rotary_emb_k0_block_correct   (K even lanes)
        └─ rotary_emb_k1_block_compute_correct → rotary_emb_k1_block_correct   (K odd lanes)
 ```
 
-The interleaved even/odd offset families are shown collision-free (injective)
-by `rotary_emb_python_q_even/odd_offset_injective` and
-`rotary_emb_python_k_even/odd_offset_injective` (these prove within-family
-injectivity, not even-vs-odd disjointness). There are also
+The interleaved even/odd offset families being collision-free (within-family
+injectivity, not even-vs-odd disjointness) is taken as hypotheses of the main
+theorem. There are also
 `rotary_emb_q_surface_toAlgorithm_supported` / `rotary_emb_k_surface_toAlgorithm_supported`
-splits and `qFullOffset`/`activeFullQ` full-tile scaffolding.
+splits and `activeFullQ` full-tile scaffolding.
 
 ## Modeling boundary
 
@@ -50,10 +49,8 @@ identity at the algorithm layer (post-erasure all dtypes unify to `ℝ`).
 and odd dimension lanes, not computed. Scoping is **one block-store at a time**
 (q0/q1/k0/k1), each over the active lanes (`cur_seq_range < max_total_len` and
 `cur_head_range < HEAD_Q`/`HEAD_K`); out-of-bounds lanes are preserved verbatim.
-The four `caseN` summaries instantiate the proved generic lemmas at the concrete
-contiguous shapes of the Python test cases (case 1 `(total_len, 8, 64)`,
-`BLOCK_HEAD = 4`, `BLOCK_SEQ = 16`, `BLOCK_DMODEL = 64`; the others vary
-`head_dim`/`BLOCK_DMODEL`).
+The dimension-general summary quantifies over arbitrary symbolic strides,
+sequence length, head counts, and block sizes.
 -/
 
 namespace VeriTile.Bench.TritonBenchG.RotaryEmb
@@ -809,448 +806,6 @@ theorem rotary_emb_k1_block_compute_correct
     HEAD_K BLOCK_HALF s s' hOutInj hExec i
   simpa [hActive] using h
 
-/-! ## Python test-shape all-output wrappers
-
-The checked Python wrapper observes both mutated tensors `(q.clone(), k.clone())`.
-For each tested shape, the observable rotary writeback consists of four
-dimension-pair stores: Q even, Q odd, K even, and K odd. These wrappers keep the
-proofs local to this benchmark file per #118; they are still proof-slice
-summaries, while the full-kernel section below tracks the stronger #139 path. -/
-
-theorem rotary_emb_python_q_even_offset_injective
-    (s : BlockState) (stride_qbs stride_qh BLOCK_HALF : Nat) :
-    Function.Injective
-      (fun i : Fin BLOCK_HALF => qOffset s stride_qbs stride_qh 1 (dimEven i)) := by
-  intro a b h
-  apply Fin.ext
-  simp [qOffset, seqIndex, headIndex, dimEven] at h
-  omega
-
-theorem rotary_emb_python_q_odd_offset_injective
-    (s : BlockState) (stride_qbs stride_qh BLOCK_HALF : Nat) :
-    Function.Injective
-      (fun i : Fin BLOCK_HALF => qOffset s stride_qbs stride_qh 1 (dimOdd i)) := by
-  intro a b h
-  apply Fin.ext
-  simp [qOffset, seqIndex, headIndex, dimOdd] at h
-  omega
-
-theorem rotary_emb_python_k_even_offset_injective
-    (s : BlockState) (stride_kbs stride_kh BLOCK_HALF : Nat) :
-    Function.Injective
-      (fun i : Fin BLOCK_HALF => kOffset s stride_kbs stride_kh 1 (dimEven i)) := by
-  intro a b h
-  apply Fin.ext
-  simp [kOffset, seqIndex, headIndex, dimEven] at h
-  omega
-
-theorem rotary_emb_python_k_odd_offset_injective
-    (s : BlockState) (stride_kbs stride_kh BLOCK_HALF : Nat) :
-    Function.Injective
-      (fun i : Fin BLOCK_HALF => kOffset s stride_kbs stride_kh 1 (dimOdd i)) := by
-  intro a b h
-  apply Fin.ext
-  simp [kOffset, seqIndex, headIndex, dimOdd] at h
-  omega
-
-/-- Python-shape all-output coverage for `rotary_emb_fwd` with `HEAD_Q = 8`,
-`HEAD_K = 8`, contiguous `(total_len, heads, head_dim)` Q/K tensors, and
-contiguous `(total_len, head_dim)` cos/sin tensors. -/
-theorem rotary_emb_python_shape_all_outputs_compute_correct
-    (Q K Cos Sin : RegionName) (max_total_len head_dim BLOCK_HALF : Nat)
-    (s : BlockState) :
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q0_block Q Cos Sin (8 * head_dim) head_dim 1
-        head_dim 1 head_dim 1 max_total_len 8 BLOCK_HALF)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin BLOCK_HALF => active s max_total_len 8)
-        (fun i => (Q, qOffset s (8 * head_dim) head_dim 1 (dimEven i))))
-      (expected := fun i =>
-        rotaryQ0Spec s Q Cos Sin (8 * head_dim) head_dim 1
-          head_dim 1 head_dim 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q1_block Q Cos Sin (8 * head_dim) head_dim 1
-        head_dim 1 head_dim 1 max_total_len 8 BLOCK_HALF)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin BLOCK_HALF => active s max_total_len 8)
-        (fun i => (Q, qOffset s (8 * head_dim) head_dim 1 (dimOdd i))))
-      (expected := fun i =>
-        rotaryQ1Spec s Q Cos Sin (8 * head_dim) head_dim 1
-          head_dim 1 head_dim 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k0_block K Cos Sin (8 * head_dim) head_dim 1
-        head_dim 1 head_dim 1 max_total_len 8 BLOCK_HALF)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin BLOCK_HALF => activeK s max_total_len 8)
-        (fun i => (K, kOffset s (8 * head_dim) head_dim 1 (dimEven i))))
-      (expected := fun i =>
-        rotaryK0Spec s K Cos Sin (8 * head_dim) head_dim 1
-          head_dim 1 head_dim 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k1_block K Cos Sin (8 * head_dim) head_dim 1
-        head_dim 1 head_dim 1 max_total_len 8 BLOCK_HALF)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin BLOCK_HALF => activeK s max_total_len 8)
-        (fun i => (K, kOffset s (8 * head_dim) head_dim 1 (dimOdd i))))
-      (expected := fun i =>
-        rotaryK1Spec s K Cos Sin (8 * head_dim) head_dim 1
-          head_dim 1 head_dim 1 i)) := by
-  constructor
-  · exact rotary_emb_q0_block_compute_correct Q Cos Sin (8 * head_dim)
-      head_dim 1 head_dim 1 head_dim 1 max_total_len 8 BLOCK_HALF s
-      (rotary_emb_python_q_even_offset_injective s (8 * head_dim)
-        head_dim BLOCK_HALF)
-  constructor
-  · exact rotary_emb_q1_block_compute_correct Q Cos Sin (8 * head_dim)
-      head_dim 1 head_dim 1 head_dim 1 max_total_len 8 BLOCK_HALF s
-      (rotary_emb_python_q_odd_offset_injective s (8 * head_dim)
-        head_dim BLOCK_HALF)
-  constructor
-  · exact rotary_emb_k0_block_compute_correct K Cos Sin (8 * head_dim)
-      head_dim 1 head_dim 1 head_dim 1 max_total_len 8 BLOCK_HALF s
-      (rotary_emb_python_k_even_offset_injective s (8 * head_dim)
-        head_dim BLOCK_HALF)
-  · exact rotary_emb_k1_block_compute_correct K Cos Sin (8 * head_dim)
-      head_dim 1 head_dim 1 head_dim 1 max_total_len 8 BLOCK_HALF s
-      (rotary_emb_python_k_odd_offset_injective s (8 * head_dim)
-        head_dim BLOCK_HALF)
-
-theorem rotary_emb_python_case1_all_outputs_compute_correct
-    (Q K Cos Sin : RegionName) (s : BlockState) :
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q0_block Q Cos Sin 512 64 1 64 1 64 1 32 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => active s 32 8)
-        (fun i => (Q, qOffset s 512 64 1 (dimEven i))))
-      (expected := fun i => rotaryQ0Spec s Q Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q1_block Q Cos Sin 512 64 1 64 1 64 1 32 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => active s 32 8)
-        (fun i => (Q, qOffset s 512 64 1 (dimOdd i))))
-      (expected := fun i => rotaryQ1Spec s Q Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k0_block K Cos Sin 512 64 1 64 1 64 1 32 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => activeK s 32 8)
-        (fun i => (K, kOffset s 512 64 1 (dimEven i))))
-      (expected := fun i => rotaryK0Spec s K Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k1_block K Cos Sin 512 64 1 64 1 64 1 32 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => activeK s 32 8)
-        (fun i => (K, kOffset s 512 64 1 (dimOdd i))))
-      (expected := fun i => rotaryK1Spec s K Cos Sin 512 64 1 64 1 64 1 i)) := by
-  exact rotary_emb_python_shape_all_outputs_compute_correct Q K Cos Sin 32 64 32 s
-
-theorem rotary_emb_python_case2_all_outputs_compute_correct
-    (Q K Cos Sin : RegionName) (s : BlockState) :
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q0_block Q Cos Sin 1024 128 1 128 1 128 1 32 8 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 64 => active s 32 8)
-        (fun i => (Q, qOffset s 1024 128 1 (dimEven i))))
-      (expected := fun i => rotaryQ0Spec s Q Cos Sin 1024 128 1 128 1 128 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q1_block Q Cos Sin 1024 128 1 128 1 128 1 32 8 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 64 => active s 32 8)
-        (fun i => (Q, qOffset s 1024 128 1 (dimOdd i))))
-      (expected := fun i => rotaryQ1Spec s Q Cos Sin 1024 128 1 128 1 128 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k0_block K Cos Sin 1024 128 1 128 1 128 1 32 8 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 64 => activeK s 32 8)
-        (fun i => (K, kOffset s 1024 128 1 (dimEven i))))
-      (expected := fun i => rotaryK0Spec s K Cos Sin 1024 128 1 128 1 128 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k1_block K Cos Sin 1024 128 1 128 1 128 1 32 8 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 64 => activeK s 32 8)
-        (fun i => (K, kOffset s 1024 128 1 (dimOdd i))))
-      (expected := fun i => rotaryK1Spec s K Cos Sin 1024 128 1 128 1 128 1 i)) := by
-  exact rotary_emb_python_shape_all_outputs_compute_correct Q K Cos Sin 32 128 64 s
-
-theorem rotary_emb_python_case3_all_outputs_compute_correct
-    (Q K Cos Sin : RegionName) (s : BlockState) :
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q0_block Q Cos Sin 512 64 1 64 1 64 1 32 8 16)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 16 => active s 32 8)
-        (fun i => (Q, qOffset s 512 64 1 (dimEven i))))
-      (expected := fun i => rotaryQ0Spec s Q Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q1_block Q Cos Sin 512 64 1 64 1 64 1 32 8 16)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 16 => active s 32 8)
-        (fun i => (Q, qOffset s 512 64 1 (dimOdd i))))
-      (expected := fun i => rotaryQ1Spec s Q Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k0_block K Cos Sin 512 64 1 64 1 64 1 32 8 16)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 16 => activeK s 32 8)
-        (fun i => (K, kOffset s 512 64 1 (dimEven i))))
-      (expected := fun i => rotaryK0Spec s K Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k1_block K Cos Sin 512 64 1 64 1 64 1 32 8 16)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 16 => activeK s 32 8)
-        (fun i => (K, kOffset s 512 64 1 (dimOdd i))))
-      (expected := fun i => rotaryK1Spec s K Cos Sin 512 64 1 64 1 64 1 i)) := by
-  exact rotary_emb_python_shape_all_outputs_compute_correct Q K Cos Sin 32 64 16 s
-
-theorem rotary_emb_python_case4_all_outputs_compute_correct
-    (Q K Cos Sin : RegionName) (s : BlockState) :
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q0_block Q Cos Sin 512 64 1 64 1 64 1 64 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => active s 64 8)
-        (fun i => (Q, qOffset s 512 64 1 (dimEven i))))
-      (expected := fun i => rotaryQ0Spec s Q Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q1_block Q Cos Sin 512 64 1 64 1 64 1 64 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => active s 64 8)
-        (fun i => (Q, qOffset s 512 64 1 (dimOdd i))))
-      (expected := fun i => rotaryQ1Spec s Q Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k0_block K Cos Sin 512 64 1 64 1 64 1 64 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => activeK s 64 8)
-        (fun i => (K, kOffset s 512 64 1 (dimEven i))))
-      (expected := fun i => rotaryK0Spec s K Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k1_block K Cos Sin 512 64 1 64 1 64 1 64 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => activeK s 64 8)
-        (fun i => (K, kOffset s 512 64 1 (dimOdd i))))
-      (expected := fun i => rotaryK1Spec s K Cos Sin 512 64 1 64 1 64 1 i)) := by
-  exact rotary_emb_python_shape_all_outputs_compute_correct Q K Cos Sin 64 64 32 s
-
-/-- Public Python case-1 summary for `rotary_emb_fwd`.
-
-The full `_rotary_kernel` surface is instantiated with contiguous
-`(total_len, 8, 64)` Q/K tensors, contiguous `(total_len, 64)` cos/sin tensors,
-`BLOCK_HEAD = 4`, `BLOCK_SEQ = 16`, and `BLOCK_DMODEL = 64`.  The output
-conjunct covers the four Python-observable stores: Q even/odd and K even/odd. -/
-theorem rotary_emb_python_case1_output_summary
-    (Q K Cos Sin : RegionName) (s : BlockState) :
-    (∃ alg, (rotary_kernel_surface Q K Cos Sin
-      512 64 1 512 64 1 64 1 64 1 32 8 8 4 16 64).toAlgorithm? =
-        Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q0_block Q Cos Sin 512 64 1 64 1 64 1 32 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => active s 32 8)
-        (fun i => (Q, qOffset s 512 64 1 (dimEven i))))
-      (expected := fun i => rotaryQ0Spec s Q Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q1_block Q Cos Sin 512 64 1 64 1 64 1 32 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => active s 32 8)
-        (fun i => (Q, qOffset s 512 64 1 (dimOdd i))))
-      (expected := fun i => rotaryQ1Spec s Q Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k0_block K Cos Sin 512 64 1 64 1 64 1 32 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => activeK s 32 8)
-        (fun i => (K, kOffset s 512 64 1 (dimEven i))))
-      (expected := fun i => rotaryK0Spec s K Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k1_block K Cos Sin 512 64 1 64 1 64 1 32 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => activeK s 32 8)
-        (fun i => (K, kOffset s 512 64 1 (dimOdd i))))
-      (expected := fun i => rotaryK1Spec s K Cos Sin 512 64 1 64 1 64 1 i)) := by
-  constructor
-  · exact rotary_kernel_surface_toAlgorithm_supported Q K Cos Sin
-      512 64 1 512 64 1 64 1 64 1 32 8 8 4 16 64
-  · exact rotary_emb_python_case1_all_outputs_compute_correct Q K Cos Sin s
-
-/-- Public Python case-2 summary: same shape as case 1 except
-`head_dim = BLOCK_DMODEL = 128`, so contiguous row/head strides are `1024`
-and `128`. -/
-theorem rotary_emb_python_case2_output_summary
-    (Q K Cos Sin : RegionName) (s : BlockState) :
-    (∃ alg, (rotary_kernel_surface Q K Cos Sin
-      1024 128 1 1024 128 1 128 1 128 1 32 8 8 4 16 128).toAlgorithm? =
-        Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q0_block Q Cos Sin 1024 128 1 128 1 128 1 32 8 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 64 => active s 32 8)
-        (fun i => (Q, qOffset s 1024 128 1 (dimEven i))))
-      (expected := fun i => rotaryQ0Spec s Q Cos Sin 1024 128 1 128 1 128 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q1_block Q Cos Sin 1024 128 1 128 1 128 1 32 8 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 64 => active s 32 8)
-        (fun i => (Q, qOffset s 1024 128 1 (dimOdd i))))
-      (expected := fun i => rotaryQ1Spec s Q Cos Sin 1024 128 1 128 1 128 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k0_block K Cos Sin 1024 128 1 128 1 128 1 32 8 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 64 => activeK s 32 8)
-        (fun i => (K, kOffset s 1024 128 1 (dimEven i))))
-      (expected := fun i => rotaryK0Spec s K Cos Sin 1024 128 1 128 1 128 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k1_block K Cos Sin 1024 128 1 128 1 128 1 32 8 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 64 => activeK s 32 8)
-        (fun i => (K, kOffset s 1024 128 1 (dimOdd i))))
-      (expected := fun i => rotaryK1Spec s K Cos Sin 1024 128 1 128 1 128 1 i)) := by
-  constructor
-  · exact rotary_kernel_surface_toAlgorithm_supported Q K Cos Sin
-      1024 128 1 1024 128 1 128 1 128 1 32 8 8 4 16 128
-  · exact rotary_emb_python_case2_all_outputs_compute_correct Q K Cos Sin s
-
-/-- Public Python case-3 summary: the source tensors are contiguous
-`(32, 8, 64)`, but `partial_rotary_factor = 0.5` makes the launched
-`BLOCK_DMODEL = 32`. -/
-theorem rotary_emb_python_case3_output_summary
-    (Q K Cos Sin : RegionName) (s : BlockState) :
-    (∃ alg, (rotary_kernel_surface Q K Cos Sin
-      512 64 1 512 64 1 64 1 64 1 32 8 8 4 16 32).toAlgorithm? =
-        Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q0_block Q Cos Sin 512 64 1 64 1 64 1 32 8 16)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 16 => active s 32 8)
-        (fun i => (Q, qOffset s 512 64 1 (dimEven i))))
-      (expected := fun i => rotaryQ0Spec s Q Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q1_block Q Cos Sin 512 64 1 64 1 64 1 32 8 16)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 16 => active s 32 8)
-        (fun i => (Q, qOffset s 512 64 1 (dimOdd i))))
-      (expected := fun i => rotaryQ1Spec s Q Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k0_block K Cos Sin 512 64 1 64 1 64 1 32 8 16)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 16 => activeK s 32 8)
-        (fun i => (K, kOffset s 512 64 1 (dimEven i))))
-      (expected := fun i => rotaryK0Spec s K Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k1_block K Cos Sin 512 64 1 64 1 64 1 32 8 16)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 16 => activeK s 32 8)
-        (fun i => (K, kOffset s 512 64 1 (dimOdd i))))
-      (expected := fun i => rotaryK1Spec s K Cos Sin 512 64 1 64 1 64 1 i)) := by
-  constructor
-  · exact rotary_kernel_surface_toAlgorithm_supported Q K Cos Sin
-      512 64 1 512 64 1 64 1 64 1 32 8 8 4 16 32
-  · exact rotary_emb_python_case3_all_outputs_compute_correct Q K Cos Sin s
-
-/-- Public Python case-4 summary: `total_len = 64`, `head_dim = 64`, and
-the same contiguous Q/K and cos/sin strides as case 1. -/
-theorem rotary_emb_python_case4_output_summary
-    (Q K Cos Sin : RegionName) (s : BlockState) :
-    (∃ alg, (rotary_kernel_surface Q K Cos Sin
-      512 64 1 512 64 1 64 1 64 1 64 8 8 4 16 64).toAlgorithm? =
-        Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q0_block Q Cos Sin 512 64 1 64 1 64 1 64 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => active s 64 8)
-        (fun i => (Q, qOffset s 512 64 1 (dimEven i))))
-      (expected := fun i => rotaryQ0Spec s Q Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_q1_block Q Cos Sin 512 64 1 64 1 64 1 64 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => active s 64 8)
-        (fun i => (Q, qOffset s 512 64 1 (dimOdd i))))
-      (expected := fun i => rotaryQ1Spec s Q Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k0_block K Cos Sin 512 64 1 64 1 64 1 64 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => activeK s 64 8)
-        (fun i => (K, kOffset s 512 64 1 (dimEven i))))
-      (expected := fun i => rotaryK0Spec s K Cos Sin 512 64 1 64 1 64 1 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rotary_emb_k1_block K Cos Sin 512 64 1 64 1 64 1 64 8 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun _ : Fin 32 => activeK s 64 8)
-        (fun i => (K, kOffset s 512 64 1 (dimOdd i))))
-      (expected := fun i => rotaryK1Spec s K Cos Sin 512 64 1 64 1 64 1 i)) := by
-  constructor
-  · exact rotary_kernel_surface_toAlgorithm_supported Q K Cos Sin
-      512 64 1 512 64 1 64 1 64 1 64 8 8 4 16 64
-  · exact rotary_emb_python_case4_all_outputs_compute_correct Q K Cos Sin s
-
-/-! ## Full-kernel Q first-half (off_q0) scaffolding
-
-The Python test runs the full `_rotary_kernel` which writes 4 stores: Q at
-`off_q0` (even), Q at `off_q1` (odd), K at `off_k0` (even), K at `off_k1` (odd).
-Per #139's audit, the slice proofs above aren't sufficient — a full-kernel proof
-would be needed.
-
-This section provides only scaffolding definitions (`qFullOffset`,
-`cosFullOffset`, `sinFullOffset`, `activeFullQ`, `rotaryKernelQ0Spec`) toward a
-future full-kernel proof; there is no correctness theorem here. -/
-
-/-- Q first-half offset of the full `rotary_kernel_surface`. The tile shape is
-`[BLOCK_SEQ, BLOCK_HEAD, BLOCK_DMODEL/2]`. The even dimension factor is
-`2 * idx.2.2.1.val`. -/
-def qFullOffset
-    (s : BlockState) (stride_qbs stride_qh stride_qd
-      BLOCK_HEAD BLOCK_SEQ BLOCK_HALF : Nat)
-    (idx : TileIndex [BLOCK_SEQ, BLOCK_HEAD, BLOCK_HALF]) : Nat :=
-  (s.pids 1 * BLOCK_SEQ + idx.1.val) * stride_qbs +
-  (s.pids 0 * BLOCK_HEAD + idx.2.1.val) * stride_qh +
-  (idx.2.2.1.val * 2) * stride_qd
-
-/-- Cosine offset for the full kernel's Q first-half store. -/
-def cosFullOffset
-    (s : BlockState) (stride_cosbs stride_cosd
-      BLOCK_SEQ BLOCK_HALF : Nat)
-    (idx : TileIndex [BLOCK_SEQ, BLOCK_HALF]) : Nat :=
-  (s.pids 1 * BLOCK_SEQ + idx.1.val) * stride_cosbs +
-  (idx.2.1.val * 2) * stride_cosd
-
-/-- Sine offset for the full kernel's Q first-half store. -/
-def sinFullOffset
-    (s : BlockState) (stride_cosbs stride_cosd
-      BLOCK_SEQ BLOCK_HALF : Nat)
-    (idx : TileIndex [BLOCK_SEQ, BLOCK_HALF]) : Nat :=
-  (s.pids 1 * BLOCK_SEQ + idx.1.val) * stride_cosbs +
-  (idx.2.1.val * 2) * stride_cosd
-
 /-- Active predicate for the full kernel's Q stores. -/
 def activeFullQ (s : BlockState) (max_total_len HEAD_Q
     BLOCK_HEAD BLOCK_SEQ : Nat)
@@ -1265,20 +820,86 @@ instance activeFullQDecidable (s : BlockState) (max_total_len HEAD_Q
   unfold activeFullQ
   infer_instance
 
-/-- Specification for the Q first-half output in the full kernel. -/
-noncomputable def rotaryKernelQ0Spec
-    (s : BlockState) (Q Cos Sin : RegionName)
-    (stride_qbs stride_qh stride_qd stride_cosbs stride_cosd : Nat)
-    (BLOCK_SEQ BLOCK_HEAD BLOCK_HALF : Nat)
-    (idx : TileIndex [BLOCK_SEQ, BLOCK_HEAD, BLOCK_HALF]) : ℝ :=
-  s.readMem Q (qFullOffset s stride_qbs stride_qh stride_qd
-      BLOCK_HEAD BLOCK_SEQ BLOCK_HALF idx) *
-    s.readMem Cos (cosFullOffset s stride_cosbs stride_cosd
-      BLOCK_SEQ BLOCK_HALF (idx.1, idx.2.2)) -
-  s.readMem Q ((s.pids 1 * BLOCK_SEQ + idx.1.val) * stride_qbs +
-      (s.pids 0 * BLOCK_HEAD + idx.2.1.val) * stride_qh +
-      (idx.2.2.1.val * 2 + 1) * stride_qd) *
-    s.readMem Sin (sinFullOffset s stride_cosbs stride_cosd
-      BLOCK_SEQ BLOCK_HALF (idx.1, idx.2.2))
+/-- **Dimension-general public Python summary for `rotary_emb_fwd`.**
+For arbitrary symbolic strides,
+sequence length, head counts, and block sizes, the full `_rotary_kernel` surface
+lowers to the algorithm layer and each of the four Python-observable stores
+(Q even/odd, K even/odd) reads back, on every active lane, to the genuine
+interleaved rotary closed form (`rotary{Q0,Q1,K0,K1}Spec`). The general
+block-level building blocks (`rotary_emb_q0/q1/k0/k1_block_compute_correct`)
+consume within-family offset injectivity, taken here as hypotheses. -/
+theorem rotary_emb_output_summary_general
+    (Q K Cos Sin : RegionName)
+    (stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd
+      stride_cosbs stride_cosd stride_sinbs stride_sind max_total_len
+      HEAD_Q HEAD_K BLOCK_HEAD BLOCK_SEQ BLOCK_DMODEL BLOCK_HALF : Nat)
+    (s : BlockState)
+    (hQEven : Function.Injective
+      (fun i : Fin BLOCK_HALF => qOffset s stride_qbs stride_qh stride_qd (dimEven i)))
+    (hQOdd : Function.Injective
+      (fun i : Fin BLOCK_HALF => qOffset s stride_qbs stride_qh stride_qd (dimOdd i)))
+    (hKEven : Function.Injective
+      (fun i : Fin BLOCK_HALF => kOffset s stride_kbs stride_kh stride_kd (dimEven i)))
+    (hKOdd : Function.Injective
+      (fun i : Fin BLOCK_HALF => kOffset s stride_kbs stride_kh stride_kd (dimOdd i))) :
+    (∃ alg, (rotary_kernel_surface Q K Cos Sin stride_qbs stride_qh stride_qd
+      stride_kbs stride_kh stride_kd stride_cosbs stride_cosd stride_sinbs
+      stride_sind max_total_len HEAD_Q HEAD_K BLOCK_HEAD BLOCK_SEQ
+      BLOCK_DMODEL).toAlgorithm? = Except.ok alg) ∧
+    (ComputeCorrect.Realizes
+      (kernel := rotary_emb_q0_block Q Cos Sin stride_qbs stride_qh stride_qd
+        stride_cosbs stride_cosd stride_sinbs stride_sind max_total_len HEAD_Q BLOCK_HALF)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun _ : Fin BLOCK_HALF => active s max_total_len HEAD_Q)
+        (fun i => (Q, qOffset s stride_qbs stride_qh stride_qd (dimEven i))))
+      (expected := fun i =>
+        rotaryQ0Spec s Q Cos Sin stride_qbs stride_qh stride_qd
+          stride_cosbs stride_cosd stride_sinbs stride_sind i)) ∧
+    (ComputeCorrect.Realizes
+      (kernel := rotary_emb_q1_block Q Cos Sin stride_qbs stride_qh stride_qd
+        stride_cosbs stride_cosd stride_sinbs stride_sind max_total_len HEAD_Q BLOCK_HALF)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun _ : Fin BLOCK_HALF => active s max_total_len HEAD_Q)
+        (fun i => (Q, qOffset s stride_qbs stride_qh stride_qd (dimOdd i))))
+      (expected := fun i =>
+        rotaryQ1Spec s Q Cos Sin stride_qbs stride_qh stride_qd
+          stride_cosbs stride_cosd stride_sinbs stride_sind i)) ∧
+    (ComputeCorrect.Realizes
+      (kernel := rotary_emb_k0_block K Cos Sin stride_kbs stride_kh stride_kd
+        stride_cosbs stride_cosd stride_sinbs stride_sind max_total_len HEAD_K BLOCK_HALF)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun _ : Fin BLOCK_HALF => activeK s max_total_len HEAD_K)
+        (fun i => (K, kOffset s stride_kbs stride_kh stride_kd (dimEven i))))
+      (expected := fun i =>
+        rotaryK0Spec s K Cos Sin stride_kbs stride_kh stride_kd
+          stride_cosbs stride_cosd stride_sinbs stride_sind i)) ∧
+    (ComputeCorrect.Realizes
+      (kernel := rotary_emb_k1_block K Cos Sin stride_kbs stride_kh stride_kd
+        stride_cosbs stride_cosd stride_sinbs stride_sind max_total_len HEAD_K BLOCK_HALF)
+      (initialState := s)
+      (write := ComputeCorrect.WriteMap.writeIf
+        (fun _ : Fin BLOCK_HALF => activeK s max_total_len HEAD_K)
+        (fun i => (K, kOffset s stride_kbs stride_kh stride_kd (dimOdd i))))
+      (expected := fun i =>
+        rotaryK1Spec s K Cos Sin stride_kbs stride_kh stride_kd
+          stride_cosbs stride_cosd stride_sinbs stride_sind i)) :=
+  ⟨rotary_kernel_surface_toAlgorithm_supported Q K Cos Sin stride_qbs stride_qh
+      stride_qd stride_kbs stride_kh stride_kd stride_cosbs stride_cosd stride_sinbs
+      stride_sind max_total_len HEAD_Q HEAD_K BLOCK_HEAD BLOCK_SEQ BLOCK_DMODEL,
+   rotary_emb_q0_block_compute_correct Q Cos Sin stride_qbs stride_qh stride_qd
+      stride_cosbs stride_cosd stride_sinbs stride_sind max_total_len HEAD_Q
+      BLOCK_HALF s hQEven,
+   rotary_emb_q1_block_compute_correct Q Cos Sin stride_qbs stride_qh stride_qd
+      stride_cosbs stride_cosd stride_sinbs stride_sind max_total_len HEAD_Q
+      BLOCK_HALF s hQOdd,
+   rotary_emb_k0_block_compute_correct K Cos Sin stride_kbs stride_kh stride_kd
+      stride_cosbs stride_cosd stride_sinbs stride_sind max_total_len HEAD_K
+      BLOCK_HALF s hKEven,
+   rotary_emb_k1_block_compute_correct K Cos Sin stride_kbs stride_kh stride_kd
+      stride_cosbs stride_cosd stride_sinbs stride_sind max_total_len HEAD_K
+      BLOCK_HALF s hKOdd⟩
 
 end VeriTile.Bench.TritonBenchG.RotaryEmb

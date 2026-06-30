@@ -34,17 +34,17 @@ three separate dimension-general top results (each symbolic in the block sizes
 
 forward kernel:
   fwd_decay_cumsum_full_surface_closed_general              ← TOP THEOREM (forward)
-       └─ fwd_decay_cumsum_python_test_surface_toAlgorithm_supported
+       └─ fwd_decay_cumsum_surface_toAlgorithm_supported
 
 prepare kernel:
   prepare_qg_kg_full_surface_qg_closed_general             ← TOP THEOREM (prepare, qg)
   prepare_qg_kg_full_surface_kg_closed_general             ← TOP THEOREM (prepare, kg)
-       └─ prepare_qg_kg_python_test_surface_toAlgorithm_supported
+       └─ prepare_qg_kg_surface_toAlgorithm_supported
 
 backward kernel:
-  decay_cumsum_backward_python_test_shape_closed_output_summary_general  ← TOP THEOREM (backward)
+  decay_cumsum_backward_closed_output_summary_general  ← TOP THEOREM (backward)
        (realizes genuine closed forms bwdDQInterClosed / bwdDKInterClosed / bwdDGClosed)
-       └─ bwd_decay_global_cumsum_python_test_surface_toAlgorithm_supported
+       └─ bwd_decay_global_cumsum_surface_toAlgorithm_supported
 
 each top result is the symbolic statement; the concrete Python shape is a
 recovered special case.
@@ -76,7 +76,7 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 
-/-! **★ Main theorem:** `decay_cumsum_backward_python_test_shape_closed_output_summary_general` -/
+/-! **★ Main theorem:** `decay_cumsum_backward_closed_output_summary_general` -/
 
 section Correct
 
@@ -768,38 +768,6 @@ theorem bwd_decay_cumsum_dg_store_slice_compute_correct
         bwdDecayCumsumSpec s DGPre s_qk_h DK t_rel BT BK i) := by
   exact bwd_decay_cumsum_store_slice_compute_correct DGPre DG
     s_qk_h DK t_rel BT BK s
-
-/-! ## Python test-shape wrappers
-
-`decay_cumsum.py`'s checked test uses `B = 2`, `H = 2`, `T = 4`, `DK = 8`,
-`BT = 2`, and `BK = 4`. The Python launch helpers pass `s_qk_h = H * T * DK =
-64`. The wrappers below specialize the row slices to either loop row
-`t_rel : Fin 2`. -/
-
-theorem fwd_decay_cumsum_python_test_surface_toAlgorithm_supported
-    (G GO : RegionName) :
-    ∃ alg, (fwd_decay_cumsum_surface G GO 64 32 8 2 2 4 1.0
-      2 4 8).toAlgorithm? = Except.ok alg := by
-  exact fwd_decay_cumsum_surface_toAlgorithm_supported G GO
-    64 32 8 2 2 4 1.0 2 4 8
-
-theorem prepare_qg_kg_python_test_surface_toAlgorithm_supported
-    (Q K G QG KG : RegionName) :
-    ∃ alg, (prepare_qg_kg_surface Q K G QG KG 64 8 2 4
-      1.0).toAlgorithm? = Except.ok alg := by
-  exact prepare_qg_kg_surface_toAlgorithm_supported Q K G QG KG
-    64 8 2 4 1.0
-
-theorem bwd_decay_global_cumsum_python_test_surface_toAlgorithm_supported
-    (DQInner DQInter DKInner DKInter Q K G DG : RegionName) :
-    (bwd_decay_global_cumsum_surface DQInner DQInter DKInner DKInter Q K G DG
-      64 8 2 4).toAlgorithm? =
-      Except.ok
-        (bwd_decay_global_cumsum_surface DQInner DQInter DKInner DKInter
-          Q K G DG 64 8 2 4).toAlgKernel := by
-  exact bwd_decay_global_cumsum_surface_toAlgorithm_supported DQInner DQInter
-    DKInner DKInter Q K G DG 64 8 2 4
-
 
 /-- **Genuine forward closed form.** At chunk row `t_rel` and lane `i`, the
 forward decay-cumsum kernel writes the scaled prefix sum
@@ -2710,9 +2678,9 @@ The three genuine closed forms above (`bwdDQInterClosed`, `bwdDKInterClosed`,
 `bwdDGClosed`) are the honest, non self-referential specifications that replace
 the (now-deleted) `decayBackwardSurfaceValue`. They are connected to the executed
 `bwd_decay_global_cumsum_surface` in
-`decay_cumsum_backward_python_test_shape_closed_output_summary_general` (and its three
-faces `bwd_decay_cumsum_d{q,k}_inter_closed_compute_correct` /
-`bwd_decay_cumsum_dg_closed_compute_correct`) at the end of this file, following
+`decay_cumsum_backward_closed_output_summary_general` (and its three
+faces `bwd_decay_cumsum_d{q,k}_inter_closed_compute_correct_general` /
+`bwd_decay_cumsum_dg_closed_compute_correct_general`) at the end of this file, following
 the **forward** closed-form recipe (`fwd_decay_cumsum_full_surface_row{0,1}_closed`),
 but the backward
 loop body is ~25 statements with a conditional `last_g` capture and three masked
@@ -2775,17 +2743,6 @@ section BwdRecipes
 
 variable {BK : Nat} (s : BlockState)
 
-/-- **Prologue / loop pointer-arithmetic recipe (add).** A nat-scalar `add`
-assign — `p_x = base + offs`, `p_x += DK`, or the loop-body offset folds —
-reduces to a `setReg` of the summed scalar, given the two operand evaluations. -/
-theorem bwdEval_assign_addNat (name : RegName) (a b : Op .nat []) (va vb : Nat)
-    (ha : evalOp a s = some (Tile.scalar va))
-    (hb : evalOp b s = some (Tile.scalar vb)) :
-    stepStmt (.assign .nat [] name (.add NumericDType.nat Broadcast.nil a b)) s
-      = some (s.setReg name .nat [] (Tile.scalar (va + vb))) := by
-  simp [stepStmt, evalOp, ha, hb]
-  rfl
-
 /-- **Loop index recipe (`t := 1 - __rev_t`, nat sub).** The first body
 statement of the lowered forward `forRangeDyn "__rev_t" 0 2 1` re-derives the
 reverse time index `t`. A nat-scalar `sub` assign reduces to a `setReg` of the
@@ -2797,46 +2754,6 @@ theorem bwdEval_assign_subNat (name : RegName) (a b : Op .nat []) (va vb : Nat)
       = some (s.setReg name .nat [] (Tile.scalar (va - vb))) := by
   simp [stepStmt, evalOp, ha, hb]
   rfl
-
-/-- **`cum_grad_dg = tl.zeros([BK])` init recipe.** The reverse-scan accumulator
-(and `last_g`) initializer assigns the all-zero `[BK]` real tile. -/
-theorem bwdEval_assign_zeros (name : RegName) :
-    stepStmt (.assign .real [BK] name (.full [BK] (.const 0))) s
-      = some (s.setReg name .real [BK] ⟨fun _ => some 0⟩) := by
-  simp [stepStmt, evalOp]
-
-/-- **Masked-region load recipe (`tl.load(p_x, mask=mask, other=0)`).** Every
-prologue/body input load (`g`, `q`, `k`, `dq_inner`, `dk_inner`, `dq_inter_in`,
-`dk_inter_in`) is a `MaskOpt.maskOther` region load over `[BK]`. Given the
-offset/mask/other evaluations, it reduces to the per-lane masked readback:
-active lanes read memory, inactive lanes take the `other` fill. -/
-theorem bwdEval_load_maskOther (region : Region .real)
-    (offs : Op .nat [BK]) (mask : Op .bool [BK]) (other : Op .real [BK])
-    (offsT : Tile .nat [BK]) (maskT : Tile .bool [BK]) (otherT : Tile .real [BK])
-    (hoff : evalOp offs s = some offsT)
-    (hmask : evalOp mask s = some maskT)
-    (hother : evalOp other s = some otherT) :
-    evalOp (.load .real (MemAccess.region region offs) (MaskOpt.maskOther mask other)) s
-      = some ⟨fun i => if maskT.data i then
-                some (s.readMem region (offsT.data i))
-              else otherT.data i⟩ := by
-  simp [evalOp, hoff, hmask, hother]
-
-/-- **Masked-region load assign recipe.** The load wrapped in its `assign`
-target register (`g_val = …`, `dq1 = …`, etc.), reducing to a single `setReg`. -/
-theorem bwdEval_assign_load_maskOther (name : RegName) (region : Region .real)
-    (offs : Op .nat [BK]) (mask : Op .bool [BK]) (other : Op .real [BK])
-    (offsT : Tile .nat [BK]) (maskT : Tile .bool [BK]) (otherT : Tile .real [BK])
-    (hoff : evalOp offs s = some offsT)
-    (hmask : evalOp mask s = some maskT)
-    (hother : evalOp other s = some otherT) :
-    stepStmt (.assign .real [BK] name
-        (.load .real (MemAccess.region region offs) (MaskOpt.maskOther mask other))) s
-      = some (s.setReg name .real [BK]
-          ⟨fun i => if maskT.data i then
-                some (s.readMem region (offsT.data i))
-              else otherT.data i⟩) := by
-  simp [stepStmt, evalOp, hoff, hmask, hother]
 
 /-- **Pointer masked-load assign recipe (`tl.load(p_x, mask=mask, other=0)`).**
 The backward body uses *pointer*-based loads (`MemAccess.ptr (Op.ref .ptr [BK]
@@ -2949,28 +2866,6 @@ theorem bwdEval_exp2 (x : Op .real [BK]) (xT : Tile .real [BK])
     (hx : evalOp x s = some xT) :
     evalOp (.exp2 x) s = some (Tile.uop WithBot.realExp2 xT) := by
   simp [evalOp, hx]
-
-/-- **Masked-region store recipe (`tl.store(p_out, val, mask=mask)`).** Each of
-the three per-iteration stores (`DQInter`, `DKInter`, `DG`) reduces to the
-`writeMemTyped` masked scatter fold over the `[BK]` lanes. Region distinctness
-(`DQInter ≠ DKInter ≠ DG`) is *not* needed here — it is needed only at the
-readback stage (`scatter_readback_prop_masked_nd` /
-`scatter_prop_masked_preserves_other_{offset,region}`, already in this file) so
-a later store does not clobber an earlier readback. -/
-theorem bwdEval_store_masked (region : RegionName)
-    (off : Op .nat [BK]) (val : Op .real [BK]) (mask : Op .bool [BK])
-    (offsT : Tile .nat [BK]) (valT : Tile .real [BK]) (maskT : Tile .bool [BK])
-    (hoff : evalOp off s = some offsT)
-    (hval : evalOp val s = some valT)
-    (hmask : evalOp mask s = some maskT) :
-    stepStmt (.store .real [BK] (MemAccess.region region off)
-        val (MaskOpt.mask mask)) s
-      = some ((TileShape.allIndices [BK]).foldl
-          (fun acc i =>
-            if maskT.data i then
-              acc.writeMemTyped .real (Region.cast region) (offsT.data i) (valT.data i)
-            else acc) s) := by
-  simp [stepStmt, evalOp, hoff, hval, hmask]
 
 end BwdComputeRecipes
 
@@ -3325,7 +3220,7 @@ state `s0`, executes exactly two iterations: `bwdIterBody` with `__rev_t = 0`
 (time row `t = BT-1 = 1`), then `bwdIterBody` with `__rev_t = 1` (time row
 `t = 0`), then terminates. This is the structural backbone for the 2-iteration
 assembly: each `stepStmts bwdIterBody` factor is discharged by the per-statement
-chaining (`bwdIterBody_head_eval` + `bwd_iter_tail_eval`). -/
+chaining from `bwdIterBody_head_eval`, assembled in `bwd_iter0_eval` / `bwd_iter1_eval`. -/
 theorem bwd_loop_unroll (s0 s1 s2 : BlockState)
     (h0 : stepStmts bwdIterBody (s0.setReg "__rev_t" .nat [] (Tile.scalar 0)) = some s1)
     (h1 : stepStmts bwdIterBody (s1.setReg "__rev_t" .nat [] (Tile.scalar 1)) = some s2) :
@@ -5140,19 +5035,6 @@ theorem bwdPtrDecTileG_row (s : BlockState) (region : RegionName)
     rw [hsplit, Nat.add_mul]
   rw [key]; omega
 
-/-- One reverse iteration's `-= DK` decrement advances `bwdPtrDecTileG` by one. -/
-theorem bwdPtrDecTileG_succ (s : BlockState) (region : RegionName)
-    (s_qk_h DK BT BK m : Nat) :
-    (⟨fun idx => (((bwdPtrDecTileG s region s_qk_h DK BT BK m).data idx).1,
-        ((bwdPtrDecTileG s region s_qk_h DK BT BK m).data idx).2 - DK)⟩ : Tile .ptr [BK])
-      = bwdPtrDecTileG s region s_qk_h DK BT BK (m + 1) := by
-  apply Tile.ext; intro idx
-  simp only [bwdPtrDecTileG]
-  refine Prod.ext rfl ?_
-  rw [Nat.sub_sub]
-  congr 1
-  ring
-
 /-- The row-`BT-1-m` pointer tile decremented by `DK` is the `(m+1)`-fold
 decremented tile (for `m < BT`). Combines `bwdPtrDecTileG_row` and `_succ`. -/
 theorem bwdPtrTileG_dec_succ (s : BlockState) (region : RegionName)
@@ -5595,13 +5477,6 @@ theorem bwd_prologue_eval_general
         BlockState.setReg_ne_name (h := by decide), hc9,
         BlockState.setReg_ne_name (h := by decide), hc8]
       exact BlockState.setReg_same _ _ _ _ _
-
-/-- `bwdGatedG` of the zero function is the all-`some 0` tile. -/
-theorem bwdGatedG_zero (s : BlockState) (DK BK : Nat) :
-    bwdGatedG s DK BK (fun _ => 0) = (⟨fun _ => some 0⟩ : Tile .real [BK]) := by
-  apply Tile.ext; intro idx
-  simp only [bwdGatedG]
-  by_cases ha : active s DK BK idx.1 <;> simp [ha]
 
 /-- The empty reverse partial sum is `0`. -/
 theorem bwdCumPartialG_zero (s : BlockState)
@@ -7097,7 +6972,7 @@ theorem bwd_decay_cumsum_dg_closed_compute_correct_general :
 /-! ### ════════ ★ MAIN THEOREM ★ ════════ -/
 /-- **General `output_summary`.** The executed backward surface realizes all three
 genuine closed forms (`bwdDQInterClosed` / `bwdDKInterClosed` / `bwdDGClosed`). -/
-theorem decay_cumsum_backward_python_test_shape_closed_output_summary_general :
+theorem decay_cumsum_backward_closed_output_summary_general :
     (ComputeCorrect.Realizes
       (kernel := bwd_decay_global_cumsum_surface DQInner DQInter DKInner DKInter
         Q K G DG s_qk_h DK BT BK)

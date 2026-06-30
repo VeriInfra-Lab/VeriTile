@@ -30,14 +30,14 @@ of the grid.
 
 ```
 attention_fwd_triton1_output_summary_general                         ← GENERAL TOP THEOREM (dimension-parameterized)
-  ├─ attention_fwd_triton1_exec_outputClosedForm                      exec O = outputClosedForm
-  │    ├─ aft1_exec_carry            prologue + 32-chunk forRangeDyn loop → b_h = Σ Kᵀ·V, O = aft1Out
-  │    │    ├─ aft1_prologue_inv                       reaches the carry invariant aft1Inv 0
-  │    │    ├─ aft1Inv_step                            one iteration preserves aft1Inv (carry n→n+1)
-  │    │    │    └─ aft1_loopBody_iter_ff              full body: loads/dots/carry-update + O store
-  │    │    │         └─ aft1_loopBody_regs_ff         registers: b_o = aft1Out, b_h = aft1BhTile(c+1)
+  ├─ attention_fwd_triton1_exec_outputClosedFormG                     exec O = outputClosedForm
+  │    ├─ aft1_exec_carryG           prologue + 32-chunk forRangeDyn loop → b_h = Σ Kᵀ·V, O = aft1OutG
+  │    │    ├─ aft1_prologue_invG                      reaches the carry invariant aft1InvG 0
+  │    │    ├─ aft1InvG_step                           one iteration preserves aft1InvG (carry n→n+1)
+  │    │    │    └─ aft1_loopBody_iter_ffG             full body: loads/dots/carry-update + O store
+  │    │    │         └─ aft1_loopBody_regs_ffG        registers: b_o = aft1OutG, b_h = aft1BhTileG (c+1)
   │    │    └─ forRangeDyn_inv                         the dynamic-bound carry induction
-  │    └─ aft1Out_eq_outputClosedForm                  kernel-native output = genuine closed form
+  │    └─ aft1OutG_eq_outputClosedForm                 kernel-native output = genuine closed form
   └─ attention_fwd_kernel_surface_toAlgorithm_supported (×4 STORE/IFCOND branch lowerings)
 ```
 
@@ -140,22 +140,6 @@ theorem attention_fwd_kernel_surface_toAlgorithm_supported
   simp [attention_fwd_kernel_surface, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?]
 
-noncomputable def boFormulaSpec
-    (s : BlockState) (QTile KTile VTile : RegionName)
-    (scale : ℝ) (BT BD : Nat) (idx : TileIndex [BT, BD]) : ℝ :=
-  ∑ t : Fin BT,
-    (∑ d : Fin BD,
-      (s.readMem QTile (idx.1.val * BD + d.val) * scale) *
-        s.readMem KTile (d.val * BT + t.val)) *
-      s.readMem VTile (t.val * BD + idx.2.1.val)
-
-noncomputable def bhFormulaSpec
-    (s : BlockState) (KTile VTile : RegionName)
-    (BT BD : Nat) (idx : TileIndex [BD, BD]) : ℝ :=
-  ∑ t : Fin BT,
-    s.readMem KTile (idx.1.val * BT + t.val) *
-      s.readMem VTile (t.val * BD + idx.2.1.val)
-
 /-! ## Genuine closed form for the linear-attention output
 
 `attention_fwd_kernel` implements *linear (chunked) attention*: there is **no
@@ -169,7 +153,7 @@ to since `b_h_0 = 0`) is
 
   `Oᵢ[t, d] = ((scale·Qᵢ) · Kᵢ · Vᵢ)[t, d] + ((scale·Qᵢ) · b_h_i)[t, d]`.
 
-The first summand is exactly `boFormulaSpec` for chunk `i`'s tiles; the second
+The first summand is exactly `localTerm` for chunk `i`'s tiles; the second
 is the contraction of the scaled query against the accumulated state. The
 definitions below give that genuine closed form purely in terms of the input
 memory (no reference to the executed kernel output), and the identity theorems
@@ -220,40 +204,6 @@ noncomputable def outputClosedForm
     (chunk : Nat) (t : Fin BT) (d : Fin BD) : ℝ :=
   localTerm s Q K V scale BT BD qAddr kAddr vAddr chunk t d +
     recurrentTerm s Q K V scale BT BD qAddr kAddr vAddr chunk t d
-
-/-- **Local term = `boFormulaSpec`.** The local contribution of chunk `chunk`
-is exactly the already-proven dot-product producer spec `boFormulaSpec`,
-instantiated at that chunk's tiles. This pins the genuine closed form to the
-checked arithmetic surface rather than to the executed output.
-
-`Qc/Kc/Vc` are the per-chunk tile regions whose flat layout (`row·BD + col` for
-`Q`/`V`, `row·BT + col` for `K`) matches the producer slices; the hypotheses say
-the chunk accessors read the same memory as those tiles. -/
-theorem localTerm_eq_boFormulaSpec
-    (s : BlockState) (Q K V Qc Kc Vc : RegionName) (scale : ℝ) (BT BD : Nat)
-    (qAddr kAddr vAddr : Nat → Nat → Nat) (chunk : Nat)
-    (t : Fin BT) (d : Fin BD)
-    (hQ : ∀ off, s.readMem Q (qAddr chunk off) = s.readMem Qc off)
-    (hK : ∀ off, s.readMem K (kAddr chunk off) = s.readMem Kc off)
-    (hV : ∀ off, s.readMem V (vAddr chunk off) = s.readMem Vc off) :
-    localTerm s Q K V scale BT BD qAddr kAddr vAddr chunk t d
-      = boFormulaSpec s Qc Kc Vc scale BT BD (t, d, PUnit.unit) := by
-  simp only [localTerm, boFormulaSpec, hQ, hK, hV, Nat.mul_comm]
-
-/-- **Recurrent state telescopes into a sum of per-chunk `bhFormulaSpec`s.** The
-accumulated state at chunk `chunk` equals the sum over prior chunks `j` of the
-already-proven `bhFormulaSpec` (the `dot(K, V)` producer) for chunk `j`. The
-chunk-`j` accessors are supplied via the per-chunk tile regions. -/
-theorem recurrentState_eq_sum_bhFormulaSpec
-    (s : BlockState) (K V : RegionName) (BT BD : Nat)
-    (kAddr vAddr : Nat → Nat → Nat) (chunk : Nat) (d' d : Fin BD)
-    (Kc Vc : Nat → RegionName)
-    (hK : ∀ j off, s.readMem K (kAddr j off) = s.readMem (Kc j) off)
-    (hV : ∀ j off, s.readMem V (vAddr j off) = s.readMem (Vc j) off) :
-    recurrentState s K V BT BD kAddr vAddr chunk d' d
-      = ∑ j ∈ Finset.range chunk,
-          bhFormulaSpec s (Kc j) (Vc j) BT BD (d', d, PUnit.unit) := by
-  simp only [recurrentState, bhFormulaSpec, hK, hV, Nat.mul_comm]
 
 /-! ## `output_summary` — placeholder
 
@@ -340,8 +290,8 @@ theorem aft1_load_bp_2d_ref (rg : RegionName) (s : BlockState) (name : RegName)
 These mirror the executed kernel's per-chunk memory reads exactly (batch-head
 `i_bh = pids 0`), so the loop-body stepping connects to them definitionally. The
 genuine file-level `recurrentState`/`outputClosedForm` are reconciled with these
-through the accessor hypotheses at the summary, exactly as
-`localTerm_eq_boFormulaSpec` / `recurrentState_eq_sum_bhFormulaSpec` do. -/
+through the accessor hypotheses at the summary, via the general bridge
+`aft1OutG_eq_outputClosedForm`. -/
 
 /-- An `ifThen` with a `false` constexpr condition is a no-op. -/
 theorem aft1_ifThen_false_noop (body : List Stmt) (X : BlockState) :
@@ -452,13 +402,6 @@ theorem aft1_foldl_writeMem_readMem_other {α : Type} (l : List α)
       rw [BlockState.writeMem_readMem, if_neg]
       rintro ⟨_, heq⟩
       exact hoff hd List.mem_cons_self heq.symm
-
-/-- `Q`/`V`/`O` per-chunk accessor: chunk `c` offset `off ↦ base + c·4096 + off`. -/
-def aft1QAddr (s : BlockState) (c off : Nat) : Nat := s.pids 0 * 131072 + c * 4096 + off
-
-/-- `K` per-chunk accessor: `off = 32·d' + tk ↦ base + d' + (c·32 + tk)·128`. -/
-def aft1KAddr (s : BlockState) (c off : Nat) : Nat :=
-  s.pids 0 * 131072 + off / 32 + (c * 32 + off % 32) * 128
 
 /-- General scaled query cell `b_q[t,e] = scale · Q[base + (c·BT+t)·BD + e]`. -/
 noncomputable def aft1QCellG (s : BlockState) (Q : RegionName)
@@ -1196,26 +1139,30 @@ chunk count `NT`, scale `scale : ℝ`, and recurrent-state strides `s_hh`/`s_ht`
 executing the full `attention_fwd_kernel_surface` writes the genuine
 `outputClosedForm` (= `localTerm` intra-chunk `(scale·Q·K·V)` + `recurrentTerm`
 cross-chunk `(scale·Q·b_h_c)`, read purely over INPUT memory, **no self-reference**)
-into `O` at every chunk `c < NT` and lane `(t, d)`. All four `STORE`/`IFCOND`
-branch surfaces also lower faithfully to the algorithm layer. The only layout
-contracts are the contiguity ones the kernel genuinely relies on: Q/V/O block
-strides `(BD, 1)`, K block strides `(1, BD)`, recurrent stride `(s_ht, 1)`, and the
-dynamic bound `cdiv(NT·BT, BT) = NT` (needs `0 < BT`). The Python test shape
-(`s_qh = 131072`, `s_hh = 524288`, `s_ht = 128`, `BT = 32`, `BD = 128`, `NT = 32`,
-`scale = 1/√128`) is the special case. -/
+into `O` at every chunk `c < NT` and lane `(t, d)`.
+
+Stated through the standard `ComputeCorrect.Realizes` surface (like every other
+kernel summary), so the `exec`/`Except`/`toAlgorithm?` plumbing stays out of the
+statement: the output write is the `WriteMap` over the streamed index
+`(chunk, row, col) : Fin NT × Fin BT × Fin BD`, and `expected` is the genuine
+`outputClosedForm`. Three conjuncts:
+* **(1)** all four `STORE`/`IFCOND` branch surfaces lower faithfully to the
+  algorithm layer;
+* **(2)** the kernel runs to completion (the default branch's projected algorithm
+  kernel produces a final state) — strictly stronger than `Realizes` alone, which
+  is conditional on execution succeeding;
+* **(3)** `Realizes`: every streamed `O` lane holds the genuine `outputClosedForm`.
+
+The only layout contracts are the contiguity ones the kernel genuinely relies
+on: Q/V/O block strides `(BD, 1)`, K block strides `(1, BD)`, recurrent stride
+`(s_ht, 1)`, and the dynamic bound `cdiv(NT·BT, BT) = NT` (needs `0 < BT`). The
+Python test shape (`s_qh = 131072`, `s_hh = 524288`, `s_ht = 128`, `BT = 32`,
+`BD = 128`, `NT = 32`, `scale = 1/√128`) is the special case. -/
 theorem attention_fwd_triton1_output_summary_general
     (Q K V H O : RegionName) (s_qh s_hh s_ht : Nat) (scale : ℝ)
     (BT BD NT : Nat) (hBT : 0 < BT) (s : BlockState)
     (hOQ : O ≠ Q) (hOK : O ≠ K) (hOV : O ≠ V) (hOH : O ≠ H) :
-    -- (1) genuine closed-form output of the executed kernel
-    (∃ sF, exec (attention_fwd_kernel_surface Q K V H O
-        s_qh BD 1 s_hh s_ht (NT * BT) scale BT BD NT Bool.false Bool.false).toAlgKernel s = some sF
-      ∧ ∀ (c : Nat), c < NT → ∀ (t : Fin BT) (d : Fin BD),
-          sF.readMem O (s.pids 0 * s_qh + (c * BT + t.val) * BD + d.val)
-            = outputClosedForm s Q K V scale BT BD
-                (aft1QAddrG s s_qh BT BD) (aft1KAddrG s s_qh BT BD)
-                (aft1QAddrG s s_qh BT BD) c t d) ∧
-    -- (2) all four STORE/IFCOND branch surfaces lower to the algorithm layer
+    -- (1) all four STORE/IFCOND branch surfaces lower to the algorithm layer
     ((∃ alg, (attention_fwd_kernel_surface Q K V H O
       s_qh BD 1 s_hh s_ht (NT * BT) scale BT BD NT Bool.false Bool.false).toAlgorithm?
         = Except.ok alg) ∧
@@ -1227,9 +1174,26 @@ theorem attention_fwd_triton1_output_summary_general
         = Except.ok alg) ∧
      (∃ alg, (attention_fwd_kernel_surface Q K V H O
       s_qh BD 1 s_hh s_ht (NT * BT) scale BT BD NT Bool.true Bool.true).toAlgorithm?
-        = Except.ok alg)) := by
-  refine ⟨attention_fwd_triton1_exec_outputClosedFormG Q K V H O s_qh s_hh s_ht scale
-    BT BD NT hBT s hOQ hOK hOV hOH, ?_, ?_, ?_, ?_⟩
+        = Except.ok alg)) ∧
+    -- (2) the default branch runs to completion (existence / termination)
+    (∃ sF, exec (attention_fwd_kernel_surface Q K V H O
+        s_qh BD 1 s_hh s_ht (NT * BT) scale BT BD NT Bool.false Bool.false).toAlgKernel s
+          = some sF) ∧
+    -- (3) standard Realizes: every streamed O lane holds the genuine closed form
+    ComputeCorrect.Realizes
+      (kernel := attention_fwd_kernel_surface Q K V H O
+        s_qh BD 1 s_hh s_ht (NT * BT) scale BT BD NT Bool.false Bool.false)
+      (initialState := s)
+      (write := fun i : Fin NT × Fin BT × Fin BD =>
+        some (O, s.pids 0 * s_qh + (i.1.val * BT + i.2.1.val) * BD + i.2.2.val))
+      (expected := fun i : Fin NT × Fin BT × Fin BD =>
+        outputClosedForm s Q K V scale BT BD
+          (aft1QAddrG s s_qh BT BD) (aft1KAddrG s s_qh BT BD)
+          (aft1QAddrG s s_qh BT BD) i.1.val i.2.1 i.2.2) := by
+  obtain ⟨sF, hexec, hOF⟩ :=
+    attention_fwd_triton1_exec_outputClosedFormG Q K V H O s_qh s_hh s_ht scale
+      BT BD NT hBT s hOQ hOK hOV hOH
+  refine ⟨⟨?_, ?_, ?_, ?_⟩, ⟨sF, hexec⟩, ?_⟩
   · exact attention_fwd_kernel_surface_toAlgorithm_supported Q K V H O
       s_qh BD 1 s_hh s_ht (NT * BT) scale BT BD NT Bool.false Bool.false
   · exact attention_fwd_kernel_surface_toAlgorithm_supported Q K V H O
@@ -1238,6 +1202,22 @@ theorem attention_fwd_triton1_output_summary_general
       s_qh BD 1 s_hh s_ht (NT * BT) scale BT BD NT Bool.false Bool.true
   · exact attention_fwd_kernel_surface_toAlgorithm_supported Q K V H O
       s_qh BD 1 s_hh s_ht (NT * BT) scale BT BD NT Bool.true Bool.true
+  · -- (3) the genuine closed-form output, packaged through `Realizes`
+    obtain ⟨alg, halg⟩ := attention_fwd_kernel_surface_toAlgorithm_supported Q K V H O
+      s_qh BD 1 s_hh s_ht (NT * BT) scale BT BD NT Bool.false Bool.false
+    have hk : (attention_fwd_kernel_surface Q K V H O
+        s_qh BD 1 s_hh s_ht (NT * BT) scale BT BD NT Bool.false Bool.false).toAlgorithm?
+          = Except.ok (attention_fwd_kernel_surface Q K V H O
+            s_qh BD 1 s_hh s_ht (NT * BT) scale BT BD NT Bool.false Bool.false).toAlgKernel := by
+      simp only [ComputeKernel.toAlgKernel, halg]
+    unfold ComputeCorrect.Realizes
+    apply ComputeKernel.computeCorrect_of_toAlgKernel hk
+    intro s0 s' hExec hs0
+    subst s0
+    intro i
+    rw [hExec] at hexec
+    obtain rfl := Option.some.inj hexec
+    exact hOF i.1.val i.1.isLt i.2.1 i.2.2
 
 
 end Correct

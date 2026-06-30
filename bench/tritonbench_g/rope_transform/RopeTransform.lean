@@ -26,7 +26,7 @@ statement covers every program of the grid.
 ## Proof architecture
 
 ```
-rope_transform_python_forward_output_summary          ← TOP THEOREM (genuine)
+rope_transform_output_summary_general                 ← TOP THEOREM (genuine, dimension-general)
   ├─ triton_rope_surface_toAlgorithm_supported          surface lowers to the algorithm layer
   ├─ rope_transform_q0_forward_correct  → ropeForwardKernelQ0Spec  (q1·cos − q2·sin)
   ├─ rope_transform_q1_forward_correct  → ropeForwardKernelQ1Spec  (q2·cos + q1·sin)
@@ -43,7 +43,7 @@ rope_forward_body_steps (the load-bearing lemma, steps `ropeForwardBody` directl
   │     load_ptr_maskOther_real, …; expandDim wall handled by the *_arange recipes)
   ├─ ifThenElse (constBool false).boolNot takes the then-branch (4 store pairs)
   └─ readback: cross-region peel (q_ptr ≠ k_ptr) + same-region disjoint peel
-       (qFirstHalf_ne_qSecondHalf-style) + scatter_readback_prop_masked_nd_of_true
+       (first-half vs second-half offsets) + scatter_readback_prop_masked_nd_of_true
 
 combined-row track (rotary-style 2D slice):
 rope_kernel_o0o1_row_all_outputs_compute_correct
@@ -52,8 +52,7 @@ rope_kernel_o0o1_row_all_outputs_compute_correct
 ```
 
 Offset disjointness within a half pair is discharged inline (by `omega`) in the
-readback peel; `qFirstHalf_ne_qSecondHalf` / `kFirstHalf_ne_kSecondHalf` are
-standalone statements of the same fact but are not invoked by the body proof.
+readback peel.
 
 ## Modeling boundary
 
@@ -818,55 +817,6 @@ instance activeQFullDecidable (n_qh hd : Nat)
   unfold activeQFull
   infer_instance
 
-/-- Disjointness witness: every Q second-half write offset differs from an
-active Q first-half offset (uses `d < hd / 2` and `hd / 2 + hd / 2 ≤ hd`). -/
-theorem qFirstHalf_ne_qSecondHalf
-    {pad_n_qh pad_hd_half : Nat} (s : BlockState) (q_row_stride hd : Nat)
-    (idx : TileIndex [pad_n_qh, pad_hd_half])
-    (hd_lt : idx.2.1.val < hd / 2)
-    (k : TileIndex [pad_n_qh, pad_hd_half])
-    (hkActive : k.2.1.val < hd / 2) :
-    qFullFirstOffset s q_row_stride hd idx ≠
-      qFullSecondOffset s q_row_stride hd k := by
-  unfold qFullFirstOffset qFullSecondOffset
-  intro heq
-  have hcancel :
-      idx.1.val * hd + idx.2.1.val =
-        k.1.val * hd + k.2.1.val + hd / 2 := by
-    omega
-  rcases lt_trichotomy idx.1.val k.1.val with hlt | heq_n | hgt
-  · have h1 : (idx.1.val + 1) * hd ≤ k.1.val * hd :=
-      Nat.mul_le_mul_right _ hlt
-    have h2 : idx.1.val * hd + hd ≤ k.1.val * hd := by
-      have := h1
-      simpa [Nat.add_mul, Nat.one_mul] using this
-    have hLHS : idx.1.val * hd + idx.2.1.val < idx.1.val * hd + hd := by omega
-    have hRHS : k.1.val * hd ≤ k.1.val * hd + k.2.1.val + hd / 2 := by omega
-    have : idx.1.val * hd + idx.2.1.val < k.1.val * hd + k.2.1.val + hd / 2 := by
-      calc idx.1.val * hd + idx.2.1.val
-          < idx.1.val * hd + hd := hLHS
-        _ ≤ k.1.val * hd := h2
-        _ ≤ k.1.val * hd + k.2.1.val + hd / 2 := hRHS
-    exact absurd hcancel (Nat.ne_of_lt this)
-  · rw [heq_n] at hcancel
-    have : idx.2.1.val ≥ hd / 2 := by omega
-    omega
-  · have h1 : (k.1.val + 1) * hd ≤ idx.1.val * hd :=
-      Nat.mul_le_mul_right _ hgt
-    have h2 : k.1.val * hd + hd ≤ idx.1.val * hd := by
-      have := h1
-      simpa [Nat.add_mul, Nat.one_mul] using this
-    have hsum : k.2.1.val + hd / 2 < hd := by
-      have hh : hd / 2 + hd / 2 ≤ hd := by omega
-      omega
-    have hRHS : k.1.val * hd + k.2.1.val + hd / 2 < k.1.val * hd + hd := by omega
-    have : k.1.val * hd + k.2.1.val + hd / 2 < idx.1.val * hd + idx.2.1.val := by
-      calc k.1.val * hd + k.2.1.val + hd / 2
-          < k.1.val * hd + hd := hRHS
-        _ ≤ idx.1.val * hd := h2
-        _ ≤ idx.1.val * hd + idx.2.1.val := by omega
-    exact absurd hcancel.symm (Nat.ne_of_lt this)
-
 /-- Spec for the Q first-half output under `BACKWARD_PASS = false`:
 `new_q_tile_1 = q_tile_1 * cos - q_tile_2 * sin`. -/
 noncomputable def ropeForwardKernelQ0Spec
@@ -911,55 +861,6 @@ instance activeKFullDecidable (n_kh hd : Nat)
     Decidable (activeKFull n_kh hd idx) := by
   unfold activeKFull
   infer_instance
-
-/-- K-side disjointness witness, structurally identical to
-`qFirstHalf_ne_qSecondHalf`. -/
-theorem kFirstHalf_ne_kSecondHalf
-    {pad_n_kh pad_hd_half : Nat} (s : BlockState) (k_row_stride hd : Nat)
-    (idx : TileIndex [pad_n_kh, pad_hd_half])
-    (hd_lt : idx.2.1.val < hd / 2)
-    (k : TileIndex [pad_n_kh, pad_hd_half])
-    (hkActive : k.2.1.val < hd / 2) :
-    kFullFirstOffset s k_row_stride hd idx ≠
-      kFullSecondOffset s k_row_stride hd k := by
-  unfold kFullFirstOffset kFullSecondOffset
-  intro heq
-  have hcancel :
-      idx.1.val * hd + idx.2.1.val =
-        k.1.val * hd + k.2.1.val + hd / 2 := by
-    omega
-  rcases lt_trichotomy idx.1.val k.1.val with hlt | heq_n | hgt
-  · have h1 : (idx.1.val + 1) * hd ≤ k.1.val * hd :=
-      Nat.mul_le_mul_right _ hlt
-    have h2 : idx.1.val * hd + hd ≤ k.1.val * hd := by
-      have := h1
-      simpa [Nat.add_mul, Nat.one_mul] using this
-    have hLHS : idx.1.val * hd + idx.2.1.val < idx.1.val * hd + hd := by omega
-    have hRHS : k.1.val * hd ≤ k.1.val * hd + k.2.1.val + hd / 2 := by omega
-    have : idx.1.val * hd + idx.2.1.val < k.1.val * hd + k.2.1.val + hd / 2 := by
-      calc idx.1.val * hd + idx.2.1.val
-          < idx.1.val * hd + hd := hLHS
-        _ ≤ k.1.val * hd := h2
-        _ ≤ k.1.val * hd + k.2.1.val + hd / 2 := hRHS
-    exact absurd hcancel (Nat.ne_of_lt this)
-  · rw [heq_n] at hcancel
-    have : idx.2.1.val ≥ hd / 2 := by omega
-    omega
-  · have h1 : (k.1.val + 1) * hd ≤ idx.1.val * hd :=
-      Nat.mul_le_mul_right _ hgt
-    have h2 : k.1.val * hd + hd ≤ idx.1.val * hd := by
-      have := h1
-      simpa [Nat.add_mul, Nat.one_mul] using this
-    have hsum : k.2.1.val + hd / 2 < hd := by
-      have hh : hd / 2 + hd / 2 ≤ hd := by omega
-      omega
-    have hRHS : k.1.val * hd + k.2.1.val + hd / 2 < k.1.val * hd + hd := by omega
-    have : k.1.val * hd + k.2.1.val + hd / 2 < idx.1.val * hd + idx.2.1.val := by
-      calc k.1.val * hd + k.2.1.val + hd / 2
-          < k.1.val * hd + hd := hRHS
-        _ ≤ idx.1.val * hd := h2
-        _ ≤ idx.1.val * hd + idx.2.1.val := by omega
-    exact absurd hcancel.symm (Nat.ne_of_lt this)
 
 /-- Spec for the K first-half output under `BACKWARD_PASS = false`:
 `new_k_tile_1 = k_tile_1 * cos - k_tile_2 * sin`. -/
@@ -2197,49 +2098,70 @@ theorem rope_kernel_o0o1_row_all_outputs_compute_correct
 
 
 
-/-- **Public Python forward summary for `rope_transform.py`** (genuine, not
-self-referential). For the checked Python test shape (`batch=2`, `seq=4`,
-`n_q_head = n_kv_head = 8`, `head_dim = 16`, row strides `128`, cos/sin stride
-`8`), the full `BACKWARD_PASS = false` surface lowers to the algorithm layer and
-each of the four Python-observable forward stores — Q/K first and second halves —
-reads back, on every active lane, to the genuine rotary closed form
+/-- **Dimension-general public Python forward summary for `rope_transform.py`.**
+For arbitrary symbolic
+row strides, sequence length, head counts, head dim, and `next_power_of_2`
+padding, the full `BACKWARD_PASS = false` surface lowers to the algorithm layer
+and each of the four Python-observable forward stores — Q/K first and second
+halves — reads back, on every active lane, to the genuine rotary closed form
 (`ropeForwardKernel{Q0,Q1,K0,K1}Spec`), NOT the kernel's own executed value.
-The host launch / `next_power_of_2` padding remains the trusted boundary. -/
-theorem rope_transform_python_forward_output_summary
+The general building-block lemmas (`rope_transform_q0/q1/k0/k1_forward_correct`)
+are already symbolic, so the bundle is a plain anonymous constructor. -/
+theorem rope_transform_output_summary_general
     (Q K COS SIN : RegionName)
+    (q_row_stride k_row_stride cos_row_stride sin_row_stride
+      sl bs n_qh n_kh hd pad_n_qh pad_n_kh pad_hd BLOCK_SIZE : Nat)
     (s : BlockState) (hundef : ∀ rg o, s.undef rg o = 0) (hqk : Q ≠ K) :
     (∃ alg, (triton_rope_surface Q K COS SIN
-      128 128 8 8 4 2 8 8 16 8 8 16 8 Bool.false).toAlgorithm? =
-        Except.ok alg) ∧
-    (∀ idx : TileIndex [8, 16/2], activeQFull (pad_n_qh := 8) (pad_hd_half := 16/2) 8 16 idx →
-      (match exec (triton_rope_surface Q K COS SIN 128 128 8 8 4 2 8 8 16 8 8 16 8 Bool.false) s with
-        | some s' => s'.readMem Q (qFullFirstOffset (pad_n_qh := 8) (pad_hd_half := 16/2) s 128 16 idx)
+      q_row_stride k_row_stride cos_row_stride sin_row_stride
+      sl bs n_qh n_kh hd pad_n_qh pad_n_kh pad_hd BLOCK_SIZE
+      Bool.false).toAlgorithm? = Except.ok alg) ∧
+    (∀ idx : TileIndex [pad_n_qh, pad_hd/2],
+      activeQFull (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) n_qh hd idx →
+      (match exec (triton_rope_surface Q K COS SIN q_row_stride k_row_stride
+          cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh
+          pad_hd BLOCK_SIZE Bool.false) s with
+        | some s' => s'.readMem Q (qFullFirstOffset (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s q_row_stride hd idx)
         | none => (0.0 : ℝ)) =
-        ropeForwardKernelQ0Spec (pad_n_qh := 8) (pad_hd_half := 16/2) s Q COS SIN 128 4 8 8 16 idx) ∧
-    (∀ idx : TileIndex [8, 16/2], activeQFull (pad_n_qh := 8) (pad_hd_half := 16/2) 8 16 idx →
-      (match exec (triton_rope_surface Q K COS SIN 128 128 8 8 4 2 8 8 16 8 8 16 8 Bool.false) s with
-        | some s' => s'.readMem Q (qFullSecondOffset (pad_n_qh := 8) (pad_hd_half := 16/2) s 128 16 idx)
+        ropeForwardKernelQ0Spec (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s Q COS SIN q_row_stride sl cos_row_stride sin_row_stride hd idx) ∧
+    (∀ idx : TileIndex [pad_n_qh, pad_hd/2],
+      activeQFull (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) n_qh hd idx →
+      (match exec (triton_rope_surface Q K COS SIN q_row_stride k_row_stride
+          cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh
+          pad_hd BLOCK_SIZE Bool.false) s with
+        | some s' => s'.readMem Q (qFullSecondOffset (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s q_row_stride hd idx)
         | none => (0.0 : ℝ)) =
-        ropeForwardKernelQ1Spec (pad_n_qh := 8) (pad_hd_half := 16/2) s Q COS SIN 128 4 8 8 16 idx) ∧
-    (∀ idx : TileIndex [8, 16/2], activeKFull (pad_n_kh := 8) (pad_hd_half := 16/2) 8 16 idx →
-      (match exec (triton_rope_surface Q K COS SIN 128 128 8 8 4 2 8 8 16 8 8 16 8 Bool.false) s with
-        | some s' => s'.readMem K (kFullFirstOffset (pad_n_kh := 8) (pad_hd_half := 16/2) s 128 16 idx)
+        ropeForwardKernelQ1Spec (pad_n_qh := pad_n_qh) (pad_hd_half := pad_hd/2) s Q COS SIN q_row_stride sl cos_row_stride sin_row_stride hd idx) ∧
+    (∀ idx : TileIndex [pad_n_kh, pad_hd/2],
+      activeKFull (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) n_kh hd idx →
+      (match exec (triton_rope_surface Q K COS SIN q_row_stride k_row_stride
+          cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh
+          pad_hd BLOCK_SIZE Bool.false) s with
+        | some s' => s'.readMem K (kFullFirstOffset (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s k_row_stride hd idx)
         | none => (0.0 : ℝ)) =
-        ropeForwardKernelK0Spec (pad_n_kh := 8) (pad_hd_half := 16/2) s K COS SIN 128 4 8 8 16 idx) ∧
-    (∀ idx : TileIndex [8, 16/2], activeKFull (pad_n_kh := 8) (pad_hd_half := 16/2) 8 16 idx →
-      (match exec (triton_rope_surface Q K COS SIN 128 128 8 8 4 2 8 8 16 8 8 16 8 Bool.false) s with
-        | some s' => s'.readMem K (kFullSecondOffset (pad_n_kh := 8) (pad_hd_half := 16/2) s 128 16 idx)
+        ropeForwardKernelK0Spec (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s K COS SIN k_row_stride sl cos_row_stride sin_row_stride hd idx) ∧
+    (∀ idx : TileIndex [pad_n_kh, pad_hd/2],
+      activeKFull (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) n_kh hd idx →
+      (match exec (triton_rope_surface Q K COS SIN q_row_stride k_row_stride
+          cos_row_stride sin_row_stride sl bs n_qh n_kh hd pad_n_qh pad_n_kh
+          pad_hd BLOCK_SIZE Bool.false) s with
+        | some s' => s'.readMem K (kFullSecondOffset (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s k_row_stride hd idx)
         | none => (0.0 : ℝ)) =
-        ropeForwardKernelK1Spec (pad_n_kh := 8) (pad_hd_half := 16/2) s K COS SIN 128 4 8 8 16 idx) := by
-  refine ⟨triton_rope_surface_toAlgorithm_supported Q K COS SIN
-      128 128 8 8 4 2 8 8 16 8 8 16 8 Bool.false, ?_, ?_, ?_, ?_⟩
-  · exact fun idx h => rope_transform_q0_forward_correct Q K COS SIN
-      128 128 8 8 4 2 8 8 16 8 8 16 8 s hundef hqk idx h
-  · exact fun idx h => rope_transform_q1_forward_correct Q K COS SIN
-      128 128 8 8 4 2 8 8 16 8 8 16 8 s hundef hqk idx h
-  · exact fun idx h => rope_transform_k0_forward_correct Q K COS SIN
-      128 128 8 8 4 2 8 8 16 8 8 16 8 s hundef idx h
-  · exact fun idx h => rope_transform_k1_forward_correct Q K COS SIN
-      128 128 8 8 4 2 8 8 16 8 8 16 8 s hundef idx h
+        ropeForwardKernelK1Spec (pad_n_kh := pad_n_kh) (pad_hd_half := pad_hd/2) s K COS SIN k_row_stride sl cos_row_stride sin_row_stride hd idx) :=
+  ⟨triton_rope_surface_toAlgorithm_supported Q K COS SIN
+      q_row_stride k_row_stride cos_row_stride sin_row_stride
+      sl bs n_qh n_kh hd pad_n_qh pad_n_kh pad_hd BLOCK_SIZE Bool.false,
+   fun idx h => rope_transform_q0_forward_correct Q K COS SIN
+      q_row_stride k_row_stride cos_row_stride sin_row_stride
+      sl bs n_qh n_kh hd pad_n_qh pad_n_kh pad_hd BLOCK_SIZE s hundef hqk idx h,
+   fun idx h => rope_transform_q1_forward_correct Q K COS SIN
+      q_row_stride k_row_stride cos_row_stride sin_row_stride
+      sl bs n_qh n_kh hd pad_n_qh pad_n_kh pad_hd BLOCK_SIZE s hundef hqk idx h,
+   fun idx h => rope_transform_k0_forward_correct Q K COS SIN
+      q_row_stride k_row_stride cos_row_stride sin_row_stride
+      sl bs n_qh n_kh hd pad_n_qh pad_n_kh pad_hd BLOCK_SIZE s hundef idx h,
+   fun idx h => rope_transform_k1_forward_correct Q K COS SIN
+      q_row_stride k_row_stride cos_row_stride sin_row_stride
+      sl bs n_qh n_kh hd pad_n_qh pad_n_kh pad_hd BLOCK_SIZE s hundef idx h⟩
 
 end VeriTile.Bench.TritonBenchG.RopeTransform

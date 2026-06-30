@@ -54,10 +54,9 @@ flash_attn_output_store_slice_compute_correct      ← O store (out_buffer / den
   └─ flash_attn_output_store_slice_correct           algorithm-layer readback per lane
 flash_attn_l_store_slice_compute_correct           ← L store (max + log2 denom), genuine readback
   └─ flash_attn_l_store_slice_correct
-flash_attn_python_case{i}_surface_toAlgorithm_supported   surface lowers to the algorithm layer
-flash_attn_python_case{i}_store_summary                   package the genuine store-only facts
+flash_attn_fwd_kernel_surface_toAlgorithm_supported      surface lowers to the algorithm layer
 ```
-(Offset injectivity discharged by `flash_attn_python_{output,l}_offset_injective`.)
+(Offset injectivity is taken as hypotheses of the main theorem.)
 
 ## Scope status
 
@@ -79,22 +78,22 @@ to this kernel's exact `make_block_ptr` AST.
 
 Additionally banked sorry-free toward the invariant skeleton (this run): the
 per-row online-softmax **running-state recurrence** `flashKV`/`flashKeysUpto`/
-`flashState` (the `osStep` fold over the causally-filtered streamed key prefix),
-its one-block advance `flashState_succ` (= the kernel's per-block update
-`osBlockStep`, via the new `Math/Attention.lean` lemma `osBlockStep_eq_foldl_osStep`
-+ the sorted-window split `flashKeysUpto_succ`), the full-window bridges
-`flashState_full_eq_spec{,_causal}` (final state reads off `flashAttnOValueSpec{,
+`flashStateBot` (the `osStepBot` fold over the causally-filtered streamed key
+prefix, seeded at `⊥` to match the kernel's `−inf` max register), its one-block
+advance `flashStateBot_succ` (the kernel's per-block update, via the sorted-window
+split `flashKeysUpto_succ`), the full-window bridges
+`flashStateBot_full_eq_spec{,_causal}` (final state reads off `flashAttnOValueSpec{,
 Causal}`), the `max`/`denom` channel-independence lemmas
-`flashState_{fst,snd_fst}_eq`, and the `attnInvariant` definition binding the
-kernel's 12 live registers to `flashState` after `c` blocks.
+`flashRunningMax_eq`/`flashStateBot_snd_fst_eq`, and the `attnInvariant` definition
+binding the kernel's 12 live registers to `flashStateBot` after `c` blocks.
 
 The exec-side `preLoop`/`attn_step`/`attn_postLoop` stage over this
 `attnInvariant` is now **closed, sorry-free**: the loop-body step
 `flash_attn_step_general` threads the loop-body op-eval recipes — including the
 causal `tl.where(off_m ≥ start_n+off_n, qk, -inf)` mask — and the WithBot
-`reduceMaxDrop`/`realExp2 ⊥ = 0`/masked-dot bridges into one `flashState_succ`
+`reduceMaxDrop`/`realExp2 ⊥ = 0`/masked-dot bridges into one `flashStateBot_succ`
 step; `flash_attn_exec_general` composes it via `forRangeDyn_inv` together with
-the dual `O`/`L` stores, read off through `flashState_full_eq_spec{,_causal}`.
+the dual `O`/`L` stores, read off through `flashStateBot_full_eq_spec{,_causal}`.
 These assemble into the genuine top theorems
 `flash_attn_python_case1/2_genuine_compute_correct_general`. That mirrors
 `VeriTile/Examples/AttentionForwardClosedForm.lean`'s preLoop/step/postLoop
@@ -445,168 +444,6 @@ theorem flash_attn_l_store_slice_compute_correct
   rw [hExec] at h
   exact Option.some.inj h
 
-theorem flash_attn_python_output_offset_injective
-    (s : BlockState) :
-    Function.Injective
-      (fun idx : TileIndex [128, 64] => outOffset s 8192 64 1 128 idx) := by
-  rintro ⟨⟨ma, hma⟩, ⟨da, hda⟩, _⟩ ⟨⟨mb, hmb⟩, ⟨db, hdb⟩, _⟩ h
-  simp [outOffset, mIndex, dIndex] at h
-  have hm : ma = mb := by omega
-  have hd : da = db := by omega
-  subst mb
-  subst db
-  rfl
-
-theorem flash_attn_python_l_offset_injective
-    (s : BlockState) :
-    Function.Injective (fun i : Fin 128 => lOffset s 128 128 i) := by
-  intro a b h
-  simp [lOffset, mIndex] at h
-  exact Fin.ext h
-
-theorem flash_attn_python_output_store_compute_correct
-    (OutBuffer O : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := flash_attn_output_store_slice OutBuffer O
-        8192 64 1 8192 64 1 128 64)
-      (initialState := s)
-      (write := fun idx : TileIndex [128, 64] =>
-        some (O, outOffset s 8192 64 1 128 idx))
-      (expected := fun idx : TileIndex [128, 64] =>
-        MemCell.of .fp16
-          (FloatDType.real.cast FloatDType.fp16
-            (some (s.readMem OutBuffer
-              (bufferOffset s 8192 64 1 128 idx))))) := by
-  exact flash_attn_output_store_slice_compute_correct OutBuffer O
-    8192 64 1 8192 64 1 128 64 s
-    (flash_attn_python_output_offset_injective s)
-
-theorem flash_attn_python_l_store_compute_correct
-    (Max Denom L : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := flash_attn_l_store_slice Max Denom L 128 1 128 1 128 128)
-      (initialState := s)
-      (write := fun i : Fin 128 => some (L, lOffset s 128 128 i))
-      (expected := fun i =>
-        lStoreSpec s Max Denom 128 1 128 1 128 i) := by
-  exact flash_attn_l_store_slice_compute_correct Max Denom L
-    128 1 128 1 128 128 s
-    (flash_attn_python_l_offset_injective s)
-
-/-- Python case 1 full surface lowering: causal forward attention for
-`B=2,H=2,SEQLEN=128,DIM=64`, `BLOCK_M=128`, `BLOCK_N=64`. -/
-theorem flash_attn_python_case1_surface_toAlgorithm_supported
-    (Q K V L O : RegionName) :
-    ∃ alg, (flash_attn_fwd_kernel_surface Q K V L O (1.0 : ℝ)
-      16384 8192 64 1
-      16384 8192 64 1
-      16384 8192 64 1
-      16384 8192 64 1
-      2 2 128 128 64 64 Bool.true).toAlgorithm? =
-        Except.ok alg := by
-  exact flash_attn_fwd_kernel_surface_toAlgorithm_supported Q K V L O (1.0 : ℝ)
-    16384 8192 64 1
-    16384 8192 64 1
-    16384 8192 64 1
-    16384 8192 64 1
-    2 2 128 128 64 64 Bool.true
-
-/-- Python case 2 full surface lowering: non-causal forward attention for the
-same checked layout. -/
-theorem flash_attn_python_case2_surface_toAlgorithm_supported
-    (Q K V L O : RegionName) :
-    ∃ alg, (flash_attn_fwd_kernel_surface Q K V L O (1.0 : ℝ)
-      16384 8192 64 1
-      16384 8192 64 1
-      16384 8192 64 1
-      16384 8192 64 1
-      2 2 128 128 64 64 Bool.false).toAlgorithm? =
-        Except.ok alg := by
-  exact flash_attn_fwd_kernel_surface_toAlgorithm_supported Q K V L O (1.0 : ℝ)
-    16384 8192 64 1
-    16384 8192 64 1
-    16384 8192 64 1
-    16384 8192 64 1
-    2 2 128 128 64 64 Bool.false
-
-/-- Python case 1 store-slice coverage retained for the final-store proof. -/
-theorem flash_attn_python_case1_store_summary
-    (Q K V L O OutBuffer Max Denom : RegionName) (s : BlockState) :
-    (∃ alg, (flash_attn_fwd_kernel_surface Q K V L O (1.0 : ℝ)
-      16384 8192 64 1
-      16384 8192 64 1
-      16384 8192 64 1
-      16384 8192 64 1
-      2 2 128 128 64 64 Bool.true).toAlgorithm? =
-        Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := flash_attn_output_store_slice OutBuffer O
-        8192 64 1 8192 64 1 128 64)
-      (initialState := s)
-      (write := fun idx : TileIndex [128, 64] =>
-        some (O, outOffset s 8192 64 1 128 idx))
-      (expected := fun idx : TileIndex [128, 64] =>
-        MemCell.of .fp16
-          (FloatDType.real.cast FloatDType.fp16
-            (some (s.readMem OutBuffer
-              (bufferOffset s 8192 64 1 128 idx)))))) ∧
-    (ComputeCorrect.Realizes
-      (kernel := flash_attn_l_store_slice Max Denom L 128 1 128 1 128 128)
-      (initialState := s)
-      (write := fun i : Fin 128 => some (L, lOffset s 128 128 i))
-      (expected := fun i =>
-        lStoreSpec s Max Denom 128 1 128 1 128 i)) := by
-  constructor
-  · exact flash_attn_python_case1_surface_toAlgorithm_supported Q K V L O
-  constructor
-  · exact flash_attn_python_output_store_compute_correct OutBuffer O s
-  · exact flash_attn_python_l_store_compute_correct Max Denom L s
-
-/-- Python case 2 store-slice coverage retained for the final-store proof. -/
-theorem flash_attn_python_case2_store_summary
-    (Q K V L O OutBuffer Max Denom : RegionName) (s : BlockState) :
-    (∃ alg, (flash_attn_fwd_kernel_surface Q K V L O (1.0 : ℝ)
-      16384 8192 64 1
-      16384 8192 64 1
-      16384 8192 64 1
-      16384 8192 64 1
-      2 2 128 128 64 64 Bool.false).toAlgorithm? =
-        Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := flash_attn_output_store_slice OutBuffer O
-        8192 64 1 8192 64 1 128 64)
-      (initialState := s)
-      (write := fun idx : TileIndex [128, 64] =>
-        some (O, outOffset s 8192 64 1 128 idx))
-      (expected := fun idx : TileIndex [128, 64] =>
-        MemCell.of .fp16
-          (FloatDType.real.cast FloatDType.fp16
-            (some (s.readMem OutBuffer
-              (bufferOffset s 8192 64 1 128 idx)))))) ∧
-    (ComputeCorrect.Realizes
-      (kernel := flash_attn_l_store_slice Max Denom L 128 1 128 1 128 128)
-      (initialState := s)
-      (write := fun i : Fin 128 => some (L, lOffset s 128 128 i))
-      (expected := fun i =>
-        lStoreSpec s Max Denom 128 1 128 1 128 i)) := by
-  constructor
-  · exact flash_attn_python_case2_surface_toAlgorithm_supported Q K V L O
-  constructor
-  · exact flash_attn_python_output_store_compute_correct OutBuffer O s
-  · exact flash_attn_python_l_store_compute_correct Max Denom L s
-
-/-! ## Genuine closed-form output spec (replaces the self-referential summary)
-
-The kernel's online-softmax recurrence computes a base-2 attention closed form
-over the loaded Q/K/V tiles, with the scale `qk_scale = sm_scale · log2(e)`
-folded into `q`. These definitions give the genuine `expected` `O`-store value —
-defined over the loaded tiles, **not** the kernel's own executed output — for the
-two Python cases. The streaming-softmax math heart that justifies them
-(online-softmax fold == batch base-2 softmax, causal and non-causal) is proved
-sorry-free in `VeriTile/Triton/Math/Attention.lean`. -/
-
-open VeriTile.Triton (attentionRealBase2PerKeyScale attentionRealBase2PerKeyScaleCausal)
-
 /-- The base-2 log-of-`e` constant the kernel folds into `qk_scale`
 (`q = (q · sm_scale · 1.44269504).to(fp16)`). This is the *exact decimal literal*
 `1.44269504` the Triton source uses (a truncation of the true `log2(e) = 1/log 2 ≈
@@ -858,13 +695,6 @@ theorem evalOp_log2 {shape : TileShape} (a : Op .real shape) (s : BlockState) :
     evalOp (.log2 a) s = (do let va ← evalOp a s; some (Tile.uop WithBot.realLog2 va)) := by
   simp [evalOp]
 
-/-- **`qk = tl.zeros([BLOCK_M, BLOCK_N])` statement eval** (loop body L2): the
-all-`0` tile, matching the neutral pre-mask scores. -/
-theorem flash_qkzeros_op_eval (s : BlockState) (BM BN : Nat) :
-    evalOp (Op.full [BM, BN] (Op.const 0)) s
-      = some (⟨fun _ : TileIndex [BM, BN] => some (0 : ℝ)⟩ : Tile .real [BM, BN]) := by
-  simp [evalOp_full, evalOp_const, Option.bind]
-
 /-- **Causal `where` statement eval** (loop body L3, inside `ifThen IS_CAUSAL`):
 `qk = tl.where(off_m[:,None] >= start_n + off_n[None,:], qk, -inf)`. Given the
 `off_m`/`off_n` index vectors, `start_n = SN`, and the running `qk` tile, the
@@ -1006,36 +836,6 @@ theorem flash_outbuf_rescale_op_eval (s : BlockState) (BM DIM : Nat) (hax : 1 < 
   have hexp2 : @evalOp TileDType.real [BM, 1] (Op.expandDim ⟨1, hax⟩ (Op.ref .real [BM] "out_scale")) s
       = some (Tile.expandDim ⟨1, hax⟩ ostile) := evalOp_expandDim_ref_of_regs _ _ _ _ _ _ hos
   rw [evalOp_mul]; simp only [evalOp_ref, hob, hexp2, Option.bind_eq_bind, Option.bind_some]; rfl
-
-/-- **`nume = (nume).to(tl.float16)` statement eval** (loop body, `nume` fp16
-round-trip before the value dot). Template `pfp16_op_eval` analogue. -/
-theorem flash_numefp16_op_eval (s : BlockState) (BM BN : Nat) (ntile : Tile .real [BM, BN])
-    (hn : s.regs .real [BM, BN] "nume" = some ntile) :
-    evalOp (Op.castFloat .real .fp16 (Op.ref .real [BM, BN] "nume")) s
-      = some (⟨fun i => FloatDType.real.cast FloatDType.fp16 (ntile.data i)⟩ : Tile .fp16 [BM, BN]) := by
-  rw [evalOp_castFloat]; simp [hn]
-
-/-- **`out_buffer += tl.dot((nume).to(fp16), v)` statement eval** (loop body L10).
-Template `acc2_op_eval` analogue: the `nume` fp16 round-trip is identity in the
-model, the dot accumulates the value contribution. -/
-theorem flash_outbuf_acc_op_eval (s : BlockState) (BM BN DIM : Nat)
-    (ob1tile : Tile .real [BM, DIM]) (ntile : Tile .real [BM, BN]) (vtile : Tile .real [BN, DIM])
-    (hob : s.regs .real [BM, DIM] "out_buffer" = some ob1tile)
-    (hnf16 : s.regs .fp16 [BM, BN] "nume" = some (⟨fun i => FloatDType.real.cast FloatDType.fp16 (ntile.data i)⟩ : Tile .fp16 [BM, BN]))
-    (hv : s.regs .real [BN, DIM] "v" = some vtile) :
-    evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil)) (Op.ref .real [BM, DIM] "out_buffer")
-        (Op.dot (batch := []) (Op.castFloat .fp16 .real (Op.ref .fp16 [BM, BN] "nume")) (Op.ref .real [BN, DIM] "v"))) s
-      = some (Tile.bop NumericDType.real.add (Broadcast.consSame (Broadcast.consSame Broadcast.nil)) ob1tile
-          (Tile.dot [] ntile vtile)) := by
-  have hcb : evalOp (Op.castFloat .fp16 .real (Op.ref .fp16 [BM, BN] "nume")) s = some ntile := by
-    rw [evalOp_castFloat]; simp [hnf16]; ext i; simp [FloatDType.cast]
-  have hcb2 : @evalOp TileDType.real [BM, BN] (Op.castFloat .fp16 .real (Op.ref .fp16 [BM, BN] "nume")) s = some ntile := hcb
-  have hdotN : evalOp (Op.dot (batch := []) (Op.castFloat .fp16 .real (Op.ref .fp16 [BM, BN] "nume")) (Op.ref .real [BN, DIM] "v")) s
-      = some (Tile.dot [] ntile vtile) := by rw [evalOp_dot]; simp [hcb2, hv]
-  have hdotN2 : @evalOp TileDType.real [BM, DIM]
-      (Op.dot (batch := []) (Op.castFloat .fp16 .real (Op.ref .fp16 [BM, BN] "nume")) (Op.ref .real [BN, DIM] "v")) s
-      = some (Tile.dot [] ntile vtile) := hdotN
-  rw [evalOp_add]; simp only [evalOp_ref, hob, hdotN2, Option.bind_eq_bind, Option.bind_some]; rfl
 
 /-- **`denom = denom * alpha + tl.sum(nume, 1)` statement eval** (loop body L11).
 Template `li_op_eval`/`lij_op_eval` shapes composed: the running denominator
@@ -1265,20 +1065,6 @@ theorem flashKeysUpto_succ
     by_cases h1 : c * BLOCK_N ≤ j.val <;> by_cases h2 : j.val < (c + 1) * BLOCK_N <;>
       by_cases h3 : (causal → j.val ≤ qStart + i.val) <;> simp [h1, h2, h3, and_assoc]
 
-/-- **One-block invariant advance** (pure math): `flashState` after `c+1` blocks
-is `osBlockStep` (= the kernel's per-block update) applied to `flashState` after
-`c` blocks with block `c`'s keys. -/
-theorem flashState_succ
-    (qT : TileIndex [BLOCK_M, DIM] → ℝ) (kT vT : TileIndex [SEQLEN, DIM] → ℝ)
-    (scale : ℝ) (causal : Bool) (qStart BLOCK_N c : Nat) (i : Fin BLOCK_M) (d : Fin DIM) :
-    flashState qT kT vT scale causal qStart ((c + 1) * BLOCK_N) i d
-      = VeriTile.Triton.osBlockStep
-          (flashState qT kT vT scale causal qStart (c * BLOCK_N) i d)
-          (flashBlock qT kT vT scale causal qStart BLOCK_N c i d) := by
-  unfold flashState
-  rw [flashKeysUpto_succ, List.foldl_append,
-    VeriTile.Triton.osBlockStep_eq_foldl_osStep]
-
 /-- The score-projection (`.1`) of the per-row key list is channel-independent. -/
 theorem flashKeysUpto_map_fst_eq
     (qT : TileIndex [BLOCK_M, DIM] → ℝ) (kT vT : TileIndex [SEQLEN, DIM] → ℝ)
@@ -1290,46 +1076,6 @@ theorem flashKeysUpto_map_fst_eq
   apply List.filterMap_congr
   intro j _
   by_cases h : j.val < hi ∧ (causal → j.val ≤ qStart + i.val) <;> simp [h]
-
-/-- `blockMax` depends only on the score projections. -/
-private theorem blockMax_eq_foldl_map (m₀ : ℝ) (block : List (ℝ × ℝ)) :
-    VeriTile.Triton.blockMax m₀ block = (block.map (fun p => p.1)).foldl max m₀ := by
-  unfold VeriTile.Triton.blockMax
-  induction block generalizing m₀ with
-  | nil => rfl
-  | cons a t ih => simp only [List.foldl_cons, List.map_cons]; exact ih (max m₀ a.1)
-
-/-- The running `max` component of `flashState` is channel-independent. -/
-theorem flashState_fst_eq
-    (qT : TileIndex [BLOCK_M, DIM] → ℝ) (kT vT : TileIndex [SEQLEN, DIM] → ℝ)
-    (scale : ℝ) (causal : Bool) (qStart hi : Nat) (i : Fin BLOCK_M) (d d' : Fin DIM) :
-    (flashState qT kT vT scale causal qStart hi i d).1
-      = (flashState qT kT vT scale causal qStart hi i d').1 := by
-  unfold flashState
-  rw [VeriTile.Triton.osStep_foldl_fst, VeriTile.Triton.osStep_foldl_fst,
-    blockMax_eq_foldl_map, blockMax_eq_foldl_map,
-    flashKeysUpto_map_fst_eq qT kT vT scale causal qStart hi i d d']
-
-/-- The running denominator component (`.2.1`) of `flashState` is
-channel-independent. -/
-theorem flashState_snd_fst_eq
-    (qT : TileIndex [BLOCK_M, DIM] → ℝ) (kT vT : TileIndex [SEQLEN, DIM] → ℝ)
-    (scale : ℝ) (causal : Bool) (qStart hi : Nat) (i : Fin BLOCK_M) (d d' : Fin DIM) :
-    (flashState qT kT vT scale causal qStart hi i d).2.1
-      = (flashState qT kT vT scale causal qStart hi i d').2.1 := by
-  have hcons : ∀ dd : Fin DIM,
-      (flashState qT kT vT scale causal qStart hi i dd).2.1
-        = pow2 (-(flashState qT kT vT scale causal qStart hi i dd).1)
-          * (0 + ((flashKeysUpto qT kT vT scale causal qStart hi i dd).map
-              (fun p => pow2 p.1)).sum) := by
-    intro dd
-    exact (VeriTile.Triton.osStep_foldl_consistent
-      (flashKeysUpto qT kT vT scale causal qStart hi i dd) 0 0 0 0 0 (by simp) (by simp)).1
-  rw [hcons d, hcons d', flashState_fst_eq qT kT vT scale causal qStart hi i d d']
-  congr 2
-  rw [show (fun p : ℝ × ℝ => pow2 p.1) = pow2 ∘ (fun p => p.1) from rfl,
-    ← List.map_map, ← List.map_map,
-    flashKeysUpto_map_fst_eq qT kT vT scale causal qStart hi i d d']
 
 /-- One ⊥-seeded online-softmax step: like `osStep`, but the running max lives in
 `WithBot ℝ` (seeded `⊥`), so `α = realExp2(m ⊖ m')` is `0` on the first block —
@@ -1405,127 +1151,6 @@ noncomputable def attnInvariant
   (s.regs .nat [] "qkv_base_offset" = some (Tile.scalar (s0.pids 1 * stride_q_head))) ∧
   (∀ rg o, s.undef rg o = 0) ∧ (s.mem = s0.mem)
 
-/-! ## exec-side loop-invariant skeleton
-
-The compiled body of `flash_attn_fwd_kernel_surface` (verified by direct
-inspection of `(surface …).toAlgKernel.body`) is a 22-statement list:
-
-```
-preLoop (16 stmts, 0–15):
-  0  start_m         = program_id 0
-  1  off_bs_head     = program_id 1
-  2  qkv_base_offset = off_bs_head * stride_q_head
-  3  Q_block_ptr     = make_block_ptr(Q + base, offsets=(start_m*BLOCK_M, 0))
-  4  K_block_ptr     = make_block_ptr(K + base, offsets=(0, 0))
-  5  V_block_ptr     = make_block_ptr(V + base, offsets=(0, 0))
-  6  off_m           = start_m*BLOCK_M + arange BLOCK_M
-  7  off_n           = arange BLOCK_N
-  8  max             = full 0 + (-inf)
-  9  denom           = full 0
-  10 out_buffer      = full 0
-  11 qk_scale        = sm_scale * 1.44269504
-  12 q               = load Q_block_ptr            (no mask)
-  13 q               = (q * qk_scale).to fp16
-  14 lo              = 0
-  15 hi              = (start_m+1)*BLOCK_M  [causal]  /  SEQLEN  [non-causal]
-loop (16):
-  forRangeDyn start_n lo hi BLOCK_N loopBody   (loopBody = 15 stmts)
-postLoop (5 stmts, 17–21):
-  17 out_buffer      = out_buffer / denom[:, None]
-  18 l_ptr           = L + off_bs_head*SEQLEN + off_m
-  19 store L         l_ptr (max + log2 denom)
-  20 O_block_ptr     = make_block_ptr(O + base, offsets=(start_m*BLOCK_M, 0))
-  21 store O         O_block_ptr (out_buffer.to fp16)
-loopBody (15):
-  L0 k = load K_block_ptr ; L1 v = load V_block_ptr ; L2 qk = full 0 ;
-  L3 ifThen IS_CAUSAL { qk = where(off_m[:,None] >= start_n+off_n[None,:], qk, -inf) } ;
-  L4 qk = qk + dot q k ; L5 max_new = maximum(max, reduceMax qk 1) ;
-  L6 alpha = exp2(max - max_new) ; L7 nume = exp2(qk - max_new[:,None]) ;
-  L8 out_scale = denom*0 + alpha ; L9 out_buffer = out_buffer * out_scale[:,None] ;
-  L10 out_buffer = out_buffer + dot (nume.to fp16) v ; L11 denom = denom*alpha + sum nume 1 ;
-  L12 max = max_new ; L13 K_block_ptr = advance(K_block_ptr, [0, BLOCK_N]) ;
-  L14 V_block_ptr = advance(V_block_ptr, [BLOCK_N, 0]).
-```
-
-The body decomposes by `rfl` into `take 16 ++ (forRangeDyn … :: postLoop)`, so the
-loop driver `forRangeDyn_inv` applies with the abstract `loopBody`/postLoop supplied
-at the call site. The full chain is closed sorry-free: the per-statement op-eval
-recipes for the 15-stmt loop body (threading the causal `ifThen`/`where` `-inf`
-mask into the `osBlockStep`/`attnKeyListCausal` fold) and the
-`attnInvariant`/`preLoop`/`attn_step`/`attn_postLoop` skeleton composed via
-`forRangeDyn_inv` and bridged through `flashAttnOValueSpec{,Causal}_eq_streaming`. -/
-
-/-- The compiled body splits as `take 16 ++ drop 16`, with `drop 16` a `forRangeDyn`
-followed by the 5 post-loop statements. Pure `List` identity (`take_append_drop`),
-independent of any transcription. -/
-theorem flash_body_split
-    (Q K V L O : RegionName) (sm_scale : ℝ)
-    (s0 s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19
-      BS HEAD SEQLEN BLOCK_M DIM BLOCK_N : Nat) (IS_CAUSAL : Bool) :
-    (flash_attn_fwd_kernel_surface Q K V L O sm_scale s0 s1 s2 s3 s4 s5 s6 s7
-        s8 s9 s10 s11 s12 s13 s14 s15 BS HEAD SEQLEN BLOCK_M DIM BLOCK_N
-        IS_CAUSAL).toAlgKernel.body
-      = (flash_attn_fwd_kernel_surface Q K V L O sm_scale s0 s1 s2 s3 s4 s5 s6 s7
-          s8 s9 s10 s11 s12 s13 s14 s15 BS HEAD SEQLEN BLOCK_M DIM BLOCK_N
-          IS_CAUSAL).toAlgKernel.body.take 16
-        ++ (flash_attn_fwd_kernel_surface Q K V L O sm_scale s0 s1 s2 s3 s4 s5 s6 s7
-              s8 s9 s10 s11 s12 s13 s14 s15 BS HEAD SEQLEN BLOCK_M DIM BLOCK_N
-              IS_CAUSAL).toAlgKernel.body.drop 16 :=
-  (List.take_append_drop 16 _).symm
-
-/-- The deterministic scalar prefix (statements 0–2: `start_m`, `off_bs_head`,
-`qkv_base_offset`) transcribes exactly to the lowered ops, by `rfl`. The base case
-of the preLoop transcription; later prefix statements (the block-pointer
-constructions 3–5, the index vectors 6–7, the `max`/`denom`/`out_buffer` inits
-8–10, `qk_scale` 11, the `q` load+scale 12–13, and `lo`/`hi` 14–15) extend this
-list and step via the recipes above (`flash_makeBlockPtr*_eval`, `flash_load_Q_eval`,
-…). -/
-theorem flash_prefix_scalars_eq (Q K V L O : RegionName) (sm_scale : ℝ)
-    (sqbs sqh sqsl sqd skbs skh sksl skd svbs svh svsl svd sobs soh sosl sod
-      BS HEAD SEQLEN BLOCK_M DIM BLOCK_N : Nat) (IS_CAUSAL : Bool) :
-    (flash_attn_fwd_kernel_surface Q K V L O sm_scale sqbs sqh sqsl sqd skbs skh sksl skd
-        svbs svh svsl svd sobs soh sosl sod BS HEAD SEQLEN BLOCK_M DIM BLOCK_N IS_CAUSAL).toAlgKernel.body.take 3
-      = [ Stmt.assign .nat [] "start_m" (Op.programId 0),
-          Stmt.assign .nat [] "off_bs_head" (Op.programId 1),
-          Stmt.assign .nat [] "qkv_base_offset"
-            (Op.mul .nat Broadcast.nil (Op.ref .nat [] "off_bs_head") (Op.constNat sqh)) ] :=
-  rfl
-
-/-! ## Block-reduction bridges (flashBlock ↔ Fin BLOCK_N masked reductions)
-
-The kernel's loop body reduces a `BLOCK_N`-lane masked score row over `Fin BLOCK_N`
-(lane `jL` ↦ global key `c·BLOCK_N + jL`); the `osBlockStep` math uses the
-`flashBlock` list (a `Fin SEQLEN` causal filterMap of the window
-`[c·BLOCK_N, (c+1)·BLOCK_N)`). These bridges equate the two by reindexing the
-window onto `Fin BLOCK_N`. -/
-
-open VeriTile.Triton (osBlockStep blockMax pow2 osStep)
-
-/-- Sum over `Fin BLOCK_N` reindexes the window `[c·BLOCK_N, (c+1)·BLOCK_N) ⊆
-Fin SEQLEN`: lane `jL` ↦ global key `c·BLOCK_N + jL`. -/
-theorem flash_window_sum_reindex (BLOCK_N c SEQLEN : Nat)
-    (hwin : (c + 1) * BLOCK_N ≤ SEQLEN) (g : Nat → ℝ) :
-    (∑ jL : Fin BLOCK_N, g (c * BLOCK_N + jL.val))
-      = ∑ j : Fin SEQLEN, (if c * BLOCK_N ≤ j.val ∧ j.val < (c + 1) * BLOCK_N then g j.val else 0) := by
-  have hmul : (c + 1) * BLOCK_N = c * BLOCK_N + BLOCK_N := by ring
-  rw [← Finset.sum_filter]
-  refine Finset.sum_bij
-    (i := fun jL _ => (⟨c * BLOCK_N + jL.val, by
-      have h1 := jL.isLt
-      have h2 : (c + 1) * BLOCK_N = c * BLOCK_N + BLOCK_N := by ring
-      omega⟩ : Fin SEQLEN)) ?_ ?_ ?_ ?_
-  · intro jL _
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and]
-    have := jL.isLt; omega
-  · intro a _ b _ hab
-    apply Fin.ext
-    have : c * BLOCK_N + a.val = c * BLOCK_N + b.val := by simpa using congrArg Fin.val hab
-    omega
-  · intro j hj
-    have hj2 : c * BLOCK_N ≤ j.val ∧ j.val < (c + 1) * BLOCK_N := (Finset.mem_filter.mp hj).2
-    exact ⟨⟨j.val - c * BLOCK_N, by omega⟩, Finset.mem_univ _, by apply Fin.ext; simp only; omega⟩
-  · intro jL _; rfl
-
 /-- filterMap-sum over `Fin n` with a guard collapses into the masked `Finset.sum`. -/
 theorem flash_filterMap_finRange_sum {α : Type*} (n : Nat)
     (p : Fin n → Prop) [DecidablePred p] (g : Fin n → α) (h : α → ℝ) :
@@ -1594,22 +1219,6 @@ theorem flashBlock_map_sum
     exact ⟨⟨j.val - c * BLOCK_N, by omega⟩, Finset.mem_univ _, by apply Fin.ext; simp only; omega⟩
   · intro jL _
     simp only [flashKV]
-
-/-- A real `foldl max` over a list, coerced to `WithBot`, is `max` of the seed
-with the `WithBot` `foldr` of the coerced list (associativity/commutativity of
-`max`). The bridge between `blockMax` (a real foldl) and the kernel's `WithBot`
-running max. -/
-theorem flash_foldl_max_coe (m0 : ℝ) (L : List ℝ) :
-    ((L.foldl (fun a x => max a x) m0 : ℝ) : WithBot ℝ)
-      = max ((m0 : ℝ) : WithBot ℝ) ((L.map (fun x => ((x : ℝ) : WithBot ℝ))).foldr (· ⊔ ·) ⊥) := by
-  induction L generalizing m0 with
-  | nil => simp
-  | cons a t ih =>
-    simp only [List.foldl_cons, List.map_cons, List.foldr_cons]
-    rw [ih (max m0 a), WithBot.coe_max]
-    rw [show (((a : ℝ) : WithBot ℝ) ⊔ (List.foldr (· ⊔ ·) ⊥ (List.map (fun x => ((x : ℝ) : WithBot ℝ)) t)))
-          = max ((a : ℝ) : WithBot ℝ) ((List.map (fun x => ((x : ℝ) : WithBot ℝ)) t).foldr (· ⊔ ·) ⊥) from rfl]
-    rw [← max_assoc]
 
 /-- The `WithBot` `foldr` of a causally-filtered score list (coerced) equals the
 `Finset.sup` over `Fin n` of the lane terms (`⊥` on filtered-out lanes). -/
@@ -1682,75 +1291,6 @@ theorem flash_window_sup_reindex (BLOCK_N c SEQLEN : Nat) (hwin : (c + 1) * BLOC
       rw [if_pos (by have := jL.isLt; exact ⟨by omega, by omega, hq⟩)]
     · rw [if_neg hq]; exact bot_le
 
-/-- **Block running-max bridge.** `↑(blockMax m₀ block)` for `block` the
-causally-filtered `flashBlock` window equals `max (some m₀)` of the kernel's
-`WithBot` `Finset.sup` over `Fin BLOCK_N` of the masked score row. Combines the
-foldl→coe-foldr bridge, the filterMap-foldr→sup bridge, and the window reindex —
-the math bridge for the kernel's `max_new = tl.maximum(max, tl.max(qk,1))`. -/
-theorem flashBlock_blockMax
-    (qT : TileIndex [BLOCK_M, DIM] → ℝ) (kT vT : TileIndex [SEQLEN, DIM] → ℝ)
-    (scale : ℝ) (causal : Bool) (qStart BLOCK_N c : Nat) (i : Fin BLOCK_M) (d : Fin DIM)
-    (m₀ : ℝ) (hwin : (c + 1) * BLOCK_N ≤ SEQLEN) :
-    ((blockMax m₀ (flashBlock qT kT vT scale causal qStart BLOCK_N c i d) : ℝ) : WithBot ℝ)
-      = max ((m₀ : ℝ) : WithBot ℝ)
-          (Finset.univ.sup (fun jL : Fin BLOCK_N =>
-            if (causal → c * BLOCK_N + jL.val ≤ qStart + i.val) then
-              ((scale * Finset.univ.sum (fun e : Fin DIM =>
-                  qT (i, e, PUnit.unit) * kT (⟨c * BLOCK_N + jL.val, by
-                    have := jL.isLt; have : (c + 1) * BLOCK_N = c * BLOCK_N + BLOCK_N := by ring
-                    omega⟩, e, PUnit.unit)) : ℝ) : WithBot ℝ)
-            else ⊥)) := by
-  classical
-  set F : Nat → WithBot ℝ := fun jg =>
-    if h : jg < SEQLEN then
-      ((scale * Finset.univ.sum (fun e : Fin DIM =>
-          qT (i, e, PUnit.unit) * kT (⟨jg, h⟩, e, PUnit.unit)) : ℝ) : WithBot ℝ)
-    else ⊥ with hF
-  rw [show blockMax m₀ (flashBlock qT kT vT scale causal qStart BLOCK_N c i d)
-        = ((flashBlock qT kT vT scale causal qStart BLOCK_N c i d).map (fun p => p.1)).foldl
-            (fun a x => max a x) m₀ from by unfold blockMax; rw [List.foldl_map]]
-  rw [flash_foldl_max_coe]
-  congr 1
-  rw [show (flashBlock qT kT vT scale causal qStart BLOCK_N c i d).map (fun p => p.1)
-        = (List.finRange SEQLEN).filterMap (fun j : Fin SEQLEN =>
-            if c * BLOCK_N ≤ j.val ∧ j.val < (c + 1) * BLOCK_N ∧ (causal → j.val ≤ qStart + i.val)
-            then some (scale * Finset.univ.sum (fun e : Fin DIM =>
-                  qT (i, e, PUnit.unit) * kT (j, e, PUnit.unit))) else none) from by
-    unfold flashBlock flashKV
-    rw [List.map_filterMap]
-    apply List.filterMap_congr
-    intro j _
-    by_cases hj : c * BLOCK_N ≤ j.val ∧ j.val < (c + 1) * BLOCK_N ∧ (causal → j.val ≤ qStart + i.val) <;>
-      simp [hj]]
-  rw [flash_filterMap_foldr_sup SEQLEN
-    (fun j => c * BLOCK_N ≤ j.val ∧ j.val < (c + 1) * BLOCK_N ∧ (causal → j.val ≤ qStart + i.val))
-    (fun j => scale * Finset.univ.sum (fun e : Fin DIM => qT (i, e, PUnit.unit) * kT (j, e, PUnit.unit)))]
-  -- rewrite the Fin SEQLEN windowed sup body as `if window∧Qc then F j.val else ⊥`
-  rw [show (Finset.univ.sup (fun j : Fin SEQLEN =>
-        if c * BLOCK_N ≤ j.val ∧ j.val < (c + 1) * BLOCK_N ∧ (causal → j.val ≤ qStart + i.val)
-        then ((scale * Finset.univ.sum (fun e : Fin DIM => qT (i, e, PUnit.unit) * kT (j, e, PUnit.unit)) : ℝ) : WithBot ℝ)
-        else ⊥))
-      = Finset.univ.sup (fun j : Fin SEQLEN =>
-          if c * BLOCK_N ≤ j.val ∧ j.val < (c + 1) * BLOCK_N ∧ (causal → j.val ≤ qStart + i.val)
-          then F j.val else ⊥) from by
-    apply Finset.sup_congr rfl
-    intro j _
-    by_cases hw : c * BLOCK_N ≤ j.val ∧ j.val < (c + 1) * BLOCK_N ∧ (causal → j.val ≤ qStart + i.val)
-    · rw [if_pos hw, if_pos hw, hF]; simp only [dif_pos j.isLt]
-    · rw [if_neg hw, if_neg hw]]
-  rw [flash_window_sup_reindex BLOCK_N c SEQLEN hwin F
-    (fun jg => causal → jg ≤ qStart + i.val)]
-  -- the BLOCK_N sup bodies agree (F at c·BN+jL = the explicit score)
-  apply Finset.sup_congr rfl
-  intro jL _
-  have hb : c * BLOCK_N + jL.val < SEQLEN := by
-    have h1 := jL.isLt
-    have h2 : (c + 1) * BLOCK_N = c * BLOCK_N + BLOCK_N := by ring
-    omega
-  by_cases hq : (causal → c * BLOCK_N + jL.val ≤ qStart + i.val)
-  · rw [if_pos hq, if_pos hq, hF]; simp only [dif_pos hb]
-  · rw [if_neg hq, if_neg hq]
-
 /-! ## ⊥-seeded running-max advance (binds the kernel's `max` register)
 
 The kernel's `max` register seeds at `⊥` (`tl.zeros − inf`), not real `0`, so the
@@ -1760,7 +1300,7 @@ bridges (`flash_filterMap_foldr_sup` / `flash_window_sup_reindex`) in their `⊥
 form. -/
 
 /-- `flashRunningMax` is channel-independent (depends only on the score
-projections, like `flashState_fst_eq`). -/
+projections, like the denom sibling `flashStateBot_snd_fst_eq`). -/
 theorem flashRunningMax_eq
     (qT : TileIndex [BLOCK_M, DIM] → ℝ) (kT vT : TileIndex [SEQLEN, DIM] → ℝ)
     (scale : ℝ) (causal : Bool) (qStart hi : Nat) (i : Fin BLOCK_M) (d d' : Fin DIM) :
@@ -2111,7 +1651,7 @@ theorem flashStateBot_logsumexp
 
 /-- **One-block advance** of the ⊥-seeded state: streaming block `c` folds that
 block's keys (via `osStepBot`) onto the state after `c` blocks. (`foldl_append` over
-the `flashKeysUpto_succ` window split — the ⊥-seed analogue of `flashState_succ`.) -/
+the `flashKeysUpto_succ` window split, in ⊥-seed form.) -/
 theorem flashStateBot_succ
     (qT : TileIndex [BLOCK_M, DIM] → ℝ) (kT vT : TileIndex [SEQLEN, DIM] → ℝ)
     (scale : ℝ) (causal : Bool) (qStart BLOCK_N c : Nat) (i : Fin BLOCK_M) (d : Fin DIM) :
@@ -2492,7 +2032,7 @@ running state by one block. The kernel's explicit per-block tile arithmetic
 expanding both sides onto the banked closed forms
 `flashStateBot_{snd_fst,snd_snd}` (`= κ(M)·Σ pow2 score [· v]`) and the
 window-split / block bridges (`flashKeysUpto_succ`, `flashRunningMax_succ`,
-`flashBlock_blockMax`, `flashBlock_map_sum`). -/
+`flashBlock_map_sum`). -/
 
 /-- Overwriting a register slot shadows the inner write (BlockState ext). -/
 theorem flash_setReg_shadow (s : BlockState) (name : RegName)
@@ -3727,15 +3267,6 @@ theorem flash_O_blockptr_offset_injective (base p0 : Nat) :
   have hd : da = db := by omega
   subst mb; subst db; rfl
 
-/-- Injectivity of the `L` row store addresses (Python shape). -/
-theorem flash_L_ptr_offset_injective (p0 p1 : Nat) :
-    Function.Injective
-      (fun idx : TileIndex [128] => p1 * 128 + (p0 * 128 + idx.1.val)) := by
-  rintro ⟨⟨a, ha⟩, _⟩ ⟨⟨b, hb⟩, _⟩ h
-  simp only at h
-  have : a = b := by omega
-  subst b; rfl
-
 set_option maxHeartbeats 1000000 in
 set_option maxRecDepth 8000 in
 /-- **PostLoop execution + genuine readbacks.** Stepping the 5 post-loop statements
@@ -4276,65 +3807,6 @@ theorem flash_attn_genuine_l_compute_correct
   simp only [ComputeCorrect.OutputReadable.read_real]
   rw [show lOffset s 128 128 i = s.pids 1 * 128 + (s.pids 0 * 128 + i.val) from rfl]
   exact hLrb i
-
-/-- **Python case 1 (causal) genuine closed-form correctness.** The full
-FlashAttention kernel's `O` store realizes the causal base-2 attention
-(`flashAttnOValueSpecCausal`) and its `L` store realizes the causal log-sum-exp,
-at the checked Python grid (`start_m = 0`). -/
-theorem flash_attn_python_case1_genuine_compute_correct
-    (Q K V L O : RegionName) (s : BlockState)
-    (hpid0 : s.pids 0 = 0) (hOL : O ≠ L) (hundef : ∀ rg o, s.undef rg o = 0) :
-    (ComputeCorrect.Realizes
-      (kernel := flash_attn_fwd_kernel_surface Q K V L O (1.0 : ℝ)
-        16384 8192 64 1 16384 8192 64 1 16384 8192 64 1 16384 8192 64 1
-        2 2 128 128 64 64 Bool.true)
-      (initialState := s)
-      (write := fun idx : TileIndex [128, 64] => some (O, outOffset s 8192 64 1 128 idx))
-      (expected := fun idx : TileIndex [128, 64] =>
-        MemCell.of .fp16 (FloatDType.real.cast FloatDType.fp16
-          (some (flashAttnOValueSpecCausal s Q K V (1.0 : ℝ) 8192 64 128 128 idx))))) ∧
-    (ComputeCorrect.Realizes
-      (kernel := flash_attn_fwd_kernel_surface Q K V L O (1.0 : ℝ)
-        16384 8192 64 1 16384 8192 64 1 16384 8192 64 1 16384 8192 64 1
-        2 2 128 128 64 64 Bool.true)
-      (initialState := s)
-      (write := fun i : Fin 128 => some (L, lOffset s 128 128 i))
-      (expected := fun i : Fin 128 =>
-        Real.log
-          (((flashKeysUpto (qTile s Q 8192 64 128) (kTile s K 8192 64 128)
-              (vTile s V 8192 64 128) (1.0 * log2e) Bool.true (s.pids 0 * 128) 128 i
-              ⟨0, by norm_num⟩).map (fun p => pow2 p.1)).sum) / Real.log 2)) :=
-  ⟨flash_attn_genuine_output_compute_correct Q K V L O s Bool.true hpid0 hOL hundef,
-   flash_attn_genuine_l_compute_correct Q K V L O s Bool.true hpid0 hOL hundef⟩
-
-/-- **Python case 2 (non-causal) genuine closed-form correctness.** The `O` store
-realizes the full base-2 attention (`flashAttnOValueSpec`, every key contributes)
-and the `L` store realizes the full log-sum-exp. -/
-theorem flash_attn_python_case2_genuine_compute_correct
-    (Q K V L O : RegionName) (s : BlockState)
-    (hpid0 : s.pids 0 = 0) (hOL : O ≠ L) (hundef : ∀ rg o, s.undef rg o = 0) :
-    (ComputeCorrect.Realizes
-      (kernel := flash_attn_fwd_kernel_surface Q K V L O (1.0 : ℝ)
-        16384 8192 64 1 16384 8192 64 1 16384 8192 64 1 16384 8192 64 1
-        2 2 128 128 64 64 Bool.false)
-      (initialState := s)
-      (write := fun idx : TileIndex [128, 64] => some (O, outOffset s 8192 64 1 128 idx))
-      (expected := fun idx : TileIndex [128, 64] =>
-        MemCell.of .fp16 (FloatDType.real.cast FloatDType.fp16
-          (some (flashAttnOValueSpec s Q K V (1.0 : ℝ) 8192 64 128 128 idx))))) ∧
-    (ComputeCorrect.Realizes
-      (kernel := flash_attn_fwd_kernel_surface Q K V L O (1.0 : ℝ)
-        16384 8192 64 1 16384 8192 64 1 16384 8192 64 1 16384 8192 64 1
-        2 2 128 128 64 64 Bool.false)
-      (initialState := s)
-      (write := fun i : Fin 128 => some (L, lOffset s 128 128 i))
-      (expected := fun i : Fin 128 =>
-        Real.log
-          (((flashKeysUpto (qTile s Q 8192 64 128) (kTile s K 8192 64 128)
-              (vTile s V 8192 64 128) (1.0 * log2e) Bool.false (s.pids 0 * 128) 128 i
-              ⟨0, by norm_num⟩).map (fun p => pow2 p.1)).sum) / Real.log 2)) :=
-  ⟨flash_attn_genuine_output_compute_correct Q K V L O s Bool.false hpid0 hOL hundef,
-   flash_attn_genuine_l_compute_correct Q K V L O s Bool.false hpid0 hOL hundef⟩
 
 /-! ## GENERAL (dimension-parameterized) exec-side closed-form correctness
 
@@ -5417,15 +4889,6 @@ theorem flash_O_blockptr_offset_injectiveG (BLOCK_M DIM base p0 : Nat) :
   have hm : ma = mb := by
     have := Nat.eq_of_mul_eq_mul_right hDIMpos h2; omega
   subst mb; rfl
-
-/-- General `L` row store address injectivity. -/
-theorem flash_L_ptr_offset_injectiveG (BLOCK_M p0 p1 : Nat) :
-    Function.Injective
-      (fun idx : TileIndex [BLOCK_M] => p1 * BLOCK_M + (p0 * BLOCK_M + idx.1.val)) := by
-  rintro ⟨⟨a, ha⟩, _⟩ ⟨⟨b, hb⟩, _⟩ h
-  simp only at h
-  have : a = b := by omega
-  subst b; rfl
 
 /-- The general lowered post-loop statements (17–21). -/
 def flashPostLoopG (L O : RegionName) (SEQLEN BLOCK_M DIM : Nat) : List Stmt :=
