@@ -30,8 +30,8 @@ rms_norm_kernel_output_summary                ← TOP THEOREM
        └─ rms_norm_kernel_correct             ← algorithm-layer readback per lane
 ```
 
-The spec `rmsNormSpec` threads the carriers `rmsSumCarrier` (`reduceSum (x*x)`),
-`rmsVarCarrier` (`/N`), and `rmsRrmsCarrier` (`(sqrt (var + eps))⁻¹`), then
+The spec `rmsNormSpec` threads the carriers `rmsSumCarrier` (`reduceSum (x*x)`)
+and `rmsRrmsCarrier` (`(sqrt (sum/N + eps))⁻¹`), then
 forms `(x * rrms) * w` lane-wise. In-bounds lanes hold `rmsNormSpec`,
 out-of-bounds lanes are preserved.
 
@@ -87,12 +87,6 @@ noncomputable def rmsSumCarrier
     (Tile.bop (NumericDType.mul .real) (Broadcast.consSame Broadcast.nil)
       (rmsInputTile s X x_stride_r x_stride_c N BLOCK_SIZE)
       (rmsInputTile s X x_stride_r x_stride_c N BLOCK_SIZE))).data PUnit.unit
-
-noncomputable def rmsVarCarrier
-    (s : BlockState) (X : RegionName) (x_stride_r x_stride_c N BLOCK_SIZE : Nat) :
-    WithBot ℝ :=
-  Option.map (fun x => x / (N : ℝ))
-    (rmsSumCarrier s X x_stride_r x_stride_c N BLOCK_SIZE)
 
 noncomputable def rmsRrmsCarrier
     (s : BlockState) (X : RegionName) (x_stride_r x_stride_c N BLOCK_SIZE : Nat)

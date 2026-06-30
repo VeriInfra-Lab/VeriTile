@@ -27,29 +27,20 @@ per-program statement covers every program of the grid.
 ## Proof architecture
 
 ```
-rope_embedding_python_case{1,2,3,4}_output_summary    ← TOP (abbrev aliases)
-  = rope_embedding_python_case{1,2,3,4}_forward_backward_summary
-      ├─ rope_embedding_python_caseN_forward_surface_toAlgorithm_supported  ┐
-      ├─ rope_embedding_python_caseN_backward_surface_toAlgorithm_supported ┤
-      │     └─ rope_embedding_surface_toAlgorithm_supported  (shared by both)
-      ├─ rope_embedding_python_caseN_first_half_compute_correct
-      │     └─ rope_embedding_forward_first_half_compute_correct
-      │          └─ rope_embedding_forward_first_half_correct
-      ├─ rope_embedding_python_caseN_second_half_compute_correct
-      │     └─ rope_embedding_forward_second_half_compute_correct
-      │          └─ rope_embedding_forward_second_half_correct
-      ├─ rope_embedding_python_caseN_backward_first_half_compute_correct
-      │     └─ rope_embedding_backward_first_half_compute_correct
-      │          └─ rope_embedding_backward_first_half_correct
-      └─ rope_embedding_python_caseN_backward_second_half_compute_correct
-            └─ rope_embedding_backward_second_half_compute_correct
-                 └─ rope_embedding_backward_second_half_correct
+rope_embedding_forward_backward_summary_general    ← TOP (dimension-general)
+      ├─ rope_embedding_surface_toAlgorithm_supported  (forward & backward surfaces)
+      ├─ rope_embedding_forward_first_half_compute_correct
+      │     └─ rope_embedding_forward_first_half_correct
+      ├─ rope_embedding_forward_second_half_compute_correct
+      │     └─ rope_embedding_forward_second_half_correct
+      ├─ rope_embedding_backward_first_half_compute_correct
+      │     └─ rope_embedding_backward_first_half_correct
+      └─ rope_embedding_backward_second_half_compute_correct
+            └─ rope_embedding_backward_second_half_correct
 ```
 
-The two offset families are shown disjoint by
-`rope_embedding_python_first_offset_injective` /
-`rope_embedding_python_second_offset_injective`, which the half-store
-compute-correctness lemmas consume.
+The disjointness of the two offset families is taken as hypotheses of the
+main theorem, which the half-store compute-correctness lemmas consume.
 
 ## Modeling boundary
 
@@ -60,9 +51,8 @@ from memory (the kernel does not compute them); the forward spec uses them as
 loaded and the backward spec uses the `sin1 := -sin1` flip. Scoping is
 **one head-half store at a time** (`first_half`/`second_half`), each over the
 active lanes `col_offsets < head_dim//2`; out-of-bounds lanes are preserved
-verbatim. The four `caseN` summaries instantiate the proved generic lemmas at
-the concrete shapes of the Python `test_case_{1..4}` (and the `BACKWARD_PASS`
-heuristic is modeled by the `Bool` argument).
+verbatim. The dimension-general summary quantifies over arbitrary strides and
+shapes (and the `BACKWARD_PASS` heuristic is modeled by the `Bool` argument).
 -/
 
 namespace VeriTile.Bench.TritonBenchG.RopeEmbedding
@@ -641,594 +631,76 @@ theorem rope_embedding_backward_second_half_compute_correct
     BLOCK_SIZE s s' hOutInj hExec i
   simpa [hActive] using h
 
-theorem rope_embedding_python_first_offset_injective
-    (s : BlockState) (Q_row_stride head_dim ROPE_GROUP_SIZE BLOCK_SIZE : Nat) :
-    Function.Injective
-      (fun i : Fin BLOCK_SIZE =>
-        qFirstOffset s Q_row_stride head_dim ROPE_GROUP_SIZE i) := by
-  intro a b h
-  simp [qFirstOffset, headStart, colIndex] at h
-  exact Fin.ext h
-
-theorem rope_embedding_python_second_offset_injective
-    (s : BlockState) (Q_row_stride head_dim ROPE_GROUP_SIZE BLOCK_SIZE : Nat) :
-    Function.Injective
-      (fun i : Fin BLOCK_SIZE =>
-        qSecondOffset s Q_row_stride head_dim ROPE_GROUP_SIZE i) := by
-  intro a b h
-  simp [qSecondOffset, qFirstOffset, headStart, colIndex] at h
-  exact Fin.ext h
-
-theorem rope_embedding_python_base_first_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
+/-- **Dimension-general forward+backward output summary.** For arbitrary strides,
+`seqlen`/`head_dim`/`n_heads`/`ROPE_GROUP_SIZE`/`BLOCK_SIZE` (and any program ids in
+`sQ`/`sDY`), the forward surface lowers and both forward half-kernels realize the
+genuine rotary specs `ropeFirst/SecondSpec` on `Q`, and symmetrically the backward
+surface lowers and both backward half-kernels realize `ropeBackwardFirst/SecondSpec`
+on `dY` — under the honest offset-injectivity side conditions. -/
+theorem rope_embedding_forward_backward_summary_general
+    (Q dY cos sin : RegionName)
+    (Q_row_stride cos_row_stride sin_row_stride seqlen head_dim n_heads
+      ROPE_GROUP_SIZE BLOCK_SIZE : Nat)
+    (sQ sDY : BlockState)
+    (hQF : Function.Injective
+      (fun i : Fin BLOCK_SIZE => qFirstOffset sQ Q_row_stride head_dim ROPE_GROUP_SIZE i))
+    (hQS : Function.Injective
+      (fun i : Fin BLOCK_SIZE => qSecondOffset sQ Q_row_stride head_dim ROPE_GROUP_SIZE i))
+    (hDF : Function.Injective
+      (fun i : Fin BLOCK_SIZE => qFirstOffset sDY Q_row_stride head_dim ROPE_GROUP_SIZE i))
+    (hDS : Function.Injective
+      (fun i : Fin BLOCK_SIZE => qSecondOffset sDY Q_row_stride head_dim ROPE_GROUP_SIZE i)) :
+    (∃ alg, (rope_embedding_surface Q Q_row_stride cos cos_row_stride sin
+      sin_row_stride seqlen head_dim n_heads Bool.false BLOCK_SIZE ROPE_GROUP_SIZE).toAlgorithm? = Except.ok alg) ∧
     ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_first_half Q cos sin 512 32 32 16 64 8 4 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 32 => active s 64 8 4 32 i)
-        (fun i => (Q, qFirstOffset s 512 64 4 i)))
-      (expected := fun i => ropeFirstSpec s Q cos sin 512 32 32 16 64 4 32 i) := by
-  exact rope_embedding_forward_first_half_compute_correct Q cos sin
-    512 32 32 16 64 8 4 32 s
-    (rope_embedding_python_first_offset_injective s 512 64 4 32)
-
-theorem rope_embedding_python_base_second_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_second_half Q cos sin 512 32 32 16 64 8 4 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 32 => active s 64 8 4 32 i)
-        (fun i => (Q, qSecondOffset s 512 64 4 i)))
-      (expected := fun i => ropeSecondSpec s Q cos sin 512 32 32 16 64 4 32 i) := by
-  exact rope_embedding_forward_second_half_compute_correct Q cos sin
-    512 32 32 16 64 8 4 32 s
-    (rope_embedding_python_second_offset_injective s 512 64 4 32)
-
-theorem rope_embedding_python_case1_first_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_first_half Q cos sin 128 16 16 8 32 4 4 16)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 16 => active s 32 4 4 16 i)
-        (fun i => (Q, qFirstOffset s 128 32 4 i)))
-      (expected := fun i => ropeFirstSpec s Q cos sin 128 16 16 8 32 4 16 i) := by
-  exact rope_embedding_forward_first_half_compute_correct Q cos sin
-    128 16 16 8 32 4 4 16 s
-    (rope_embedding_python_first_offset_injective s 128 32 4 16)
-
-theorem rope_embedding_python_case1_second_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_second_half Q cos sin 128 16 16 8 32 4 4 16)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 16 => active s 32 4 4 16 i)
-        (fun i => (Q, qSecondOffset s 128 32 4 i)))
-      (expected := fun i => ropeSecondSpec s Q cos sin 128 16 16 8 32 4 16 i) := by
-  exact rope_embedding_forward_second_half_compute_correct Q cos sin
-    128 16 16 8 32 4 4 16 s
-    (rope_embedding_python_second_offset_injective s 128 32 4 16)
-
-theorem rope_embedding_python_case2_first_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_first_half Q cos sin 2048 64 64 32 128 16 4 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 64 => active s 128 16 4 64 i)
-        (fun i => (Q, qFirstOffset s 2048 128 4 i)))
-      (expected := fun i => ropeFirstSpec s Q cos sin 2048 64 64 32 128 4 64 i) := by
-  exact rope_embedding_forward_first_half_compute_correct Q cos sin
-    2048 64 64 32 128 16 4 64 s
-    (rope_embedding_python_first_offset_injective s 2048 128 4 64)
-
-theorem rope_embedding_python_case2_second_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_second_half Q cos sin 2048 64 64 32 128 16 4 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 64 => active s 128 16 4 64 i)
-        (fun i => (Q, qSecondOffset s 2048 128 4 i)))
-      (expected := fun i => ropeSecondSpec s Q cos sin 2048 64 64 32 128 4 64 i) := by
-  exact rope_embedding_forward_second_half_compute_correct Q cos sin
-    2048 64 64 32 128 16 4 64 s
-    (rope_embedding_python_second_offset_injective s 2048 128 4 64)
-
-theorem rope_embedding_python_case3_first_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_first_half Q cos sin 8192 128 128 64 256 32 4 128)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 128 => active s 256 32 4 128 i)
-        (fun i => (Q, qFirstOffset s 8192 256 4 i)))
-      (expected := fun i => ropeFirstSpec s Q cos sin 8192 128 128 64 256 4 128 i) := by
-  exact rope_embedding_forward_first_half_compute_correct Q cos sin
-    8192 128 128 64 256 32 4 128 s
-    (rope_embedding_python_first_offset_injective s 8192 256 4 128)
-
-theorem rope_embedding_python_case3_second_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_second_half Q cos sin 8192 128 128 64 256 32 4 128)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 128 => active s 256 32 4 128 i)
-        (fun i => (Q, qSecondOffset s 8192 256 4 i)))
-      (expected := fun i => ropeSecondSpec s Q cos sin 8192 128 128 64 256 4 128 i) := by
-  exact rope_embedding_forward_second_half_compute_correct Q cos sin
-    8192 128 128 64 256 32 4 128 s
-    (rope_embedding_python_second_offset_injective s 8192 256 4 128)
-
-theorem rope_embedding_python_case4_first_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_first_half Q cos sin 32768 256 256 128 512 64 4 256)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 256 => active s 512 64 4 256 i)
-        (fun i => (Q, qFirstOffset s 32768 512 4 i)))
-      (expected := fun i => ropeFirstSpec s Q cos sin 32768 256 256 128 512 4 256 i) := by
-  exact rope_embedding_forward_first_half_compute_correct Q cos sin
-    32768 256 256 128 512 64 4 256 s
-    (rope_embedding_python_first_offset_injective s 32768 512 4 256)
-
-theorem rope_embedding_python_case4_second_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_second_half Q cos sin 32768 256 256 128 512 64 4 256)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 256 => active s 512 64 4 256 i)
-        (fun i => (Q, qSecondOffset s 32768 512 4 i)))
-      (expected := fun i => ropeSecondSpec s Q cos sin 32768 256 256 128 512 4 256 i) := by
-  exact rope_embedding_forward_second_half_compute_correct Q cos sin
-    32768 256 256 128 512 64 4 256 s
-    (rope_embedding_python_second_offset_injective s 32768 512 4 256)
-
-theorem rope_embedding_python_base_backward_first_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_first_half Q cos sin 512 32 32 16 64 8 4 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 32 => active s 64 8 4 32 i)
-        (fun i => (Q, qFirstOffset s 512 64 4 i)))
-      (expected := fun i =>
-        ropeBackwardFirstSpec s Q cos sin 512 32 32 16 64 4 32 i) := by
-  exact rope_embedding_backward_first_half_compute_correct Q cos sin
-    512 32 32 16 64 8 4 32 s
-    (rope_embedding_python_first_offset_injective s 512 64 4 32)
-
-theorem rope_embedding_python_base_backward_second_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_second_half Q cos sin 512 32 32 16 64 8 4 32)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 32 => active s 64 8 4 32 i)
-        (fun i => (Q, qSecondOffset s 512 64 4 i)))
-      (expected := fun i =>
-        ropeBackwardSecondSpec s Q cos sin 512 32 32 16 64 4 32 i) := by
-  exact rope_embedding_backward_second_half_compute_correct Q cos sin
-    512 32 32 16 64 8 4 32 s
-    (rope_embedding_python_second_offset_injective s 512 64 4 32)
-
-theorem rope_embedding_python_case1_backward_first_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_first_half Q cos sin 128 16 16 8 32 4 4 16)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 16 => active s 32 4 4 16 i)
-        (fun i => (Q, qFirstOffset s 128 32 4 i)))
-      (expected := fun i =>
-        ropeBackwardFirstSpec s Q cos sin 128 16 16 8 32 4 16 i) := by
-  exact rope_embedding_backward_first_half_compute_correct Q cos sin
-    128 16 16 8 32 4 4 16 s
-    (rope_embedding_python_first_offset_injective s 128 32 4 16)
-
-theorem rope_embedding_python_case1_backward_second_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_second_half Q cos sin 128 16 16 8 32 4 4 16)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 16 => active s 32 4 4 16 i)
-        (fun i => (Q, qSecondOffset s 128 32 4 i)))
-      (expected := fun i =>
-        ropeBackwardSecondSpec s Q cos sin 128 16 16 8 32 4 16 i) := by
-  exact rope_embedding_backward_second_half_compute_correct Q cos sin
-    128 16 16 8 32 4 4 16 s
-    (rope_embedding_python_second_offset_injective s 128 32 4 16)
-
-theorem rope_embedding_python_case2_backward_first_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_first_half Q cos sin 2048 64 64 32 128 16 4 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 64 => active s 128 16 4 64 i)
-        (fun i => (Q, qFirstOffset s 2048 128 4 i)))
-      (expected := fun i =>
-        ropeBackwardFirstSpec s Q cos sin 2048 64 64 32 128 4 64 i) := by
-  exact rope_embedding_backward_first_half_compute_correct Q cos sin
-    2048 64 64 32 128 16 4 64 s
-    (rope_embedding_python_first_offset_injective s 2048 128 4 64)
-
-theorem rope_embedding_python_case2_backward_second_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_second_half Q cos sin 2048 64 64 32 128 16 4 64)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 64 => active s 128 16 4 64 i)
-        (fun i => (Q, qSecondOffset s 2048 128 4 i)))
-      (expected := fun i =>
-        ropeBackwardSecondSpec s Q cos sin 2048 64 64 32 128 4 64 i) := by
-  exact rope_embedding_backward_second_half_compute_correct Q cos sin
-    2048 64 64 32 128 16 4 64 s
-    (rope_embedding_python_second_offset_injective s 2048 128 4 64)
-
-theorem rope_embedding_python_case3_backward_first_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_first_half Q cos sin 8192 128 128 64 256 32 4 128)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 128 => active s 256 32 4 128 i)
-        (fun i => (Q, qFirstOffset s 8192 256 4 i)))
-      (expected := fun i =>
-        ropeBackwardFirstSpec s Q cos sin 8192 128 128 64 256 4 128 i) := by
-  exact rope_embedding_backward_first_half_compute_correct Q cos sin
-    8192 128 128 64 256 32 4 128 s
-    (rope_embedding_python_first_offset_injective s 8192 256 4 128)
-
-theorem rope_embedding_python_case3_backward_second_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_second_half Q cos sin 8192 128 128 64 256 32 4 128)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 128 => active s 256 32 4 128 i)
-        (fun i => (Q, qSecondOffset s 8192 256 4 i)))
-      (expected := fun i =>
-        ropeBackwardSecondSpec s Q cos sin 8192 128 128 64 256 4 128 i) := by
-  exact rope_embedding_backward_second_half_compute_correct Q cos sin
-    8192 128 128 64 256 32 4 128 s
-    (rope_embedding_python_second_offset_injective s 8192 256 4 128)
-
-theorem rope_embedding_python_case4_backward_first_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_first_half Q cos sin 32768 256 256 128 512 64 4 256)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 256 => active s 512 64 4 256 i)
-        (fun i => (Q, qFirstOffset s 32768 512 4 i)))
-      (expected := fun i =>
-        ropeBackwardFirstSpec s Q cos sin 32768 256 256 128 512 4 256 i) := by
-  exact rope_embedding_backward_first_half_compute_correct Q cos sin
-    32768 256 256 128 512 64 4 256 s
-    (rope_embedding_python_first_offset_injective s 32768 512 4 256)
-
-theorem rope_embedding_python_case4_backward_second_half_compute_correct
-    (Q cos sin : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_second_half Q cos sin 32768 256 256 128 512 64 4 256)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 256 => active s 512 64 4 256 i)
-        (fun i => (Q, qSecondOffset s 32768 512 4 i)))
-      (expected := fun i =>
-        ropeBackwardSecondSpec s Q cos sin 32768 256 256 128 512 4 256 i) := by
-  exact rope_embedding_backward_second_half_compute_correct Q cos sin
-    32768 256 256 128 512 64 4 256 s
-    (rope_embedding_python_second_offset_injective s 32768 512 4 256)
-
-/-- Python case 1 full forward surface lowering. -/
-theorem rope_embedding_python_case1_forward_surface_toAlgorithm_supported
-    (Q cos sin : RegionName) :
-    ∃ alg, (rope_embedding_surface Q 128 cos 16 sin 16 8 32 4
-      Bool.false 16 4).toAlgorithm? = Except.ok alg := by
-  exact rope_embedding_surface_toAlgorithm_supported Q 128 cos 16 sin 16
-    8 32 4 Bool.false 16 4
-
-/-- Python case 1 full backward surface lowering. -/
-theorem rope_embedding_python_case1_backward_surface_toAlgorithm_supported
-    (Q cos sin : RegionName) :
-    ∃ alg, (rope_embedding_surface Q 128 cos 16 sin 16 8 32 4
-      Bool.true 16 4).toAlgorithm? = Except.ok alg := by
-  exact rope_embedding_surface_toAlgorithm_supported Q 128 cos 16 sin 16
-    8 32 4 Bool.true 16 4
-
-/-- Python case 2 full forward surface lowering. -/
-theorem rope_embedding_python_case2_forward_surface_toAlgorithm_supported
-    (Q cos sin : RegionName) :
-    ∃ alg, (rope_embedding_surface Q 2048 cos 64 sin 64 32 128 16
-      Bool.false 64 4).toAlgorithm? = Except.ok alg := by
-  exact rope_embedding_surface_toAlgorithm_supported Q 2048 cos 64 sin 64
-    32 128 16 Bool.false 64 4
-
-/-- Python case 2 full backward surface lowering. -/
-theorem rope_embedding_python_case2_backward_surface_toAlgorithm_supported
-    (Q cos sin : RegionName) :
-    ∃ alg, (rope_embedding_surface Q 2048 cos 64 sin 64 32 128 16
-      Bool.true 64 4).toAlgorithm? = Except.ok alg := by
-  exact rope_embedding_surface_toAlgorithm_supported Q 2048 cos 64 sin 64
-    32 128 16 Bool.true 64 4
-
-/-- Python case 3 full forward surface lowering. -/
-theorem rope_embedding_python_case3_forward_surface_toAlgorithm_supported
-    (Q cos sin : RegionName) :
-    ∃ alg, (rope_embedding_surface Q 8192 cos 128 sin 128 64 256 32
-      Bool.false 128 4).toAlgorithm? = Except.ok alg := by
-  exact rope_embedding_surface_toAlgorithm_supported Q 8192 cos 128 sin 128
-    64 256 32 Bool.false 128 4
-
-/-- Python case 3 full backward surface lowering. -/
-theorem rope_embedding_python_case3_backward_surface_toAlgorithm_supported
-    (Q cos sin : RegionName) :
-    ∃ alg, (rope_embedding_surface Q 8192 cos 128 sin 128 64 256 32
-      Bool.true 128 4).toAlgorithm? = Except.ok alg := by
-  exact rope_embedding_surface_toAlgorithm_supported Q 8192 cos 128 sin 128
-    64 256 32 Bool.true 128 4
-
-/-- Python case 4 full forward surface lowering. -/
-theorem rope_embedding_python_case4_forward_surface_toAlgorithm_supported
-    (Q cos sin : RegionName) :
-    ∃ alg, (rope_embedding_surface Q 32768 cos 256 sin 256 128 512 64
-      Bool.false 256 4).toAlgorithm? = Except.ok alg := by
-  exact rope_embedding_surface_toAlgorithm_supported Q 32768 cos 256 sin 256
-    128 512 64 Bool.false 256 4
-
-/-- Python case 4 full backward surface lowering. -/
-theorem rope_embedding_python_case4_backward_surface_toAlgorithm_supported
-    (Q cos sin : RegionName) :
-    ∃ alg, (rope_embedding_surface Q 32768 cos 256 sin 256 128 512 64
-      Bool.true 256 4).toAlgorithm? = Except.ok alg := by
-  exact rope_embedding_surface_toAlgorithm_supported Q 32768 cos 256 sin 256
-    128 512 64 Bool.true 256 4
-
-/-- Public Python case 1 coverage summary: both forward/backward full surfaces
-lower, and both rotary half stores realize the checked outputs for `Q_out` and
-`dY_out`. -/
-theorem rope_embedding_python_case1_forward_backward_summary
-    (Q dY cos sin : RegionName) (sQ sDY : BlockState) :
-    (∃ alg, (rope_embedding_surface Q 128 cos 16 sin 16 8 32 4
-      Bool.false 16 4).toAlgorithm? = Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_first_half Q cos sin
-        128 16 16 8 32 4 4 16)
+      (kernel := rope_embedding_forward_first_half Q cos sin Q_row_stride
+        cos_row_stride sin_row_stride seqlen head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE)
       (initialState := sQ)
       (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 16 => active sQ 32 4 4 16 i)
-        (fun i => (Q, qFirstOffset sQ 128 32 4 i)))
-      (expected := fun i => ropeFirstSpec sQ Q cos sin 128 16 16 8 32 4 16 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_second_half Q cos sin
-        128 16 16 8 32 4 4 16)
+        (fun i : Fin BLOCK_SIZE => active sQ head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE i)
+        (fun i => (Q, qFirstOffset sQ Q_row_stride head_dim ROPE_GROUP_SIZE i)))
+      (expected := fun i => ropeFirstSpec sQ Q cos sin Q_row_stride cos_row_stride
+        sin_row_stride seqlen head_dim ROPE_GROUP_SIZE BLOCK_SIZE i) ∧
+    ComputeCorrect.Realizes
+      (kernel := rope_embedding_forward_second_half Q cos sin Q_row_stride
+        cos_row_stride sin_row_stride seqlen head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE)
       (initialState := sQ)
       (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 16 => active sQ 32 4 4 16 i)
-        (fun i => (Q, qSecondOffset sQ 128 32 4 i)))
-      (expected := fun i => ropeSecondSpec sQ Q cos sin 128 16 16 8 32 4 16 i)) ∧
-    (∃ alg, (rope_embedding_surface dY 128 cos 16 sin 16 8 32 4
-      Bool.true 16 4).toAlgorithm? = Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_first_half dY cos sin
-        128 16 16 8 32 4 4 16)
+        (fun i : Fin BLOCK_SIZE => active sQ head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE i)
+        (fun i => (Q, qSecondOffset sQ Q_row_stride head_dim ROPE_GROUP_SIZE i)))
+      (expected := fun i => ropeSecondSpec sQ Q cos sin Q_row_stride cos_row_stride
+        sin_row_stride seqlen head_dim ROPE_GROUP_SIZE BLOCK_SIZE i) ∧
+    (∃ alg, (rope_embedding_surface dY Q_row_stride cos cos_row_stride sin
+      sin_row_stride seqlen head_dim n_heads Bool.true BLOCK_SIZE ROPE_GROUP_SIZE).toAlgorithm? = Except.ok alg) ∧
+    ComputeCorrect.Realizes
+      (kernel := rope_embedding_backward_first_half dY cos sin Q_row_stride
+        cos_row_stride sin_row_stride seqlen head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE)
       (initialState := sDY)
       (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 16 => active sDY 32 4 4 16 i)
-        (fun i => (dY, qFirstOffset sDY 128 32 4 i)))
-      (expected := fun i =>
-        ropeBackwardFirstSpec sDY dY cos sin 128 16 16 8 32 4 16 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_second_half dY cos sin
-        128 16 16 8 32 4 4 16)
+        (fun i : Fin BLOCK_SIZE => active sDY head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE i)
+        (fun i => (dY, qFirstOffset sDY Q_row_stride head_dim ROPE_GROUP_SIZE i)))
+      (expected := fun i => ropeBackwardFirstSpec sDY dY cos sin Q_row_stride
+        cos_row_stride sin_row_stride seqlen head_dim ROPE_GROUP_SIZE BLOCK_SIZE i) ∧
+    ComputeCorrect.Realizes
+      (kernel := rope_embedding_backward_second_half dY cos sin Q_row_stride
+        cos_row_stride sin_row_stride seqlen head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE)
       (initialState := sDY)
       (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 16 => active sDY 32 4 4 16 i)
-        (fun i => (dY, qSecondOffset sDY 128 32 4 i)))
-      (expected := fun i =>
-        ropeBackwardSecondSpec sDY dY cos sin 128 16 16 8 32 4 16 i)) := by
-  constructor
-  · exact rope_embedding_python_case1_forward_surface_toAlgorithm_supported Q cos sin
-  constructor
-  · exact rope_embedding_python_case1_first_half_compute_correct Q cos sin sQ
-  constructor
-  · exact rope_embedding_python_case1_second_half_compute_correct Q cos sin sQ
-  constructor
-  · exact rope_embedding_python_case1_backward_surface_toAlgorithm_supported dY cos sin
-  constructor
-  · exact rope_embedding_python_case1_backward_first_half_compute_correct dY cos sin sDY
-  · exact rope_embedding_python_case1_backward_second_half_compute_correct dY cos sin sDY
-
-/-- Public Python case 2 coverage summary. -/
-theorem rope_embedding_python_case2_forward_backward_summary
-    (Q dY cos sin : RegionName) (sQ sDY : BlockState) :
-    (∃ alg, (rope_embedding_surface Q 2048 cos 64 sin 64 32 128 16
-      Bool.false 64 4).toAlgorithm? = Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_first_half Q cos sin
-        2048 64 64 32 128 16 4 64)
-      (initialState := sQ)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 64 => active sQ 128 16 4 64 i)
-        (fun i => (Q, qFirstOffset sQ 2048 128 4 i)))
-      (expected := fun i => ropeFirstSpec sQ Q cos sin 2048 64 64 32 128 4 64 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_second_half Q cos sin
-        2048 64 64 32 128 16 4 64)
-      (initialState := sQ)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 64 => active sQ 128 16 4 64 i)
-        (fun i => (Q, qSecondOffset sQ 2048 128 4 i)))
-      (expected := fun i => ropeSecondSpec sQ Q cos sin 2048 64 64 32 128 4 64 i)) ∧
-    (∃ alg, (rope_embedding_surface dY 2048 cos 64 sin 64 32 128 16
-      Bool.true 64 4).toAlgorithm? = Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_first_half dY cos sin
-        2048 64 64 32 128 16 4 64)
-      (initialState := sDY)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 64 => active sDY 128 16 4 64 i)
-        (fun i => (dY, qFirstOffset sDY 2048 128 4 i)))
-      (expected := fun i =>
-        ropeBackwardFirstSpec sDY dY cos sin 2048 64 64 32 128 4 64 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_second_half dY cos sin
-        2048 64 64 32 128 16 4 64)
-      (initialState := sDY)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 64 => active sDY 128 16 4 64 i)
-        (fun i => (dY, qSecondOffset sDY 2048 128 4 i)))
-      (expected := fun i =>
-        ropeBackwardSecondSpec sDY dY cos sin 2048 64 64 32 128 4 64 i)) := by
-  constructor
-  · exact rope_embedding_python_case2_forward_surface_toAlgorithm_supported Q cos sin
-  constructor
-  · exact rope_embedding_python_case2_first_half_compute_correct Q cos sin sQ
-  constructor
-  · exact rope_embedding_python_case2_second_half_compute_correct Q cos sin sQ
-  constructor
-  · exact rope_embedding_python_case2_backward_surface_toAlgorithm_supported dY cos sin
-  constructor
-  · exact rope_embedding_python_case2_backward_first_half_compute_correct dY cos sin sDY
-  · exact rope_embedding_python_case2_backward_second_half_compute_correct dY cos sin sDY
-
-/-- Public Python case 3 coverage summary. -/
-theorem rope_embedding_python_case3_forward_backward_summary
-    (Q dY cos sin : RegionName) (sQ sDY : BlockState) :
-    (∃ alg, (rope_embedding_surface Q 8192 cos 128 sin 128 64 256 32
-      Bool.false 128 4).toAlgorithm? = Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_first_half Q cos sin
-        8192 128 128 64 256 32 4 128)
-      (initialState := sQ)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 128 => active sQ 256 32 4 128 i)
-        (fun i => (Q, qFirstOffset sQ 8192 256 4 i)))
-      (expected := fun i => ropeFirstSpec sQ Q cos sin 8192 128 128 64 256 4 128 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_second_half Q cos sin
-        8192 128 128 64 256 32 4 128)
-      (initialState := sQ)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 128 => active sQ 256 32 4 128 i)
-        (fun i => (Q, qSecondOffset sQ 8192 256 4 i)))
-      (expected := fun i => ropeSecondSpec sQ Q cos sin 8192 128 128 64 256 4 128 i)) ∧
-    (∃ alg, (rope_embedding_surface dY 8192 cos 128 sin 128 64 256 32
-      Bool.true 128 4).toAlgorithm? = Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_first_half dY cos sin
-        8192 128 128 64 256 32 4 128)
-      (initialState := sDY)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 128 => active sDY 256 32 4 128 i)
-        (fun i => (dY, qFirstOffset sDY 8192 256 4 i)))
-      (expected := fun i =>
-        ropeBackwardFirstSpec sDY dY cos sin 8192 128 128 64 256 4 128 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_second_half dY cos sin
-        8192 128 128 64 256 32 4 128)
-      (initialState := sDY)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 128 => active sDY 256 32 4 128 i)
-        (fun i => (dY, qSecondOffset sDY 8192 256 4 i)))
-      (expected := fun i =>
-        ropeBackwardSecondSpec sDY dY cos sin 8192 128 128 64 256 4 128 i)) := by
-  constructor
-  · exact rope_embedding_python_case3_forward_surface_toAlgorithm_supported Q cos sin
-  constructor
-  · exact rope_embedding_python_case3_first_half_compute_correct Q cos sin sQ
-  constructor
-  · exact rope_embedding_python_case3_second_half_compute_correct Q cos sin sQ
-  constructor
-  · exact rope_embedding_python_case3_backward_surface_toAlgorithm_supported dY cos sin
-  constructor
-  · exact rope_embedding_python_case3_backward_first_half_compute_correct dY cos sin sDY
-  · exact rope_embedding_python_case3_backward_second_half_compute_correct dY cos sin sDY
-
-/-- Public Python case 4 coverage summary. -/
-theorem rope_embedding_python_case4_forward_backward_summary
-    (Q dY cos sin : RegionName) (sQ sDY : BlockState) :
-    (∃ alg, (rope_embedding_surface Q 32768 cos 256 sin 256 128 512 64
-      Bool.false 256 4).toAlgorithm? = Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_first_half Q cos sin
-        32768 256 256 128 512 64 4 256)
-      (initialState := sQ)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 256 => active sQ 512 64 4 256 i)
-        (fun i => (Q, qFirstOffset sQ 32768 512 4 i)))
-      (expected := fun i => ropeFirstSpec sQ Q cos sin 32768 256 256 128 512 4 256 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_forward_second_half Q cos sin
-        32768 256 256 128 512 64 4 256)
-      (initialState := sQ)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 256 => active sQ 512 64 4 256 i)
-        (fun i => (Q, qSecondOffset sQ 32768 512 4 i)))
-      (expected := fun i => ropeSecondSpec sQ Q cos sin 32768 256 256 128 512 4 256 i)) ∧
-    (∃ alg, (rope_embedding_surface dY 32768 cos 256 sin 256 128 512 64
-      Bool.true 256 4).toAlgorithm? = Except.ok alg) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_first_half dY cos sin
-        32768 256 256 128 512 64 4 256)
-      (initialState := sDY)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 256 => active sDY 512 64 4 256 i)
-        (fun i => (dY, qFirstOffset sDY 32768 512 4 i)))
-      (expected := fun i =>
-        ropeBackwardFirstSpec sDY dY cos sin 32768 256 256 128 512 4 256 i)) ∧
-    (ComputeCorrect.Realizes
-      (kernel := rope_embedding_backward_second_half dY cos sin
-        32768 256 256 128 512 64 4 256)
-      (initialState := sDY)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin 256 => active sDY 512 64 4 256 i)
-        (fun i => (dY, qSecondOffset sDY 32768 512 4 i)))
-      (expected := fun i =>
-        ropeBackwardSecondSpec sDY dY cos sin 32768 256 256 128 512 4 256 i)) := by
-  constructor
-  · exact rope_embedding_python_case4_forward_surface_toAlgorithm_supported Q cos sin
-  constructor
-  · exact rope_embedding_python_case4_first_half_compute_correct Q cos sin sQ
-  constructor
-  · exact rope_embedding_python_case4_second_half_compute_correct Q cos sin sQ
-  constructor
-  · exact rope_embedding_python_case4_backward_surface_toAlgorithm_supported dY cos sin
-  constructor
-  · exact rope_embedding_python_case4_backward_first_half_compute_correct dY cos sin sDY
-  · exact rope_embedding_python_case4_backward_second_half_compute_correct dY cos sin sDY
-
-/-- `output_summary` alias for Python RoPE embedding case 1, covering the
-checked forward `Q_out` stores and backward `dY_out` stores. -/
-abbrev rope_embedding_python_case1_output_summary
-    (Q dY cos sin : RegionName) (sQ sDY : BlockState) :=
-  rope_embedding_python_case1_forward_backward_summary Q dY cos sin sQ sDY
-
-/-- `output_summary` alias for Python RoPE embedding case 2, covering the
-checked forward `Q_out` stores and backward `dY_out` stores. -/
-abbrev rope_embedding_python_case2_output_summary
-    (Q dY cos sin : RegionName) (sQ sDY : BlockState) :=
-  rope_embedding_python_case2_forward_backward_summary Q dY cos sin sQ sDY
-
-/-- `output_summary` alias for Python RoPE embedding case 3, covering the
-checked forward `Q_out` stores and backward `dY_out` stores. -/
-abbrev rope_embedding_python_case3_output_summary
-    (Q dY cos sin : RegionName) (sQ sDY : BlockState) :=
-  rope_embedding_python_case3_forward_backward_summary Q dY cos sin sQ sDY
-
-/-- `output_summary` alias for Python RoPE embedding case 4, covering the
-checked forward `Q_out` stores and backward `dY_out` stores. -/
-abbrev rope_embedding_python_case4_output_summary
-    (Q dY cos sin : RegionName) (sQ sDY : BlockState) :=
-  rope_embedding_python_case4_forward_backward_summary Q dY cos sin sQ sDY
+        (fun i : Fin BLOCK_SIZE => active sDY head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE i)
+        (fun i => (dY, qSecondOffset sDY Q_row_stride head_dim ROPE_GROUP_SIZE i)))
+      (expected := fun i => ropeBackwardSecondSpec sDY dY cos sin Q_row_stride
+        cos_row_stride sin_row_stride seqlen head_dim ROPE_GROUP_SIZE BLOCK_SIZE i) :=
+  ⟨rope_embedding_surface_toAlgorithm_supported Q Q_row_stride cos cos_row_stride sin
+      sin_row_stride seqlen head_dim n_heads Bool.false BLOCK_SIZE ROPE_GROUP_SIZE,
+   rope_embedding_forward_first_half_compute_correct Q cos sin Q_row_stride
+      cos_row_stride sin_row_stride seqlen head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE sQ hQF,
+   rope_embedding_forward_second_half_compute_correct Q cos sin Q_row_stride
+      cos_row_stride sin_row_stride seqlen head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE sQ hQS,
+   rope_embedding_surface_toAlgorithm_supported dY Q_row_stride cos cos_row_stride sin
+      sin_row_stride seqlen head_dim n_heads Bool.true BLOCK_SIZE ROPE_GROUP_SIZE,
+   rope_embedding_backward_first_half_compute_correct dY cos sin Q_row_stride
+      cos_row_stride sin_row_stride seqlen head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE sDY hDF,
+   rope_embedding_backward_second_half_compute_correct dY cos sin Q_row_stride
+      cos_row_stride sin_row_stride seqlen head_dim n_heads ROPE_GROUP_SIZE BLOCK_SIZE sDY hDS⟩
 
 end VeriTile.Bench.TritonBenchG.RopeEmbedding
