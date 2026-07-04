@@ -74,6 +74,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .constBool b => .constBool b
   | .negInf => .negInf
   | .programId axis => .programId axis
+  | .numPrograms axis => .numPrograms axis
   | .ref dtype shape name => .ref (VeriTile.Triton.eraseDType dtype) shape name
   | .arange n => .arange n
   | .broadcast e shape => .broadcast e.eraseDType shape
@@ -124,7 +125,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .reduceMax axis keepDims a => .reduceMax axis keepDims a.eraseDType
   | .reduceMaxNat axis keepDims a => .reduceMaxNat axis keepDims a.eraseDType
   | .reduceSum axis keepDims a => .reduceSum axis keepDims a.eraseDType
-  | .scan op axis a => .scan op axis a.eraseDType
+  | .scan op axis dir a => .scan op axis dir a.eraseDType
   | .argMax axis a => .argMax axis a.eraseDType
   | .argMin axis a => .argMin axis a.eraseDType
   | .sort axis a => .sort axis a.eraseDType
