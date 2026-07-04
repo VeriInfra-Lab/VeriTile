@@ -29,6 +29,9 @@ Notes on individual constructors:
 * `programId axis` returns the current `tl.program_id(axis)` as a `Nat`
                     scalar. Out-of-range axes evaluate to `0` per the
                     `BlockState.pids` total-function model.
+* `numPrograms axis` returns the launch-grid dimension `tl.num_programs(axis)`
+                    as a `Nat` scalar. Out-of-rank axes evaluate to `1` per
+                    the `BlockState.numPids` total-function model (#92).
 * `arange n` produces a length-`n` `Nat`-valued tile `[0, 1, ..., n-1]`.
 * `broadcast e n` lifts a scalar to a length-`n` tile.
 * `full n e` fills a length-`n` tile with the scalar value of `e`.
@@ -60,6 +63,16 @@ inductive ScanOp where
   | min
   deriving Repr, BEq
 
+/-- Direction of a scan (#94). `forward` folds the lanes at coordinates `≤`
+the output coordinate on the scanned axis (Triton's default, a prefix scan);
+`reverse` folds the lanes at coordinates `≥` it (`reverse=True`, a suffix
+scan). Every `ScanOp` is commutative and associative, so a direction is the
+only order information a scan needs. -/
+inductive ScanDirection where
+  | forward
+  | reverse
+  deriving Repr, BEq
+
 /-- Read-modify-write operation tag shared by algorithm AST and traces. -/
 inductive RMWOp where
   | add
@@ -79,6 +92,10 @@ inductive Op : TileDType → TileShape → Type where
   | constBool : Bool → Op .bool []
   | negInf    : Op .real []
   | programId : (axis : Nat) → Op .nat []
+  /-- `tl.num_programs(axis)`: the launch-grid dimension along `axis` (#92).
+  Reads `BlockState.numPids`, the grid-dimension counterpart of `pids`
+  (out-of-rank axes are `1`). -/
+  | numPrograms : (axis : Nat) → Op .nat []
   | ref       : (dtype : TileDType) → (shape : TileShape) → RegName → Op dtype shape
   | arange    : (n : Nat) → Op .nat [n]
   | broadcast : Op dtype [] → (shape : TileShape) → Op dtype shape
@@ -152,10 +169,11 @@ inductive Op : TileDType → TileShape → Type where
   | reduceSum : (axis : Fin shape.length) → (keepDims : Bool) →
                 Op .real shape →
                 Op .real (TileShape.reduceShape shape axis keepDims)
-  /-- Prefix scan along an axis. `tl.cumsum` and `tl.cumprod` lower to this
-  node with `.sum` / `.prod`; `tl.associative_scan` accepts the closed
-  `ScanOp` enum rather than arbitrary functions. -/
-  | scan      : (op : ScanOp) → (axis : Fin shape.length) →
+  /-- Directed scan along an axis: prefix fold when `dir = .forward`, suffix
+  fold when `dir = .reverse` (`reverse=True`). `tl.cumsum` and `tl.cumprod`
+  lower to this node with `.sum` / `.prod`; `tl.associative_scan` accepts the
+  closed `ScanOp` enum rather than arbitrary functions. -/
+  | scan      : (op : ScanOp) → (axis : Fin shape.length) → (dir : ScanDirection) →
                 Op .real shape → Op .real shape
   /-- Axis index of the maximum value, with ties resolved toward the smallest
   axis coordinate. -/

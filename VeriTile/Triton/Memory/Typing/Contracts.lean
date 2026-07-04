@@ -112,6 +112,7 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .constBool _ => True
   | .negInf => True
   | .programId _ => True
+  | .numPrograms _ => True
   | .ref _ _ _ => True
   | .arange _ => True
   | .broadcast e _ => e.RespectsRegionTyping Γ
@@ -163,7 +164,7 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .reduceMax _ _ a => a.RespectsRegionTyping Γ
   | .reduceMaxNat _ _ a => a.RespectsRegionTyping Γ
   | .reduceSum _ _ a => a.RespectsRegionTyping Γ
-  | .scan _ _ a => a.RespectsRegionTyping Γ
+  | .scan _ _ _ a => a.RespectsRegionTyping Γ
   | .argMax _ a => a.RespectsRegionTyping Γ
   | .argMin _ a => a.RespectsRegionTyping Γ
   | .sort _ a => a.RespectsRegionTyping Γ

@@ -30,6 +30,8 @@ syntax "$(" term ")" : tritonExpr
 syntax "(" tritonExpr ")" : tritonExpr
 syntax "tl.program_id(" tritonExpr ")" : tritonExpr
 syntax "tl.program_id(axis=" tritonExpr ")" : tritonExpr
+syntax "tl.num_programs(" tritonExpr ")" : tritonExpr
+syntax "tl.num_programs(axis=" tritonExpr ")" : tritonExpr
 syntax "tl.arange(" tritonExpr ")" : tritonExpr
 syntax "tl.arange(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.exp(" tritonExpr ")" : tritonExpr
@@ -130,6 +132,8 @@ syntax "keep_dims" "=" "false" : tritonReduceKwarg
 syntax "keep_dims" "=" "true" : tritonReduceKwarg
 syntax "return_indices=True" : tritonReduceKwarg
 syntax "return_indices=False" : tritonReduceKwarg
+syntax "reverse=True" : tritonReduceKwarg
+syntax "reverse=False" : tritonReduceKwarg
 syntax "out_dtype=" tritonDType : tritonReduceKwarg
 syntax ident "=" tritonExpr : tritonReduceKwarg
 

@@ -119,7 +119,7 @@ axis 1 of a `some`-valued `[H, CH]` tile, evaluated at index `idx`, is
 at fixed head. -/
 theorem scan2d_axis1_sum (H CH : Nat) (g : Fin H → Fin CH → ℝ)
     (idx : TileIndex [H, CH]) :
-    (Tile.scan .sum ⟨1, by simp⟩
+    (Tile.scan .sum ⟨1, by simp⟩ .forward
       (⟨fun idx => some (g idx.1 idx.2.1)⟩ : Tile .real [H, CH])).data idx
       = some (∑ k ∈ (Finset.univ.filter
           (fun k : Fin CH => k.val ≤ idx.2.1.val)), g idx.1 k) := by
@@ -137,7 +137,7 @@ theorem scan2d_axis1_sum_if (H CH : Nat) (h : Fin H → Fin CH → ℝ)
     (P : Fin H → Fin CH → Prop) [∀ a, DecidablePred (P a)]
     (idx : TileIndex [H, CH]) :
     WithBot.unbotD 0
-      ((Tile.scan .sum ⟨1, by simp⟩
+      ((Tile.scan .sum ⟨1, by simp⟩ .forward
         (⟨fun idx => some (if P idx.1 idx.2.1 then h idx.1 idx.2.1 else 0)⟩ :
           Tile .real [H, CH])).data idx)
       = ∑ k ∈ (Finset.univ.filter
@@ -582,7 +582,7 @@ noncomputable def dAComputedCumsumSpec
       nheads chunk_size BLOCK_SIZE_H BLOCK_SIZE_CHUNK : Nat)
     (idx : TileIndex [BLOCK_SIZE_H, BLOCK_SIZE_CHUNK]) : ℝ :=
   WithBot.unbotD 0
-    ((Tile.scan .sum ⟨1, by simp⟩
+    ((Tile.scan .sum ⟨1, by simp⟩ .forward
       (dATile s DtPrepared A stride_dt_batch stride_dt_seqlen
         stride_dt_head stride_A_head nheads chunk_size BLOCK_SIZE_H
         BLOCK_SIZE_CHUNK)).data idx)
@@ -595,6 +595,18 @@ in range and `k < chunk_size`) of the prepared `dt` value at `(head, k)` times
 the per-head scaling `A[head]`. It is **not** a read-back of the kernel's own
 output, so realizing it is a true correctness statement. There is no cross-chunk
 carry: each chunk is summed independently along its own axis. -/
+
+/-- Prepared-`dt` element `dt[batch, seqpos, head]`: batch `pids 0` (stride
+`stride_dt_batch`), sequence position `pid_chunk·chunk_size + k` (stride
+`stride_dt_seqlen`), head `h` (stride `stride_dt_head`). -/
+noncomputable def dtElem
+    (s : BlockState) (DtPrepared : RegionName)
+    (stride_dt_batch stride_dt_seqlen stride_dt_head chunk_size : Nat)
+    (k h : Nat) : ℝ :=
+  s.readMem DtPrepared
+    (s.pids 0 * stride_dt_batch + (s.pids 1 * chunk_size + k) * stride_dt_seqlen +
+      h * stride_dt_head)
+
 noncomputable def dAClosed
     (s : BlockState) (DtPrepared A : RegionName)
     (stride_dt_batch stride_dt_seqlen stride_dt_head stride_A_head
@@ -604,10 +616,8 @@ noncomputable def dAClosed
       (fun k : Fin BLOCK_SIZE_CHUNK =>
         k.val ≤ idx.2.1.val ∧
           (headIndex s BLOCK_SIZE_H idx.1 < nheads ∧ k.val < chunk_size))),
-    s.readMem DtPrepared
-        (s.pids 0 * stride_dt_batch +
-          (s.pids 1 * chunk_size + k.val) * stride_dt_seqlen +
-          headIndex s BLOCK_SIZE_H idx.1 * stride_dt_head)
+    dtElem s DtPrepared stride_dt_batch stride_dt_seqlen stride_dt_head
+        chunk_size k.val (headIndex s BLOCK_SIZE_H idx.1)
       * s.readMem A (headIndex s BLOCK_SIZE_H idx.1 * stride_A_head)
 
 /-- **The within-chunk cumsum equals the genuine closed form.** The kernel's
@@ -624,7 +634,7 @@ theorem dAComputedCumsumSpec_eq_dAClosed
       = dAClosed s DtPrepared A stride_dt_batch stride_dt_seqlen
         stride_dt_head stride_A_head nheads chunk_size BLOCK_SIZE_H
         BLOCK_SIZE_CHUNK idx := by
-  unfold dAComputedCumsumSpec dAClosed
+  unfold dAComputedCumsumSpec dAClosed dtElem
   -- Rewrite the input tile to the `some (if active then dt*A else 0)` form.
   have hin :
       dATile s DtPrepared A stride_dt_batch stride_dt_seqlen stride_dt_head
