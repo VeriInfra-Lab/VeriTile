@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `ksoftmax_triton` — strict per-kernel correctness
@@ -372,7 +369,7 @@ theorem ksoftmax_forward_plain_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun i : Fin DEPTH => yOffset s stride_ym stride_yn i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := ksoftmax_forward_plain Y X
         stride_ym stride_yn stride_xm stride_xn K DEPTH)
       (initialState := s)
@@ -404,7 +401,7 @@ theorem ksoftmax_forward_plain_output_summary
     (∃ alg, (ksoftmax_forward_surface Y X M stride_ym stride_yn stride_xm
       stride_xn stride_m K DEPTH Bool.false Bool.false Bool.false Bool.false
       Bool.false).toAlgorithm? = Except.ok alg) ∧
-    (ComputeCorrect.Realizes
+    (ComputeCorrect.Realizes_without_Rounding
       (kernel := ksoftmax_forward_plain Y X
         stride_ym stride_yn stride_xm stride_xn K DEPTH)
       (initialState := s)

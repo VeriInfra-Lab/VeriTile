@@ -18,11 +18,13 @@ Documentation Map):
 | Question | Doc |
 |---|---|
 | Which Triton constructs are supported? | [TritonSubset.md](./TritonSubset.md) ([中文](./TritonSubset_zh.md)) |
+| What semantic caveats affect theorem interpretation? | [SemanticCaveats.md](./SemanticCaveats.md) ([中文](./SemanticCaveats_zh.md)) |
 | Where does my new lemma / definition belong? | [CodeOrganization.md](./CodeOrganization.md) ([中文](./CodeOrganization_zh.md)) |
 | Tactic conventions (incl. `erw` carrier-bridge) | [ProofConventions.md](./ProofConventions.md) ([中文](./ProofConventions_zh.md)) |
 | Which theorem surface should I use? | [CorrectnessSurfaces.md](./CorrectnessSurfaces.md) |
 | Naming conventions for theorem surfaces | [TheoremSurfaces.md](./TheoremSurfaces.md) |
 | How does the kernel manifest work? | [KernelManifest.md](./KernelManifest.md) |
+| How is the axiom-clean / sorry-free trust audit run? | [TrustAudit.md](./TrustAudit.md) |
 | How does dtype erasure work? | [EraseDType.md](./EraseDType.md) |
 | How does memory safety / framing work? | [MemorySafety.md](./MemorySafety.md) |
 | What's the GPU memory model? | [GpuMemoryModel.md](./GpuMemoryModel.md) |

@@ -1,8 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
-import VeriTile.Triton.Kernel
+import VeriTile.Triton
 
 /-!
 # `bmm_chunk_bwd` — closed-form batched-matmul-backward correctness
@@ -36,7 +32,7 @@ stride `stride_ak`).
 ## Proof architecture
 
 ```
-bmm_chunk_bwd_closed_form_correct                 ← TOP THEOREM (ComputeCorrect.Realizes)
+bmm_chunk_bwd_closed_form_correct                 ← TOP THEOREM (ComputeCorrect.Realizes_without_Rounding)
   └─ bbwd_exec_closed_form                        ← exec-side closed form (every active cell = ∑_cs Dout·A)
        ├─ bbwd_preLoop      (P 0: acc = 0, dout/a pointers seeded with batch offset)
        ├─ bbwd_step         (one CS-block: acc += tl.dot advances the partial sum)
@@ -72,6 +68,17 @@ Preconditions for the general theorem: `0 < BLOCK_SIZE_CS` (so the CS-tail load
 mask is all-true given `CSL = BCS·numCSBlocks`); all tile rows/cols in-bounds
 (`PM·BM+i < CSL ≤ chunk_size`, `PN·BN+j < K`, making both load masks and the
 store mask all-true); output-address injectivity; clean initial `undef`.
+
+## Translation-surface blocker
+
+Translation-surface blocker: the in-body
+`chunk_size_limit = min(chunk_size, seqlen - pid_c * chunk_size)` is supplied
+to the surface as the precomputed `chunk_size_limit` parameter, so `seqlen`
+is not a surface binder and that `min` assignment does not appear as a
+surface statement (the CS-loop bound `tl.cdiv(chunk_size_limit,
+BLOCK_SIZE_CS)` is driven by `forRangeDyn`). The textual py↔lean scans in
+`bench/audit_tritonbench_g.sh` exempt this port on this marker (registered in
+`proof_blockers.md`).
 -/
 
 namespace VeriTile.Bench.TritonBenchG.BmmChunkBwd
@@ -1421,7 +1428,7 @@ theorem bmm_chunk_bwd_closed_form_correct
     (hmlt' : ∀ i : Fin BM, rowIndex (pidM (s.pids 0) K BN) BM i < chunk_size)
     (hnlt : ∀ j : Fin BN, colIndex (pidN (s.pids 0) K BN) BN j < K)
     (hundef : ∀ rg o, s.undef rg o = 0) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := bbwd_matmul_surface A Dout Db chunk_size (BCS * numCSBlocks) K ngroups
         SAB SAS SAH SAK SDB SDC SDH SDM SDN SOB SOS SOH SOK BM BN BCS)
       (initialState := s)
@@ -1472,7 +1479,7 @@ theorem bmm_chunk_bwd_output_summary_general
     (hundef : ∀ rg o, s.undef rg o = 0) :
     (∃ alg, (bbwd_matmul_surface A Dout Db chunk_size (BCS * numCSBlocks) K ngroups
         SAB SAS SAH SAK SDB SDC SDH SDM SDN SOB SOS SOH SOK BM BN BCS).toAlgorithm? = Except.ok alg) ∧
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := bbwd_matmul_surface A Dout Db chunk_size (BCS * numCSBlocks) K ngroups
         SAB SAS SAH SAK SDB SDC SDH SDM SDN SOB SOS SOH SOK BM BN BCS)
       (initialState := s)

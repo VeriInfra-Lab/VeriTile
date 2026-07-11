@@ -141,6 +141,16 @@ inductive Op : TileDType → TileShape → Type where
   | boolNot   : Op .bool shape → Op .bool shape
   | max2      : Broadcast a b out → Op .real a → Op .real b → Op .real out
   /--
+  Element-wise power (`tl.extra.cuda.libdevice.pow(base, exponent)`) on the
+  ℝ channel, modeled by Mathlib's `Real.rpow`. For base > 0 this matches
+  CUDA `pow` exactly; for a negative base with non-integer exponent
+  Mathlib's `rpow` returns its junk-value convention where CUDA returns
+  NaN — the usual real-semantics modeling boundary, consistent with how
+  the rest of VeriTile models floats as ℝ. Shapes broadcast like the other
+  binary arithmetic ops, so the common scalar-base × tensor-exponent form
+  (e.g. RoPE's `pow(theta, freqs)`) is a `Broadcast [] s s` instance. -/
+  | pow       : Broadcast a b out → Op .real a → Op .real b → Op .real out
+  /--
   Element-wise select (`tl.where(cond, a, b)`): pick `a` where the bool
   tile `cond` is `true`, else pick `b`. All three arguments share the
   same shape; broadcasting (e.g., scalar `-inf`) is handled at the DSL
@@ -558,6 +568,77 @@ def toAlgorithm? : (op : ComputeOp dtype shape) →
 
 end ComputeOp
 
+/-! ## Compute-facing dtype and bit-payload examples -/
+
+namespace Float32Bits
+
+example :
+    decodeRat { bits := 0x3f800000#32 } = some 1 := by
+  native_decide
+
+end Float32Bits
+
+namespace ComputeOp
+
+def oneBits : UInt32Bits :=
+  { bits := 0x3f800000#32 }
+
+def oneBitcast : ComputeOp .fp32 [] :=
+  ComputeOp.bitcast .uint32 .fp32 rfl (ComputeOp.const oneBits)
+
+def minusOneBits : UInt32Bits :=
+  { bits := 0xffffffff#32 }
+
+def minusOneBitcast : ComputeOp .int32 [] :=
+  ComputeOp.bitcast .uint32 .int32 rfl (ComputeOp.const minusOneBits)
+
+example :
+    constOpToAlgorithm? oneBitcast = Except.ok (Op.const 1) := by
+  have hdecode :
+      Float32Bits.decodeRat ({ bits := 0x3f800000#32 } : Float32Bits) = some 1 := by
+    native_decide
+  simp [constOpToAlgorithm?, oneBitcast, oneBits, constPayload?, bitcastPayload,
+    constToAlgorithm?]
+  change
+    (match Float32Bits.decodeRat ({ bits := 0x3f800000#32 } : Float32Bits) with
+      | some q => Except.ok (Op.const (q : ℝ))
+      | none => Except.error (.unsupportedBitcast "unsupported fp32 decode")) =
+    Except.ok (Op.const 1)
+  rw [hdecode]
+  norm_num
+
+theorem oneBitcast_toAlgorithm :
+    constOpToAlgorithm? oneBitcast = Except.ok (Op.const 1) := by
+  have hdecode :
+      Float32Bits.decodeRat ({ bits := 0x3f800000#32 } : Float32Bits) = some 1 := by
+    native_decide
+  simp [constOpToAlgorithm?, oneBitcast, oneBits, constPayload?, bitcastPayload,
+    constToAlgorithm?]
+  change
+    (match Float32Bits.decodeRat ({ bits := 0x3f800000#32 } : Float32Bits) with
+      | some q => Except.ok (Op.const (q : ℝ))
+      | none => Except.error (.unsupportedBitcast "unsupported fp32 decode")) =
+    Except.ok (Op.const 1)
+  rw [hdecode]
+  norm_num
+
+example :
+    Int32Bits.toInt ({ bits := 0xffffffff#32 } : Int32Bits) = -1 := by
+  native_decide
+
+theorem minusOneBitcast_toAlgorithm :
+    constOpToAlgorithm? minusOneBitcast = Except.ok (Op.constInt (-1)) := by
+  have hsigned :
+      Int32Bits.toInt ({ bits := 0xffffffff#32 } : Int32Bits) = -1 := by
+    native_decide
+  simp [constOpToAlgorithm?, minusOneBitcast, minusOneBits, constPayload?, bitcastPayload,
+    constToAlgorithm?]
+  change Except.ok (Op.constInt (Int32Bits.toInt ({ bits := 0xffffffff#32 } : Int32Bits))) =
+    Except.ok (Op.constInt (-1))
+  rw [hsigned]
+
+end ComputeOp
+
 inductive ComputeExpr : AlgDType → TileShape → Type where
   | alg : Op dtype shape → ComputeExpr dtype shape
   | compute : ComputeOp cdtype shape → ComputeExpr cdtype.eraseDType shape
@@ -625,7 +706,16 @@ def toAlgorithm? : ComputeStmt → Except EraseDTypeError Stmt
         | some extra => Except.ok (some (← extra.toAlgorithm?))
       Except.ok (.atomicRMW op dtype shape mem input' extraInput' mask dest)
   | .effectMarker op =>
-      Except.error (.requiresEffectProjection op)
+      -- `tl.debug_barrier` is an intra-program memory fence. VeriTile's
+      -- algorithm layer executes one program's statements **sequentially**,
+      -- so the fence imposes no ordering beyond what the semantics already
+      -- guarantee: it erases to a no-op statement. Every other effect
+      -- marker (`tl.async_copy`, `tl.async_wait`, …) still requires an
+      -- explicit effect projection before lowering.
+      if op = "tl.debug_barrier" then
+        Except.ok (.ifThen (Op.constBool Bool.false) [])
+      else
+        Except.error (.requiresEffectProjection op)
   | .forLoop idx n body => do
       Except.ok (.forLoop idx n (← listToAlgorithm? body))
   | .forRange idx start stop step body => do
@@ -681,8 +771,28 @@ end
       Except.ok (Stmt.atomicRMW op dtype shape mem input extraInput mask dest) := by
   cases extraInput <;> rfl
 
+/-- `tl.debug_barrier` erases to a no-op at the algorithm layer (see the
+`effectMarker` case of `toAlgorithm?`). -/
+@[simp] theorem toAlgorithm?_effectMarker_debug_barrier :
+    ComputeStmt.toAlgorithm? (ComputeStmt.effectMarker "tl.debug_barrier") =
+      Except.ok (Stmt.ifThen (Op.constBool Bool.false) []) := rfl
+
 @[simp] theorem listToAlgorithm?_nil :
     ComputeStmt.listToAlgorithm? [] = Except.ok [] := rfl
+
+@[simp] theorem listToAlgorithm?_cons_effectMarker_debug_barrier
+    (rest : List ComputeStmt) :
+    ComputeStmt.listToAlgorithm? (ComputeStmt.effectMarker "tl.debug_barrier" :: rest) =
+      match ComputeStmt.listToAlgorithm? rest with
+      | Except.ok rest' => Except.ok (Stmt.ifThen (Op.constBool Bool.false) [] :: rest')
+      | Except.error e => Except.error e := by
+  change Except.bind (Except.ok (Stmt.ifThen (Op.constBool Bool.false) []))
+      (fun st' => Except.bind (ComputeStmt.listToAlgorithm? rest)
+        (fun rest' => Except.ok (st' :: rest'))) =
+    match ComputeStmt.listToAlgorithm? rest with
+    | Except.ok rest' => Except.ok (Stmt.ifThen (Op.constBool Bool.false) [] :: rest')
+    | Except.error e => Except.error e
+  cases ComputeStmt.listToAlgorithm? rest <;> rfl
 
 @[simp] theorem listToAlgorithm?_cons_alg (st : Stmt) (rest : List ComputeStmt) :
     ComputeStmt.listToAlgorithm? (ComputeStmt.alg st :: rest) =
@@ -909,7 +1019,7 @@ inductive ComputeKernel where
 namespace ComputeKernel
 
 /-- Build a compute-facing kernel from an already-constructed algorithm body. -/
-def fromAlgBody (inputs outputs : List RegionName) (body : List Stmt) : ComputeKernel :=
+def fromKernelBody (inputs outputs : List RegionName) (body : List Stmt) : ComputeKernel :=
   ComputeKernel.mk inputs outputs (body.map ComputeStmt.alg)
 
 /-- Fallible projection from the compute-facing kernel surface to the algorithm
@@ -942,11 +1052,11 @@ def toAlgorithm? : ComputeKernel → Except EraseDTypeError AlgKernel
   rw [ComputeStmt.listToAlgorithm?_map_alg]
   rfl
 
-@[simp] theorem toAlgorithm?_fromAlgBody
+@[simp] theorem toAlgorithm?_fromKernelBody
     (inputs outputs : List RegionName) (body : List Stmt) :
-    (ComputeKernel.fromAlgBody inputs outputs body).toAlgorithm? =
+    (ComputeKernel.fromKernelBody inputs outputs body).toAlgorithm? =
       Except.ok (Kernel.mk inputs outputs body) := by
-  simp [ComputeKernel.fromAlgBody]
+  simp [ComputeKernel.fromKernelBody]
 
 /--
 Legacy coercion used by existing examples whose definitions are still annotated
@@ -980,11 +1090,11 @@ def toAlgKernel (ck : ComputeKernel) : AlgKernel :=
       Kernel.mk inputs outputs body := by
   simp [toAlgKernel]
 
-@[simp] theorem toAlgKernel_fromAlgBody
+@[simp] theorem toAlgKernel_fromKernelBody
     (inputs outputs : List RegionName) (body : List Stmt) :
-    (ComputeKernel.fromAlgBody inputs outputs body).toAlgKernel =
+    (ComputeKernel.fromKernelBody inputs outputs body).toAlgKernel =
       Kernel.mk inputs outputs body := by
-  simp [ComputeKernel.fromAlgBody]
+  simp [ComputeKernel.fromKernelBody]
 
 instance : Coe ComputeKernel AlgKernel where
   coe := toAlgKernel
@@ -1015,16 +1125,48 @@ abbrev body (ck : ComputeKernel) : List Stmt :=
     (ComputeKernel.mk inputs outputs (body.map ComputeStmt.alg)).body = body := by
   simp [ComputeKernel.body]
 
-@[simp] theorem body_fromAlgBody
+@[simp] theorem body_fromKernelBody
     (inputs outputs : List RegionName) (body : List Stmt) :
-    (ComputeKernel.fromAlgBody inputs outputs body).body = body := by
-  simp [ComputeKernel.fromAlgBody]
+    (ComputeKernel.fromKernelBody inputs outputs body).body = body := by
+  simp [ComputeKernel.fromKernelBody]
 
 @[simp] theorem toAlgKernel_body_mk_map_alg
     (inputs outputs : List RegionName) (body : List Stmt) :
     (ComputeKernel.mk inputs outputs (body.map ComputeStmt.alg)).toAlgKernel.body =
       body := by
   exact body_mk_map_alg inputs outputs body
+
+/-! ### n-ary pipeline concatenation (#447 Phase C.5)
+
+`seq` is `fromKernelBody`'s n-ary sibling: it concatenates the (projected)
+bodies of the stage kernels into one kernel, with explicitly given port
+lists. It is a purely *syntactic* combinator — concatenation lets register
+bindings flow across the stage seams, which no real multi-launch execution
+allows. The honest per-launch semantics (`execPipelineR`, registers reset
+between launches) and the bridge discharging the register-leakage gap live
+in `VeriTile.Triton.Float.Pipeline`. -/
+
+/-- Concatenate the stage bodies of `ks` into one kernel with the given
+input/output port lists. -/
+def seq (inputs outputs : List RegionName) (ks : List ComputeKernel) : ComputeKernel :=
+  fromKernelBody inputs outputs (ks.flatMap ComputeKernel.body)
+
+@[simp] theorem toAlgorithm?_seq
+    (inputs outputs : List RegionName) (ks : List ComputeKernel) :
+    (ComputeKernel.seq inputs outputs ks).toAlgorithm? =
+      Except.ok (Kernel.mk inputs outputs (ks.flatMap ComputeKernel.body)) := by
+  simp [ComputeKernel.seq]
+
+@[simp] theorem toAlgKernel_seq
+    (inputs outputs : List RegionName) (ks : List ComputeKernel) :
+    (ComputeKernel.seq inputs outputs ks).toAlgKernel =
+      Kernel.mk inputs outputs (ks.flatMap ComputeKernel.body) := by
+  simp [ComputeKernel.seq]
+
+@[simp] theorem body_seq
+    (inputs outputs : List RegionName) (ks : List ComputeKernel) :
+    (ComputeKernel.seq inputs outputs ks).body = ks.flatMap ComputeKernel.body := by
+  simp [ComputeKernel.seq]
 
 end ComputeKernel
 

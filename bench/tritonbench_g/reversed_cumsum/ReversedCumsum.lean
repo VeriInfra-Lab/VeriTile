@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `reversed_cumsum` — strict per-kernel correctness
@@ -248,7 +245,7 @@ theorem reversed_cumsum_store_slice_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun idx : TileIndex [BT, BS] => tileOffset s s_s_h s_s_t s_s_d BT BS idx)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := reversed_cumsum_store_slice BC Z s_s_h s_s_t s_s_d T S BT BS)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
@@ -468,7 +465,7 @@ theorem reversed_cumsum_single_block_surface_compute_correct
     (hOutInj : Function.Injective
       (fun idx : TileIndex [BT, BS] =>
         singleBlockTileOffset s s_s_h s_s_t s_s_d BS idx)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := reversed_cumsum_single_block_surface SReg Z s_s_h s_s_t
         s_s_d T S BT BS)
       (initialState := s)
@@ -498,7 +495,7 @@ theorem reversed_cumsum_single_block_surface_active_closed_form
       ∀ k : TileIndex [BT, BS], singleBlockActive s T S BS k →
         singleBlockTileOffset s s_s_h s_s_t s_s_d BS k =
           singleBlockTileOffset s s_s_h s_s_t s_s_d BS idx → k = idx) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := reversed_cumsum_single_block_surface SReg Z s_s_h s_s_t
         s_s_d T S BT BS)
       (initialState := s)
@@ -595,7 +592,7 @@ theorem reversed_cumsum_cumsum_slice_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun idx : TileIndex [BT, BS] => tileOffset s s_s_h s_s_t s_s_d BT BS idx)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := reversed_cumsum_cumsum_slice SReg Carry Z s_s_h s_s_t
         s_s_d T S BT BS)
       (initialState := s)
@@ -630,7 +627,7 @@ theorem reversed_cumsum_store_slice_active_compute_correct
       ∀ k : TileIndex [BT, BS], active s T S BT BS k →
         tileOffset s s_s_h s_s_t s_s_d BT BS k =
           tileOffset s s_s_h s_s_t s_s_d BT BS idx → k = idx) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := reversed_cumsum_store_slice BC Z s_s_h s_s_t s_s_d T S BT BS)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
@@ -681,7 +678,7 @@ theorem reversed_cumsum_cumsum_slice_active_compute_correct
       ∀ k : TileIndex [BT, BS], active s T S BT BS k →
         tileOffset s s_s_h s_s_t s_s_d BT BS k =
           tileOffset s s_s_h s_s_t s_s_d BT BS idx → k = idx) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := reversed_cumsum_cumsum_slice SReg Carry Z s_s_h s_s_t
         s_s_d T S BT BS)
       (initialState := s)
@@ -737,7 +734,7 @@ theorem reversed_cumsum_output_summary_general
           singleBlockTileOffset s s_s_h s_s_t s_s_d BS idx → k = idx) :
     (∃ alg, (reversed_cumsum_surface SReg Z s_s_h s_s_t s_s_d T S BT BS).toAlgorithm? =
       Except.ok alg) ∧
-    (ComputeCorrect.Realizes
+    (ComputeCorrect.Realizes_without_Rounding
       (kernel := reversed_cumsum_single_block_surface SReg Z s_s_h s_s_t s_s_d
         T S BT BS)
       (initialState := s)

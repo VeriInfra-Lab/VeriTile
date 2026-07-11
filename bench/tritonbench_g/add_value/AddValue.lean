@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 import VeriTile.Examples.Common
 
 /-!
@@ -102,7 +99,7 @@ theorem puzzle1_kernel_compute_correct
     (N BLOCK_SIZE : Nat) (value : ℝ) (hBlockSize : 0 < BLOCK_SIZE)
     (s : BlockState) (xs : Fin BLOCK_SIZE → ℝ)
     (h_x : InputLoadedAt s x_ptr BLOCK_SIZE xs) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE value)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
@@ -130,7 +127,7 @@ theorem puzzle1_kernel_output_summary
     (h_x : InputLoadedAt s x_ptr BLOCK_SIZE xs) :
     (∃ alg, (puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE value).toAlgorithm? =
         Except.ok alg) ∧
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE value)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf

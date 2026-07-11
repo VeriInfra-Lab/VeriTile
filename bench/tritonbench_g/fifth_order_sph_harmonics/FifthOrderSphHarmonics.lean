@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `fifth_order_sph_harmonics` — strict per-kernel correctness
@@ -475,7 +472,7 @@ theorem fifth_order_fwd_y00_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_y00 coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride)
       (initialState := s)
@@ -550,7 +547,7 @@ theorem fifth_order_fwd_channel_store_slice_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_channel_store_slice YkPre output_ptr
         block_size output_numel col_offset output_stride)
       (initialState := s)
@@ -840,7 +837,7 @@ theorem fifth_order_fwd_surface_y00_compute_correct
     (hStride : 10 < output_stride)
     (hOutInj : Function.Injective
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride)
       (initialState := s)
@@ -1018,7 +1015,7 @@ theorem fifth_order_fwd_surface_y01_compute_correct
     (hStride : 10 < output_stride)
     (hOutInj : Function.Injective
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride)
       (initialState := s)
@@ -1206,7 +1203,7 @@ theorem fifth_order_fwd_surface_y02_compute_correct
     (hStride : 10 < output_stride)
     (hOutInj : Function.Injective
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride)
       (initialState := s)
@@ -1564,7 +1561,7 @@ theorem fifth_order_fwd_surface_y03_compute_correct
     (hStride : 10 < output_stride)
     (hOutInj : Function.Injective
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride)
       (initialState := s)
@@ -1723,7 +1720,7 @@ theorem fifth_order_fwd_surface_y04_compute_correct
     (hStride : 10 < output_stride)
     (hOutInj : Function.Injective
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride)
       (initialState := s)
@@ -1882,7 +1879,7 @@ theorem fifth_order_fwd_surface_y05_compute_correct
     (hStride : 10 < output_stride)
     (hOutInj : Function.Injective
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride)
       (initialState := s)
@@ -2041,7 +2038,7 @@ theorem fifth_order_fwd_surface_y06_compute_correct
     (hStride : 10 < output_stride)
     (hOutInj : Function.Injective
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride)
       (initialState := s)
@@ -2200,7 +2197,7 @@ theorem fifth_order_fwd_surface_y07_compute_correct
     (hStride : 10 < output_stride)
     (hOutInj : Function.Injective
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride)
       (initialState := s)
@@ -2359,7 +2356,7 @@ theorem fifth_order_fwd_surface_y08_compute_correct
     (hStride : 10 < output_stride)
     (hOutInj : Function.Injective
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride)
       (initialState := s)
@@ -2518,7 +2515,7 @@ theorem fifth_order_fwd_surface_y09_compute_correct
     (hStride : 10 < output_stride)
     (hOutInj : Function.Injective
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride)
       (initialState := s)
@@ -2677,7 +2674,7 @@ theorem fifth_order_fwd_surface_y10_compute_correct
     (hStride : 10 < output_stride)
     (hOutInj : Function.Injective
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride)
       (initialState := s)
@@ -2712,7 +2709,7 @@ theorem fifth_order_fwd_surface_y00_output_summary
       (fun i : Fin block_size => outOffset s block_size col_offset output_stride i)) :
     (∃ alg, (fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride).toAlgorithm? = Except.ok alg) ∧
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
         output_numel col_offset output_stride)
       (initialState := s)

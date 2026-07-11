@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `kldiv_ops` — strict per-kernel correctness
@@ -311,7 +308,7 @@ theorem kldiv_backward_default_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun i : Fin BLOCK_SIZE => linearOffset s new_grads_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := kldiv_backward_default target_ptr new_grads_ptr
         target_stride new_grads_stride n_cols BLOCK_SIZE)
       (initialState := s)
@@ -335,7 +332,7 @@ theorem kldiv_backward_log_target_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun i : Fin BLOCK_SIZE => linearOffset s new_grads_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := kldiv_backward_log_target target_ptr new_grads_ptr
         target_stride new_grads_stride n_cols BLOCK_SIZE)
       (initialState := s)
@@ -424,7 +421,7 @@ theorem kldiv_forward_default_none_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun i : Fin BLOCK_SIZE => linearOffset s loss_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := kldiv_forward_default_none y_ptr gt_ptr loss_ptr
         y_stride gt_stride loss_stride n_cols BLOCK_SIZE eps)
       (initialState := s)
@@ -484,7 +481,7 @@ theorem kldiv_forward_log_target_none_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun i : Fin BLOCK_SIZE => linearOffset s loss_stride i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := kldiv_forward_log_target_none y_ptr gt_ptr loss_ptr
         y_stride gt_stride loss_stride n_cols BLOCK_SIZE)
       (initialState := s)

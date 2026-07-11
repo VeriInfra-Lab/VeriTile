@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `fast_rope_embedding` — strict per-kernel correctness
@@ -58,7 +55,7 @@ The concrete Python test shape is one instantiation. -/
 
 /-! # ══════════ CORRECT — genuine / dimension-general (review this) ══════════ -/
 
-section Correct
+section Correct_without_Rounding
 
 /-- Faithful transcription of `fast_rope_embedding.py`'s `_rope_embedding`.
 
@@ -236,7 +233,7 @@ theorem rope_embedding_q_first_half_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun i : Fin BLOCK_SIZE => qFirstOffset s Q_row_stride head_dim i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := rope_embedding_q_first_half Q cos sin Q_row_stride
         cos_row_stride sin_row_stride seqlen head_dim n_heads BLOCK_SIZE)
       (initialState := s)
@@ -350,7 +347,7 @@ theorem rope_embedding_q_second_half_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun i : Fin BLOCK_SIZE => qSecondOffset s Q_row_stride head_dim i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := rope_embedding_q_second_half Q cos sin Q_row_stride
         cos_row_stride sin_row_stride seqlen head_dim n_heads BLOCK_SIZE)
       (initialState := s)
@@ -405,7 +402,7 @@ theorem rope_embedding_output_summary_general
     (∃ alg, (rope_embedding_surface Q cos sin Q_row_stride cos_row_stride
       sin_row_stride seqlen head_dim n_heads BLOCK_SIZE
       Bool.false).toAlgorithm? = Except.ok alg) ∧
-    (ComputeCorrect.Realizes
+    (ComputeCorrect.Realizes_without_Rounding
       (kernel := rope_embedding_q_first_half Q cos sin Q_row_stride
         cos_row_stride sin_row_stride seqlen head_dim n_heads BLOCK_SIZE)
       (initialState := sQ)
@@ -415,7 +412,7 @@ theorem rope_embedding_output_summary_general
       (expected := fun i =>
         ropeFirstSpec sQ Q cos sin Q_row_stride cos_row_stride sin_row_stride
           seqlen head_dim BLOCK_SIZE i)) ∧
-    (ComputeCorrect.Realizes
+    (ComputeCorrect.Realizes_without_Rounding
       (kernel := rope_embedding_q_second_half Q cos sin Q_row_stride
         cos_row_stride sin_row_stride seqlen head_dim n_heads BLOCK_SIZE)
       (initialState := sQ)
@@ -428,7 +425,7 @@ theorem rope_embedding_output_summary_general
     (∃ alg, (rope_embedding_surface K cos sin Q_row_stride cos_row_stride
       sin_row_stride seqlen head_dim n_heads BLOCK_SIZE
       Bool.false).toAlgorithm? = Except.ok alg) ∧
-    (ComputeCorrect.Realizes
+    (ComputeCorrect.Realizes_without_Rounding
       (kernel := rope_embedding_q_first_half K cos sin Q_row_stride
         cos_row_stride sin_row_stride seqlen head_dim n_heads BLOCK_SIZE)
       (initialState := sK)
@@ -438,7 +435,7 @@ theorem rope_embedding_output_summary_general
       (expected := fun i =>
         ropeFirstSpec sK K cos sin Q_row_stride cos_row_stride sin_row_stride
           seqlen head_dim BLOCK_SIZE i)) ∧
-    (ComputeCorrect.Realizes
+    (ComputeCorrect.Realizes_without_Rounding
       (kernel := rope_embedding_q_second_half K cos sin Q_row_stride
         cos_row_stride sin_row_stride seqlen head_dim n_heads BLOCK_SIZE)
       (initialState := sK)
@@ -480,12 +477,6 @@ theorem rope_embedding_output_summary_general
       Q_row_stride cos_row_stride sin_row_stride seqlen head_dim n_heads
       BLOCK_SIZE Bool.true
 
-end Correct
-
-/-! # ══════════ TEST-SHAPE — concrete instances / pinned scaffolding ══════════ -/
-
-section TestShape
-
-end TestShape
+end Correct_without_Rounding
 
 end VeriTile.Bench.TritonBenchG.FastRopeEmbedding

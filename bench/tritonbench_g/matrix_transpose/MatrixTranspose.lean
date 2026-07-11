@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `matrix_transpose` — strict per-kernel correctness
@@ -116,7 +113,7 @@ theorem kernel_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun idx : TileIndex [D_HEAD, SIZE_M] => outAddr out_stridex out_stridey idx)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := kernel M Out matrix_stridex matrix_stridey out_stridex out_stridey
         SIZE_M D_HEAD)
       (initialState := s)
@@ -144,7 +141,7 @@ theorem kernel_output_summary
       (fun idx : TileIndex [D_HEAD, SIZE_M] => outAddr out_stridex out_stridey idx)) :
     (∃ alg, (kernel M Out matrix_stridex matrix_stridey out_stridex out_stridey
         SIZE_M D_HEAD).toAlgorithm? = Except.ok alg) ∧
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := kernel M Out matrix_stridex matrix_stridey out_stridex out_stridey
         SIZE_M D_HEAD)
       (initialState := s)

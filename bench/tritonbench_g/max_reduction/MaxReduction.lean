@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `max_reduction` — strict per-kernel correctness
@@ -209,7 +206,7 @@ theorem max_kernel_1_correct
 theorem max_kernel_1_compute_correct
     (inp mid : RegionName)
     (M BLOCK_SIZE : Nat) (s : BlockState) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := max_kernel_1 inp mid M BLOCK_SIZE)
       (initialState := s)
       (write := fun _ : PUnit => some (mid, s.pid))
@@ -243,7 +240,7 @@ theorem max_kernel_2_correct
 theorem max_kernel_2_compute_correct
     (mid out : RegionName)
     (mid_size BLOCK_MID : Nat) (s : BlockState) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := max_kernel_2 mid out mid_size BLOCK_MID)
       (initialState := s)
       (write := fun _ : PUnit => some (out, 0))

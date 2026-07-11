@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `rowwise_quantization_triton` — strict per-kernel correctness
@@ -169,7 +166,7 @@ theorem quantize_rowwise_scaled_store_slice_compute_correct
     (x_ptr output_ptr MaxVals : RegionName)
     (n_elements BLOCK_SIZE P2 : Nat) (scale127 : ℝ)
     (s : BlockState) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := quantize_rowwise_scaled_store_slice x_ptr output_ptr MaxVals
         n_elements BLOCK_SIZE P2 scale127)
       (initialState := s)
@@ -192,7 +189,7 @@ theorem quantize_rowwise_scaled_store_slice_compute_correct
 /-- Compute-facing correctness for the per-row max writeback slice. -/
 theorem quantize_rowwise_max_store_slice_compute_correct
     (MaxVals output_maxs : RegionName) (s : BlockState) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := quantize_rowwise_max_store_slice MaxVals output_maxs)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.scalar output_maxs (maxOffset s))
@@ -223,7 +220,7 @@ theorem quantize_rowwise_blocked_output_summary_general
     (∃ err,
       (quantize_rowwise_real_surface x_ptr output_ptr output_maxs
         _n_elements BLOCK_SIZE P2).toAlgorithm? = Except.error err) ∧
-    ((ComputeCorrect.Realizes
+    ((ComputeCorrect.Realizes_without_Rounding
       (kernel := quantize_rowwise_scaled_store_slice x_ptr output_ptr MaxVals
         _n_elements BLOCK_SIZE P2 scale127)
       (initialState := s)
@@ -232,7 +229,7 @@ theorem quantize_rowwise_blocked_output_summary_general
           (fun i => (output_ptr, offset s BLOCK_SIZE i)))
       (expected := fun i =>
         quantizeRowwiseScaledSpec s x_ptr MaxVals BLOCK_SIZE scale127 i)) ∧
-    (ComputeCorrect.Realizes
+    (ComputeCorrect.Realizes_without_Rounding
       (kernel := quantize_rowwise_max_store_slice MaxVals output_maxs)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.scalar output_maxs (maxOffset s))

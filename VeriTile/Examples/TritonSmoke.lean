@@ -5,7 +5,6 @@ Small smoke tests for the typed Triton core.
 -/
 
 import VeriTile.Triton.Core
-import VeriTile.Triton.Compute
 import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
 import VeriTile.Triton.Memory
@@ -238,14 +237,16 @@ def debugBarrierSurfaceSmoke : ComputeKernel := triton {
   tl.debug_barrier()
 }
 
+/-- `tl.debug_barrier` is an intra-program fence: a semantic no-op under the
+sequential per-program semantics, so (unlike the async effects above) it
+**erases** at the algorithm layer instead of demanding an effect projection. -/
 example :
     debugBarrierSurfaceSmoke.toAlgorithm? =
-      Except.error (.requiresEffectProjection "tl.debug_barrier") := by
+      Except.ok
+        { inputs := []
+        , outputs := []
+        , body := [ Stmt.ifThen (Op.constBool Bool.false) [] ] } := by
   rfl
-
-example (post : ComputeKernel.AlgSpec) :
-    ¬ ComputeCorrect.General debugBarrierSurfaceSmoke post :=
-  ComputeKernel.not_computeCorrect_of_toAlgorithm_error rfl
 
 /-- Vector-add kernel with explicit boundary mask. -/
 def addKernelMaskedSmoke (xReg yReg outReg : RegionName)
@@ -617,7 +618,7 @@ example :
   ComputeOp.minusOneBitcast_toAlgorithm
 
 /-- Runtime bitcast is expressible in the compute AST, but cannot be projected
-to AlgorithmCorrect until a compute-level numeric semantics handles it. -/
+to AlgorithmCorrect_without_Rounding until a compute-level numeric semantics handles it. -/
 def bitcastRuntimeSmoke (bitsReg outReg : RegionName) : ComputeKernel := triton {
   bits := tl.load($(bitsReg), dtype=tl.uint32)
   y := tl.bitcast(bits, tl.float32)
@@ -850,21 +851,21 @@ def argmax2IndexStoreCoreKernel (xReg outReg : RegionName) : ComputeKernel :=
           (Op.constNat 1)
           (Op.constNat 0))
         MaskOpt.none]
-  ComputeKernel.fromAlgBody [xReg] [outReg] body
+  ComputeKernel.fromKernelBody [xReg] [outReg] body
 
 def natLoadStoreCoreKernel (idxReg outReg : RegionName) : ComputeKernel :=
   let body : List Stmt :=
       [Stmt.store .nat [] (MemAccess.region outReg (Op.constNat 0))
         (Op.load .nat (MemAccess.region idxReg (Op.constNat 0)) MaskOpt.none)
         MaskOpt.none]
-  ComputeKernel.fromAlgBody [idxReg] [outReg] body
+  ComputeKernel.fromKernelBody [idxReg] [outReg] body
 
 def intLoadStoreCoreKernel (idxReg outReg : RegionName) : ComputeKernel :=
   let body : List Stmt :=
       [Stmt.store .int [] (MemAccess.region outReg (Op.constNat 0))
         (Op.load .int (MemAccess.region idxReg (Op.constNat 0)) MaskOpt.none)
         MaskOpt.none]
-  ComputeKernel.fromAlgBody [idxReg] [outReg] body
+  ComputeKernel.fromKernelBody [idxReg] [outReg] body
 
 def indirectLoadCoreKernel (idxReg dataReg outReg : RegionName)
     (N stride : Nat) : ComputeKernel :=
@@ -879,7 +880,7 @@ def indirectLoadCoreKernel (idxReg dataReg outReg : RegionName)
                 (Op.constNat stride))))
           MaskOpt.none)
         MaskOpt.none]
-  ComputeKernel.fromAlgBody [idxReg, dataReg] [outReg] body
+  ComputeKernel.fromKernelBody [idxReg, dataReg] [outReg] body
 
 def indirectLoadView (idxReg dataReg : RegionName)
     (N stride : Nat) : IndirectView [N] [] :=
@@ -1025,14 +1026,14 @@ def registerConflictKernel : ComputeKernel :=
   let body : List Stmt :=
     [ Stmt.assign .nat [] "x" (Op.constNat 0)
     , Stmt.assign .real [] "x" (Op.const 0) ]
-  ComputeKernel.fromAlgBody [] [] body
+  ComputeKernel.fromKernelBody [] [] body
 
 def pointerWhereConflictKernel : ComputeKernel :=
   let body : List Stmt :=
     [ Stmt.assign .ptr [] "p"
         (Op.where (Op.constBool Bool.true)
           (Op.ptrBase (d := .real) "x") (Op.ptrBase (d := .real) "y")) ]
-  ComputeKernel.fromAlgBody [] [] body
+  ComputeKernel.fromKernelBody [] [] body
 
 def checkerValidPointerStoreKernel (xReg outReg : RegionName) : ComputeKernel :=
   let body : List Stmt :=
@@ -1045,20 +1046,20 @@ def checkerValidPointerStoreKernel (xReg outReg : RegionName) : ComputeKernel :=
         (MemAccess.ptr (Op.ref .ptr [4] "outPtrs"))
         (Op.ref .real [4] "x")
         MaskOpt.none ]
-  ComputeKernel.fromAlgBody [xReg] [outReg] body
+  ComputeKernel.fromKernelBody [xReg] [outReg] body
 
 def unboundPointerRefKernel : ComputeKernel :=
   let body : List Stmt :=
     [ Stmt.assign .real [] "x"
         (Op.load .real (MemAccess.ptr (Op.ref .ptr [] "p")) MaskOpt.none) ]
-  ComputeKernel.fromAlgBody ["x"] [] body
+  ComputeKernel.fromKernelBody ["x"] [] body
 
 def nonPointerRefAsPointerKernel : ComputeKernel :=
   let body : List Stmt :=
     [ Stmt.assign .real [] "p" (Op.const 0)
     , Stmt.assign .real [] "x"
         (Op.load .real (MemAccess.ptr (Op.ref .ptr [] "p")) MaskOpt.none) ]
-  ComputeKernel.fromAlgBody ["x"] [] body
+  ComputeKernel.fromKernelBody ["x"] [] body
 
 def blockPointerRefKernel (xReg : RegionName) : ComputeKernel :=
   let body : List Stmt :=
@@ -1070,13 +1071,35 @@ def blockPointerRefKernel (xReg : RegionName) : ComputeKernel :=
         (MemAccess.blockPtr (Op.ref .blockPtr [1] "bp2") [0])
         (Op.full [1] (Op.const 1))
         MaskOpt.none ]
-  ComputeKernel.fromAlgBody [xReg] [] body
+  ComputeKernel.fromKernelBody [xReg] [] body
 
 def blockPointerMetadataMismatchKernel (xReg : RegionName) : ComputeKernel :=
   let body : List Stmt :=
     [ Stmt.assign .blockPtr [1] "bp"
         (Op.makeBlockPtr xReg 0 [8] [1] [] [0]) ]
-  ComputeKernel.fromAlgBody [xReg] [] body
+  ComputeKernel.fromKernelBody [xReg] [] body
+
+def blockPointerShortBlockShapeKernel (xReg : RegionName) : ComputeKernel :=
+  let body : List Stmt :=
+    [ Stmt.assign .blockPtr [1] "bp"
+        (Op.makeBlockPtr xReg 0 [8, 8] [1] [8, 1] [0, 0]) ]
+  ComputeKernel.fromKernelBody [xReg] [] body
+
+def blockPointerAdvanceUnderflowKernel (xReg : RegionName) : ComputeKernel :=
+  let body : List Stmt :=
+    [ Stmt.assign .blockPtr [1] "bp"
+        (Op.advanceBlockPtr
+          (Op.makeBlockPtr xReg 0 [8] [1] [1] [0])
+          [-1]) ]
+  ComputeKernel.fromKernelBody [xReg] [] body
+
+def blockPointerRefAdvanceUnderflowKernel (xReg : RegionName) : ComputeKernel :=
+  let body : List Stmt :=
+    [ Stmt.assign .blockPtr [1] "bp"
+        (Op.makeBlockPtr xReg 0 [8] [1] [1] [0])
+    , Stmt.assign .blockPtr [1] "bp2"
+        (Op.advanceBlockPtr (Op.ref .blockPtr [1] "bp") [-1]) ]
+  ComputeKernel.fromKernelBody [xReg] [] body
 
 def blockPointerBoundaryMismatchKernel (xReg : RegionName) : ComputeKernel :=
   let body : List Stmt :=
@@ -1086,7 +1109,7 @@ def blockPointerBoundaryMismatchKernel (xReg : RegionName) : ComputeKernel :=
         (MemAccess.blockPtr (Op.ref .blockPtr [1] "bp") [1])
         (Op.full [1] (Op.const 1))
         MaskOpt.none ]
-  ComputeKernel.fromAlgBody [xReg] [] body
+  ComputeKernel.fromKernelBody [xReg] [] body
 
 example :
     Kernel.checkStrict (checkerEnv [("x", .real), ("out", .real)])
@@ -1150,9 +1173,117 @@ example :
 
 example :
     Kernel.checkStrict (checkerEnv [("x", .real)])
+      (blockPointerShortBlockShapeKernel "x") =
+      .error (.blockPointerMetadataMismatch 2 2 2 1) := by
+  native_decide
+
+example :
+    Kernel.checkStrict (checkerEnv [("x", .real)])
+      (blockPointerAdvanceUnderflowKernel "x") =
+      .error (.blockPointerAdvanceUnderflow 0 0 (-1)) := by
+  native_decide
+
+example :
+    Kernel.checkStrict (checkerEnv [("x", .real)])
+      (blockPointerRefAdvanceUnderflowKernel "x") =
+      .error (.blockPointerAdvanceUnderflow 0 0 (-1)) := by
+  native_decide
+
+example :
+    Kernel.checkStrict (checkerEnv [("x", .real)])
       (blockPointerBoundaryMismatchKernel "x") =
       .error (.boundaryAxisOutOfRange 1 1) := by
   native_decide
+
+example :
+    BlockPtr.WellFormed
+      { region := "x", baseOffset := 0, parentShape := [8, 8],
+        blockShape := [1, 1], strides := [8, 1], offsets := [0, 0] } := by
+  rfl
+
+example :
+    BlockPtr.CheckedAxesValid
+      { region := "x", baseOffset := 0, parentShape := [8, 8],
+        blockShape := [1, 1], strides := [8, 1], offsets := [1, 0] }
+      [0, 1] := by
+  rfl
+
+example :
+    BlockPtr.AdvanceNonnegative
+      { region := "x", baseOffset := 0, parentShape := [8, 8],
+        blockShape := [1, 1], strides := [8, 1], offsets := [1, 0] }
+      [-1, 0] := by
+  rfl
+
+example :
+    BlockPtr.MetadataWellFormed [8, 8] [1, 1] [8, 1] [0, 0] :=
+  checkBlockPtrMetadata_ok (by rfl)
+
+example (i : Nat) (hmem : i ∈ [0, 1]) : i < 2 :=
+  checkBoundaryAxes_ok (by rfl) i hmem
+
+example :
+    BlockPtr.StaticAdvanceNonnegative [1, 0] [-1, 0] :=
+  checkStaticAdvanceNonnegative_ok (by rfl)
+
+example :
+    BlockPtr.MetadataWellFormed [8, 8] [1, 1] [8, 1] [0, 0] ∧
+      (BlockPtrSummary.mk "x" (some 2) (some [0, 0])).region = "x" ∧
+      (BlockPtrSummary.mk "x" (some 2) (some [0, 0])).parentRank = some 2 ∧
+      (BlockPtrSummary.mk "x" (some 2) (some [0, 0])).offsets = some [0, 0] :=
+  BlockPtrSummary.ofStaticChecked_ok
+    (summary := BlockPtrSummary.mk "x" (some 2) (some [0, 0]))
+    (region := "x")
+    (parentShape := [8, 8])
+    (blockShape := [1, 1])
+    (strides := [8, 1])
+    (offsets := [0, 0])
+    (by rfl)
+
+example :
+    [8, 8].length = [8, 1].length ∧
+      [8, 8].length = (2 : Nat) ∧
+      [8, 8].length = [1, 1].length ∧
+      (BlockPtrSummary.mk "x" (some 2) none).region = "x" ∧
+      (BlockPtrSummary.mk "x" (some 2) none).parentRank = some 2 ∧
+      (BlockPtrSummary.mk "x" (some 2) none).offsets = none :=
+  BlockPtrSummary.ofDynamicOffsetsChecked_ok
+    (summary := BlockPtrSummary.mk "x" (some 2) none)
+    (region := "x")
+    (parentShape := [8, 8])
+    (blockShape := [1, 1])
+    (strides := [8, 1])
+    (offsetRank := 2)
+    (by rfl)
+
+example :
+    BlockPtr.StaticAdvanceNonnegative [1, 0] [-1, 0] ∧
+      (BlockPtrSummary.mk "x" (some 2)
+        (some (BlockPtr.advanceOffsets [1, 0] [-1, 0]))).region = "x" ∧
+      (BlockPtrSummary.mk "x" (some 2)
+        (some (BlockPtr.advanceOffsets [1, 0] [-1, 0]))).parentRank = some 2 ∧
+      (BlockPtrSummary.mk "x" (some 2)
+        (some (BlockPtr.advanceOffsets [1, 0] [-1, 0]))).offsets =
+          some (BlockPtr.advanceOffsets [1, 0] [-1, 0]) :=
+  BlockPtrSummary.checkedAdvance_ok
+    (summary := BlockPtrSummary.mk "x" (some 2) (some [1, 0]))
+    (deltas := [-1, 0])
+    (summary' := BlockPtrSummary.mk "x" (some 2)
+      (some (BlockPtr.advanceOffsets [1, 0] [-1, 0])))
+    (by rfl)
+
+example (i : Nat) (hmem : i ∈ [0, 1]) : i < 2 :=
+  BlockPtrSummary.checkBoundary_ok
+    (summary := BlockPtrSummary.mk "x" (some 2) (some [0, 0]))
+    (axes := [0, 1])
+    (by rfl) i hmem
+
+example :
+    BlockPtrSummary.merge
+        (BlockPtrSummary.mk "x" (some 2) (some [0, 0]))
+        (BlockPtrSummary.mk "x" (some 2) (some [1, 0])) =
+      Except.ok (BlockPtrSummary.mk "x" (some 2) none) := by
+  rfl
 
 example : (MemCell.of .nat 7).readAs .nat = some 7 := by
   rfl
@@ -1806,5 +1937,47 @@ def reverseRangeKernel (outReg : Region .nat) (N : Nat) : ComputeKernel := trito
 }
 
 #check reverseRangeKernel
+
+/-! ### libdevice.pow: general elementwise power (`Op.pow` / `Real.rpow`) -/
+
+/-- Scalar-base × tensor-exponent `tl.extra.cuda.libdevice.pow` (the RoPE
+`pow(theta, freqs)` shape): the scalar binder base broadcasts against the
+loaded tile exponent through the general `Op.pow` node. -/
+def powScalarTensorSmoke (xReg outReg : RegionName) (theta : ℝ) (N : Nat) :
+    ComputeKernel := triton {
+  offs := tl.arange(0, $(N))
+  t := tl.load($(xReg) + offs)
+  freqs := tl.extra.cuda.libdevice.pow($((theta : ℝ)), t)
+  tl.store($(outReg) + offs, freqs)
+}
+
+#check powScalarTensorSmoke
+
+/-- The literal-2 exponent keeps its historical `x * x` (`Op.mul`) lowering. -/
+def powSquareSmoke (xReg outReg : RegionName) : ComputeKernel := triton {
+  x := tl.load($(xReg))
+  y := tl.extra.cuda.libdevice.pow(x, 2)
+  tl.store($(outReg), y)
+}
+
+#check powSquareSmoke
+
+/-- `evalOp` unfolds `Op.pow` to `Real.rpow` on finite lanes. -/
+example (a b : ℝ) (s : BlockState) :
+    evalOp (Op.pow Broadcast.nil (Op.const a) (Op.const b)) s =
+      some (Tile.scalar ((Real.rpow a b : ℝ) : WithBot ℝ)) := by
+  simp
+  ext i
+  simp [Tile.bop_data]
+  rfl
+
+/-- Scalar-base broadcast: every lane of `pow(theta, full(t))` is
+`Real.rpow theta t`. -/
+example (theta t : ℝ) (N : Nat) (s : BlockState) (i : TileIndex [N]) :
+    (evalOp (Op.pow Broadcast.scalarL (Op.const theta)
+        (Op.full [N] (Op.const t))) s).map (fun v => v.data i) =
+      some (((Real.rpow theta t : ℝ) : WithBot ℝ)) := by
+  simp [Tile.bop_data]
+  rfl
 
 end VeriTile.Examples.TritonSmoke

@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `softmax_flaggems` — strict per-kernel correctness
@@ -58,6 +55,16 @@ Offset injectivity is an explicit hypothesis (`nonInnerOffset_injective` require
 `pid_k·TILE_K + TILE_K ≤ K`; the inner backward takes injectivity as a
 hypothesis, which holds when `TILE_N ≤ N`). The specs reference
 `Tile.reduceMax` / `Tile.reduceSum` directly, not `VeriTile.Triton.Math.*`.
+
+## Translation-surface blocker
+
+Translation-surface blocker: value correctness targets the
+`ONE_TILE_PER_CTA = true` single-tile specializations, so the multi-tile
+fallback branches — the `input_ptr += pid_m * N` / `output_ptr += pid_m * N`
+pointer advances and online `m`/`z` (forward) and `scale`/offset (backward)
+`+=` recurrences — are not transcribed into the verified surfaces. The
+textual py↔lean scans in `bench/audit_tritonbench_g.sh` exempt this port on
+this marker (registered in `proof_blockers.md`).
 -/
 
 namespace VeriTile.Bench.TritonBenchG.SoftmaxFlaggems
@@ -282,7 +289,7 @@ theorem softmax_kernel_inner_one_tile_compute_correct
     (output_ptr input_ptr : RegionName)
     (N TILE_N : Nat)
     (s : BlockState) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := softmax_kernel_inner_one_tile output_ptr input_ptr N TILE_N)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
@@ -304,7 +311,7 @@ theorem softmax_kernel_inner_one_tile_compute_correct
 This block provides offset/value defs and a substantive `_writes_at_idx`
 lemma showing that, for in-range lanes, the kernel writes exactly the
 softmax-of-column value at every `(n, k)` lane. The full
-`ComputeCorrect.Realizes` lift to a math-level spec for the 2D non-inner
+`ComputeCorrect.Realizes_without_Rounding` lift to a math-level spec for the 2D non-inner
 softmax is left as future work — the underlying difficulty is the per-column
 streaming reduction along axis 0 with a precomputed-tile dependence. -/
 
@@ -443,7 +450,7 @@ theorem softmax_kernel_non_inner_one_tile_compute_correct
     (N K TILE_N TILE_K : Nat)
     (s : BlockState)
     (hRange : s.pids 1 * TILE_K + TILE_K ≤ K) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := softmax_kernel_non_inner_one_tile_surface
         output_ptr input_ptr N K TILE_N TILE_K)
       (initialState := s)
@@ -598,7 +605,7 @@ theorem softmax_backward_kernel_inner_one_tile_compute_correct
     (s : BlockState)
     (hOffInj : Function.Injective
       (fun idx : TileIndex [TILE_M, TILE_N] => innerBwdOffset s N TILE_M idx)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := softmax_backward_kernel_inner_one_tile_surface
         out_ptr out_grad_ptr in_grad_ptr M N TILE_M TILE_N)
       (initialState := s)
@@ -714,7 +721,7 @@ theorem softmax_backward_kernel_non_inner_one_tile_compute_correct
     (N K TILE_N TILE_K : Nat)
     (s : BlockState)
     (hRange : s.pids 1 * TILE_K + TILE_K ≤ K) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := softmax_backward_kernel_non_inner_one_tile_surface
         out_ptr out_grad_ptr in_grad_ptr N K TILE_N TILE_K)
       (initialState := s)

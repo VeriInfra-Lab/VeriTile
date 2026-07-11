@@ -1,8 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
-import VeriTile.Triton.Kernel
+import VeriTile.Triton
 
 /-!
 # `chunk_cumsum_kernel` — strict per-kernel correctness
@@ -78,7 +74,7 @@ one instantiation. -/
 
 /-! # ══════════ CORRECT — genuine / dimension-general (review this) ══════════ -/
 
-section Correct
+section Correct_without_Rounding
 
 /-! ## Within-chunk cumsum identity (`tl.cumsum` = prefix `Finset.sum`)
 
@@ -251,7 +247,7 @@ theorem chunk_cumsum_scalar_store_slice_correct
 theorem chunk_cumsum_scalar_store_slice_compute_correct
     (BO O : RegionName) (T BT : Nat) (s : BlockState)
     (hOutInj : Function.Injective (fun i : Fin BT => vecOffset s T BT i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_cumsum_scalar_store_slice BO O T BT)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
@@ -447,7 +443,7 @@ theorem chunk_cumsum_scalar_cumsum_slice_correct
 theorem chunk_cumsum_scalar_cumsum_slice_compute_correct
     (S Carry O : RegionName) (T BT : Nat) (s : BlockState)
     (hOutInj : Function.Injective (fun i : Fin BT => vecOffset s T BT i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_cumsum_scalar_cumsum_slice S Carry O T BT)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
@@ -601,7 +597,7 @@ theorem chunk_cumsum_scalar_single_block_surface_correct
 theorem chunk_cumsum_scalar_single_block_surface_compute_correct
     (S O : RegionName) (T BT : Nat) (s : BlockState)
     (hOutInj : Function.Injective (fun i : Fin BT => singleBlockVecOffset s T i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_cumsum_scalar_single_block_surface S O T BT)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
@@ -627,7 +623,7 @@ read-back of the kernel's own output appears in `expected`. -/
 theorem chunk_cumsum_scalar_single_block_surface_closed_form
     (S O : RegionName) (T BT : Nat) (s : BlockState)
     (hOutInj : Function.Injective (fun i : Fin BT => singleBlockVecOffset s T i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_cumsum_scalar_single_block_surface S O T BT)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
@@ -649,7 +645,7 @@ theorem chunk_cumsum_scalar_cumsum_slice_closed_form
     (hcarry : s.readMem Carry (s.pids 0)
       = ∑ flat ∈ (Finset.range T).filter (fun flat => flat < s.pids 1 * BT),
           s.readMem S (s.pids 0 * T + flat)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_cumsum_scalar_cumsum_slice S Carry O T BT)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
@@ -1347,9 +1343,9 @@ theorem chunk_cumsum_scalar_output_summary_general
     -- (2) the surface runs to completion (existence / termination)
     (∃ sfinal,
       exec (chunk_cumsum_scalar_surface S O T BT).toAlgKernel s = some sfinal) ∧
-    -- (3) standard Realizes: every in-range O lane holds the genuine global
+    -- (3) standard Realizes_without_Rounding: every in-range O lane holds the genuine global
     --     prefix sum `Σ_{m ≤ flat, m < T} S[i_bh·T + m]`, read purely over input
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_cumsum_scalar_surface S O T BT)
       (initialState := s)
       (write := fun i : Fin T => some (O, s.pids 0 * T + i.val))
@@ -1364,7 +1360,7 @@ theorem chunk_cumsum_scalar_output_summary_general
   have hk : (chunk_cumsum_scalar_surface S O T BT).toAlgorithm?
       = Except.ok (chunk_cumsum_scalar_surface S O T BT).toAlgKernel := by
     simp only [ComputeKernel.toAlgKernel, halg]
-  unfold ComputeCorrect.Realizes
+  unfold ComputeCorrect.Realizes_without_Rounding
   apply ComputeKernel.computeCorrect_of_toAlgKernel hk
   intro s0 s' hExec hs0
   subst s0
@@ -1373,12 +1369,6 @@ theorem chunk_cumsum_scalar_output_summary_general
   obtain rfl := Option.some.inj hexec
   exact hcum i.val i.isLt
 
-end Correct
-
-/-! # ══════════ TEST-SHAPE — concrete instances / pinned scaffolding ══════════ -/
-
-section TestShape
-
-end TestShape
+end Correct_without_Rounding
 
 end VeriTile.Bench.TritonBenchG.ChunkCumsumKernel

@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `rms_norm_triton` — strict per-kernel correctness
@@ -171,7 +168,7 @@ theorem rms_norm_kernel_compute_correct
     (eps : ℝ) (s : BlockState)
     (hOutInj : Function.Injective
       (fun i : Fin BLOCK_SIZE => rmsOutOffset s y_stride_r y_stride_c i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := rms_norm_kernel Y X W y_stride_r y_stride_c x_stride_r x_stride_c
         N eps BLOCK_SIZE)
       (initialState := s)
@@ -200,7 +197,7 @@ theorem rms_norm_kernel_output_summary
       (fun i : Fin BLOCK_SIZE => rmsOutOffset s y_stride_r y_stride_c i)) :
     (∃ alg, (rms_norm_kernel Y X W y_stride_r y_stride_c x_stride_r x_stride_c
         N eps BLOCK_SIZE).toAlgorithm? = Except.ok alg) ∧
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := rms_norm_kernel Y X W y_stride_r y_stride_c x_stride_r x_stride_c
         N eps BLOCK_SIZE)
       (initialState := s)
