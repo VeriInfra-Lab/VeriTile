@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `quantize_global` — strict per-kernel correctness (blocked tail)
@@ -136,7 +133,7 @@ theorem quantize_global_scaled_store_slice_compute_correct
     (x_ptr absmax_inv_ptr output_ptr : RegionName)
     (n_elements BLOCK_SIZE : Nat) (scale127 : ℝ)
     (s : BlockState) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := quantize_global_scaled_store_slice x_ptr absmax_inv_ptr output_ptr
         n_elements BLOCK_SIZE scale127)
       (initialState := s)
@@ -171,7 +168,7 @@ theorem quantize_global_blocked_output_summary_general
     (n_elements BLOCK_SIZE : Nat) (scale127 : ℝ) (s : BlockState) :
     (∃ err, (quantize_global_surface x_ptr absmax_inv_ptr output_ptr
       n_elements BLOCK_SIZE).toAlgorithm? = Except.error err) ∧
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := quantize_global_scaled_store_slice x_ptr absmax_inv_ptr output_ptr
         n_elements BLOCK_SIZE scale127)
       (initialState := s)

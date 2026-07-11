@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `chunk_gated_attention` — strict per-kernel correctness
@@ -99,7 +96,7 @@ set_option linter.unusedSimpArgs false
 
 /-! # ══════════ CORRECT — genuine / dimension-general (review this) ══════════ -/
 
-section Correct
+section Correct_without_Rounding
 
 /-- Faithful transcription of `chunk_gated_attention.py`'s
 `chunk_gated_abc_fwd_kernel_cum`.
@@ -316,7 +313,7 @@ theorem chunk_gated_attention_store_slice_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun idx : TileIndex [BT, BS] => tileOffset s s_s_h s_s_t s_s_d BT BS idx)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_gated_attention_store_slice BC Z s_s_h s_s_t s_s_d T S BT BS)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
@@ -416,7 +413,7 @@ theorem chunk_gated_attention_cum_compute_slice_compute_correct
     (s : BlockState)
     (hOutInj : Function.Injective
       (fun idx : TileIndex [BT, BS] => tileOffset s s_s_h s_s_t s_s_d BT BS idx)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_gated_attention_cum_compute_slice SReg Z s_s_h s_s_t
         s_s_d T S BT BS)
       (initialState := s)
@@ -541,7 +538,7 @@ theorem chunk_gated_attention_h_state_store_slice_compute_correct
     (hOutInj : Function.Injective
       (fun idx : TileIndex [BK, BV] =>
         hStateOffset s i_t s_h_h s_h_t s_h_d KSize VSize BK BV idx)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_gated_attention_h_state_store_slice BH H i_t s_h_h
         s_h_t s_h_d KSize VSize BK BV)
       (initialState := s)
@@ -658,7 +655,7 @@ theorem chunk_gated_attention_final_state_store_slice_compute_correct
     (hOutInj : Function.Injective
       (fun idx : TileIndex [BK, BV] =>
         finalStateOffset s KSize VSize BK BV idx)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_gated_attention_final_state_store_slice BHFinal Ht
         KSize VSize BK BV)
       (initialState := s)
@@ -831,7 +828,7 @@ noncomputable def producedChunkGatedAttentionHStateValue
     (GATEK USE_INITIAL_STATE _STORE_FINAL_STATE : Bool)
     (i_t : Fin 4) (idx : TileIndex [16, 16]) : ℝ :=
   hClosed s K V G H0 GATEK USE_INITIAL_STATE
-    (s_k_h := 4096) (s_k_t := 1) (s_k_d := 128)
+    (s_k_h := 4096) (s_k_t := 128) (s_k_d := 1)
     (s_v_h := 4096) (s_v_t := 32) (s_v_d := 1)
     (KSize := 32) (VSize := 32) (BT := 32) (BK := 16) (BV := 16)
     (m := i_t.val) idx
@@ -843,12 +840,12 @@ noncomputable def producedChunkGatedAttentionFinalStateValue
     (GATEK USE_INITIAL_STATE _STORE_FINAL_STATE : Bool)
     (idx : TileIndex [16, 16]) : ℝ :=
   hClosed s K V G H0 GATEK USE_INITIAL_STATE
-    (s_k_h := 4096) (s_k_t := 1) (s_k_d := 128)
+    (s_k_h := 4096) (s_k_t := 128) (s_k_d := 1)
     (s_v_h := 4096) (s_v_t := 32) (s_v_d := 1)
     (KSize := 32) (VSize := 32) (BT := 32) (BK := 16) (BV := 16)
     (m := 4) idx
 
-/-- Swap the `expected` value of a `writeIf`-`Realizes` when the two `expected`
+/-- Swap the `expected` value of a `writeIf`-`Realizes_without_Rounding` when the two `expected`
 functions agree on every active (`mask`-satisfying) index. -/
 theorem realizes_writeIf_expected_congr {ι : Type} {α : Type}
     [ComputeCorrect.OutputReadable α]
@@ -856,13 +853,13 @@ theorem realizes_writeIf_expected_congr {ι : Type} {α : Type}
     (mask : ι → Prop) [DecidablePred mask]
     (addr : ι → MemCellAddr) (e1 e2 : ι → α)
     (hAgree : ∀ i, mask i → e1 i = e2 i)
-    (h : ComputeCorrect.Realizes kernel s
+    (h : ComputeCorrect.Realizes_without_Rounding kernel s
       (ComputeCorrect.WriteMap.writeIf mask addr) e1) :
-    ComputeCorrect.Realizes kernel s
+    ComputeCorrect.Realizes_without_Rounding kernel s
       (ComputeCorrect.WriteMap.writeIf mask addr) e2 := by
   rw [ComputeCorrect.realizes_writeIf_iff] at h ⊢
   unfold ComputeKernel.ExecCorrect ComputeKernel.ComputeCorrect
-    ComputeKernel.ProjectedCorrect ComputeKernel.AlgorithmCorrect at h ⊢
+    ComputeKernel.ProjectedCorrect ComputeKernel.AlgorithmCorrect_without_Rounding at h ⊢
   refine ⟨h.1, ?_⟩
   obtain ⟨_, hp⟩ := h
   revert hp
@@ -870,7 +867,7 @@ theorem realizes_writeIf_expected_congr {ι : Type} {α : Type}
   | error e => intro hp; exact hp
   | ok ak =>
       intro hp
-      unfold Kernel.Correct at hp ⊢
+      unfold Kernel.Correct_without_Rounding at hp ⊢
       intro s0 s' hExec hs0 i hi
       rw [← hAgree i hi]
       exact hp s0 s' hExec hs0 i hi
@@ -901,7 +898,7 @@ theorem chunk_gated_attention_h_state_store_slice_closed_form_general
       s.readMem BH (hStateOffset s i_t s_h_h s_h_t s_h_d KSize VSize BK BV idx)
         = hClosed s K V G H0 GATEK USE_INITIAL_STATE
             s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d KSize VSize BT BK BV i_t idx) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_gated_attention_h_state_store_slice BH H i_t
         s_h_h s_h_t s_h_d KSize VSize BK BV)
       (initialState := s)
@@ -936,7 +933,7 @@ theorem chunk_gated_attention_final_state_store_slice_closed_form_general
       s.readMem BHFinal (finalStateOffset s KSize VSize BK BV idx)
         = hClosed s K V G H0 GATEK USE_INITIAL_STATE
             s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d KSize VSize BT BK BV NT idx) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_gated_attention_final_state_store_slice BHFinal Ht
         KSize VSize BK BV)
       (initialState := s)
@@ -963,7 +960,7 @@ theorem chunk_gated_attention_cum_compute_slice_closed_form_general
     (SReg Z : RegionName) (s_s_h s_s_t s_s_d T S BT BS : Nat) (s : BlockState)
     (hOutInj : Function.Injective
       (fun idx : TileIndex [BT, BS] => tileOffset s s_s_h s_s_t s_s_d BT BS idx)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_gated_attention_cum_compute_slice SReg Z s_s_h s_s_t
         s_s_d T S BT BS)
       (initialState := s)
@@ -1019,7 +1016,7 @@ theorem chunk_gated_attention_output_summary_general
         = hClosed s K V G H0 GATEK USE_INITIAL_STATE
             s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d KSize VSize BT BK BV NT idx) :
     -- (1) `fwd_pre` cumulative normalizer realizes the genuine causal cumsum.
-    (ComputeCorrect.Realizes
+    (ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_gated_attention_cum_compute_slice SReg GCum s_s_h s_s_t
         s_s_d T S BT BS)
       (initialState := s)
@@ -1030,7 +1027,7 @@ theorem chunk_gated_attention_output_summary_general
       (expected := fun idx : TileIndex [BT, BS] =>
         cumComputeStoreValue s SReg s_s_h s_s_t s_s_d T S BT BS idx)) ∧
     -- (2) `h` loop-row store at chunk `i_t` realizes the genuine folded state.
-    (ComputeCorrect.Realizes
+    (ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_gated_attention_h_state_store_slice BH H i_t
         s_h_h s_h_t s_h_d KSize VSize BK BV)
       (initialState := s)
@@ -1042,7 +1039,7 @@ theorem chunk_gated_attention_output_summary_general
         hClosed s K V G H0 GATEK USE_INITIAL_STATE
           s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d KSize VSize BT BK BV i_t idx)) ∧
     -- (3) final `ht` store realizes the genuine fully-folded state `hClosed NT`.
-    (ComputeCorrect.Realizes
+    (ComputeCorrect.Realizes_without_Rounding
       (kernel := chunk_gated_attention_final_state_store_slice BHFinal Ht
         KSize VSize BK BV)
       (initialState := s)
@@ -1063,12 +1060,6 @@ theorem chunk_gated_attention_output_summary_general
       K V G H0 GATEK USE_INITIAL_STATE s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d
       KSize VSize BT BK BV NT s hFinalInj hBufFinal
 
-end Correct
-
-/-! # ══════════ TEST-SHAPE — concrete instances / pinned scaffolding ══════════ -/
-
-section TestShape
-
-end TestShape
+end Correct_without_Rounding
 
 end VeriTile.Bench.TritonBenchG.ChunkGatedAttention

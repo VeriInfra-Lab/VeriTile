@@ -1,8 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
-import VeriTile.Triton.Math.Attention
+import VeriTile.Triton
 import VeriTile.Examples.AttentionForwardClosedForm
 
 /-!
@@ -64,6 +60,18 @@ complete in `VeriTile/Examples/AttentionForwardClosedForm.lean`. Because this
 kernel's surface is (post dtype-erasure) definitionally the same loop, the top
 theorem here bridges directly to that result. Tracked as
 `attention-forward-online-softmax-recurrence`, #162.
+
+## Translation-surface blocker
+
+Translation-surface blocker: the `_attn_fwd_inner` helper JIT is inlined into
+the port's single streaming-loop surface, and the Python-hard-coded head
+constants (`tl.arange(0, 128)`, the `< 96` head mask,
+`tl.zeros([BLOCK_M, 128])`) are generalized to the `BLOCK_DMODEL` /
+`HEAD_ACTIVE` binders — the Python literals are the `128`/`96` instantiation
+of the dimension-general top theorem. The Lean surface is therefore not a
+line-for-line textual match of the Python `_attn_fwd` body, and the textual
+py↔lean scans in `bench/audit_tritonbench_g.sh` exempt this port on this
+marker (registered in `proof_blockers.md`).
 -/
 
 namespace VeriTile.Bench.TritonBenchG.AttentionFwdTriton2
@@ -76,7 +84,7 @@ set_option linter.unusedSimpArgs false
 
 /-! # ══════════ CORRECT — genuine / dimension-general (review this) ══════════ -/
 
-section Correct
+section Correct_without_Rounding
 
 /-- Full Lean port of `attention_fwd_triton2.py`'s `_attn_fwd`.
 
@@ -366,7 +374,7 @@ theorem attention_fwd_triton2_final_store_slice_compute_correct
     (hOutInj : Function.Injective
       (fun idx : TileIndex [BLOCK_M, BLOCK_DMODEL] =>
         outOffset s H stride_qz stride_qh stride_qm stride_qk BLOCK_M idx)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := attention_fwd_triton2_final_store_slice Acc Out H N_CTX
         HEAD_ACTIVE stride_acc_z stride_acc_h stride_acc_m stride_acc_k
         stride_qz stride_qh stride_qm stride_qk BLOCK_M BLOCK_DMODEL)
@@ -427,7 +435,7 @@ theorem attention_fwd_triton2_closed_form_correct
       HEAD_DIM BLOCK_DMODEL HEAD_ACTIVE STAGE : Nat)
     (hBN : 0 < BLOCK_N) (hActiveLe : HEAD_ACTIVE ≤ BLOCK_DMODEL)
     (hHD : HEAD_ACTIVE ≤ HEAD_DIM) (hundef : ∀ rg o, s.undef rg o = 0) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := attention_fwd_triton2_surface Q K V Q_scale K_scale Out
         stride_qz stride_qh HEAD_DIM 1
         stride_qz stride_qh HEAD_DIM 1
@@ -505,7 +513,7 @@ theorem attention_fwd_triton2_output_summary_general
       stride_qz stride_qh HEAD_DIM 1
       Z H (BLOCK_N * numKVBlocks) HEAD_DIM BLOCK_M BLOCK_N BLOCK_DMODEL
       HEAD_ACTIVE STAGE).toAlgorithm? = Except.ok alg) ∧
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := attention_fwd_triton2_surface Q K V Q_scale K_scale Out
         stride_qz stride_qh HEAD_DIM 1
         stride_qz stride_qh HEAD_DIM 1
@@ -538,7 +546,7 @@ theorem attention_fwd_triton2_output_summary_general
       stride_qz stride_qh Z H BLOCK_M BLOCK_N numKVBlocks HEAD_DIM BLOCK_DMODEL
       HEAD_ACTIVE STAGE hBN hActiveLe hHD hundef⟩
 
-end Correct
+end Correct_without_Rounding
 
 
 end VeriTile.Bench.TritonBenchG.AttentionFwdTriton2

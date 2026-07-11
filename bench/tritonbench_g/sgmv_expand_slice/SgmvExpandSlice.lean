@@ -1,8 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
-import VeriTile.Triton.Kernel
+import VeriTile.Triton
 
 /-!
 # `sgmv_expand_slice` — full closed-form correctness
@@ -35,7 +31,7 @@ emitted value.
 ## Proof architecture (mirrors `matmul_triton1`/`AttentionForwardClosedForm`)
 
 ```
-sgmv_expand_slice_closed_form_correct            ← TOP THEOREM (ComputeCorrect.Realizes)
+sgmv_expand_slice_closed_form_correct            ← TOP THEOREM (ComputeCorrect.Realizes_without_Rounding)
   └─ sgmv_exec_closed_form                        ← exec-side closed form (every active cell = Σ_k a·b)
        ├─ sgmv_preLoop      (P 0: acc = 0, pointers/metadata seeded)
        ├─ sgmv_step         (one K-block: acc += dot advances the partial sum)
@@ -58,6 +54,20 @@ the same `% M` / `% N` value expression. The masked store is scoped to *active*
 lanes (`offset_m < M` and `offset_n < N`); an output-offset injectivity
 hypothesis `hInj` (distinct active lanes hit distinct addresses) is carried as an
 open side condition all the way up to the top theorem (not discharged here).
+
+## Translation-surface blocker
+
+Translation-surface blocker: the Lean surface is the kernel's main numeric
+path — `EVEN_K` (unmasked K-block) loads with `ADD_INPUTS = false` and
+`CAST_TYPE = false` — so those three constexpr parameters and their branches
+(the masked tail loads, the `tl.load(c)` residual add, and the dtype casts,
+which collapse to the real carrier anyway) are dropped from the surface. The
+in-kernel `pid → (pid_m, pid_n)` CTA decomposition (`cta_n_num =
+tl.cdiv(N, BLOCK_N)`) is supplied via separate program-id axes — the
+linearization is the trusted host boundary — and `tl.max_contiguous` /
+`tl.multiple_of` layout hints are erased into the same `% M` / `% N` value
+expression. The textual py↔lean scans in `bench/audit_tritonbench_g.sh`
+exempt this port on this marker (registered in `proof_blockers.md`).
 -/
 
 namespace VeriTile.Bench.TritonBenchG.SgmvExpandSlice
@@ -1015,7 +1025,7 @@ theorem sgmv_expand_slice_closed_form_correct
       cm_stride cn_stride slice_offset BLOCK_M BLOCK_N BLOCK_K numKBlocks : Nat) (hBK : 0 < BLOCK_K)
     (hInj : Function.Injective (cOffset s b_seq_start_loc cm_stride cn_stride slice_offset BLOCK_M BLOCK_N))
     (hundef : ∀ rg o, s.undef rg o = 0) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := sgmv_expand_slice_surface input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens
         lora_indices N (BLOCK_K * numKBlocks) xm_stride xk_stride l0_stride lora_k_stride
         lora_n_stride cm_stride cn_stride slice_offset BLOCK_M BLOCK_N BLOCK_K)
@@ -1059,7 +1069,7 @@ theorem sgmv_expand_slice_one_row_block_output_summary
     (∃ alg, (sgmv_expand_slice_surface input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens
         lora_indices N (BLOCK_K * numKBlocks) xm_stride xk_stride l0_stride lora_k_stride
         lora_n_stride cm_stride cn_stride slice_offset BLOCK_M BLOCK_N BLOCK_K).toAlgorithm? = Except.ok alg) ∧
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := sgmv_expand_slice_surface input_ptr lora_ptr out_ptr b_seq_start_loc seq_lens
         lora_indices N (BLOCK_K * numKBlocks) xm_stride xk_stride l0_stride lora_k_stride
         lora_n_stride cm_stride cn_stride slice_offset BLOCK_M BLOCK_N BLOCK_K)

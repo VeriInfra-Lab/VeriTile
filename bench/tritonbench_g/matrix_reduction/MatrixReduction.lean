@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `matrix_reduction` — strict per-kernel correctness
@@ -122,7 +119,7 @@ theorem load_reduce_kernel_compute_correct
     (x_ptr y_ptr : RegionName)
     (stride_xm stride_xn stride_y BLOCK_M BLOCK_N : Nat)
     (s : BlockState) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := load_reduce_kernel x_ptr y_ptr stride_xm stride_xn stride_y
         BLOCK_M BLOCK_N)
       (initialState := s)
@@ -144,7 +141,7 @@ theorem load_reduce_kernel_output_summary
     (s : BlockState) :
     (∃ alg, (load_reduce_kernel x_ptr y_ptr stride_xm stride_xn stride_y
         BLOCK_M BLOCK_N).toAlgorithm? = Except.ok alg) ∧
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := load_reduce_kernel x_ptr y_ptr stride_xm stride_xn stride_y
         BLOCK_M BLOCK_N)
       (initialState := s)

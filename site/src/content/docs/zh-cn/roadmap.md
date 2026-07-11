@@ -51,7 +51,7 @@ offset-set 不重合 helper。helper 落地后,每 kernel 估计 100–300 行�
 (#123)、`layer_norm_ops`(#133)。**不是** substrate 卡 ——
 `forRange_inv` / `forLoop_inv` 等 helper 都在;工作量在跨循环 scalar
 穿线。每 kernel 多周。先例在
-`VeriTile/Examples/LayerNormKernels.lean` 和 `OnlineSoftmax.lean`。
+`bench/examples/FusedLayerNorm.lean` 和 `OnlineSoftmax.lean`。
 
 ### 5. `tl.cumsum` 方向感知语义
 
@@ -99,7 +99,7 @@ substrate 队列前面?
 更整洁的答案尚未承诺的几条:
 
 1. **Refinement 在 bench 的覆盖** —— surface 在,但 `bench/` 里
-   `ComputeRefine.Realizes` 零调用。语料里有适合 "kernel ↔ kernel"
+   `ComputeRefine.Refines_without_Rounding` 零调用。语料里有适合 "kernel ↔ kernel"
    的对吗?还是这个 surface 只在 `VeriTile/Examples/` 里值回票价?
 2. **Manifest 作 source of truth** —— `KernelManifest.md` 记录"追踪
    什么";bench 状态(slice / full / substrate-blocked)是否应该编码

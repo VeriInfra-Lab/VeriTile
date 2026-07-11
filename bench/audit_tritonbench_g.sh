@@ -17,6 +17,15 @@ cd "${PROJECT_ROOT}"
 
 failures=0
 
+# Hard dependency check: a missing rg/python3 makes `if rg ...` conditions
+# read as "no match", silently turning scans into false passes.
+for dep in rg python3; do
+  if ! command -v "${dep}" >/dev/null 2>&1; then
+    printf 'FAIL required tool not installed: %s\n' "${dep}"
+    exit 1
+  fi
+done
+
 py_count=$(find "${PORTS_ROOT}" -maxdepth 2 -name '*.py' | wc -l | tr -d ' ')
 lean_count=$(find "${PORTS_ROOT}" -maxdepth 2 -name '*.lean' | wc -l | tr -d ' ')
 
@@ -34,11 +43,80 @@ else
   failures=$((failures + 1))
 fi
 
-if rg -n 'True := by|trivial|sorry|admit' bench/tritonbench_g -g '*.lean'; then
+# Placeholder-proof scan. Operates on comment-stripped Lean source so prose
+# like "sorry-free" in docstrings cannot mask or fake a hit, and matches
+# `trivial` only where it is the entire proof (`:= trivial`, `:= by trivial`),
+# not where it appears as a proof term inside a larger tactic application.
+if python3 - "${PORTS_ROOT}" <<'PY'
+from pathlib import Path
+import re
+import sys
+
+root = Path(sys.argv[1])
+
+def strip_lean_comments(text: str) -> str:
+    """Blank out `--` line comments and (nested) `/- ... -/` block comments,
+    preserving line structure so reported line numbers stay accurate."""
+    out = []
+    i = 0
+    n = len(text)
+    depth = 0
+    while i < n:
+        two = text[i:i + 2]
+        if depth == 0 and two == "--":
+            j = text.find("\n", i)
+            i = n if j < 0 else j
+            continue
+        if two == "/-":
+            depth += 1
+            out.append("  ")
+            i += 2
+            continue
+        if depth > 0 and two == "-/":
+            depth -= 1
+            out.append("  ")
+            i += 2
+            continue
+        if depth == 0:
+            out.append(text[i])
+        else:
+            out.append(text[i] if text[i] == "\n" else " ")
+        i += 1
+    return "".join(out)
+
+# `sorry` / `admit` as code tokens; `True := by` placeholder goals; `trivial`
+# standing alone as the entire proof (term-mode `:= trivial`, one-line
+# `:= by trivial`, or the two-line `:= by` / lone indented `trivial` form).
+line_patterns = (
+    re.compile(r"\bsorry\b"),
+    re.compile(r"\badmit\b"),
+    re.compile(r"True\s*:=\s*by\b"),
+    re.compile(r":=\s*(?:by\s+)?trivial\s*$"),
+)
+whole_proof_trivial = re.compile(r":=\s*by[ \t]*\n\s*trivial[ \t]*\n(?![ \t])")
+
+matches = []
+for lean_file in sorted(root.glob("*/*.lean")):
+    code = strip_lean_comments(lean_file.read_text())
+    for lineno, line in enumerate(code.splitlines(), 1):
+        for pattern in line_patterns:
+            if pattern.search(line):
+                matches.append(f"{lean_file}:{lineno}:{line.strip()}")
+                break
+    for m in whole_proof_trivial.finditer(code):
+        lineno = code.count("\n", 0, m.start()) + 1
+        matches.append(f"{lean_file}:{lineno}:whole-proof `by trivial`")
+
+if matches:
+    for entry in sorted(set(matches)):
+        print(entry)
+    sys.exit(1)
+PY
+then
+  printf 'ok placeholder proof scan\n'
+else
   printf 'FAIL placeholder proof scan found matches\n'
   failures=$((failures + 1))
-else
-  printf 'ok placeholder proof scan\n'
 fi
 
 missing_surface=()
@@ -94,34 +172,44 @@ else
     "${#known_algorithm_blockers[@]}"
 fi
 
+
+# A port that deliberately deviates from a literal transcription of the
+# upstream Python surface (inlined helper JIT, constexpr-path specialization,
+# antiquoted in-body constants, ...) must declare that with an explicit
+# machine-readable preamble line
+#     Translation-surface blocker: <what deviates and why it is faithful>
+# before the first `triton {`. The same marker is the ONLY exemption the
+# textual py<->lean surface scans below accept, and every marker must be
+# registered in proof_blockers.md and completion_audit.md.
 if python3 - "${PORTS_ROOT}" "${PORTS_ROOT}/proof_blockers.md" <<'PY'
 from pathlib import Path
+import re
 import sys
 
 root = Path(sys.argv[1])
 doc = Path(sys.argv[2]).read_text()
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+marker_re = re.compile(r"^\s*(?:--\s*)?Translation-surface blocker:(.*)$", re.M)
 
-missing = []
+problems = []
 for lean_file in sorted(root.glob("*/*.lean")):
     text = lean_file.read_text()
-    scope = (text[:text.find("triton {")] if "triton {" in text else text).lower()
-    if any(marker in scope for marker in scope_markers):
-        port_name = lean_file.parent.name
-        if port_name not in doc:
-            missing.append(port_name)
+    preamble = text[:text.find("triton {")] if "triton {" in text else text
+    port_name = lean_file.parent.name
+    markers = marker_re.findall(preamble)
+    if not markers:
+        continue
+    if any(not body.strip() for body in markers):
+        problems.append(
+            f"{port_name}: Translation-surface blocker marker has no description"
+        )
+    if f"`{port_name}`" not in doc:
+        problems.append(
+            f"{port_name}: Translation-surface blocker marker lacks proof_blockers.md entry"
+        )
 
-if missing:
-    for port_name in missing:
-        print(f"{port_name}: scope marker lacks proof_blockers.md entry")
+if problems:
+    for problem in problems:
+        print(problem)
     sys.exit(1)
 PY
 then
@@ -138,21 +226,13 @@ import sys
 
 root = Path(sys.argv[1])
 doc = Path(sys.argv[2]).read_text()
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+marker_re = re.compile(r"^\s*(?:--\s*)?Translation-surface blocker:\s*\S", re.M)
 
 actual = []
 for lean_file in sorted(root.glob("*/*.lean")):
     text = lean_file.read_text()
-    scope = (text[:text.find("triton {")] if "triton {" in text else text).lower()
-    if any(marker in scope for marker in scope_markers):
+    preamble = text[:text.find("triton {")] if "triton {" in text else text
+    if marker_re.search(preamble):
         actual.append(lean_file.parent.name)
 
 listed = []
@@ -290,15 +370,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 
 def is_triton_jit(dec: ast.expr) -> bool:
     if isinstance(dec, ast.Call):
@@ -393,7 +465,7 @@ for py_file in sorted(root.glob("*/*.py")):
     lean_file = lean_files[0]
     lean_text = lean_file.read_text()
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if any(marker in scope_text for marker in scope_markers):
+    if blocker_marker in scope_text:
         continue
     py_params = python_first_kernel_params(py_file.read_text())
     lean_params = lean_first_kernel_params(lean_text)
@@ -430,7 +502,10 @@ while IFS= read -r py_file; do
   if rg -q '\.to\(tl\.float32\)|to\(tl\.float32\)|\.to\(tl.float32\)|to\(tl.float32\)' "${lean_file}"; then
     continue
   fi
-  if rg -q 'outside this|quant_policy = 0|unquantized path|quant_policy.*4/8' "${lean_file}"; then
+  if awk '/triton \{/{exit} {print}' "${lean_file}" | rg -q 'Translation-surface blocker:'; then
+    continue
+  fi
+  if rg -q 'quant_policy = 0|unquantized path|quant_policy.*4/8' "${lean_file}"; then
     continue
   fi
   undocumented_cast_gaps+=("${py_file} -> ${lean_file}")
@@ -450,15 +525,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
@@ -575,7 +642,7 @@ for py_file in sorted(root.glob("*/*.py")):
     lean_file = lean_files[0]
     lean_text = lean_file.read_text()
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if any(marker in scope_text for marker in scope_markers):
+    if blocker_marker in scope_text:
         continue
     py_casts = cast_sequence(python_first_kernel_body(py_file.read_text()))
     lean_casts = cast_sequence(lean_first_triton_body(lean_text))
@@ -602,15 +669,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
@@ -778,7 +837,7 @@ for py_file in sorted(root.glob("*/*.py")):
     lean_file = lean_files[0]
     lean_text = lean_file.read_text()
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if any(marker in scope_text for marker in scope_markers):
+    if blocker_marker in scope_text:
         continue
     py_body = python_first_kernel_body(py_file.read_text())
     lean_body = lean_first_triton_body(lean_text)
@@ -808,15 +867,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
@@ -959,7 +1010,7 @@ for py_file in sorted(root.glob("*/*.py")):
     lean_file = lean_files[0]
     lean_text = lean_file.read_text()
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if any(marker in scope_text for marker in scope_markers):
+    if blocker_marker in scope_text:
         continue
     py_body = python_first_kernel_body(py_file.read_text())
     lean_body = lean_first_triton_body(lean_text)
@@ -989,15 +1040,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
@@ -1132,7 +1175,7 @@ for py_file in sorted(root.glob("*/*.py")):
     lean_file = lean_files[0]
     lean_text = lean_file.read_text()
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if any(marker in scope_text for marker in scope_markers):
+    if blocker_marker in scope_text:
         continue
     py_calls = tl_arange_calls(python_first_kernel_body(py_file.read_text()))
     lean_calls = tl_arange_calls(lean_first_triton_body(lean_text))
@@ -1159,15 +1202,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
@@ -1300,7 +1335,7 @@ for py_file in sorted(root.glob("*/*.py")):
     lean_file = lean_files[0]
     lean_text = lean_file.read_text()
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if any(marker in scope_text for marker in scope_markers):
+    if blocker_marker in scope_text:
         continue
     py_calls = program_id_calls(python_first_kernel_body(py_file.read_text()))
     lean_calls = program_id_calls(lean_first_triton_body(lean_text))
@@ -1327,15 +1362,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
@@ -1497,7 +1524,7 @@ for py_file in sorted(root.glob("*/*.py")):
     lean_file = lean_files[0]
     lean_text = lean_file.read_text()
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if any(marker in scope_text for marker in scope_markers):
+    if blocker_marker in scope_text:
         continue
     py_body = python_first_kernel_body(py_file.read_text())
     lean_body = lean_first_triton_body(lean_text)
@@ -1527,15 +1554,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
@@ -1686,7 +1705,7 @@ for py_file in sorted(root.glob("*/*.py")):
     lean_file = lean_files[0]
     lean_text = lean_file.read_text()
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if any(marker in scope_text for marker in scope_markers):
+    if blocker_marker in scope_text:
         continue
     py_body = python_first_kernel_body(py_file.read_text())
     lean_body = lean_first_triton_body(lean_text)
@@ -1716,15 +1735,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
@@ -1882,7 +1893,7 @@ for py_file in sorted(root.glob("*/*.py")):
     lean_file = lean_files[0]
     lean_text = lean_file.read_text()
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if any(marker in scope_text for marker in scope_markers):
+    if blocker_marker in scope_text:
         continue
     py_body = python_first_kernel_body(py_file.read_text())
     lean_body = lean_first_triton_body(lean_text)
@@ -1912,15 +1923,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 
 def python_first_kernel_body(text: str) -> str:
     lines = text.splitlines()
@@ -2094,7 +2097,7 @@ for py_file in sorted(root.glob("*/*.py")):
     lean_file = lean_files[0]
     lean_text = lean_file.read_text()
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if any(marker in scope_text for marker in scope_markers):
+    if blocker_marker in scope_text:
         continue
     py_others = other_values(python_first_kernel_body(py_file.read_text()))
     lean_others = other_values(lean_first_triton_body(lean_text))
@@ -2129,31 +2132,80 @@ else
   printf 'ok no keep_dims reduction substitutions\n'
 fi
 
-undocumented_iadd_gaps=()
-while IFS= read -r py_file; do
-  if ! rg -q '\+=' "${py_file}"; then
-    continue
-  fi
-  dir="${py_file%/*}"
-  lean_file="$(find "${dir}" -maxdepth 1 -name '*.lean' | head -n 1)"
-  if [ -z "${lean_file}" ]; then
-    continue
-  fi
-  if rg -q '\+=' "${lean_file}"; then
-    continue
-  fi
-  if rg -q 'slice|outside this|branch|precomputed|Surface transcription' "${lean_file}"; then
-    continue
-  fi
-  undocumented_iadd_gaps+=("${py_file} -> ${lean_file}")
-done < <(find "${PORTS_ROOT}" -mindepth 2 -maxdepth 2 -name '*.py' | sort)
+# Python `+=` coverage. Scoped to `@triton.jit` kernel bodies (host-wrapper
+# `+=` statements are not kernel surface), across ALL jit kernels of the file.
+if python3 - "${PORTS_ROOT}" <<'PY'
+from pathlib import Path
+import sys
 
-if [ "${#undocumented_iadd_gaps[@]}" -gt 0 ]; then
-  printf 'FAIL Python += missing from Lean without documented slice/scope:\n'
-  printf '  %s\n' "${undocumented_iadd_gaps[@]}"
-  failures=$((failures + 1))
-else
+root = Path(sys.argv[1])
+blocker_marker = "translation-surface blocker:"
+
+def python_jit_kernel_bodies(text: str) -> list[str]:
+    lines = text.splitlines()
+    bodies = []
+    i = 0
+    while i < len(lines):
+        if not lines[i].strip().startswith("@triton.jit"):
+            i += 1
+            continue
+        i += 1
+        while i < len(lines) and lines[i].strip().startswith("@"):
+            i += 1
+        if i >= len(lines) or not lines[i].strip().startswith("def "):
+            continue
+        start = None
+        parens = 0
+        for j in range(i, len(lines)):
+            parens += lines[j].count("(") - lines[j].count(")")
+            if parens <= 0 and lines[j].rstrip().endswith(":"):
+                start = j + 1
+                break
+        if start is None:
+            break
+        body = []
+        k = start
+        while k < len(lines):
+            line = lines[k]
+            if line and not line.startswith((" ", "\t")):
+                break
+            body.append(line)
+            k += 1
+        bodies.append("\n".join(body))
+        i = k
+    return bodies
+
+failures = []
+for py_file in sorted(root.glob("*/*.py")):
+    lean_files = sorted(py_file.parent.glob("*.lean"))
+    if not lean_files:
+        continue
+    lean_file = lean_files[0]
+    has_iadd = any(
+        "+=" in line.split("#", 1)[0]
+        for body in python_jit_kernel_bodies(py_file.read_text())
+        for line in body.splitlines()
+    )
+    if not has_iadd:
+        continue
+    lean_text = lean_file.read_text()
+    if "+=" in lean_text:
+        continue
+    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    if blocker_marker in scope_text:
+        continue
+    failures.append(f"{py_file} -> {lean_file}")
+
+if failures:
+    for failure in failures:
+        print(failure)
+    sys.exit(1)
+PY
+then
   printf 'ok documented += coverage scan\n'
+else
+  printf 'FAIL Python += missing from Lean without documented slice/scope:\n'
+  failures=$((failures + 1))
 fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
@@ -2162,12 +2214,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-)
+blocker_marker = "translation-surface blocker:"
 
 def norm(name: str) -> str:
     name = name.lower()
@@ -2293,7 +2340,7 @@ for py_file in sorted(root.glob("*/*.py")):
     }
     missing = sorted(py_lhs - lean_lhs)
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if missing and not any(marker in scope_text for marker in scope_markers):
+    if missing and not blocker_marker in scope_text:
         failures.append((py_file, lean_file, missing))
 
 if failures:
@@ -2331,27 +2378,76 @@ else
   printf 'ok rsqrt preservation scan\n'
 fi
 
-lean_only_where=()
-while IFS= read -r lean_file; do
-  if ! rg -q 'tl\.where' "${lean_file}"; then
-    continue
-  fi
-  dir="${lean_file%/*}"
-  py_file="$(find "${dir}" -maxdepth 1 -name '*.py' | head -n 1)"
-  if [ -z "${py_file}" ]; then
-    continue
-  fi
-  if ! rg -q 'tl\.where' "${py_file}"; then
-    lean_only_where+=("${lean_file} -> ${py_file}")
-  fi
-done < <(find "${PORTS_ROOT}" -mindepth 2 -maxdepth 2 -name '*.lean' | sort)
+# Lean-only tl.where scan. Operates on comment-stripped Lean code so prose
+# mentions of `tl.where` in docstrings cannot trip it (same lesson as the
+# placeholder scan), and accepts the standard preamble
+# `Translation-surface blocker:` marker exemption like every other textual
+# py<->lean scan (a documented proof-slice guard is a declared deviation,
+# not an unannotated extra statement).
+if python3 - "${PORTS_ROOT}" <<'PY'
+from pathlib import Path
+import re
+import sys
 
-if [ "${#lean_only_where[@]}" -gt 0 ]; then
-  printf 'FAIL Lean-only tl.where found:\n'
-  printf '  %s\n' "${lean_only_where[@]}"
-  failures=$((failures + 1))
-else
+root = Path(sys.argv[1])
+
+def strip_lean_comments(text: str) -> str:
+    out = []
+    i = 0
+    n = len(text)
+    depth = 0
+    while i < n:
+        two = text[i:i + 2]
+        if depth == 0 and two == "--":
+            j = text.find("\n", i)
+            i = n if j < 0 else j
+            continue
+        if two == "/-":
+            depth += 1
+            out.append("  ")
+            i += 2
+            continue
+        if depth > 0 and two == "-/":
+            depth -= 1
+            out.append("  ")
+            i += 2
+            continue
+        if depth == 0:
+            out.append(text[i])
+        else:
+            out.append(text[i] if text[i] == "\n" else " ")
+        i += 1
+    return "".join(out)
+
+blocker_marker = "translation-surface blocker:"
+
+failures = []
+for lean_file in sorted(root.glob("*/*.lean")):
+    lean_text = lean_file.read_text()
+    code = strip_lean_comments(lean_text)
+    if "tl.where" not in code:
+        continue
+    py_files = sorted(lean_file.parent.glob("*.py"))
+    if not py_files:
+        continue
+    py_file = py_files[0]
+    if "tl.where" in py_file.read_text():
+        continue
+    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    if blocker_marker in scope_text:
+        continue
+    failures.append(f"{lean_file} -> {py_file}")
+
+if failures:
+    print("FAIL Lean-only tl.where found:")
+    for entry in failures:
+        print(f"  {entry}")
+    sys.exit(1)
+PY
+then
   printf 'ok no Lean-only tl.where statements\n'
+else
+  failures=$((failures + 1))
 fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
@@ -2360,15 +2456,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 call_re = re.compile(r"\btl(?:\.[A-Za-z_][A-Za-z0-9_]*)+\s*\(")
 ignored = {
     "tl.constexpr",
@@ -2504,7 +2592,7 @@ for py_file in sorted(root.glob("*/*.py")):
     missing = sorted(py_calls - lean_calls)
     extra = sorted(lean_calls - py_calls)
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if (missing or extra) and not any(marker in scope_text for marker in scope_markers):
+    if (missing or extra) and not blocker_marker in scope_text:
         failures.append((py_file, lean_file, missing, extra))
 
 if failures:
@@ -2528,15 +2616,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 
 def lean_first_preamble(text: str) -> str:
     idx = text.find("triton {")
@@ -2640,7 +2720,7 @@ for py_file in sorted(root.glob("*/*.py")):
     py_counts = python_control_counts(py_file.read_text(), target)
     lean_counts = lean_control_counts(lean_text)
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if py_counts != lean_counts and not any(marker in scope_text for marker in scope_markers):
+    if py_counts != lean_counts and not blocker_marker in scope_text:
         failures.append((py_file, lean_file, py_counts, lean_counts))
 
 if failures:
@@ -2664,15 +2744,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 call_re = re.compile(r"\btl(?:\.[A-Za-z_][A-Za-z0-9_]*)+\s*\(")
 ignored = {
     "tl.constexpr",
@@ -2777,7 +2849,7 @@ for py_file in sorted(root.glob("*/*.py")):
     py_sequences = [tl_call_sequence(py_bodies[0])] if py_bodies else []
     lean_sequences = [tl_call_sequence(lean_bodies[0])] if lean_bodies else []
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if py_sequences != lean_sequences and not any(marker in scope_text for marker in scope_markers):
+    if py_sequences != lean_sequences and not blocker_marker in scope_text:
         failures.append((py_file, lean_file, py_sequences, lean_sequences))
 
 if failures:
@@ -2800,15 +2872,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 
 def python_jit_kernel_bodies(text: str) -> list[str]:
     lines = text.splitlines()
@@ -2954,7 +3018,7 @@ for py_file in sorted(root.glob("*/*.py")):
     py_sequences = [normalize_guard_lhs_sequence(port, lhs_sequence(py_bodies[0]))] if py_bodies else []
     lean_sequences = [normalize_guard_lhs_sequence(port, lhs_sequence(lean_bodies[0]))] if lean_bodies else []
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if py_sequences != lean_sequences and not any(marker in scope_text for marker in scope_markers):
+    if py_sequences != lean_sequences and not blocker_marker in scope_text:
         failures.append((py_file, lean_file, py_sequences, lean_sequences))
 
 if failures:
@@ -2977,15 +3041,7 @@ import re
 import sys
 
 root = Path(sys.argv[1])
-scope_markers = (
-    "outside this",
-    "branch",
-    "precomputed",
-    "surface transcription",
-    "single-tile",
-    "single-iteration",
-    "specializes",
-)
+blocker_marker = "translation-surface blocker:"
 reduce_call_head_re = re.compile(r"\btl\.(sum|max)\s*\(")
 axis_kw_re = re.compile(r"(?:^|,)\s*axis\s*=\s*([0-9]+)\s*(?:,|$)")
 
@@ -3143,7 +3199,7 @@ for py_file in sorted(root.glob("*/*.py")):
     lean_file = lean_files[0]
     lean_text = lean_file.read_text()
     scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
-    if any(marker in scope_text for marker in scope_markers):
+    if blocker_marker in scope_text:
         continue
     py_bodies = python_jit_kernel_bodies(py_file.read_text())
     lean_bodies = lean_triton_bodies(lean_text)
@@ -3163,6 +3219,31 @@ then
   printf 'ok reduce axis style scan\n'
 else
   printf 'FAIL reduce axis style scan\n'
+  failures=$((failures + 1))
+fi
+
+# ---- Machine-checkable trust audit (Phase E) --------------------------------
+# Two populations, two mechanisms (see documents/TrustAudit.md):
+#  * library theorems  -> VeriTile/Meta/TrustReport.lean (#axiomsClean on every
+#    proven library theorem). Building the module elaborates every gate;
+#    `lake build` of the target both materializes its deps (incl. ApproxGeLU)
+#    and fails on any smuggled `sorry`/axiom.
+#  * standalone bench   -> bench/audit_trust.sh (external temp-copy #axiomsClean
+#    over every bench/tritonbench_g/* port and bench/examples/* file).
+# A failure here is a REAL soundness finding (a proof calling itself complete
+# while depending on sorryAx / a non-standard axiom), not a scan heuristic.
+
+if lake build VeriTile.Meta.TrustReport; then
+  printf 'ok library trust report (#axiomsClean all proven lib theorems)\n'
+else
+  printf 'FAIL library trust report: a proven library theorem has a bad axiom footprint\n'
+  failures=$((failures + 1))
+fi
+
+if bench/audit_trust.sh; then
+  printf 'ok bench corpus trust audit (#axiomsClean all ports + examples)\n'
+else
+  printf 'FAIL bench corpus trust audit: a port/example has a bad axiom footprint\n'
   failures=$((failures + 1))
 fi
 

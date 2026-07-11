@@ -1,8 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
-import VeriTile.Triton.Math.Activation
+import VeriTile.Triton
 import VeriTile.Examples.Common
 
 /-!
@@ -122,7 +118,7 @@ theorem relu_kernel_compute_correct
     (N block_size : Nat) (hBlockSize : 0 < block_size)
     (s : BlockState) (xs : Fin block_size → ℝ)
     (h_x : InputLoadedAt s x_ptr block_size xs) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := relu_kernel x_ptr out_ptr N block_size)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf
@@ -151,7 +147,7 @@ theorem relu_kernel_output_summary
     (h_x : InputLoadedAt s x_ptr block_size xs) :
     (∃ alg, (relu_kernel x_ptr out_ptr N block_size).toAlgorithm? =
         Except.ok alg) ∧
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := relu_kernel x_ptr out_ptr N block_size)
       (initialState := s)
       (write := ComputeCorrect.WriteMap.writeIf

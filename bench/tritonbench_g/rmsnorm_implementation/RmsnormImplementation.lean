@@ -1,8 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
-import VeriTile.Triton.Kernel
+import VeriTile.Triton
 
 /-!
 # `rmsnorm_implementation` — strict per-kernel correctness
@@ -968,7 +964,7 @@ theorem rmsnorm_implementation_compute_correct
     (hOutInj : Function.Injective
       (fun i : Fin BLOCK_N_SIZE =>
         outOffset s stride_out_batch stride_out_m stride_out_k i)) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := rmsnorm_implementation x_ptr rms_w_ptr out_ptr
         stride_x_batch stride_x_m stride_x_k stride_rms_w
         stride_out_batch stride_out_m stride_out_k N_SIZE BLOCK_N_SIZE eps)
@@ -1986,7 +1982,7 @@ theorem rmsnorm_implementation_compute_fullN_correct
     (hStrideOutKPos : 0 < stride_out_k)
     (hXOutNe : x_ptr ≠ out_ptr)
     (hWOutNe : rms_w_ptr ≠ out_ptr) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := rmsnorm_implementation x_ptr rms_w_ptr out_ptr
         stride_x_batch stride_x_m stride_x_k stride_rms_w
         stride_out_batch stride_out_m stride_out_k N_SIZE BLOCK_N_SIZE eps)
@@ -2028,7 +2024,7 @@ theorem rmsnorm_implementation_output_summary
         stride_x_batch stride_x_m stride_x_k stride_rms_w
         stride_out_batch stride_out_m stride_out_k N_SIZE BLOCK_N_SIZE
         eps).toAlgorithm? = Except.ok alg) ∧
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := rmsnorm_implementation x_ptr rms_w_ptr out_ptr
         stride_x_batch stride_x_m stride_x_k stride_rms_w
         stride_out_batch stride_out_m stride_out_k N_SIZE BLOCK_N_SIZE eps)

@@ -1,7 +1,4 @@
-import VeriTile.Triton.Core
-import VeriTile.Triton.Semantics
-import VeriTile.Triton.Float
-import VeriTile.Triton.DSL
+import VeriTile.Triton
 
 /-!
 # `triton_softmax` — strict per-kernel correctness
@@ -128,7 +125,7 @@ theorem softmax_kernel_compute_correct
     (output_ptr input_ptr : RegionName)
     (input_row_stride output_row_stride n_cols BLOCK_SIZE : Nat)
     (s : BlockState) :
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := softmax_kernel output_ptr input_ptr input_row_stride output_row_stride
         n_cols BLOCK_SIZE)
       (initialState := s)
@@ -156,7 +153,7 @@ theorem softmax_kernel_output_summary
     (s : BlockState) :
     (∃ alg, (softmax_kernel output_ptr input_ptr input_row_stride
         output_row_stride n_cols BLOCK_SIZE).toAlgorithm? = Except.ok alg) ∧
-    ComputeCorrect.Realizes
+    ComputeCorrect.Realizes_without_Rounding
       (kernel := softmax_kernel output_ptr input_ptr input_row_stride
         output_row_stride n_cols BLOCK_SIZE)
       (initialState := s)
