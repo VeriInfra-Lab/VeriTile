@@ -1,14 +1,18 @@
 /-
-VeriTile.Examples.MemorySafety
+bench/examples/MemorySafety.lean
 
 Representative Layer-1 memory-bounds safety examples.
 -/
 
 import VeriTile.Triton.Memory.Bounds
 import Mathlib.Tactic
+import VeriTile.Meta.Specification
+import VeriTile.Examples.Common
+import VeriTile.Meta.StatementAudit
 
-namespace VeriTile.Examples.MemorySafety
+namespace VeriTile.Bench.Examples.MemorySafety
 
+open VeriTile.Examples
 open VeriTile.Triton
 
 /-- Baseline scalar copy with direct region+offset addressing. -/
@@ -73,10 +77,14 @@ theorem maskedTailAdd_memorySafe
   · exact hy
   · exact hout
 
-theorem blockPtrBoundary_memorySafe
+specification blockPtrBoundary_memorySafe
     (bounds : RegionBounds) (xReg outReg : RegionName) :
     (blockPtrBoundaryKernel xReg outReg).MemorySafe bounds := by
   simp [blockPtrBoundaryKernel, Kernel.MemorySafe, StmtList.MemorySafe,
     Stmt.MemorySafeList, Stmt.MemorySafe, Op.MemorySafe, MaskOpt.Active, evalOp]
 
-end VeriTile.Examples.MemorySafety
+end VeriTile.Bench.Examples.MemorySafety
+
+/-! ## Trust gates -/
+
+#axiomsClean VeriTile.Bench.Examples.MemorySafety.blockPtrBoundary_memorySafe
