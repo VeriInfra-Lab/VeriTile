@@ -1,13 +1,17 @@
 /-
-VeriTile.Examples.MemoryFrame
+bench/examples/MemoryFrame.lean
 
 Representative Layer-2a write-footprint / frame examples.
 -/
 
 import VeriTile.Triton.Memory.Footprint
+import VeriTile.Examples.Common
+import VeriTile.Meta.Specification
+import VeriTile.Meta.StatementAudit
 
-namespace VeriTile.Examples.MemoryFrame
+namespace VeriTile.Bench.Examples.MemoryFrame
 
+open VeriTile.Examples
 open VeriTile.Triton
 
 /-- Scalar direct store to one known cell. -/
@@ -128,7 +132,7 @@ theorem maskedFalseStore_writesWithin_activeTileImage
       funext i
       simp)
 
-theorem blockPtrOOBStore_writesWithin_checkedFootprint
+specification blockPtrOOBStore_writesWithin_checkedFootprint
     (outReg : RegionName) (s : BlockState) :
     (blockPtrOOBStoreKernel outReg).ExecWritesWithin s
       (WriteFootprint.activeAddrTileImage
@@ -166,4 +170,8 @@ theorem blockPtrOOBStore_writesWithin_checkedFootprint
       exact Stmt.storeAddressesWithin_blockPtr_unmasked ptr [0] s
         (oobPtrTile outReg) (by simp [ptr, oobPtrTile, oobPtr, evalOp]))
 
-end VeriTile.Examples.MemoryFrame
+/-! ## Trust gates -/
+
+#axiomsClean blockPtrOOBStore_writesWithin_checkedFootprint
+
+end VeriTile.Bench.Examples.MemoryFrame

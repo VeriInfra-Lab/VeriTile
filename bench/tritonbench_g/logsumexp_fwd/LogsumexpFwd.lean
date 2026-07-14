@@ -1,6 +1,5 @@
 import VeriTile.Triton
 import VeriTile.Examples.Common
-import VeriTile.Examples.LogSumExpEq
 
 /-!
 # `logsumexp_fwd` — strict per-kernel correctness
@@ -355,7 +354,7 @@ theorem logsumexp_fwd_kernel_grid_blockLSE_correct
 to the algorithm layer, and in the single-block configuration `D = B = n + 1`
 (pid axis-1 = 0) the store to `z[i_n]` is compute-correct — it holds the
 standard mathematical row `LSE xs HAS_SCALE scale`. -/
-theorem logsumexp_fwd_kernel_output_summary
+specification logsumexp_fwd_kernel_output_summary
     (x z : RegionName)
     (n : Nat) (HAS_SCALE : Bool) (scale : ℝ)
     (s : BlockState)

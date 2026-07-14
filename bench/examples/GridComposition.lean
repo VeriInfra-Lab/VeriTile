@@ -1,5 +1,5 @@
 /-
-VeriTile.Examples.GridComposition
+bench/examples/GridComposition
 
 Representative whole-grid disjoint-frame composition smoke.
 -/
@@ -7,10 +7,14 @@ Representative whole-grid disjoint-frame composition smoke.
 import VeriTile.Triton.Memory.Footprint
 import VeriTile.Triton.Launch.Composition
 import VeriTile.Triton.Concurrency.Atomic
+import VeriTile.Meta.Specification
+import VeriTile.Meta.StatementAudit
+import VeriTile.Examples.Common
 
-namespace VeriTile.Examples.GridComposition
+namespace VeriTile.Bench.Examples.GridComposition
 
 open VeriTile.Triton
+open VeriTile.Examples
 
 /-- One-dimensional constant store indexed by `tl.program_id(0)`. -/
 def gridConstStoreKernel (outReg : RegionName) : Kernel :=
@@ -87,7 +91,7 @@ def gridConstStoreLaunched (outReg : RegionName) (n : Nat) (s : BlockState) :
     h_disjoint := gridConstStoreFrames_disjoint outReg n s
     h_final := rfl }
 
-theorem gridConstStore_launched_observe_written
+specification gridConstStore_launched_observe_written
     (outReg : RegionName) (n : Nat) (s : BlockState) (i : Fin n) :
     (Kernel.mergeFrames (Grid1 n) s (gridConstStoreFrames outReg n s)).mem outReg i.val =
       ((gridConstStoreFrames outReg n s) (grid1Index i)).final.mem outReg i.val := by
@@ -167,7 +171,7 @@ This is the second consumer of the generic `mergeFramesWithAtomic` theorem
 after FA-1 backward: when every program contributes one atomic-add payload to a
 single output cell, the merged cell equals the initial value plus the Finset
 sum of all per-program contributions. -/
-theorem splitKAtomicAdd_launched_sum
+specification splitKAtomicAdd_launched_sum
     (outReg : RegionName) (n : Nat) (s sFinal : BlockState)
     (hLaunch :
       Kernel.GridLaunchedAtomic (splitKAtomicAddKernel outReg) (Grid1 n) s sFinal)
@@ -192,7 +196,7 @@ If a `GridLaunchedRMW` witness linearizes two `atomic_xchg` events at one cell,
 the final cell is the second exchanged value.  This is intentionally stated over
 the generic launcher witness: kernel-specific proofs only need to construct the
 per-program runs, ordinary frames, and linearization list. -/
-theorem gridLaunchedRMW_xchg_two_final
+specification gridLaunchedRMW_xchg_two_final
     {k : Kernel} {g : Grid} {s sFinal : BlockState}
     (h : Kernel.GridLaunchedRMW k g s sFinal)
     (cell : MemCellAddr) (old first second : MemCell)
@@ -213,4 +217,10 @@ theorem gridLaunchedRMW_xchg_two_final
   rw [hCell] at hObs
   exact hObs.trans hFinal
 
-end VeriTile.Examples.GridComposition
+/-! ## Trust gates -/
+
+#axiomsClean gridConstStore_launched_observe_written
+#axiomsClean splitKAtomicAdd_launched_sum
+#axiomsClean gridLaunchedRMW_xchg_two_final
+
+end VeriTile.Bench.Examples.GridComposition
