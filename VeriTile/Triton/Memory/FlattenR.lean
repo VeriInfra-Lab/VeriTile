@@ -1399,6 +1399,68 @@ theorem Stmt.TraceSafeListR.nil_intro {R : RoundingModel}
   rw [Stmt.TraceSafeListR]
   trivial
 
+/-- `TraceSafeListR` append principle: a concatenation is trace-safe when the
+first part is and every successor it actually reaches makes the second part
+trace-safe. Pairs with `stepStmtsR_cons_some` to walk a decomposed kernel body
+(prefix ++ loop ++ tail) one segment at a time. -/
+theorem Stmt.TraceSafeListR.append_intro {R : RoundingModel} {bounds : RegionBounds} :
+    ∀ (l1 : List Stmt) {l2 : List Stmt} (s : BlockState),
+      Stmt.TraceSafeListR R bounds l1 s →
+      (∀ s', stepStmtsR R l1 s = some s' → Stmt.TraceSafeListR R bounds l2 s') →
+      Stmt.TraceSafeListR R bounds (l1 ++ l2) s
+  | [], _, s, _, h2 => h2 s (by simp only [stepStmtsR])
+  | st :: rest, l2, s, h1, h2 => by
+      rw [Stmt.TraceSafeListR] at h1
+      refine Stmt.TraceSafeListR.cons_intro h1.1 (fun s' hs' => ?_)
+      have htl := h1.2
+      rw [hs'] at htl
+      exact Stmt.TraceSafeListR.append_intro rest s' htl
+        (fun s'' hs'' => h2 s'' ((stepStmtsR_cons_some hs').trans hs''))
+
+/-- Statements safe at *every* state are trace-safe as a list from any state
+(covers register-only assign runs, where no successor computation is
+needed). -/
+theorem Stmt.TraceSafeListR.of_forall {R : RoundingModel} {bounds : RegionBounds} :
+    ∀ (l : List Stmt) (s : BlockState),
+      (∀ st ∈ l, ∀ s', Stmt.TraceSafeR R bounds st s') →
+      Stmt.TraceSafeListR R bounds l s
+  | [], _, _ => Stmt.TraceSafeListR.nil_intro
+  | st :: rest, s, h => by
+      refine Stmt.TraceSafeListR.cons_intro (h st List.mem_cons_self s) (fun s' _ => ?_)
+      exact Stmt.TraceSafeListR.of_forall rest s'
+        (fun st' hst' => h st' (List.mem_cons_of_mem st hst'))
+
+/-- **Invariant principle for `forRangeTraceSafeR`.** To discharge trace
+safety of a whole strided loop, supply an invariant `P` (indexed by the loop
+counter) such that every in-range iteration started from a `P`-state (with
+the counter register set) has a trace-safe body, steps successfully, and
+re-establishes `P` at the advanced counter. Consumers (e.g. the streaming
+matmul family) pin the loop-carried pointer registers' in-bounds addresses
+with `P` and prove the per-iteration obligation once. The `step = 0` and
+`stop ≤ cur` cases are vacuously safe, so no positivity hypothesis on `step`
+is needed. -/
+theorem Stmt.forRangeTraceSafeR_inv (R : RoundingModel) (bounds : RegionBounds)
+    (idx : RegName) (stop step : Nat) (body : List Stmt)
+    (P : Nat → BlockState → Prop)
+    (hstep : ∀ c s, c < stop → P c s →
+      Stmt.TraceSafeListR R bounds body (s.setReg idx .nat [] (Tile.scalar c)) ∧
+      ∃ s', stepStmtsR R body (s.setReg idx .nat [] (Tile.scalar c)) = some s' ∧
+        P (c + step) s') :
+    ∀ cur s, P cur s → Stmt.forRangeTraceSafeR R bounds idx cur stop step body s
+  | cur, s, hP => by
+      rw [Stmt.forRangeTraceSafeR]
+      split
+      · trivial
+      · split
+        · obtain ⟨hsafe, s', hrun, hP'⟩ := hstep cur s ‹cur < stop› hP
+          refine ⟨hsafe, ?_⟩
+          rw [hrun]
+          exact Stmt.forRangeTraceSafeR_inv R bounds idx stop step body P hstep
+            (cur + step) s' hP'
+        · trivial
+  termination_by cur _ _ => stop - cur
+  decreasing_by omega
+
 /-- Kernel-level per-execution safety. -/
 def Kernel.TraceSafeR (R : RoundingModel) (bounds : RegionBounds) (k : Kernel)
     (s : BlockState) : Prop :=
