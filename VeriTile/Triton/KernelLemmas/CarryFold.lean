@@ -39,12 +39,27 @@ This file supplies both halves: `AgreeOutsideRegion` is the frame relation for
   directly with `forRange_inv` / `forRangeDyn_inv` (`LoopInvariant.lean`), which
   carry a register tile through the kernel's own `Stmt.forRange`.  The two
   drivers are complementary, not substitutes.
-* **No bench port consumes this driver yet.**  It is the library half of the
-  gap; the eight recurrence ports (`fused_recurrent_*`, `chunk_gate_recurrence`,
-  `chunk_delta_fwd`, `lightning_attention`, …) still state their carry invariant
-  as a *pinned* `hPrev` hypothesis, and landing this file does not change any of
-  their statements.  Do not read its presence as evidence that the cross-step
-  fold is modeled anywhere.
+* **Four bench ports consume this driver** (`fused_rwkv6_kernel`,
+  `fused_recurrent_delta`, `fused_recurrent_retention` — forward state only —
+  and `chunk_gated_attention`).  A fifth, `chunk_delta_fwd`, folds its
+  cross-chunk carry **without** this driver and by the stronger route: its
+  `cdfOuterLoop_run` runs `forRange_inv` over the kernel's *own* `Stmt.forRange`
+  with the carry living in the register `b_h` throughout, which is what the
+  Python loop actually does.  Where that route is available it is the better
+  one; this driver is the fallback for slices stated as standalone kernels.
+
+  The remaining three recurrence ports still state their carry invariant as a
+  *pinned* `hPrev` hypothesis, and in each case that is **structural** rather
+  than pending work: `fused_recurrent_hgrn` keeps its carry in registers only
+  (no region is written back); `lightning_attention`'s kv step reads per-block
+  *staged* regions, so a chain would re-stage the same block; and
+  `chunk_gate_recurrence`'s step *reads* its carry at a time-free address but
+  *writes* a time-indexed history row of a different region, so read and write
+  never meet — generalizing `addr` to move with the step would not close that
+  one either.  A port's headline is unaffected by this driver unless it states
+  the fold as its own theorem, so do not read a port's `hPrev` hypothesis as
+  evidence either way — check for a `*_carry_fold`, and check for a
+  `forRange_inv` fold before concluding a port's loop is unmodeled at all.
 
 ## What a port must supply to actually use `carryFold_execChain`
 
@@ -73,13 +88,16 @@ import VeriTile.Triton.Semantics
 
 namespace VeriTile.Triton
 
-/-! ## Unmasked-scatter frame primitives
+/-! ## Missing scatter frame primitives
 
-`BlockState` already ships the masked-scatter `pids` frame
-(`foldl_writeMem_prop_masked_pids`) and both unmasked `mem` frames
+`BlockState` ships the masked-scatter `pids` frame
+(`foldl_writeMem_prop_masked_pids`) and both *unmasked* `mem` frames
 (`foldl_writeMem_mem_preserve_other_region`,
-`foldl_writeMem_mem_preserve_unhit`).  The unmasked `pids` frame — needed by
-every slice whose store carries no mask — was missing. -/
+`foldl_writeMem_mem_preserve_unhit`).  The two entries of that square this
+driver needs and that were missing are the unmasked `pids` frame — for a slice
+whose store carries no mask — and the **masked** `mem`-outside-the-region
+frame, which is what `AgreeOutsideRegion.mem` is discharged by for the (usual)
+masked store. -/
 
 namespace BlockState
 
@@ -92,6 +110,27 @@ theorem foldl_writeMem_pids {α : Type} (region : RegionName)
   induction l generalizing s with
   | nil => rfl
   | cons hd tl ih => rw [List.foldl_cons, ih]; simp
+
+/-- A **masked** `writeMem` scatter into `region` leaves every other region's
+cells untouched.  The masked companion of
+`foldl_writeMem_mem_preserve_other_region`; stated on `mem` rather than
+`readMem` because that is the field `AgreeOutsideRegion` pins. -/
+theorem foldl_writeMem_prop_masked_mem_preserve_other_region {α : Type}
+    {region : RegionName} (offsetFn : α → Nat) (valueFn : α → ℝ)
+    (P : α → Prop) [DecidablePred P] (l : List α)
+    (r : RegionName) (hr : r ≠ region) (o : Nat) :
+    ∀ s : BlockState,
+      ((l.foldl (fun acc k =>
+          if P k then acc.writeMem region (offsetFn k) (valueFn k) else acc) s).mem r o)
+        = s.mem r o := by
+  induction l with
+  | nil => intro s; rfl
+  | cons hd tl ih =>
+      intro s
+      rw [List.foldl_cons, ih]
+      by_cases hP : P hd
+      · rw [if_pos hP, writeMem_mem, if_neg (fun hc => hr hc.1)]
+      · rw [if_neg hP]
 
 end BlockState
 
