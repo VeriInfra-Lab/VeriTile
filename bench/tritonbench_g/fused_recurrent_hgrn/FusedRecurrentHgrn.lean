@@ -46,14 +46,20 @@ is not modeled — `BD` is a free parameter. The step slices reproduce Python's
 `mask = o_d < D` / `other = 0` loads faithfully, so no full-tile side condition
 is needed. What is **outside** every claim in this file:
 
-* **The cross-step folds.** Neither the forward `range(0, T)` fold threading
-  `b_h` nor the backward reverse-time fold threading `b_dh` is modeled. Each
-  carry is presented to its slice as a materialized fiction region (`BHPrev`,
-  `DHPrev`) and constrained by an *assumed* hypothesis. In particular the forward
-  carry invariant `BHPrev = hgrnStateClosed(i_t)` is **not** propagated by any
-  clause: clause 2 writes `O` at the time-indexed `outOffset s i_t`, while the
-  hypothesis is about `BHPrev` at the time-free `bhOffset` — a different region
-  at a different offset. There is no bridging lemma and no base case.
+* **The backward cross-step fold.** The *forward* `range(0, T)` fold is no
+  longer in this list: `hgrnFwdOuterLoop_run` runs the kernel's **own**
+  `Stmt.forRange` under `forRange_inv`, carrying `b_h` in a *register* across
+  all `T` iterations — the way Python carries it — and lands
+  `hgrnStateClosed T` with no per-step hypothesis — **and** it states the per-row
+  `O` history: every time row `t < T` holds `hgrnStateClosed (t+1)` on every
+  active lane, which is the kernel's actual output, not just its final carry.
+  It needs only `x ≠ o` and `g ≠ o`. The headline's clause 2 is still the
+  single-step face over the materialized fiction region `BHPrev`, so *that
+  clause's* scope is unchanged; the fold stands beside it, not through it.
+
+  The backward reverse-time fold threading `b_dh` is still unmodeled: its carry
+  is presented to its slice as a materialized fiction region `DHPrev`
+  constrained by an *assumed* hypothesis.
   On the backward side the carry *value* is pinned down: `hgrnBwdCarry` is the
   closed form of `b_dh`, `hgrnBwdCarry_pred` proves the `b_dh = b_dh * b_g` fold
   and `hgrnBwdCarry_init` the `tl.zeros` seed, and the two-step slice executes
@@ -140,6 +146,224 @@ theorem fused_recurrent_hgrn_fwd_surface_toAlgorithm_supported
       USE_INITIAL_STATE STORE_FINAL_STATE).toAlgorithm? = Except.ok alg := by
   simp [fused_recurrent_hgrn_fwd_surface, ComputeExpr.toAlgorithm?,
     ComputeOp.toAlgorithm?]
+
+/-! ## Algorithm-layer form of the forward surface (a lowering identity)
+
+`fused_recurrent_hgrn_fwd_body_split` below is **not a correctness result**. It
+is the exact-lowering counterpart of `*_toAlgorithm_supported`: where that says
+*some* algorithm exists, this says *which* one, by naming the erased statement
+list and checking it with `rfl`.
+
+Its purpose is to make the forward loop attackable as the kernel's **own**
+`Stmt.forRange`, so that a cross-step fold can be run with `forRange_inv`
+(`VeriTile.Triton.LoopInvariant`) with the carry `b_h` staying in a *register*
+across iterations — the way the Python loop actually carries it, and the route
+`chunk_delta_fwd` takes via `cdfOuterLoop_run`.  That fold is **not** in this
+file yet; until it lands, the port's cross-step story is still the pinned
+`hPrev` hypothesis of `fused_recurrent_hgrn_forward_step_closed_form`, and
+nothing here changes that.
+
+Two facts the split makes visible, both needed by the eventual invariant:
+
+* the loop body advances `p_x`/`p_g`/`p_o` by `D` *each iteration*, so the
+  invariant must pin all three pointer registers at `base + i·D`, not just the
+  carry `b_h`;
+* the loads carry `MaskOpt.maskOther … 0` and the store `MaskOpt.mask`, i.e. the
+  `mask = o_d < D` lane predicate is applied on both sides. -/
+
+/-- The `p_x`/`p_g`/`p_o` row-base pointer expression (`R + i_bh·T·D + o_d`). -/
+def hgrnRowPtr (R : RegionName) (T D BD : Nat) : Op .ptr [BD] :=
+  Op.ptrAdd Broadcast.scalarL (Op.ptrBase R)
+    (Op.add .nat Broadcast.scalarL
+      (Op.mul .nat Broadcast.nil
+        (Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_bh") (Op.constNat T))
+        (Op.constNat D))
+      (Op.ref .nat [BD] "o_d"))
+
+/-- The `p_h0`/`p_ht` state pointer expression (`R + i_bh·D + o_d`). -/
+def hgrnStatePtr (R : RegionName) (D BD : Nat) : Op .ptr [BD] :=
+  Op.ptrAdd Broadcast.scalarL (Op.ptrBase R)
+    (Op.add .nat Broadcast.scalarL
+      (Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_bh") (Op.constNat D))
+      (Op.ref .nat [BD] "o_d"))
+
+/-- The shared `mask=mask, other=0` load option. -/
+def hgrnMaskOther (BD : Nat) : MaskOpt .real [BD] :=
+  MaskOpt.maskOther (Op.ref .bool [BD] "mask") ((Op.const 0).broadcast [BD])
+
+/-- Algorithm-layer prologue: program ids, `o_d`, `mask`, the three row
+pointers, `b_h = 0`, and the `USE_INITIAL_STATE` seed `ifThen`. -/
+def hgrnFwdPrologue (x g o h0 : RegionName) (T D BD : Nat) (U : Bool) :
+    List Stmt :=
+  [ Stmt.assign .nat [] "i_d" (Op.programId 0),
+    Stmt.assign .nat [] "i_bh" (Op.programId 1),
+    Stmt.assign .nat [BD] "o_d"
+      (Op.add .nat Broadcast.scalarL
+        (Op.mul .nat Broadcast.nil (Op.ref .nat [] "i_d") (Op.constNat BD))
+        (Op.arange BD)),
+    Stmt.assign .bool [BD] "mask"
+      (Op.lt .nat Broadcast.scalarR (Op.ref .nat [BD] "o_d") (Op.constNat D)),
+    Stmt.assign .ptr [BD] "p_x" (hgrnRowPtr x T D BD),
+    Stmt.assign .ptr [BD] "p_g" (hgrnRowPtr g T D BD),
+    Stmt.assign .ptr [BD] "p_o" (hgrnRowPtr o T D BD),
+    Stmt.assign .real [BD] "b_h" (Op.full [BD] (Op.const 0)),
+    Stmt.ifThen (Op.constBool U)
+      [ Stmt.assign .ptr [BD] "p_h0" (hgrnStatePtr h0 D BD),
+        Stmt.assign .real [BD] "b_h"
+          (Op.add .real Broadcast.nil.consSame (Op.ref .real [BD] "b_h")
+            (Op.load .real (MemAccess.ptr (Op.ref .ptr [BD] "p_h0"))
+              (hgrnMaskOther BD))) ] ]
+
+/-- Algorithm-layer forward loop body: the two masked loads, the recurrence
+`b_h = b_g · b_h + b_x`, the masked output store, and the three `+= D` pointer
+advances. -/
+def hgrnFwdOuterBody (D BD : Nat) : List Stmt :=
+  [ Stmt.assign .real [BD] "b_x"
+      (Op.load .real (MemAccess.ptr (Op.ref .ptr [BD] "p_x")) (hgrnMaskOther BD)),
+    Stmt.assign .real [BD] "b_g"
+      (Op.load .real (MemAccess.ptr (Op.ref .ptr [BD] "p_g")) (hgrnMaskOther BD)),
+    Stmt.assign .real [BD] "b_h"
+      (Op.add .real Broadcast.nil.consSame
+        (Op.mul .real Broadcast.nil.consSame (Op.ref .real [BD] "b_g")
+          (Op.ref .real [BD] "b_h"))
+        (Op.ref .real [BD] "b_x")),
+    Stmt.store .real [BD] (MemAccess.ptr (Op.ref .ptr [BD] "p_o"))
+      (Op.ref .real [BD] "b_h") (MaskOpt.mask (Op.ref .bool [BD] "mask")),
+    Stmt.assign .ptr [BD] "p_x"
+      (Op.ptrAdd Broadcast.scalarR (Op.ref .ptr [BD] "p_x") (Op.constNat D)),
+    Stmt.assign .ptr [BD] "p_g"
+      (Op.ptrAdd Broadcast.scalarR (Op.ref .ptr [BD] "p_g") (Op.constNat D)),
+    Stmt.assign .ptr [BD] "p_o"
+      (Op.ptrAdd Broadcast.scalarR (Op.ref .ptr [BD] "p_o") (Op.constNat D)) ]
+
+/-- Algorithm-layer epilogue: the `STORE_FINAL_STATE` flush `ifThen`. -/
+def hgrnFwdEpilogue (ht : RegionName) (D BD : Nat) (S : Bool) : List Stmt :=
+  [ Stmt.ifThen (Op.constBool S)
+      [ Stmt.assign .ptr [BD] "p_ht" (hgrnStatePtr ht D BD),
+        Stmt.store .real [BD] (MemAccess.ptr (Op.ref .ptr [BD] "p_ht"))
+          (Op.ref .real [BD] "b_h") (MaskOpt.mask (Op.ref .bool [BD] "mask")) ] ]
+
+set_option maxRecDepth 8000 in
+/-- **Body split (by `rfl`).** The forward surface lowers (float-erased) to the
+prologue, the single `forRange "_i" 0 T 1` carrying `hgrnFwdOuterBody`, and the
+epilogue — at symbolic `T`, `D`, `BD` and both constexpr flags.
+
+A lowering identity, not a correctness statement: see the section note above. -/
+theorem fused_recurrent_hgrn_fwd_body_split
+    (x g o h0 ht : RegionName) (T D BD : Nat)
+    (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) :
+    (fused_recurrent_hgrn_fwd_surface x g o h0 ht T D BD
+        USE_INITIAL_STATE STORE_FINAL_STATE).toAlgorithm?
+      = Except.ok (Kernel.mk [x, x, g, g, o, o] []
+          (hgrnFwdPrologue x g o h0 T D BD USE_INITIAL_STATE
+            ++ [Stmt.forRange "_i" 0 T 1 (hgrnFwdOuterBody D BD)]
+            ++ hgrnFwdEpilogue ht D BD STORE_FINAL_STATE)) := by
+  rfl
+
+/-! ## One forward loop body, walked at the register level
+
+`hgrnFwdOuterBody_step` executes the body `hgrnFwdOuterBody` — the very
+statement list `fused_recurrent_hgrn_fwd_body_split` identifies as the kernel's
+own `forRange` body — from a state whose registers are pinned at iteration `i`,
+and pins them again at `i + 1`. It is the `hStep` obligation of
+`VeriTile.Triton.forRange_inv`, minus the memory half.
+
+Still **not** a correctness result: it says nothing about the `o` region the body
+stores into, so the port's cross-step story remains the pinned `hPrev`
+hypothesis of `fused_recurrent_hgrn_forward_step_closed_form`. What it does is
+retire the hard half of the register walk.
+
+Two modeling points the statement makes explicit:
+
+* `b_h` is pinned as `some (if lane active then … else 0)`. Off-mask lanes
+  really do hold `0`, not garbage: the seed is `Op.full 0` and both loads carry
+  `other = 0`, so an inactive lane computes `0 · prev + 0`. Writing the carry as
+  a bare closed form would be **false** there — `gVal`/`xVal` read out-of-range
+  addresses off-mask.
+* all three pointer registers advance by `D` per iteration, so all three are
+  invariant clauses, not just the carry. -/
+
+/-- Per-lane global channel index `i_d·BD + j`. -/
+def hgrnChan (s0 : BlockState) (BD : Nat) (j : TileIndex [BD]) : Nat :=
+  s0.pids 0 * BD + j.1.val
+
+/-- Flat address of lane `j` at forward loop iteration `i`. -/
+def hgrnAddr (s0 : BlockState) (T D BD i : Nat) (j : TileIndex [BD]) : Nat :=
+  s0.pids 1 * T * D + hgrnChan s0 BD j + i * D
+
+set_option maxHeartbeats 1000000 in
+/-- **One forward loop body, at the register level.** From registers pinned at
+iteration `i`, the body runs, advances `p_x`/`p_g`/`p_o` by `D`, keeps `mask`,
+and updates the carry to `g_i · b_h + x_i` on active lanes (`0` off-mask). -/
+theorem hgrnFwdOuterBody_step
+    (s0 : BlockState) (x g o : RegionName) (T D BD i : Nat)
+    (bhCur : TileIndex [BD] → ℝ) (s : BlockState)
+    (hmask : s.regs .bool [BD] "mask"
+      = some ⟨fun j => decide (hgrnChan s0 BD j < D)⟩)
+    (hpx : s.regs .ptr [BD] "p_x" = some ⟨fun j => (x, hgrnAddr s0 T D BD i j)⟩)
+    (hpg : s.regs .ptr [BD] "p_g" = some ⟨fun j => (g, hgrnAddr s0 T D BD i j)⟩)
+    (hpo : s.regs .ptr [BD] "p_o" = some ⟨fun j => (o, hgrnAddr s0 T D BD i j)⟩)
+    (hbh : s.regs .real [BD] "b_h"
+      = some ⟨fun j => some (if hgrnChan s0 BD j < D then bhCur j else 0)⟩) :
+    ∃ s', stepStmts (hgrnFwdOuterBody D BD) s = some s'
+      ∧ s'.regs .bool [BD] "mask"
+          = some ⟨fun j => decide (hgrnChan s0 BD j < D)⟩
+      ∧ s'.regs .ptr [BD] "p_x"
+          = some ⟨fun j => (x, hgrnAddr s0 T D BD (i + 1) j)⟩
+      ∧ s'.regs .ptr [BD] "p_g"
+          = some ⟨fun j => (g, hgrnAddr s0 T D BD (i + 1) j)⟩
+      ∧ s'.regs .ptr [BD] "p_o"
+          = some ⟨fun j => (o, hgrnAddr s0 T D BD (i + 1) j)⟩
+      ∧ s'.regs .real [BD] "b_h"
+          = some ⟨fun j => some (if hgrnChan s0 BD j < D then
+              s.readMem g (hgrnAddr s0 T D BD i j) * bhCur j
+                + s.readMem x (hgrnAddr s0 T D BD i j)
+            else 0)⟩ := by
+  simp [hgrnFwdOuterBody, hgrnMaskOther, stepStmts, stepStmt,
+    evalOp.eq_def, Option.bind, Option.map, Tile.bop, NumericDType.add,
+    NumericDType.mul, hpx, hpg, hpo, hmask, hbh]
+  and_intros <;>
+    (try simp only [Tile.ptrAdd]) <;> (try congr 1) <;> (try funext j) <;>
+    (try simp only [Tile.scalar, hgrnAddr, Prod.mk.injEq, true_and,
+      Broadcast.leftIndex, Broadcast.rightIndex]) <;> (try ring) <;> (try rfl)
+  all_goals (split_ifs <;> simp [mul_comm])
+
+/-! ## The loop body's memory frame
+
+`hgrnFwdOuterBody_step` pins the registers; this section pins what the body does
+*not* touch. `forRange_inv` needs it because the closed form's `gVal`/`xVal` read
+the `x` and `g` regions of the **initial** state, and those reads have to stay
+valid across every iteration — which they do exactly when the body's only store
+target `o` is a different region.
+
+The body's single store lowers to a masked `foldl` of `writeMemTyped .real`,
+which normalizes to plain `writeMem` at the `.real` channel (the carrier's `⊥`
+fallback collapses to `WithBot.unbotD 0`), so the library's
+`BlockState.foldl_writeMem_prop_masked_mem_preserve_other_region` applies
+directly — no typed re-derivation is needed. -/
+
+/-- **The forward loop body's memory frame.** The body writes only `o`; every
+other region is left alone, so in particular the `x` and `g` reads the closed
+form depends on are stable across iterations. -/
+theorem hgrnFwdOuterBody_step_frame
+    (s0 : BlockState) (x g o : RegionName) (T D BD i : Nat)
+    (bhCur : TileIndex [BD] → ℝ) (s s' : BlockState)
+    (hmask : s.regs .bool [BD] "mask"
+      = some ⟨fun j => decide (hgrnChan s0 BD j < D)⟩)
+    (hpx : s.regs .ptr [BD] "p_x" = some ⟨fun j => (x, hgrnAddr s0 T D BD i j)⟩)
+    (hpg : s.regs .ptr [BD] "p_g" = some ⟨fun j => (g, hgrnAddr s0 T D BD i j)⟩)
+    (hpo : s.regs .ptr [BD] "p_o" = some ⟨fun j => (o, hgrnAddr s0 T D BD i j)⟩)
+    (hbh : s.regs .real [BD] "b_h"
+      = some ⟨fun j => some (if hgrnChan s0 BD j < D then bhCur j else 0)⟩)
+    (hrun : stepStmts (hgrnFwdOuterBody D BD) s = some s') :
+    ∀ r, r ≠ o → ∀ off, s'.mem r off = s.mem r off := by
+  simp [hgrnFwdOuterBody, hgrnMaskOther, stepStmts, stepStmt,
+    evalOp.eq_def, Option.bind, Option.map, Tile.bop, NumericDType.add,
+    NumericDType.mul, hpx, hpg, hpo, hmask, hbh] at hrun
+  intro r hr off
+  rw [← hrun]
+  exact BlockState.foldl_writeMem_prop_masked_mem_preserve_other_region
+    _ _ _ _ r hr off _
 
 /-- Surface transcription of `fused_recurrent_hgrn.py`'s
 `fused_recurrent_hgrn_bwd_kernel`.
@@ -418,6 +642,219 @@ theorem fused_recurrent_hgrn_forward_step_closed_form
     exact forwardStepValue_eq_hgrnStateClosed_succ s BHPrev X G h0
       USE_INITIAL_STATE i_t T D BD hPrev i
   rwa [hcong] at h
+
+/-! ## Cross-step fold of the forward loop (genuine, register carry)
+
+This is the piece the port's step face could not reach: the cross-step
+induction, run over the kernel's **own** `Stmt.forRange` with the carry `b_h`
+living in a *register* the whole way, exactly as the Python loop carries it.
+No materialized `BHPrev` region, no per-step hypothesis. -/
+
+/-- The loop's flat lane address is the `outOffset` the closed form reads. -/
+theorem hgrnAddr_eq_outOffset (s0 : BlockState) (T D BD t : Nat)
+    (j : TileIndex [BD]) :
+    hgrnAddr s0 T D BD t j = outOffset s0 t T D BD j.1 := by
+  simp only [hgrnAddr, hgrnChan, outOffset, dIndex]; ring
+
+/-- Memory agreement transports to the real-channel readback. -/
+theorem readMem_of_mem_eq {s t : BlockState} {r : RegionName} {off : Nat}
+    (h : s.mem r off = t.mem r off) : s.readMem r off = t.readMem r off := by
+  unfold BlockState.readMem; rw [h]
+
+/-- Masked companion of `BlockState.foldl_writeMem_mem_preserve_unhit`: a masked
+scatter leaves an address no *enabled* lane targets alone. The library ships
+only the unmasked form. -/
+theorem foldl_writeMem_masked_preserve_unhit {α : Type} {region : RegionName}
+    (offsetFn : α → Nat) (valueFn : α → ℝ) (P : α → Prop) [DecidablePred P]
+    (l : List α) (off : Nat) (ho : ∀ k ∈ l, offsetFn k ≠ off) :
+    ∀ s : BlockState,
+      ((l.foldl (fun acc k =>
+          if P k then acc.writeMem region (offsetFn k) (valueFn k) else acc)
+          s).mem region off)
+        = s.mem region off := by
+  induction l with
+  | nil => intro s; rfl
+  | cons hd tl ih =>
+      intro s
+      rw [List.foldl_cons, ih (fun k hk => ho k (List.mem_cons_of_mem hd hk))]
+      by_cases hP : P hd
+      · rw [if_pos hP, BlockState.writeMem_mem,
+          if_neg (fun hc => ho hd (List.mem_cons_self) hc.2.symm)]
+      · rw [if_neg hP]
+
+/-- The per-iteration lane address is injective in the lane. No side condition:
+`hgrnChan` is `i_d·BD + j` with `j` ranging over `Fin BD`. -/
+theorem hgrnAddr_injective (s0 : BlockState) (T D BD i : Nat) :
+    Function.Injective (fun j : TileIndex [BD] => hgrnAddr s0 T D BD i j) := by
+  rintro ⟨a, ⟨⟩⟩ ⟨b, ⟨⟩⟩ hab
+  simp only [hgrnAddr, hgrnChan] at hab
+  have : a.val = b.val := by omega
+  simpa using Fin.ext this
+
+/-- A row written at iteration `i` is never an *active* row of an earlier
+iteration `t < i`: the active lanes of a row span less than one `D`-stride. -/
+theorem hgrnAddr_ne_of_lt (s0 : BlockState) (T D BD t i : Nat)
+    (ht : t < i) (j k : TileIndex [BD]) (hj : hgrnChan s0 BD j < D) :
+    hgrnAddr s0 T D BD i k ≠ hgrnAddr s0 T D BD t j := by
+  have h1 : t * D + D ≤ i * D := by
+    have h2 : (t + 1) * D ≤ i * D := Nat.mul_le_mul_right D ht
+    rwa [Nat.succ_mul] at h2
+  simp only [hgrnAddr] at *
+  omega
+
+set_option maxHeartbeats 1000000 in
+/-- **The loop body's output store.** On active lanes the body writes the new
+carry into `o` at the current row; rows no active lane of this iteration targets
+are left alone. -/
+theorem hgrnFwdOuterBody_step_out
+    (s0 : BlockState) (x g o : RegionName) (T D BD i : Nat)
+    (bhCur : TileIndex [BD] → ℝ) (s s' : BlockState)
+    (hmask : s.regs .bool [BD] "mask"
+      = some ⟨fun j => decide (hgrnChan s0 BD j < D)⟩)
+    (hpx : s.regs .ptr [BD] "p_x" = some ⟨fun j => (x, hgrnAddr s0 T D BD i j)⟩)
+    (hpg : s.regs .ptr [BD] "p_g" = some ⟨fun j => (g, hgrnAddr s0 T D BD i j)⟩)
+    (hpo : s.regs .ptr [BD] "p_o" = some ⟨fun j => (o, hgrnAddr s0 T D BD i j)⟩)
+    (hbh : s.regs .real [BD] "b_h"
+      = some ⟨fun j => some (if hgrnChan s0 BD j < D then bhCur j else 0)⟩)
+    (hrun : stepStmts (hgrnFwdOuterBody D BD) s = some s') :
+    (∀ j : TileIndex [BD], hgrnChan s0 BD j < D →
+        s'.readMem o (hgrnAddr s0 T D BD i j)
+          = s.readMem g (hgrnAddr s0 T D BD i j) * bhCur j
+            + s.readMem x (hgrnAddr s0 T D BD i j))
+      ∧ (∀ off, (∀ k : TileIndex [BD], hgrnAddr s0 T D BD i k ≠ off) →
+          s'.mem o off = s.mem o off) := by
+  simp [hgrnFwdOuterBody, hgrnMaskOther, stepStmts, stepStmt,
+    evalOp.eq_def, Option.bind, Option.map, Tile.bop, NumericDType.add,
+    NumericDType.mul, hpx, hpg, hpo, hmask, hbh] at hrun
+  constructor
+  · intro j hj
+    rw [← hrun]
+    repeat rw [BlockState.setReg_readMem]
+    rw [BlockState.scatter_readback_prop_masked_nd _ _ _ _
+      (hgrnAddr_injective s0 T D BD i) j, if_pos hj]
+    simp [hj, mul_comm]
+  · intro off hoff
+    rw [← hrun]
+    simp only [BlockState.setReg_mem]
+    exact foldl_writeMem_masked_preserve_unhit _ _ _ _ off
+      (fun k _ => hoff k) _
+
+/-- **Forward loop invariant.** At iteration `i`: the lane mask and the three
+row pointers are pinned at `i`, the register carry `b_h` holds the genuine
+closed form `hgrnStateClosed i` on active lanes (`0` off-mask — see the step
+lemma's note), and nothing outside the output region `o` has moved. -/
+def HgrnFwdInv (s0 : BlockState) (x g o h0 : RegionName) (U : Bool)
+    (T D BD n : Nat) (i : Nat) (s : BlockState) : Prop :=
+  i ≤ n
+  ∧ s.regs .bool [BD] "mask" = some ⟨fun j => decide (hgrnChan s0 BD j < D)⟩
+  ∧ s.regs .ptr [BD] "p_x" = some ⟨fun j => (x, hgrnAddr s0 T D BD i j)⟩
+  ∧ s.regs .ptr [BD] "p_g" = some ⟨fun j => (g, hgrnAddr s0 T D BD i j)⟩
+  ∧ s.regs .ptr [BD] "p_o" = some ⟨fun j => (o, hgrnAddr s0 T D BD i j)⟩
+  ∧ s.regs .real [BD] "b_h" = some ⟨fun j => some (if hgrnChan s0 BD j < D then
+      hgrnStateClosed s0 x g h0 U T D BD i j.1 else 0)⟩
+  ∧ (∀ r, r ≠ o → ∀ off, s.mem r off = s0.mem r off)
+  ∧ (∀ t, t < i → ∀ j : TileIndex [BD], hgrnChan s0 BD j < D →
+      s.readMem o (hgrnAddr s0 T D BD t j)
+        = hgrnStateClosed s0 x g h0 U T D BD (t + 1) j.1)
+
+set_option maxHeartbeats 1000000 in
+/-- **Cross-step carry fold for the forward loop (genuine).** Running the
+kernel's own `forRange "_i" 0 n 1` from a state satisfying the invariant at `0`
+lands the invariant at exactly `n`: the register carry `b_h` holds
+`hgrnStateClosed n` on every active lane, and every output row `t < n` of `o`
+holds `hgrnStateClosed (t+1)` there — the kernel's actual output.
+
+The carry never leaves the register file — this is the `forRange_inv` route, not
+the memory-threaded `CarryFold` one, and it models what the Python loop does.
+
+Side conditions, both necessary: `x ≠ o` and `g ≠ o`, without which the body's
+store into `o` could disturb the very inputs `hgrnStateClosed` reads. -/
+theorem hgrnFwdOuterLoop_run
+    (s0 : BlockState) (x g o h0 : RegionName) (U : Bool) (T D BD n : Nat)
+    (s : BlockState) (hxo : x ≠ o) (hgo : g ≠ o)
+    (hInv : HgrnFwdInv s0 x g o h0 U T D BD n 0 s) :
+    ∃ s', stepStmt (.forRange "_i" 0 n 1 (hgrnFwdOuterBody D BD)) s = some s'
+      ∧ HgrnFwdInv s0 x g o h0 U T D BD n n s' := by
+  obtain ⟨final, sF, hrun, hfinal, hP⟩ :=
+    forRange_inv (idx := "_i") (start := 0) (stop := n) (step := 1)
+      (body := hgrnFwdOuterBody D BD)
+      (P := HgrnFwdInv s0 x g o h0 U T D BD n) (s_init := s)
+      (by norm_num) hInv
+      (fun i t hi hPt => by
+        obtain ⟨hle, hmask, hpx, hpg, hpo, hbh, hmem, hhist⟩ := hPt
+        obtain ⟨t', hstep, hmask', hpx', hpg', hpo', hbh'⟩ :=
+          hgrnFwdOuterBody_step s0 x g o T D BD i
+            (fun j => hgrnStateClosed s0 x g h0 U T D BD i j.1)
+            (t.setReg "_i" .nat [] (Tile.scalar i))
+            (by simpa using hmask) (by simpa using hpx) (by simpa using hpg)
+            (by simpa using hpo) (by simpa using hbh)
+        have hmemStep : ∀ r, r ≠ o → ∀ off, t'.mem r off = t.mem r off := by
+          intro r hr off
+          have := hgrnFwdOuterBody_step_frame s0 x g o T D BD i
+            (fun j => hgrnStateClosed s0 x g h0 U T D BD i j.1)
+            (t.setReg "_i" .nat [] (Tile.scalar i)) t'
+            (by simpa using hmask) (by simpa using hpx) (by simpa using hpg)
+            (by simpa using hpo) (by simpa using hbh) hstep r hr off
+          simpa using this
+        have hout := hgrnFwdOuterBody_step_out s0 x g o T D BD i
+          (fun j => hgrnStateClosed s0 x g h0 U T D BD i j.1)
+          (t.setReg "_i" .nat [] (Tile.scalar i)) t'
+          (by simpa using hmask) (by simpa using hpx) (by simpa using hpg)
+          (by simpa using hpo) (by simpa using hbh) hstep
+        refine ⟨t', hstep, by omega, hmask', ?_, ?_, ?_, ?_, ?_, ?_⟩
+        · simpa using hpx'
+        · simpa using hpg'
+        · simpa using hpo'
+        · have hfun : (fun j : TileIndex [BD] => some
+              (if hgrnChan s0 BD j < D then
+                (t.setReg "_i" .nat [] (Tile.scalar i)).readMem g
+                    (hgrnAddr s0 T D BD i j) *
+                  hgrnStateClosed s0 x g h0 U T D BD i j.1
+                + (t.setReg "_i" .nat [] (Tile.scalar i)).readMem x
+                    (hgrnAddr s0 T D BD i j)
+              else 0))
+              = (fun j : TileIndex [BD] => some
+                (if hgrnChan s0 BD j < D then
+                  hgrnStateClosed s0 x g h0 U T D BD (i + 1) j.1 else 0)) := by
+            funext j
+            by_cases hc : hgrnChan s0 BD j < D
+            · rw [if_pos hc, if_pos hc, hgrnStateClosed_succ]
+              have hg : (t.setReg "_i" .nat [] (Tile.scalar i)).readMem g
+                  (hgrnAddr s0 T D BD i j) = gVal s0 g T D BD i j.1 := by
+                simp only [gVal, ← hgrnAddr_eq_outOffset]
+                exact readMem_of_mem_eq (by simpa using hmem g hgo _)
+              have hx : (t.setReg "_i" .nat [] (Tile.scalar i)).readMem x
+                  (hgrnAddr s0 T D BD i j) = xVal s0 x T D BD i j.1 := by
+                simp only [xVal, ← hgrnAddr_eq_outOffset]
+                exact readMem_of_mem_eq (by simpa using hmem x hxo _)
+              rw [hg, hx]
+            · rw [if_neg hc, if_neg hc]
+          rw [hbh', hfun]
+        · intro r hr off
+          rw [hmemStep r hr off]; exact hmem r hr off
+        · intro tt htt j hjc
+          rcases Nat.lt_succ_iff_lt_or_eq.mp htt with hlt | heq
+          · -- an earlier row: this iteration's active lanes never target it
+            have hne : ∀ k : TileIndex [BD],
+                hgrnAddr s0 T D BD i k ≠ hgrnAddr s0 T D BD tt j :=
+              fun k => hgrnAddr_ne_of_lt s0 T D BD tt i hlt j k hjc
+            rw [readMem_of_mem_eq (hout.2 (hgrnAddr s0 T D BD tt j) hne)]
+            simpa using hhist tt hlt j hjc
+          · subst heq
+            rw [hout.1 j hjc, hgrnStateClosed_succ]
+            have hg : (t.setReg "_i" .nat [] (Tile.scalar tt)).readMem g
+                (hgrnAddr s0 T D BD tt j) = gVal s0 g T D BD tt j.1 := by
+              simp only [gVal, ← hgrnAddr_eq_outOffset]
+              exact readMem_of_mem_eq (by simpa using hmem g hgo _)
+            have hx : (t.setReg "_i" .nat [] (Tile.scalar tt)).readMem x
+                (hgrnAddr s0 T D BD tt j) = xVal s0 x T D BD tt j.1 := by
+              simp only [xVal, ← hgrnAddr_eq_outOffset]
+              exact readMem_of_mem_eq (by simpa using hmem x hxo _)
+            rw [hg, hx])
+  have hfin : final = n := by
+    obtain ⟨hle, _⟩ := hP; omega
+  subst hfin
+  exact ⟨sF, hrun, hP⟩
 
 /-! ## Offset-injectivity side conditions (dimension-general + Python shape)
 
