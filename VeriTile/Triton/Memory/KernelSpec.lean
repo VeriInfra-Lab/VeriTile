@@ -16317,6 +16317,137 @@ theorem Implements.intro (io : MaskedTileKernelIO₁)
     · exact Or.inl hflat
     · exact Or.inr ⟨fun _o j hj => hout _ hj, fun t => t.elim0⟩
 
+/-- `io.ImplementsR R outDType f` — the **rounding-correctness** relation
+`io ⊨[R, outDType] f` for the tile-indexed masked one-input family. Verbatim
+`Implements` with two changes: the kernel runs under `execR R`, and each active
+output cell is read back at `outDType` and must hold
+`R.round outDType (f pid xs i)`.
+
+`outDType` is the dtype the kernel's terminal store writes at, and it is an
+explicit argument rather than a field of `io` for the same reason as elsewhere in
+this file: `Implements` and `ImplementsR` would otherwise print with the same
+signature, and a three-hole `io ⊨[R] f` would render the `.fp16` and `.real`
+faces identically. -/
+def ImplementsR (io : MaskedTileKernelIO₁) (R : RoundingModel)
+    (outDType : FloatDType)
+    (f : Nat → (TileIndex io.shape → ℝ) → TileIndex io.shape → ℝ) : Prop :=
+  ∀ A : FlatAlloc,
+    A.Disjoint →
+    A.regions = [io.inp, io.out] →
+    (∀ r, r ∉ A.regions → A.extent r = 0) →
+  ∀ pid : Nat,
+    (∀ i : TileIndex io.shape, io.mask pid i →
+      io.read pid i < A.extent io.inp) →
+    (∀ i : TileIndex io.shape, io.writeMask pid i →
+      io.write pid i < A.extent io.out) →
+  ∀ (xs : TileIndex io.shape → ℝ) (s₀ : BlockState),
+    s₀.pid = pid →
+    s₀.undef = (fun _ _ => 0) →
+    (∀ i : TileIndex io.shape, io.mask pid i →
+      s₀.readMem io.inp (io.read pid i) = xs i) →
+    ∃ s',
+      execR R (A.flattenKernel io.kernel.toAlgKernel) (A.flattenState s₀)
+        = some s'
+      ∧ (∀ i : TileIndex io.shape, io.writeMask pid i →
+          s'.readMemAs outDType A.flat (A.addr io.out (io.write pid i))
+            = outDType.ofReal (R.round outDType (f pid xs i)))
+      ∧ (∀ r' o',
+          (r' ≠ A.flat ∨
+            ∀ i : TileIndex io.shape, io.writeMask pid i →
+              o' ≠ A.addr io.out (io.write pid i)) →
+          s'.mem r' o' = (A.flattenState s₀).mem r' o')
+
+@[inherit_doc] scoped notation:25 io " ⊨[" R ", " outDType "] " f =>
+  MaskedTileKernelIO₁.ImplementsR io R outDType f
+
+/-- Assembly lemma for `⊨[R, outDType]` — the rounding sibling of
+`Implements.intro`, riding the same `toU` embedding through the family's rounding
+core `UKernelIO.ImplementsR.intro` (at the constant output grid
+`fun _ => outDType`). Obligations are the usual three, with the safety walk at
+`Kernel.TraceSafeR R` and `hrun` returning a rounded region-model triple. -/
+theorem ImplementsR.intro (io : MaskedTileKernelIO₁) {R : RoundingModel}
+    {outDType : FloatDType}
+    {f : Nat → (TileIndex io.shape → ℝ) → TileIndex io.shape → ℝ}
+    (hok : (io.kernel.toAlgKernel).FlattenOk)
+    (hts : ∀ (bounds : RegionBounds) (s : BlockState),
+      (∀ i : TileIndex io.shape, io.mask s.pid i →
+        io.read s.pid i < bounds io.inp) →
+      (∀ i : TileIndex io.shape, io.writeMask s.pid i →
+        io.write s.pid i < bounds io.out) →
+      Kernel.TraceSafeR R bounds (io.kernel.toAlgKernel) s)
+    (hrun : ∀ (s₀ : BlockState) (xs : TileIndex io.shape → ℝ),
+      (∀ i : TileIndex io.shape, io.mask s₀.pid i →
+        s₀.readMem io.inp (io.read s₀.pid i) = xs i) →
+      ∃ s1, execR R (io.kernel.toAlgKernel) s₀ = some s1
+        ∧ (∀ i : TileIndex io.shape, io.writeMask s₀.pid i →
+            s1.readMemAs outDType io.out (io.write s₀.pid i)
+              = outDType.ofReal (R.round outDType (f s₀.pid xs i)))
+        ∧ (∀ r o,
+            (r ≠ io.out ∨
+              ∀ i : TileIndex io.shape, io.writeMask s₀.pid i →
+                o ≠ io.write s₀.pid i) →
+            s1.mem r o = s₀.mem r o)) :
+    io.ImplementsR R outDType f := by
+  have hcore : io.toU.ImplementsR R (fun _ => outDType)
+      (fun p₀ _p₁ vals _o j =>
+        f p₀ (fun i => vals (⟨0, by decide⟩ : Fin 1) (tilePos io.shape i))
+          ((TileShape.allIndices io.shape).get j)) := by
+    refine UKernelIO.ImplementsR.intro _ hok ?_ ?_
+    · intro bounds s vals _hpins hib hob _hsb
+      refine hts bounds s ?_ ?_
+      · exact (forall_tileIndex_iff _).mp fun j =>
+          hib (⟨0, by decide⟩ : Fin 1) j
+      · exact (forall_tileIndex_iff _).mp fun j =>
+          hob (⟨0, by decide⟩ : Fin 1) j
+    · intro s₀ vals _hundef hpins
+      have hx : ∀ i : TileIndex io.shape, io.mask s₀.pid i →
+          s₀.readMem io.inp (io.read s₀.pid i)
+            = vals (⟨0, by decide⟩ : Fin 1) (tilePos io.shape i) := by
+        refine (forall_tileIndex_iff _).mp ?_
+        intro j
+        rw [tilePos_get]
+        exact hpins (⟨0, by decide⟩ : Fin 1) j
+      obtain ⟨s1, hexec, hval, hframe⟩ :=
+        hrun s₀ (fun i => vals (⟨0, by decide⟩ : Fin 1) (tilePos io.shape i)) hx
+      refine ⟨s1, hexec, fun _o j hj => hval _ hj, ?_⟩
+      intro r o' hoc _hsc
+      have hoc' : ∀ i : TileIndex io.shape, io.writeMask s₀.pid i →
+          r ≠ io.out ∨ o' ≠ io.write s₀.pid i :=
+        (forall_tileIndex_iff _).mp fun j => hoc (⟨0, by decide⟩ : Fin 1) j
+      refine hframe r o' ?_
+      by_cases hro : r = io.out
+      · subst hro
+        refine Or.inr fun i hi => ?_
+        rcases hoc' i hi with hne | hno
+        · exact absurd rfl hne
+        · exact hno
+      · exact Or.inl hro
+  intro A hd hregs hcov pid h1 h2 xs s₀ hpid hu hx
+  obtain ⟨s', hexec, hval, hframe⟩ :=
+    hcore A hd hregs hcov pid (s₀.pids 1) (s₀.pids 2)
+      (fun _ j => xs ((TileShape.allIndices io.shape).get j)) s₀ hpid rfl rfl hu
+      (fun _i j hj => h1 _ hj) (fun _o j hj => h2 _ hj) (fun t => t.elim0)
+      (fun _i j hj => hx _ hj)
+  have hxs :
+      (fun i => xs ((TileShape.allIndices io.shape).get (tilePos io.shape i)))
+        = xs :=
+    funext fun i => by rw [get_tilePos]
+  refine ⟨s', hexec, ?_, ?_⟩
+  · refine (forall_tileIndex_iff _).mp ?_
+    intro j hj
+    refine (hval (⟨0, by decide⟩ : Fin 1) j hj).trans ?_
+    show outDType.ofReal (R.round outDType (f pid
+        (fun i => xs ((TileShape.allIndices io.shape).get (tilePos io.shape i)))
+        ((TileShape.allIndices io.shape).get j)))
+      = outDType.ofReal (R.round outDType
+          (f pid xs ((TileShape.allIndices io.shape).get j)))
+    rw [hxs]
+  · intro r' o' hcond
+    refine hframe r' o' ?_
+    rcases hcond with hflat | hout
+    · exact Or.inl hflat
+    · exact Or.inr ⟨fun _o j hj => hout _ hj, fun t => t.elim0⟩
+
 end MaskedTileKernelIO₁
 
 
@@ -16836,6 +16967,184 @@ theorem Implements.intro (io : MaskedTileShapedKernelIO₂)
           ys ((TileShape.allIndices io.shape2).get (tilePos io.shape2 i)))
         ((TileShape.allIndices io.shapeOut).get j)
       = f pid₀ pid₁ xs ys ((TileShape.allIndices io.shapeOut).get j)
+    rw [hxs, hys]
+  · intro r' o' hcond
+    refine hframe r' o' ?_
+    rcases hcond with hflat | hout
+    · exact Or.inl hflat
+    · exact Or.inr ⟨fun _o j hj => hout _ hj, fun t => t.elim0⟩
+
+/-- `io.ImplementsR R outDType f` — the **rounding-correctness** relation
+`io ⊨[R, outDType] f` for the per-channel-shape two-input family. Verbatim
+`Implements` with two changes: the kernel runs under `execR R`, and each active
+output cell is read back at `outDType` and must hold
+`R.round outDType (f pid₀ pid₁ xs ys o)`.
+
+This is the face a **narrowing** contraction wants: when the kernel's terminal
+cast names a rounding grid (`.to(tl.float16)` lowers to
+`Op.castFloat _ .fp16`, unlike `.to(tl.float32)` which erases to `.real`), the
+`R.round outDType` on the right is not decoration — it is the quantization the
+kernel actually performs, and `f` stays the exact ℝ contraction. -/
+def ImplementsR (io : MaskedTileShapedKernelIO₂) (R : RoundingModel)
+    (outDType : FloatDType)
+    (f : Nat → Nat → (TileIndex io.shape1 → ℝ) → (TileIndex io.shape2 → ℝ) →
+      TileIndex io.shapeOut → ℝ) : Prop :=
+  ∀ A : FlatAlloc,
+    A.Disjoint →
+    A.regions = [io.in1, io.in2, io.out] →
+    (∀ r, r ∉ A.regions → A.extent r = 0) →
+  ∀ pid₀ pid₁ : Nat,
+    (∀ i : TileIndex io.shape1, io.mask1 pid₀ pid₁ i →
+      io.read1 pid₀ pid₁ i < A.extent io.in1) →
+    (∀ i : TileIndex io.shape2, io.mask2 pid₀ pid₁ i →
+      io.read2 pid₀ pid₁ i < A.extent io.in2) →
+    (∀ o : TileIndex io.shapeOut, io.writeMask pid₀ pid₁ o →
+      io.write pid₀ pid₁ o < A.extent io.out) →
+  ∀ (xs : TileIndex io.shape1 → ℝ) (ys : TileIndex io.shape2 → ℝ)
+    (s₀ : BlockState),
+    s₀.pids 0 = pid₀ →
+    s₀.pids 1 = pid₁ →
+    s₀.undef = (fun _ _ => 0) →
+    (∀ i : TileIndex io.shape1, io.mask1 pid₀ pid₁ i →
+      s₀.readMem io.in1 (io.read1 pid₀ pid₁ i) = xs i) →
+    (∀ i : TileIndex io.shape2, io.mask2 pid₀ pid₁ i →
+      s₀.readMem io.in2 (io.read2 pid₀ pid₁ i) = ys i) →
+    ∃ s',
+      execR R (A.flattenKernel io.kernel.toAlgKernel) (A.flattenState s₀)
+        = some s'
+      ∧ (∀ o : TileIndex io.shapeOut, io.writeMask pid₀ pid₁ o →
+          s'.readMemAs outDType A.flat (A.addr io.out (io.write pid₀ pid₁ o))
+            = outDType.ofReal (R.round outDType (f pid₀ pid₁ xs ys o)))
+      ∧ (∀ r' o',
+          (r' ≠ A.flat ∨
+            ∀ o : TileIndex io.shapeOut, io.writeMask pid₀ pid₁ o →
+              o' ≠ A.addr io.out (io.write pid₀ pid₁ o)) →
+          s'.mem r' o' = (A.flattenState s₀).mem r' o')
+
+@[inherit_doc] scoped notation:25 io " ⊨[" R ", " outDType "] " f =>
+  MaskedTileShapedKernelIO₂.ImplementsR io R outDType f
+
+/-- Assembly lemma for `⊨[R, outDType]` — the rounding sibling of
+`Implements.intro`, riding the same `toU` embedding through the family's rounding
+core `UKernelIO.ImplementsR.intro` (at the constant output grid
+`fun _ => outDType`). -/
+theorem ImplementsR.intro (io : MaskedTileShapedKernelIO₂) {R : RoundingModel}
+    {outDType : FloatDType}
+    {f : Nat → Nat → (TileIndex io.shape1 → ℝ) → (TileIndex io.shape2 → ℝ) →
+      TileIndex io.shapeOut → ℝ}
+    (hok : (io.kernel.toAlgKernel).FlattenOk)
+    (hts : ∀ (bounds : RegionBounds) (s : BlockState),
+      (∀ i : TileIndex io.shape1, io.mask1 (s.pids 0) (s.pids 1) i →
+        io.read1 (s.pids 0) (s.pids 1) i < bounds io.in1) →
+      (∀ i : TileIndex io.shape2, io.mask2 (s.pids 0) (s.pids 1) i →
+        io.read2 (s.pids 0) (s.pids 1) i < bounds io.in2) →
+      (∀ o : TileIndex io.shapeOut, io.writeMask (s.pids 0) (s.pids 1) o →
+        io.write (s.pids 0) (s.pids 1) o < bounds io.out) →
+      Kernel.TraceSafeR R bounds (io.kernel.toAlgKernel) s)
+    (hrun : ∀ (s₀ : BlockState) (xs : TileIndex io.shape1 → ℝ)
+        (ys : TileIndex io.shape2 → ℝ),
+      (∀ i : TileIndex io.shape1, io.mask1 (s₀.pids 0) (s₀.pids 1) i →
+        s₀.readMem io.in1 (io.read1 (s₀.pids 0) (s₀.pids 1) i) = xs i) →
+      (∀ i : TileIndex io.shape2, io.mask2 (s₀.pids 0) (s₀.pids 1) i →
+        s₀.readMem io.in2 (io.read2 (s₀.pids 0) (s₀.pids 1) i) = ys i) →
+      ∃ s1, execR R (io.kernel.toAlgKernel) s₀ = some s1
+        ∧ (∀ o : TileIndex io.shapeOut,
+            io.writeMask (s₀.pids 0) (s₀.pids 1) o →
+            s1.readMemAs outDType io.out (io.write (s₀.pids 0) (s₀.pids 1) o)
+              = outDType.ofReal
+                  (R.round outDType (f (s₀.pids 0) (s₀.pids 1) xs ys o)))
+        ∧ (∀ r o',
+            (r ≠ io.out ∨
+              ∀ o : TileIndex io.shapeOut,
+                io.writeMask (s₀.pids 0) (s₀.pids 1) o →
+                o' ≠ io.write (s₀.pids 0) (s₀.pids 1) o) →
+            s1.mem r o' = s₀.mem r o')) :
+    io.ImplementsR R outDType f := by
+  have hcore : io.toU.ImplementsR R (fun _ => outDType)
+      (fun p₀ p₁ vals _o j =>
+        f p₀ p₁ (fun i => vals (⟨0, by decide⟩ : Fin 2) (tilePos io.shape1 i))
+          (fun i => vals (⟨1, by decide⟩ : Fin 2) (tilePos io.shape2 i))
+          ((TileShape.allIndices io.shapeOut).get j)) := by
+    refine UKernelIO.ImplementsR.intro _ hok ?_ ?_
+    · intro bounds s vals _hpins hib hob _hsb
+      refine hts bounds s ?_ ?_ ?_
+      · exact (forall_tileIndex_iff _).mp fun j =>
+          hib (⟨0, by decide⟩ : Fin 2) j
+      · exact (forall_tileIndex_iff _).mp fun j =>
+          hib (⟨1, by decide⟩ : Fin 2) j
+      · exact (forall_tileIndex_iff _).mp fun j =>
+          hob (⟨0, by decide⟩ : Fin 1) j
+    · intro s₀ vals _hundef hpins
+      have hx : ∀ i : TileIndex io.shape1,
+          io.mask1 (s₀.pids 0) (s₀.pids 1) i →
+          s₀.readMem io.in1 (io.read1 (s₀.pids 0) (s₀.pids 1) i)
+            = vals (⟨0, by decide⟩ : Fin 2) (tilePos io.shape1 i) := by
+        refine (forall_tileIndex_iff _).mp ?_
+        intro j
+        rw [tilePos_get]
+        exact hpins (⟨0, by decide⟩ : Fin 2) j
+      have hy : ∀ i : TileIndex io.shape2,
+          io.mask2 (s₀.pids 0) (s₀.pids 1) i →
+          s₀.readMem io.in2 (io.read2 (s₀.pids 0) (s₀.pids 1) i)
+            = vals (⟨1, by decide⟩ : Fin 2) (tilePos io.shape2 i) := by
+        refine (forall_tileIndex_iff _).mp ?_
+        intro j
+        rw [tilePos_get]
+        exact hpins (⟨1, by decide⟩ : Fin 2) j
+      obtain ⟨s1, hexec, hval, hframe⟩ :=
+        hrun s₀ (fun i => vals (⟨0, by decide⟩ : Fin 2) (tilePos io.shape1 i))
+          (fun i => vals (⟨1, by decide⟩ : Fin 2) (tilePos io.shape2 i)) hx hy
+      refine ⟨s1, hexec, fun _o j hj => hval _ hj, ?_⟩
+      intro r o' hoc _hsc
+      have hoc' : ∀ o : TileIndex io.shapeOut,
+          io.writeMask (s₀.pids 0) (s₀.pids 1) o →
+          r ≠ io.out ∨ o' ≠ io.write (s₀.pids 0) (s₀.pids 1) o :=
+        (forall_tileIndex_iff _).mp fun j => hoc (⟨0, by decide⟩ : Fin 1) j
+      refine hframe r o' ?_
+      by_cases hro : r = io.out
+      · subst hro
+        refine Or.inr fun o hoact => ?_
+        rcases hoc' o hoact with hne | hno
+        · exact absurd rfl hne
+        · exact hno
+      · exact Or.inl hro
+  intro A hd hregs hcov pid₀ pid₁ h1 h2 h3 xs ys s₀ hp₀ hp₁ hu hx hy
+  obtain ⟨s', hexec, hval, hframe⟩ :=
+    hcore A hd hregs hcov pid₀ pid₁ (s₀.pids 2)
+      (fun i => match i with
+        | ⟨0, _⟩ => fun j => xs ((TileShape.allIndices io.shape1).get j)
+        | ⟨1, _⟩ => fun j => ys ((TileShape.allIndices io.shape2).get j)
+        | ⟨_ + 2, h⟩ => absurd h (by simp only [toU]; omega))
+      s₀ hp₀ hp₁ rfl hu
+      (fun i => match i with
+        | ⟨0, _⟩ => fun j hj => h1 _ hj
+        | ⟨1, _⟩ => fun j hj => h2 _ hj
+        | ⟨_ + 2, h⟩ => absurd h (by simp only [toU]; omega))
+      (fun _o j hj => h3 _ hj) (fun t => t.elim0)
+      (fun i => match i with
+        | ⟨0, _⟩ => fun j hj => hx _ hj
+        | ⟨1, _⟩ => fun j hj => hy _ hj
+        | ⟨_ + 2, h⟩ => absurd h (by simp only [toU]; omega))
+  have hxs :
+      (fun i => xs ((TileShape.allIndices io.shape1).get (tilePos io.shape1 i)))
+        = xs :=
+    funext fun i => by rw [get_tilePos]
+  have hys :
+      (fun i => ys ((TileShape.allIndices io.shape2).get (tilePos io.shape2 i)))
+        = ys :=
+    funext fun i => by rw [get_tilePos]
+  refine ⟨s', hexec, ?_, ?_⟩
+  · refine (forall_tileIndex_iff _).mp ?_
+    intro j hj
+    refine (hval (⟨0, by decide⟩ : Fin 1) j hj).trans ?_
+    show outDType.ofReal (R.round outDType (f pid₀ pid₁
+        (fun i =>
+          xs ((TileShape.allIndices io.shape1).get (tilePos io.shape1 i)))
+        (fun i =>
+          ys ((TileShape.allIndices io.shape2).get (tilePos io.shape2 i)))
+        ((TileShape.allIndices io.shapeOut).get j)))
+      = outDType.ofReal (R.round outDType
+          (f pid₀ pid₁ xs ys ((TileShape.allIndices io.shapeOut).get j)))
     rw [hxs, hys]
   · intro r' o' hcond
     refine hframe r' o' ?_
@@ -17850,6 +18159,148 @@ theorem Implements.intro (io : Masked3DTileKernelIO₁)
         (fun i => xs ((TileShape.allIndices io.shape).get (tilePos io.shape i)))
         ((TileShape.allIndices io.shape).get j)
       = f pid₀ pid₁ xs ((TileShape.allIndices io.shape).get j)
+    rw [hxs]
+  · intro r' o' hcond
+    refine hframe r' o' ?_
+    rcases hcond with hflat | hout
+    · exact Or.inl hflat
+    · exact Or.inr ⟨fun _o j hj => hout _ hj, fun t => t.elim0⟩
+
+/-! ### The rounding face of the three-axis tile skin -/
+
+/-- `io.ImplementsR R outDType f` — the **rounding-correctness** relation
+`io ⊨[R, outDType] f` for the three-axis tile skin: the same Hoare triple as
+`Implements`, with the execution under `execR R` and the readback taken through
+`readMemAs outDType`, so each written cell holds the *ideal* real value quantized
+once at the declared grid. At `R := .triv` and `outDType := .real` the store is
+exact and this degenerates to the exact face. -/
+def ImplementsR (io : Masked3DTileKernelIO₁) (R : RoundingModel)
+    (outDType : FloatDType)
+    (f : Nat → Nat → (TileIndex io.shape → ℝ) → TileIndex io.shape → ℝ) :
+    Prop :=
+  ∀ A : FlatAlloc,
+    A.Disjoint →
+    A.regions = [io.inp, io.out] →
+    (∀ r, r ∉ A.regions → A.extent r = 0) →
+  ∀ pid₀ pid₁ pid₂ : Nat,
+    (∀ i : TileIndex io.shape, io.mask pid₀ pid₁ pid₂ i →
+      io.read pid₀ pid₁ pid₂ i < A.extent io.inp) →
+    (∀ i : TileIndex io.shape, io.writeMask pid₀ pid₁ pid₂ i →
+      io.write pid₀ pid₁ pid₂ i < A.extent io.out) →
+  ∀ (xs : TileIndex io.shape → ℝ) (s₀ : BlockState),
+    s₀.pids 0 = pid₀ →
+    s₀.pids 1 = pid₁ →
+    s₀.pids 2 = pid₂ →
+    s₀.undef = (fun _ _ => 0) →
+    (∀ i : TileIndex io.shape, io.mask pid₀ pid₁ pid₂ i →
+      s₀.readMem io.inp (io.read pid₀ pid₁ pid₂ i) = xs i) →
+    ∃ s',
+      execR R (A.flattenKernel io.kernel.toAlgKernel) (A.flattenState s₀)
+        = some s'
+      ∧ (∀ i : TileIndex io.shape, io.writeMask pid₀ pid₁ pid₂ i →
+          s'.readMemAs outDType A.flat
+              (A.addr io.out (io.write pid₀ pid₁ pid₂ i))
+            = outDType.ofReal (R.round outDType (f pid₀ pid₁ xs i)))
+      ∧ (∀ r' o',
+          (r' ≠ A.flat ∨
+            ∀ i : TileIndex io.shape, io.writeMask pid₀ pid₁ pid₂ i →
+              o' ≠ A.addr io.out (io.write pid₀ pid₁ pid₂ i)) →
+          s'.mem r' o' = (A.flattenState s₀).mem r' o')
+
+@[inherit_doc] scoped notation:25 io " ⊨[" R ", " outDType "] " f =>
+  Masked3DTileKernelIO₁.ImplementsR io R outDType f
+
+/-- Assembly lemma for `⊨[R, outDType]` — the rounding sibling of
+`Implements.intro`, riding the same `toU` embedding through the family's rounding
+core `UKernelIO.ImplementsR.intro` (at the constant output grid
+`fun _ => outDType`). Obligations are the usual three, with the safety walk at
+`Kernel.TraceSafeR R` and `hrun` returning a rounded region-model triple. -/
+theorem ImplementsR.intro (io : Masked3DTileKernelIO₁) {R : RoundingModel}
+    {outDType : FloatDType}
+    {f : Nat → Nat → (TileIndex io.shape → ℝ) → TileIndex io.shape → ℝ}
+    (hok : (io.kernel.toAlgKernel).FlattenOk)
+    (hts : ∀ (bounds : RegionBounds) (s : BlockState),
+      (∀ i : TileIndex io.shape,
+        io.mask (s.pids 0) (s.pids 1) (s.pids 2) i →
+        io.read (s.pids 0) (s.pids 1) (s.pids 2) i < bounds io.inp) →
+      (∀ i : TileIndex io.shape,
+        io.writeMask (s.pids 0) (s.pids 1) (s.pids 2) i →
+        io.write (s.pids 0) (s.pids 1) (s.pids 2) i < bounds io.out) →
+      Kernel.TraceSafeR R bounds (io.kernel.toAlgKernel) s)
+    (hrun : ∀ (s₀ : BlockState) (xs : TileIndex io.shape → ℝ),
+      (∀ i : TileIndex io.shape,
+        io.mask (s₀.pids 0) (s₀.pids 1) (s₀.pids 2) i →
+        s₀.readMem io.inp (io.read (s₀.pids 0) (s₀.pids 1) (s₀.pids 2) i)
+          = xs i) →
+      ∃ s1, execR R (io.kernel.toAlgKernel) s₀ = some s1
+        ∧ (∀ i : TileIndex io.shape,
+            io.writeMask (s₀.pids 0) (s₀.pids 1) (s₀.pids 2) i →
+            s1.readMemAs outDType io.out
+                (io.write (s₀.pids 0) (s₀.pids 1) (s₀.pids 2) i)
+              = outDType.ofReal
+                  (R.round outDType (f (s₀.pids 0) (s₀.pids 1) xs i)))
+        ∧ (∀ r o',
+            (r ≠ io.out ∨
+              ∀ i : TileIndex io.shape,
+                io.writeMask (s₀.pids 0) (s₀.pids 1) (s₀.pids 2) i →
+                o' ≠ io.write (s₀.pids 0) (s₀.pids 1) (s₀.pids 2) i) →
+            s1.mem r o' = s₀.mem r o')) :
+    io.ImplementsR R outDType f := by
+  have hcore : io.toU.ImplementsR R (fun _ => outDType)
+      (fun p₀ p₁ vals _o j =>
+        f p₀ p₁ (fun i => vals (⟨0, by decide⟩ : Fin 1) (tilePos io.shape i))
+          ((TileShape.allIndices io.shape).get j)) := by
+    refine UKernelIO.ImplementsR.intro _ hok ?_ ?_
+    · intro bounds s vals _hpins hib hob _hsb
+      refine hts bounds s ?_ ?_
+      · exact (forall_tileIndex_iff _).mp fun j =>
+          hib (⟨0, by decide⟩ : Fin 1) j
+      · exact (forall_tileIndex_iff _).mp fun j =>
+          hob (⟨0, by decide⟩ : Fin 1) j
+    · intro s₀ vals _hundef hpins
+      have hx : ∀ i : TileIndex io.shape,
+          io.mask (s₀.pids 0) (s₀.pids 1) (s₀.pids 2) i →
+          s₀.readMem io.inp (io.read (s₀.pids 0) (s₀.pids 1) (s₀.pids 2) i)
+            = vals (⟨0, by decide⟩ : Fin 1) (tilePos io.shape i) := by
+        refine (forall_tileIndex_iff _).mp ?_
+        intro j
+        rw [tilePos_get]
+        exact hpins (⟨0, by decide⟩ : Fin 1) j
+      obtain ⟨s1, hexec, hval, hframe⟩ :=
+        hrun s₀ (fun i => vals (⟨0, by decide⟩ : Fin 1) (tilePos io.shape i)) hx
+      refine ⟨s1, hexec, fun _o j hj => hval _ hj, ?_⟩
+      intro r o' hoc _hsc
+      have hoc' : ∀ i : TileIndex io.shape,
+          io.writeMask (s₀.pids 0) (s₀.pids 1) (s₀.pids 2) i →
+          r ≠ io.out ∨ o' ≠ io.write (s₀.pids 0) (s₀.pids 1) (s₀.pids 2) i :=
+        (forall_tileIndex_iff _).mp fun j => hoc (⟨0, by decide⟩ : Fin 1) j
+      refine hframe r o' ?_
+      by_cases hro : r = io.out
+      · subst hro
+        refine Or.inr fun i hi => ?_
+        rcases hoc' i hi with hne | hno
+        · exact absurd rfl hne
+        · exact hno
+      · exact Or.inl hro
+  intro A hd hregs hcov pid₀ pid₁ pid₂ h1 h2 xs s₀ hp₀ hp₁ hp₂ hu hx
+  obtain ⟨s', hexec, hval, hframe⟩ :=
+    hcore A hd hregs hcov pid₀ pid₁ pid₂
+      (fun _ j => xs ((TileShape.allIndices io.shape).get j)) s₀ hp₀ hp₁ hp₂ hu
+      (fun _i j hj => h1 _ hj) (fun _o j hj => h2 _ hj) (fun t => t.elim0)
+      (fun _i j hj => hx _ hj)
+  have hxs :
+      (fun i => xs ((TileShape.allIndices io.shape).get (tilePos io.shape i)))
+        = xs :=
+    funext fun i => by rw [get_tilePos]
+  refine ⟨s', hexec, ?_, ?_⟩
+  · refine (forall_tileIndex_iff _).mp ?_
+    intro j hj
+    refine (hval (⟨0, by decide⟩ : Fin 1) j hj).trans ?_
+    show outDType.ofReal (R.round outDType (f pid₀ pid₁
+        (fun i => xs ((TileShape.allIndices io.shape).get (tilePos io.shape i)))
+        ((TileShape.allIndices io.shape).get j)))
+      = outDType.ofReal (R.round outDType
+          (f pid₀ pid₁ xs ((TileShape.allIndices io.shape).get j)))
     rw [hxs]
   · intro r' o' hcond
     refine hframe r' o' ?_
@@ -19287,6 +19738,190 @@ theorem Implements.intro (io : GatherTileKernelIO)
         (fun k => xs ((TileShape.allIndices io.shape).get (tilePos io.shape k)))
         ((TileShape.allIndices io.shape).get j)
       = f pid ids xs ((TileShape.allIndices io.shape).get j)
+    rw [hids, hxs]
+  · intro r' o' hcond
+    refine hframe r' o' ?_
+    rcases hcond with hflat | hout
+    · exact Or.inl hflat
+    · exact Or.inr ⟨fun _o j hj => hout _ hj, fun t => t.elim0⟩
+
+/-- `io.ImplementsR R outDType f` — the **rounding-correctness** relation
+`io ⊨[R, outDType] f` for the row-gather family. Verbatim `Implements` with two
+changes: the kernel runs under `execR R`, and each active output cell is read
+back at `outDType` and must hold `R.round outDType (f pid ids xs j)`.
+
+The index channel is untouched by rounding — it is a `.nat` channel, and
+`ChanTy.nat` reads are exact — so only the float output boundary moves. -/
+def ImplementsR (io : GatherTileKernelIO) (R : RoundingModel)
+    (outDType : FloatDType)
+    (f : Nat → (TileIndex io.shapeIdx → Nat) → (TileIndex io.shape → ℝ) →
+      TileIndex io.shape → ℝ) : Prop :=
+  ∀ A : FlatAlloc,
+    A.Disjoint →
+    A.regions = [io.idxbuf, io.inp, io.out] →
+    (∀ r, r ∉ A.regions → A.extent r = 0) →
+  ∀ pid : Nat,
+    (∀ i : TileIndex io.shapeIdx, io.maskx pid i →
+      io.readx pid i < A.extent io.idxbuf) →
+  ∀ ids : TileIndex io.shapeIdx → Nat,
+    (∀ j : TileIndex io.shape, io.readMask pid ids j →
+      io.read pid ids j < A.extent io.inp) →
+    (∀ j : TileIndex io.shape, io.writeMask pid j →
+      io.write pid j < A.extent io.out) →
+  ∀ (xs : TileIndex io.shape → ℝ) (s₀ : BlockState),
+    s₀.pid = pid →
+    s₀.undef = (fun _ _ => 0) →
+    (∀ i : TileIndex io.shapeIdx, io.maskx pid i →
+      s₀.readMemValue .nat io.idxbuf (io.readx pid i) = ids i) →
+    (∀ j : TileIndex io.shape, io.readMask pid ids j →
+      s₀.readMem io.inp (io.read pid ids j) = xs j) →
+    ∃ s',
+      execR R (A.flattenKernel io.kernel.toAlgKernel) (A.flattenState s₀)
+        = some s'
+      ∧ (∀ j : TileIndex io.shape, io.writeMask pid j →
+          s'.readMemAs outDType A.flat (A.addr io.out (io.write pid j))
+            = outDType.ofReal (R.round outDType (f pid ids xs j)))
+      ∧ (∀ r' o',
+          (r' ≠ A.flat ∨
+            ∀ j : TileIndex io.shape, io.writeMask pid j →
+              o' ≠ A.addr io.out (io.write pid j)) →
+          s'.mem r' o' = (A.flattenState s₀).mem r' o')
+
+@[inherit_doc] scoped notation:25 io " ⊨[" R ", " outDType "] " f =>
+  GatherTileKernelIO.ImplementsR io R outDType f
+
+/-- Assembly lemma for `⊨[R, outDType]` — the rounding sibling of
+`Implements.intro`, riding the same `toU` through the family's rounding core
+`UKernelIO.ImplementsR.intro` at the constant output grid `fun _ => outDType`. -/
+theorem ImplementsR.intro (io : GatherTileKernelIO) {R : RoundingModel}
+    {outDType : FloatDType}
+    {f : Nat → (TileIndex io.shapeIdx → Nat) → (TileIndex io.shape → ℝ) →
+      TileIndex io.shape → ℝ}
+    (hok : (io.kernel.toAlgKernel).FlattenOk)
+    (hts : ∀ (bounds : RegionBounds) (s : BlockState)
+        (ids : TileIndex io.shapeIdx → Nat),
+      (∀ i : TileIndex io.shapeIdx, io.maskx s.pid i →
+        s.readMemValue .nat io.idxbuf (io.readx s.pid i) = ids i) →
+      (∀ i : TileIndex io.shapeIdx, io.maskx s.pid i →
+        io.readx s.pid i < bounds io.idxbuf) →
+      (∀ j : TileIndex io.shape, io.readMask s.pid ids j →
+        io.read s.pid ids j < bounds io.inp) →
+      (∀ j : TileIndex io.shape, io.writeMask s.pid j →
+        io.write s.pid j < bounds io.out) →
+      Kernel.TraceSafeR R bounds (io.kernel.toAlgKernel) s)
+    (hrun : ∀ (s₀ : BlockState) (ids : TileIndex io.shapeIdx → Nat)
+        (xs : TileIndex io.shape → ℝ),
+      (∀ i : TileIndex io.shapeIdx, io.maskx s₀.pid i →
+        s₀.readMemValue .nat io.idxbuf (io.readx s₀.pid i) = ids i) →
+      (∀ j : TileIndex io.shape, io.readMask s₀.pid ids j →
+        s₀.readMem io.inp (io.read s₀.pid ids j) = xs j) →
+      ∃ s1, execR R (io.kernel.toAlgKernel) s₀ = some s1
+        ∧ (∀ j : TileIndex io.shape, io.writeMask s₀.pid j →
+            s1.readMemAs outDType io.out (io.write s₀.pid j)
+              = outDType.ofReal (R.round outDType (f s₀.pid ids xs j)))
+        ∧ (∀ r o',
+            (r ≠ io.out ∨
+              ∀ j : TileIndex io.shape, io.writeMask s₀.pid j →
+                o' ≠ io.write s₀.pid j) →
+            s1.mem r o' = s₀.mem r o')) :
+    io.ImplementsR R outDType f := by
+  have hcore : io.toU.ImplementsR R (fun _ => outDType)
+      (fun p₀ _p₁ vals _o j =>
+        f p₀ (fun k => vals (⟨0, by decide⟩ : Fin 2) (tilePos io.shapeIdx k))
+          (fun k => vals (⟨1, by decide⟩ : Fin 2) (tilePos io.shape k))
+          ((TileShape.allIndices io.shape).get j)) := by
+    refine UKernelIO.ImplementsR.intro _ hok ?_ ?_
+    · intro bounds s vals hpins hib hob _hsb
+      have hid : ∀ i : TileIndex io.shapeIdx, io.maskx s.pid i →
+          s.readMemValue .nat io.idxbuf (io.readx s.pid i)
+            = vals (⟨0, by decide⟩ : Fin 2) (tilePos io.shapeIdx i) := by
+        refine (forall_tileIndex_iff _).mp ?_
+        intro j
+        rw [tilePos_get]
+        exact hpins (⟨0, by decide⟩ : Fin 2) j
+      refine hts bounds s _ hid ?_ ?_ ?_
+      · exact (forall_tileIndex_iff _).mp fun j =>
+          hib (⟨0, by decide⟩ : Fin 2) j
+      · exact (forall_tileIndex_iff _).mp fun j =>
+          hib (⟨1, by decide⟩ : Fin 2) j
+      · exact (forall_tileIndex_iff _).mp fun j =>
+          hob (⟨0, by decide⟩ : Fin 1) j
+    · intro s₀ vals _hundef hpins
+      have hid : ∀ i : TileIndex io.shapeIdx, io.maskx s₀.pid i →
+          s₀.readMemValue .nat io.idxbuf (io.readx s₀.pid i)
+            = vals (⟨0, by decide⟩ : Fin 2) (tilePos io.shapeIdx i) := by
+        refine (forall_tileIndex_iff _).mp ?_
+        intro j
+        rw [tilePos_get]
+        exact hpins (⟨0, by decide⟩ : Fin 2) j
+      have hx : ∀ j : TileIndex io.shape,
+          io.readMask s₀.pid
+            (fun k => vals (⟨0, by decide⟩ : Fin 2) (tilePos io.shapeIdx k)) j →
+          s₀.readMem io.inp
+              (io.read s₀.pid
+                (fun k =>
+                  vals (⟨0, by decide⟩ : Fin 2) (tilePos io.shapeIdx k)) j)
+            = vals (⟨1, by decide⟩ : Fin 2) (tilePos io.shape j) := by
+        refine (forall_tileIndex_iff _).mp ?_
+        intro j
+        rw [tilePos_get]
+        exact hpins (⟨1, by decide⟩ : Fin 2) j
+      obtain ⟨s1, hexec, hval, hframe⟩ :=
+        hrun s₀ _ (fun k => vals (⟨1, by decide⟩ : Fin 2) (tilePos io.shape k))
+          hid hx
+      refine ⟨s1, hexec, fun _o j hj => hval _ hj, ?_⟩
+      intro r o' hoc _hsc
+      have hoc' : ∀ j : TileIndex io.shape, io.writeMask s₀.pid j →
+          r ≠ io.out ∨ o' ≠ io.write s₀.pid j :=
+        (forall_tileIndex_iff _).mp fun j => hoc (⟨0, by decide⟩ : Fin 1) j
+      refine hframe r o' ?_
+      by_cases hro : r = io.out
+      · subst hro
+        refine Or.inr fun j hj => ?_
+        rcases hoc' j hj with hne | hno
+        · exact absurd rfl hne
+        · exact hno
+      · exact Or.inl hro
+  intro A hd hregs hcov pid hbx ids hbr hbw xs s₀ hpid hu hidpin hxpin
+  have hids :
+      (fun k => ids ((TileShape.allIndices io.shapeIdx).get
+        (tilePos io.shapeIdx k))) = ids :=
+    funext fun k => by rw [get_tilePos]
+  have hxs :
+      (fun k => xs ((TileShape.allIndices io.shape).get (tilePos io.shape k)))
+        = xs :=
+    funext fun k => by rw [get_tilePos]
+  obtain ⟨s', hexec, hval, hframe⟩ :=
+    hcore A hd hregs hcov pid (s₀.pids 1) (s₀.pids 2)
+      (fun i => match i with
+        | ⟨0, _⟩ => fun j => ids ((TileShape.allIndices io.shapeIdx).get j)
+        | ⟨1, _⟩ => fun j => xs ((TileShape.allIndices io.shape).get j)
+        | ⟨_ + 2, h⟩ => absurd h (by simp only [toU]; omega))
+      s₀ hpid rfl rfl hu
+      (fun i => match i with
+        | ⟨0, _⟩ => fun j hj => hbx _ hj
+        | ⟨1, _⟩ => fun j hj => by
+            simp only [toU, hids] at hj ⊢
+            exact hbr _ hj
+        | ⟨_ + 2, h⟩ => absurd h (by simp only [toU]; omega))
+      (fun _o j hj => hbw _ hj) (fun t => t.elim0)
+      (fun i => match i with
+        | ⟨0, _⟩ => fun j hj => hidpin _ hj
+        | ⟨1, _⟩ => fun j hj => by
+            simp only [toU, hids] at hj ⊢
+            exact hxpin _ hj
+        | ⟨_ + 2, h⟩ => absurd h (by simp only [toU]; omega))
+  refine ⟨s', hexec, ?_, ?_⟩
+  · refine (forall_tileIndex_iff _).mp ?_
+    intro j hj
+    refine (hval (⟨0, by decide⟩ : Fin 1) j hj).trans ?_
+    show outDType.ofReal (R.round outDType (f pid
+        (fun k => ids ((TileShape.allIndices io.shapeIdx).get
+          (tilePos io.shapeIdx k)))
+        (fun k => xs ((TileShape.allIndices io.shape).get (tilePos io.shape k)))
+        ((TileShape.allIndices io.shape).get j)))
+      = outDType.ofReal (R.round outDType
+          (f pid ids xs ((TileShape.allIndices io.shape).get j)))
     rw [hids, hxs]
   · intro r' o' hcond
     refine hframe r' o' ?_
