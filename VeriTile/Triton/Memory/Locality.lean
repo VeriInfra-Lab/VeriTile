@@ -510,6 +510,10 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
         evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
+  | _, _, .dotInt a b, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms.1,
+        evalOp_agreeOn bounds b s₁ s₂ hag hms.2]
   | _, _, .transpose a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
@@ -551,6 +555,9 @@ theorem evalOp_agreeOn (bounds : RegionBounds) :
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds p s₁ s₂ hag hms]
   | _, _, .natToReal a, s₁, s₂, hag, hms => by
+      simp only [Op.SafeAt] at hms
+      simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
+  | _, _, .intToReal a, s₁, s₂, hag, hms => by
       simp only [Op.SafeAt] at hms
       simp only [evalOp, evalOp_agreeOn bounds a s₁ s₂ hag hms]
   | _, _, .load d mem mask, s₁, s₂, hag, hms => by

@@ -137,6 +137,108 @@ match the active marker set exactly.
 
 The current documented blocker set is:
 
+- `parallel_attention` — `parallel_rebased_fwd_kernel` + the
+  `_parallel_rebased_bwd_dkv` helper ported; the helper's scalar arguments
+  become universally-quantified binders (no cross-JIT call surface; marker
+  registered in `proof_blockers.md`); its trailing bare `return` dropped;
+  its descending `-BTS` loop as the ascending `hi − j·BTS` change of
+  variable with a `cdiv` trip count; the backward shell and
+  `_parallel_rebased_bwd_dq` are the trusted boundary.
+- `bmm_optimized` — `bmm_kernel` ported at the fully-masked
+  `DIVISIBLE_M = DIVISIBLE_N = DIVISIBLE_K = False` constexpr arm (marker
+  registered in `proof_blockers.md`); both `GROUP_M` CTA-reorder arms
+  transcribed (runtime `GROUP_SIZE` gate as a nested `ifThenElse`);
+  batch-offset parameter reassignments folded into the pointer tiles;
+  tuple assignment split; `range(num_iters)` spelled with explicit
+  start/step; the autotune sweep and host launch are the trusted boundary.
+- `parallel_retention_attention` — `parallel_retention_fwd_kernel` + the
+  `_parallel_retention_bwd_dkv` helper ported; the helper's scalar arguments
+  become universally-quantified binders (no cross-JIT call surface; marker
+  registered in `proof_blockers.md`); its trailing bare `return` dropped;
+  its descending `-BTS` loop as the ascending `hi − j·BTS` change of
+  variable with a `cdiv` trip count; the diagonal unary-minus decay index
+  respelled as a subtraction under the causal `tl.where` mask; int→float
+  promotions spelled `tl.toReal(...)`; the backward shell and
+  `_parallel_retention_bwd_dq` are the trusted boundary.
+- `f8_conversion_utils` — both jit kernels ported (first consumer of the
+  fp8 dtype channel); the stores' implicit destination-element-type casts
+  spelled explicitly (`(x).to(tl.float16)` / `(x).to(tl.float8e5)`; marker
+  registered in `proof_blockers.md`); `BLOCK_SIZE: tl.constexpr` as a Lean
+  `Nat` parameter; the upstream duplicate store in `kernel_f8_to_f16`
+  transcribed verbatim; host launch and `reinterpret` calls are the
+  trusted boundary.
+- `llama_ff_triton` — `ff_llama` ported at the `USE_FP8 = False` arm (the
+  fp8 path is a `bitcast=True` bit-reinterpretation, an ℝ-model limit;
+  marker registered in `proof_blockers.md`); RMSNorm-fused SwiGLU dual GEMM
+  proven as one exec closed form (3-accumulator/4-pointer loop invariant);
+  `tl.cdiv` trip count as the antiquoted `numKBlocks`; implicit store fp16
+  cast spelled explicitly; host launch and per-dtype dispatch are the
+  trusted boundary.
+- `rms_matmul_rbe` — both kernels ported: the GEMM as a twin mirror of
+  the `rms_rbe_matmul` port, and `rms_matmul_rbe_qkv` with its three
+  cross-JIT calls inlined (markers registered in `proof_blockers.md`);
+  the QKV headline is one bundled specification (a conjunction of three
+  `Realizes` faces per MAIN_THEOREM_CONVENTIONS §4) proven via one
+  region-parameterized pass bundle applied thrice with frame transport
+  (10 region-distinctness hypotheses).
+- `rms_rbe_matmul` — target JIT `rms_matmul_rbe` (the file's second
+  kernel) ported at the `USE_FP8 = False` arm; `rbe_triton` is dead
+  in-file (never launched; calls an undefined helper) and unmodeled;
+  unused params dropped; batched RMSNorm-fused GEMM proven as one exec
+  closed form (2-accumulator/3-pointer invariant + batch-axis register
+  clause); markers registered in `proof_blockers.md`.
+- `triton_matmul` — `matmul_kernel` ported with both constexpr epilogue
+  arms as twin surfaces (fp16 + fp8e4nv; marker registered in
+  `proof_blockers.md`), one od-generic proof stack instantiated per arm
+  (exec closed form + `⊨[R]` streaming face each); `tl.cdiv` trip count as
+  the antiquoted `numKBlocks`; K-loop counter spelled `kk`;
+  `launch_metadata` hook and per-dtype host config table are the trusted
+  boundary.
+- `attention_llama` — `_fwd_kernel` ported at the `USE_FP8 = False` arm
+  (the fp8 path is a `bitcast=True` bit-reinterpretation, an ℝ-model
+  limit; marker registered in `proof_blockers.md`); `IS_CAUSAL` split into
+  twin faithful surfaces (runtime `forRangeDyn` loop bound in both); two
+  dimension-general exec closed forms — full natural-exp softmax attention
+  (non-causal, under `N_CTX = BLOCK_N · numKVBlocks`) and shifted-causal
+  softmax (under `start_position ≤ pid₀ · BLOCK_M` and span `≤ N_CTX`);
+  the K/V positional-`other` loads spelled as plain masked loads whose
+  dead lanes are pinned by `hundef`; host launch is the trusted boundary.
+- `int4_matmul` — `matmul_kernel` ported at the `SPLIT_K = 1` store arm
+  (markers registered in `proof_blockers.md`); GPTQ int4-dequantize GEMM
+  proven as one exec closed form mirroring the `matmul_dequantize_int4`
+  twin (packed `Region .nat` channels, per-lane group rows); the
+  sub-first dequant runs on the `.int` channel via explicit `tl.cast`
+  and promotes through `Op.intToReal` (first consumer of the
+  signed-promotion lever); `tl.cdiv` trip count as the antiquoted
+  `numKBlocks`; autotune sweep and host launch are the trusted boundary.
+- `int8_dequant_matmul` — `_int8_matmul_rowwise_dequantize` ported at the
+  `SPLIT_K = 1` store arm and the `EVEN_K = True` load arm (markers
+  registered in `proof_blockers.md`); int8×int8→int32 GEMM with rowwise
+  dequant epilogue, the first `Op.dotInt` consumer — the accumulator
+  stays on the ℤ channel through the whole K loop and promotes to ℝ once
+  via `Op.intToReal` in the epilogue; `has_bias` a genuine `Bool` with
+  both arms under one headline; the faithful `.to(tl.float16)` casts make
+  the masked store `.fp16`-typed, read back at the MemCell level; the
+  autotune sweep and host launch are the trusted boundary.
+- `matmul_dequant_int4` — the target JIT is the file's second kernel,
+  `dequantize_kernel`, the only one launched (the first, `matmul4_kernel`,
+  is dead code byte-identical to the `matmul_dequantize_int4` port's
+  kernel — not modeled; markers registered in `proof_blockers.md`);
+  straight-line masked int4 dequantization proven as one fully
+  dimension-general exec closed form whose only hypothesis is store-map
+  injectivity; the signed nibble difference runs on the `.int` channel via
+  explicit `tl.cast` and promotes through `Op.intToReal` (second consumer
+  of the signed-promotion lever); the masked loads keep `other=0.0`
+  faithfully; the autotune sweep and host launch are the trusted boundary.
+- `matmul_dequantize` — all three JIT kernels launched and modeled in py
+  order (markers registered in `proof_blockers.md`); three disjoint proof
+  stacks mirroring the `matmul_dequantize_int4` / `int4_matmul` /
+  `matmul_dequant_int4` twins; `matmul4_kernel` proven with `NO_GROUPS`
+  as a genuine `Bool` parameter (both arms), `matmul_kernel` at the
+  `SPLIT_K = 1` store arm with a MemCell-level `.fp16` readback (its
+  source keeps explicit `.to(tl.float16)` casts), `dequantize_kernel` a
+  1:1 mirror of the byte-identical 168th port; the three host launches
+  are the trusted boundary.
 - `attn_fwd_triton` — `_attn_fwd_inner` inlined; `128`/`96` head constants
   generalized to `BLOCK_DMODEL`/`HEAD_ACTIVE` binders.
 - `attn_fwd_causal` — `_attn_fwd_inner` inlined; `128`/`96` generalized.
@@ -174,6 +276,27 @@ The current documented blocker set is:
   `DIM = 128` → `DIM : Nat` binder; dtype/shape-changing `freqs` rebinds
   renamed; `.to(tl.float32)` spelled `tl.toReal`; explicit int→float
   promotion bindings.
+- `chunk_retention_ops` — the state-recurrence pair ported; `fwd_kernel_h`
+  is statement-identical to `chunk_retention`'s (with `initial_state`/
+  `final_state` spelled `h0`/`ht`); its `bwd_kernel_dh` is the clean
+  dimension-general store-history sibling (in-loop stores, fixed decay).
+  Same `tl.toReal(...)` promotion casts (marker registered in
+  `proof_blockers.md`); tuple assignments split; descending loop as the
+  ascending change of variable; `do` → `do_`.
+- `chunk_retention` — the state-recurrence pair (`fwd_kernel_h`, the file's
+  first kernel, + `bwd_kernel_dh`) ported; `fwd_kernel_o`/`bwd_kernel_dqkv`
+  are the trusted boundary. The decay prologue's implicit int→float
+  promotions are spelled `tl.toReal(...)` (marker registered in
+  `proof_blockers.md`); tuple assignments split; `bwd_kernel_dh`'s
+  descending `range(NT-1, -1, -1)` spelled as the ascending
+  `for j in range(0, NT)` with `i_t = NT - 1 - j` (the `chunk_linear_attn`
+  respelling), its post-loop `i_t` use pre-initialized (DSL scopes loop-body
+  names), its single shared block size bound as `BT` (its `tl.dot` shapes
+  force `BK = BT = BV`), and its dead signature params (`q`, `s_qk_*`,
+  `scale`) omitted (`fused_recurrent_retention` precedent); `do` → `do_`.
+- `chunk_gla_fwd` — output kernel `chunk_gla_fwd_kernel_o` ported with a
+  full multi-block K-loop headline; the four `A`-builder kernels open with
+  bare early `return`s (no `Stmt` early exit) and are the trusted boundary.
 - `bgmv_shrink_kernel` — `-1` sentinel early return as a guard (write-free
   path proven); `SPLIT_K == 1` store-vs-atomic tail split into two surfaces;
   `tl.max_contiguous` hint erased; unused `xk_stride` dropped.

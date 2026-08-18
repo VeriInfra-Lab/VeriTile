@@ -16,6 +16,8 @@ def eraseDType : TileDType → TileDType
   | .fp32 => .real
   | .fp16 => .real
   | .bf16 => .real
+  | .f8e4 => .real
+  | .f8e5 => .real
   | dtype => dtype
 
 /-- Erase a floating dtype tag to the real channel. -/
@@ -34,6 +36,8 @@ def eraseDType : NumericDType dtype → NumericDType (VeriTile.Triton.eraseDType
   | .fp32 => .real
   | .fp16 => .real
   | .bf16 => .real
+  | .f8e4 => .real
+  | .f8e5 => .real
   | .int => .int
   | .nat => .nat
 
@@ -56,6 +60,8 @@ def eraseDType : ComparableDType dtype → ComparableDType (VeriTile.Triton.eras
   | .fp32 => .real
   | .fp16 => .real
   | .bf16 => .real
+  | .f8e4 => .real
+  | .f8e5 => .real
   | .int => .int
   | .nat => .nat
 
@@ -131,6 +137,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .argMin axis a => .argMin axis a.eraseDType
   | .sort axis a => .sort axis a.eraseDType
   | .dot a b => .dot a.eraseDType b.eraseDType
+  | .dotInt a b => .dotInt a.eraseDType b.eraseDType
   | .transpose a => .transpose a.eraseDType
   | .reshape outShape a => .reshape outShape a.eraseDType
   | .remap outShape map a => .remap outShape map a.eraseDType
@@ -150,6 +157,7 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
   | .advanceBlockPtr ptr deltas => .advanceBlockPtr ptr.eraseDType deltas
   | .load dtype mem mask => .load (VeriTile.Triton.eraseDType dtype) mem.eraseDType mask.eraseDType
   | .natToReal a => .natToReal a.eraseDType
+  | .intToReal a => .intToReal a.eraseDType
 termination_by e => sizeOf e
 decreasing_by
   all_goals

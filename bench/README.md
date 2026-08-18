@@ -20,10 +20,10 @@ variant, and proof-status tracked.
 
 ## Current state
 
-**151 TritonBench-G kernels are ported** — each `bench/tritonbench_g/<kernel>/`
-holds a faithful `.py` + `.lean` pair, all 151 compile (`bench/check_ports.sh`
-reports `151 ok, 0 fail`), and every completed port carries a standard
-`ComputeCorrect.Realizes` correctness surface. The 33 remaining work
+**170 TritonBench-G kernels are ported** — each `bench/tritonbench_g/<kernel>/`
+holds a faithful `.py` + `.lean` pair, all 170 compile (`bench/check_ports.sh`
+reports `170 ok, 0 fail`), and every completed port carries a standard
+`ComputeCorrect.Realizes` correctness surface. The 14 remaining work
 directories are README-only scaffolds, not yet counted as ports. The source of
 truth for these counts and the per-port evidence is
 [`tritonbench_g/completion_audit.md`](./tritonbench_g/completion_audit.md); the
@@ -42,21 +42,41 @@ project.
 ## TritonBench-G v1 anchor
 
 We are aligning the verification benchmark with [TritonBench-G v1][tb] (184
-GitHub-scraped real Triton kernels, ACL 2025 Findings). A static primitive
-scan of all 184 kernels against the current DSL contract gives, after two
-trivial surface adapters (`tl.math.*`, `tl.extra.cuda.libdevice.*`):
+GitHub-scraped real Triton kernels, ACL 2025 Findings). **170 of the 184 are ported.** The original (2026-05-05) static primitive scan
+estimated only 141 as within the DSL contract; the levers it named
+(`tl.math.*` / `tl.extra` adapters, the concurrency boundary,
+`tl.num_programs`, the `atomic_add` proof shape) have since landed, so that
+estimate is superseded — treat it as history, not status.
 
-| Verdict | Count | Share |
-|---|---:|---:|
-| OK (DSL covers primitives) | 141 | 77% |
-| Soft (small DSL/proof extension) | 15 | 8% |
-| Hard (new semantic layer required) | 28 | 15% |
+The remaining **14 are scaffolded but not imported**: the per-kernel directory
+and README exist, the upstream `.py` does not. Re-measured against the DSL's
+actual surface (95 `tl.*` forms, extracted from `VeriTile/Triton/DSL/**`):
 
-Top remediation levers, ranked by file yield: `tl.math.*` adapter (24),
-`tl.extra` adapter (9), concurrency boundary (#12, unlocks 11), `tl.num_programs`
-(9), FP8 dtype channel (7), `atomic_add` proof shape (6), int4 packed unpack
-(4), RNG (#41, 4). See [`tritonbench_coverage.md`](./tritonbench_coverage.md)
-for the full per-file table, hard-gap reasons, and caveats.
+| Verdict | Count |
+|---|---:|
+| Portable now — every form it uses already in the DSL | 0 |
+| Blocked on a missing primitive, or on an ℝ-model limit | 14 |
+
+Ranked unlock levers for the 14: the **fp8 dtype channel landed and closed
+2026-08-13** (`.f8e4`/`.f8e5`; ports 161–163 — the three remaining
+`tl.float8e5` mentions are `bitcast=True` bit-reinterpretations, an ℝ-model
+limit, whose non-fp8 arms are now all ported as the 164th–166th ports,
+`attention_llama` last, closing the expected-portable frontier;
+`matmul_persistent_triton` re-checked into the signed-int family),
+the integer channel — its **signed-promotion tier landed 2026-08-17**
+(`Op.intToReal` + `tl.static_assert`; consumers = ports 167–169) and its
+**int-dot tier landed 2026-08-18** (`Op.dotInt`, the integer-accumulator
+`tl.dot`; first consumer `int8_dequant_matmul` = the 170th port; the 3
+remaining int-family kernels — `int8_matmul_quantization`,
+`int8_matmul_kernel`, `int_scaled_matmul` — need only small riders now:
+`tl.broadcast_to`, a `tl.full` tuple-dims respell, `castRealToInt8`), RNG
+(4), a `while` statement in `Stmt` (3), `tl.interleave` (2),
+`tl.static_assert` (2, a macro no-op), `tl.broadcast_to` (1, an alias), IEEE
+inf/NaN + `libdevice.isfinited` (1). See
+[`tritonbench_coverage.md`](./tritonbench_coverage.md) for the per-kernel table,
+the method, and what "portable" does and does not claim — including the
+2026-08-10 recount that took `Portable now` from 9 to 2, because the verdict had
+been formed from one jit kernel per file rather than from all of them.
 
 The "OK" verdict is *expressibility*, not *proof feasibility*: many `OK`
 kernels (FA-1 backward, RWKV6, Mamba SSM, chunked GLA) still need fresh proof

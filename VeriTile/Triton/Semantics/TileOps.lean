@@ -766,6 +766,16 @@ real value). -/
     (x : Tile .nat shape) (idx : TileIndex shape) :
     (Tile.natToReal x).data idx = some ((x.data idx : ℝ)) := rfl
 
+def Tile.intToReal {shape} (x : Tile .int shape) : Tile .real shape :=
+  ⟨fun i => some ((x.data i : ℝ))⟩
+
+/-- `Tile.intToReal` lifts each `Int` lane to a `some` real value: the signed
+sibling of `Tile.natToReal`, for bridging Int-channel values (e.g. signed
+zero-point differences in dequantization) into Real-channel arithmetic. -/
+@[simp] theorem Tile.intToReal_data {shape : TileShape}
+    (x : Tile .int shape) (idx : TileIndex shape) :
+    (Tile.intToReal x).data idx = some ((x.data idx : ℝ)) := rfl
+
 /-- Block-level (possibly batched) matrix multiply (Triton's `tl.dot`):
 `c[…, m, n] = ∑_k a[…, m, k] * b[…, k, n]`.
 
@@ -812,6 +822,44 @@ each operand at outer index `i` and recurses on the remaining batch. -/
     (i : Fin b) (restIdx : TileIndex (rest ++ [M, N])) :
     (Tile.dot (b :: rest) a b').data (i, restIdx) =
       (Tile.dot rest (M := M) (K := K) (N := N)
+          ⟨fun rIdx => a.data (i, rIdx)⟩
+          ⟨fun rIdx => b'.data (i, rIdx)⟩).data restIdx := rfl
+
+/-- Integer block-level (possibly batched) matrix multiply (Triton's
+`tl.dot` with an int32 accumulator): the `.int`-channel sibling of
+`Tile.dot`. The `.int` carrier is a total `Int`, so there is no `⊥`
+bookkeeping — each entry is the plain ℤ sum-product
+`c[…, m, n] = ∑_k a[…, m, k] * b[…, k, n]`. -/
+def Tile.dotInt : (batch : TileShape) → {M K N : Nat} →
+    Tile .int (batch ++ [M, K]) → Tile .int (batch ++ [K, N]) →
+    Tile .int (batch ++ [M, N])
+  | [], _, K, _, a, b =>
+      ⟨fun (m, n, _) =>
+        @Finset.sum (Fin K) Int _ Finset.univ
+          (fun k => a.data (m, k, PUnit.unit) * b.data (k, n, PUnit.unit))⟩
+  | _ :: rest, M, K, N, a, b =>
+      ⟨fun (i, restIdx) =>
+        (Tile.dotInt rest (M := M) (K := K) (N := N)
+            ⟨fun rIdx => a.data (i, rIdx)⟩
+            ⟨fun rIdx => b.data (i, rIdx)⟩).data restIdx⟩
+
+/-- Body of `Tile.dotInt` at the rank-2 base case (`batch = []`); lets `simp`
+expose the ℤ `Finset.sum` form for kernel proofs. -/
+@[simp] theorem Tile.dotInt_nil_data {M K N : Nat}
+    (a : Tile .int [M, K]) (b : Tile .int [K, N])
+    (m : Fin M) (n : Fin N) (rest : TileIndex []) :
+    (Tile.dotInt [] a b).data (m, n, rest) =
+      @Finset.sum (Fin K) Int _ Finset.univ
+        (fun k => a.data (m, k, PUnit.unit) * b.data (k, n, PUnit.unit)) := rfl
+
+/-- Recursive step: `(Tile.dotInt (b :: rest) a b').data (i, restIdx)` slices
+each operand at outer index `i` and recurses on the remaining batch. -/
+@[simp] theorem Tile.dotInt_cons_data {b : Nat} {rest : TileShape} {M K N : Nat}
+    (a : Tile .int ((b :: rest) ++ [M, K]))
+    (b' : Tile .int ((b :: rest) ++ [K, N]))
+    (i : Fin b) (restIdx : TileIndex (rest ++ [M, N])) :
+    (Tile.dotInt (b :: rest) a b').data (i, restIdx) =
+      (Tile.dotInt rest (M := M) (K := K) (N := N)
           ⟨fun rIdx => a.data (i, rIdx)⟩
           ⟨fun rIdx => b'.data (i, rIdx)⟩).data restIdx := rfl
 

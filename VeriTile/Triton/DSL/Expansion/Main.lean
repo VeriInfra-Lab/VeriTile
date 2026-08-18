@@ -138,6 +138,8 @@ private def typedRegionAntiquote? (r : TSyntax `term) :
     | `(($_:term : Region .fp32)) => pure (some DInfo.fp32)
     | `(($_:term : Region .fp16)) => pure (some DInfo.fp16)
     | `(($_:term : Region .bf16)) => pure (some DInfo.bf16)
+    | `(($_:term : Region .f8e4)) => pure (some DInfo.f8e4)
+    | `(($_:term : Region .f8e5)) => pure (some DInfo.f8e5)
     | `(($_:term : Region .int)) => pure (some DInfo.int)
     | `(($_:term : Region .nat)) => pure (some DInfo.nat)
     | `(($_:term : Region .bool)) => pure (some DInfo.bool)
@@ -145,6 +147,8 @@ private def typedRegionAntiquote? (r : TSyntax `term) :
     | `(($_:term : Region TileDType.fp32)) => pure (some DInfo.fp32)
     | `(($_:term : Region TileDType.fp16)) => pure (some DInfo.fp16)
     | `(($_:term : Region TileDType.bf16)) => pure (some DInfo.bf16)
+    | `(($_:term : Region TileDType.f8e4)) => pure (some DInfo.f8e4)
+    | `(($_:term : Region TileDType.f8e5)) => pure (some DInfo.f8e5)
     | `(($_:term : Region TileDType.int)) => pure (some DInfo.int)
     | `(($_:term : Region TileDType.nat)) => pure (some DInfo.nat)
     | `(($_:term : Region TileDType.bool)) => pure (some DInfo.bool)
@@ -771,6 +775,10 @@ partial def expandFullDTypeTerm (expandExpr : ExprExpander) (env : Env)
     expandFull expandExpr env dims v (dtypeHint := some .fp16)
   else if dtString.contains "tl.bfloat16" then
     expandFull expandExpr env dims v (dtypeHint := some .bf16)
+  else if dtString.contains "tl.float8e4nv" then
+    expandFull expandExpr env dims v (dtypeHint := some .f8e4)
+  else if dtString.contains "tl.float8e5" then
+    expandFull expandExpr env dims v (dtypeHint := some .f8e5)
   else if dtString.contains "tl.int1" then
     expandFull expandExpr env dims v (dtypeHint := some .bool)
   else if dtString.contains "tl.int" then
@@ -795,7 +803,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
               Macro.throwError "tl.cast: Bool casts are only supported directly on tl.load"
           | .nat =>
               match e'.dtype with
-              | .real | .fp32 | .fp16 | .bf16 | .floatVar _ =>
+              | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ =>
                   let sh ← e'.shape.term
                   let ref ← `(Op.ref TileDType.nat $sh "__compute_float_to_nat_cast_unprojected__")
                   pure ⟨ref, .nat, e'.shape, none, none⟩
@@ -804,7 +812,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
               | _ => pure e'
           | .int =>
               match e'.dtype with
-              | .real | .fp32 | .fp16 | .bf16 | .floatVar _ =>
+              | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ =>
                   let srcProof ← e'.dtype.floatProof
                   let realTerm ← `(Op.castFloat $srcProof FloatDType.real $e'.term)
                   pure ⟨← `(Op.castRealToInt8 $realTerm), .int, e'.shape, none, none⟩
@@ -852,14 +860,14 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       let e' ← expandExpr env e
       let dst ← expandDType dt
       match dst with
-      | .fp32 | .fp16 | .bf16 =>
+      | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 =>
           let srcProof ← e'.dtype.floatProof
           let dstProof ← dst.floatProof
           pure ⟨← `(Op.castFloat $srcProof $dstProof $e'.term), dst, e'.shape,
             none, none⟩
       | _ =>
           Macro.throwError
-            "round_to: only fp32/fp16/bf16 name a rounding grid (use .to(...) for working-precision casts)"
+            "round_to: only fp32/fp16/bf16/float8 name a rounding grid (use .to(...) for working-precision casts)"
   | none =>
   match methodCast? stx with
   | some (e, dt) =>
@@ -884,6 +892,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
           let e' ← expandExpr env e
           match e'.dtype, dst with
           | .real, .nat | .fp32, .nat | .fp16, .nat | .bf16, .nat
+          | .f8e4, .nat | .f8e5, .nat
           | .floatVar _, .nat =>
               let sh ← e'.shape.term
               let ref ← `(Op.ref TileDType.nat $sh "__compute_float_to_nat_cast_unprojected__")
@@ -891,6 +900,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
           | .int, .nat =>
               pure ⟨← `(Op.castIntToNat $e'.term), .nat, e'.shape, none, none⟩
           | .real, .int | .fp32, .int | .fp16, .int | .bf16, .int
+          | .f8e4, .int | .f8e5, .int
           | .floatVar _, .int =>
               let srcProof ← e'.dtype.floatProof
               let realTerm ← `(Op.castFloat $srcProof FloatDType.real $e'.term)
@@ -1146,8 +1156,11 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       expandReduceMax expandExpr env e kwargs
   | `(tritonExpr| tl.toReal($e:tritonExpr)) => do
       let e' ← expandExpr env e
-      ensureDType .nat e'.dtype "tl.toReal"
-      pure ⟨← `(Op.natToReal $e'.term), .real, e'.shape, none, none⟩
+      match e'.dtype with
+      | .int => pure ⟨← `(Op.intToReal $e'.term), .real, e'.shape, none, none⟩
+      | _ =>
+          ensureDType .nat e'.dtype "tl.toReal"
+          pure ⟨← `(Op.natToReal $e'.term), .real, e'.shape, none, none⟩
   | `(tritonExpr| tl.multiple_of($e:tritonExpr, $_align:tritonExpr)) => do
       expandExpr env e
   | `(tritonExpr| tl.max_contiguous($e:tritonExpr, $_align:tritonExpr)) => do
@@ -1185,7 +1198,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       match dst with
       | .nat =>
           match e'.dtype with
-          | .real | .fp32 | .fp16 | .bf16 | .floatVar _ =>
+          | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ =>
               let sh ← e'.shape.term
               let ref ← `(Op.ref TileDType.nat $sh "__compute_float_to_nat_cast_unprojected__")
               pure ⟨ref, .nat, e'.shape, none, none⟩
@@ -1194,7 +1207,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
           | _ => pure e'
       | .int =>
           match e'.dtype with
-          | .real | .fp32 | .fp16 | .bf16 | .floatVar _ =>
+          | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ =>
               let srcProof ← e'.dtype.floatProof
               let realTerm ← `(Op.castFloat $srcProof FloatDType.real $e'.term)
               pure ⟨← `(Op.castRealToInt8 $realTerm), .int, e'.shape, none, none⟩
@@ -1235,20 +1248,24 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       expandDot expandExpr env a b
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr $[, $_kwargs:tritonReduceKwarg]*)) => do
       -- Triton dot kwargs such as `allow_tf32` and `out_dtype` are execution
-      -- hints for the current real-valued carrier, so the compute semantics
-      -- erase them.
+      -- hints, so the compute semantics erase them: for float operands the
+      -- current carrier is real-valued, and for int operands
+      -- `out_dtype=tl.int32` is redundant with the operand dtype (the `.int`
+      -- channel already accumulates exactly in ℤ).
       expandDot expandExpr env a b
   | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr, $acc:tritonExpr)) => do
       -- Fused accumulator form: `tl.dot(a, b, acc) ≡ acc + tl.dot(a, b)`.
       -- Both `tl.dot(a, b)` and `acc` have shape `[M, N]`; their `+` uses
-      -- the standard same-shape broadcast.
+      -- the standard same-shape broadcast. The accumulator channel follows
+      -- the dot's (`.real`, or `.int` for the integer tl.dot).
       let dot ← expandDot expandExpr env a b
       let acc' ← expandExpr env acc
-      ensureDType .real acc'.dtype "tl.dot accumulator"
+      ensureDType dot.dtype acc'.dtype "tl.dot accumulator"
       ensureShape dot.shape acc'.shape "tl.dot accumulator"
+      let np ← dot.dtype.numericProof
       let (bc, outShape) ← broadcastTerm dot.shape acc'.shape "tl.dot accumulator"
-      pure ⟨← `(Op.add NumericDType.real $bc $dot.term $acc'.term),
-            .real, outShape, none, none⟩
+      pure ⟨← `(Op.add $np $bc $dot.term $acc'.term),
+            dot.dtype, outShape, none, none⟩
   | `(tritonExpr| tl.make_block_ptr($p:tritonExpr, $baseKw:ident=$base:tritonExpr,
         $shapeKw:ident=[$parentDims:tritonExpr,*], $stridesKw:ident=[$strideDims:tritonExpr,*],
         $offsetsKw:ident=[$offsetDims:tritonExpr,*], $blockShapeKw:ident=[$blockDims:tritonExpr,*])) => do
@@ -1410,6 +1427,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
         | .fp32 => pure (← `(Op.constFloat FloatDType.fp32 0.0), DInfo.fp32)
         | .fp16 => pure (← `(Op.constFloat FloatDType.fp16 0.0), DInfo.fp16)
         | .bf16 => pure (← `(Op.constFloat FloatDType.bf16 0.0), DInfo.bf16)
+        | .f8e4 => pure (← `(Op.constFloat FloatDType.f8e4 0.0), DInfo.f8e4)
+        | .f8e5 => pure (← `(Op.constFloat FloatDType.f8e5 0.0), DInfo.f8e5)
         | .int => pure (← `(Op.constInt 0), DInfo.int)
         | _ => Macro.throwError "unary -: dtype mismatch"
       ensureDType zeroDType a'.dtype "unary -"
@@ -1646,6 +1665,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
         | .fp32 => `(Op.constFloat FloatDType.fp32 0.0)
         | .fp16 => `(Op.constFloat FloatDType.fp16 0.0)
         | .bf16 => `(Op.constFloat FloatDType.bf16 0.0)
+        | .f8e4 => `(Op.constFloat FloatDType.f8e4 0.0)
+        | .f8e5 => `(Op.constFloat FloatDType.f8e5 0.0)
         | .floatVar name => do
             let t : TSyntax `term := ⟨mkIdent (Name.mkSimple name)⟩
             `(Op.constFloat $t 0.0)
@@ -2547,6 +2568,11 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       pure (← `(Stmt.ifThen (Op.constBool Bool.false) []),
         ← `(ComputeStmt.alg (Stmt.ifThen (Op.constBool Bool.false) [])), env,
         Bool.false)
+  | `(tritonStmt| tl.static_assert($cond:tritonExpr $[, $_msg:str]?)) => do
+      discard <| expandExpr env cond
+      pure (← `(Stmt.ifThen (Op.constBool Bool.false) []),
+        ← `(ComputeStmt.alg (Stmt.ifThen (Op.constBool Bool.false) [])), env,
+        Bool.false)
   | `(tritonStmt| tl.for $i:ident in $($n:term) { $stmts:tritonStmt* }) => do
       let nameLit ← identAsStr i
       let bodyEnv := (i.getId.toString, DInfo.nat, SInfo.scalar, none) :: env
@@ -2771,8 +2797,12 @@ partial def expandStmts (env : Env) (pinned intPinned : List String)
       | none => do
           let (algTerm, computeTerm, nextEnv, stmtHasCompute) ←
             expandStmt env pinned intPinned regionDTypes ptrElems st
+          -- Thread the pointer element-dtype map the same way `env` is threaded:
+          -- prepend this statement's bindings so the *rest* of the block resolves
+          -- a pointer name to its most recent binding, not the body's last one.
+          let nextPtrElems := Inference.ptrElemsAfterStmt regionDTypes ptrElems st
           let (algRest, computeRest, restEnv, restHasCompute) ←
-            expandStmts nextEnv pinned intPinned regionDTypes ptrElems rest
+            expandStmts nextEnv pinned intPinned regionDTypes nextPtrElems rest
           pure (#[algTerm] ++ algRest, #[computeTerm] ++ computeRest,
             restEnv, stmtHasCompute || restHasCompute)
 
@@ -2790,6 +2820,10 @@ private def dInfoOfTileDTypeExpr? (e : Expr) : MetaM (Option DInfo) := do
     pure (some .fp16)
   else if e.isConstOf ``TileDType.bf16 then
     pure (some .bf16)
+  else if e.isConstOf ``TileDType.f8e4 then
+    pure (some .f8e4)
+  else if e.isConstOf ``TileDType.f8e5 then
+    pure (some .f8e5)
   else if e.isConstOf ``TileDType.int then
     pure (some .int)
   else if e.isConstOf ``TileDType.nat then

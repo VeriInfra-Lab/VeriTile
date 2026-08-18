@@ -800,6 +800,8 @@ private def dtypeOfTritonDType (stx : TSyntax `tritonDType) : Option DInfo :=
   | `(tritonDType| tl.float32) => some .fp32
   | `(tritonDType| tl.float16) => some .fp16
   | `(tritonDType| tl.bfloat16) => some .bf16
+  | `(tritonDType| tl.float8e4nv) => some .f8e4
+  | `(tritonDType| tl.float8e5) => some .f8e5
   | `(tritonDType| tl.int1) => some .bool
   | `(tritonDType| tl.int8) => some .int
   | `(tritonDType| tl.int16) => some .int
@@ -891,6 +893,8 @@ private def typedRegionTermDType? (r : TSyntax `term) : Option DInfo :=
   | `(($_:term : Region .fp32)) => some DInfo.fp32
   | `(($_:term : Region .fp16)) => some DInfo.fp16
   | `(($_:term : Region .bf16)) => some DInfo.bf16
+  | `(($_:term : Region .f8e4)) => some DInfo.f8e4
+  | `(($_:term : Region .f8e5)) => some DInfo.f8e5
   | `(($_:term : Region .int)) => some DInfo.int
   | `(($_:term : Region .nat)) => some DInfo.nat
   | `(($_:term : Region .bool)) => some DInfo.bool
@@ -898,6 +902,8 @@ private def typedRegionTermDType? (r : TSyntax `term) : Option DInfo :=
   | `(($_:term : Region TileDType.fp32)) => some DInfo.fp32
   | `(($_:term : Region TileDType.fp16)) => some DInfo.fp16
   | `(($_:term : Region TileDType.bf16)) => some DInfo.bf16
+  | `(($_:term : Region TileDType.f8e4)) => some DInfo.f8e4
+  | `(($_:term : Region TileDType.f8e5)) => some DInfo.f8e5
   | `(($_:term : Region TileDType.int)) => some DInfo.int
   | `(($_:term : Region TileDType.nat)) => some DInfo.nat
   | `(($_:term : Region TileDType.bool)) => some DInfo.bool
@@ -978,6 +984,17 @@ the direct `tl.load(staticRegion + offset)` case. -/
 def collectPtrElems (regionDTypes : RegionDTypes)
     (stmts : List (TSyntax `tritonStmt)) : PtrElems :=
   ptrElemsFromStmts regionDTypes [] stmts
+
+/-- **Program-point update.** The element dtypes in effect *after* `stx`, given
+those in effect before it. `collectPtrElems` gives the whole body's bindings as a
+base (so a name bound later in a loop body still resolves); the expansion driver
+prepends this per statement as it walks, so a load sees the binding in effect at
+*its* program point rather than the body's last one. Without the threading, a
+pointer name rebound across two regions of different element dtypes resolves to
+the later binding everywhere — including before it. -/
+def ptrElemsAfterStmt (regionDTypes : RegionDTypes) (acc : PtrElems)
+    (stx : TSyntax `tritonStmt) : PtrElems :=
+  ptrElemsFromStmt regionDTypes acc stx
 
 /-- Look up the propagated element dtype for a bound pointer name. -/
 def lookupPtrElem (ptrElems : PtrElems) (name : String) : Option DInfo :=

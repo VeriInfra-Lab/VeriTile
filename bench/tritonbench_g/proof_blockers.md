@@ -124,6 +124,238 @@ unless stated:
 - `attention_fwd_triton3` — the `_attn_fwd_inner` helper JIT is inlined into
   the single streaming loop (its loads/`tl.where`/`tl.advance` appear in the
   Lean surface but not in the Python `_attn_fwd` body).
+- `parallel_attention` — the DSL has no cross-`@triton.jit` function-call
+  surface, so the backward dk/dv helper `_parallel_rebased_bwd_dkv` is
+  ported as a standalone kernel over universally-quantified scalar arguments
+  `i_bh, i_c, i_k, i_v, i_h` (the values the shell
+  `parallel_rebased_bwd_kernel` would pass), with its trailing bare `return`
+  dropped and its descending
+  `for i in range(cdiv(T,BTS)·BTS − BTS, (i_c+1)·BTL − BTS, −BTS)` respelled
+  as the ascending change of variable
+  `for j in range(0, cdiv(cdiv(T,BTS)·BTS − (i_c+1)·BTL, BTS))` with
+  body-first `i = cdiv(T,BTS)·BTS − BTS − j·BTS` (the `±BTS` in Python's
+  `start − stop` cancels exactly in ℤ; ℕ-truncated subtraction reproduces
+  Python's empty range, so the trip counts agree for all parameters). The
+  port covers `parallel_rebased_fwd_kernel` (the file's first kernel) and
+  the dk/dv helper; the backward shell and `_parallel_rebased_bwd_dq` are
+  the trusted boundary.
+- `parallel_retention_attention` — the same helper-as-standalone shape as
+  `parallel_attention`: the backward dk/dv helper
+  `_parallel_retention_bwd_dkv` is ported as a standalone kernel over
+  universally-quantified scalar arguments `i_bh, i_c, i_k, i_v, i_h` (the
+  values the shell `parallel_retention_bwd_kernel` would pass), with its
+  trailing bare `return` dropped and its descending
+  `for i in range(cdiv(T,BTS)·BTS − BTS, (i_c+1)·BTL − BTS, −BTS)` respelled
+  as the ascending change of variable
+  `for j in range(0, cdiv(cdiv(T,BTS)·BTS − (i_c+1)·BTL, BTS))` with
+  body-first `i = cdiv(T,BTS)·BTS − BTS − j·BTS` (the `parallel_attention`
+  respelling verbatim). Additionally its diagonal decay's unary-minus index
+  spelling `-o_k[:, None] + o_q[None, :]` is respelled as the subtraction
+  `o_q[None, :] - o_k[:, None]` (no unary tile negation in the DSL; the two
+  agree on every lane the causal `tl.where` keep mask retains), and the
+  decay prologue's implicit int→float promotions are spelled with the
+  explicit `tl.toReal(...)` cast (the `chunk_retention` precedent). The
+  port covers `parallel_retention_fwd_kernel` (the file's first kernel) and
+  the dk/dv helper; the backward shell and `_parallel_retention_bwd_dq` are
+  the trusted boundary.
+- `attention_llama` — the `USE_FP8` constexpr arm is dropped entirely
+  (parameter + both `if USE_FP8:` blocks): that path bit-reinterprets int8
+  K/V bytes as `tl.float8e5` (`.to(tl.float8e5, bitcast=True)`) and
+  re-encodes to fp16 — the fixed-width-cast ℝ-model-limit family
+  (`llama_ff_triton` / `sgmv_expand_slice` dropped-arm precedent), so only
+  the `USE_FP8 = False` arm is transcribed (upstream test cases 1/2; the
+  int8 cases 3/4 launch the dropped arm and are out of the modeled
+  surface). The `IS_CAUSAL` constexpr is split into twin surfaces
+  (`attention_llama_fwd_surface` / `attention_llama_fwd_causal_surface`,
+  the `triton_matmul` twin-surface precedent); the causal twin keeps both
+  `block_n_end` assignments and the causal `tl.where` statement, and the
+  loop bound is a runtime register in both arms (`forRangeDyn`). The K/V
+  loads' POSITIONAL `other` argument (`tl.load(k_ptrs, mask, 0.)`) has no
+  DSL spelling (the grammar has the `other=` kwarg only, and adding the
+  kwarg would break the audit's kwarg-sequence scan against the Python),
+  so they are spelled as plain masked loads whose masked-off lanes read
+  the `undef` carrier — pinned to `0` (Python's exact fill value) by the
+  headlines' `hundef` hypothesis. The host launch (grid,
+  `assert Lk in {16,32,64,128}`, `num_warps`/`num_stages`) is the trusted
+  boundary.
+- `bmm_optimized` — the `DIVISIBLE_M/N/K` `triton.heuristics` constexprs
+  select between arms in which the load/store *mask arguments* are `None`
+  or mask tiles; a register holding "`None` or a tile" has no DSL analogue
+  (`MaskOpt` is syntax-level), so the port fixes the constexpr assignment
+  `DIVISIBLE_M = DIVISIBLE_N = DIVISIBLE_K = False` — the fully-masked arm,
+  total for arbitrary `M, N, K` (the other arms are mask-elision
+  optimizations the host may select when a dimension happens to be
+  divisible). The `GROUP_M == 1` / `else` CTA-reorder branch is transcribed
+  in full (both arms; the runtime `GROUP_SIZE` boundary gate as a nested
+  `Stmt.ifThenElse`). The three batch-offset parameter reassignments
+  (`A += pid_b*M*K`, `B += pid_b*K*N`, `O += pid_b*M*N`) are folded into
+  the three pointer-tile constructions (the DSL cannot rebind a region
+  parameter), the tuple assignment `pid_m, pid_n = pidx, pidy` is split
+  into one statement each, and the single-argument `range(num_iters)` is
+  spelled `range($(0), num_iters, $(1))`. The `triton.autotune` config
+  sweep and the host launch are the trusted boundary.
+- `f8_conversion_utils` — Triton's `tl.store` implicitly casts the stored
+  value to the destination pointer's element type, and both hosts fix that
+  type outside the kernel text (`triton.reinterpret(x, tl.float8e5)` on the
+  fp8 side, a `torch.float16` allocation on the fp16 side); the DSL types a
+  store by its **value**, so the implicit casts are spelled explicitly —
+  `(x).to(tl.float16)` in `kernel_f8_to_f16`, `(x).to(tl.float8e5)` in
+  `kernel_f16_to_f8`. Python `BLOCK_SIZE: tl.constexpr` becomes a Lean
+  `Nat` parameter. The host launch (grid, the `reinterpret` calls, the
+  `numel` bookkeeping) is the trusted boundary; the f8-side *input*
+  buffer's grid membership is a host-pipeline fact the headlines do not
+  consume (inputs are exact ℝ per the `⊨[R]` convention).
+- `int4_matmul` — three disclosed surface deviations, none semantic.
+  (1) The `SPLIT_K` constexpr is fixed to `1` (the `tl.store` epilogue arm;
+  the autotune table sweeps `SPLIT_K ∈ {1,2}` and the atomic-add arm
+  accumulates into a host-zeroed `C` via `reset_to_zero` — the
+  `bmm_optimized` fixed-arm precedent), so the headline carries the launch
+  fact `s.pids 1 = 0` (grid axis 1 has extent `SPLIT_K = 1`). (2) The
+  K-loop bound `tl.cdiv(K, BLOCK_SIZE_K * SPLIT_K)` is the antiquoted
+  `numKBlocks` with the honest side condition
+  `K = BLOCK_SIZE_K · numKBlocks` (the kernel docstring's own assert; the
+  loads are unmasked so the exact presentation is required —
+  `llama_ff_triton` precedent). (3) The dequant subtraction is spelled
+  `(tl.cast(int_b, tl.int32) - tl.cast(int_bzp, tl.int32)) * bs`: the
+  packed nibbles live on the `.nat` channel (bitwise ops are nat-only) but
+  the nibble difference ranges over `[-15, 15]`, so the subtraction must
+  run on the `.int` channel — `tl.cast(x, tl.int32)` is the explicit
+  `Op.castNatToInt` spelling (`kcache_copy_triton` precedent), and the
+  `int × real` product promotes through `Op.intToReal` (this port is its
+  first consumer). The statement's trailing `.to(a.dtype)` — an
+  erased-identity cast on the ℝ carrier — is dropped from this one
+  assignment (the DSL's `.to(<ident>.dtype)` wrapper raw-text-matches
+  `tl.int*` and rejects the ℝ `bs` operand); the following
+  `tl.dot(a, (b).to(a.dtype))` keeps its cast faithfully. The packed
+  weight/zero-point regions are `Region .nat`
+  (`matmul_dequantize_int4` precedent). The `triton.autotune` sweep and
+  the host launch are the trusted boundary.
+- `llama_ff_triton` — the `USE_FP8` constexpr arm is dropped entirely
+  (parameter + branches): that path bit-reinterprets int8 weight bytes as
+  `tl.float8e5` (`.to(tl.float8e5, bitcast=True)`) — a bit-level decode with
+  no value-level ℝ transcription (the fixed-width-cast ℝ-model limit family),
+  so only the `USE_FP8 = False` (fp16-weights) arm is transcribed
+  (`sgmv_expand_slice` dropped-arm precedent). The loop trip count
+  `tl.cdiv(K, BLOCK_SIZE_K)` is the antiquoted `numKBlocks`
+  (`K = BLOCK_SIZE_K · numKBlocks`; the loads are unmasked, so the exact
+  presentation is required). The store's implicit fp16 cast (the host
+  allocates `out` at `x.dtype = float16`) is spelled
+  `(accumulator).to(tl.float16)` (`f8_conversion_utils` precedent). The
+  K-loop counter is spelled `_i` for Python's `_`.
+- `matmul_dequant_int4` — two disclosed surface deviations, neither
+  semantic, plus a dead-kernel disclosure. The target JIT is the file's
+  **second** kernel, `dequantize_kernel` — the only one any host launches
+  (`matmul_dequantize_int4_s1` → `dequantize_int4` →
+  `dequantize_kernel[grid]`, followed by a host-side `torch.mm`); the
+  file's first kernel, `matmul4_kernel`, is dead code — no host references
+  it, and its body is byte-identical to the kernel the
+  `matmul_dequantize_int4` port proves — so it is not modeled
+  (`rms_rbe_matmul` dead-kernel precedent). (1) The dequant statement is
+  spelled `(tl.cast((int32_b >> b_shift) & $(15), tl.int32) -
+  tl.cast((zp_b >> bzp_shift) & $(15), tl.int32)) * scale_b`: the packed
+  containers live on the `.nat` channel (bitwise ops are nat-only), the
+  nibble difference goes negative and ℕ subtraction truncates, so the
+  subtraction runs on the `.int` channel via `tl.cast`
+  (`Op.castNatToInt`, `kcache_copy_triton` precedent) and the
+  `int × real` product promotes through `Op.intToReal` — the
+  `int4_matmul` disclosure-(3) respell, applied inline. (2) Index
+  literals are antiquoted (`$(8)` / `$(4)`; `0xF` as the decimal `$(15)`;
+  the runtime `group_size` as `$(group_size)`). The three masked loads
+  keep their `other=0.0` kwargs faithfully — on the two packed `.nat`
+  channels the expander reads the literal `0.0` as the nat constant `0`,
+  value-identical. The packed weight/zero-point regions are `Region .nat`
+  (`matmul_dequantize_int4` precedent); the autotune sweep and the host
+  launch (grid, strides, the downstream `torch.mm`) are the trusted
+  boundary.
+- `int8_dequant_matmul` — five disclosed surface deviations, none semantic.
+  (1) The `SPLIT_K` constexpr is fixed to `1` (the `tl.store` arm; the
+  autotune table sweeps `SPLIT_K ∈ {1,2,4,8,16}` with
+  `pre_hook=init_to_zero("C")`, and the `tl.atomic_add` arm drops with the
+  constexpr — the `int4_matmul` fixed-arm precedent); every `* SPLIT_K`
+  factor folds to 1, `pid_z` and `rk = pid_z*BLOCK_K + arange` stay
+  faithfully spelled, and the headline carries `s.pids 1 = 0`. (2) The
+  `EVEN_K` `triton.heuristics` constexpr (`K % (BLOCK_K*SPLIT_K) == 0`)
+  is fixed to `True` (the unmasked-load arm; the masked `else` arm drops —
+  the `bmm_optimized` heuristics + `sgmv_expand_slice` `EVEN_K`
+  precedents), with the `tl.cdiv` trip count as the antiquoted
+  `numKBlocks` and the honest side condition `K = BLOCK_K · numKBlocks`.
+  (3) `has_bias` stays a genuine `Bool` parameter with BOTH arms modeled
+  (the `matmul_dequantize` `NO_GROUPS` precedent); one headline covers
+  both via a guarded bias term. (4) The two `.to(C.dtype.element_ty)`
+  casts are spelled `.to(tl.float16)` (the host allocates `C` as
+  `float16`; `llama_ff_triton` precedent) — the accumulator cast is a
+  genuine `Op.castFloat real → fp16` making the masked store
+  `.fp16`-typed (MemCell-level readback, the `matmul_dequantize`
+  precedent), and `tl.load(bias + rn).to(tl.float16)` compiles to a
+  direct `.fp16`-typed load by a dedicated syntax rule (not
+  load-then-cast). (5) `$(n)` literal antiquoting. The int8 `A`/`B`
+  regions are `Region .int` (signed channel); `acc += tl.dot(a, b)` is
+  the first `Op.dotInt` consumer, and the epilogue's `acc * divfactor`
+  promotes through `Op.intToReal`. The autotune sweep, the heuristics
+  lambda, and the host launch are the trusted boundary.
+- `matmul_dequantize` — three JIT kernels, all launched by hosts the test
+  exercises, all three modeled in py order (the audit anchor is the first,
+  `matmul4_kernel`). Per-kernel disclosures, none semantic.
+  **`matmul4_kernel`** (light textual variant of the kernel the
+  `matmul_dequantize_int4` port proves — the source drops the dot's
+  `.to(a.dtype)` cast and spells the dead `c = accumulator.to(…)` binding
+  directly as `tl.float16`): `$(n)` literal antiquoting only (`0xF` as the
+  decimal `$(15)`); `NO_GROUPS` stays a genuine `Bool` parameter with both
+  arms modeled. **`matmul_kernel`** (light textual variant of the kernel
+  the `int4_matmul` port proves): the int4_matmul disclosures (1)–(3)
+  verbatim — `SPLIT_K` fixed to `1` (the `tl.store` arm; the
+  `tl.atomic_add` arm and its `reset_to_zero` host contract are dropped
+  with the constexpr; headline carries `s.pids 1 = 0`), the
+  `tl.cdiv(K, BLOCK_SIZE_K * SPLIT_K)` trip count as the antiquoted
+  `numKBlocks` with `K = BLOCK_SIZE_K · numKBlocks` (unmasked loads), and
+  the signed dequant respell through `tl.cast(·, tl.int32)` +
+  `Op.intToReal`. Unlike the twin, this source spells its value casts
+  directly (`.to(tl.float16)` on the dequantized tile, both `tl.dot`
+  operands, and the stored `c`) — all kept faithfully; the genuinely
+  `.fp16`-typed masked store makes the honest headline readback
+  MemCell-level (the `matmul_tma` fp16 precedent, masked).
+  **`dequantize_kernel`** (byte-identical to the kernel the
+  `matmul_dequant_int4` port proves): that port's disclosures verbatim —
+  the inline `.int`-hop dequant respell and `$(n)` antiquoting; the
+  masked loads keep `other=0.0` faithfully. The autotune sweeps and the
+  three host launches are the trusted boundary.
+- `rms_matmul_rbe` — the second kernel `rms_matmul_rbe_qkv` (the only one
+  any host function launches) is a **cross-JIT caller**: its body invokes
+  `rms_matmul_rbe(...)` three times (Q/K/V). The DSL has no jit-to-jit
+  call surface, so the callee body is inlined three times (`attn_fwd`
+  inline precedent); the callee's unused parameters
+  (`start_token_position` / `RBE_EPILOGUE` / `THETA`) vanish under
+  inlining. The `USE_FP8` constexpr arm is dropped (`bitcast=True`
+  bit-reinterpretation, the ℝ-model-limit family). The loop trip count
+  `tl.cdiv(K, BLOCK_SIZE_K)` is the antiquoted `numKBlocks` (unmasked
+  loads); the stores' implicit fp16 casts are spelled
+  `(accumulator).to(tl.float16)`; loop counters `_i` for Python's `_`.
+- `rms_rbe_matmul` — the target JIT is the file's **second** kernel,
+  `rms_matmul_rbe`; the first, `rbe_triton`, is dead code in this file (no
+  host function launches it, and it calls `get_freq_multi_tokens`, which
+  the file never defines — the upstream file itself cannot run it) and is
+  not modeled. The `USE_FP8` constexpr arm is dropped (parameter +
+  branches; `.to(tl.float8e5, bitcast=True)` bit-reinterpretation, the
+  ℝ-model-limit family; `llama_ff_triton` precedent). The unused
+  parameters `start_token_position` / `RBE_EPILOGUE` / `THETA` are dropped
+  (`sgmv_expand_slice` unused-param precedent). The loop trip count
+  `tl.cdiv(K, BLOCK_SIZE_K)` is the antiquoted `numKBlocks` (unmasked
+  loads). The store's implicit fp16 cast is spelled
+  `(accumulator).to(tl.float16)` (`f8_conversion_utils` precedent). The
+  K-loop counter is spelled `_i` for Python's `_`.
+- `triton_matmul` — the constexpr epilogue branch
+  `if (c_ptr.dtype.element_ty == tl.float8e4nv):` (a compile-time dispatch
+  on the output buffer's element dtype) is split into two Lean surfaces
+  (`triton_matmul_f16_surface` / `triton_matmul_f8_surface`, one per arm —
+  the `matmul_tma` twin-surface precedent), so the branch statement itself
+  appears in neither surface; the loop trip count `tl.cdiv(K, BLOCK_SIZE_K)`
+  is supplied as the antiquoted `numKBlocks` binder
+  (`K = BLOCK_SIZE_K · numKBlocks` presentation, `matmul_triton_autotune`
+  precedent); the K-loop counter is spelled `kk` where Python spells it `k`
+  (clash with the antiquoted dimension binder). The
+  `triton.jit(launch_metadata=...)` hook and the host's per-dtype config
+  table are the trusted boundary; `tl.max_contiguous`/`tl.multiple_of` are
+  kept in the surface text and erased by the DSL to their value argument.
 - `sgmv_expand_slice` — proven path is `EVEN_K` loads with
   `ADD_INPUTS = false`, `CAST_TYPE = false`; those constexpr parameters and
   branches are dropped; the `pid → (pid_m, pid_n)` CTA linearization is
@@ -193,6 +425,27 @@ unless stated:
   int→float promotion of `tl.arange(0, NB_TOKENS) + starting_idx` is the
   explicit `tks`/`tks_f` binding pair. Fully value-verified on the full 2-D
   tile.
+- `chunk_retention_ops` — same decay-prologue `tl.toReal(...)` promotion
+  casts as its `chunk_retention` twin (the two `fwd_kernel_h` bodies are
+  statement-identical); the port covers the state-recurrence pair
+  (`fwd_kernel_h`, the file's first kernel, and the dimension-general
+  `bwd_kernel_dh`); `fwd_kernel_o`/`bwd_kernel_dqkv` are the trusted boundary.
+- `chunk_retention` — the decay prologue's implicit int→float promotions
+  (`i_h * 1.0`, `BT * b_b`, `(BT - o_i - 1) * b_b`, `(o_i + 1) * b_b`) have
+  no implicit-coercion analogue in the shape/dtype-typed DSL and are spelled
+  with the explicit nat→real cast `tl.toReal(...)` (the
+  `rbe_triton_transform` precedent), so the `tl.*` call set differs from the
+  Python surface by exactly these casts. The port covers the state-recurrence
+  pair (`fwd_kernel_h`, the file's first kernel, and `bwd_kernel_dh`);
+  `fwd_kernel_o`/`bwd_kernel_dqkv` are the trusted boundary.
+- `chunk_gla_fwd` — the file's four `A`-builder kernels (including its first,
+  `chunk_gla_fwd_A_kernel_intra_sub_inter`) each open with bare early
+  `return`s (`if i_t * BT + i_i * BC >= T: return`, `if i_i <= i_j: return`);
+  `Stmt` has no early exit, and the `bgmv_shrink_kernel` guard-wrap
+  workaround is a per-kernel port of its own, one per builder. The port
+  covers the fifth kernel, `chunk_gla_fwd_kernel_o`, with a full multi-block
+  K-loop headline; the four builders that fill the `A` region are the
+  trusted boundary.
 - `bgmv_shrink_kernel` — the Python early `return` on the signed sentinel
   (`lora_index == -1`) is an `if lora_index != -1 { ... }` guard in the
   faithful surface (DSL has no early exit); the guard-false path is proven

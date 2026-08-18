@@ -404,6 +404,7 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .argMin _ a => a.check ctx
   | .sort _ a => a.check ctx
   | .dot a b => a.check ctx *> b.check ctx
+  | .dotInt a b => a.check ctx *> b.check ctx
   | .transpose a => a.check ctx
   | .reshape _ a => a.check ctx
   | .remap _ _ a => a.check ctx
@@ -425,6 +426,7 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
       .ok ()
   | .load dtype mem mask => mem.check ctx dtype *> mask.check ctx
   | .natToReal a => a.check ctx
+  | .intToReal a => a.check ctx
 termination_by op => sizeOf op
 decreasing_by
   all_goals

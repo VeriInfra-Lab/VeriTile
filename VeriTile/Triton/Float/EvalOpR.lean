@@ -137,6 +137,10 @@ noncomputable def evalOpR (R : RoundingModel) :
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
       some (Tile.dot batch va vb)
+  | .dotInt (batch := batch) a b, s => do
+      let va ← evalOpR R a s
+      let vb ← evalOpR R b s
+      some (Tile.dotInt batch va vb)
   | .expandDim axis a, s => return Tile.expandDim axis (← evalOpR R a s)
   | .where c a b, s => do
       let vc ← evalOpR R c s
@@ -228,12 +232,15 @@ noncomputable def evalOpR (R : RoundingModel) :
               | .fp32 => if ok then FloatDType.fp32.ofReal (s.undef region offset) else FloatDType.fp32.ofReal 0
               | .fp16 => if ok then FloatDType.fp16.ofReal (s.undef region offset) else FloatDType.fp16.ofReal 0
               | .bf16 => if ok then FloatDType.bf16.ofReal (s.undef region offset) else FloatDType.bf16.ofReal 0
+              | .f8e4 => if ok then FloatDType.f8e4.ofReal (s.undef region offset) else FloatDType.f8e4.ofReal 0
+              | .f8e5 => if ok then FloatDType.f8e5.ofReal (s.undef region offset) else FloatDType.f8e5.ofReal 0
               | dtype => BlockState.defaultCarrier dtype⟩
       | .maskOther mask other => do
           let masks ← evalOpR R mask s
           let others ← evalOpR R other s
           some ⟨fun i => if masks.data i then read i else others.data i⟩
   | .natToReal a, s => return Tile.natToReal (← evalOpR R a s)
+  | .intToReal a, s => return Tile.intToReal (← evalOpR R a s)
 
 /-! ## Degeneration to the trivial model
 
@@ -337,6 +344,8 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
   | _, _, .sort _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .dot a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .dotInt a b, s => by
+      simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .expandDim _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .where c a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv c s, evalOpR_triv a s, evalOpR_triv b s]
@@ -378,6 +387,7 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
   | _, _, .load _ (.blockPtr p _) (.maskOther m other), s => by
       simp only [evalOpR, evalOp, evalOpR_triv p s, evalOpR_triv m s, evalOpR_triv other s]
   | _, _, .natToReal a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
+  | _, _, .intToReal a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
 termination_by dtype shape op _ => sizeOf op
 decreasing_by all_goals (simp_wf <;> omega)
 

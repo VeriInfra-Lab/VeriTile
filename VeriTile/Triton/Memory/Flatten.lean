@@ -109,6 +109,8 @@ def trCarrier : (d : TileDType) → TileCarrier d → TileCarrier d
   | .fp32, v => v
   | .fp16, v => v
   | .bf16, v => v
+  | .f8e4, v => v
+  | .f8e5, v => v
   | .int,  v => v
   | .nat,  v => v
   | .bool, v => v
@@ -237,6 +239,7 @@ def flattenOp (A : FlatAlloc) :
   | _, _, .argMin ax a => .argMin ax (A.flattenOp a)
   | _, _, .sort ax a => .sort ax (A.flattenOp a)
   | _, _, .dot a b => .dot (A.flattenOp a) (A.flattenOp b)
+  | _, _, .dotInt a b => .dotInt (A.flattenOp a) (A.flattenOp b)
   | _, _, .transpose a => .transpose (A.flattenOp a)
   | _, _, .reshape outSh a => .reshape outSh (A.flattenOp a)
   | _, _, .remap outSh f a => .remap outSh f (A.flattenOp a)
@@ -271,6 +274,7 @@ def flattenOp (A : FlatAlloc) :
          | .mask m => .mask (A.flattenOp m)
          | .maskOther m o => .maskOther (A.flattenOp m) (A.flattenOp o))
   | _, _, .natToReal a => .natToReal (A.flattenOp a)
+  | _, _, .intToReal a => .intToReal (A.flattenOp a)
 
 /-- Translate a memory access (the named form of the `.load` case above,
 shared with the store/atomic statements). -/
@@ -346,6 +350,8 @@ pointer-shaped channels move. -/
 @[simp] theorem trCarrier_fp32 (v : TileCarrier .fp32) : A.trCarrier .fp32 v = v := rfl
 @[simp] theorem trCarrier_fp16 (v : TileCarrier .fp16) : A.trCarrier .fp16 v = v := rfl
 @[simp] theorem trCarrier_bf16 (v : TileCarrier .bf16) : A.trCarrier .bf16 v = v := rfl
+@[simp] theorem trCarrier_f8e4 (v : TileCarrier .f8e4) : A.trCarrier .f8e4 v = v := rfl
+@[simp] theorem trCarrier_f8e5 (v : TileCarrier .f8e5) : A.trCarrier .f8e5 v = v := rfl
 @[simp] theorem trCarrier_int (v : TileCarrier .int) : A.trCarrier .int v = v := rfl
 @[simp] theorem trCarrier_nat (v : TileCarrier .nat) : A.trCarrier .nat v = v := rfl
 @[simp] theorem trCarrier_bool (v : TileCarrier .bool) : A.trCarrier .bool v = v := rfl
@@ -410,6 +416,8 @@ theorem flattenState_readMemValue (hd : A.Disjoint) (s : BlockState)
   | fp32 => exact A.flattenState_readMemAs hd s hr ho .fp32
   | fp16 => exact A.flattenState_readMemAs hd s hr ho .fp16
   | bf16 => exact A.flattenState_readMemAs hd s hr ho .bf16
+  | f8e4 => exact A.flattenState_readMemAs hd s hr ho .f8e4
+  | f8e5 => exact A.flattenState_readMemAs hd s hr ho .f8e5
   | int =>
       rw [A.flattenState_readMemTyped hd s hr ho .int]
       cases s.readMemTyped .int r o <;> simp
@@ -507,6 +515,7 @@ def Op.FlattenOk : Op dtype shape → Prop
   | .argMin _ a => a.FlattenOk
   | .sort _ a => a.FlattenOk
   | .dot a b => a.FlattenOk ∧ b.FlattenOk
+  | .dotInt a b => a.FlattenOk ∧ b.FlattenOk
   | .transpose a => a.FlattenOk
   | .reshape _ a => (dtype ≠ .ptr ∧ dtype ≠ .blockPtr) ∧ a.FlattenOk
   | .remap _ _ a => a.FlattenOk
@@ -534,6 +543,7 @@ def Op.FlattenOk : Op dtype shape → Prop
         | .mask m => m.FlattenOk
         | .maskOther m other => m.FlattenOk ∧ other.FlattenOk)
   | .natToReal a => a.FlattenOk
+  | .intToReal a => a.FlattenOk
 
 set_option maxHeartbeats 1600000 in
 /-- The `Op` fragment covered by the **rounding-model** flat-memory bridge
@@ -607,6 +617,7 @@ def Op.FlattenOkR : Op dtype shape → Prop
   | .argMin _ a => a.FlattenOkR
   | .sort _ a => a.FlattenOkR
   | .dot a b => a.FlattenOkR ∧ b.FlattenOkR
+  | .dotInt a b => a.FlattenOkR ∧ b.FlattenOkR
   | .transpose a => a.FlattenOkR
   | .reshape _ a => (dtype ≠ .ptr ∧ dtype ≠ .blockPtr) ∧ a.FlattenOkR
   | .remap _ _ a => a.FlattenOkR
@@ -632,6 +643,7 @@ def Op.FlattenOkR : Op dtype shape → Prop
         | .mask m => m.FlattenOkR
         | .maskOther m other => m.FlattenOkR ∧ other.FlattenOkR)
   | .natToReal a => a.FlattenOkR
+  | .intToReal a => a.FlattenOkR
 
 set_option maxHeartbeats 1600000 in
 /-- The exact-bridge fragment sits inside the `R`-bridge fragment. -/
@@ -858,6 +870,7 @@ def Op.SafeAt (bounds : RegionBounds) (s : BlockState) : Op dtype shape → Prop
   | .argMin _ a => a.SafeAt bounds s
   | .sort _ a => a.SafeAt bounds s
   | .dot a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
+  | .dotInt a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .transpose a => a.SafeAt bounds s
   | .reshape _ a => a.SafeAt bounds s
   | .remap _ _ a => a.SafeAt bounds s
@@ -883,6 +896,7 @@ def Op.SafeAt (bounds : RegionBounds) (s : BlockState) : Op dtype shape → Prop
         | .maskOther m other => m.SafeAt bounds s ∧ other.SafeAt bounds s) ∧
       mem.ActiveAddressSafe bounds s (mask.Active s)
   | .natToReal a => a.SafeAt bounds s
+  | .intToReal a => a.SafeAt bounds s
 
 
 /-- `mapM`-level commutation for dynamic block-pointer offset lists: if every
@@ -1178,6 +1192,16 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
         evalOp_flatten A hd hcov b s hmb hkb hu,
         A.trTileFun_data (d := .real) (by decide) (by decide),
         Option.map_id, id_eq]
+  | _, _, .dotInt a b, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      obtain ⟨hma, hmb⟩ := hms
+      obtain ⟨hka, hkb⟩ := hok
+      simp only [flattenOp, evalOp,
+        evalOp_flatten A hd hcov a s hma hka hu,
+        evalOp_flatten A hd hcov b s hmb hkb hu,
+        A.trTileFun_data (d := .int) (by decide) (by decide),
+        Option.map_id, id_eq]
   | _, _, .exp a, s, hms, hok, hu => by
       simp only [Op.SafeAt] at hms
       simp only [Op.FlattenOk] at hok
@@ -1279,6 +1303,13 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
       simp only [Op.FlattenOk] at hok
       simp only [flattenOp, evalOp, evalOp_flatten A hd hcov a s hms hok hu,
         A.trTileFun_data (d := .nat) (by decide) (by decide),
+        A.trTileFun_data (d := .real) (by decide) (by decide),
+        Option.map_id, id_eq]
+  | _, _, .intToReal a, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      simp only [flattenOp, evalOp, evalOp_flatten A hd hcov a s hms hok hu,
+        A.trTileFun_data (d := .int) (by decide) (by decide),
         A.trTileFun_data (d := .real) (by decide) (by decide),
         Option.map_id, id_eq]
   | _, _, .castNatToInt a, s, hms, hok, hu => by
