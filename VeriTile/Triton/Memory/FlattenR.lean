@@ -191,6 +191,7 @@ def Op.SafeAtR (R : RoundingModel) (bounds : RegionBounds) (s : BlockState) : Op
   | .argMin _ a => a.SafeAtR R bounds s
   | .sort _ a => a.SafeAtR R bounds s
   | .dot a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
+  | .dotInt a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
   | .transpose a => a.SafeAtR R bounds s
   | .reshape _ a => a.SafeAtR R bounds s
   | .remap _ _ a => a.SafeAtR R bounds s
@@ -221,6 +222,7 @@ def Op.SafeAtR (R : RoundingModel) (bounds : RegionBounds) (s : BlockState) : Op
         | .maskOther m other => m.SafeAtR R bounds s ∧ other.SafeAtR R bounds s) ∧
       mem.ActiveAddressSafeR R bounds s (mask.ActiveR R s)
   | .natToReal a => a.SafeAtR R bounds s
+  | .intToReal a => a.SafeAtR R bounds s
 
 /-- `mapM`-level commutation for dynamic block-pointer offset lists: if every
 member op evaluates identically after translation, so does the scalar-offset
@@ -515,6 +517,16 @@ theorem FlatAlloc.evalOpR_flatten (A : FlatAlloc) (hd : A.Disjoint)
         evalOpR_flatten A hd hcov R b s hmb hkb hu,
         A.trTileFun_data (d := .real) (by decide) (by decide),
         Option.map_id, id_eq]
+  | _, _, .dotInt a b, s, hms, hok, hu => by
+      simp only [Op.SafeAtR] at hms
+      simp only [Op.FlattenOkR] at hok
+      obtain ⟨hma, hmb⟩ := hms
+      obtain ⟨hka, hkb⟩ := hok
+      simp only [flattenOp, evalOpR,
+        evalOpR_flatten A hd hcov R a s hma hka hu,
+        evalOpR_flatten A hd hcov R b s hmb hkb hu,
+        A.trTileFun_data (d := .int) (by decide) (by decide),
+        Option.map_id, id_eq]
   | _, _, .exp a, s, hms, hok, hu => by
       simp only [Op.SafeAtR] at hms
       simp only [Op.FlattenOkR] at hok
@@ -616,6 +628,13 @@ theorem FlatAlloc.evalOpR_flatten (A : FlatAlloc) (hd : A.Disjoint)
       simp only [Op.FlattenOkR] at hok
       simp only [flattenOp, evalOpR, evalOpR_flatten A hd hcov R a s hms hok hu,
         A.trTileFun_data (d := .nat) (by decide) (by decide),
+        A.trTileFun_data (d := .real) (by decide) (by decide),
+        Option.map_id, id_eq]
+  | _, _, .intToReal a, s, hms, hok, hu => by
+      simp only [Op.SafeAtR] at hms
+      simp only [Op.FlattenOkR] at hok
+      simp only [flattenOp, evalOpR, evalOpR_flatten A hd hcov R a s hms hok hu,
+        A.trTileFun_data (d := .int) (by decide) (by decide),
         A.trTileFun_data (d := .real) (by decide) (by decide),
         Option.map_id, id_eq]
   | _, _, .castNatToInt a, s, hms, hok, hu => by
@@ -1521,6 +1540,8 @@ theorem flattenState_writeMemTypedR (hd : A.Disjoint) (R : RoundingModel)
   case fp32 => exact A.flattenState_writeMemAsR hd R s hr ho .fp32 v
   case fp16 => exact A.flattenState_writeMemAsR hd R s hr ho .fp16 v
   case bf16 => exact A.flattenState_writeMemAsR hd R s hr ho .bf16 v
+  case f8e4 => exact A.flattenState_writeMemAsR hd R s hr ho .f8e4 v
+  case f8e5 => exact A.flattenState_writeMemAsR hd R s hr ho .f8e5 v
   all_goals exact A.flattenState_writeMemTyped hd s hr ho _ v
 
 end FlatAlloc

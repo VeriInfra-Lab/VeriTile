@@ -130,6 +130,10 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
       let va ← evalOp a s
       let vb ← evalOp b s
       some (Tile.dot batch va vb)
+  | .dotInt (batch := batch) a b, s => do
+      let va ← evalOp a s
+      let vb ← evalOp b s
+      some (Tile.dotInt batch va vb)
   | .expandDim axis a, s => return Tile.expandDim axis (← evalOp a s)
   | .where c a b, s => do
       let vc ← evalOp c s
@@ -221,12 +225,15 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
               | .fp32 => if ok then FloatDType.fp32.ofReal (s.undef region offset) else FloatDType.fp32.ofReal 0
               | .fp16 => if ok then FloatDType.fp16.ofReal (s.undef region offset) else FloatDType.fp16.ofReal 0
               | .bf16 => if ok then FloatDType.bf16.ofReal (s.undef region offset) else FloatDType.bf16.ofReal 0
+              | .f8e4 => if ok then FloatDType.f8e4.ofReal (s.undef region offset) else FloatDType.f8e4.ofReal 0
+              | .f8e5 => if ok then FloatDType.f8e5.ofReal (s.undef region offset) else FloatDType.f8e5.ofReal 0
               | dtype => BlockState.defaultCarrier dtype⟩
       | .maskOther mask other => do
           let masks ← evalOp mask s
           let others ← evalOp other s
           some ⟨fun i => if masks.data i then read i else others.data i⟩
   | .natToReal a, s => return Tile.natToReal (← evalOp a s)
+  | .intToReal a, s => return Tile.intToReal (← evalOp a s)
 
 @[simp] theorem evalOp_programId (axis : Nat) (s : BlockState) :
     evalOp (.programId axis) s = some (Tile.scalar (s.pids axis)) := by
@@ -348,6 +355,12 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
       some (Tile.natToReal vx)) := by
   simp [evalOp]
 
+@[simp] theorem evalOp_intToReal (x : Op .int shape) (s : BlockState) :
+    evalOp (.intToReal x) s = (do
+      let vx ← evalOp x s
+      some (Tile.intToReal vx)) := by
+  simp [evalOp]
+
 @[simp] theorem evalOp_lt
     (h : ComparableDType dtype) (bc : Broadcast a b shape)
     (x : Op dtype a) (y : Op dtype b) (s : BlockState) :
@@ -416,6 +429,15 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
       let vx ← evalOp x s
       let vy ← evalOp y s
       some (Tile.dot batch vx vy)) := by
+  simp [evalOp]
+
+@[simp] theorem evalOp_dotInt
+    (batch : TileShape) (x : Op .int (batch ++ [M, K]))
+    (y : Op .int (batch ++ [K, N])) (s : BlockState) :
+    evalOp (.dotInt (batch := batch) x y) s = (do
+      let vx ← evalOp x s
+      let vy ← evalOp y s
+      some (Tile.dotInt batch vx vy)) := by
   simp [evalOp]
 
 @[simp] theorem evalOp_transpose

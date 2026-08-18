@@ -28,23 +28,41 @@ LLM-assist 评估不再是项目的 benchmark 维度。
 
 我们正在把 verification benchmark 与 [TritonBench-G v1][tb] 对齐
 (184 个 GitHub-scraped 真实 Triton kernel,ACL 2025 Findings)。
-针对 184 个 kernel 的当前 DSL 契约,在两个 trivial 的 surface adapter
-(`tl.math.*`、`tl.extra.cuda.libdevice.*`)落地后做静态 primitive scan,
-结果是:
+**184 个里已移植 170 个。** 最初(2026-05-05)的静态 primitive scan 只估出
+141 个在 DSL 契约内;它点名的那些杠杆(`tl.math.*` / `tl.extra` adapter、
+concurrency 边界、`tl.num_programs`、`atomic_add` proof shape)此后都已落地,
+所以那组估计已被取代 —— 它是历史,不是现状。
 
-| 判定 | 数量 | 占比 |
-|---|---:|---:|
-| OK(DSL 覆盖 primitive)| 141 | 77% |
-| Soft(DSL/proof 小扩展)| 15 | 8% |
-| Hard(需要新 semantic 层)| 28 | 15% |
+剩下的 **14 个是"占位目录建了、上游 `.py` 从未导入"**。按 DSL 的**实际** surface
+(95 个 `tl.*` 形式,从 `VeriTile/Triton/DSL/**` 提取)重新实测:
 
-按文件产出排序的最佳补救杠杆:`tl.math.*` adapter(24)、
-`tl.extra` adapter(9)、concurrency 边界(#12,解锁 11)、
-`tl.num_programs`(9)、FP8 dtype channel(7)、`atomic_add` proof shape(6)、
-int4 packed unpack(4)、RNG(#41,4)。完整 per-file 表、hard-gap 原因
-与 caveat 见 [`tritonbench_coverage.md`](./tritonbench_coverage.md)。
+| 判定 | 数量 |
+|---|---:|
+| 现在就能移植 —— 用到的一切形式全在 DSL 里 | 0 |
+| 被缺失 primitive 或 ℝ 模型限制阻塞 | 14 |
 
-"OK" 判定是 *可表达性*,不是 *proof 可行性*:许多 `OK` kernel
+那 14 个的解锁杠杆按产出排序:**fp8 dtype channel 已于 2026-08-13 落地并收官**
+(`.f8e4`/`.f8e5`;第 161–163 港;剩余三处 `tl.float8e5` 全是 `bitcast=True`
+位重解释 = ℝ 模型限制,其非 fp8 臂已全部移植 = 第 164–166 港,
+`attention_llama` 收尾 = 预期可移植前沿清空;
+`matmul_persistent_triton` 复查后并入有符号整型家族)、整数通道——其**有符号提升档
+已于 2026-08-17 落地**(`Op.intToReal` + `tl.static_assert`;消费者 = 第
+167–169 港),**int-dot 档已于 2026-08-18 落地**(`Op.dotInt` 整型累加
+`tl.dot`;首个消费者 `int8_dequant_matmul` = 第 170 港;剩余 3 个整型家族港
+只差小零件:`tl.broadcast_to`、`tl.full` 元组维改拼、已有的
+`castRealToInt8`)、RNG(4)、`Stmt` 里的
+`while` 语句(3)、`tl.interleave`(2)、`tl.static_assert`(2,宏层
+no-op)、`tl.broadcast_to`(1,别名)、IEEE inf/NaN +
+`libdevice.isfinited`(1)。
+**降序 `for` range 杠杆已收官**(五连:`chunk_linear_attn`/`chunk_retention`/
+`chunk_retention_ops` 的 `-1` 步长与 `parallel_attention`/
+`parallel_retention_attention` 的 `-BTS` 步长,全部升序换元零库改动)。逐 kernel
+表、测法,以及"可移植"到底声称了什么和没声称什么,见
+[`tritonbench_coverage.md`](./tritonbench_coverage.md) —— 包括 2026-08-10 那次把
+`现在就能移植` 从 9 改成 2 的复核:此前的判定是按"每个文件只看一个 jit kernel"
+形成的。
+
+判定是 *可表达性*,不是 *proof 可行性*:许多可表达的 kernel
 (FA-1 backward、RWKV6、Mamba SSM、chunked GLA)即便 primitive 今天能
 lower,仍需要全新的 proof 工程。
 
