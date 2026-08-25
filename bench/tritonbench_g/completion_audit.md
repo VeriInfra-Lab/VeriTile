@@ -220,6 +220,39 @@ The current documented blocker set is:
   both arms under one headline; the faithful `.to(tl.float16)` casts make
   the masked store `.fp16`-typed, read back at the MemCell level; the
   autotune sweep and host launch are the trusted boundary.
+- `int_scaled_matmul` — both JIT kernels launched and modeled in py
+  order (markers registered in `proof_blockers.md`): the block-pointer
+  int8 GEMM (first `.int`-channel block-ptr port — element dtype
+  inherited from the typed base region via the port's inference rider,
+  private `.int` boundary-check load lemmas, `tl.advance` walk,
+  `MemCell.of .int` readback; step-form K loop spelled directly under
+  `0 < BK` only) and
+  the pointer GEMM with the inductor store suffix (descending loop as
+  ascending substitution, `EVEN_K` a genuine `Bool` with both arms,
+  `tl.broadcast_to` — whose syntax rider landed with this port — flat
+  `col + N·row` store of the `Op.intToReal`-promoted `acc · s1(row)`
+  read back as exact-`.real` cells); the host launches are the trusted
+  boundary.
+- `int8_matmul_kernel` — `matmul_kernel` ported in full (markers
+  registered in `proof_blockers.md`); a pure-integer 2-bit-packed-weight
+  GEMM proven as one fully dimension-general exec closed form — the
+  first **nested-loop** `Op.dotInt` consumer (static field loop ×
+  dynamic K loop; the A pointer advances continuously across both, the
+  B pointer rebinds per field); `tl.static_assert` spelled faithfully
+  (second consumer) and its divisibility is the headline's only K
+  hypothesis; `.int`-typed store cells read back over launch-state
+  accessors; the autotune sweep and host launch are the trusted
+  boundary.
+- `int8_matmul_quantization` — both JIT kernels launched and modeled in
+  py order (markers registered in `proof_blockers.md`): the per-row
+  float→int8 quantizer (two sequential K loops — a 0-seeded streaming
+  abs-max pass, then the `Op.castRealToInt8` quantize-and-store pass;
+  one exec headline with two MemCell readback conjuncts, int8 cells +
+  fp16 scale cells) and the int8×int8→int32 GEMM (second `Op.dotInt`
+  consumer, remainder-masked K loads at the honestly-ragged ceil-form
+  `numKBlocks`, `SPLIT_K = 1` store arm, per-row × per-col scale
+  epilogue promoted through `Op.intToReal`, fp16 MemCell readback);
+  the autotune sweeps and host launches are the trusted boundary.
 - `matmul_dequant_int4` — the target JIT is the file's second kernel,
   `dequantize_kernel`, the only one launched (the first, `matmul4_kernel`,
   is dead code byte-identical to the `matmul_dequantize_int4` port's

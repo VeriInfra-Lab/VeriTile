@@ -293,6 +293,89 @@ unless stated:
   the first `Op.dotInt` consumer, and the epilogue's `acc * divfactor`
   promotes through `Op.intToReal`. The autotune sweep, the heuristics
   lambda, and the host launch are the trusted boundary.
+- `int_scaled_matmul` — two JIT kernels, both launched, both modeled in
+  py order (audit anchor = the first, `matmul_kernel_with_block_pointers`).
+  **`matmul_kernel_with_block_pointers`** (block-pointer int8 GEMM):
+  (1) integer widths erased — the block-ptr loads are spelled faithfully
+  (`tl.load(bp, boundary_check=(0, 1))`, no added kwargs; their `.int`
+  channel is inherited from the typed base region of `tl.make_block_ptr`
+  via this port's inference rider — untyped bases keep the historical
+  `.real` default, so every existing block-ptr port lowers unchanged),
+  and the int8/int32 widths collapse onto the `.int` channel (#154
+  fixed-width family);
+  (2) tuple→bracket respells (`tl.advance` deltas, `tl.zeros` shape);
+  (3) the `GROUP_M = min(…, GROUP_M)` parameter-name rebind is spelled
+  as a register assignment whose RHS reads the antiquoted binder —
+  shadowing works, no rename; (4) `order=(1, 0)` erased (`matmul_tma`
+  precedent). The step-form loop `range(0, K, BLOCK_K)` is spelled
+  directly (no trip-count binder; boundary checks keep it ragged-safe
+  under the sole hypothesis `0 < BK`).
+  **`scaled_matmul_kernel_with_block_pointers`** (pointer GEMM +
+  inductor store suffix): (1) the descending loop
+  `range(K, 0, -BLOCK_K)` is the ascending change of variable with the
+  in-body `k` rematerialization (`parallel_retention_attention`
+  precedent); (2) `ACC_TYPE : tl.constexpr = tl.int32` fixed at its only
+  instantiation (`bmm_optimized` fixed-arm family); (3) the
+  `tl.broadcast_to(…, mask.shape)` shape attribute is respelled to the
+  literal dims `[BLOCK_M, BLOCK_N]` (the `tl.broadcast_to` syntax itself
+  landed with this port); (4) `eviction_policy="evict_last"` is kept and
+  macro-erased; (5) integer widths erased, and the suffix's
+  `acc * tmp0` store — an `.int × .real` product promoted through
+  `Op.intToReal` — writes `.real`-typed cells into the int32-allocated
+  `C`: the cell carries the exact real product and the hardware's
+  float→int32 store truncation is outside the model (#154 family).
+  `EVEN_K` stays a genuine `Bool` with both arms modeled
+  (`hEven : EVEN_K = true → K = numKBlocks·BK` guards only the unmasked
+  arm); `stride_s1m`/`stride_s1n` are dead parameters (the `s1` load is
+  strideless — `fused_recurrent_retention` dead-stride precedent). The
+  host launches are the trusted boundary.
+- `int8_matmul_kernel` — four disclosed surface deviations, none
+  semantic, in a **pure-integer** kernel (int32 A × 2-bit-packed uint8 B
+  → int32 C; no floats anywhere). (1) The inner loop bound
+  `tl.cdiv(K // 4, BLOCK_SIZE_K)` is the antiquoted `numKBlocks` with
+  the honest side condition `K = 4 · (BK · numKBlocks)` — exactly the
+  kernel's own `tl.static_assert(K % (4*BLOCK_SIZE_K) == 0)` (spelled
+  faithfully; the assert makes both load masks degenerately all-true,
+  which the port proves). (2) `tl.full((1,), 1, dtype=tl.int8)` spells
+  its shape `[1]` (tuple → bracket; the rank-1 `[1]` operand needs no
+  further respell — the expander's broadcast does rank promotion).
+  (3) Integer width erasure at three sites: the A-load's `.to(tl.int8)`
+  is a width-erasure no-op on the `.int` channel (the host feeds
+  0..255, so hardware int8 would wrap values ≥ 128 — the #154
+  fixed-width caveat); the extract's `.to(tl.int8)` is the genuine
+  `Op.castNatToInt` signed hop (values {0..3}, no honesty gap); the
+  `tl.full` dtype hint's int8 width is erased to `.int`. (4) `$(n)`
+  literal antiquoting. The `out_dtype=tl.int32` dot kwarg is kept and
+  macro-erased (redundant on the exact-ℤ `Op.dotInt`). The autotune
+  sweep and host launch are the trusted boundary.
+- `int8_matmul_quantization` — two JIT kernels, both launched
+  (`matmul_quantize_int8` chains the per-row quantizer into the int8
+  GEMM), both modeled in py order (audit anchor = the first,
+  `quantize_int8_perrow_kernel`). Per-kernel disclosures, none semantic.
+  **`quantize_int8_perrow_kernel`**: (1) both `tl.cdiv` K-loop bounds are
+  the antiquoted `numKBlocks` in the honestly-ragged **ceil form**
+  `K ≤ numKBlocks · BK` (the loads and the int8 store carry genuine
+  remainder masks, so extra all-masked blocks contribute nothing — weaker
+  than the exact-divisibility `matmul_triton_autotune` form); (2) the
+  final scale store is Triton's implicit fp16 store cast (the host
+  allocates `a_scale` as `float16`), spelled `(a_scale).to(tl.float16)`
+  (`f8_conversion_utils` precedent) — an `.fp16`-typed store read back at
+  the MemCell level; (3) `127.` is written `127.0` and index literals are
+  antiquoted `$(n)`. The `.to(tl.int8)` quantization is
+  `Op.castRealToInt8` (truncate-toward-zero; the ±127 hardware-saturation
+  caveat is the #154-family disclosure, `quantize_copy_kv` wording).
+  **`matmul_kernel`**: (1) `SPLIT_K` fixed to `1` (the `tl.store` arm;
+  autotune sweeps {1,2} with `reset_to_zero=['c_ptr']`, the
+  `tl.atomic_add` arm drops; headline carries `s.pids 1 = 0`); (2) the
+  epilogue's `accumulator.to(tl.float32)` has no explicit int→float
+  spelling in the DSL — the promotion is carried by the auto-inserted
+  `Op.intToReal` at exactly the Python cast's site in
+  `(accumulator * a_scale[:, None] * b_scale[None, :]).to(tl.float16)`;
+  (3) the same ceil-form `numKBlocks`; (4) `$(n)` literals. The masked
+  `.int` K loads' `other=0.0` kwargs are kept faithfully — the expander's
+  `.int` channel gained the literal-`0.0` arm (a two-line mechanical
+  clone of the `.nat` arm) with this port. The autotune sweeps and both
+  host launches are the trusted boundary.
 - `matmul_dequantize` — three JIT kernels, all launched by hosts the test
   exercises, all three modeled in py order (the audit anchor is the first,
   `matmul4_kernel`). Per-kernel disclosures, none semantic.
