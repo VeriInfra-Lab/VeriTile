@@ -101,6 +101,121 @@ The explicit blocked-output summaries formerly tracked by the broad #152
 `semantic-blocker` bucket are all quantization `llrint` / int8-cast blockers
 and now track under the open #154 `fixed-width-int8-cast-semantics` family.
 
+## Correctness-Surface Blockers
+
+Every completed port must expose its correctness claim through a **named**
+surface — the `KernelIO` `⊨` / `⊨[R]` faces, `ComputeCorrect.Realizes`,
+`ComputeRefine.Realizes`, `ComputeCorrect.General`, or a named
+`correct_target`. `bench/audit_tritonbench_g.sh`'s correctness-surface scan
+enforces that.
+
+The ports below do **not** yet meet it: their `*_exec_genuine` headlines state
+correctness as an inline exec-existential
+
+```lean
+∃ sF, exec <surface>.toAlgKernel s = some sF ∧ ∀ idx, <guard> → sF.mem out <addr> = <spec>
+```
+
+which proves termination and every stored output cell but **omits the frame** —
+"no cell outside the write set changed" is not part of the statement. **None**
+of the 25 headlines across these files carries a frame conjunct. Lifting one to `⊨`
+is therefore a *proof* obligation (fit an IO skin, discharge `FlattenOk` /
+`TraceSafeR`, prove the frame), not a rename — which is why they are registered
+here rather than silently accepted.
+
+Each file carries the matching machine-readable preamble marker
+
+```
+Correctness-surface blocker: <why this headline is not on a named surface>
+```
+
+and the audit rejects both an unregistered offender and a stale entry here.
+
+| Port | Headlines | Frame in statement |
+|---|---|---|
+| `bmm_optimized` | `bmm_o_exec_genuine` | no |
+| `chunk_bwd_dqkg` | `chunk_bwd_dqkg_exec_genuine` | no |
+| `chunk_gla_fwd` | `chunk_gla_fwd_o_exec_genuine` | no |
+| `chunk_linear_attn` | `cla_fwd_h_exec_genuine`, `cla_bwd_dh_exec_genuine` | no |
+| `chunk_retention` | `crh_fwd_h_exec_genuine`, `crh_bwd_dh_exec_genuine` | no |
+| `chunk_retention_ops` | `cro_fwd_h_exec_genuine`, `cro_bwd_dh_exec_genuine` | no |
+| `int4_matmul` | `int4_matmul_exec_genuine` | no |
+| `int8_dequant_matmul` | `int8_dequant_matmul_exec_genuine` | no |
+| `int8_matmul_kernel` | `int8_matmul_kernel_exec_genuine` | no |
+| `int8_matmul_quantization` | `int8_matmul_quantization_quantize_exec_genuine`, `int8_matmul_quantization_matmul_exec_genuine` | no |
+| `int_scaled_matmul` | `int_scaled_matmul_matmul_exec_genuine`, `int_scaled_matmul_scaled_exec_genuine` | no |
+| `matmul_dequant_int4` | `matmul_dequant_int4_exec_genuine` | no |
+| `matmul_dequantize` | `matmul_dequantize_matmul4_exec_genuine`, `matmul_dequantize_matmul_exec_genuine`, `matmul_dequantize_dequantize_exec_genuine` | no |
+| `matmul_dequantize_int4` | `matmul_dequantize_int4_exec_genuine` | no |
+| `parallel_attention` | `pa_fwd_o_exec_genuine`, `pa_bwd_dkv_exec_genuine` | no |
+| `parallel_retention_attention` | `pra_fwd_o_exec_genuine`, `pra_bwd_dkv_exec_genuine` | no |
+
+These are the 16 ports added between 2026-08-10 and 2026-08-25 (ports 156–173:
+the descending-lever, fp8 and integer families). Every other port states its
+headline on a named surface.
+
+### What each of these is actually blocked on
+
+Reconnaissance (2026-08-27), so the debt is planned rather than guessed. The
+16 split into two families, and the blocker is different in each.
+
+**All 16 loop, and that fixes the face.** Every streaming skin in
+`KernelSpec.lean` carries only `ImplementsR` — the `⊨[R]` face, which runs
+under `execR`. Measured across the corpus: all 19 streaming skins are invoked
+with `ImplementsR.intro` and none has ever been used with the exact
+`Implements.intro` (the 33 exact-only skins are all non-streaming). So lifting
+any of these 16 is not "fit a skin and add a frame" on top of the existing
+proof — the existing stacks are all built on the exact `exec` side, and they
+have to be **mirrored onto `execR`**: the prologue run, the loop step and
+`forRangeTraceSafeR_inv` invariant, and the terminal store with the
+`writeMemAsR` readback/frame family. That mirror is the bulk of the cost, in
+every one of the 16.
+
+**Family 1 — three program axes, all-float channels (8 ports).** Seven of the
+eight already have an arity-matching skin, so at least no new library surface
+is needed for the signature.
+
+| Port | channels in/out | arity-matching skin |
+|---|---|---|
+| `bmm_optimized` | `A`,`B` / `O` (2/1) | `StreamMetaMasked3DKernelIO₂` at `nMeta := 0` — **verified fit**: `bmm_chunk_fwd` already states its batched-matmul headline on exactly this skin and degeneracy |
+| `chunk_gla_fwd` | `q`,`v`,`g`,`h`,`A` / `o` (5/1) | `StreamMasked3DKernelIO₅` |
+| `chunk_linear_attn` | `k`,`v`,`h0` / `h`,`ht` (3/2) | `StreamMasked3DKernelIO₃ₓ₂` |
+| `chunk_retention` | `k`,`v`,`h0` / `h`,`ht` (3/2) | `StreamMasked3DKernelIO₃ₓ₂` |
+| `chunk_retention_ops` | `k`,`v`,`h0` / `h`,`ht` (3/2) | `StreamMasked3DKernelIO₃ₓ₂` |
+| `parallel_attention` | `q`,`k`,`v` / `o`,`z` (3/2) | `StreamMasked3DKernelIO₃ₓ₂` |
+| `parallel_retention_attention` | `q`,`k`,`v` / `o` (3/1) | `StreamMasked3DKernelIO₃` |
+| `chunk_bwd_dqkg` | 7 in / 3 out | none — would need a `₇ₓ₃`-shaped skin |
+
+Only the `bmm_optimized` row is a verified fit (a sibling port uses that skin
+today). The rest are **arity matches read off the surface signatures**; the
+in/out split for the `chunk_*` trio is inferred from the stored pointer names
+(`p_h`, `p_ht`), not from a checked store map. Confirm before building.
+
+`bmm_optimized` is the cheapest entry point but not a free one. In its favour,
+its existing invariant `bmmInv` already carries `s.mem = s0.mem`, so prologue
+and K-loop touch no memory and the whole-kernel frame reduces to the frame of
+the single terminal masked scatter store. Against it: `bmm_chunk_fwd` runs
+`mask1 = mask2 = writeMask = True`, whereas `bmm_optimized` is ported at
+`DIVISIBLE_M = DIVISIBLE_N = DIVISIBLE_K = False` with real masks and carries
+both `GROUP_M` CTA-reorder arms; its template's `⊨` section is ~1100 lines; and
+per the paragraph above its ~600-line exec-side stack (`bmmPrologue_run`,
+`bmmLoop_step`, `bmmLoop_run`, `bmmStores_run`) needs an `execR` mirror first.
+
+**Family 2 — typed `.int` / `.nat` data channels (8 ports).** `int4_matmul`,
+`int8_dequant_matmul`, `int8_matmul_kernel`, `int8_matmul_quantization`,
+`int_scaled_matmul`, `matmul_dequant_int4`, `matmul_dequantize`,
+`matmul_dequantize_int4`.
+
+These are blocked on missing library surface, not on proof effort: **every one
+of the 61 skins declares its streamed inputs and its terminal output as a plain
+`RegionName`** — the `.real` channel. The only typed field anywhere in the skin
+family is `sty : Fin nMeta → ChanTy`, and that types the *metadata scalar
+slots*, never the data. A port whose GEMM operands or output ride a
+`Region .int` / `Region .nat` channel therefore has no skin to fit, at any
+arity. Unlocking this family means a typed-channel streaming skin — one lever
+that would move all eight, and the highest-leverage item on this list.
+
+
 ## Translation-Surface Blockers
 
 A port whose Lean `triton { }` surface deliberately deviates from a literal
@@ -553,6 +668,18 @@ unless stated:
   `tl.store(..., None)` is the unmasked `tl.store`; `libdevice.rsqrt` is
   spelled `tl.rsqrt` (rmsnorm_triton / layer_norm_liger precedent); register
   casts are parenthesized `(tmpN).to(tl.float32)`.
+- `fast_ce_loss` — `_cross_entropy_forward`'s `labels_ptr += row_idx` pointer
+  bump is folded into the load offset (`tl.load(labels_ptr + row_idx)`: same
+  address, same single load) and the following `.to(tl.int32)` — identity on
+  the already-`.int` channel — is dropped. The forward headline is stated on
+  the `MetaGatherMasked2DKernelIO₂ₓ₂` skin whose `mwinL := fun pid₀ _ => pid₀`
+  field *is* the label's address, so the metadata load has to be written in
+  that shape; the skin's metadata-load lemma is not stated for a rebound
+  pointer register. The file's own `_chunked_cross_entropy_forward` surface
+  keeps the literal `labels_ptr += row_idx` / `tl.load(labels_ptr)` /
+  `.to(tl.int32)` spelling — it is stated on the plain
+  `Realizes_without_Rounding` surface, which puts no shape constraint on the
+  load, so this is a `⊨`-skin constraint and not a `.int`-channel limit.
 
 ### Required VeriTile surface extensions
 
