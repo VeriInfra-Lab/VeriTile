@@ -21,19 +21,19 @@ externally checked. See [Triton subset and gaps](./documents/TritonSubset.md).
 - **DSL**: typed Triton subset with `triton { ... }` macro, ND tile shapes,
   reductions, masks (`mask=`/`other=`), block-pointer ops, and bare
   `if`/`for` control flow.
-- **Theorem surfaces**: `ComputeCorrect.Realizes` for *one kernel vs a math
+- **Theorem surfaces**: `ComputeCorrect.Realizes_without_Rounding` for *one kernel vs a math
   specification*, `ComputeRefine.Refines` for *one kernel refining another*
   (writes-equality: the two final memories agree at every cell outside the
   declared scratch regions). Both project through `toAlgorithm?` and run on
   `Kernel.Correct_without_Rounding` / `Kernel.Refine` underneath.
 - **Narrow-float / rounding-model layer** (#447): an abstract `RoundingModel`
-  (`round : FloatDType → ℝ → ℝ`, sole axiom `round_real = id`) threads a
+  (`round : FloatDType → ℝ → ℝ`, fields `round_real` (real-channel identity) and `round_idem` (idempotence)) threads a
   black-box rounding function through the semantics (`evalOpR` / `stepStmtR` /
   `execR`). The unqualified surfaces are the rounding-parametric ones —
   `ComputeRefine.Realizes` (single kernel vs an R-annotated spec) and
   `Refines` / `RefinesAt` (two kernels) run under a `RoundingModel R`; the
   exact-ℝ idealization is the qualified `*_without_Rounding` name, which the
-  bridge `Realizes.toRealizes` degenerates out to (as
+  bridge `Realizes.toRealizes_without_Rounding` degenerates out to (as
   `ComputeCorrect.Realizes_without_Rounding`) at the trivial model. See the
   fused-vs-unfused SwiGLU showcase
   [`bench/examples/FusedSwigluEquiv.lean`](./bench/examples/FusedSwigluEquiv.lean).
@@ -76,7 +76,7 @@ def addKernel (xReg yReg outReg : RegionName) (n : Nat) : ComputeKernel := trito
 
 | Goal | Use |
 |---|---|
-| One kernel matches an output spec | `ComputeCorrect.Realizes` |
+| One kernel matches an output spec | `ComputeCorrect.Realizes_without_Rounding` |
 | One kernel refines another (writes-equality) | `ComputeRefine.Refines` |
 | Two kernels agree pointwise per address | `ComputeRefine.RefinesAt` |
 | Single kernel / pairs under a rounding model (narrow-float) | `ComputeRefine.Realizes` / `Refines` / `RefinesAt` |
@@ -107,7 +107,9 @@ The standard pattern: `ComputeKernel.computeCorrect_of_toAlgKernel rfl`
 discharges the projection, then `simp` reduces `exec` to the body
 recurrence; the algebraic content closes by `simp` on the spec or by
 invoking a math identity from `Mathlib`. The LLM proof wrapper
-`scripts/prove.sh` automates this loop.
+`scripts/prove.sh` automates this loop and uses the official comparator to judge
+the targets selected with `--theorem` against the original task.
+See [setup and usage](./scripts/README.md).
 
 ### 4. Register in the kernel manifest
 
@@ -188,7 +190,9 @@ verso/                     Slide deck / overview
 - Lean 4 (`v4.29.0`) + Mathlib
 - [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) +
   [`lean4-skills`](https://github.com/lean4-skills/lean4-skills)
-- `jq` (used by `scripts/prove.sh`)
+- For proof automation: Python 3 and the official comparator, lean4export,
+  and landrun on Linux with a systemd user service; see
+  [installation instructions](./scripts/README.md#setup).
 
 ## Roadmap
 

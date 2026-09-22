@@ -9,10 +9,10 @@ spec。一条定理的可信度只取决于它的**陈述**和它的**公理足�
 ## 跑门禁
 
 ```bash
-# 每条 proven 的库定理都公理干净(134 条)
+# 每条 proven 的库定理都公理干净
 lake build VeriTile.Meta.TrustReport
 
-# 每个 bench port + showcase 都公理干净(159 个文件)
+# 审计 bench port、showcase 和基础设施测试
 bash bench/audit_trust.sh                    # 整个语料
 bash bench/audit_trust.sh swiglu_fwd         # 只指定 kernel
 
@@ -62,3 +62,15 @@ bash bench/audit_tritonbench_g.sh
 
 `TrustReport` 放在 `VeriTileFull` 库里(它要审 `ApproxGeLU`,会拖进重型分析链),
 所以日常的 lite `lake build` 仍然快。
+
+## 审计边界
+
+陈述检查按 Lean 环境中记录的声明来源模块，排除可信的 `Init`、`Std`、
+`Lean` 和 `Mathlib` 依赖。不会按名称前缀排除：项目中的 `Nat.wrapper`、
+`Real.wrapper` 或 `instSomething` 仍会被检查，包括从其他项目模块导入时。
+规格依赖遍历会沿项目别名继续展开，在上述可信依赖处停止。
+
+`#axiomsClean` 检查传递公理依赖；另外两项检查约束陈述与定义中出现的常量。
+这些检查不能替代对规格是否表达目标行为、假设是否充分的审阅。
+`scripts/check-artifact.sh` 的源码公理白名单是另一项检查；白名单中的公理
+并不因此获准进入 `#axiomsClean` 所检查的定理。
