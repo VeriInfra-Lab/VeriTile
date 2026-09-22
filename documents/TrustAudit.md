@@ -10,10 +10,10 @@ these commands check exactly that.
 ## Run the gates
 
 ```bash
-# every proven LIBRARY theorem is axiom-clean (118 theorems)
+# every proven LIBRARY theorem is axiom-clean
 lake build VeriTile.Meta.TrustReport
 
-# every bench port + showcase is axiom-clean (196 files)
+# audit bench ports, showcases, and infrastructure tests
 bash bench/audit_trust.sh                    # whole corpus
 bash bench/audit_trust.sh swiglu_fwd         # just named kernels
 
@@ -65,3 +65,18 @@ any gate is violated:
 
 `TrustReport` lives in the `VeriTileFull` lakefile lib (it audits `ApproxGeLU`,
 which pulls the heavy analysis chain), so a routine lite `lake build` stays fast.
+
+## Audit boundary
+
+The statement surface excludes declarations originating in the trusted `Init`,
+`Std`, `Lean`, and `Mathlib` modules. Origin comes from Lean's environment,
+not from a declaration's name: project definitions named `Nat.wrapper`,
+`Real.wrapper`, or `instSomething` are still audited, including after import.
+Spec traversal stops at those trusted dependencies; it follows project aliases.
+
+`#axiomsClean` checks transitive axiom dependencies. The statement and spec
+checks constrain referenced constants; they do not replace reviewing whether
+a specification expresses the intended behavior under appropriate assumptions.
+The source-level axiom whitelist used by `scripts/check-artifact.sh` is a
+separate check. A whitelisted source axiom is not thereby allowed in a theorem
+checked by `#axiomsClean`.
