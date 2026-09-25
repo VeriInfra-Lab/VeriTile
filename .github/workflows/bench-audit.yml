@@ -1,11 +1,11 @@
 name: Bench audit
 
-# TritonBench-G completion gates: port elaboration (bench/check_ports.sh),
+# TritonBench-G completion gates: comparator-backed trust audit (bench/audit_trust.sh),
 # proof-gap manifest exact-match (bench/check_proof_gap_manifest.py), and the
 # textual py<->lean faithfulness scans (bench/audit_tritonbench_g.sh).
 #
-# The elaboration pass dominates the runtime (parallelized in
-# bench/check_ports.sh), so this workflow is scoped to bench/ changes rather
+# Elaboration and proof replay dominate runtime (parallelized in
+# bench/audit_trust.sh), so this workflow is scoped to bench/ changes rather
 # than every .lean touch; the weekly scheduled run catches drift introduced
 # by library changes that never touch bench/.
 
@@ -15,12 +15,26 @@ on:
       - main
     paths:
       - 'bench/**'
+      - 'scripts/check_comparator.py'
+      - 'scripts/comparator_common.py'
+      - 'scripts/setup-comparator.sh'
+      - 'scripts/kernel-manifest.tsv'
+      - 'scripts/test_audit_shards.py'
+      - 'lean-toolchain'
+      - '.github/actions/setup-comparator/**'
       - '.github/workflows/bench-audit.yml'
   pull_request:
     branches:
       - main
     paths:
       - 'bench/**'
+      - 'scripts/check_comparator.py'
+      - 'scripts/comparator_common.py'
+      - 'scripts/setup-comparator.sh'
+      - 'scripts/kernel-manifest.tsv'
+      - 'scripts/test_audit_shards.py'
+      - 'lean-toolchain'
+      - '.github/actions/setup-comparator/**'
       - '.github/workflows/bench-audit.yml'
   schedule:
     # Weekly drift check (Monday 03:17 UTC) so library-only changes that
@@ -28,38 +42,37 @@ on:
     - cron: '17 3 * * 1'
   workflow_dispatch:
 
-# Superseded runs on the same ref are dead weight on a single-machine runner;
-# cancel them when a newer commit arrives.
+permissions:
+  contents: read
+
+# Keep the newest audit for each ref.
 concurrency:
   group: bench-audit-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  audit:
-    name: TritonBench-G audit gates
-    # Self-hosted runner with a user-local mathlib cache. Capacity can change;
-    # the scripts choose concurrency from available CPU and memory. The audit
-    # elaborates the original ports and then separate copies with trust gates.
-    # Allow both passes on the current 8-core / 32-GB machine: one port pass
-    # alone took 47 minutes in PR #644.
-    #
-    # The repo is PUBLIC. A pull_request from a fork would otherwise execute
-    # the fork's workflow code on this machine, so fork PRs are excluded at the
-    # job level: pushes, schedule, dispatch, and same-repo PRs still run.
+  global:
+    name: TritonBench-G global gates
     if: >-
       github.event_name != 'pull_request' ||
       github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: [self-hosted, linux, x64, veritile]
-    timeout-minutes: 180
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # The audit script hard-fails without rg/python3; verify up front so a
-      # misconfigured runner dies in seconds with a clear message.
-      - name: Check required tools
-        run: command -v rg && command -v python3
+      - name: Install required audit tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ripgrep
+          command -v rg && command -v python3
+
+      - name: Check audit source and sharding regressions
+        run: |
+          python3 -m unittest discover -s scripts -p 'test_audit_source.py'
+          python3 -m unittest discover -s scripts -p 'test_audit_shards.py'
 
       - name: Build Lean project
         uses: leanprover/lean-action@v1
@@ -70,5 +83,64 @@ jobs:
           lint: false
           use-mathlib-cache: auto
 
-      - name: Run TritonBench-G audit
-        run: bench/audit_tritonbench_g.sh
+      - name: Set up official proof comparator
+        uses: ./.github/actions/setup-comparator
+
+      - name: Run structural and library comparator gates once
+        run: bench/audit_tritonbench_g.sh --global-only
+
+  audit:
+    name: TritonBench-G audit shard ${{ matrix.shard }}
+    # Each shard requires the global gates and checks a disjoint corpus subset.
+    needs: global
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    env:
+      AUDIT_TRUST_JOBS: 1
+      AUDIT_TRUST_SHARD_COUNT: 4
+      AUDIT_TRUST_SHARD_INDEX: ${{ matrix.shard }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build corpus dependencies
+        uses: leanprover/lean-action@v1
+        with:
+          build: true
+          build-args: "VeriTile"
+          test: false
+          lint: false
+          use-mathlib-cache: auto
+
+      - name: Set up official proof comparator
+        uses: ./.github/actions/setup-comparator
+
+      - name: Run corpus shard with comparator
+        run: bench/audit_trust.sh
+
+  complete:
+    name: TritonBench-G audit complete
+    needs: [global, audit]
+    # A failed, cancelled, or skipped dependency must never become a green gate.
+    # Retain the existing policy of running this workflow only for local PRs.
+    if: >-
+      always() &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    env:
+      GLOBAL_RESULT: ${{ needs.global.result }}
+      CORPUS_RESULT: ${{ needs.audit.result }}
+    steps:
+      - name: Require global gates and all corpus shards
+        run: |
+          if [[ "$GLOBAL_RESULT" != success || "$CORPUS_RESULT" != success ]]; then
+            printf 'Audit incomplete: global=%s, corpus=%s\n' "$GLOBAL_RESULT" "$CORPUS_RESULT"
+            exit 1
+          fi
+          printf 'Global gates and all four corpus shards passed\n'

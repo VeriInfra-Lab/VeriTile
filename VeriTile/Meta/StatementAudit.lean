@@ -20,11 +20,19 @@ audit:
                              transitively references any kernel in the list
                              (a self-referential spec is a circular proof).
 -/
-import Lean
+import VeriTile.Meta.Specification
 
 open Lean Elab Command
 
 namespace VeriTile.Meta
+
+/-- Explicit registration for mathematical specifications with arbitrary names. -/
+initialize independentSpecAttr : TagAttribute ←
+  registerTagAttribute `kernel_spec "An independent mathematical kernel specification."
+
+/-- Execution denotations are inventoried separately, not independent specifications. -/
+initialize kernelDenotationAttr : TagAttribute ←
+  registerTagAttribute `kernel_denotation "A kernel execution denotation."
 
 /-- Declarations originating in the trusted Lean/Mathlib dependencies. Use the
 environment's defining module, never the declaration's spelling: project code
@@ -85,8 +93,8 @@ elab "#stmtSurfaceSubset " id:ident " ⊆ " "[" allow:ident,* "]" : command => d
   else
     throwError m!"{name}: statement mentions non-allowlisted project constants:\n{bad}"
 
-elab "#axiomsClean " id:ident : command => do
-  let name ← liftCoreM <| realizeGlobalConstNoOverload id
+/-- Shared axiom check for explicit names and environment-discovered headlines. -/
+def auditAxioms (name : Name) : CommandElabM Unit := do
   let env ← getEnv
   let (_, st) := ((CollectAxioms.collect name).run env).run {}
   let allowed : Array Name := #[`propext, `Classical.choice, `Quot.sound]
@@ -95,6 +103,27 @@ elab "#axiomsClean " id:ident : command => do
     logInfo m!"{name}: axiom footprint ⊆ standard base ✓  ({st.axioms})"
   else
     throwError m!"{name}: DISALLOWED axioms {bad} (sorryAx ⇒ fake proof)"
+
+elab "#axiomsClean " id:ident : command => do
+  auditAxioms (← liftCoreM <| realizeGlobalConstNoOverload id)
+
+/-- Check all registered headlines and legacy theorem suffixes in this module.
+Discovery uses the elaborated environment, including private and Unicode names. -/
+elab "#auditModuleAxioms" : command => do
+  let env ← getEnv
+  let suffixes := #["_compute_correct", "_correct", "_output_summary_general", "_output_summary"]
+  let mut names : Array Name := #[]
+  for (name, info) in env.constants.toList do
+    let userName := ((privateToUserName? name).getD name).eraseMacroScopes
+    if (env.getModuleIdxFor? name).isSome then
+      continue
+    let .thmInfo _ := info | continue
+    if headlineAttr.hasTag env name || suffixes.any (fun suffix => userName.getString!.endsWith suffix) then
+      names := names.push name
+  names := names.qsort (·.toString < ·.toString)
+  for name in names do auditAxioms name
+  let display := names.map fun name => (privateToUserName? name).getD name
+  logInfo m!"Axiom audit: headlines={names.size}\nheadlines: {display}"
 
 elab "#specNonCircular " spec:ident " avoiding " "[" ks:ident,* "]" : command => do
   let specName ← liftCoreM <| realizeGlobalConstNoOverload spec
@@ -106,5 +135,42 @@ elab "#specNonCircular " spec:ident " avoiding " "[" ks:ident,* "]" : command =>
     logInfo m!"{specName}: definition does not reference {kernelNames} — non-circular ✓"
   else
     throwError m!"{specName}: SELF-REFERENTIAL — definition transitively uses kernel(s) {hit}"
+
+/-- Discover kernels by their elaborated result type, including parameterized and
+multiline declarations. Specs use the existing `*Spec` convention or `kernel_spec`;
+execution denotations must instead be registered with `kernel_denotation`.
+Every discovered pair is checked, and the actual inventory is printed. -/
+elab "#auditModuleSpecs" : command => do
+  let env ← getEnv
+  let mut kernels : Array Name := #[]
+  let mut specs : Array Name := #[]
+  let mut denotations : Array Name := #[]
+  for (name, info) in env.constants.toList do
+    let userName := ((privateToUserName? name).getD name).eraseMacroScopes
+    if (env.getModuleIdxFor? name).isSome then
+      continue
+    unless info.isDefinition do continue
+    let isKernel ← liftTermElabM do
+      Meta.forallTelescopeReducing info.type fun _ result => do
+        return result.isConstOf `VeriTile.Triton.ComputeKernel
+    if isKernel then kernels := kernels.push name
+    let isDenotation := kernelDenotationAttr.hasTag env name
+    if isDenotation then denotations := denotations.push name
+    if independentSpecAttr.hasTag env name ||
+        (!isDenotation && userName.getString!.endsWith "Spec") then
+      specs := specs.push name
+  kernels := kernels.qsort (·.toString < ·.toString)
+  specs := specs.qsort (·.toString < ·.toString)
+  denotations := denotations.qsort (·.toString < ·.toString)
+  if !specs.isEmpty && kernels.isEmpty then
+    throwError "Spec audit found {specs.size} specifications but no ComputeKernel declarations"
+  for spec in specs do
+    let closure := projValueClosure env #[spec] {}
+    let hit := kernels.filter (closure.contains ·)
+    unless hit.isEmpty do
+      throwError "{spec}: SELF-REFERENTIAL — definition transitively uses kernel(s) {hit}"
+  let display := fun (names : Array Name) =>
+    (names.map fun name => (privateToUserName? name).getD name).qsort (·.toString < ·.toString)
+  logInfo m!"Spec audit: kernels={kernels.size}, independentSpecs={specs.size}, denotations={denotations.size}\nkernels: {display kernels}\nindependent specs: {display specs}\ndenotations: {display denotations}"
 
 end VeriTile.Meta

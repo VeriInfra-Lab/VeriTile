@@ -39,8 +39,22 @@ arithmetic the reviewer must decode against the kernel strides).
 These sheets are **generated artifacts**; do not hand-edit them. After changing
 any kernel spec, regenerate:
 
-    python3 scripts/spec_sheet.py            # → bench/tritonbench_g/spec-sheets/
+    python3 scripts/spec_sheet.py            # → bench/tritonbench_g/_spec-sheets/
+
+Filenames include the port-directory slug (`<port>__<LeanFile>.md`). The
+generator checks for case-insensitive collisions before writing any sheet,
+so both RMSNorm ports remain distinct on macOS as well as Linux.
 
 To print a single kernel's sheet to stdout (e.g. while reviewing a diff):
 
     python3 scripts/spec_sheet.py bench/tritonbench_g/<kernel>/<File>.lean
+
+## Scope evidence
+
+These generated cards reproduce declarations; they do not certify that a
+headline covers the original Python kernel. Use the explicit, fingerprinted
+[`coverage_review.json`](../coverage_review.json) records and the
+[browsable theorem table](https://lizn-zn.github.io/VeriTile/proofs/coverage/)
+for each headline's reviewed scope, numeric model, and excluded operations.
+The extractor preserves named arguments, default parameters, and `let`
+expressions in the statement rather than treating their `:=` as its proof.

@@ -1,0 +1,57 @@
+name: Proof comparator integration
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/prove.py'
+      - 'scripts/prove.sh'
+      - 'scripts/setup-comparator.sh'
+      - 'scripts/test_prove.py'
+      - 'scripts/comparator_common.py'
+      - 'scripts/check_comparator.py'
+      - 'scripts/test_check_comparator.py'
+      - 'bench/audit_trust_prep.py'
+      - 'bench/check_ports.sh'
+      - 'bench/audit_trust.sh'
+      - '.github/actions/setup-comparator/**'
+      - 'lean-toolchain'
+      - '.github/workflows/proof-comparator.yml'
+  pull_request:
+    paths:
+      - 'scripts/prove.py'
+      - 'scripts/prove.sh'
+      - 'scripts/setup-comparator.sh'
+      - 'scripts/test_prove.py'
+      - 'scripts/comparator_common.py'
+      - 'scripts/check_comparator.py'
+      - 'scripts/test_check_comparator.py'
+      - 'bench/audit_trust_prep.py'
+      - 'bench/check_ports.sh'
+      - 'bench/audit_trust.sh'
+      - '.github/actions/setup-comparator/**'
+      - 'lean-toolchain'
+      - '.github/workflows/proof-comparator.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - uses: ./.github/actions/setup-comparator
+      - name: Exercise comparator acceptance and rejection
+        run: |
+          python3 scripts/test_prove.py
+          python3 scripts/test_check_comparator.py

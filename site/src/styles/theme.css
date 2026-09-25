@@ -13,6 +13,11 @@
 
 :root,
 [data-theme='light'] {
+  /* Shared type roles; narrow layouts wrap instead of shrinking text. */
+  --vt-text-body: 1rem;
+  --vt-text-small: .875rem;
+  --vt-text-explanation: .875rem;
+  --vt-text-code: .875rem;
   /* Paper */
   --vt-paper:   #F2EBDC;
   --vt-paper-2: #EADFC6;
@@ -20,11 +25,11 @@
   /* Ink */
   --vt-ink:     #15171B;
   --vt-ink-2:   #3A3F46;
-  --vt-ink-3:   #6B7280;
+  --vt-ink-3:   #505764;
   /* Rules */
   --vt-rule:    #C9BFA9;
   --vt-rule-2:  #B8AC91;
-  /* Cinnabar (印) */
+  /* Cinnabar */
   --vt-seal:        #C12A12;
   --vt-seal-soft:   rgba(193, 42, 18, 0.12);
   --vt-seal-ink:    #8B1D0C;
@@ -42,7 +47,7 @@
   --vt-paper-3: #1E2330;
   --vt-ink:     #E8DEC6;
   --vt-ink-2:   #B7AC92;
-  --vt-ink-3:   #7B7565;
+  --vt-ink-3:   #A09A89;
   --vt-rule:    #2A2F3A;
   --vt-rule-2:  #353C49;
   --vt-seal:        #E34A2D;
@@ -60,6 +65,8 @@
   --sl-font-system: 'Source Serif 4 Variable', 'Iowan Old Style', 'Palatino', Georgia, serif;
   --sl-font-system-mono: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
   /* CJK fallback layered after the latin stack */
+  --sl-text-2xs: var(--vt-text-small);
+  --sl-text-xs: var(--vt-text-small);
   --sl-text-h1: 2.6rem;
   --sl-text-h2: 1.7rem;
   --sl-text-h3: 1.25rem;
@@ -182,7 +189,7 @@ code, kbd, samp, pre,
   border: 1px solid var(--vt-rule);
   border-radius: 2px;
   padding: 0 0.35em;
-  font-size: 0.88em;
+  font-size: max(var(--vt-text-small), 0.88em);
 }
 
 /* ── Nav & sidebar restyle ─────────────────────────────────────────────── */
@@ -201,7 +208,7 @@ nav.sidebar { background: var(--vt-paper); }
 .sidebar-content details > summary,
 .sidebar-content .group-label > .large {
   font-family: 'Fragment Mono', monospace !important;
-  font-size: 0.72rem !important;
+  font-size: var(--vt-text-small) !important;
   font-weight: 400 !important;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -219,7 +226,7 @@ nav.sidebar { background: var(--vt-paper); }
 starlight-toc nav h2,
 nav.right-sidebar > h2 {
   font-family: 'Fragment Mono', monospace;
-  font-size: 0.7rem;
+  font-size: var(--vt-text-small);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--vt-ink-3);
@@ -247,7 +254,7 @@ nav.right-sidebar > h2 {
   font-family: 'Fragment Mono', monospace;
   font-weight: 400;
   text-transform: uppercase;
-  font-size: 0.72rem;
+  font-size: var(--vt-text-small);
   letter-spacing: 0.1em;
   color: var(--vt-ink-3);
   border-bottom: 1px solid var(--vt-ink-2);
@@ -295,6 +302,9 @@ aside.starlight-aside--tip     { border-left-color: var(--vt-verified); }
 /* Give the project homepage its own wider canvas while retaining docs widths. */
 html[data-has-hero]:not([data-has-sidebar]) {
   --sl-content-width: 78rem;
+  --vt-text-body: .875rem;
+  --vt-text-explanation: .8125rem;
+  --vt-text-code: .75rem;
 }
 
 /* Project homepage: warm paper, quiet ink, and a restrained amber accent. */
@@ -304,7 +314,7 @@ html[data-has-hero][data-theme='light'] {
   --vt-paper-3: #DCD6CA;
   --vt-ink: #34332E;
   --vt-ink-2: #57554E;
-  --vt-ink-3: #716C61;
+  --vt-ink-3: #605B51;
   --vt-rule: #DFD9CD;
   --vt-rule-2: #CDC5B7;
   --vt-seal: #936126;
@@ -322,7 +332,7 @@ html[data-has-hero][data-theme='dark'] {
   --vt-paper-3: #36382F;
   --vt-ink: #EAE5DA;
   --vt-ink-2: #C0BCB1;
-  --vt-ink-3: #A09C90;
+  --vt-ink-3: #AAA698;
   --vt-rule: #373A31;
   --vt-rule-2: #505347;
   --vt-seal: #D5AD72;
