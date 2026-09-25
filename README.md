@@ -1,7 +1,5 @@
 # VeriTile
 
-**English** | [中文](README_zh.md)
-
 📖 **Docs site:** [lizn-zn.github.io/VeriTile/](https://lizn-zn.github.io/VeriTile/) (bench cookbook, status, architecture). Run locally: `./site/scripts/dev.sh`.
 
 VeriTile embeds a typed Triton-style kernel DSL in Lean 4 and proves
@@ -26,7 +24,7 @@ externally checked. See [Triton subset and gaps](./documents/TritonSubset.md).
   (writes-equality: the two final memories agree at every cell outside the
   declared scratch regions). Both project through `toAlgorithm?` and run on
   `Kernel.Correct_without_Rounding` / `Kernel.Refine` underneath.
-- **Narrow-float / rounding-model layer** (#447): an abstract `RoundingModel`
+- **Narrow-float / rounding-model layer** (#1): an abstract `RoundingModel`
   (`round : FloatDType → ℝ → ℝ`, fields `round_real` (real-channel identity) and `round_idem` (idempotence)) threads a
   black-box rounding function through the semantics (`evalOpR` / `stepStmtR` /
   `execR`). The unqualified surfaces are the rounding-parametric ones —
@@ -39,14 +37,15 @@ externally checked. See [Triton subset and gaps](./documents/TritonSubset.md).
   [`bench/examples/FusedSwigluEquiv.lean`](./bench/examples/FusedSwigluEquiv.lean).
 - **Examples**: 173 ported TritonBench-G kernels with proofs (source of truth:
   [`bench/tritonbench_g/completion_audit.md`](./bench/tritonbench_g/completion_audit.md);
-  see [`bench/tritonbench_g/`](./bench/tritonbench_g/)) plus FlashAttention-1
+  see the [per-theorem coverage table](https://lizn-zn.github.io/VeriTile/proofs/coverage/)
+  for configured models, slices, and remaining gaps) plus FlashAttention-1
   forward, online softmax, Welford, LayerNorm, log-sum-exp.
-- **CI gates**: `.github/workflows/bench-audit.yml` runs
-  `bench/audit_tritonbench_g.sh` — per-port elaboration
-  (`bench/check_ports.sh`), the Python↔Lean faithfulness scans, the proof-gap
-  manifest, and both trust audits (`#axiomsClean` over the library via
-  `VeriTile.Meta.TrustReport`, and over the standalone bench corpus via
-  `bench/audit_trust.sh`). `.github/workflows/artifact.yml` runs `lake build` +
+- **CI gates**: `.github/workflows/bench-audit.yml` runs the full library build,
+  Python↔Lean faithfulness scans, proof-gap manifest checks, and library
+  comparator once, then checks the standalone corpus in four shards through
+  `bench/audit_trust.sh`. Each file must pass elaboration, Lean trust/spec
+  checks, and official comparator replay. The final gate requires the global
+  job and all four shards to succeed. `.github/workflows/artifact.yml` runs `lake build` +
   `scripts/check-artifact.sh` (no `sorry`, axiom whitelist, manifest schema,
   doc-drift checks). `.github/workflows/site.yml` builds and deploys the docs
   site to GitHub Pages on every push touching `site/`.
@@ -56,6 +55,28 @@ detailed concurrency (atomics / async-copy serialization, beyond the
 projection boundary), Python wrapper execution.
 
 ## Quick Start
+
+### Run a checked example
+
+Install Git and [Lean's toolchain manager (`elan`)](https://lean-lang.org/install/),
+then run:
+
+```bash
+git clone https://github.com/Lizn-zn/VeriTile.git
+cd VeriTile
+lake exe cache get
+lake build
+lake env lean bench/examples/VectorAdd.lean
+```
+
+The repository pins the Lean and Mathlib versions. The cache command downloads
+precompiled dependencies; `lake build` builds the default library target.
+The last command compiles the complete vector-add example and checks its
+proofs in Lean. For the additional official comparator audit, follow the
+[verification setup](./scripts/README.md#setup). An agent CLI is optional.
+
+The steps below outline how to write a new kernel; the proof sketch uses
+`...` where the linked complete example supplies the proof.
 
 ### 1. Write a `ComputeKernel`
 
@@ -110,6 +131,8 @@ invoking a math identity from `Mathlib`. The LLM proof wrapper
 `scripts/prove.sh` automates this loop and uses the official comparator to judge
 the targets selected with `--theorem` against the original task.
 See [setup and usage](./scripts/README.md).
+The artifact and bench check scripts also require comparator proof replay;
+see [the shared verification gate](./scripts/README.md#shared-comparator-gate).
 
 ### 4. Register in the kernel manifest
 
@@ -176,21 +199,23 @@ verso/                     Slide deck / overview
 
 ## Verification
 
-- `lake build` — typecheck + build full library and examples
+- `lake build` — build the default `VeriTile` library target; standalone
+  benchmarks/showcases and the GeLU/trust-report target are separate
+- `lake build VeriTile VeriTileFull` — also build the full analysis and library trust report
+- `lake env lean bench/examples/VectorAdd.lean` — quick example smoke check after building
 - `scripts/check-artifact.sh` — `lake build` ∧ `no sorry` ∧ axiom
   whitelist ∧ kernel-manifest schema ∧ README/doc-term drift
-- `bench/check_ports.sh` — per-port build of the TritonBench-G ports
-  (also run inside `bench/audit_tritonbench_g.sh`, the bench-audit CI gate)
-- `bench/audit_tritonbench_g.sh` — the full bench gate: the per-port build
-  above ∧ faithfulness scans ∧ proof-gap manifest ∧ both trust audits
-- `bench/audit_trust.sh` — `#axiomsClean` over every standalone bench file
+- `bench/check_ports.sh` — per-port elaboration and official comparator replay
+- `bench/audit_tritonbench_g.sh` — the full bench gate: structural scans,
+  proof-gap manifest, library comparator, and standalone trust/comparator audit
+- `bench/audit_trust.sh` — trust gates and comparator replay for every standalone bench file
 
 ## Environment
 
 - Lean 4 (`v4.29.0`) + Mathlib
-- [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) +
+- Optional, for agent-assisted proof automation: [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) +
   [`lean4-skills`](https://github.com/lean4-skills/lean4-skills)
-- For proof automation: Python 3 and the official comparator, lean4export,
+- For artifact/bench verification and proof automation: Python 3 and the official comparator, lean4export,
   and landrun on Linux with a systemd user service; see
   [installation instructions](./scripts/README.md#setup).
 
@@ -199,8 +224,13 @@ verso/                     Slide deck / overview
 Long-running project. Goal: bring real Triton kernels (forward, backward,
 concurrency, production layouts / autograd) into Lean's proof scope with
 minimal modification. Live roadmap:
-[#91](https://github.com/Lizn-zn/VeriTile/issues/91). Architecture and
+[#1](https://github.com/Lizn-zn/VeriTile/issues/1). Architecture and
 decision log: [PLAN.md](./PLAN.md).
+
+## Team
+
+VeriTile is a collaboration between Zenan Li, Kaiyu Yang, Ziran Yang,
+Zhaoyu Li, Mike He, and Aarti Gupta.
 
 ## License
 

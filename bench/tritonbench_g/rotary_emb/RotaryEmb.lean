@@ -708,28 +708,6 @@ theorem rotary_emb_k1_block_correct
 
 /-! ### The `⊨` specifications -/
 
-/-- A masked scatter-store `foldl` leaves every memory cell it does not
-actively hit unchanged (cell-level frame for the masked store). -/
-private theorem foldl_store_preserve_cell {α : Type} {region : RegionName}
-    (offsetFn : α → Nat) (valueFn : α → ℝ) (P : α → Prop) [DecidablePred P]
-    (r : RegionName) (o : Nat) (l : List α) (s : BlockState)
-    (hnot : ∀ k ∈ l, P k → ¬(region = r ∧ offsetFn k = o)) :
-    (l.foldl (fun acc k =>
-        if P k then acc.writeMem region (offsetFn k) (valueFn k) else acc)
-      s).mem r o = s.mem r o := by
-  induction l generalizing s with
-  | nil => rfl
-  | cons hd tl ih =>
-      rw [List.foldl_cons]
-      by_cases hP : P hd
-      · rw [if_pos hP,
-          ih _ (fun k hk => hnot k (List.mem_cons_of_mem hd hk)),
-          BlockState.writeMem_mem]
-        exact if_neg (fun hc =>
-          hnot hd List.mem_cons_self hP ⟨hc.1.symm, hc.2.symm⟩)
-      · rw [if_neg hP]
-        exact ih _ (fun k hk => hnot k (List.mem_cons_of_mem hd hk))
-
 /-- The shared **IO signature** of one in-place rotary store — the whole
 kernel-specific audit surface of the four `⊨` headlines below.
 
@@ -760,8 +738,11 @@ extents cover the active lanes. -/
 def rotaryStoreIO (kernel : ComputeKernel) (Buf Cos Sin : RegionName)
     (stride_bs stride_h stride_d stride_cosbs stride_cosd stride_sinbs
       stride_sind max_total_len HEAD BLOCK_HALF : Nat)
-    (storeDim : Fin BLOCK_HALF → Nat) : GroupedMasked2DKernelIO where
+    (storeDim : Fin BLOCK_HALF → Nat)
+    (projection : kernel.toAlgorithm? = Except.ok kernel.toAlgKernel := by
+      first | rfl | simp [ComputeKernel.toAlgKernel]) : GroupedMasked2DKernelIO where
   kernel := kernel
+  projection := projection
   nIn := 4
   nOut := 1
   bufs := [Buf, Cos, Sin]

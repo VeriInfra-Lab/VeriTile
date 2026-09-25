@@ -11,6 +11,9 @@ on:
       - 'lake-manifest.json'
       - 'VeriTile/**'
       - 'bench/tritonbench_g/**'
+      - 'bench/coverage_review.py'
+      - 'bench/check_proof_gap_manifest.py'
+      - 'scripts/spec_sheet.py'
       - 'bench/examples/**'
       - '.github/workflows/site.yml'
   pull_request:
@@ -23,9 +26,14 @@ on:
       - 'lake-manifest.json'
       - 'VeriTile/**'
       - 'bench/tritonbench_g/**'
+      - 'bench/coverage_review.py'
+      - 'bench/check_proof_gap_manifest.py'
+      - 'scripts/spec_sheet.py'
       - 'bench/examples/**'
       - '.github/workflows/site.yml'
   workflow_dispatch:
+  schedule:
+    - cron: '41 4 * * 1'
 
 permissions:
   contents: read
@@ -54,8 +62,14 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Audit locked dependencies
+        run: bun audit
+
       - name: Check documentation copies
         run: python3 scripts/sync-docs.py --check
+
+      - name: Check coverage review regressions
+        run: python3 -m unittest discover -s ../scripts -p 'test_coverage_review.py'
 
       - name: Check recorded proof freshness
         run: python3 scripts/record-home-demo.py --check
@@ -67,12 +81,12 @@ jobs:
         run: python3 scripts/check-site.py
 
       - uses: actions/upload-pages-artifact@v3
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        if: github.event_name != 'pull_request' && github.event_name != 'schedule' && github.ref == 'refs/heads/main'
         with:
           path: site/dist
 
   deploy:
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: github.event_name != 'pull_request' && github.event_name != 'schedule' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     permissions:

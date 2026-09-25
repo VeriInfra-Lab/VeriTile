@@ -1,7 +1,5 @@
 # VeriTile — Project Plan
 
-**English** | [中文](PLAN_zh.md)
-
 VeriTile is a long-running project to bring real Triton kernel verification
 into Lean 4. Not toys, not a hand-picked theorem set tuned to a deadline — the
 goal is to let a Triton engineer take the production `.py` kernels they ship
@@ -32,7 +30,7 @@ Real Triton verification requires four axes advancing together:
 
 This is an open roadmap, **not "deliver N theorems and stop"**. The §Status,
 §In progress, and §Roadmap sections below organize work along these four axes.
-The live issue-tracked roadmap is GitHub issue #91; this document records the
+The live issue-tracked roadmap is GitHub issue #1; this document records the
 architecture, status, and decision log.
 
 ## Verification architecture (permanent, locked since v0.2)
@@ -302,10 +300,9 @@ ergonomic, not functional:
 - Cut a first release (no tag has been cut yet) covering FA-1 forward (3-A), FA-2 forward + the
   `fa1_eq_fa2_two_block_forward4D` headline corollary (3-B), and FA-1/FA-2
   backward + `fa1_backward_eq_fa2_backward(_4D)` headline corollary (3-C)
-- Pre-Tier-4 cleanup checklist (closed: see issue #108)
+- Pre-Tier-4 cleanup checklist (completed)
 - Causal launcher-witness ergonomics (§In progress)
-- Streaming reduction helper extraction — Tier 4 prerequisite, follow-up
-  issue from #108
+- Streaming reduction helper extraction — Tier 4 prerequisite, follow-up to the completed cleanup
 
 ### Mid-term — Whole-grid `multiBlockExec` and arbitrary-block lift
 
@@ -470,7 +467,7 @@ To make the close-rate metric reproducible:
   never created); the first tag is still pending
 - Each release ships with release notes (new theorems, new semantics,
   benchmark data, scope changes)
-- Bilingual README (English + Chinese) maintained
+- English documentation maintained
 - `CONTRIBUTING.md` with a kernel-pair tutorial (using Tier 1
   `log_sum_exp` as worked example)
 - `scripts/prove.sh` lives in-repo (not separately packaged); benchmark
@@ -558,7 +555,7 @@ To make the close-rate metric reproducible:
 
 ## Implementation plans
 
-Active execution is tracked in pinned roadmap issue #91 (layered) and the
+Active execution is tracked in pinned roadmap issue #1 (layered) and the
 linked per-task issues. Long-form design documents that survive an
 implementation phase are filed under [`documents/`](./documents); closed-phase
 design notes live in [`documents/archive/`](./documents/archive/).

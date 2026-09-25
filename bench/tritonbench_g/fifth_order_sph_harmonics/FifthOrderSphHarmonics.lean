@@ -3094,28 +3094,6 @@ theorem y10Spec_eq_sphY
     Option.bind, Option.bind_some, WithBot.recBotCoe, id]
   ring
 
-/-- A masked scatter-store `foldl` leaves every memory cell it does not
-actively hit unchanged (cell-level frame for the eleven masked stores). -/
-private theorem foldl_store_preserve_cell {α : Type} {region : RegionName}
-    (offsetFn : α → Nat) (valueFn : α → ℝ) (P : α → Prop) [DecidablePred P]
-    (r : RegionName) (o : Nat) (l : List α) (s : BlockState)
-    (hnot : ∀ k ∈ l, P k → ¬(region = r ∧ offsetFn k = o)) :
-    (l.foldl (fun acc k =>
-        if P k then acc.writeMem region (offsetFn k) (valueFn k) else acc)
-      s).mem r o = s.mem r o := by
-  induction l generalizing s with
-  | nil => rfl
-  | cons hd tl ih =>
-      rw [List.foldl_cons]
-      by_cases hP : P hd
-      · rw [if_pos hP,
-          ih _ (fun k hk => hnot k (List.mem_cons_of_mem hd hk)),
-          BlockState.writeMem_mem]
-        exact if_neg (fun hc =>
-          hnot hd List.mem_cons_self hP ⟨hc.1.symm, hc.2.symm⟩)
-      · rw [if_neg hP]
-        exact ih _ (fun k hk => hnot k (List.mem_cons_of_mem hd hk))
-
 /-- The kernel sits inside the flat-memory bridge's covered fragment: pointer
 arithmetic, three masked coordinate loads, elementwise polynomial arithmetic,
 and eleven masked strided stores. -/
@@ -3448,6 +3426,10 @@ def fifthOrderFwdIO (coord_ptr output_ptr : RegionName)
     GroupedMasked2DKernelIO where
   kernel := fifth_order_fwd_surface coord_ptr output_ptr block_size coord_numel
     output_numel col_offset output_stride
+  projection := by
+    obtain ⟨alg, h⟩ := fifth_order_fwd_surface_toAlgorithm_supported coord_ptr
+      output_ptr block_size coord_numel output_numel col_offset output_stride
+    simp only [ComputeKernel.toAlgKernel, h]
   nIn := 3
   nOut := 11
   bufs := [coord_ptr, output_ptr]

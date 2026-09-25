@@ -7,7 +7,9 @@ to decide whether the requested theorems were proved.
 ## Setup
 
 Use Linux with Landlock support and a working systemd user service. Install
-Go 1.24+, the project's Lean toolchain, and the Claude Code `lean4` plugin.
+Go 1.24+, the project's Lean toolchain, Python 3, and ripgrep (`rg`).
+The Claude Code `lean4` plugin is needed only for agent-driven proof attempts
+through `scripts/prove.sh`; the artifact and bench audits do not need it.
 Build the judge tools once, outside the project (to avoid copying them into each
 judging workspace):
 
@@ -92,7 +94,8 @@ when reporting benchmark results. The previous benchmark setup used version
 ## Artifact checker
 
 `scripts/check-artifact.sh` is the local release/CI gate for the Lean artifact.
-It runs `lake build VeriTile VeriTileFull`, rejects Lean `sorry` warnings, checks declared axioms
+It runs `lake build VeriTile VeriTileFull`, rejects Lean `sorry` warnings, runs
+the official comparator on every proven library target in the manifest, checks declared axioms
 against `scripts/artifact-axiom-whitelist.txt`, validates the per-kernel
 registry in `scripts/kernel-manifest.tsv`, and checks README example links for
 drift. It also resolves documented public API names with Lean through
@@ -106,3 +109,74 @@ adding a new public example or benchmark port.
 ```bash
 scripts/check-artifact.sh
 ```
+
+## Shared comparator gate
+
+The artifact checker, `bench/check_ports.sh`, and `bench/audit_trust.sh` all
+require the official comparator and the sandbox tools installed above. Missing
+tools, export failures, and comparator rejections fail the gate. CI installs
+the same pinned tools through `.github/actions/setup-comparator`.
+
+The public Bench audit workflow first runs one global job: the full library
+build, structural checks, and library comparator. Four dependent jobs build
+the lite `VeriTile` target and audit disjoint shards of the standalone corpus.
+Each runner keeps its own mutable comparator workspace. The final
+`TritonBench-G audit complete` check requires both the global job and every
+shard to succeed; failed, cancelled, or skipped dependencies fail that check.
+
+Local `bench/audit_tritonbench_g.sh` runs still cover all gates and the whole
+corpus by default. To reproduce the CI stages separately:
+
+```bash
+bench/audit_tritonbench_g.sh --global-only
+AUDIT_TRUST_SHARD_COUNT=4 AUDIT_TRUST_SHARD_INDEX=0 bench/audit_trust.sh
+```
+
+Shard indices are 0–3; run every index for a complete corpus audit. Both shard
+variables are required, and sharding cannot be combined with named targets or
+`--global-only`. A global-only result or a single shard is not a completed
+audit. The existing sharded aggregate command also remains available: setting
+the two variables on `bench/audit_tritonbench_g.sh` runs the global gates and
+the selected shard together.
+
+```bash
+python3 scripts/check_comparator.py --library
+python3 scripts/check_comparator.py --file bench/examples/VectorAdd.lean --trust
+python3 scripts/test_check_comparator.py
+```
+
+Routine checks freeze the current trusted project sources and build cache in
+an independent temporary workspace. Comparator exports and replays the current
+proofs against that source snapshot (`source-replay` mode). This is not a check
+that statements stayed unchanged from a previous Git revision; specification
+changes still require review. `prove.sh` retains its separate comparison against
+the original task captured before the agent runs.
+
+The library gate selects `proven` library rows from the manifest. Standalone
+gates enumerate every theorem object retained in the file's Lean environment,
+including private and macro-generated names, and expose checked aliases to
+comparator. Definition-only fixtures report zero theorem targets and run a
+separate trivial sentinel through comparator; this does not establish a kernel
+correctness claim. Anonymous `example` commands that Lean does not retain as
+theorem declarations are compilation tests, not inventoried proof targets.
+
+The trust gate also retains its headline, statement, and circular-spec checks.
+The aggregate bench audit performs compilation and comparator replay in one
+trust pass. Batch workers share one independent snapshot, with separate output
+modules, and concurrency accounts for export/replay memory. Raw `lake build`
+remains the build step; use these gates for proof acceptance.
+
+The structural rules in `bench/audit_tritonbench_g.sh` share source extraction
+through `bench/audit_source.py`. Kernel selection and call formatting are explicit
+options: checks covering every JIT helper must not silently switch to the
+primary-kernel policy. These text scans complement the Lean/comparator gates;
+they do not discover proof obligations. Run their parser and failure regressions
+with `python3 -m unittest discover -s scripts -p 'test_audit_source.py'`.
+
+In the same checkout, run `test_audit_gates.py` and a full corpus audit
+sequentially. The regression suite creates deliberately invalid temporary ports
+under `bench/tritonbench_g/`, which a concurrent full scan would also select.
+
+Logs under `Logs/comparator-check-*` record source hashes, selected targets,
+generated source, comparator configuration, diagnostics, binary hash, and exit
+status. Temporary build-cache copies are removed when a batch finishes.

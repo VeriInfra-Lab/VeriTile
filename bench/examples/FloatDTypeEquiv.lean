@@ -83,6 +83,12 @@ This discharges them for `simp`. -/
     (f : α → Except ε β) :
     (Except.ok a : Except ε α) >>= f = f a := rfl
 
+private theorem erased_projection (ck : ComputeKernel)
+    (h : ck.toAlgorithm? = .ok ck.toAlgKernel) :
+    ck.eraseDType.toAlgorithm? = .ok ck.eraseDType.toAlgKernel := by
+  simp only [ComputeKernel.eraseDType, h]
+  simp
+
 /-! ## Kernels -/
 section FloatDTypeEquiv.kernels
 
@@ -263,7 +269,7 @@ theorem softmax_reciprocal_refinement_view :
       ((floatSoftmaxRecipKernel xReg yReg N).eraseDType) s [] := by
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hN.ne'
   apply ComputeKernel.computeRefineR_of_toAlgKernel
-    (by simp [ComputeKernel.eraseDType]) (by simp [ComputeKernel.eraseDType])
+    (erased_projection _ (by rfl)) (erased_projection _ (by rfl))
   intro s0 lhs' rhs' hL hR hs0
   subst s0
   intro r hr o
@@ -481,6 +487,7 @@ kernel: the headline **proves** the kernel's actual addressing matches
 them. -/
 def floatSoftmaxDivIO (B : Nat) : KernelIO₁ where
   kernel := (floatStableSoftmaxKernel ⟨"x"⟩ ⟨"y"⟩ B).eraseDType
+  projection := erased_projection _ (by rfl)
   inp := ⟨"x"⟩
   out := ⟨"y"⟩
   Bin := B
@@ -494,7 +501,8 @@ windows shared verbatim), with the erased reciprocal-multiply kernel
 plugged in. -/
 def floatSoftmaxRecipIO (B : Nat) : KernelIO₁ :=
   { floatSoftmaxDivIO B with
-    kernel := (floatSoftmaxRecipKernel ⟨"x"⟩ ⟨"y"⟩ B).eraseDType }
+    kernel := (floatSoftmaxRecipKernel ⟨"x"⟩ ⟨"y"⟩ B).eraseDType
+    projection := erased_projection _ (by rfl) }
 
 /-- **The headline**: the fp32-annotated per-element-divide softmax and the
 fp32-annotated precomputed-reciprocal softmax, projected through
@@ -535,7 +543,7 @@ specification float_softmax_reciprocal_equiv (R : RoundingModel) (B : Nat)
     have hmem12 : ∀ r, r ∉ ([] : List RegionName) →
         ∀ o, s1.mem r o = s2.mem r o :=
       (softmax_reciprocal_refinement_view ⟨"x"⟩ ⟨"y"⟩ B hB s₀ R).out
-        (by simp [ComputeKernel.eraseDType]) (by simp [ComputeKernel.eraseDType])
+        (erased_projection _ (by rfl)) (erased_projection _ (by rfl))
         hexec1 hexec2
     refine ⟨s1, s2, hexec1, hexec2, ?_, ?_, ?_⟩
     · -- the y windows agree (a fortiori: all cells agree)

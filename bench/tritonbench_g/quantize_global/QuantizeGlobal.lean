@@ -1,7 +1,7 @@
 import VeriTile.Triton
 
 /-!
-# `quantize_global` — strict per-kernel correctness (blocked tail)
+# `quantize_global` — pre-rounding store-slice correctness
 
 `_quantize_global` quantizes a flat tensor to int8: program `pid` loads its block
 `[pid·BLOCK_SIZE, (pid+1)·BLOCK_SIZE)` of `x`, loads the scalar `absmax_inv`, and
@@ -11,12 +11,11 @@ stores `llrint(127.0 * (x * absmax_inv))` to `output_ptr`, masked by
 
 ## Scope
 
-This file verifies **the Triton kernel itself** — the per-program `@triton.jit`
-body. The host launch (`_quantize_global[grid](...)`, the grid
-`cdiv(n_elements, BLOCK_SIZE)`, the PyTorch-side `absmax` reduction returned
-alongside the output, and the runtime composition of per-program writes) is the
-*trusted boundary*. The program id is universally quantified, so the
-per-program statement covers every program of the grid.
+This file proves a **pre-rounding store slice** of `_quantize_global`, with
+real-valued output `127 * (x * absmax_inv)`. It separately proves that the
+faithful CUDA `llrint`/int8 surface does not project. The headline therefore
+does not establish the original kernel's rounded int8 output. Host reduction,
+launch, allocation, and composition across programs remain trusted.
 
 ## Proof architecture
 
@@ -152,28 +151,6 @@ theorem quantize_global_surface_toAlgorithm?_blocked
       (quantize_global_surface x_ptr absmax_inv_ptr output_ptr
         n_elements BLOCK_SIZE).toAlgorithm? = Except.error err := by
   simp [quantize_global_surface, ComputeExpr.toAlgorithm?]
-
-/-- A masked scatter-store `foldl` leaves every memory cell it does not
-actively hit unchanged (cell-level frame for the masked store). -/
-private theorem foldl_store_preserve_cell {α : Type} {region : RegionName}
-    (offsetFn : α → Nat) (valueFn : α → ℝ) (P : α → Prop) [DecidablePred P]
-    (r : RegionName) (o : Nat) (l : List α) (s : BlockState)
-    (hnot : ∀ k ∈ l, P k → ¬(region = r ∧ offsetFn k = o)) :
-    (l.foldl (fun acc k =>
-        if P k then acc.writeMem region (offsetFn k) (valueFn k) else acc)
-      s).mem r o = s.mem r o := by
-  induction l generalizing s with
-  | nil => rfl
-  | cons hd tl ih =>
-      rw [List.foldl_cons]
-      by_cases hP : P hd
-      · rw [if_pos hP,
-          ih _ (fun k hk => hnot k (List.mem_cons_of_mem hd hk)),
-          BlockState.writeMem_mem]
-        exact if_neg (fun hc =>
-          hnot hd List.mem_cons_self hP ⟨hc.1.symm, hc.2.symm⟩)
-      · rw [if_neg hP]
-        exact ih _ (fun k hk => hnot k (List.mem_cons_of_mem hd hk))
 
 set_option maxHeartbeats 1600000 in
 /-- Frame half: every memory cell not actively written by the masked output
@@ -336,7 +313,10 @@ active mask is pid-dependent, so a tail program with no active lanes still
 reads `absmax_inv_ptr[0]`, whose bound only the unconditional `read2Mask`
 clause supplies — via a lane witness, hence `0 < BLOCK_SIZE`. It holds for
 every real launch. Proof: `Masked2DKernelIO₂.Implements.intro` assembles the
-region-model masked triple with the flat-memory bridge side conditions. -/
+region-model masked triple with the flat-memory bridge side conditions.
+
+coverage: pre_rounding_slice family=quantization-semantic-followup -- scaled real-valued store slice; faithful CUDA llrint/int8 surface does not project
+-/
 specification quantize_global_correctness
     (x_ptr absmax_inv_ptr output_ptr : RegionName)
     (n_elements BLOCK_SIZE : Nat) (scale127 : ℝ)

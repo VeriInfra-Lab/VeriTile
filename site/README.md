@@ -4,7 +4,7 @@ Public project homepage and documentation, built with Astro +
 [Starlight](https://starlight.astro.build/).
 Published in English, deployed to
 [lizn-zn.github.io/VeriTile/](https://lizn-zn.github.io/VeriTile/) via the
-`Deploy docs site` GitHub Actions workflow.
+`Website` GitHub Actions workflow.
 
 ## Quick start
 
@@ -15,8 +15,16 @@ Published in English, deployed to
 ```
 
 Requires [Bun](https://bun.sh) for dependency installation and Node.js 22.12+
-for Astro 6. Run from a complete repository checkout: the homepage reads
+for Astro 7. Run from a complete repository checkout: the homepage reads
 the benchmark inventory and vector-add example at build time.
+
+The lockfile uses Astro 7 / Starlight 0.42 / Sharp 0.35. Compatible transitive
+overrides keep devalue, js-yaml, postcss-selector-parser, and smol-toml above
+their patched minimums; remove an override only after the upstream dependency
+graph resolves to patched versions without it. Run `bun audit` and the build
+and link checks after dependency changes. Registry severity is not evidence
+of a deployed exploit: this site serves static output, while build-time input
+processing remains part of the dependency review.
 
 ## Layout
 
@@ -61,8 +69,7 @@ The status pages use the same inventory and link to the full audit records.
 
 The homepage uses warm paper colors, an amber accent, restrained monospace
 typography, and a narrower reading column. Its three main topics follow the
-original deck: Triton embedded in Lean without requiring Lean knowledge to write
-kernels, mathematical correctness and optimization equivalence, and a lemma
+original deck: Triton-style kernel syntax embedded in Lean with explicit translation choices, mathematical correctness and optimization equivalence, and a lemma
 library with agent proof tooling. Each has an accompanying source example or
 workflow; detailed semantics and assumptions live in the documentation.
 FlashAttention and the benchmark audit provide concrete results.
@@ -178,9 +185,9 @@ upstream edits:
 cd site && ./scripts/migrate-docs.sh
 ```
 
-The script extracts the H1 as `title:`, drops the bilingual switcher line,
-and resolves relative links against the original document. Published design
-notes link to their English site pages with the `/VeriTile/` prefix; other
+The script extracts the H1 as `title:` and resolves relative links against
+the original document. Published design notes link to their English site
+pages with the `/VeriTile/` prefix; other
 repository files link to GitHub. Fenced code is preserved. It covers 13 design
 notes in English, including semantic caveats and trust audits.
 
@@ -208,3 +215,48 @@ that, every push is automatic.
 
 The workflow can also be triggered manually from the Actions tab
 (`workflow_dispatch`).
+
+## Coverage table and complete tutorial
+
+`/proofs/coverage/` displays every registered TritonBench-G headline with its
+exact statement, relevant IO definitions, source links, numeric model, and
+reviewed scope. Search and filters enhance an already readable HTML table.
+`bench/coverage_review.py` validates `bench/tritonbench_g/coverage_review.json`
+against complete Lean/Python source fingerprints and exact declaration/function
+identities. Python 3 is required during site builds; Lean is not. After changing
+a port, review its statements and excluded operations before updating its
+fingerprints and regenerating `proof_gap_manifest.tsv`. Never refresh hashes
+merely to silence the validator.
+
+The historical completed corpus audit in `src/lib/coverage-ci.json` is pinned
+to an exact commit and linked from every row. Refresh it only after a newer
+full audit succeeds:
+
+```bash
+python3 scripts/record_coverage_ci.py RUN_ID  # from repository root; requires gh
+```
+
+Pending, failed, and skipped runs cannot be recorded. This record is historical
+evidence, not a claim that later source commits passed; the page links to newer
+runs. Building the coverage table does not replay proofs.
+
+`/cookbook/vector-add-walkthrough/` walks from the Python kernel through the
+checked DSL/IO contract, full proof, trust checks, and rejected mutation. Its
+code excerpts are extracted from the executable `bench/examples/VectorAdd.lean`
+by `src/lib/vector-add-tutorial.ts`; missing anchors fail the site build.
+
+Typography separates reading paragraphs (`--vt-text-body`), expanded-example
+explanations (`--vt-text-explanation`), supporting text and controls
+(`--vt-text-small`), and code (`--vt-text-code`). At the default root size,
+the homepage uses 14px paragraphs with a 1.65 line height, 13px expanded-example
+explanations, 14px controls, and 12px code with a 1.7 line height. The hero title
+scales from 32px on phones to a 48px desktop maximum. Documentation reading sizes
+retain their existing scale and a 14px small-text/inline-code floor. All sizes
+scale with user font preferences; mobile layouts wrap or stack content rather
+than shrinking type further.
+
+Homepage emphasis uses 600-weight headings and selected key claims in the
+primary ink color. Proof outcomes have a status-colored edge and a 14px,
+600-weight label, with their conditions and recorded-check provenance alongside.
+Example entry points use the warm accent and a distinct background or border.
+Supporting prose and code retain the type sizes above.

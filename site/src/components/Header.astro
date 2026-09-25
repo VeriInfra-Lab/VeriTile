@@ -53,16 +53,23 @@ const home = `${base}/`;
   .vt-brand__tiles i { width: 7px; height: 7px; background: var(--vt-seal); }
   .vt-brand__tiles i:last-child { background: transparent; border: 1px solid var(--vt-seal); }
   nav { display: flex; align-items: center; gap: 1.1rem; margin-left: auto; }
-  nav a { color: var(--vt-ink-2); font: 400 .75rem/1.5 'IBM Plex Mono', monospace; text-decoration: none; white-space: nowrap; }
+  nav a { color: var(--vt-ink-2); font: 400 var(--vt-text-small)/1.5 'IBM Plex Mono', monospace; text-decoration: none; white-space: nowrap; }
   nav a:hover { color: var(--vt-seal); }
   a:focus-visible { outline: 2px solid var(--vt-seal); outline-offset: 5px; }
   .vt-header__settings { display: flex; align-items: center; gap: 1rem; padding-left: 1rem; border-left: 1px solid var(--vt-rule); }
-  .vt-mobile-nav { display: none; position: relative; margin-left: auto; font: .8rem 'IBM Plex Mono', monospace; }
+  .vt-mobile-nav { display: none; position: relative; margin-left: auto; font: var(--vt-text-small) 'IBM Plex Mono', monospace; }
   .vt-mobile-nav summary { padding: .8rem .2rem; cursor: pointer; color: var(--vt-ink-2); }
   .vt-mobile-nav summary:focus-visible { outline: 2px solid var(--vt-seal); outline-offset: 3px; }
   .vt-mobile-nav > div { position: absolute; top: 100%; right: 0; width: 12rem; padding: .5rem; border: 1px solid var(--vt-rule-2); background: var(--vt-paper); box-shadow: 4px 4px 0 var(--vt-paper-3); }
   .vt-mobile-nav a { display: block; padding: .8rem; color: var(--vt-ink); text-decoration: none; }
   .vt-mobile-nav a:hover { background: var(--vt-paper-2); }
   @media (max-width: 56rem) { .vt-header { gap: 1rem; } nav { display: none; } .vt-mobile-nav { display: block; } .vt-header__settings { gap: .6rem; padding-left: .6rem; } }
-  @media (max-width: 25rem) { .vt-header__settings :global(starlight-theme-select) { display: none; } }
+  @media (max-width: 25rem) { .vt-header { gap: .5rem; } .vt-brand { font-size: 1rem; gap: .4rem; } .vt-header__settings { padding-left: .4rem; } }
+  @media (max-width: 22rem) {
+    .vt-header { gap: .25rem; }
+    .vt-brand__tiles { display: none; }
+    .vt-mobile-nav summary { white-space: nowrap; }
+    .vt-header__settings { padding-left: 0; border-left: 0; }
+    .vt-header__settings :global(select) { font-size: var(--vt-text-small); }
+  }
 </style>

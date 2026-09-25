@@ -25,6 +25,9 @@ available. The source of each theorem records its full assumptions.
 
 ## From code to proof
 
+Follow the [Python-to-contract walkthrough](/VeriTile/cookbook/vector-add-walkthrough/)
+for an executable vector-add example, its assumptions, and a rejected mutation.
+
 1. Describe a supported kernel using the typed `triton { ... }` DSL.
 2. State its input/output contract or its relationship to another kernel.
 3. Prove the contract against VeriTile's operational semantics in Lean 4.
@@ -44,7 +47,9 @@ comparator judges the theorems selected with `--theorem` against a snapshot of
 the original task and dependencies, checks permitted axioms, and replays the
 proofs in Lean's kernel. See the
 [setup and usage guide](https://github.com/Lizn-zn/VeriTile/blob/main/scripts/README.md).
-Artifact and trust audits provide separate checks of the repository's proofs.
+Artifact and bench audits also require official comparator proof replay, using
+a frozen snapshot of the current repository sources. The trust gates retain
+their additional checks of theorem statements and circular specifications.
 
 ## What the proof covers
 
