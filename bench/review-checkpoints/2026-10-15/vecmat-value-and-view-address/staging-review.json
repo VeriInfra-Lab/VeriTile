@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "kind": "precommit_staging_review",
+  "reviewer": "root",
+  "status": "approved_with_one_cosmetic_frozen_source_finding",
+  "staged_files_before_this_record": 65,
+  "all_staged_bytes_match_reviewed_worktree": true,
+  "git_diff_check": {
+    "command": [
+      "git",
+      "diff",
+      "--cached",
+      "--check"
+    ],
+    "exit_code": 2,
+    "output": "bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean:37: trailing whitespace.\n+  \n",
+    "finding": "Two spaces on an otherwise blank line 37 in the exact independently reviewed producer source.",
+    "disposition": "Retain frozen source bytes and their proof/review/catalog bindings. No proof, source or acceptance failure is hidden; the optional whitespace check did not pass."
+  },
+  "validation_sha256": "5f6182836a61558963202d49e681a6daa0ee5dcf04abadd4f54f176d2b21ccad",
+  "new_compilation_or_semantic_check_required": false
+}

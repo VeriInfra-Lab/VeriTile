@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "kind": "original_program_scope_ledger",
-  "catalog_sha256": "2ac2b78538fb2ed48cb9444c595898c02fe9f85730d30646bd74b784b7fc52ef",
+  "catalog_sha256": "53cac38dc530fedb463edf4f3d9671ebd1a1b378b2ee8cc18a89b277d231e6cc",
   "binding_status": "current_catalog_bound_pending_scope_reviews",
   "expected_tasks": [
     "adam_update_triton",
@@ -3189,13 +3189,22 @@
         "lean": {
           "bench/tritonbench_g/batched_vecmat_mult/Correct.lean": "edc803690cb33dfd42dd1685d33536f449d0d01c4ffa10f77c4ace0be81132de",
           "bench/tritonbench_g/batched_vecmat_mult/FPEquiv.lean": "784cbd8c89d1097bdc6af2fd1d2feebf69a3314d68ee060be5a561ffcf1e61a9",
+          "bench/tritonbench_g/batched_vecmat_mult/HostCorrect.lean": "ddc4e7c5a86ecf10e0a3c1412969dc19c2d827a3007f1c8a2e570f7da05518e2",
           "bench/tritonbench_g/batched_vecmat_mult/Kernels.lean": "47ea0babf7e16c8a122b7087c1701600a2bed558ebce26cdbb5fddf93bb13fc0",
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/FP.lean": "c062520a5cf27d1f46af0c615f9bf7cf74d5eb6c4fd47c8b3790ee6812b4d3b2",
+          "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostAccess.lean": "1a7325672edbfdb8a3cd0fcb0c229593c9d39b75af971d3a2d9f907029ba98ca",
+          "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostGrid.lean": "f4217abfa7b184c0f18c9430eff3494532a005dccf48af09d602df8b42037cd9",
+          "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostOutputBounds.lean": "54e1e443bf535e907ee8886c47db491c3434b232e48cb2c593783db07a4ed081",
+          "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostPrepare.lean": "6e7e084367dc595791ed8c95aa0d36afd6f357fe3f19444fcb214a1bb8f120ca",
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/Real.lean": "57f4390123a8b0a4daf839ce1c35a84520925acf5143eb65a195ebf16bf27c9b",
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/RealExecution.lean": "d3524f46cb986086e0fbe1f7c2b1630d367b8b4fe58c97db57a75413eeeb1af4",
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/RealFoundation.lean": "e5a20123cc89288ae4324a8597a94c7814f493c2103f0537858e5b4a5b593e16",
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/RealSource.lean": "a3ba9fa420ecd3b09122e7ec666f51a30e39bc429d26bb33d8a199db22fb5b9e",
-          "bench/tritonbench_g/batched_vecmat_mult/Proofs/TypedExecution.lean": "a6420869c92f9062af4de75aee1822582a92414c843c8fd5761d114306da47dc"
+          "bench/tritonbench_g/batched_vecmat_mult/Proofs/TypedExecution.lean": "a6420869c92f9062af4de75aee1822582a92414c843c8fd5761d114306da47dc",
+          "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueComplete.lean": "543849bdc43c78f436039ccfa2adcb935cbb1a4679be20b04ec223eec14b8016",
+          "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueExecution.lean": "9a16709f65318c1d6a76b01a47d799bb34bbf933598e2df16bf4e27b9bc96fd6",
+          "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueModel.lean": "ce5596fd79d858ec50d90d392e9495bbf3e08abbd18f21090e06bce6eb633095",
+          "bench/tritonbench_g/batched_vecmat_mult/ValueCorrect.lean": "6a57a65ed9b89aeb6bb0b18221e428c1659698195f3b48b32ff9597185a045e9"
         },
         "python": {
           "bench/tritonbench_g/batched_vecmat_mult/batched_vecmat_mult.py": "bd525838a1f9c98a6a3cd0aa7f24ed54a2b03c9bedcdb918459952fabc914992"
@@ -3306,18 +3315,80 @@
       },
       "structural_gaps": [
         {
-          "kind": "unverified_scope",
-          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "kind": "remaining_original_program_scope",
+          "finding": "Host Arguments use natural metadata; arbitrary Python types, negative dimensions/blocks/tuning remain outside the Lean host domain. Source probes confirm some negative blocks pass assertions and reach negative-grid or invalid-block dispatch.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Allocator is an explicit non-numerical callback for all three ordered fp32 CUDA requests. Native allocation failure behavior, fresh physical separation, contiguous fp32 cells and tensor-to-region/byte-memory/ABI representation remain unbound. Kernel correctness quantifies all produced words, requiring no RNG distribution law.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Address bounds and output/K coverage are proved for natural element indices. Fixed-width sizes, intermediate overflow, storage representation and native pointer correspondence remain open.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Native block/arange/resource legality, empty grids and zero-K specialization admission, and supported num_warps/num_stages remain open; Python accepts some non-power-of-two blocks and invalid tuning.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Complete grid is one explicit sequential pid0-fastest schedule. Native allocation freshness, race freedom and concurrent schedule refinement remain unproved.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Source equality uses the existing full admitted TypedSource.original transcription. Static source comparison and wrapper AST probes do not constitute a verified Python compiler translation.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
+      "initial_assessment": "structural_gaps_confirmed",
       "deferred_numerical_assumptions": [],
       "potential_numeric_ids_not_yet_accepted": [
         "fp32_add_commute_real"
       ],
       "callback_assumptions": {},
-      "review": null
+      "review": null,
+      "initial_structural_gaps": [
+        {
+          "kind": "unverified_scope",
+          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "partial_progress": {
+        "status": "reviewed_profile_extensions_not_whole_program_acceptance",
+        "declarations": [
+          {
+            "file": "bench/tritonbench_g/batched_vecmat_mult/ValueCorrect.lean",
+            "declaration": "batched_vecmat_fp32_machine_correctness",
+            "statement_sha256": "846abef85b70fe15c4ba4fead6354d8c54749af81ec2985e8fbf57524a1587ad",
+            "dtype_profile": "Full wrapper-declared fp32 A/B/output; concrete fp32 words, configurable scalar mul/add, valid explicit reduction trees, all dynamic K blocks, arbitrary natural model dimensions and block sizes. Complete original per-program source, with no successful-execution or output-equality premise.",
+            "covers_stages": [
+              "full_kernel"
+            ]
+          },
+          {
+            "file": "bench/tritonbench_g/batched_vecmat_mult/HostCorrect.lean",
+            "declaration": "batched_vecmat_logical_wrapper_correctness",
+            "statement_sha256": "d783b4a091ece6d4be29b9ba3cfef8c697d3fb3916481312d6e9b3794e3fa88b",
+            "dtype_profile": "Full wrapper-declared fp32 A/B/output; concrete fp32 words, configurable scalar mul/add, valid explicit reduction trees, all dynamic K blocks, arbitrary natural model dimensions and block sizes. All three ordered allocation requests, all source modulo/zero-divisor guard branches in natural metadata, actual full two-dimensional grid and tuning passthrough.",
+            "covers_stages": [
+              "logical_wrapper_and_complete_sequential_2d_grid"
+            ]
+          }
+        ],
+        "review": {
+          "path": "2026-10-15/vecmat-value-and-view-address/root-review.json",
+          "sha256": "c6584e9f4a74bd8b9f72321c42d9b4eb66b71908cc46c8a69ec00006c93e92c3",
+          "source_hashes_pointer": [
+            "reviewed_input_sha256"
+          ]
+        }
+      }
     },
     {
       "task": "bgmv_expand_slice",
@@ -22127,6 +22198,9 @@
           "bench/tritonbench_g/kcache_copy_triton/Proofs/HostGrid.lean": "e5c04b3e8d96ab55aafd0ccb10845912af19647c767b3392ddae706d0d067055",
           "bench/tritonbench_g/kcache_copy_triton/Proofs/HostPrepare.lean": "28b40f0830fe058e5c381b4a619b1befe1fac6a355ce1b98b5182e2a084c9c6a",
           "bench/tritonbench_g/kcache_copy_triton/Proofs/HostProbe.lean": "cd2699ee833b8c9d0900284a50e08bc58c47945b85015636ddf15096ebef81d0",
+          "bench/tritonbench_g/kcache_copy_triton/Proofs/HostView.lean": "e589a93008303c43d767ba16b7ca15a83975ecbf35dafc5f2ea464dce8cf5ed5",
+          "bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewCases.lean": "eeef2db2e15b4f24250d0a446606da8edac0737c06fcae3eddba0695526a6d3a",
+          "bench/tritonbench_g/kcache_copy_triton/Proofs/HostViewShape.lean": "5b0871a71daf98befc9b4272875a97663d12caaef9a19afd7816df64f67f4e15",
           "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitCopy.lean": "02ed841c64ef65aa7a9b08b054c3d7b1bcaef4e2d4f29f43502095815188ecc1",
           "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitMemory.lean": "35c4dcf62542b5bc257de0af357c48de53ee00b63676c8d507652e35a8388b10",
           "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitWitness.lean": "f81887b7619ee6e4c32149651dd7cc76cd74ad1815ebb3a41c639ed3f4e7b30d",
@@ -22301,7 +22375,7 @@
       "structural_gaps": [
         {
           "kind": "remaining_original_program_scope",
-          "finding": "Universal value/address preservation of successful inferViewStrides and formal Torch reshape/allocation correspondence.",
+          "finding": "Native Torch reshape/allocation correspondence, including physical storage offsets and aliases, remains unproved. Universal logical successful-view indexed address/value preservation is now proved by supporting lemmas for the unchanged algorithm.",
           "can_defer_as_numeric_assumption": false
         },
         {
@@ -22384,8 +22458,8 @@
           }
         ],
         "review": {
-          "path": "2026-10-15/host-grid-and-program-order/root-review.json",
-          "sha256": "5a9d3f541d0ca72aae5539b5c89f2677b3afe574b6dfe7aa6821c22059a405d2",
+          "path": "2026-10-15/vecmat-value-and-view-address/root-review.json",
+          "sha256": "c6584e9f4a74bd8b9f72321c42d9b4eb66b71908cc46c8a69ec00006c93e92c3",
           "source_hashes_pointer": [
             "reviewed_input_sha256"
           ]
@@ -48297,5 +48371,5 @@
       "review": null
     }
   ],
-  "progress_checkpoint": "bench/review-checkpoints/2026-10-15/host-grid-and-program-order/README.md"
+  "progress_checkpoint": "bench/review-checkpoints/2026-10-15/vecmat-value-and-view-address/README.md"
 }

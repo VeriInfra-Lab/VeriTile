@@ -1,0 +1,291 @@
+{
+  "schema": 1,
+  "kind": "independent_batched_vecmat_full_value_and_host_semantic_review",
+  "reviewer": "/root/scope_integration_review",
+  "status": "source_theorems_reviewed_no_proof_defect_found_metadata_corrections_required",
+  "integration_recommendation": "Integrate the eight frozen Lean modules as two explicitly scoped contracts after the required metadata corrections and root integration checks. They establish complete fp32 software-value execution and a natural-metadata allocator-parametric sequential logical host; they do not establish whole-original-program acceptance.",
+  "standard_accepted": false,
+  "whole_program_acceptance": false,
+  "repository_sources_modified_by_reviewer": false,
+  "frozen_sources_modified_by_reviewer": false,
+  "catalog_modified_by_reviewer": false,
+  "source_root": "/tmp/veritile-standardization-20261015/batched-vecmat-wip",
+  "producer_receipt": {
+    "path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/full-value-host-receipt.json",
+    "sha256": "11e20cdd8e7447d893d8b2219d138b360af3c9484d642a131a1cb85d05ff1c53",
+    "preserved": true
+  },
+  "source_freeze": {
+    "path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/source-freeze.json",
+    "sha256": "2bd9fe0959f403899de11e892807f69e73e0704b4497a2e3f43fc68f1d78d424"
+  },
+  "reviewed_new_source_sha256": {
+    "bench/tritonbench_g/batched_vecmat_mult/HostCorrect.lean": "ddc4e7c5a86ecf10e0a3c1412969dc19c2d827a3007f1c8a2e570f7da05518e2",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostAccess.lean": "1a7325672edbfdb8a3cd0fcb0c229593c9d39b75af971d3a2d9f907029ba98ca",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostGrid.lean": "f4217abfa7b184c0f18c9430eff3494532a005dccf48af09d602df8b42037cd9",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostPrepare.lean": "6e7e084367dc595791ed8c95aa0d36afd6f357fe3f19444fcb214a1bb8f120ca",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueComplete.lean": "543849bdc43c78f436039ccfa2adcb935cbb1a4679be20b04ec223eec14b8016",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueExecution.lean": "9a16709f65318c1d6a76b01a47d799bb34bbf933598e2df16bf4e27b9bc96fd6",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueModel.lean": "ce5596fd79d858ec50d90d392e9495bbf3e08abbd18f21090e06bce6eb633095",
+    "bench/tritonbench_g/batched_vecmat_mult/ValueCorrect.lean": "6a57a65ed9b89aeb6bb0b18221e428c1659698195f3b48b32ff9597185a045e9"
+  },
+  "verified_existing_dependency_sha256": {
+    "bench/tritonbench_g/batched_vecmat_mult/Kernels.lean": "47ea0babf7e16c8a122b7087c1701600a2bed558ebce26cdbb5fddf93bb13fc0",
+    "bench/tritonbench_g/batched_vecmat_mult/batched_vecmat_mult.py": "bd525838a1f9c98a6a3cd0aa7f24ed54a2b03c9bedcdb918459952fabc914992",
+    "VeriTile/Triton/Float/Structural.lean": "3760dd66ad0e0eab77f42a866eecef47240833e6ca2929a60674b6fd70599928",
+    "VeriTile/Triton/Float/ScalarOps.lean": "26bd46b941918c3a617cb6e15b2ddb2003a85c40cd69fca3a3905ba181bc6072",
+    "VeriTile/Triton/Float/BitValue.lean": "92f8bf41aac7a1268815a58fea6e68475c134903893b8e075599c5427be6a1eb",
+    "VeriTile/Triton/Float/TermModel.lean": "e8c98fd3d0bb93493e4570e5c4dab2369f1b5dcb3795f1696ec7bbe85e073e6d",
+    "VeriTile/Triton/Float/Equational.lean": "8e2b9fa6d36ed83a7a5e10449f34db08079c6695a84c529d005bd80196a4e14a",
+    "VeriTile/Meta/StatementAudit.lean": "9c82458cd9f705e8bd4511b8c8fa9580d314c1ec274cba9ab93f665a0d7b1ea5"
+  },
+  "additional_prior_source_hashes_verified_only": {
+    "bench/tritonbench_g/batched_vecmat_mult/Correct.lean": "edc803690cb33dfd42dd1685d33536f449d0d01c4ffa10f77c4ace0be81132de",
+    "bench/tritonbench_g/batched_vecmat_mult/FPEquiv.lean": "784cbd8c89d1097bdc6af2fd1d2feebf69a3314d68ee060be5a561ffcf1e61a9",
+    "bench/tritonbench_g/batched_vecmat_mult/Kernels.lean": "47ea0babf7e16c8a122b7087c1701600a2bed558ebce26cdbb5fddf93bb13fc0",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/FP.lean": "c062520a5cf27d1f46af0c615f9bf7cf74d5eb6c4fd47c8b3790ee6812b4d3b2",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/Real.lean": "57f4390123a8b0a4daf839ce1c35a84520925acf5143eb65a195ebf16bf27c9b",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/RealExecution.lean": "d3524f46cb986086e0fbe1f7c2b1630d367b8b4fe58c97db57a75413eeeb1af4",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/RealFoundation.lean": "e5a20123cc89288ae4324a8597a94c7814f493c2103f0537858e5b4a5b593e16",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/RealSource.lean": "a3ba9fa420ecd3b09122e7ec666f51a30e39bc429d26bb33d8a199db22fb5b9e",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/TypedExecution.lean": "a6420869c92f9062af4de75aee1822582a92414c843c8fd5761d114306da47dc"
+  },
+  "checker_configuration_sha256": {
+    "bench/current_source_catalog.py": "87d4642855036cc1397640d47b4a51c8032a1ab115c24be86b0c74082210b4e5",
+    "bench/current_value_metadata.py": "cc523706dde7864b706de0cec9e1f51116852997b4bffdc8c5fde7151e896a6d",
+    "bench/check_original_program_scope.py": "1943461cf9fad149ef285144de9dda5128724dec9b62428b4be6a649e4d8836d",
+    "bench/adapter_common.py": "0f6817ac657b1c1d53d8cb9073a32bfd850526e1cc42dce3168aa6108889dcef"
+  },
+  "public_contracts": [
+    {
+      "file": "bench/tritonbench_g/batched_vecmat_mult/ValueCorrect.lean",
+      "declaration": "batched_vecmat_fp32_machine_correctness",
+      "statement_sha256": "846abef85b70fe15c4ba4fead6354d8c54749af81ec2985e8fbf57524a1587ad",
+      "kind": "specification"
+    },
+    {
+      "file": "bench/tritonbench_g/batched_vecmat_mult/HostCorrect.lean",
+      "declaration": "batched_vecmat_logical_wrapper_correctness",
+      "statement_sha256": "d783b4a091ece6d4be29b9ba3cfef8c697d3fb3916481312d6e9b3794e3fa88b",
+      "kind": "specification"
+    }
+  ],
+  "public_contracts_added": 2,
+  "proven_scope": {
+    "value_stage": "full_kernel",
+    "host_stage": "logical_wrapper_and_complete_sequential_2d_grid",
+    "host_profile": "host_nat_allocator",
+    "source": "Exact existing TypedSource.original, with successful toAlgorithm? admission; no copied narrowed kernel and no replacement by TypedSource.blockFirst.",
+    "dtype_relation": "complete_enumerated_wrapper_dtype_domain",
+    "dtype_domain": {
+      "A": "fp32",
+      "B": "fp32",
+      "output": "fp32",
+      "accumulator": "fp32"
+    },
+    "carrier": "Word = FP.Value .fp32, a 32-bit value; the historical DSL .real tag is a cell/register channel, not the mathematical Real carrier.",
+    "value_parameters": "Every natural M/N/K/BM/BN/BK and program ID in total logical memory, chosen FP.Config and valid ReductionPlan family.",
+    "host_parameters": "Natural dimensions, blocks and tuning, plus an explicit non-numerical Allocator callback. Successful preparation derives positive blocks and source divisibility.",
+    "memory": "Complete ordered per-program output scatter and pid0-fastest full 2D grid with previous actual/reference memory; whole-memory equality and frames.",
+    "acceptance_limit": "Native allocation, caller Int/Python domain, byte addresses, compiler/launch admissibility and concurrency remain unproved."
+  },
+  "semantic_findings": [
+    {
+      "topic": "Original source and full dynamic loop",
+      "result": "The Python source and Kernels.original agree on pids, row-major output tile, zero accumulator, K/BK loop bound, unmasked A and B offset formulas, broadcasting to BN×BM×BK, axis2 reduction, transpose, accumulator-first addition and final unmasked store. source is definitionally TypedSource.original. source_split identifies prologue, the original dynamic forRange body and tail. loop_correct inducts over every K/BK iteration, with no fixed K/BK, source-success or output premise. All loads precede the final store, so the invariant correctly retains program-entry memory throughout the reduction loop.",
+      "limit": "For BK=0 the total interpreter uses Nat division conventions and performs zero iterations; the wrapper rejects BK=0 after allocations. Arbitrary per-program dimensions/pids are not native launch/bounds claims."
+    },
+    {
+      "topic": "Concrete fp32 callback closure",
+      "result": "Word is FP.Value.fp32. engine supplies +0 literals, FP.mul, FP.add, identity payload fp32Load and explicit reduceSum. Structural evaluation dispatches the existing historical .real sum to reduceSum, and floating binary operations to the supplied add/mul; address operations stay Nat. treeValue evaluates each product/zero/add on concrete software words. memory_independent_of_unused_backend proves final memory cannot depend on any fallback Algebra callback.",
+      "limit": "fp32Load=id is payload preservation in this typed cell model, not a real-to-float identity law. Native rounding/FTZ/NaN behavior and compiler contractions are not certified by the software interpretation."
+    },
+    {
+      "topic": "Reduction validity and order",
+      "result": "ReductionPlan.valid in TermModel requires its tree leaves to be a permutation of every Fin n input exactly once plus its recorded zero padding. treeValue retains that exact tree, every zero seed and every FP.add. accumulated begins with fp32 positive zero and performs accumulator-first FP.add for successive blocks. No commutativity, associativity, additive-zero identity, real sum or reassociation premise is used.",
+      "limit": "The chosen family has one plan per length; actual compiled layout/tree/seed/fusion correspondence requires explicit numerical binding. The kernel proof does not assert all valid plans give the same bits."
+    },
+    {
+      "topic": "Independent whole-memory reference",
+      "result": "expectedMemory is a scalar fp32 product/tree/block recurrence followed by ordered output writes, independent of exec/source. bodyInvariant tracks the complete carry for arbitrary loop index and unchanged memory. tail_memory equates the actual final store with this reference, including aliases and repeated addresses in unrestricted parameter cases. The frame retains every cell outside the potential per-program write set.",
+      "limit": "This is a total tagged-cell memory reference. Wrong-tag reads follow Structural.Cell.read defaults; native physical storage interpretation is a separate obligation."
+    },
+    {
+      "topic": "Complete actual grid with current memory",
+      "result": "The grid is exactly (M/BM,N/BN), traversed with pid0 fastest. runGridPrefix invokes the full actual source using fresh registers and previous program memory. referenceGridPrefix independently advances previous reference memory, so aliases across A/B/output observe preceding writes. Bounds/coverage establish the complete original coordinate set, and grid_correct proves successful full execution, exact final memory and a global outside-write-set frame.",
+      "limit": "Only the explicit sequential schedule is proved. Arbitrary native program order, instruction interleavings, races and physical alias behavior are not established."
+    },
+    {
+      "topic": "Allocation before ordered guards",
+      "result": "prepare requests randn[M,K], randn[M,N,K] and zeros[M,N], in that order, threading allocator-returned memory. It propagates each allocation failure before K/BK, then M/BM, then N/BN modulo/guard handling. Zero divisor errors occur at the source stage; successful Prepared records allocation results, regions, final memory, dimensions, positive blocks, divisibility and unchanged tuning. runWrapper launches from post-allocation memory, and its frame is correctly relative to launch.memory rather than pre-allocation memory.",
+      "limit": "Allocator is an unrestricted non-numerical primitive input. The request domain denotes fixed CUDA/fp32 by convention; no implementation proves fresh physical storage, zero initialization, random distribution, contiguous typed cells or error-side-effect correspondence. Except errors do not expose the heap/RNG state after earlier allocations, so no rollback or unchanged-memory-on-error result is claimed."
+    },
+    {
+      "topic": "Unmasked access bounds and coverage",
+      "result": "tiled_coordinate_lt proves floor-grid tile coordinates stay below the declared extent, and row_major_bound composes them. all_unmasked_addresses_in_declared_extents proves A/B/output formulas under valid grid, loop and lane indices. complete_output_coverage and complete_inner_coverage cover every output coordinate and every K coordinate under the original positive/divisible host conditions.",
+      "limit": "The combined address theorem includes c:Fin(K/BK) and k:Fin BK even for its output conjunct. At K=0 that whole statement is vacuous, although output stores still occur. A non-vacuous output bound for this case follows from tiled_coordinate_lt plus row_major_bound, but this frozen batch does not expose it as a standalone output theorem. This review does not claim the combined theorem itself certifies zero-K output addresses. Native pointer widths/overflow/allocation bounds remain separate."
+    },
+    {
+      "topic": "Complete wrapper dtype domain",
+      "result": "The original batched_vecmat function has no dtype argument and all three allocations hard-code torch.float32. Therefore fp32 A/B/output is the complete enumerated wrapper dtype domain, not a selected subset of caller-provided tensor dtypes. The proof uses that same fp32 source and concrete fp32 carrier.",
+      "limit": "This dtype enumeration applies to the wrapper under the explicit allocator/storage representation boundary. It is not a theorem for arbitrary direct invocations of the generic Python kernel or arbitrary allocator-produced physical tensor representations."
+    }
+  ],
+  "required_metadata_corrections": [
+    {
+      "id": "task_local_source_hash_membership",
+      "severity": "integration_blocker",
+      "finding": "The frozen catalog proposal places six VeriTile library dependencies in task.source_sha256. current_source_catalog.validate_supplement rejects any path outside bench/tritonbench_g/batched_vecmat_mult/.",
+      "required_change": "Keep only task-local source hashes in task.source_sha256. Bind these six unchanged library files in root reviewed_input_sha256/global dependency evidence instead; preserve the producer receipt.",
+      "global_dependencies": {
+        "VeriTile/Triton/Float/Structural.lean": "3760dd66ad0e0eab77f42a866eecef47240833e6ca2929a60674b6fd70599928",
+        "VeriTile/Triton/Float/ScalarOps.lean": "26bd46b941918c3a617cb6e15b2ddb2003a85c40cd69fca3a3905ba181bc6072",
+        "VeriTile/Triton/Float/BitValue.lean": "92f8bf41aac7a1268815a58fea6e68475c134903893b8e075599c5427be6a1eb",
+        "VeriTile/Triton/Float/TermModel.lean": "e8c98fd3d0bb93493e4570e5c4dab2369f1b5dcb3795f1696ec7bbe85e073e6d",
+        "VeriTile/Triton/Float/Equational.lean": "8e2b9fa6d36ed83a7a5e10449f34db08079c6695a84c529d005bd80196a4e14a",
+        "VeriTile/Meta/StatementAudit.lean": "9c82458cd9f705e8bd4511b8c8fa9580d314c1ec274cba9ab93f665a0d7b1ea5"
+      }
+    },
+    {
+      "id": "shared_dsl_memory_profile",
+      "severity": "integration_blocker",
+      "finding": "The proposal labels frontend shared_triton_dsl with sequentially_consistent_schedule. verify_source_view requires single_program_total_typed_memory for shared DSL; the schedule value is reserved for the separate task_local_exact_ast frontend.",
+      "required_change": "Retain shared_triton_dsl and set source-view memory_semantics=single_program_total_typed_memory. Describe actual host/grid sequential composition in the translation trust boundary and its separately registered stage. Do not relabel the kernel frontend."
+    },
+    {
+      "id": "separate_host_stage",
+      "severity": "required_scope_precision",
+      "finding": "Both public declarations currently cover only full_kernel in the proposal, which obscures the allocator-parametric logical host extension.",
+      "required_change": "Use required stages full_kernel and logical_wrapper_and_complete_sequential_2d_grid; bind ValueCorrect to full_kernel and HostCorrect to the separate host stage. Record host_nat_allocator and the exact natural caller/tuning and allocation boundaries."
+    }
+  ],
+  "necessary_source_repairs": [],
+  "nonblocking_precision_notes": [
+    "Preserve the zero-K combined-bounds vacuity described above. A separately frozen no-K-premise output-bounds/uniqueness helper needs its own review and hashes; it is not part of this eight-source receipt.",
+    "Retain complete_enumerated_wrapper_dtype_domain only with its explicit fixed-fp32 wrapper interpretation and unbound allocator/storage boundary.",
+    "No data-distribution assumption is needed for functional correctness over every produced word. This does not validate RNG or allocator implementation.",
+    "Do not treat software total execution for zero/nonpower blocks as native specialization admission."
+  ],
+  "remaining_nondeferrable_gaps": [
+    "Host Arguments use natural metadata; arbitrary Python types, negative dimensions/blocks/tuning remain outside the Lean host domain. Source probes confirm some negative blocks pass assertions and reach negative-grid or invalid-block dispatch.",
+    "Allocator is an explicit non-numerical callback for all three ordered fp32 CUDA requests. Native allocation failure behavior, fresh physical separation, contiguous fp32 cells and tensor-to-region/byte-memory/ABI representation remain unbound. Kernel correctness quantifies all produced words, requiring no RNG distribution law.",
+    "Address bounds and output/K coverage are proved for natural element indices. Fixed-width sizes, intermediate overflow, storage representation and native pointer correspondence remain open.",
+    "Native block/arange/resource legality, empty grids and zero-K specialization admission, and supported num_warps/num_stages remain open; Python accepts some non-power-of-two blocks and invalid tuning.",
+    "Complete grid is one explicit sequential pid0-fastest schedule. Native allocation freshness, race freedom and concurrent schedule refinement remain unproved.",
+    "Source equality uses the existing full admitted TypedSource.original transcription. Static source comparison and wrapper AST probes do not constitute a verified Python compiler translation."
+  ],
+  "numerical_bindings_eligible_for_explicit_registration": [
+    "Bind chosen FP.Config and concrete fp32 FP.add/FP.mul behavior to device rounding, FTZ, infinities/NaNs, signed zero and special-value handling.",
+    "Identify and bind actual native reduction tree and explicit padding/seeds to the supplied valid ReductionPlan at block_k.",
+    "Bind compiler fusion/reassociation and any operation contraction across product/reduction/block-accumulation boundaries; no equality to a real sum is assumed."
+  ],
+  "new_numerical_law_hypotheses": [],
+  "supporting_evidence": {
+    "compiler_logs": [
+      {
+        "module": "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueModel.lean",
+        "path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/ValueModel.log",
+        "sha256": "cf5b3c58629af9b7d4d7b60d2bedcdf8e8dff91a98ba6a4defa531a1680bd090",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 2,
+        "non_circularity_checks": 1
+      },
+      {
+        "module": "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueExecution.lean",
+        "path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/ValueExecution.log",
+        "sha256": "3acc47d7f1c5db0b8bbc7018405f35487323852ae329ea51970d0f7828f963a7",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 5,
+        "non_circularity_checks": 0
+      },
+      {
+        "module": "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueComplete.lean",
+        "path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/ValueComplete.log",
+        "sha256": "c27c63446ff9ecb8e1f1961de638c1024e1621735440a81a88bc525b9ca6ecbb",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 5,
+        "non_circularity_checks": 0
+      },
+      {
+        "module": "bench/tritonbench_g/batched_vecmat_mult/ValueCorrect.lean",
+        "path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/ValueCorrect.log",
+        "sha256": "4c5b2c9b3e6f4332e31d19ce625ee00e1db371814827b6d467ba6e6c49a2c60a",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 2,
+        "non_circularity_checks": 0
+      },
+      {
+        "module": "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostGrid.lean",
+        "path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/HostGrid.log",
+        "sha256": "0530f06f48994b74e1b54c5823188edba80fc64751338145778c39128d94e35e",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 6,
+        "non_circularity_checks": 1
+      },
+      {
+        "module": "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostPrepare.lean",
+        "path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/HostPrepare.log",
+        "sha256": "752f6fed9d2b6b5521d7a4cec17db94d4fd99f49ee03f64f68cf09c470b08966",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 3,
+        "non_circularity_checks": 0
+      },
+      {
+        "module": "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostAccess.lean",
+        "path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/HostAccess.log",
+        "sha256": "b5c62494e127946023f6263c0857f4d27ca3d3f6cfd114641e154770347c112b",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 5,
+        "non_circularity_checks": 0
+      },
+      {
+        "module": "bench/tritonbench_g/batched_vecmat_mult/HostCorrect.lean",
+        "path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/HostCorrect.log",
+        "sha256": "8a0fe1ce477581afdc83ad11af6c805b37c7641cd078beaeb0037cce53617b98",
+        "producer_observed_exit_code": 0,
+        "named_standard_base_audits": 1,
+        "non_circularity_checks": 0
+      }
+    ],
+    "named_axiom_checks": 29,
+    "non_circularity_checks": 2,
+    "lean_checks_sha256": "a9e3229c8ebcd3354a00a01ef8d21cc0dd9bf1cf478f6a954438f593a1614140",
+    "all_receipt_source_dependency_statement_log_and_auxiliary_hashes_match": true,
+    "cpu_probe": {
+      "path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/source-wrapper-probe.json",
+      "sha256": "07b1206b3f68c6297708007e387a0be1f038f1fc912dbde84767dae885cef0fb",
+      "script": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/evidence/source_wrapper_probe.py",
+      "script_sha256": "d7bf36cf8c1eeae48629b4e923e30704a6755997ce021a7564922990e9e2918a",
+      "exit_code": 0,
+      "accepted_cases": 12,
+      "error_checks": 12,
+      "native_compilation": false,
+      "gpu_execution": false
+    },
+    "cpu_capture_counts": {
+      "accepted": 12,
+      "errors": 12,
+      "accepted_within_natural_domain": 8,
+      "accepted_outside_natural_domain": 4
+    },
+    "cpu_probe_scope": "Exact original wrapper AST; CUDA requests recorded and serviced by real CPU allocations; Triton kernel replaced by launch recorder. No numerical output, GPU execution, native compiler, CUDA allocator or Lean cross-evaluation evidence.",
+    "torch_version": "2.13.0+cu130",
+    "triton_version": "3.7.1",
+    "frozen_catalog_proposal": {
+      "path": "/tmp/veritile-standardization-20261015/batched-vecmat-wip/catalog-supplement-task.json",
+      "sha256": "66ec8636c1348f606abc37bf44f023de168526682a35b2d4339b0a5a67f1396a",
+      "registration_status": "proposal_pending_independent_scope_review_and_parent_integration"
+    }
+  },
+  "validation_limits": {
+    "all_eight_frozen_Lean_sources_read": true,
+    "original_Python_and_Kernels_original_read": true,
+    "software_FP_callbacks_and_ReductionPlan_definition_traced": true,
+    "catalog_checker_rules_and_compile_configuration_inspected": true,
+    "independent_Lean_build_run_by_reviewer": false,
+    "independent_CPU_probe_rerun_by_reviewer": false,
+    "native_compile_or_GPU_execution_run_by_reviewer": false,
+    "proof_hole_scan": "No sorry/admit/custom axiom/unsafe/partial/native_decide in the eight frozen sources.",
+    "note": "Read-only independent semantic review plus exact source/dependency/statement/log/evidence hashes. Successful compiler exits are producer evidence recorded in lean-checks.json, not independently rerun. All 29 standard-base named audit results and both non-circularity checks were verified in the bound logs. No whole-task acceptance is inferred."
+  }
+}

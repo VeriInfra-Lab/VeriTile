@@ -1,0 +1,13 @@
+{
+  "integration_build": 0,
+  "integration_build_session": 9777,
+  "shard_tests": 0,
+  "shard_tests_session": 93916,
+  "catalog_generation": 0,
+  "catalog_generation_session": 27346,
+  "ledger_rebind": 0,
+  "scope_ledger_rebind": 0,
+  "integration_build_jobs": 7267,
+  "global_gates": 1,
+  "global_gates_session": 60509
+}
