@@ -1,0 +1,8 @@
+[
+  {
+    "file": "bench/tritonbench_g/vector_addition/FiniteCorrect.lean",
+    "declaration": "vector_addition_finite_source_outcomes",
+    "kind": "specification",
+    "statement_sha256": "3eabb495b8b069705668592710f2e7bc6bd76ff8f0f540d9b316cf4cc8973907"
+  }
+]

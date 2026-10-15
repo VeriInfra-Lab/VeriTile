@@ -1,0 +1,43 @@
+{
+  "original_source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/vector_addition/vector_addition.py",
+  "source_sha256": "cfcb749bd562924106c1e0e95e18a9bd987238be3a3b522abac89e099de3d098",
+  "source_statements": {
+    "add_kernel": [
+      "pid = tl.program_id(axis=0)",
+      "block_start = pid * BLOCK_SIZE",
+      "offsets = block_start + tl.arange(0, BLOCK_SIZE)",
+      "mask = offsets < n_elements",
+      "x = tl.load(x_ptr + offsets, mask=mask)",
+      "y = tl.load(y_ptr + offsets, mask=mask)",
+      "output = x + y",
+      "tl.store(output_ptr + offsets, output, mask=mask)"
+    ],
+    "add": [
+      "output = torch.empty_like(x)",
+      "assert x.is_cuda and y.is_cuda and output.is_cuda",
+      "n_elements = output.numel()",
+      "grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']),)",
+      "add_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)",
+      "return output"
+    ]
+  },
+  "inherited_admission_audit": "/tmp/veritile-standardization-20261015/vector-dtype-admission-wip/evidence/source-audit/audit-result.json",
+  "inherited_audit_sha256": "c6ce9a938df490f6a6264cee87107cb1f771c646f2456b9bf01f10602a645a83",
+  "stage_counts": {
+    "admitted": 189,
+    "addition": 36,
+    "signature": 64
+  },
+  "selected_execution_family_counts": {
+    "integer": 81,
+    "mixedSmall": 36,
+    "mixed32": 18,
+    "wide": 29,
+    "floating": 25
+  },
+  "new_frontend_runs": 0,
+  "native_backend_runs": 0,
+  "gpu_runs": 0,
+  "source_binding": "Existing source-corresponding host skeleton, exact finite dtype dispatch, direct existing grid invocation and reviewed primitive outcomes.",
+  "not_claimed": "No formal compiler or native implementation proof; no unrestricted undefined-conversion value domain."
+}

@@ -1,0 +1,44 @@
+from pathlib import Path
+import copy,json,sys
+R=Path('/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile');T=Path('/tmp/veritile-standardization-20261015');B=R/'bench/review-checkpoints/2026-10-16/vector-finite-source-acceptance';OLD=R/'bench/review-checkpoints/2026-10-16/softmax-source-host-grid'
+sys.path.insert(0,str(R/'bench'))
+from adapter_common import canonical,hash_file,load,sha,write_json
+from check_original_program_scope import task_bindings,validate_task
+from current_source_catalog import validate_catalog,validate_supplement
+from current_value_metadata import check_supplement_scope
+from exact_numerical_bindings import collect,validate_exact_queue
+cat=load(B/'current-source-catalog.json');validate_catalog(R,cat);supp=load(B/'catalog-supplement.json');validate_supplement(R,R/'bench/review-checkpoints',supp,set(cat['expected_task_names']));check_supplement_scope(supp,R/'bench/review-checkpoints')
+ledger=load(R/'bench/original_program_scope.json');before=load(B/'evidence/ledger-before.json');assert ledger==before
+crows={t['task']:t for t in cat['tasks']};oldrows={t['task']:t for t in before['tasks']};oldcat={t['task']:t for t in load(OLD/'current-source-catalog.json')['tasks']}
+legacy,authority,queue=collect(R);assert queue==load(R/'bench/tritonbench_g/deferred_numerical_experiments.json');assert len(queue['rules'])==84
+priorQueue=load(B/'evidence/numerical-queue-before.json');assert queue['rules'][:41]==priorQueue['rules'];assert authority['requirements'][:4]==priorQueue['exact_callback_requirements']
+assert all(queue['exact_binding_provenance'][k]==v for k,v in priorQueue['exact_binding_provenance'].items())
+accepted={}
+for name in ['matrix_transpose','relu_triton_kernel']:
+ row=copy.deepcopy(oldrows[name]);assert row['input_sha256']==task_bindings(R,cat,crows[name]);assert crows[name]==oldcat[name]
+ review=load(R/row['review']['path']);assert hash_file(R/row['review']['path'])==row['review']['sha256']
+ review['catalog_sha256']=sha(canonical(cat));review['catalog_only_rebind']={'previous_review':row['review'],'reason':'Only vector finite sources and numerical registrations changed. All task sources, coverage, cases, assumptions and the task catalog row are unchanged.','task_catalog_row_sha256':sha(canonical(crows[name]))}
+ path=B/(name+'-original-scope-review-rebound.json');write_json(path,review);row['review']={'path':path.relative_to(R).as_posix(),'sha256':hash_file(path)};row['accepted_scope_progress']['scope_review']=row['review'];assert validate_task(R,cat,crows[name],row,queue)==oldrows[name]['status'];accepted[name]=row
+row=load(B/'evidence/producer/vector/evidence/scope-row-proposal.json');name='vector_addition';assert row['source_inventory']==oldrows[name]['source_inventory'];row.pop('proposed_status_after_independent_root_review')
+row['status']='verified_with_deferred_numerics';row['input_sha256']=task_bindings(R,cat,crows[name]);row['acceptance_boundary_review'].update(status='independently_reviewed',queue_integration='43 reviewed scalar families / 616 exact ports registered; whole-queue equality passes; numerical validation remains deferred')
+review={'schema':1,'scope_schema':2,'kind':'original_program_scope_review','task':name,'reviewer':'root','status':'reviewed','catalog_sha256':sha(canonical(cat)),'input_sha256':row['input_sha256'],'source_inventory_sha256':sha(canonical(row['source_inventory'])),'coverage_sha256':sha(canonical(row['coverage'])),'deferred_numerical_sha256':sha(canonical(row['deferred_numerical_assumptions'])),'callback_assumptions_sha256':sha(canonical(row['callback_assumptions'])),'structural_gaps':[],'semantic_review':load(B/'root-review.json')['semantic_review'],'finite_acceptance_policy':{'path':'bench/original_program_acceptance.md','sha256':hash_file(R/'bench/original_program_acceptance.md')},'evidence':{key:{'path':(B/path).relative_to(R).as_posix(),'sha256':hash_file(B/path)} for key,path in [('producer_receipt','evidence/producer/vector/evidence/receipt.json'),('root_package_review','evidence/root-validation/review.json'),('root_value_review','root-review.json')]},'boundary':'Finite source-scope acceptance under explicit source-grounded API, metadata/frontend and typed-memory primitives; numerical conformance is exactly deferred. Undefined active conversions remain a structural defined-domain restriction. The source implements physical flat addition, including strided views and input aliasing. Official comparator and GPU/native correctness are independent and not established.'}
+rp=B/'vector-original-scope-review.json';write_json(rp,review);row['review']={'path':rp.relative_to(R).as_posix(),'sha256':hash_file(rp)};row['accepted_scope_progress']={'status':'finite_source_scope_accepted_with_deferred_numerics','scope_review':row['review'],'previous_partial_progress':oldrows[name].get('partial_progress'),'closed_structural_gaps':oldrows[name]['structural_gaps'],'source_cases':2601,'numerical_families':43,'numerical_ports':616,'source_semantics':'Physical flat-prefix addition through original typed routes, with arbitrary safe strided views, input aliasing and fresh preserve-format output; y logical numel is unrestricted when its actual backing span suffices.','native_execution':False}
+assert validate_task(R,cat,crows[name],row,queue)=='verified_with_deferred_numerics';accepted[name]=row
+for i,t in enumerate(ledger['tasks']):
+ if t['task'] in accepted:ledger['tasks'][i]=accepted[t['task']]
+ else:assert t==oldrows[t['task']] and t['input_sha256']==task_bindings(R,cat,crows[t['task']])
+ledger['catalog_sha256']=sha(canonical(cat));ledger['deferred_queue']={'path':'bench/tritonbench_g/deferred_numerical_experiments.json','sha256':hash_file(R/'bench/tritonbench_g/deferred_numerical_experiments.json')};ledger['progress_checkpoint']=(B/'README.md').relative_to(R).as_posix()
+write_json(R/'bench/original_program_scope.json',ledger)
+md=R/'bench/original_program_scope.md';text=md.read_text()
+replacements={
+ '**2 source scopes accepted and 181 pending**':'**3 source scopes accepted and 180 pending**',
+ '`relu_triton_kernel` is verified with exactly registered\nnumerical deferrals.':'`relu_triton_kernel` and `vector_addition` are verified with exactly registered\nnumerical deferrals.',
+ '`softmax-source-host-grid`':'`vector-finite-source-acceptance`',
+ 'exact scalar ports for its full source-outcome contract. The current queue has\n41 rules, with 170 exact bindings across 398 cases in four declarations; the\nfinite contract has 340 cases, including error and unsafe outcomes that use no\nnumerical callbacks.':'exact scalar ports for its full source-outcome contract (340 cases). The reviewed\nfinite vector extension adds 43 families and 616 ports across 2,601 cases. The\ncurrent queue has 84 rules, with 786 exact bindings across 2,999 cases in five\ndeclarations. Empty and rejected cases require no unused numerical callbacks.',
+ 'programs. Matrix transpose has passed its schema2 source-scope check. ReLU has passed\nwith exactly registered numerical deferrals; 181 scopes remain pending.':'programs. Matrix transpose has passed its schema2 source-scope check. ReLU and\nvector addition have passed with exactly registered numerical deferrals;\n180 scopes remain pending.',
+ 'contains 54\nexecution contracts':'contains 55\nexecution contracts',
+ 'The latest partial extensions compose vector addition\'s 189 existing typed\nroutes through source-order host allocation/assertions and canonical rejection\ncases, and RotaryEmb\'s original real-erased source through the complete Q-derived\ngrid with initial-memory formulas and tail frames. Vector safe-view/address and\nexact numerical registration gaps remain; rotary rounded execution and dtype/\nadmission/address-domain gaps remain. Neither task is counted as accepted.':'RotaryEmb\'s partial extension composes its original real-erased source through\nthe complete Q-derived grid with initial-memory formulas and tail frames. Its\nrounded execution and dtype/admission/address-domain gaps remain, so it is not\ncounted as accepted. Vector addition now connects all 189 typed source routes\nand 100 frontend rejections to finite views, pointers, physical execution, frames\nand source-order host outcomes. Its 2,601 cases and 616 numerical ports are\nregistered; its explicit defined-conversion domain and physical flat behavior\nremain distinct from arbitrary logical Torch elementwise addition.',
+}
+for old,new in replacements.items():assert old in text,old;text=text.replace(old,new)
+md.write_text(text)
+print(json.dumps({'verified':1,'verified_with_deferred_numerics':2,'pending':180,'accepted_total':3,'catalog_public_declarations':sum(len(t['declarations']) for t in cat['tasks']),'new_numerical_rules':43,'total_numerical_rules':84,'accepted_reviews_rebound':list(accepted)[:2],'unrelated_scope_rows_unchanged':180,'exact_queue':validate_exact_queue(queue,authority,legacy)},indent=2))

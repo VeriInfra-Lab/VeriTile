@@ -1,0 +1,17 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.live_append: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.batches_eq_live: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.source_batches_flatten: axiom footprint ⊆ standard base ✓  ([])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.source_batches_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.live_preserves_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.outside_span: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.Finite.live_byte_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

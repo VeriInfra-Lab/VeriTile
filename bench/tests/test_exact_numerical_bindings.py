@@ -7,7 +7,8 @@ sys.path[:0]=[str(REPO/'bench'),str(REPO/'scripts')]
 from exact_numerical_bindings import (PACKAGE_PATHS,collect,derive_authority,
     validate_exact_queue,canonical,sha)
 from deferred_numerical_experiments import collect_legacy
-from reviewed_numerical_extensions import RELU_FINITE_PACKAGE, RELU_FINITE_REVIEW
+from reviewed_numerical_extensions import (RELU_FINITE_PACKAGE, RELU_FINITE_REVIEW,
+    VECTOR_FINITE_PACKAGE, VECTOR_FINITE_REVIEW)
 import check_original_program_scope as gate
 legacy,authority,queue=collect(REPO)
 
@@ -50,17 +51,17 @@ class ExactBindings(unittest.TestCase):
  def assert_reject(self,data):
   with self.assertRaises(ValueError):validate_exact_queue(data,authority,legacy)
  def test_complete_authority_and_legacy_unchanged(self):
-  self.assertEqual(queue['rules'][:11],legacy['rules']);self.assertEqual(41,len(queue['rules']))
-  self.assertEqual([29,20,9,340],[len(r['cases']) for r in authority['requirements']])
-  self.assertEqual([15,13,3,9],[len(r['callback_union']) for r in authority['requirements']])
-  self.assertEqual(217,sum(len(b['declarations']) for r in authority['rules'] for b in r['scope_bindings']))
+  self.assertEqual(queue['rules'][:11],legacy['rules']);self.assertEqual(84,len(queue['rules']))
+  self.assertEqual([29,20,9,340,2601],[len(r['cases']) for r in authority['requirements']])
+  self.assertEqual([15,13,3,9,26],[len(r['callback_union']) for r in authority['requirements']])
+  self.assertEqual(833,sum(len(b['declarations']) for r in authority['rules'] for b in r['scope_bindings']))
   result=validate_exact_queue(queue,authority,legacy)
-  self.assertEqual(170,result['exact_bindings']);self.assertEqual(398,result['declaration_cases'])
+  self.assertEqual(786,result['exact_bindings']);self.assertEqual(2999,result['declaration_cases'])
  def test_all_exact_usage_cases(self):
   for task in ('vector_addition','relu_triton_kernel'):
    row,p,c=usage(task);gate.validate_used_numerics(task,row,p,c,queue,root=REPO)
  def test_single_fp64_case_only_add64_required(self):
-  row,p,c=usage('vector_addition',lambda t,c:c['dtype_profile']['inputs']=={'x':'fp64','y':'fp64'})
+  row,p,c=usage('vector_addition',lambda t,c:t['declaration'] in [r['declaration'] for r in authority['requirements'][:2]] and c['dtype_profile']['inputs']=={'x':'fp64','y':'fp64'})
   self.assertEqual(1,len(row['callback_assumptions']));gate.validate_used_numerics('vector_addition',row,p,c,queue,root=REPO)
  def test_unsigned_and_bool_zero_do_not_require_literal(self):
   row,p,c=usage('relu_triton_kernel',lambda t,c:t['declaration']==authority['requirements'][2]['declaration'] and c['dtype_profile']['inputs']['x'] in {'uint8','bool'})
@@ -185,6 +186,32 @@ class ExactBindings(unittest.TestCase):
    with tempfile.TemporaryDirectory() as tmp:
     root=clone_inputs(tmp);path=root/relative;path.write_bytes(path.read_bytes()+b' ')
     with self.assertRaisesRegex(ValueError,'changed reviewed numerical extension input'):
+     derive_authority(root)
+ def test_vector_empty_and_rejected_cases_need_no_numeric_assumptions(self):
+  row,p,c=usage('vector_addition',lambda t,c:t['declaration']==authority['requirements'][4]['declaration'] and
+    (c['configuration']['outcome']!='returned' or c['configuration']['size_class']=='empty'))
+  self.assertEqual({},row['callback_assumptions']);self.assertEqual([],row['deferred_numerical_assumptions'])
+  gate.validate_used_numerics('vector_addition',row,p,c,queue,root=REPO)
+ def test_vector_each_repeated_callback_port_is_required(self):
+  table=authority['requirements'][4]
+  case=next(c for c in table['cases'] if len(c['required_binding_refs'])>len(c['required_callbacks']))
+  row,p,c=usage('vector_addition',lambda t,x:t['declaration']==table['declaration'] and x==case)
+  gate.validate_used_numerics('vector_addition',row,p,c,queue,root=REPO)
+  callback=next(k for k,v in row['callback_assumptions'].items() if len(v)>1)
+  row['callback_assumptions'][callback].pop()
+  with self.assertRaisesRegex(ValueError,'exact scalar port omitted'):
+   gate.validate_used_numerics('vector_addition',row,p,c,queue,root=REPO)
+ def test_changed_vector_source_receipts_ports_or_review_rejected(self):
+  for relative in [
+    'bench/tritonbench_g/vector_addition/Proofs/FiniteIndices.lean',
+    VECTOR_FINITE_PACKAGE+'/evidence/receipt.json',
+    VECTOR_FINITE_PACKAGE+'/evidence/frontend/receipt.json',
+    VECTOR_FINITE_PACKAGE+'/evidence/numerical-authority-delta.json',
+    VECTOR_FINITE_REVIEW,
+  ]:
+   with tempfile.TemporaryDirectory() as tmp:
+    root=clone_inputs(tmp);path=root/relative;path.write_bytes(path.read_bytes()+b' ')
+    with self.assertRaisesRegex(ValueError,'changed reviewed vector input'):
      derive_authority(root)
  def test_exact_consumer_requires_every_port_ref(self):
   # Same-callback ports need independent references; the source-derived current

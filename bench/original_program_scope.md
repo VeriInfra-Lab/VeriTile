@@ -5,9 +5,9 @@ The requested standard covers **all declared stages, dtypes and branches of
 existing contract is for a repaired candidate. This exclusion does not cover
 the separate original-source task `fp4_to_bf16`.
 
-[`original_program_scope.json`](original_program_scope.json) has **2 source scopes accepted and 181 pending**, bound to the current extension
+[`original_program_scope.json`](original_program_scope.json) has **3 source scopes accepted and 180 pending**, bound to the current extension
 catalog. `matrix_transpose` is verified under explicit primitive contracts without
-numerical deferrals; `relu_triton_kernel` is verified with exactly registered
+numerical deferrals; `relu_triton_kernel` and `vector_addition` are verified with exactly registered
 numerical deferrals. Official comparator and whole-corpus
 CI results remain separate. It preserves initial gaps
 as provenance and records reviewed partial extensions with their remaining
@@ -71,10 +71,10 @@ The initial exact numerical adapter added 18 unvalidated scalar families to the
 the two fp64 vector-addition grid contracts and the ReLU access-grid contract.
 That earlier ReLU declaration is registered only for N=1025, block_size=1024,
 sm90. The independently reviewed finite ReLU extension adds 12 families and 84
-exact scalar ports for its full source-outcome contract. The current queue has
-41 rules, with 170 exact bindings across 398 cases in four declarations; the
-finite contract has 340 cases, including error and unsafe outcomes that use no
-numerical callbacks. These registrations do not apply to unrelated declarations.
+exact scalar ports for its full source-outcome contract (340 cases). The reviewed
+finite vector extension adds 43 families and 616 ports across 2,601 cases. The
+current queue has 84 rules, with 786 exact bindings across 2,999 cases in five
+declarations. Empty and rejected cases require no unused numerical callbacks. These registrations do not apply to unrelated declarations.
 The checker derives case-specific callback requirements from pinned sources and
 requires every applicable scalar-port reference. These registrations discharge
 no structural obligations by themselves; acceptance requires the separate
@@ -113,25 +113,28 @@ the existing `fp16=true` contract uses fp32 storage and internal half casts.
 Its correction does not establish the separate `fp16=false` branch or host program.
 
 The workflow's catalog and supplement now point to the
-`softmax-source-host-grid` batch, with the unchanged
+`vector-finite-source-acceptance` batch, with the unchanged
 `original-scope-extensions/metadata-baseline` and preceding final-source manifest
 retained as its historical base. Neither global success nor scope
 success establishes corpus comparator replay, the integration build or native
 GPU correctness; those remain independent checks.
 
 The full-scope review covers all 183 original programs, with no unreviewed
-programs. Matrix transpose has passed its schema2 source-scope check. ReLU has passed
-with exactly registered numerical deferrals; 181 scopes remain pending. This is not a claim that whole-corpus CI or official comparator
-replay has passed. The cumulative supplemental proof inventory contains 54
+programs. Matrix transpose has passed its schema2 source-scope check. ReLU and
+vector addition have passed with exactly registered numerical deferrals;
+180 scopes remain pending. This is not a claim that whole-corpus CI or official comparator
+replay has passed. The cumulative supplemental proof inventory contains 55
 execution contracts and
 six protocol contracts across 16 tasks; those counts are not completed programs.
 
-The latest partial extensions compose vector addition's 189 existing typed
-routes through source-order host allocation/assertions and canonical rejection
-cases, and RotaryEmb's original real-erased source through the complete Q-derived
-grid with initial-memory formulas and tail frames. Vector safe-view/address and
-exact numerical registration gaps remain; rotary rounded execution and dtype/
-admission/address-domain gaps remain. Neither task is counted as accepted.
+RotaryEmb's partial extension composes its original real-erased source through
+the complete Q-derived grid with initial-memory formulas and tail frames. Its
+rounded execution and dtype/admission/address-domain gaps remain, so it is not
+counted as accepted. Vector addition now connects all 189 typed source routes
+and 100 frontend rejections to finite views, pointers, physical execution, frames
+and source-order host outcomes. Its 2,601 cases and 616 numerical ports are
+registered; its explicit defined-conversion domain and physical flat behavior
+remain distinct from arbitrary logical Torch elementwise addition.
 
 ReLU now has complete finite source coverage for all 17 canonical CUDA profiles,
 340 outcome cases and the safe index domain through N=2^31. Its 12 numerical

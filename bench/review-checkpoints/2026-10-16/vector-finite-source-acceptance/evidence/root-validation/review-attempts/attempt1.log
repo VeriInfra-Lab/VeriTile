@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-standardization-20261015/review_vector_finite.py", line 101, in <module>
+    assert 'sourceIndexBound : x.numel<2^31' in (W/'after/bench/tritonbench_g/vector_addition/Proofs/FiniteViews.lean').read_text()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
