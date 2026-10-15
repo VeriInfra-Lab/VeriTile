@@ -48,3 +48,40 @@ Evidence (2026-10-14):
 The bf16 source portability gap is a concrete remaining limitation. Supporting
 it would require a separately reviewed source change and fresh proof/native
 receipts; no such repair is silently applied here.
+
+## Arbitrary original lengths and strides (2026-10-15)
+
+`FullCorrect.lean` adds a separate fp16 contract over every individual source
+stride and arbitrary `N_CTX`, with the wrapper's asserted `P_SEQ=0`. It proves
+the complete actual source execution, every `ceilDiv(N_CTX, BLOCK_N)` iteration,
+the exact final memory scatter, and its frame. The independent reference reads
+initial memory and retains the source's half operations and fp32 recurrence.
+No contiguous-layout, divisible-length, output-injectivity, finite-value, or
+identity-rounding premise is added. Colliding output strides have the exact
+logical scatter semantics. The scalar instantiation retains the existing named
+host-literal, exp2, and typed-dot callbacks and checked reduction trees.
+
+This extension exposes original program defects rather than inserting masks or
+repairing offsets:
+
+- `Proofs/BfloatRejected.lean` checks rejection of the **entire original bf16
+  body** at its unsupported dot output. It adds no successful bf16 execution
+  theorem. Offline compilation also reproduced the same failure on Triton
+  3.7.1 with CUDA sm90; the saved 3.8.0 failure remains unchanged.
+- `Proofs/FullSourceBehavior.lean` proves that every nonzero block remainder
+  produces a visited lane whose coordinate equals `N_CTX`. The original five
+  loads and final store have no masks or boundary checks. With `N_CTX=65` and
+  `BLOCK_M=BLOCK_N=HEAD=64`, Q/K/V/output access offset 4160, exactly the end of
+  a one-head allocation. An explicit address-domain predicate records this
+  separate memory-safety obligation; total-memory value correctness does not
+  establish it.
+- The original V head base uses K's head stride, and the output head base uses
+  Q's head stride. Both ignored stride arguments remain ignored. Running the
+  exact original wrapper AST with real CPU tensor metadata and a launch recorder
+  confirms that differing strides and partial tiles pass its assertions, for
+  both accepted dtypes. This probe runs no GPU kernel.
+
+These are `source_bug` items, not deferred numerical assumptions. Full host
+grid/concurrency composition, allocation/provenance and native index-width
+binding remain outside these per-program contracts. The original Python,
+historical contracts, and frozen receipts are unchanged.

@@ -1,8 +1,9 @@
 name: Bench audit
 
-# TritonBench-G completion gates: comparator-backed trust audit (bench/audit_trust.sh),
-# proof-gap manifest exact-match (bench/check_proof_gap_manifest.py), and the
-# textual py<->lean faithfulness scans (bench/audit_tritonbench_g.sh).
+# Current-layout gates use an explicit catalog and the 183-task original-program
+# scope ledger. Pending/unbound scope reviews fail; frozen historical ledgers
+# are not rewritten to accommodate new typed and multi-entry contracts.
+# Corpus workers retain the Lean axiom/spec gates and official comparator.
 #
 # Elaboration and proof replay dominate runtime (parallelized in
 # bench/audit_trust.sh), so this workflow is scoped to bench/ changes rather
@@ -87,6 +88,7 @@ jobs:
 
       - name: Check audit source and sharding regressions
         run: |
+          python3 -B -m unittest discover -s bench/tests -p 'test_*.py'
           python3 -m unittest discover -s scripts -p 'test_audit_source.py'
           python3 -m unittest discover -s scripts -p 'test_correctness_surface_audit.py'
           python3 -m unittest discover -s scripts -p 'test_source_shape_audit.py'
@@ -117,7 +119,18 @@ jobs:
         uses: ./.github/actions/setup-comparator
 
       - name: Run structural and library comparator gates once
-        run: bench/audit_tritonbench_g.sh --global-only
+        run: |
+          python3 -B bench/current_source_audit.py \
+            --root . \
+            --catalog bench/review-checkpoints/2026-10-15/original-scope-extensions/current-source-catalog.json \
+            --baseline-package bench/review-checkpoints/2026-10-15/original-scope-extensions/metadata-baseline \
+            --source-map bench/current_source_selections.json \
+            --legacy-inventory bench/tritonbench_g/current_completion_inventory.json \
+            --evidence-root bench/review-checkpoints \
+            --review-manifest bench/review-checkpoints/2026-10-15/raw-copy-software-metadata/catalog-review-rebased.json \
+            --supplement bench/review-checkpoints/2026-10-15/original-scope-extensions/catalog-supplement.json \
+            --scope-ledger bench/original_program_scope.json \
+            --output "$RUNNER_TEMP/current-source-global"
 
   audit:
     name: TritonBench-G audit shard ${{ matrix.shard }}
@@ -151,7 +164,9 @@ jobs:
         uses: ./.github/actions/setup-comparator
 
       - name: Run corpus shard with comparator
-        run: bench/audit_trust.sh
+        run: |
+          bench/audit_trust.sh --catalog \
+            bench/review-checkpoints/2026-10-15/original-scope-extensions/current-source-catalog.json
 
   complete:
     name: TritonBench-G audit complete

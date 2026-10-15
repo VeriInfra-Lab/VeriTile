@@ -3,10 +3,13 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'bench'))
+from adapter_common import LIBRARIES, hash_file, module_name, registered, write_json
 
 
 class AuditAggregateTests(unittest.TestCase):
@@ -136,6 +139,11 @@ a = p.parse_args()
 with Path('calls').open('a') as log:
     log.write(a.file + '\\n')
 print('Comparator: scheduling fixture')
+if a.file == os.environ.get('MUTATE_TARGET'):
+    Path(a.file).write_text('-- worker changed the source snapshot\\n')
+if a.file == os.environ.get('MUTATE_CATALOG_TARGET'):
+    catalog = Path('catalog.json')
+    catalog.write_text(catalog.read_text() + ' ')
 raise SystemExit(1 if a.file == os.environ.get('FAIL_TARGET') else 0)
 ''')
         self.env = {key: value for key, value in os.environ.items()
@@ -210,6 +218,103 @@ raise SystemExit(1 if a.file == os.environ.get('FAIL_TARGET') else 0)
                                         'PATH': str(self.root) + os.pathsep + self.env['PATH']})
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('incomplete worker results', result.stderr)
+        self.assertEqual(calls, [])
+
+
+class CatalogAuditShardTests(AuditShardTests):
+    """Actual catalog validation and launcher; only comparator work is stubbed."""
+
+    def setUp(self):
+        super().setUp()
+        for name in ('current_source_catalog.py', 'adapter_common.py'):
+            shutil.copyfile(ROOT / 'bench' / name, self.root / 'bench' / name)
+        shutil.copytree(ROOT / 'bench/current_catalog_vendor',
+                        self.root / 'bench/current_catalog_vendor',
+                        ignore=shutil.ignore_patterns('__pycache__'))
+        # These top-level contracts and nested helpers are intentionally invalid
+        # under old single-source filename inference. Catalog mode must keep all.
+        extra = ['bench/tritonbench_g/split/RawBitCorrect.lean',
+                 'bench/tritonbench_g/beta/ProtocolCorrect.lean',
+                 'bench/tritonbench_g/beta/Proofs/TypedSource.lean']
+        for name in extra:
+            path = self.root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.touch()
+        self.targets += extra
+        (self.root / 'lakefile.toml').write_text('\n'.join(
+            '[[lean_lib]]\nname = "' + name + '"\nglobs = ["bench.tritonbench_g.+"]\n'
+            for name in LIBRARIES))
+        (self.root / 'lean-toolchain').write_text('fixture-only\n')
+        (self.root / 'lake-manifest.json').write_text('{}\n')
+        regs = registered(self.root)
+        task_paths = sorted(p for p in self.targets if p.startswith('bench/tritonbench_g/'))
+        bindings = {p: hash_file(self.root / p) for p in
+                    task_paths + ['lakefile.toml', 'lean-toolchain', 'lake-manifest.json']}
+        names = sorted({Path(p).parts[2] for p in task_paths})
+        rows = []
+        for name in names:
+            entry = f'bench/tritonbench_g/{name}/' + ('Kernels.lean' if name == 'split' else 'Port.lean')
+            rows.append({'task': name, 'historical_source_entry': entry,
+                'source_views': [], 'original_source_present': True, 'declarations': [],
+                'files': [{'path': p, 'module': module_name(p),
+                    'observed_sha256': bindings[p], 'review_expected_sha256': bindings[p],
+                    'roles': ['selected_source'] if p == entry else ['helper'],
+                    'libraries': regs[module_name(p)]}
+                    for p in task_paths if Path(p).parts[2] == name]})
+        self.catalog = {'schema': 1, 'kind': 'current_source_catalog_not_completion_ledger',
+            'expected_task_names': names, 'registered_modules': regs,
+            'unregistered_task_modules': [], 'build_input_sha256': bindings,
+            'tasks': rows}
+        write_json(self.root / 'catalog.json', self.catalog)
+
+    def run_audit(self, env=None, args=()):
+        return super().run_audit(env, ['--catalog', 'catalog.json', *args])
+
+    def test_unsharded_and_named_modes_still_work(self):
+        expected_beta = [p for p in self.targets if p.startswith('bench/tritonbench_g/beta/')]
+        for args, expected in [((), self.targets), (['beta'], expected_beta)]:
+            with self.subTest(args=args):
+                result, calls = self.run_audit(args=args)
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertCountEqual(calls, expected)
+
+    def test_unknown_or_duplicate_task_never_launches_proofs(self):
+        for args in (['absent'], ['beta', 'beta']):
+            with self.subTest(args=args):
+                result, calls = self.run_audit(args=args)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual(calls, [])
+
+    def test_catalog_hash_drift_never_launches_proofs(self):
+        (self.root / self.targets[0]).write_text('-- changed source\n')
+        result, calls = self.run_audit()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('hash mismatch', result.stderr)
+        self.assertEqual(calls, [])
+
+    def test_new_uninventoried_file_never_launches_proofs(self):
+        (self.root / 'bench/tritonbench_g/beta/Unreviewed.lean').touch()
+        result, calls = self.run_audit()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('omits or adds', result.stderr)
+        self.assertEqual(calls, [])
+
+    def test_worker_source_mutation_fails_postcheck(self):
+        result, calls = self.run_audit({'MUTATE_TARGET': self.targets[0]})
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('changed during trust audit', result.stderr)
+        self.assertCountEqual(calls, self.targets)
+
+    def test_worker_catalog_rewrite_fails_postcheck(self):
+        result, calls = self.run_audit({'MUTATE_CATALOG_TARGET': self.targets[0]})
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('changed during trust audit', result.stderr)
+        self.assertCountEqual(calls, self.targets)
+
+    def test_missing_examples_directory_never_launches_partial_corpus(self):
+        shutil.rmtree(self.root / 'bench/examples')
+        result, calls = self.run_audit()
+        self.assertNotEqual(result.returncode, 0)
         self.assertEqual(calls, [])
 
 

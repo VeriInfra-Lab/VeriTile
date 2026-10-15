@@ -1,0 +1,54 @@
+{
+  "kind": "new_fp4_logical_host_grid_proof",
+  "files_sha256": {
+    "bench/tritonbench_g/fp4_to_bf16/Proofs/Host.lean": "ead22db5c4a2e7eecc35b72453361ee1a265e900e089dbb331dac81c2ae426cb",
+    "bench/tritonbench_g/fp4_to_bf16/HostCorrect.lean": "e0e43a34bfa434bb0e1c02050abcd73084bc43f351c71c62800196d4a761cb96",
+    "bench/tritonbench_g/fp4_to_bf16/README.md": "3ef22b64b824975e6438050787dae7d041b444a519e40613777bead2d961337f"
+  },
+  "validation": [
+    {
+      "command": "/tmp/veritile-lean-toolchain/bin/lake env lean bench/tritonbench_g/fp4_to_bf16/Proofs/Host.lean",
+      "exit_code": 0,
+      "log": "fp4-host-build-02.log"
+    },
+    {
+      "command": "/tmp/veritile-lean-toolchain/bin/lake env lean -o .lake/build/lib/lean/bench/tritonbench_g/fp4_to_bf16/Proofs/Host.olean bench/tritonbench_g/fp4_to_bf16/Proofs/Host.lean",
+      "exit_code": 0,
+      "log": "fp4-host-build-final.log"
+    },
+    {
+      "command": "/tmp/veritile-lean-toolchain/bin/lake env lean -o .lake/build/lib/lean/bench/tritonbench_g/fp4_to_bf16/HostCorrect.olean bench/tritonbench_g/fp4_to_bf16/HostCorrect.lean",
+      "exit_code": 0,
+      "log": "fp4-host-public-02.log"
+    },
+    {
+      "command": "/tmp/veritile-lean-toolchain/bin/lake build bench.tritonbench_g.fp4_to_bf16.HostCorrect",
+      "exit_code": 0,
+      "jobs": 3448,
+      "incremental": true,
+      "log": "fp4-host-lake-target.log"
+    },
+    {
+      "command": "python3 /tmp/veritile-standardization-20261015/check_fp4_host_source.py",
+      "exit_code": 0,
+      "log": "fp4-host-source-check.json"
+    }
+  ],
+  "retained_failed_attempts": [
+    "fp4-host-build-initial.log",
+    "fp4-host-build-01.log",
+    "fp4-host-public-01.log"
+  ],
+  "boundaries": [
+    "documented packed uint8 profile only; Python wrapper has no dtype assertion",
+    "manual host shape/allocation lowering",
+    "native index-width and ABI",
+    "physical allocation/provenance",
+    "GPU concurrent launch refinement",
+    "native zero-grid legality"
+  ],
+  "new_public_declaration": "VeriTile.Bench.TritonBenchG.Fp4ToBf16.HostCorrect.fp4_to_bf16_host_grid_correctness",
+  "axioms": "standard base only: propext, Quot.sound, Classical.choice",
+  "frozen_contracts_changed": false,
+  "git_commit_created": false
+}

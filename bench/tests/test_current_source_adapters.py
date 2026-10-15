@@ -7,7 +7,8 @@ import tempfile
 import unittest
 from adapter_common import *
 from current_source_catalog import (validate_catalog, verify_source_view,
-    validate_supplement, review_manifest, graph_stage_coverage, public_files, proof_files)
+    validate_supplement, review_manifest, graph_stage_coverage, public_files, proof_files,
+    trust_targets, validate_metadata_corrections)
 from current_acceptance import (make_build_receipt, verify_build, acceptance,
     REQUIRED_EXTERNAL_GATES, validate_gate, run_gate)
 
@@ -85,6 +86,78 @@ class AdapterTest(unittest.TestCase):
 
     def test_explicit_fp_correct_only_layout(self):
         self.assertEqual('passed', validate_catalog(self.root, self.catalog)['catalog_integrity'])
+
+    def test_trust_targets_include_public_source_and_every_helper(self):
+        self.assertEqual(sorted([self.public, self.source, self.helper]),
+                         trust_targets(self.root, self.catalog))
+        self.assertEqual(trust_targets(self.root, self.catalog),
+                         trust_targets(self.root, self.catalog, ['t']))
+
+    def test_trust_targets_reject_unknown_and_duplicate_tasks(self):
+        for tasks in (['absent'], ['t', 't']):
+            with self.subTest(tasks=tasks), self.assertRaisesRegex(ValueError, 'trust audit task'):
+                trust_targets(self.root, self.catalog, tasks)
+
+    def test_trust_targets_fail_closed_for_uninventoried_helpers(self):
+        self.put(BASE + 't/RawBitCorrect.lean', 'def omitted := 1\n')
+        with self.assertRaisesRegex(ValueError, 'omits or adds'):
+            trust_targets(self.root, self.catalog, ['t'])
+
+    def test_trust_targets_fail_closed_for_changed_or_missing_source(self):
+        self.put(self.helper, 'def changed := 2\n')
+        with self.assertRaisesRegex(ValueError, 'hash mismatch'):
+            trust_targets(self.root, self.catalog)
+        (self.root / self.helper).unlink()
+        with self.assertRaisesRegex(ValueError, 'omits or adds'):
+            trust_targets(self.root, self.catalog)
+
+    def correction(self):
+        before = {'value_extension': {'dtype_profile': 'incorrect historical dtype text'}}
+        corrections = [{'field_path': ['value_extension', 'dtype_profile'],
+            'before': before['value_extension']['dtype_profile'],
+            'after': 'fp32 storage; internal half casts; both tf32 branches',
+            'reason': 'Actual typed source and public statement reviewed.'}]
+        review = {'reviewer': 'root', 'status': 'reviewed',
+                  'reviewed_metadata_corrections_sha256': {'t': sha(canonical(corrections))}}
+        return before, corrections, review
+
+    def test_metadata_correction_preserves_frozen_row(self):
+        before, corrections, review = self.correction()
+        frozen = deepcopy(before)
+        self.assertEqual(corrections, validate_metadata_corrections('t', before, corrections, review))
+        self.assertEqual(frozen, before)
+
+    def test_metadata_correction_rejects_wrong_before(self):
+        before, corrections, review = self.correction()
+        before['value_extension']['dtype_profile'] = 'different frozen value'
+        with self.assertRaisesRegex(ValueError, 'before value differs'):
+            validate_metadata_corrections('t', before, corrections, review)
+
+    def test_metadata_correction_rejects_unreviewed_after(self):
+        before, corrections, review = self.correction()
+        corrections[0]['after'] = 'claims all original host stages'
+        with self.assertRaisesRegex(ValueError, 'exact root review'):
+            validate_metadata_corrections('t', before, corrections, review)
+
+    def test_metadata_correction_cannot_relabel_completion_status(self):
+        before, corrections, review = self.correction()
+        corrections[0]['field_path'] = ['integration_accepted']
+        review['reviewed_metadata_corrections_sha256']['t'] = sha(canonical(corrections))
+        with self.assertRaisesRegex(ValueError, 'unsupported/duplicate'):
+            validate_metadata_corrections('t', before, corrections, review)
+
+    def test_catalog_correction_remains_bound_to_current_review(self):
+        before, corrections, review = self.correction()
+        write_json(self.root / 'dtype-review.json', review)
+        task = self.catalog['tasks'][0]
+        task['value_registry_row'] = before
+        task['reviewed_metadata_corrections'] = corrections
+        task['metadata_correction_review'] = {'path': 'dtype-review.json',
+                                              'sha256': hash_file(self.root / 'dtype-review.json')}
+        validate_catalog(self.root, self.catalog)
+        corrections[0]['after'] = 'unreviewed widened dtype domain'
+        with self.assertRaisesRegex(ValueError, 'exact root review'):
+            validate_catalog(self.root, self.catalog)
 
     def test_extra_helper_is_not_ignored(self):
         self.put(BASE+'t/Proofs/Forgotten.lean', 'def unrelated := 1\n')

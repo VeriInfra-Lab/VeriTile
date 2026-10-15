@@ -17,3 +17,22 @@ are not covered. This delivers a concrete collector and reference, not GPU
 validation, and does not close N21 or the 37 whole-job native work items.
 
 The previous import-status note is preserved in the [documentation history](../../review-checkpoints/2026-10-14/next-value-repair/documentation-update/before/bench/tritonbench_g/fp4_to_bf16/README.md).
+
+A new [host-grid theorem](HostCorrect.lean) composes the actual admitted kernel
+for every program in the original `ceilDiv(numel, 512)` launch. It models a
+contiguous packed-uint8 tensor of any nonscalar shape, the fresh bf16 allocation
+and doubled final dimension, all active output cells, arbitrary initial output
+memory, tail masks, and the complete memory frame. Each output is proved to
+decode to its signed exact rational e2m1 value, including both zero signs. The
+reference reads only the original input bytes; no source execution or supplied
+output is used to define it. The original per-program alias theorem is retained.
+
+This addition proves the sequential logical launch in the existing structural
+semantics. Python allocation/shape lowering, native index-width specialization,
+physical tensor provenance and GPU concurrent-launch refinement are still
+external boundaries. The original wrapper checks contiguity and CUDA placement
+but does not assert an input dtype; this theorem states the documented packed
+uint8 domain explicitly and does not claim arbitrary torch dtypes. It includes
+zero-element logical grids without asserting native zero-grid launch legality.
+The new modules are registered separately from the frozen checkpoint contracts;
+the historical acceptance catalogue has not been relabelled.

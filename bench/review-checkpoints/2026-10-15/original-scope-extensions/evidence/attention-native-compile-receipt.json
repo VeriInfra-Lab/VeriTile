@@ -1,0 +1,108 @@
+{
+  "source_sha256": "ca0ecc71aeb5d33c1e216ec1891a726281fae909e8ee765945a3bb12414453b9",
+  "triton_version": "3.7.1",
+  "target": "cuda sm90",
+  "original_kernel_ast_unchanged": true,
+  "kernel_executed": false,
+  "results": [
+    {
+      "dtype": "fp16",
+      "signature": {
+        "Q": "*fp16",
+        "K": "*fp16",
+        "V": "*fp16",
+        "B0": "*fp16",
+        "Out": "*fp16",
+        "sm_scale": "fp32",
+        "stride_qh": "i32",
+        "stride_qm": "i32",
+        "stride_qk": "i32",
+        "stride_kh": "i32",
+        "stride_kn": "i32",
+        "stride_kk": "i32",
+        "stride_vh": "i32",
+        "stride_vk": "i32",
+        "stride_vn": "i32",
+        "stride_oh": "i32",
+        "stride_om": "i32",
+        "stride_on": "i32",
+        "stride_b0h": "i32",
+        "stride_b0m": "i32",
+        "Z": "i32",
+        "H": "i32",
+        "N_CTX": "i32",
+        "P_SEQ": "i32"
+      },
+      "constexprs": {
+        "OUT_DTYPE": "fp16",
+        "BIAS_LAST_SIZE": "64",
+        "B0_NUMEL": "128",
+        "BLOCK_DMODEL": "64",
+        "BLOCK_M": "64",
+        "BLOCK_N": "64"
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "compiled": true
+    },
+    {
+      "dtype": "bf16",
+      "signature": {
+        "Q": "*bf16",
+        "K": "*bf16",
+        "V": "*bf16",
+        "B0": "*bf16",
+        "Out": "*bf16",
+        "sm_scale": "fp32",
+        "stride_qh": "i32",
+        "stride_qm": "i32",
+        "stride_qk": "i32",
+        "stride_kh": "i32",
+        "stride_kn": "i32",
+        "stride_kk": "i32",
+        "stride_vh": "i32",
+        "stride_vk": "i32",
+        "stride_vn": "i32",
+        "stride_oh": "i32",
+        "stride_om": "i32",
+        "stride_on": "i32",
+        "stride_b0h": "i32",
+        "stride_b0m": "i32",
+        "Z": "i32",
+        "H": "i32",
+        "N_CTX": "i32",
+        "P_SEQ": "i32"
+      },
+      "constexprs": {
+        "OUT_DTYPE": "bf16",
+        "BIAS_LAST_SIZE": "64",
+        "B0_NUMEL": "128",
+        "BLOCK_DMODEL": "64",
+        "BLOCK_M": "64",
+        "BLOCK_N": "64"
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 2
+      },
+      "compiled": false,
+      "error": "at 69:14:\n    b_ptr_offsets_m = tl.arange(0, BLOCK_M)\n\n    b_offset = off_hz * stride_b0h\n    b_ptr_offsets_n_1 = (tl.arange(0, BLOCK_N) %\n                         BIAS_LAST_SIZE) + BIAS_LAST_SIZE\n    b1 = tl.load(B0 + b_offset + ((start_m * BLOCK_M + b_ptr_offsets_m)\n                 * stride_b0m)[:, None] + b_ptr_offsets_n_1[None, :])\n    for start_n in range(lo, hi, BLOCK_N):\n        k = tl.load(K_block_ptr)\n        v = tl.load(V_block_ptr)\n        qk = tl.zeros([BLOCK_M, BLOCK_N], dtype=OUT_DTYPE)\n        qk += tl.dot(q, k, out_dtype=OUT_DTYPE)\n              ^\nout_dtype=bfloat16 is unsupported. Please use out_dtype=float32/float16 and cast with `.to(tl.bfloat16)`"
+    }
+  ],
+  "artifact_sha256": {
+    "source.py": "ca0ecc71aeb5d33c1e216ec1891a726281fae909e8ee765945a3bb12414453b9",
+    "original.py": "2ef103e47801fb0b6900cac9db26924290135fa486071127f1119ad734c0ddd5",
+    "check.py": "f6eda8c2cd68652e5872a583992af95c843398cac67f7606036f4aa2c797d93b",
+    "run.log": "f8164dc14fb11822d82bef532c9377898c525d6bf6b0b387a863cb69652e65eb",
+    "__pycache__/original.cpython-312.pyc": "c908d5dbb1062a0be834fdf75e4351f40ea2211b46e1101036350ee1b2dbc35f",
+    "bf16/error.txt": "72ec8ba65fc9aad8791b829cc8b2817ffeb227feab29d68241af0942eeeb8359",
+    "fp16/kernel.ptx": "42982052c182de9fbb3ac65bd039a291d243a04422ad575558490eb3409bfc83",
+    "fp16/kernel.llir": "ce5f983ea1735052acc9d3014f48b92c9e610802422f57680a9866fb4db176ba",
+    "fp16/kernel.source": "cce4c785ef7d81bbe42ebf75cabdbd1c575b4fd294cba36eb1ce8d3bf15055f7",
+    "fp16/kernel.cubin": "7ccb23cfd209d0ebf4c01ae55646c29d0c5dd87475b998946cbb1caf442ae269",
+    "fp16/kernel.ttgir": "679142e42be3b66bf0d70bc648035746fcf6e7e52925627d781a94b308bcd700",
+    "fp16/kernel.ttir": "f3b2f5eda8ecf4a2796fbb26f33ee8c0a1e5f57f3f157247c8d54e1b56de44a5"
+  }
+}

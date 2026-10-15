@@ -1,38 +1,58 @@
-# Current source inventory and acceptance
+# Current development and acceptance
 
-Current installed scope: **184 tasks, 893 public declarations, 3,840 registered modules**; **58 software bit-value profiles, 125 backend-dependent profiles and one repaired candidate**. The original 41 remains **35 software / 6 backend-dependent**. See the [DQ/helper source extension](review-checkpoints/2026-10-15/retention-query-source-proof/README.md), the [preceding bit-value review](review-checkpoints/2026-10-15/raw-copy-software-metadata/README.md), and its [184-task table](review-checkpoints/2026-10-15/raw-copy-software-metadata/tasks-184.tsv) and [remaining six](review-checkpoints/2026-10-15/raw-copy-software-metadata/remaining-original41.tsv).
+The current goal is **183 original programs, covering all declared stages,
+dtypes and branches**. Unverified numerical assumptions may be recorded for
+later validation. Missing source translations, host composition, dtype or
+branch coverage, address semantics and known source bugs are not numerical
+deferrals. `fp4_to_bf16_conversion` remains the separate repaired-candidate task.
 
-The Retention extension adds the complete fp32 DQ helper and sequential DQ/barrier/DK/DV contracts after caller index specialization, with independent input-memory references and complete memory frames. Native numerical bindings remain pending in the [unified experiment queue](tritonbench_g/deferred_numerical_experiments.md). The affected Retention contracts compiled successfully; all 20 new proof declarations passed named standard-axiom checks.
+**Whole-program acceptance in this review round: 0/183; 183 remain pending.**
+This does not invalidate the existing proofs. The earlier 183 original-source
+contracts cover their stated profiles, which are narrower than the newly
+requested whole-program standard. The old “six remaining” count concerned
+software closure in the original 41-task batch, not these 183 whole programs.
 
-The preceding [destindex_copy](review-checkpoints/2026-10-15/destindex-copy-raw-bit-closure/README.md) and [matrix_transpose](review-checkpoints/2026-10-15/matrix-transpose-raw-bit-closure/README.md) contracts cover their complete original typed domains, independent initial-memory references and full memory frames. No finite-input, noalias, positive-size or known-output premise was added. The former covers nine independent same-format storage pairs; the latter preserves every fp16 bit pattern in both existing source versions.
+The [new extension batch](review-checkpoints/2026-10-15/original-scope-extensions/README.md)
+adds 11 public execution contracts across five tasks:
 
-From the repository root, use fresh output directories:
+| Task | Newly proved scope | Still prevents whole-task acceptance |
+|---|---|---|
+| `fp4_to_bf16` | Packed uint8 input, complete BLOCK=512 grid, output shape and exact bf16 values | Unrestricted caller dtype/error domain; native allocation/address and concurrency correspondence |
+| `multinomial_sampling` | Four score formats, complete grid, signed64-index wrapper and token-one return | Other supplied-index/caller dtypes; full error/native domain |
+| `kcache_copy_triton` | Arbitrary-token signed copy, five floating raw formats and nine discrete formats | Host reshape/layout/grid composition; native metadata/address domain |
+| `triton_conv2d_fwd` | Both fp16 flags and both tf32 flags, complete triple loop over fp32 storage | Other storage dtypes; host grid; signed/native address correspondence |
+| `attention_kernel_aligned` | Arbitrary lengths and independent Nat strides in fp16; complete scatter/frame | Original bf16 compile failure, unchecked tails and head-stride bugs; host/native composition |
 
-```sh
-python3 -B bench/current_source_catalog.py prepare-baseline \
-  --package bench/review-checkpoints/2026-10-15/raw-copy-software-metadata/metadata-baseline \
-  --output /tmp/current-raw-copy-metadata-baseline
-python3 -B bench/current_source_catalog.py --root . \
-  --baseline /tmp/current-raw-copy-metadata-baseline \
-  --source-map bench/current_source_selections.json \
-  --legacy-inventory bench/tritonbench_g/current_completion_inventory.json \
-  --evidence-root bench/review-checkpoints \
-  --review-manifest bench/review-checkpoints/2026-10-15/raw-copy-software-metadata/catalog-review-rebased.json \
-  --supplement bench/review-checkpoints/2026-10-15/retention-query-source-proof/catalog-supplement.json \
-  --check bench/review-checkpoints/2026-10-15/retention-query-source-proof/current-source-catalog.json
-python3 -B bench/fp_value_extensions.py --check
-python3 -B bench/deferred_numerical_experiments.py --check
-python3 -B bench/legacy_source_adapter.py --root . --tools-root . \
-  --catalog bench/review-checkpoints/2026-10-15/retention-query-source-proof/current-source-catalog.json \
-  --output /tmp/current-raw-copy-legacy-source-replay
-```
+The full registered Lean build passed **7,231 incremental jobs** after these
+extensions. This is compilation and Lean proof checking, not independent
+comparator replay or GPU execution. Current independent comparator replay
+is pending while its isolated environment is restored. LoRA branch work is still in progress
+and is not included in the completed-extension count.
 
-The preceding raw-copy package preserved all 191 Python inputs, its old 889 public records, 37 extension rows and 60 evidence packages. Existing recursive Lake registration adds eight modules without changing configuration. Root independently replayed 52 metadata tests and generation. The generator binds 17 installation targets and 4,187 inputs, including postguards for all 24 historical task files. Build evidence combines 3,826 revalidated records with eight independently compiled modules and 44 named standard-axiom checks; it is not a new whole-library compilation.
+The final [validation record](review-checkpoints/2026-10-15/original-scope-extensions/validation.json)
+also records 210 benchmark-tool tests and 25 sharding tests passing. The global
+audit passes source, structure, baseline, catalog, metadata and numerical-queue
+checks, but fails the pending scope review and unavailable host comparator gates.
 
-There are now 146 new public entries: 142 value contracts, two frames, one identity and one protocol. The new six-module source extension preserves the preceding 891 public statements; its separate receipt does not claim a fresh full-corpus build. The original 41 classification and its six unresolved task states are unchanged. The remaining Llama row now describes the existing ∀FloatDType contract; fp32 is only the default experimental profile.
+The [scope ledger](original_program_scope.md) tracks the new acceptance standard.
+Pending rows deliberately fail its gate. Current catalog reproduction, source
+checks, compiled proof replay, numerical bindings and native behavior remain
+separate checks; a green inventory alone does not establish completion.
+The [current catalog](review-checkpoints/2026-10-15/original-scope-extensions/current-source-catalog.json)
+contains 184 tasks, 904 public declarations, 3,439 task modules and 3,870
+registered modules, with no unreviewed source bindings. These are inventory
+counts, not the whole-program completion count.
 
-The [previous dequant acceptance](review-checkpoints/2026-10-15/dequant-int4-source-compiled-software-metadata/README.md) and [task explanation](tritonbench_g/matmul_dequantize_int4/SOFTWARE-ACCEPTANCE.md) remain unchanged. Its [capture tool](review-checkpoints/2026-10-15/dequant-int4-native-characterization/README.md) passed independent CPU/offline checks; native execution is NOT_RUN. Native byte/address ABI, device instruction behavior, allocations and cross-program/alias scheduling are separate obligations.
+The [preceding frozen catalog](review-checkpoints/2026-10-15/retention-query-source-proof/current-source-catalog.json)
+records 184 tasks, 893 public declarations and 3,840 registered modules before
+this batch. Its 58 software-bit, 109 relative-equivalence, 16 backend-value and
+one candidate profiles retain their exact scope. Historical comparator
+[library](review-checkpoints/2026-10-15/comparator-canonical-library/README.md)
+and [corpus snapshot](review-checkpoints/2026-10-15/comparator-storage-maintenance/README.md)
+results apply to their pinned earlier sources; they are not current replay.
 
-[Official comparator library results](review-checkpoints/2026-10-15/comparator-canonical-library/README.md), [samples](review-checkpoints/2026-10-15/comparator-initial-samples/README.md) and [storage-maintenance snapshot](review-checkpoints/2026-10-15/comparator-storage-maintenance/README.md) retain their exact scopes. The full replay targets frozen F3's **365 files / 872 headlines**; the later **21 declarations**, including the two Retention contracts, are separate. No live-progress assertion or full-corpus success is inferred here.
-
-The original scaled-FP4 source gap and native functional correctness remain open. Historical 129 “no extra numerical law” and 43 experiment records do not imply GPU correctness. See the [experiment handoff](review-checkpoints/2026-10-14/next-value-repair/native-experiment-handoff/EXPERIMENT-HANDOFF.md) and [daily evidence index](review-checkpoints/2026-10-15/README.md).
+The [existing numerical queue](tritonbench_g/deferred_numerical_experiments.md)
+and the new batch's numerical follow-up record preserve unverified numerical
+work. The unrestricted fp16-rounding-is-identity rule is refuted and cannot be
+approved by postponing experiments. The Conv2d storage annotation correction
+is explicit and reviewed; frozen evidence is unchanged.

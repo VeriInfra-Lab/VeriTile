@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "kind": "read_only_semantic_review",
+  "reviewer": "ci_current_sources",
+  "task": "kcache_copy_triton",
+  "scope": "New SignedDiscreteCopy + DiscreteCorrect modules, shared SignedCopy macro and original Python/source comparison",
+  "result": "No defect found in explicitly stated logical single-program discrete-copy contract; original-program scope remains incomplete.",
+  "input_sha256": {
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedCopy.lean": "f2e50a59e57a38878e446658c408a732ad05ed03dff7e4591049e7c760adb17d",
+    "bench/tritonbench_g/kcache_copy_triton/Proofs/SignedDiscreteCopy.lean": "4e7af428cbc7d1b3194ecf8fd631eed4a15bb6d94b9a1ee663af85a44cd86a34",
+    "bench/tritonbench_g/kcache_copy_triton/DiscreteCorrect.lean": "7be61309004911193eb87f566bc2bd1c9f8d6594c501b42aeded92e2848b2237",
+    "bench/tritonbench_g/kcache_copy_triton/KcacheCopyTriton.lean": "fb16f21d28e45b01dff210b98a37029c4d623b8710d6a91b43edea53f967bb74",
+    "bench/tritonbench_g/kcache_copy_triton/kcache_copy_triton.py": "50b19d6fb36b87913f8e7a0e4d697be619a6acd2893e3520f136616dc082a63d"
+  },
+  "findings": [
+    {
+      "topic": "shared_source",
+      "finding": "All 9 discrete profiles instantiate the same kcacheSignedSource% macro used by signed floating source; the macro retains all token/sequence/head/split coordinates and metadata reads. Statement-count theorem is explicitly only a sanity check."
+    },
+    {
+      "topic": "discrete_payload",
+      "finding": "Signed widths 8/16/32/64 map BitVec.toInt, unsigned widths map toNat, boolean maps BitVec 1 nonzero. payloadValue_injective preserves every finite representation, including negative signed values, high-bit unsigned values and both bool values."
+    },
+    {
+      "topic": "load_store_effect",
+      "finding": "loaded and copied are independent specifications over initial memory. Data has no arithmetic or cast; proof executes complete source and matches initial-load/fold-store effect. outputOffset is injective in lane index, yielding readback and full frame."
+    },
+    {
+      "topic": "aliasing",
+      "finding": "Whole source performs metadata reads and data tile load before destination writes, and copied uses the initial state for all those reads. Single-program source/output aliasing is therefore preserved by the proved effect."
+    },
+    {
+      "topic": "boundary",
+      "finding": "Logical .int/.nat tags erase machine storage widths; finite payload injection recovers the source value domain, but storage ABI and byte representation remain explicitly separate. This is not a native memory layout theorem."
+    }
+  ],
+  "remaining_original_scope": [
+    "Python reshape branch k.dim()==4, n>1 batch branch and both use_new_kcache_layout branches are not covered by these new modules.",
+    "3D host grid (bsz*n,heads,head_dim//x), num_warps branch, source stride wiring and global launch coverage/disjointness remain unproved.",
+    "Signed logical metadata and Nat offsets do not establish native fixed-width runtime arithmetic, pointer conversions, negative-offset behavior or ABI. The native integer-address refinement is structural and cannot be deferred as a numerical assumption.",
+    "Original valid/error domain (n positivity, dimensions, bounds, supported storage profiles and source rejection) requires explicit binding.",
+    "Official comparator replay of these new modules was not run on this machine."
+  ],
+  "validation": "Read-only semantic review; no compile/axiom command was rerun by this reviewer. Parent compile logs must be bound independently."
+}

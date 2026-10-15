@@ -20,6 +20,35 @@ VARIANTS = {'original_source_translation', 'compile_repaired_candidate',
 FRONTENDS = {'shared_triton_dsl', 'task_local_exact_ast'}
 NONVALUES = {'recurrence_identity', 'memory_frame_contract', 'protocol_contract'}
 
+def validate_metadata_corrections(task, frozen_row, corrections, review):
+    """A reviewed annotation correction never rewrites the frozen value row."""
+    if not isinstance(corrections, list) or not corrections:
+        raise ValueError('empty/invalid metadata correction set')
+    if (review.get('reviewer') != 'root' or not review.get('status') or
+            re.search(r'(?:^|_)(?:failed|rejected|not_run)(?:_|$)', review['status']) or
+            review.get('reviewed_metadata_corrections_sha256', {}).get(task) != sha(canonical(corrections))):
+        raise ValueError('metadata correction lacks exact root review')
+    seen = set()
+    for correction in corrections:
+        path = correction.get('field_path')
+        # Scope/model/status changes are not text corrections. Future field
+        # types need their own reviewed migration, not an arbitrary JSON patch.
+        if path != ['value_extension', 'dtype_profile'] or tuple(path) in seen:
+            raise ValueError('unsupported/duplicate metadata correction field')
+        seen.add(tuple(path))
+        before = frozen_row
+        for key in path:
+            if not isinstance(before, dict) or key not in before:
+                raise ValueError('metadata correction field missing in frozen row')
+            before = before[key]
+        if correction.get('before') != before:
+            raise ValueError('metadata correction before value differs from frozen row')
+        if (not isinstance(correction.get('after'), str) or not correction['after'].strip()
+                or correction['after'] == before or not isinstance(correction.get('reason'), str)
+                or not correction['reason'].strip()):
+            raise ValueError('metadata correction lacks changed value/review reason')
+    return corrections
+
 def public_files(catalog, task=None):
     """Replacement for convention-based specification_files; includes protocols."""
     return sorted({d['file'] for row in catalog['tasks'] if task is None or row['task']==task
@@ -27,6 +56,23 @@ def public_files(catalog, task=None):
 
 def proof_files(catalog, task=None):
     return sorted(f['path'] for row in catalog['tasks'] if task is None or row['task']==task
+                  for f in row['files'])
+
+def trust_targets(root, catalog, tasks=()):
+    """Select every verified catalog file, never infer sources from filenames.
+
+    This is a target inventory, not an acceptance result. Every selected file
+    must still pass the existing axiom/specification and comparator worker.
+    Validate the entire catalog even when the caller requests one task.
+    """
+    validate_catalog(root, catalog)
+    if len(tasks) != len(set(tasks)):
+        raise ValueError('duplicate trust audit task')
+    unknown = set(tasks) - set(catalog['expected_task_names'])
+    if unknown:
+        raise ValueError('unknown trust audit tasks: ' + repr(sorted(unknown)))
+    selected = set(tasks)
+    return sorted(f['path'] for row in catalog['tasks'] if not selected or row['task'] in selected
                   for f in row['files'])
 
 def source_entries(catalog, *, task=None, variant=None, frontend=None):
@@ -259,6 +305,9 @@ def validate_supplement(root, evidence_root, supplement, known_tasks):
                 or re.search(r'(?:^|_)(?:failed|rejected|not_run)(?:_|$)', evidence['status'])
                 or review['source_hashes_pointer'] != ['reviewed_input_sha256']):
             raise ValueError('supplement requires explicit successful root final-source review')
+        if 'metadata_corrections' in task:
+            if evidence.get('reviewed_metadata_corrections_sha256', {}).get(name) != sha(canonical(task['metadata_corrections'])):
+                raise ValueError('metadata correction lacks exact supplement review')
         source_hashes = evidence
         for key in review['source_hashes_pointer']:
             source_hashes = source_hashes[key]
@@ -415,7 +464,7 @@ def collect(root, frozen, source_map, legacy, *, review=None, evidence_root=None
                 'libraries': registered_modules.get(module_name(p), [])})
         task_claims = [d for d in claims if Path(d['file']).parts[2] == name]
         original_sources = bool(old_entry or any(v['variant'] == 'original_source_translation' for v in views))
-        tasks.append({'task': name,
+        catalog_task = {'task': name,
             'historical_source_entry': old_entry,
             'historical_source_audit': legacy_tasks[name].get('source_audit'),
             'source_views': views, 'files': files,
@@ -423,7 +472,17 @@ def collect(root, frozen, source_map, legacy, *, review=None, evidence_root=None
             'original_source_present': original_sources,
             'candidate_source_present': any(v['variant'].startswith('compile_repaired_candidate') for v in views),
             'value_registry_row': current[name],
-            'native_functional_correctness': 'not_established_by_this_adapter'})
+            'native_functional_correctness': 'not_established_by_this_adapter'}
+        if name in extra and 'metadata_corrections' in extra[name]:
+            correction_review = extra[name]['review']
+            review_path = checked(evidence_root, correction_review['path'], correction_review['sha256'])
+            corrections = validate_metadata_corrections(name, current[name],
+                extra[name]['metadata_corrections'], load(review_path))
+            catalog_task['reviewed_metadata_corrections'] = corrections
+            catalog_task['metadata_correction_review'] = {
+                'path': review_path.resolve().relative_to(root).as_posix(),
+                'sha256': correction_review['sha256']}
+        tasks.append(catalog_task)
     build_inputs = {Path(*m.split('.')).with_suffix('.lean').as_posix():
         hash_file(within(root, Path(*m.split('.')).with_suffix('.lean').as_posix()))
         for m in registered_modules}
@@ -501,6 +560,11 @@ def validate_catalog(root, catalog):
         original = bool(row['historical_source_entry'] or any(v['variant'] == 'original_source_translation' for v in row['source_views']))
         if row['original_source_present'] is not original:
             raise ValueError('candidate/model promoted to original source')
+        if 'reviewed_metadata_corrections' in row:
+            review = row.get('metadata_correction_review') or {}
+            document = load(checked(root, review.get('path'), review.get('sha256')))
+            validate_metadata_corrections(row['task'], row['value_registry_row'],
+                row['reviewed_metadata_corrections'], document)
     regs = registered(root)
     if regs != catalog['registered_modules']:
         raise ValueError('Lake registration changed')
@@ -527,6 +591,15 @@ def validate_catalog(root, catalog):
             'task_count': len(rows), 'task_modules': len(files)}
 
 def main():
+    if sys.argv[1:2] == ['targets']:
+        p = argparse.ArgumentParser(description=trust_targets.__doc__)
+        p.add_argument('--root', type=Path, required=True)
+        p.add_argument('--catalog', type=Path, required=True)
+        p.add_argument('tasks', nargs='*')
+        a = p.parse_args(sys.argv[2:])
+        for path in trust_targets(a.root.resolve(), load(a.catalog), a.tasks):
+            print(path)
+        return 0
     if sys.argv[1:2]==['prepare-baseline']:
         p=argparse.ArgumentParser(description=prepare_baseline.__doc__)
         p.add_argument('--package',type=Path,required=True);p.add_argument('--output',type=Path,required=True)

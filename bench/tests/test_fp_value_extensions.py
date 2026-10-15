@@ -1,23 +1,41 @@
-"""Failures that must not turn a partial/candidate proof into full acceptance."""
-import copy,json,sys,unittest
+"""Frozen-registry regressions; current supplements use the current-value adapter.
+
+The exact archived source tree keeps the original whole-public-set scan active
+without interpreting newly admitted current supplements as frozen declarations.
+"""
+import copy,json,sys,tempfile,unittest
 from pathlib import Path
 from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'bench'))
 import fp_value_extensions as ex
 from value_source_entries import validate_entries
+from current_source_catalog import prepare_baseline
 
 class ValueExtensionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.registry=json.loads((ROOT/ex.BASE/'fp_value_extensions.json').read_text())
-        cls.entries=json.loads((ROOT/ex.BASE/'fp_value_source_entries.json').read_text())
+        cls.temp = tempfile.TemporaryDirectory()
+        cls.addClassCleanup(cls.temp.cleanup)
+        prepared = Path(cls.temp.name) / 'baseline'
+        prepare_baseline(ROOT / 'bench/review-checkpoints/2026-10-15/raw-copy-software-metadata/metadata-baseline', prepared)
+        cls.root = prepared / 'tree'
+        cls.registry=json.loads((cls.root/ex.BASE/'fp_value_extensions.json').read_text())
+        cls.entries=json.loads((cls.root/ex.BASE/'fp_value_source_entries.json').read_text())
     def task(self,name):return copy.deepcopy(next(t for t in self.registry['tasks'] if t['task']==name))
     def altered(self,mutate):
         data=copy.deepcopy(self.registry);mutate(data)
-        path=ROOT/ex.BASE/'fp_value_extensions.json';original=Path.read_bytes
+        path=self.root/ex.BASE/'fp_value_extensions.json';original=Path.read_bytes
         def read(p):return (json.dumps(data,ensure_ascii=False)+'\n').encode() if p==path else original(p)
-        with patch.object(Path,'read_bytes',read):return ex.collect(ROOT)
+        with patch.object(Path,'read_bytes',read):return ex.collect(self.root)
+    def test_frozen_replay_still_rejects_an_uninventoried_public_statement(self):
+        path=self.root/ex.BASE/'fp4_to_bf16'/'Unreviewed.lean'
+        path.write_text('specification invented : True := by trivial\n')
+        try:
+            with self.assertRaisesRegex(ValueError,'Unreviewed/missing current public'):
+                ex.collect(self.root)
+        finally:
+            path.unlink()
     def test_rational_scale_does_not_close_arbitrary_scale(self):
         summary=ex.stage_summary(self.task('token_attn_llama2'))
         self.assertTrue(summary['all_declared_stages_have_value_contract'])
@@ -68,12 +86,12 @@ class ValueExtensionTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'Stale task/package binding'):self.altered(change)
     def test_bare_fp_correct_not_an_admission(self):
         entries=copy.deepcopy(self.entries);row=entries['entries'][0];del row['input_sha256'][row['bridge']['file']]
-        with self.assertRaisesRegex(ValueError,'Incomplete source-entry evidence'):validate_entries(ROOT,entries)
+        with self.assertRaisesRegex(ValueError,'Incomplete source-entry evidence'):validate_entries(self.root,entries)
     def test_candidate_cannot_be_registered_as_original(self):
         entries=copy.deepcopy(self.entries);next(r for r in entries['entries'] if r['task']=='fp4_to_bf16_conversion')['source_variant']='original'
-        with self.assertRaisesRegex(ValueError,'Candidate incorrectly classified'):validate_entries(ROOT,entries)
+        with self.assertRaisesRegex(ValueError,'Candidate incorrectly classified'):validate_entries(self.root,entries)
     def test_original_laws_not_removed_by_new_conv2d_contract(self):
-        report=ex.collect(ROOT)
+        report=ex.collect(self.root)
         t=next(t for t in report['tasks'] if t['task']=='triton_conv2d_fwd')
         self.assertEqual(t['historical_numeric_status'],'requires_numeric_model_revision')
         self.assertEqual(t['current_value_status'],'full_declared_profile_software_value_contract')
@@ -83,7 +101,7 @@ class ValueExtensionTests(unittest.TestCase):
         t=self.task('matmul_triton_autotune');self.assertEqual(t['dtype_scope_relation'],'selected_explicit_profiles_only')
         self.assertTrue(ex.stage_summary(t)['all_declared_stages_have_closed_software_contract'])
     def test_retention_header_preservation_is_not_semantic_acceptance(self):
-        report=ex.collect(ROOT)
+        report=ex.collect(self.root)
         self.assertEqual(next(t for t in report['tasks'] if t['task']=='chunk_retention')['current_value_status'],'backend_equivalence_reference_revalidated')
         def change(r):r['known_pending_semantic_revisions'][0]['package']['receipt_sha256']='0'*64
         with self.assertRaisesRegex(ValueError,'Unreviewed semantic revision'):self.altered(change)
@@ -103,7 +121,7 @@ class ValueExtensionTests(unittest.TestCase):
         self.assertFalse(ex.stage_summary(t)['all_declared_stages_have_value_contract'])
     def test_task_local_source_is_not_shared_DSL_admission(self):
         entries=copy.deepcopy(self.entries);next(e for e in entries['entries'] if e['task']=='spinning_lock_reduction')['ordinary_shared_dsl_admission']=True
-        with self.assertRaisesRegex(ValueError,'Task-local frontend promoted'):validate_entries(ROOT,entries)
+        with self.assertRaisesRegex(ValueError,'Task-local frontend promoted'):validate_entries(self.root,entries)
     def test_multi_file_public_omission_rejected(self):
         def change(r):next(t for t in r['tasks'] if t['task']=='spinning_lock_reduction')['public_files']=['bench/tritonbench_g/spinning_lock_reduction/SourceCorrect.lean']
         with self.assertRaisesRegex(ValueError,'Invalid declaration model/scope/source'):self.altered(change)
@@ -137,7 +155,7 @@ class ValueExtensionTests(unittest.TestCase):
             t['public_files'].remove('bench/tritonbench_g/layer_norm_triton/ProtocolCorrect.lean')
         with self.assertRaisesRegex(ValueError,'Invalid declaration model/scope/source'):self.altered(change)
     def test_all_three_task_local_frontends_remain_separate(self):
-        e=validate_entries(ROOT,self.entries)
+        e=validate_entries(self.root,self.entries)
         names={k for k,v in e.items() if v.get('frontend_kind')=='task_local_exact_ast'}
         self.assertEqual(names,{'spinning_lock_reduction','layer_norm_triton','streamk_matmul'})
     def test_triton_attention_preprocess_bits_do_not_close_both_attention_loops(self):
