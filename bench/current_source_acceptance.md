@@ -39,7 +39,9 @@ failures. The earlier 210 benchmark-tool tests were not rerun in this batch;
 their tool and test sources are unchanged.
 
 The isolated official library comparator passed **118/118 targets in eight
-modules** against the exact 7,177-file Git tree of `93d38e39`. The separate
+modules** against the exact 7,177-file Git tree of `93d38e39`; its
+[original result and complete evidence](review-checkpoints/2026-10-15/comparator-original-scope-library/README.md)
+are retained. The separate
 targeted replay of that commit's six new public files has no final result yet. Neither
 run includes the thirteen modules in this second batch; this library result is
 not a full current-corpus or whole-program acceptance receipt.
