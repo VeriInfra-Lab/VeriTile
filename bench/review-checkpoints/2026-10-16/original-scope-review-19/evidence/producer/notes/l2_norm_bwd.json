@@ -1,0 +1,68 @@
+{
+  "task": "l2_norm_bwd",
+  "status": "structural_gaps_confirmed",
+  "whole_original_program_accepted": false,
+  "completion_increment": 0,
+  "existing_proofs_preserved": "Complete masked backward row formula, both x/dy fp32 conversions, variance and dy*x reductions, reciprocal sqrt, source-ordered product/subtraction and final storage cast are preserved. Public Real IO includes execution/frame at N<=B; sixteen input/gradient floating pairs and pointer-only candidate equivalence are retained.",
+  "production_stage_mapping": [
+    {
+      "function": "_l2_norm_bwd_kernel",
+      "coverage": "Full backward row computation is covered with the source order and both masks."
+    },
+    {
+      "function": "_l2_norm_bwd",
+      "coverage": "Independent reshapes, conditional dy copy, output allocation, width rejection, device scope, shared x row stride launch and reshape-back are uncomposed."
+    }
+  ],
+  "dtype_review": "Input and gradient independently range over fp16,bf16,fp32,fp64; dx inherits x storage. That correctly includes mixed floating pairs. Additional admitted types or exact dtype rejection behavior remain outside the four-type API.",
+  "branch_review": "N<=B correctly describes the explicit successful path; the N>BLOCK_N RuntimeError is not an instruction to support oversized fused rows. Only dy gets a last-stride contiguous check, and the kernel receives x.stride(0) for X/DY/DX alike. The original wrapper contract needs this exact wiring, not an assumed common logical layout.",
+  "structural_gaps": [
+    {
+      "id": "L2_NORM_BWD-S1",
+      "kind": "host_reshape_copy_error_and_stride_wiring",
+      "finding": "The wrapper reshapes x using dy width, conditionally copies dy, then supplies only x.stride(0) for all three buffers before reshaping dx back.",
+      "why_blocks_full_original_scope": "The per-row theorem is not a proof of this actual wrapper transformation, size rejection or all-row result; connecting actual layouts is still required.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "file": "bench/tritonbench_g/l2_norm_bwd/l2_norm_bwd.py",
+          "line": 31,
+          "end_line": 57
+        },
+        {
+          "file": "bench/tritonbench_g/l2_norm_bwd/Correct.lean",
+          "line": 31,
+          "end_line": 41
+        },
+        {
+          "file": "bench/tritonbench_g/l2_norm_bwd/Correct.lean",
+          "line": 78,
+          "end_line": 92
+        }
+      ]
+    },
+    {
+      "id": "L2_NORM_BWD-S2",
+      "kind": "dtype_admission_outside_four_storage_types",
+      "finding": "Storage has four floating constructors despite unconstrained original x/dy and explicit conversions to fp32.",
+      "why_blocks_full_original_scope": "Other admitted load/cast/store routes or rejection boundaries require structural cases before numerical assumptions can apply.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "file": "bench/tritonbench_g/l2_norm_bwd/l2_norm_bwd.py",
+          "line": 21,
+          "end_line": 29
+        },
+        {
+          "file": "bench/tritonbench_g/l2_norm_bwd/Kernels.lean",
+          "line": 61,
+          "end_line": 82
+        }
+      ]
+    }
+  ],
+  "numerical_items_eligible_for_explicit_deferral": [
+    "At represented profiles, runtime epsilon conversion, reductions, sqrt/division and source-ordered multiply/subtract rounding are numerical items eligible for explicit deferral."
+  ],
+  "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions."
+}

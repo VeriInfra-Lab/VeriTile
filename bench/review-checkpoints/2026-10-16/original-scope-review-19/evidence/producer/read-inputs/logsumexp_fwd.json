@@ -1,0 +1,11 @@
+{
+  "task": "logsumexp_fwd",
+  "files": {
+    "bench/tritonbench_g/logsumexp_fwd/logsumexp_fwd.py": "8d5d3a23a334d4718b4d43373ae234f694a8813b50734dde79b9d878cf303550",
+    "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean": "4ee5ae3969b378efb53537afc681b86bf232df3c57a2fe81fb7968804e50f487",
+    "bench/tritonbench_g/logsumexp_fwd/LogsumexpFwd.lean": "e76cdc50e2fe361c31faa1ea3d5ff6b0110141576f7b342b44f3d450497a1d57",
+    "bench/tritonbench_g/logsumexp_fwd/Proofs/FPStages.lean": "4861c20122430d4d4f601905a72f709fad29b1fbdf6875358cb305eb9aaf30e7",
+    "bench/tritonbench_g/logsumexp_fwd/Proofs/FPPrimitives.lean": "ec1f5cffe281fe58eeec47a20eceed14a3ba3502987b6620eb9050b8c8d281c8",
+    "bench/tritonbench_g/logsumexp_fwd/Proofs/FPShape.lean": "77a92be067ae2f2d73d828eb01a59a20e893b24df4129cc2827cc5f4ca77e2cd"
+  }
+}

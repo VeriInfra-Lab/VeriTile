@@ -1,0 +1,9 @@
+{
+  "task": "chunk_cumsum_vector",
+  "files": {
+    "bench/tritonbench_g/chunk_cumsum_vector/chunk_cumsum_vector.py": "8d950d2926bc0bd4104fea18222921537556e83c6fb4e6571dea4fd04f9d00b8",
+    "bench/tritonbench_g/chunk_cumsum_vector/Correct.lean": "f04d2228ef58cdb2a92dedb40eb01cf1a9f34a3c43d3001cc5ed4c00c4505bfb",
+    "bench/tritonbench_g/chunk_cumsum_vector/FPEquiv.lean": "a162f96e5c64f966acebe9858c5c54f783c3fd6194b290db90038889c38fc226",
+    "bench/tritonbench_g/chunk_cumsum_vector/Kernels.lean": "fba48d4017cff040e85c31a086516fd720ddfbb1c0a8ddb6fc73281f15e9c74e"
+  }
+}

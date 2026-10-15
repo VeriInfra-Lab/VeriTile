@@ -1,0 +1,63 @@
+{
+  "task": "l2_norm_triton1",
+  "status": "structural_gaps_confirmed",
+  "whole_original_program_accepted": false,
+  "completion_increment": 0,
+  "existing_proofs_preserved": "Complete masked row load/conversion, squared reduction, reciprocal sqrt, scaling and store are proved with independent full-row formula when N<=B, termination and frame. Four floating storage profiles preserve explicit fp32 loads/runtime epsilon and destination casts. The candidate changes only pointer-index multiplication order and needs no numeric rewrite assumption.",
+  "production_stage_mapping": [
+    {
+      "function": "_l2_norm_fwd_1pass_kernel",
+      "coverage": "Entire one-pass row body is represented, including padding and source 1/sqrt order."
+    },
+    {
+      "function": "_l2_norm_fwd",
+      "coverage": "Reshape, conditional contiguous copy, size-dependent limit/error, device scope, grid and reshape-back are uncomposed."
+    }
+  ],
+  "dtype_review": "Storage supports fp16,bf16,fp32,fp64. Python accepts x without a dtype guard, converts loaded x to fp32 and inherits x dtype in y. Other supported storage conversions or precise rejection cases are outside the four-case formal API.",
+  "branch_review": "The formal N<=B condition is a valid successful-path boundary, matching the explicit host N>BLOCK_N RuntimeError. What is missing is the wrapper proof connecting that rejection, MAX_FUSED_SIZE dependent on element_size, contiguous branch and output reshape; no execution on rejected sizes is demanded.",
+  "structural_gaps": [
+    {
+      "id": "L2_NORM_TRITON1-S1",
+      "kind": "host_reshape_contiguous_limit_and_grid",
+      "finding": "The host reshapes, conditionally copies, chooses min(65536/element_size,next_power_of_2(N)), rejects excess width and reshapes the returned buffer.",
+      "why_blocks_full_original_scope": "The row theorem does not establish this complete transformation or its actual failure branch.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "file": "bench/tritonbench_g/l2_norm_triton1/l2_norm_triton1.py",
+          "line": 27,
+          "end_line": 51
+        },
+        {
+          "file": "bench/tritonbench_g/l2_norm_triton1/Correct.lean",
+          "line": 70,
+          "end_line": 95
+        }
+      ]
+    },
+    {
+      "id": "L2_NORM_TRITON1-S2",
+      "kind": "storage_admission_outside_four_profiles",
+      "finding": "The source has fp32 conversion and pointer-dependent output storage, but Storage enumerates only four types.",
+      "why_blocks_full_original_scope": "Additional admitted routes or explicit admission/rejection mapping are required; they cannot be inferred from fp32 arithmetic assumptions.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "file": "bench/tritonbench_g/l2_norm_triton1/l2_norm_triton1.py",
+          "line": 19,
+          "end_line": 25
+        },
+        {
+          "file": "bench/tritonbench_g/l2_norm_triton1/Kernels.lean",
+          "line": 51,
+          "end_line": 71
+        }
+      ]
+    }
+  ],
+  "numerical_items_eligible_for_explicit_deferral": [
+    "Fp32 reduction, runtime epsilon conversion, sqrt/division and represented storage casts can be explicitly deferred at their exact profiles. No rsqrt rewrite is silently substituted for 1/sqrt."
+  ],
+  "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions."
+}

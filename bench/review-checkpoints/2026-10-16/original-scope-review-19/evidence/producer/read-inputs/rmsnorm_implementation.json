@@ -1,0 +1,13 @@
+{
+  "task": "rmsnorm_implementation",
+  "files": {
+    "bench/tritonbench_g/rmsnorm_implementation/rmsnorm_implementation.py": "39d6c3d59ef00fb3f933247b608067b4907b844107d033813139719605bce7e0",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/native_lowering.py": "0b59f79e1398d3b9e0340b5dde1a7ecee7cf0dd8665bed954d8d342bd8678469",
+    "bench/tritonbench_g/rmsnorm_implementation/Correct.lean": "4556646a1016298424c91047694fd2f0e88b22209116b03363b1d19daf68d0f0",
+    "bench/tritonbench_g/rmsnorm_implementation/FPEquiv.lean": "9d2c77669d87fbedc1cc50742144a07237411a0e2f8d34583549d5a0c5b1e9ce",
+    "bench/tritonbench_g/rmsnorm_implementation/Kernels.lean": "5b206f59347f9427cabf41a583039cda4feaefa46936205fea6c430c7c3a5412",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/Contracts.lean": "eda58b878baa92cc08d88766d0b327da53b68c6363c3ffb74de6306ec7245520",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/FullContracts.lean": "cbb29a82cfc632e33da671e3b2410ac57883ac933485515456bce2c557f36294",
+    "bench/tritonbench_g/rmsnorm_implementation/Proofs/native_lowering_sm90_triton_3_7_1.json": "63c3b37592c204f7803413036c47d24ebeaf2381e338846d6981f2c0bd723613"
+  }
+}

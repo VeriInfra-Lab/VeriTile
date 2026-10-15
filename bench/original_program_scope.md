@@ -105,7 +105,7 @@ retained as its historical base. Neither global success nor scope
 success establishes corpus comparator replay, the integration build or native
 GPU correctness; those remain independent checks.
 
-The current full-scope review inventory is 66 programs with confirmed structural
-gaps and 117 without a completed scope review. All 183 remain pending. The
+The current full-scope review inventory is 85 programs with confirmed structural
+gaps and 98 without a completed scope review. All 183 remain pending. The
 cumulative supplemental proof inventory contains 41 execution contracts and
 four protocol contracts across 10 tasks; those counts are not completed programs.

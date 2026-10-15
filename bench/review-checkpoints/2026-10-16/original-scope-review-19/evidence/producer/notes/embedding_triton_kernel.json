@@ -1,0 +1,73 @@
+{
+  "task": "embedding_triton_kernel",
+  "status": "structural_gaps_confirmed",
+  "whole_original_program_accepted": false,
+  "completion_increment": 0,
+  "existing_proofs_preserved": "The entire inner token loop and vocabulary-range branch are represented, including signed int32 token IDs, separate context/load/store masks, out-of-vocabulary zero fill, tail fallback token conversion, finite flat execution and full off-write frame. The candidate only commutes a natural index product; no arithmetic rewrite assumptions are needed.",
+  "production_stage_mapping": [
+    {
+      "function": "embedding_kernel",
+      "coverage": "Complete per-program token loop with valid/out-of-vocabulary and tail behavior is covered."
+    },
+    {
+      "function": "embedding",
+      "coverage": "Fixed N64/NN1, next-power-of-two hidden block, shape/stride wiring and whole context grid are uncomposed."
+    }
+  ],
+  "dtype_review": "Formal source fixes IDs=int32 and one shared fp32/fp16/bf16 weight/output storage. Python independently supplies IDs, weight and out, with no equality or int32 guard; int64 IDs, fp64 weights and mixed destinations require their actual admitted routes or explicit rejection cases.",
+  "branch_review": "Below-start, in-range and >=end IDs are already handled; negative out-of-vocabulary IDs are not missing. Context-tail loads use the source fallback, including its int32 conversion in the formal Bounds. The wrapper grid is the missing composition, not the token loop or zero-fill branch.",
+  "structural_gaps": [
+    {
+      "id": "EMBEDDING_TRITON_KERNEL-S1",
+      "kind": "host_context_grid_and_hidden_extent",
+      "finding": "The wrapper chooses BLOCK_N64,BLOCK_NN1 and next_power_of_2(hidden), then launches ceil(n_ctx/64) programs.",
+      "why_blocks_full_original_scope": "Public correct_target covers one program and its internal loop, without establishing all caller-provided out writes across this exact grid/stride configuration.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "file": "bench/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel.py",
+          "line": 39,
+          "end_line": 63
+        },
+        {
+          "file": "bench/tritonbench_g/embedding_triton_kernel/Correct.lean",
+          "line": 65,
+          "end_line": 80
+        }
+      ]
+    },
+    {
+      "id": "EMBEDDING_TRITON_KERNEL-S2",
+      "kind": "independent_id_and_data_storage",
+      "finding": "TypedSource fixes int32 IDs and identical three-choice weight/output storage despite independent original arguments.",
+      "why_blocks_full_original_scope": "ID-width semantics and mixed data destination casts are missing source cases; lookup arithmetic or copy assumptions cannot establish those routes.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "file": "bench/tritonbench_g/embedding_triton_kernel/Kernels.lean",
+          "line": 10,
+          "end_line": 12
+        },
+        {
+          "file": "bench/tritonbench_g/embedding_triton_kernel/Kernels.lean",
+          "line": 23,
+          "end_line": 26
+        },
+        {
+          "file": "bench/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel.py",
+          "line": 30,
+          "end_line": 37
+        },
+        {
+          "file": "bench/tritonbench_g/embedding_triton_kernel/embedding_triton_kernel.py",
+          "line": 40,
+          "end_line": 55
+        }
+      ]
+    }
+  ],
+  "numerical_items_eligible_for_explicit_deferral": [
+    "Same-format weight copy itself needs no invented arithmetic law. Mixed-format conversion rounding can be deferred only after the actual storage route is modeled; vocabulary predicates and ID addressing remain structural."
+  ],
+  "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions."
+}

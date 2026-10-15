@@ -1,0 +1,73 @@
+{
+  "task": "chunk_cumsum_vector",
+  "status": "structural_gaps_confirmed",
+  "whole_original_program_accepted": false,
+  "completion_increment": 0,
+  "existing_proofs_preserved": "Complete forward chunk loop, triangular dot, carry sum/update, fp32 input conversion and typed output store are represented for symbolic floating source/output types. Public Real IO proves each column prefix with frame; the sum-left candidate retains explicit FP scalar assumptions. RealPadding.source_outputs establishes active prefixes independently of arbitrary time/feature padding.",
+  "production_stage_mapping": [
+    {
+      "function": "chunk_global_cumsum_vector_kernel",
+      "coverage": "Full time loop and every active feature in one selected feature/head program are covered."
+    },
+    {
+      "function": "chunk_global_cumsum_vector",
+      "coverage": "Shape unpacking, dtype default/override, empty_like and grid (ceil(S/32), B*H) remain uncomposed."
+    }
+  ],
+  "dtype_review": "The source explicitly converts loaded values to fp32 and output to pointer element type, but materialized dtype/out_dtype are FloatDType only. No wrapper admission/rejection contract connects nonfloating torch.dtype overrides to the formal scope.",
+  "branch_review": "T=0, positive BT, complete/partial time and feature tiles are already represented; the i_t>=0 condition and all autotuned mathematical BT choices are retained. No missing-tail-loop claim is made.",
+  "structural_gaps": [
+    {
+      "id": "CHUNK_CUMSUM_VECTOR-S1",
+      "kind": "host_grid_and_dtype_selection",
+      "finding": "The wrapper selects dtype or s.dtype, allocates z and launches all head/feature programs, while the public IO is one program indexed by feature/head.",
+      "why_blocks_full_original_scope": "The exact returned BxHxTxS tensor, source strides and two dtype-selection branches have no wrapper composition theorem.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "file": "bench/tritonbench_g/chunk_cumsum_vector/chunk_cumsum_vector.py",
+          "line": 47,
+          "end_line": 61
+        },
+        {
+          "file": "bench/tritonbench_g/chunk_cumsum_vector/Correct.lean",
+          "line": 26,
+          "end_line": 38
+        },
+        {
+          "file": "bench/tritonbench_g/chunk_cumsum_vector/Correct.lean",
+          "line": 62,
+          "end_line": 72
+        }
+      ]
+    },
+    {
+      "id": "CHUNK_CUMSUM_VECTOR-S2",
+      "kind": "nonfloating_storage_admission",
+      "finding": "TypedSource uses FloatDType for both storage arguments; the wrapper does not impose that restriction.",
+      "why_blocks_full_original_scope": "Supported nonfloating load/store conversions need a represented route or an explicit original admission/rejection boundary before numerical casts can be deferred.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "file": "bench/tritonbench_g/chunk_cumsum_vector/chunk_cumsum_vector.py",
+          "line": 41,
+          "end_line": 43
+        },
+        {
+          "file": "bench/tritonbench_g/chunk_cumsum_vector/chunk_cumsum_vector.py",
+          "line": 49,
+          "end_line": 55
+        },
+        {
+          "file": "bench/tritonbench_g/chunk_cumsum_vector/Kernels.lean",
+          "line": 18,
+          "end_line": 21
+        }
+      ]
+    }
+  ],
+  "numerical_items_eligible_for_explicit_deferral": [
+    "Dot/reduction schedules, fp32 carry addition and represented source/output casts are numerical follow-up items. Padding independence is already proved for active Real outputs; do not invent a zero-padding assumption."
+  ],
+  "precondition_assessment": "The existing bounds, nonoverlap, positive tile size and valid-address premises are legitimate selected-domain assumptions. No unrestricted invalid-input behavior or hypothetical hardware defect is demanded. Missing wrapper composition and dtype admission are separate structural questions."
+}
