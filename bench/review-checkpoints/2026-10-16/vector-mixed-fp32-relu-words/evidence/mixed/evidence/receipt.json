@@ -1,0 +1,143 @@
+{
+  "task": "vector_addition concrete mixed integer/bool and fp32 extension",
+  "package_root": "/tmp/veritile-standardization-20261015/vector-addition-mixed-fp32-revision1-wip",
+  "frozen_at_utc": "2026-10-15T16:35:58.123231+00:00",
+  "whole_original_program_accepted": false,
+  "original_program_completion_increment": 0,
+  "modules": {
+    "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Source.lean": "b8d31bec266b062de4fef9303befb302654642e124f82896a540a56b3c14ce63",
+    "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Value.lean": "86487172fe961d21474f590af920adfe165c82920edf9f0f0c22f7cae3bf4e3c",
+    "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Grid.lean": "3ad7ccf4af941696594fed198406be83f35ae7fcb02e840738e1e3f1e0162043",
+    "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Defined.lean": "a2e827cf22bd4ea3ac9f3395f6342b794afeb94837fdb1751570dcc5a3295b72",
+    "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Profiles.lean": "f2be54f5b7d10dd09e2c56c2be76c0ad4e55690d5e0bee5bf823c0f09972dfe5",
+    "bench/tritonbench_g/vector_addition/MixedFP32ValueCorrect.lean": "9994c5d2185eaea4b3f3a6212637993f77084dde17613462691e5901977bc710"
+  },
+  "public_contract": {
+    "module": "bench.tritonbench_g.vector_addition.MixedFP32ValueCorrect",
+    "declarations": [
+      "vector_addition_mixed_fp32_total_correctness",
+      "vector_addition_mixed_fp32_defined_correctness"
+    ],
+    "specification_commands": 2,
+    "bit_interpreter_closed_claim": false,
+    "software_primitives": [
+      "FP.round .fp32 cfg of exact integer rational",
+      "FP.add cfg",
+      "IntegerConversion.toSigned/toUnsigned and explicit totalSigned/totalUnsigned policy"
+    ],
+    "unused_floating_rest": "The result formula contains no Algebra callback; the generic rest supplies unreachable operations only.",
+    "total_contract": "Every source bit pattern and masked lane has a totalized logical execution; undefined active conversions retain the explicitly supplied policy.",
+    "defined_contract": "Only active integer-output addresses must satisfy the shared finite toward-zero range specification. Any undefined policy yields the same specified memory.",
+    "fp32_output_contract": "No finiteness or conversion-domain condition is required when x is fp32; the shared FP.add covers exceptional encodings.",
+    "native_conformance_proved": false
+  },
+  "verification": {
+    "module_count": 6,
+    "actual_exit_codes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "axiom_checks": 25,
+    "noncircularity_checks": 4,
+    "source_and_dependency_hashes_unchanged": true,
+    "dependency_file_count": 166,
+    "external_library_build_rechecked": false,
+    "results": "evidence/verification-results.json",
+    "escalation_reason": "restricted sandbox cannot locate existing Lean/Lake; toolchain used without modification"
+  },
+  "coverage_summary": {
+    "canonical_signatures": 17,
+    "canonical_pairs": 289,
+    "semantically_promoted_pairs": 217,
+    "observed_promotion_errors": 72,
+    "prior_floating_logical_pairs": 25,
+    "prior_integer_bool_logical_pairs": 81,
+    "new_mixed_fp32_logical_pairs": 18,
+    "cumulative_logical_value_and_grid_pairs": 124,
+    "promoted_pairs_without_logical_value_execution": 93,
+    "remaining_mixed_fp16_bf16_fp64_pairs": 54,
+    "remaining_supported_frontend_fp64_float_pairs": 11,
+    "remaining_promoted_fnuz_frontend_rejections": 28,
+    "native_backend_compilations": 0,
+    "gpu_executions": 0,
+    "whole_original_program_completion_increment": 0
+  },
+  "acceptance_limits": [
+    {
+      "id": "VA-M-S1",
+      "gap": "93 promoted dtype pairs remain without logical value/grid proofs",
+      "detail": "54 mixed fp16/bf16/fp64 pairs,11 supported fp64 float pairs,28 promoted fnuz rejections. Direct int\u2192fp16 must not be modeled with extra fp32 rounding; fp16\u2192integer needs the actual extf\u2192fp32 route."
+    },
+    {
+      "id": "VA-M-S2",
+      "gap": "Native source/compiler/error/masked-lane refinement",
+      "detail": "The18 raw exact-source TTIR graphs are copied from the frozen289-profile audit with matching hashes. No native backend/GPU execution or formal source extraction theorem is supplied. In particular, totalized software execution and masked policy independence do not prove native poison propagation, traps, sanitizer behavior or compiler availability."
+    },
+    {
+      "id": "VA-M-S3",
+      "gap": "Native storage and finite-width address metadata",
+      "detail": "Logical Int/Nat/fp32 cells, own-width integer normalization, bool i8 reinterpretation and Nat offsets require byte/tag/representability refinement. Shape/stride/device/contiguity guards absent from Python were not invented. Physical overlapping views with different bases/widths/strides remain open."
+    },
+    {
+      "id": "VA-M-S4",
+      "gap": "Scheduling and host/harness composition",
+      "detail": "This batch has the complete ascending logical grid with current-memory reads and equal logical region aliases. Native instruction interleaving, allocator/empty_like/device behavior, typed native wrapper dispatch and Python/Torch harness execution retain previous structural gaps."
+    }
+  ],
+  "source_binding": {
+    "python": "bench/tritonbench_g/vector_addition/vector_addition.py",
+    "source_sha256": "cfcb749bd562924106c1e0e95e18a9bd987238be3a3b522abac89e099de3d098",
+    "route_profile_sha256": "1b4506533f379e3db95eedd11f8a1cb3781d83b28febef7c3a63ace42204f982",
+    "source_native_refinement_proved": false
+  },
+  "prior_integer_receipt_sha256": "85dc08106852c4a3f69516046182954693eb5afd0158064db358c708a70b9100",
+  "prior_floating_receipt_sha256": "e93c0e62996286f4b03419dfebb76fe0b2b959b6b6eb2cd1153d7387f73e3d1f",
+  "artifacts": {
+    "audit_profile.py": "065011802e71a12d33ec72afa9f1d11dca4dbd4f95a2bdc5e183b1ab5632ed3e",
+    "bench/tritonbench_g/vector_addition/MixedFP32ValueCorrect.lean": "9994c5d2185eaea4b3f3a6212637993f77084dde17613462691e5901977bc710",
+    "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Defined.lean": "a2e827cf22bd4ea3ac9f3395f6342b794afeb94837fdb1751570dcc5a3295b72",
+    "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Grid.lean": "3ad7ccf4af941696594fed198406be83f35ae7fcb02e840738e1e3f1e0162043",
+    "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Profiles.lean": "f2be54f5b7d10dd09e2c56c2be76c0ad4e55690d5e0bee5bf823c0f09972dfe5",
+    "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Source.lean": "b8d31bec266b062de4fef9303befb302654642e124f82896a540a56b3c14ce63",
+    "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Value.lean": "86487172fe961d21474f590af920adfe165c82920edf9f0f0c22f7cae3bf4e3c",
+    "evidence/MixedFP32Defined.compile.log": "8868a5ca9f3783b3bcc8fcb4c520ad1af826d35bf7b212035b80af8922460cbc",
+    "evidence/MixedFP32Grid.compile.log": "b3cb5a1f38fcbd88751bdee0c92cd3e55cad42ce94316b5e26b54325b854f7bd",
+    "evidence/MixedFP32Profiles.compile.log": "1de03c0acce915e8b6aa1d7252e270e6dcae5adae3d7f0b68cc3fdc85a0e11a0",
+    "evidence/MixedFP32Source.compile.log": "c473d4ada4d66bcebde433474496e13b629054a6be9b036a5eb48aed98d97053",
+    "evidence/MixedFP32Value.compile.log": "0ba3d2a8458fb3b9890bd9432508c66bd7d69e1aaa068eccf876f9030e82dd13",
+    "evidence/MixedFP32ValueCorrect.compile.log": "eb3ce19b92dcbb16d0cd5073118146bda6dd254332746ed2870745eb1c8d1cbe",
+    "evidence/final-dependencies-after.json": "fc04f0ddf7ed163716ee1c30bd6d0fa6b5b89bea202f0daf215f22086c062ddb",
+    "evidence/final-dependencies-before.json": "fc04f0ddf7ed163716ee1c30bd6d0fa6b5b89bea202f0daf215f22086c062ddb",
+    "evidence/original-package-integrity.json": "07740dd377ca9b39de74f1bf596df2bea0b7dea03055bcc98aa06b24091c1527",
+    "evidence/revision-provenance.json": "480d59e695cfd229011fec935e95c6bcd50e2863b23942dcca7b8c0bf99de546",
+    "evidence/scope-review.json": "8f7727de446c911745d5837862f61654c80ea1caf0f45cf6945c42c1a40fe7b2",
+    "evidence/source-profile/bool__float32.raw.ttir": "54f66b19f8ebdb65d01530bcc4b91ab0d15009238a32a9fabd0fd1794f469ddb",
+    "evidence/source-profile/float32__bool.raw.ttir": "b9409640c82b0ac7338cf2af7bdba4ae1a7b4d314bcddee6001eaa6eb1f55485",
+    "evidence/source-profile/float32__int16.raw.ttir": "783d0788101ebadad690f4b2cfb0b26d0c60c5d8b2391a79937e145c356c0d6c",
+    "evidence/source-profile/float32__int32.raw.ttir": "ff3c6f6df755412579ea588f600b441c36f551b5bfa05ce0e7d426f8db2e6c00",
+    "evidence/source-profile/float32__int64.raw.ttir": "b4d7766d66d9407e6df541fd348b9ce27caedec40fb35d9297f63edae6c28310",
+    "evidence/source-profile/float32__int8.raw.ttir": "88e4343d6bbfd068a471ca5d5a43135193b08449d00fe83f399810f9fa468b88",
+    "evidence/source-profile/float32__uint16.raw.ttir": "0bf067354ec313f41f30a66945ffcb9e93c200974d340193e78050a0566b0e17",
+    "evidence/source-profile/float32__uint32.raw.ttir": "ea860e8055c731646ac7f5947c61b3281603ad64950be1a5cb644df3c6381977",
+    "evidence/source-profile/float32__uint64.raw.ttir": "0a05069f48c1ea4ace88a869ff4e4028f763921b00630444a3763f9c4409552f",
+    "evidence/source-profile/float32__uint8.raw.ttir": "57fba7cf2d5c5df15158b20ead86e50e45232d13423b3a99ba7726103ce778ba",
+    "evidence/source-profile/int16__float32.raw.ttir": "e1e0f108721bf9ddb8fcbdd2706a2c3efbbfed6f6021d0dda9b9e43ec7622d8d",
+    "evidence/source-profile/int32__float32.raw.ttir": "103c9ad9f4cbc42d41fd5f9cdf05c1195ef9e923b6d0f13043102c8d435588f6",
+    "evidence/source-profile/int64__float32.raw.ttir": "023de21f4f4e584ab35ddb4c9810ef6f123d7cd0a61779d5e05a75413ad998c8",
+    "evidence/source-profile/int8__float32.raw.ttir": "1462d3f23d24a0c74c4262f4ba009b118a17fc4a80251b5fca317cea0e0bce81",
+    "evidence/source-profile/receipt.json": "1b4506533f379e3db95eedd11f8a1cb3781d83b28febef7c3a63ace42204f982",
+    "evidence/source-profile/uint16__float32.raw.ttir": "6d63557d1f46c43b1d9878ef041bee50cccd8e88fcde6203fce3c6a125298205",
+    "evidence/source-profile/uint32__float32.raw.ttir": "1443b16d93afb4ebb083be308ca9590b403b38992470630897b8e2eef51437a7",
+    "evidence/source-profile/uint64__float32.raw.ttir": "9da5f9bc7a4e29c4d3dcadc56239e4ffaf3c82c42f842d3fdb91533ec848dc57",
+    "evidence/source-profile/uint8__float32.raw.ttir": "ee95f7c979d957364efbb5d4473f1feb16b72a98ccbd8d82ec409e2c3991e6ba",
+    "evidence/verification-results.json": "209f9b6839827f36876d72802a2e697777655e82b24e25b6b6220dec145ec194",
+    "evidence/whitespace-check.json": "b1bfb68f7a57f9bc6ce8902e9108d24876343da2dad08e26f3bdb53f31ca6891",
+    "freeze.py": "cd66e1d1acbe0841f637e6412272e6a43a3dc12430bd7a88f68a29a7150bc97e",
+    "freeze_receipt.py": "9645bd972774849ed04e0abef6673978366adc054d7e4001ac7fa5e6f538db74",
+    "verify.py": "ee0ecda0188a00aa82e03dbdc19a3c1cb5861ae2fbaed5db9c7b466af99eee08"
+  }
+}

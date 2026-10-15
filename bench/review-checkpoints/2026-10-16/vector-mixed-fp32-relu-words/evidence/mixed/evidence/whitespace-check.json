@@ -1,0 +1,39 @@
+{
+  "files": [
+    {
+      "module": "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Source.lean",
+      "sha256": "b8d31bec266b062de4fef9303befb302654642e124f82896a540a56b3c14ce63"
+    },
+    {
+      "module": "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Value.lean",
+      "sha256": "86487172fe961d21474f590af920adfe165c82920edf9f0f0c22f7cae3bf4e3c"
+    },
+    {
+      "module": "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Grid.lean",
+      "sha256": "3ad7ccf4af941696594fed198406be83f35ae7fcb02e840738e1e3f1e0162043"
+    },
+    {
+      "module": "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Defined.lean",
+      "sha256": "a2e827cf22bd4ea3ac9f3395f6342b794afeb94837fdb1751570dcc5a3295b72"
+    },
+    {
+      "module": "bench/tritonbench_g/vector_addition/Proofs/MixedFP32Profiles.lean",
+      "sha256": "f2be54f5b7d10dd09e2c56c2be76c0ad4e55690d5e0bee5bf823c0f09972dfe5"
+    },
+    {
+      "module": "bench/tritonbench_g/vector_addition/MixedFP32ValueCorrect.lean",
+      "sha256": "9994c5d2185eaea4b3f3a6212637993f77084dde17613462691e5901977bc710"
+    }
+  ],
+  "command": [
+    "git",
+    "diff",
+    "--cached",
+    "--check"
+  ],
+  "isolated_temporary_git_repository": true,
+  "source_bytes_staged_unchanged": true,
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": ""
+}

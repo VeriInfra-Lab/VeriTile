@@ -1,0 +1,19 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.gridExpectedMemory: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.source,
+ VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.runGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.runGridPrefix,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.next_tile_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.reference_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.grid_prefix_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.grid_reference_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedFP32.grid_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
