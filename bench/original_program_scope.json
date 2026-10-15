@@ -43070,33 +43070,58 @@
       },
       "structural_gaps": [
         {
+          "id": "QT-FINITE-1",
           "kind": "remaining_original_program_scope",
-          "finding": "Host abs/max/unsqueeze/reciprocal and relation of loaded inverse_absmax to input",
+          "source_path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+          "source_lines": [
+            57,
+            79
+          ],
+          "finding": "Compose input abs/max/unsqueeze/reciprocal with loaded inverse scale and returned absmax; preserve 2D shape unpacking, allocation and actual assertions.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "QT-FINITE-2",
           "kind": "remaining_original_program_scope",
-          "finding": "Host allocations/assertions and returned absmax/output tuple",
+          "source_path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+          "source_lines": [
+            30,
+            55
+          ],
+          "finding": "Prove the actual grouped one-dimensional pid mapping, including the last partial group, and compose all source tiles over the complete launch grid. A supplied-coordinate tile is partial progress.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "QT-FINITE-3",
           "kind": "remaining_original_program_scope",
-          "finding": "Complete launch/grid composition",
+          "source_path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+          "source_lines": [
+            40,
+            79
+          ],
+          "finding": "Bind source input/output stride argument order, tensor view bases/extents, finite address domain, masks and full output coverage under fresh allocation metadata contracts.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "QT-FINITE-4",
           "kind": "remaining_original_program_scope",
-          "finding": "quant_transpose original grouped-pid mapping, including last partial group",
+          "source_path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+          "source_lines": [
+            16,
+            79
+          ],
+          "finding": "Establish source-grounded input/scale dtype admission and rejection coverage beyond the selected fp32 stage and bind complete host/kernel/configuration cases through schema2 execution evidence.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "QT-FINITE-5",
           "kind": "remaining_original_program_scope",
-          "finding": "Other admitted input/scale dtype routes and exact admission/rejection contracts",
-          "can_defer_as_numeric_assumption": false
-        },
-        {
-          "kind": "remaining_original_program_scope",
-          "finding": "Native physical memory/runtime/launch refinement",
+          "source_path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+          "source_lines": [
+            44,
+            55
+          ],
+          "finding": "Register exact arithmetic/llrint64/store-conversion numerical correspondence per actual dtype and configuration. Keep missing producers, grouped scheduling and admitted dtype routes structural; generic native runtime/launch implementation is trusted.",
           "can_defer_as_numeric_assumption": false
         }
       ],
@@ -43245,6 +43270,18 @@
         ],
         "previous_partial_progress": null,
         "exact_numeric_registration": "No new rule/statement/case/port bindings. Scalar callbacks remain unvalidated and require explicit registration for this new statement."
+      },
+      "acceptance_boundary_review": {
+        "version": 1,
+        "path": "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/root-review.json",
+        "sha256": "211a2a409265e7f64353a82b442d439d28edc7f8839b619a2ef89db7c20b0104",
+        "status": "finite_source_boundary_reviewed_no_acceptance"
+      },
+      "trusted_semantics": {
+        "policy_path": "bench/original_program_acceptance.md",
+        "policy_sha256": "24d3d26972a22729d4f6f1d90aacdd2508f057468f54f8b0d9bf0508b873ae28",
+        "not_a_numerical_deferral": true,
+        "implementation_correctness_established": false
       }
     },
     {
@@ -43480,28 +43517,58 @@
       },
       "structural_gaps": [
         {
+          "id": "QG-FINITE-1",
           "kind": "remaining_original_program_scope",
-          "finding": "Host abs/max/unsqueeze/reciprocal and relation of loaded inverse_absmax to input",
+          "source_path": "bench/tritonbench_g/quantize_global/quantize_global.py",
+          "source_lines": [
+            31,
+            39
+          ],
+          "finding": "Compose x.abs().max().unsqueeze(0) and reciprocal with the loaded inverse scale and returned absmax. Numerical operation laws may be registered separately; producer/consumer wiring cannot be deferred.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "QG-FINITE-2",
           "kind": "remaining_original_program_scope",
-          "finding": "Host allocations/assertions and returned absmax/output tuple",
+          "source_path": "bench/tritonbench_g/quantize_global/quantize_global.py",
+          "source_lines": [
+            31,
+            39
+          ],
+          "finding": "Bind exact output shape/int8 allocation, CUDA assertion, numel and returned output/absmax tuple under stated Torch primitive metadata/freshness contracts.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "QG-FINITE-3",
           "kind": "remaining_original_program_scope",
-          "finding": "Complete launch/grid composition",
+          "source_path": "bench/tritonbench_g/quantize_global/quantize_global.py",
+          "source_lines": [
+            7,
+            29
+          ],
+          "finding": "Compose complete ceil grids for both source-declared block sizes 1024 and 2048, preserving masks, finite address domain and disjoint output ownership.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "QG-FINITE-4",
           "kind": "remaining_original_program_scope",
-          "finding": "Other admitted input/scale dtype routes and exact admission/rejection contracts",
+          "source_path": "bench/tritonbench_g/quantize_global/quantize_global.py",
+          "source_lines": [
+            15,
+            39
+          ],
+          "finding": "Establish source-grounded input/scale dtype admission and rejection coverage beyond the existing selected fp32 stage; bind all actual stages and cases through schema2 execution evidence.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "QG-FINITE-5",
           "kind": "remaining_original_program_scope",
-          "finding": "Native physical memory/runtime/launch refinement",
+          "source_path": "bench/tritonbench_g/quantize_global/quantize_global.py",
+          "source_lines": [
+            26,
+            29
+          ],
+          "finding": "Register exact floating multiply, reduction/reciprocal, llrint64 callback and native store-conversion correspondence for the claimed dtype/configuration cases. Signed int8 storage is already structurally implemented; no generic physical-memory implementation proof is added.",
           "can_defer_as_numeric_assumption": false
         }
       ],
@@ -43620,6 +43687,18 @@
         ],
         "previous_partial_progress": null,
         "exact_numeric_registration": "No new rule/statement/case/port bindings. Scalar callbacks remain unvalidated and require explicit registration for this new statement."
+      },
+      "acceptance_boundary_review": {
+        "version": 1,
+        "path": "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/root-review.json",
+        "sha256": "211a2a409265e7f64353a82b442d439d28edc7f8839b619a2ef89db7c20b0104",
+        "status": "finite_source_boundary_reviewed_no_acceptance"
+      },
+      "trusted_semantics": {
+        "policy_path": "bench/original_program_acceptance.md",
+        "policy_sha256": "24d3d26972a22729d4f6f1d90aacdd2508f057468f54f8b0d9bf0508b873ae28",
+        "not_a_numerical_deferral": true,
+        "implementation_correctness_established": false
       }
     },
     {
@@ -44920,23 +44999,58 @@
       },
       "structural_gaps": [
         {
+          "id": "RELU-FINITE-1",
           "kind": "remaining_original_program_scope",
-          "finding": "RELU-C-S1: Native storage, access and address correspondence. The allocation/read/write maps and ordered byte failures remain selected mathematical semantics. Native allocation, layout/strides, little-endian storage, alignment, pointer provenance, access rights, finite-width index/pointer behavior and native fault/poison/trap order are not related to this interpreter. Existing finite-address certificates are preserved but are not a native pointer simulation.",
+          "source_path": "bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py",
+          "source_lines": [
+            6,
+            36
+          ],
+          "finding": "Review exact source-to-model and wrapper linkage for all 13 admitted routes: preserve the 12 existing logical routes and add f64 load/ordered-compare/select followed by f32 narrowing store. Every pid executes the pre-gate load/compute; only pid zero stores.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "RELU-FINITE-2",
           "kind": "remaining_original_program_scope",
-          "finding": "RELU-C-S2: Python/frontend/native compiler and host/module stages. The checked program now composes with all seven exact statements of the frozen manually materialized TypedValue.source, using its real step and exec functions. This closes the earlier custom-load-to-source-block gap and computes every pid result. It is not independent Python extraction, TTIR/LLVM/backend correctness, native empty_like freshness, wrapper/layout validation, launch admission/error or import-time test-harness/module closure.",
+          "source_path": "bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py",
+          "source_lines": [
+            23,
+            36
+          ],
+          "finding": "Bind empty_like fp32/device/shape/freshness, output.numel, block1024, complete ceil grid and returned tensor to the actual typed execution. Existing HostWrapper.relu_logical_correct covers 12 routes; extend this finite host composition to fp64.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "RELU-FINITE-3",
           "kind": "remaining_original_program_scope",
-          "finding": "RELU-C-S3: Native scheduling and error correspondence. Every complete permutation of whole programs is executed against preceding state, with a complete source trace per pid. Programs remain atomic relative to one another. Native instruction interleavings, synchronization, races, concurrency faults and callback evaluation side effects remain outside the model. Structural failures and per-byte access failures are explicit custom errors, not proofs of native observable errors.",
+          "source_path": "bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py",
+          "source_lines": [
+            8,
+            21
+          ],
+          "finding": "Bind tensor view bases, physical element offsets, extent and admitted finite index arithmetic; justify fresh-output read/write independence and the unchanged tail. Retain all high-pid loads; no silent contiguity or arbitrary-shape safety assumption.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "RELU-FINITE-4",
           "kind": "remaining_original_program_scope",
-          "finding": "RELU-C-S4: Remaining original dtype and admission/error families. This package refines only the same nine integer/bool profiles. Floating fp16/bf16/fp32 byte/source composition, fp64 and fp8 execution/admission/error routes, and noncanonical/complex/quantized/packed dtype/device/layout/module branches remain structural work. The original17-profile audit and12-profile logical materialization are unchanged.",
+          "source_path": "bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py",
+          "source_lines": [
+            6,
+            36
+          ],
+          "finding": "Pin the supported target/API domain and the 17 canonical input cases, with 13 observed frontend successes and four fp8 rejections at their actual first stages. Compose rejection and success outcomes rather than demanding successful rejected kernels.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "id": "RELU-FINITE-5",
+          "kind": "remaining_original_program_scope",
+          "source_path": "bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py",
+          "source_lines": [
+            17,
+            36
+          ],
+          "finding": "Finish exact whole-source schema2 coverage and numerical callback/case bindings. Preserve the known N>1024 tail counterexample: complete as-written execution is not an unconditional whole-tensor mathematical ReLU theorem.",
           "can_defer_as_numeric_assumption": false
         }
       ],
@@ -45051,6 +45165,18 @@
         "protocol_contracts": 0,
         "protocols_counted_as_execution": false,
         "exact_numeric_registration": "The older access-grid declaration has nine N1025/B1024/sm90 cases; the two new source-coupled declarations are not yet registered."
+      },
+      "acceptance_boundary_review": {
+        "version": 1,
+        "path": "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/root-review.json",
+        "sha256": "211a2a409265e7f64353a82b442d439d28edc7f8839b619a2ef89db7c20b0104",
+        "status": "finite_source_boundary_reviewed_no_acceptance"
+      },
+      "trusted_semantics": {
+        "policy_path": "bench/original_program_acceptance.md",
+        "policy_sha256": "24d3d26972a22729d4f6f1d90aacdd2508f057468f54f8b0d9bf0508b873ae28",
+        "not_a_numerical_deferral": true,
+        "implementation_correctness_established": false
       }
     },
     {
@@ -58609,78 +58735,69 @@
       },
       "structural_gaps": [
         {
+          "id": "VA-FINITE-1",
           "kind": "remaining_original_program_scope",
-          "finding": "VA-F64-S1: Source, extraction and compiler correspondence. The typed AST and memory/grid interpreter are task-local, separate from shared FP.Structural. Inherited raw TTIR route observations do not formally relate the original source/compiler to this interpreter.",
+          "source_path": "bench/tritonbench_g/vector_addition/vector_addition.py",
+          "source_lines": [
+            6,
+            27
+          ],
+          "finding": "Review and compose the 160 shared-interpreter and 29 fp64 successful source routes through exact dtype dispatch and a common external typed memory/result relation; both interpreters may remain separate.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "VA-FINITE-2",
           "kind": "remaining_original_program_scope",
-          "finding": "VA-F64-S2-remaining: Native instruction trace and scheduling. Logical memory, masks, stores, frames and complete sequential program permutations are proved. runLanes computes/writes each lane in order with reads from a fixed program-entry snapshot; it does not execute or refine load-all/compute-all/store-all phases, native instruction interleavings or memory races.",
+          "source_path": "bench/tritonbench_g/vector_addition/vector_addition.py",
+          "source_lines": [
+            21,
+            27
+          ],
+          "finding": "Connect source-order empty_like metadata/freshness, CUDA assertion, output.numel, block1024, ceil grid and returned output to actual typed execution. The existing real-only logicalLaunch is not the required typed composition.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "VA-FINITE-3",
           "kind": "remaining_original_program_scope",
-          "finding": "VA-F64-S3: Native storage, finite addresses and memory admission. String/Nat logical regions and indexed words do not establish physical byte layout/endianness, provenance, allocation extent, native pointer admission, signed i32 pid/offset/mask arithmetic or overflow behavior.",
+          "source_path": "bench/tritonbench_g/vector_addition/vector_addition.py",
+          "source_lines": [
+            6,
+            27
+          ],
+          "finding": "Compose the canonical 17x17 domain with source-bound outcomes: 189 dtype-admitted pairs, 64 signature rejections and 36 addition rejections. The 28 promoted fnuz pairs are signature rejections. Admission protocol tables alone are not executing host contracts.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "VA-FINITE-4",
           "kind": "remaining_original_program_scope",
-          "finding": "VA-F64-S4: Wrapper, inactive-lane, errors and host composition. Output separation is an explicit selected-domain premise, not wrapper freshness or physical nonaliasing. Logical missing-input/undefined-conversion errors return no final memory and prove no native poison, traps, partial-write visibility or rollback. Native masked-load behavior, allocation/device dispatch and Python/Torch module/harness composition remain open.",
+          "source_path": "bench/tritonbench_g/vector_addition/vector_addition.py",
+          "source_lines": [
+            12,
+            19
+          ],
+          "finding": "Bind actual tensor view offsets/extents and finite index arithmetic; justify source load-all/compute/store correspondence from read-only inputs and a fresh disjoint output. Retain actual unsafe-memory cases rather than inventing a universal native scheduler obligation.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "VA-FINITE-5",
           "kind": "remaining_original_program_scope",
-          "finding": "VA-F64-S5: Remaining original dtype and error branches. The 28 semantically promoted fnuz frontend rejection pairs have no successful logical grid; original-program rejection/error contracts are not established by these successful fp64 profiles.",
+          "source_path": "bench/tritonbench_g/vector_addition/vector_addition.py",
+          "source_lines": [
+            16,
+            19
+          ],
+          "finding": "Treat the nine fp64-to-integer/bool OutputDefined restrictions as an explicit justified defined-value domain or model complementary outcomes faithfully. Do not numerically defer an undefined conversion domain or infer native rollback from custom interpreter errors.",
           "can_defer_as_numeric_assumption": false
         },
         {
+          "id": "VA-FINITE-6",
           "kind": "remaining_original_program_scope",
-          "finding": "VA-ADMISSION-S1: Python/AST-to-model semantic refinement",
-          "can_defer_as_numeric_assumption": false
-        },
-        {
-          "kind": "remaining_original_program_scope",
-          "finding": "VA-ADMISSION-S2: host allocation/assertions and original module/harness effects",
-          "can_defer_as_numeric_assumption": false
-        },
-        {
-          "kind": "remaining_original_program_scope",
-          "finding": "VA-ADMISSION-S3: fresh-ASTSource versus JIT/cache/launch path composition",
-          "can_defer_as_numeric_assumption": false
-        },
-        {
-          "kind": "remaining_original_program_scope",
-          "finding": "VA-ADMISSION-S4: unsupported/noncanonical dtype families and overrides",
-          "can_defer_as_numeric_assumption": false
-        },
-        {
-          "kind": "remaining_original_program_scope",
-          "finding": "VA-ADMISSION-S5: exact exception wrapping",
-          "can_defer_as_numeric_assumption": false
-        },
-        {
-          "kind": "remaining_original_program_scope",
-          "finding": "VA-ADMISSION-S6: native lowering/runtime/debug/sanitizer behavior",
-          "can_defer_as_numeric_assumption": false
-        },
-        {
-          "kind": "remaining_original_program_scope",
-          "finding": "VA-ADMISSION-S7: physical memory and GPU execution",
-          "can_defer_as_numeric_assumption": false
-        },
-        {
-          "kind": "remaining_original_program_scope",
-          "finding": "The prior 160 logical profiles use shared FP.Structural and concrete software operations. The new 29 use a separate task-local fp64 typed memory/grid interpreter and 15 unverified callback families. Combined inventory 189/217 is across two models, not one 189-profile interpreter.",
-          "can_defer_as_numeric_assumption": false
-        },
-        {
-          "kind": "remaining_original_program_scope",
-          "finding": "The remaining 28 promoted fnuz pairs have no successful logical grid. Four finite admission protocol contracts classify selected frozen gates but establish no original Python/JIT/compiler exception or execution theorem.",
-          "can_defer_as_numeric_assumption": false
-        },
-        {
-          "kind": "remaining_original_program_scope",
-          "finding": "Only precisely registered native numerical correspondence may be deferred. All original host/module/harness/stage/dtype/branch and native storage/address/compiler/error/scheduling gaps remain structural blockers.",
+          "source_path": "bench/tritonbench_g/vector_addition/vector_addition.py",
+          "source_lines": [
+            6,
+            27
+          ],
+          "finding": "Bind all source stages, supported/rejected dtype cases and host branch outcomes through current schema2 public execution evidence, with exact numerical ports registered for each claimed case. Preserve actual rejection stages without proving native diagnostic wording.",
           "can_defer_as_numeric_assumption": false
         }
       ],
@@ -58932,6 +59049,18 @@
         "execution_contracts": 15,
         "protocol_contracts": 4,
         "protocols_counted_as_execution": false
+      },
+      "acceptance_boundary_review": {
+        "version": 1,
+        "path": "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/root-review.json",
+        "sha256": "211a2a409265e7f64353a82b442d439d28edc7f8839b619a2ef89db7c20b0104",
+        "status": "finite_source_boundary_reviewed_no_acceptance"
+      },
+      "trusted_semantics": {
+        "policy_path": "bench/original_program_acceptance.md",
+        "policy_sha256": "24d3d26972a22729d4f6f1d90aacdd2508f057468f54f8b0d9bf0508b873ae28",
+        "not_a_numerical_deferral": true,
+        "implementation_correctness_established": false
       }
     },
     {
@@ -59117,5 +59246,11 @@
     }
   ],
   "progress_checkpoint": "bench/review-checkpoints/2026-10-16/quantization-and-mixed-softmax/README.md",
-  "scope_audit_checkpoint": "bench/review-checkpoints/2026-10-16/original-scope-review-final98/README.md"
+  "scope_audit_checkpoint": "bench/review-checkpoints/2026-10-16/original-scope-review-final98/README.md",
+  "acceptance_boundary_review": {
+    "version": 1,
+    "path": "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/root-review.json",
+    "sha256": "211a2a409265e7f64353a82b442d439d28edc7f8839b619a2ef89db7c20b0104",
+    "status": "finite_source_boundary_reviewed_no_acceptance"
+  }
 }

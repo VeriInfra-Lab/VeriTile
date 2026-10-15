@@ -12,6 +12,12 @@ structural work. Its observed input hashes and partial-progress records do not
 constitute whole-program reviews. Existing mathematics, equivalence and value
 proofs remain available as evidence for each substantive review.
 
+The [finite acceptance boundary](original_program_acceptance.md) separates
+source-specific obligations from trusted Python/Torch/Triton primitive semantics.
+It preserves real coverage requirements without adding universal compiler, runtime
+or test-harness implementation proofs. The reviewed first calibration changes
+four gap lists and leaves every task pending.
+
 The checker rejects omitted tasks, pending reviews, changed sources, missing
 dimensions, unresolved structural gaps, candidate/standalone proof substitutions,
 and missing or stale review artifacts. Each accepted task binds every task Lean
