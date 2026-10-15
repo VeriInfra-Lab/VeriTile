@@ -1,0 +1,19 @@
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedSmall.gridExpectedMemory: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.MixedSmall.source,
+ VeriTile.Bench.TritonBenchG.VectorAddition.MixedSmall.runGrid,
+ VeriTile.Bench.TritonBenchG.VectorAddition.MixedSmall.runGridPrefix,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedSmall.next_tile_inputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedSmall.reference_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedSmall.grid_prefix_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedSmall.grid_reference_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAddition.MixedSmall.grid_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

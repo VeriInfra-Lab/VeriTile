@@ -1,0 +1,98 @@
+[
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/MixedSmallSource.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip/bench/tritonbench_g/vector_addition/Proofs/MixedSmallSource.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip/bench/tritonbench_g/vector_addition/Proofs/MixedSmallSource.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 6.158585383091122,
+    "source_sha256_before": "d553a604453bc8e880f96d7b6fac2be0ff065b5524b071214e600a02b7a5d103",
+    "source_sha256_after": "d553a604453bc8e880f96d7b6fac2be0ff065b5524b071214e600a02b7a5d103",
+    "log": "evidence/MixedSmallSource.compile.log",
+    "log_sha256": "d23fde4166bb60bc3498328b92595f59873a5be7377d898fc0a892526c278e49"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/MixedSmallValue.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip/bench/tritonbench_g/vector_addition/Proofs/MixedSmallValue.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip/bench/tritonbench_g/vector_addition/Proofs/MixedSmallValue.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 25.275981863960624,
+    "source_sha256_before": "805403f1a25c0951f460f69cdd6510b5dc26db3cae32ce494d37956b54bb0338",
+    "source_sha256_after": "805403f1a25c0951f460f69cdd6510b5dc26db3cae32ce494d37956b54bb0338",
+    "log": "evidence/MixedSmallValue.compile.log",
+    "log_sha256": "9f5d0e445099911464b4a79bf3437a549042a5364c9984a982aedbe5799bcdf8"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/MixedSmallGrid.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip/bench/tritonbench_g/vector_addition/Proofs/MixedSmallGrid.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip/bench/tritonbench_g/vector_addition/Proofs/MixedSmallGrid.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 5.013747698860243,
+    "source_sha256_before": "376428b2f7f3b62dbf59af29420deb6aa2e630d2ccb5ce10f2160e5362948c0e",
+    "source_sha256_after": "376428b2f7f3b62dbf59af29420deb6aa2e630d2ccb5ce10f2160e5362948c0e",
+    "log": "evidence/MixedSmallGrid.compile.log",
+    "log_sha256": "ad8fb657235288d0ec988bcfe26fb27700aa905d6cbaabcfbe12a8d9488cc4db"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/MixedSmallDefined.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip/bench/tritonbench_g/vector_addition/Proofs/MixedSmallDefined.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip/bench/tritonbench_g/vector_addition/Proofs/MixedSmallDefined.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.398579921107739,
+    "source_sha256_before": "88349cd4a5d8c7d033a140700fc7baa6b05f362fc212aec04126d4c3230ace45",
+    "source_sha256_after": "88349cd4a5d8c7d033a140700fc7baa6b05f362fc212aec04126d4c3230ace45",
+    "log": "evidence/MixedSmallDefined.compile.log",
+    "log_sha256": "958eb27ffeee8798484726120ed1e8022d71232d2bb25e5243385a4244aa9691"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/MixedSmallProfiles.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip/bench/tritonbench_g/vector_addition/Proofs/MixedSmallProfiles.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip/bench/tritonbench_g/vector_addition/Proofs/MixedSmallProfiles.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 3.9155611160676926,
+    "source_sha256_before": "17fa1a5b8de717727243ca1e25a4ebcf7d129f52268d5575e3dd5f3163d07cab",
+    "source_sha256_after": "17fa1a5b8de717727243ca1e25a4ebcf7d129f52268d5575e3dd5f3163d07cab",
+    "log": "evidence/MixedSmallProfiles.compile.log",
+    "log_sha256": "ade89c35ae5c3ab322385570f68970ec339fdd56d42bebfe65beef17461f78e5"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/MixedSmallValueCorrect.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip/bench/tritonbench_g/vector_addition/MixedSmallValueCorrect.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-mixed-half-bfloat-wip/bench/tritonbench_g/vector_addition/MixedSmallValueCorrect.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.395845910068601,
+    "source_sha256_before": "691edf2928eba3b03f8d11563dd62b6e108a672b0fed3647311649b020f9ad4b",
+    "source_sha256_after": "691edf2928eba3b03f8d11563dd62b6e108a672b0fed3647311649b020f9ad4b",
+    "log": "evidence/MixedSmallValueCorrect.compile.log",
+    "log_sha256": "f57adb2b98db43e05b6aecdb6ac735e3a1104caf6033ab5a7325f1ef32b56497"
+  }
+]

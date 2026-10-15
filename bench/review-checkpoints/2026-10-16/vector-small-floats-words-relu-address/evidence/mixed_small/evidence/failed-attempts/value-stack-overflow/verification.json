@@ -1,0 +1,10 @@
+{
+  "module": "bench/tritonbench_g/vector_addition/Proofs/MixedSmallValue.lean",
+  "exit_code": -6,
+  "seconds": 405.6557888549287,
+  "source_sha256_before": "16b2b461b981af1db848f3cdfb319277fdb24c2eb3703be603b7356332753492",
+  "source_sha256_after": "16b2b461b981af1db848f3cdfb319277fdb24c2eb3703be603b7356332753492",
+  "log_sha256": "1d585ca2457f796085080a27322dcd6d72331a0c7c93241d4a9ac6067ede21bd",
+  "preservation": "Recovered exact source and log bytes from the captured tool result after routine log overwrite; both SHA256 values exactly match the original actual failed verification row. This failed attempt is excluded from successful final results.",
+  "final_fix": "Local irreducible attributes prevent structural unification from expanding already-proved rational rounding algorithms; arithmetic source definitions and theorem conclusions unchanged."
+}
