@@ -1,0 +1,27 @@
+/tmp/veritile-standardization-20261015/kcache-host-wip/bench/tritonbench_g/kcache_copy_triton/HostCorrect.lean:55:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.reshape_frame`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/tmp/veritile-standardization-20261015/kcache-host-wip/bench/tritonbench_g/kcache_copy_triton/HostCorrect.lean:88:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.reshape_copy_values`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.expectedMemory: definition does not reference [VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.run,
+ VeriTile.Bench.TritonBenchG.KcacheCopyTriton.HostGrid.run,
+ VeriTile.Bench.TritonBenchG.KcacheCopyTriton.HostGrid.runPrograms,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.TritonBenchG.KcacheCopyTriton.SignedCopy.execution,
+ VeriTile.Bench.TritonBenchG.KcacheCopyTriton.SignedDiscreteCopy.execution] — non-circular ✓
+VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.reshape_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.reshape_source_coordinates: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.reshape_copy_values: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.KcacheCopyTriton.Host.kcache_host_grid_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

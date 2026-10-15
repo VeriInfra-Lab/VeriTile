@@ -1,0 +1,87 @@
+[
+  {
+    "module": "bench/tritonbench_g/lora_expand_gemv/Proofs/HostMetadata.lean",
+    "source_sha256": "f1f8436f13d126f7ffbd53c09dbb0022b8bbf369ca9e93704af0091f4f7e4972",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lake",
+      "env",
+      "lean",
+      "--root=/tmp/veritile-standardization-20261015/lora-host-wip",
+      "/tmp/veritile-standardization-20261015/lora-host-wip/bench/tritonbench_g/lora_expand_gemv/Proofs/HostMetadata.lean",
+      "-o",
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean/bench/tritonbench_g/lora_expand_gemv/Proofs/HostMetadata.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 3.636,
+    "log": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/HostMetadata.log",
+    "log_sha256": "9ed9e6b80caede0de7d94fbaacedf8f5fea788d65a6d2c04d11958a55d863d79"
+  },
+  {
+    "module": "bench/tritonbench_g/lora_expand_gemv/Proofs/HostProperties.lean",
+    "source_sha256": "1b5f8cc639334fc878efa414ebe8326140dda5f687f71ad6f365f2972c8c5362",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lake",
+      "env",
+      "lean",
+      "--root=/tmp/veritile-standardization-20261015/lora-host-wip",
+      "/tmp/veritile-standardization-20261015/lora-host-wip/bench/tritonbench_g/lora_expand_gemv/Proofs/HostProperties.lean",
+      "-o",
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean/bench/tritonbench_g/lora_expand_gemv/Proofs/HostProperties.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 7.816,
+    "log": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/HostProperties.log",
+    "log_sha256": "110c32d74e7ab217775639b8aee8e5c4751f94e91561280c753ea00c2cd6bd73"
+  },
+  {
+    "module": "bench/tritonbench_g/lora_expand_gemv/Proofs/HostGrid.lean",
+    "source_sha256": "45d345a54956d48bdcdd0dd6b1b96a80f4cf56aa6cdacc5b950b796d88c05471",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lake",
+      "env",
+      "lean",
+      "--root=/tmp/veritile-standardization-20261015/lora-host-wip",
+      "/tmp/veritile-standardization-20261015/lora-host-wip/bench/tritonbench_g/lora_expand_gemv/Proofs/HostGrid.lean",
+      "-o",
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean/bench/tritonbench_g/lora_expand_gemv/Proofs/HostGrid.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 5.792,
+    "log": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/HostGrid.log",
+    "log_sha256": "46803299df3bf07401d5a7b5d562dc084e0e85450daae862d31595b779e2eda4"
+  },
+  {
+    "module": "bench/tritonbench_g/lora_expand_gemv/Proofs/HostCases.lean",
+    "source_sha256": "d1de03a499f7f87f134d7390c46a443d4df4d8d7b11d7001af1f907e541b6329",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lake",
+      "env",
+      "lean",
+      "--root=/tmp/veritile-standardization-20261015/lora-host-wip",
+      "/tmp/veritile-standardization-20261015/lora-host-wip/bench/tritonbench_g/lora_expand_gemv/Proofs/HostCases.lean",
+      "-o",
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean/bench/tritonbench_g/lora_expand_gemv/Proofs/HostCases.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 3.644,
+    "log": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/HostCases.log",
+    "log_sha256": "abc18b16180e16249af5f54738d702878f8480420eb17de45882b734639ff387"
+  },
+  {
+    "module": "bench/tritonbench_g/lora_expand_gemv/LogicalHostCorrect.lean",
+    "source_sha256": "45ab846b46f507c1a946c598a82a03216100468463cba0af547ef2d0274e7590",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lake",
+      "env",
+      "lean",
+      "--root=/tmp/veritile-standardization-20261015/lora-host-wip",
+      "/tmp/veritile-standardization-20261015/lora-host-wip/bench/tritonbench_g/lora_expand_gemv/LogicalHostCorrect.lean",
+      "-o",
+      "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean/bench/tritonbench_g/lora_expand_gemv/LogicalHostCorrect.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.499,
+    "log": "/tmp/veritile-standardization-20261015/lora-host-wip/evidence/LogicalHostCorrect.log",
+    "log_sha256": "418f142041be9de9d9f36f3bde2e1b5ac35bd9df2b7a1bc731a3cba3a731e253"
+  }
+]

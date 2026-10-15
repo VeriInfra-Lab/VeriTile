@@ -1,0 +1,155 @@
+{
+  "status": "passed",
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py",
+  "source_sha256": "212f030cd93c3381dc1fe6aab372d8568fbed9330954772cd49c69670575a3d3",
+  "torch_version": "2.13.0+cu130",
+  "triton_version": "3.7.1",
+  "triton_init": "/usr/local/lib/python3.12/site-packages/triton/__init__.py",
+  "triton_init_sha256": "fc8d0ce7535a4773769dfdcdb3a8b7bcee1bf58d3d03cc318529104c1e1431fd",
+  "accepted_combinations": 576,
+  "domain": {
+    "inputs": [
+      "float16",
+      "bfloat16",
+      "float32"
+    ],
+    "weights": [
+      "float16",
+      "bfloat16"
+    ],
+    "outputs": [
+      "float16",
+      "bfloat16",
+      "float32",
+      "int32"
+    ],
+    "indices": [
+      "int32",
+      "int64",
+      "float32"
+    ],
+    "ranks": [
+      3,
+      4
+    ],
+    "add_inputs": [
+      false,
+      true
+    ],
+    "K": [
+      5,
+      8
+    ]
+  },
+  "error_checks": [
+    {
+      "case": "input dtype before all later errors",
+      "exception": "AssertionError",
+      "line": 97,
+      "source": "assert inputs.dtype in [torch.float16, torch.bfloat16, torch.float32]",
+      "launches": 0
+    },
+    {
+      "case": "weight dtype before size access",
+      "exception": "AssertionError",
+      "line": 98,
+      "source": "assert lora_b_weights.dtype in [",
+      "launches": 0
+    },
+    {
+      "case": "input size access",
+      "exception": "IndexError",
+      "line": 102,
+      "source": "assert inputs.size(1) == lora_b_weights.size(-1)",
+      "launches": 0
+    },
+    {
+      "case": "weight last size access",
+      "exception": "IndexError",
+      "line": 102,
+      "source": "assert inputs.size(1) == lora_b_weights.size(-1)",
+      "launches": 0
+    },
+    {
+      "case": "inner-size equality",
+      "exception": "AssertionError",
+      "line": 102,
+      "source": "assert inputs.size(1) == lora_b_weights.size(-1)",
+      "launches": 0
+    },
+    {
+      "case": "input contiguous",
+      "exception": "AssertionError",
+      "line": 104,
+      "source": "assert inputs.is_contiguous()",
+      "launches": 0
+    },
+    {
+      "case": "output contiguous",
+      "exception": "AssertionError",
+      "line": 105,
+      "source": "assert output_tensor.is_contiguous()",
+      "launches": 0
+    },
+    {
+      "case": "4D singleton",
+      "exception": "AssertionError",
+      "line": 108,
+      "source": "assert lora_b_weights.size(1) == 1",
+      "launches": 0
+    },
+    {
+      "case": "non-4D rank",
+      "exception": "AssertionError",
+      "line": 111,
+      "source": "assert lora_b_weights.ndim == 3  # shape:(lora_num,size,rank)",
+      "launches": 0
+    },
+    {
+      "case": "weight contiguous",
+      "exception": "AssertionError",
+      "line": 112,
+      "source": "assert lora_b_weights.is_contiguous()",
+      "launches": 0
+    },
+    {
+      "case": "zero K before index size / output stride, rank 3",
+      "exception": "ZeroDivisionError",
+      "line": 117,
+      "source": "EVEN_K = K % BLOCK_K == 0",
+      "launches": 0
+    },
+    {
+      "case": "zero K before index size / output stride, rank 4",
+      "exception": "ZeroDivisionError",
+      "line": 117,
+      "source": "EVEN_K = K % BLOCK_K == 0",
+      "launches": 0
+    },
+    {
+      "case": "index batch size",
+      "exception": "IndexError",
+      "line": 125,
+      "source": "batches = lora_indices_tensor.size(0)",
+      "launches": 0
+    },
+    {
+      "case": "output stride 1",
+      "exception": "IndexError",
+      "line": 144,
+      "source": "output_tensor.stride(1),",
+      "launches": 0
+    }
+  ],
+  "zero_n": {
+    "SPLIT_N": 0,
+    "grid": [
+      0,
+      2
+    ],
+    "native_launch_validated": false
+  },
+  "default_add_inputs": true,
+  "zero_k_source_bug": "next_power_of_2(0)=0; modulo raises before indices/stride/launch",
+  "scope": "Original wrapper executed on real CPU metadata; the GPU kernel is a recorder. This does not verify native compiled execution, address validity, allocations, output/index dtype support, or device concurrency."
+}

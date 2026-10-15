@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "kind": "original_program_scope_ledger",
-  "catalog_sha256": "043ff739bf9f3b731e314b6bd0e73ed40c0c4315b363d65210c789aa0fe86a00",
+  "catalog_sha256": "2ac2b78538fb2ed48cb9444c595898c02fe9f85730d30646bd74b784b7fc52ef",
   "binding_status": "current_catalog_bound_pending_scope_reviews",
   "expected_tasks": [
     "adam_update_triton",
@@ -16467,7 +16467,9 @@
           "bench/tritonbench_g/fp4_to_bf16/Proofs/FPReference.lean": "b9cfd728e7b2629628287805dc4fb22c090cbfdefa5ccac02182f7cb8f3243bb",
           "bench/tritonbench_g/fp4_to_bf16/Proofs/FPSource.lean": "8edd78d04cdb53792f17deaabf176cffb2a809c8c3382d7fdb204293d4eef41e",
           "bench/tritonbench_g/fp4_to_bf16/Proofs/FPWitness.lean": "20c5e8ab195e0788fe9092123ba61ea77fde77377c3d509c831967388cab59f0",
-          "bench/tritonbench_g/fp4_to_bf16/Proofs/Host.lean": "ead22db5c4a2e7eecc35b72453361ee1a265e900e089dbb331dac81c2ae426cb"
+          "bench/tritonbench_g/fp4_to_bf16/Proofs/Host.lean": "ead22db5c4a2e7eecc35b72453361ee1a265e900e089dbb331dac81c2ae426cb",
+          "bench/tritonbench_g/fp4_to_bf16/Proofs/HostSchedule.lean": "a1c7ab7477729d88a55e588bd3fabc95452589d3a905ecd18d6aab5138f3891b",
+          "bench/tritonbench_g/fp4_to_bf16/ScheduleCorrect.lean": "85929f3d191b0d1247b319765b1176fc79f26c442c273621d0b76a46a6c52a26"
         },
         "python": {
           "bench/review-checkpoints/2026-10-14/next-value-repair/fp4-upstream/fp4_to_bf16.py": "8571cb56ce932af6a7dd68e4047ee0863984812ac303d0d2959fc544a65e9958"
@@ -16586,13 +16588,28 @@
       },
       "structural_gaps": [
         {
-          "kind": "dtype",
-          "finding": "Packed uint8 source and complete logical host grid are proved. Unrestricted caller dtype/rejection and scalar/invalid-argument domains still need binding.",
+          "kind": "remaining_original_program_scope",
+          "finding": "Native GPU instruction interleavings/parallel scheduling refinement; theorem compares complete sequential program executions.",
           "can_defer_as_numeric_assumption": false
         },
         {
-          "kind": "native_host",
-          "finding": "Native allocation/provenance, zero-grid legality, integer/address ABI and GPU launch refinement remain unproved.",
+          "kind": "remaining_original_program_scope",
+          "finding": "Physical byte memory, allocator freshness and tensor/storage-offset/ABI correspondence.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Unrestricted Python input dtype and caller/error domain, host tensor allocation and compiler/resource/address admission.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Fixed-width pid/count/offset arithmetic, overflow, physical allocation bounds, device/contiguity assertion behavior and zero-grid native admission are inherited unresolved boundaries.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "The original wrapper has no input dtype assertion. PackedInput is a selected storage domain and does not certify other original caller dtypes.",
           "can_defer_as_numeric_assumption": false
         }
       ],
@@ -16619,11 +16636,20 @@
             "covers_stages": [
               "packed_uint8_host_grid"
             ]
+          },
+          {
+            "file": "bench/tritonbench_g/fp4_to_bf16/ScheduleCorrect.lean",
+            "declaration": "fp4_to_bf16_arbitrary_program_order_correctness",
+            "statement_sha256": "5a14b70d64bddb3ad14623248d0df02dc6d5b317d218f37dcc521f0edae1fff8",
+            "dtype_profile": "Inherited packed uint8 e2m1 to bf16, arbitrary nonscalar logical shape and fresh output; every permutation of all ceilDiv(numel,512) programs, including zero count and partial tails. Unrestricted original input dtype and native caller/launch domain remain open.",
+            "covers_stages": [
+              "packed_uint8_arbitrary_sequential_program_order"
+            ]
           }
         ],
         "review": {
-          "path": "2026-10-15/original-scope-extensions/root-review.json",
-          "sha256": "3384f22dce3f153e34cf23f530acc184bdd644cd7ed56dcde9405b00bb94517b",
+          "path": "2026-10-15/host-grid-and-program-order/root-review.json",
+          "sha256": "5a9d3f541d0ca72aae5539b5c89f2677b3afe574b6dfe7aa6821c22059a405d2",
           "source_hashes_pointer": [
             "reviewed_input_sha256"
           ]
@@ -22095,8 +22121,12 @@
         "lean": {
           "bench/tritonbench_g/kcache_copy_triton/DiscreteCorrect.lean": "7be61309004911193eb87f566bc2bd1c9f8d6594c501b42aeded92e2848b2237",
           "bench/tritonbench_g/kcache_copy_triton/FPCorrect.lean": "339ceba53427ee3113c87c6065c8a76d47f955ca61b81a579904857049f97860",
+          "bench/tritonbench_g/kcache_copy_triton/HostCorrect.lean": "66ed5acbda6c18a12cf33ec34e432873cd7c5dd46f7c30f97f79fa6e301263c2",
           "bench/tritonbench_g/kcache_copy_triton/KcacheCopyTriton.lean": "fb16f21d28e45b01dff210b98a37029c4d623b8710d6a91b43edea53f967bb74",
           "bench/tritonbench_g/kcache_copy_triton/Proofs/BitWitness.lean": "b7ea47dd684e3daf292a8915d3b607f7ebc9cc8a6da9cc3399392294becdfdab",
+          "bench/tritonbench_g/kcache_copy_triton/Proofs/HostGrid.lean": "e5c04b3e8d96ab55aafd0ccb10845912af19647c767b3392ddae706d0d067055",
+          "bench/tritonbench_g/kcache_copy_triton/Proofs/HostPrepare.lean": "28b40f0830fe058e5c381b4a619b1befe1fac6a355ce1b98b5182e2a084c9c6a",
+          "bench/tritonbench_g/kcache_copy_triton/Proofs/HostProbe.lean": "cd2699ee833b8c9d0900284a50e08bc58c47945b85015636ddf15096ebef81d0",
           "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitCopy.lean": "02ed841c64ef65aa7a9b08b054c3d7b1bcaef4e2d4f29f43502095815188ecc1",
           "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitMemory.lean": "35c4dcf62542b5bc257de0af357c48de53ee00b63676c8d507652e35a8388b10",
           "bench/tritonbench_g/kcache_copy_triton/Proofs/RawBitWitness.lean": "f81887b7619ee6e4c32149651dd7cc76cd74ad1815ebb3a41c639ed3f4e7b30d",
@@ -22270,18 +22300,38 @@
       },
       "structural_gaps": [
         {
-          "kind": "host_composition",
-          "finding": "Arbitrary n_tokens single-program source is proved for five floating and nine discrete formats. Wrapper reshape/n>1/layout branches, actual 3D grid, num_warps, stride wiring and composition remain open.",
+          "kind": "remaining_original_program_scope",
+          "finding": "Universal value/address preservation of successful inferViewStrides and formal Torch reshape/allocation correspondence.",
           "can_defer_as_numeric_assumption": false
         },
         {
-          "kind": "dtype",
-          "finding": "Complete caller data and metadata dtype/rejection domains remain unclassified; five floating formats do not include native fp64.",
+          "kind": "remaining_original_program_scope",
+          "finding": "Full declared caller/error/dtype domain: negative and arbitrary Python n, truthy non-Bool layout arguments, unsupported tensor kinds/dtypes, and independent lengths/block-table dtypes. Logical Tensor shape/stride-list consistency is not enforced.",
           "can_defer_as_numeric_assumption": false
         },
         {
-          "kind": "native_address",
-          "finding": "Signed logical metadata, uint64 cast materialization and Nat offsets do not prove native fixed-width arithmetic, ABI, negative offsets or collision scheduling.",
+          "kind": "remaining_original_program_scope",
+          "finding": "Storage offsets, fresh allocation, shared physical storage/byte aliases and correspondence from native tensors to logical RegionName plus element indices.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Native fixed-width metadata and integer/address arithmetic, modulo/division behavior at exceptional values, blockSize=0, overflow, pointer ABI, bounds and unmasked load/store legality.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Native specialization/arange/resource/grid admissibility and actual CUDA compilation/execution, including host-accepted nonpower widths or invalid grids.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Original unchecked layout/stride domains and source misaddressing; any narrowed contract or source correction must be explicit.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Concurrent execution, data races, ordering of cross-program writes and schedule-independent refinement.",
           "can_defer_as_numeric_assumption": false
         }
       ],
@@ -22322,11 +22372,20 @@
             "covers_stages": [
               "complete_signed_multitoken_copy"
             ]
+          },
+          {
+            "file": "bench/tritonbench_g/kcache_copy_triton/HostCorrect.lean",
+            "declaration": "kcache_host_grid_correctness",
+            "statement_sha256": "d123a9d5ba339805d93b11fc04219e725329481514f74c0a556a7475bcb461fa",
+            "dtype_profile": "Six inherited logical floating constructors fp16/bf16/fp32/fp64/f8e4/f8e5 (fp64 opaque, only five previously closed raw floating formats) and nine discrete constructors; mathematical signed lengths/tables; natural metadata/n; both layouts and modeled 3D/4D reshape branches; one complete sequential 3D grid.",
+            "covers_stages": [
+              "logical_wrapper_reshape_and_complete_sequential_3d_grid"
+            ]
           }
         ],
         "review": {
-          "path": "2026-10-15/original-scope-extensions/root-review.json",
-          "sha256": "3384f22dce3f153e34cf23f530acc184bdd644cd7ed56dcde9405b00bb94517b",
+          "path": "2026-10-15/host-grid-and-program-order/root-review.json",
+          "sha256": "5a9d3f541d0ca72aae5539b5c89f2677b3afe574b6dfe7aa6821c22059a405d2",
           "source_hashes_pointer": [
             "reviewed_input_sha256"
           ]
@@ -29263,6 +29322,7 @@
         "lean": {
           "bench/tritonbench_g/lora_expand_gemv/BranchCorrect.lean": "2b6da140ee3ad171158012bbe1951fba60b173463882c3a9d3e44611758e4b32",
           "bench/tritonbench_g/lora_expand_gemv/FPCorrect.lean": "c6adfef2281a96e2212ead0651f81b73b7b68fa723cc90b651ef569888dd3c63",
+          "bench/tritonbench_g/lora_expand_gemv/LogicalHostCorrect.lean": "45ab846b46f507c1a946c598a82a03216100468463cba0af547ef2d0274e7590",
           "bench/tritonbench_g/lora_expand_gemv/LoraExpandGemv.lean": "c6eee47ffe5cab7cc42922ec07271871a2bfda249453d763d02a53064f24f1c5",
           "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchAssembly.lean": "67c16f9ef82cb1928d81dcbcbadb38ecb8c289b1cc300b77358a7a73e217adb8",
           "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBody.lean": "9a64b6aaaffd5d0244972aa69d7576a1fc183c6502a6ee3f898dc1e87cb6b640",
@@ -29281,7 +29341,11 @@
           "bench/tritonbench_g/lora_expand_gemv/Proofs/FPReference.lean": "aedd72e2f6186fa38070eb96c35fdfb3fa8b1ffbf38516ecb2c0e4830c226016",
           "bench/tritonbench_g/lora_expand_gemv/Proofs/FPShape.lean": "2b7e7703c1af9407146b2307dae10d992b669081c0a637a81b8e1e5ebaf8ba44",
           "bench/tritonbench_g/lora_expand_gemv/Proofs/FPTypedSource.lean": "55c3f6731b1debd9655b1338536a29a696553cde00171a8d8c524006b6a1eb6d",
-          "bench/tritonbench_g/lora_expand_gemv/Proofs/FPWitness.lean": "e2d9f15402f2a350b1bc3c180a8c264baadd0270b7e34f5e40595e76605e46dd"
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/FPWitness.lean": "e2d9f15402f2a350b1bc3c180a8c264baadd0270b7e34f5e40595e76605e46dd",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/HostCases.lean": "d1de03a499f7f87f134d7390c46a443d4df4d8d7b11d7001af1f907e541b6329",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/HostGrid.lean": "45d345a54956d48bdcdd0dd6b1b96a80f4cf56aa6cdacc5b950b796d88c05471",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/HostMetadata.lean": "f1f8436f13d126f7ffbd53c09dbb0022b8bbf369ca9e93704af0091f4f7e4972",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/HostProperties.lean": "1b5f8cc639334fc878efa414ebe8326140dda5f687f71ad6f365f2972c8c5362"
         },
         "python": {
           "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py": "212f030cd93c3381dc1fe6aab372d8568fbed9330954772cd49c69670575a3d3"
@@ -29503,27 +29567,37 @@
       "structural_gaps": [
         {
           "kind": "remaining_original_program_scope",
-          "finding": "Python output/index dtype are not enumerated; fp16/bf16/fp32 output and mathematical signed index are selected profiles.",
+          "finding": "Unrestricted output/index dtype domain is not closed: output is explicitly bound to fp16/bf16/fp32, and indices use the inherited mathematical signed-cell model. The original Python wrapper has no output/index dtype assertion.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "Host shape/squeeze/stride/grid/BLOCK_K dispatch is not connected to the per-program theorem.",
+          "finding": "Logical natural tensor metadata, contiguous checks, squeeze and region data pointers need native tensor/byte-memory/allocation correspondence. Source Python-to-logical-model equivalence is reviewed/probed, not a verified Python compiler theorem.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "The total interpreter parameter space does not establish native specialization admissibility; positive splits and legal BLOCK_K/arange shapes still need binding or explicit rejection classification.",
+          "finding": "Fixed-width integer arithmetic, intermediate overflow, negative active indices, native pointer/address legality and allocated bounds remain open. The total interpreter uses Nat/Int element offsets and may clamp negative pointer offsets.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "Mathematical Nat/Int offsets need fixed-width no-overflow, nonnegative address, allocation and byte-memory correspondence.",
+          "finding": "Native block/arange/resource legality and JIT/launch admission remain open, including zero-N SPLIT_N=0 and empty grids. The installed six-shift next_power_of_2 is modeled exactly, without asserting an ideal unbounded power-of-two property.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "Ordered interpreter writes do not close native duplicate-address or cross-program concurrency; a race/injectivity or concurrency refinement is required.",
+          "finding": "One explicit pid0-fastest sequential traversal is proved. Native GPU cross-program scheduling, read/write races, byte aliases and schedule independence remain unproved.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Unmodeled caller features such as arbitrary tensor/device kinds and Python argument types remain outside the logical descriptors. The inference-mode decorator and full Python runtime/exception behavior have no formal correspondence here.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Output/index metadata acceptance is broader than execution dtype semantics. Native index-width/format binding and physically aliased byte reinterpretations cannot be inferred from abstract signed-cell reads.",
           "can_defer_as_numeric_assumption": false
         }
       ],
@@ -29557,11 +29631,20 @@
             "covers_stages": [
               "full_kernel"
             ]
+          },
+          {
+            "file": "bench/tritonbench_g/lora_expand_gemv/LogicalHostCorrect.lean",
+            "declaration": "lora_expand_logical_wrapper_correctness",
+            "statement_sha256": "48a39f2005e4726f522b08e01081cc09f9ffb14c4d6755351a3110b0aa35e598",
+            "dtype_profile": "All six source-asserted input/weight profiles and explicit fp16/bf16/fp32 output binding; unrestricted natural logical shape/stride metadata, all ordered host branches including 3D/singleton-4D, source-derived BLOCK_K/EVEN_K/CAST_TYPE, both ADD_INPUTS values, all (N,batches) programs in one sequential schedule, mathematical signed indices.",
+            "covers_stages": [
+              "logical_wrapper_and_complete_sequential_2d_grid"
+            ]
           }
         ],
         "review": {
-          "path": "2026-10-15/host-and-lora-scope-extensions/root-review.json",
-          "sha256": "1853ad77ccab0c0811fd2c9261100da92c44c8cf9f7811f55345d551a00fb783",
+          "path": "2026-10-15/host-grid-and-program-order/root-review.json",
+          "sha256": "5a9d3f541d0ca72aae5539b5c89f2677b3afe574b6dfe7aa6821c22059a405d2",
           "source_hashes_pointer": [
             "reviewed_input_sha256"
           ]
@@ -48214,5 +48297,5 @@
       "review": null
     }
   ],
-  "progress_checkpoint": "bench/review-checkpoints/2026-10-15/host-and-lora-scope-extensions/README.md"
+  "progress_checkpoint": "bench/review-checkpoints/2026-10-15/host-grid-and-program-order/README.md"
 }

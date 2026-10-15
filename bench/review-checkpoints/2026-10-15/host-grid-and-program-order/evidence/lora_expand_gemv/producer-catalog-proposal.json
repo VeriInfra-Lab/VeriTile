@@ -1,0 +1,83 @@
+{
+  "task": "lora_expand_gemv",
+  "required_value_stages": [
+    "full_kernel"
+  ],
+  "review": null,
+  "source_sha256": {
+    "bench/tritonbench_g/lora_expand_gemv/LogicalHostCorrect.lean": "45ab846b46f507c1a946c598a82a03216100468463cba0af547ef2d0274e7590",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/HostCases.lean": "d1de03a499f7f87f134d7390c46a443d4df4d8d7b11d7001af1f907e541b6329",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/HostGrid.lean": "45d345a54956d48bdcdd0dd6b1b96a80f4cf56aa6cdacc5b950b796d88c05471",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/HostMetadata.lean": "f1f8436f13d126f7ffbd53c09dbb0022b8bbf369ca9e93704af0091f4f7e4972",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/HostProperties.lean": "1b5f8cc639334fc878efa414ebe8326140dda5f687f71ad6f365f2972c8c5362",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchAssembly.lean": "67c16f9ef82cb1928d81dcbcbadb38ecb8c289b1cc300b77358a7a73e217adb8",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBody.lean": "9a64b6aaaffd5d0244972aa69d7576a1fc183c6502a6ee3f898dc1e87cb6b640",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBodyValue.lean": "a9efc21c5b24e13ae29dee126879be76e94d7a16c76f5ce676babdea3b5da615",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchComplete.lean": "6b5dbf61213b0acaf8818b0217cbe0e05bb2cfd6a2bd39ae646f726bd35ed8e6",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchExecution.lean": "1667f26e25b4c4ae69ee6bc940b1a7a61fde5d385dd82ac761826786d2090a6a",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchFrame.lean": "fe60c6204184bc63f9830ef0455d18f1b27fa35e7096c94e9047cc215ebcbe9d",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchLoop.lean": "824238b20a8f27698b79c09ea8e7b480c332ee50504c6fddd4e3554a2b585a33",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchReference.lean": "ec95c5062ce8bd0ed5761ed99fafc797a4431cde18b2dec1884731f03a0f8564",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchShape.lean": "6e9008353729972c7cced8128a2bf267a9ea99f55b173568f66c04bc03b91733",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchSource.lean": "67d35e8009e6c9fa3a7dc60c7de1d7d54dd4ce614ea5c96bdb58f6263a9ce565",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchWitness.lean": "435efc0b0500620b0bb5f6abbe9bae67727493c6fa327983703457e1e279dd55",
+    "bench/tritonbench_g/lora_expand_gemv/BranchCorrect.lean": "2b6da140ee3ad171158012bbe1951fba60b173463882c3a9d3e44611758e4b32",
+    "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py": "212f030cd93c3381dc1fe6aab372d8568fbed9330954772cd49c69670575a3d3",
+    "bench/tritonbench_g/lora_expand_gemv/LoraExpandGemv.lean": "c6eee47ffe5cab7cc42922ec07271871a2bfda249453d763d02a53064f24f1c5",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/FPModel.lean": "3da96951e0e0f73d8a2eaed4216338b8e9cfb5d7e2e34f6c9cceea5d9e870d66",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/FPTypedSource.lean": "55c3f6731b1debd9655b1338536a29a696553cde00171a8d8c524006b6a1eb6d"
+  },
+  "source_views": [
+    {
+      "id": "original_logical_wrapper_and_complete_sequential_grid_selected_profiles",
+      "variant": "original_source_translation",
+      "frontend": "shared_triton_dsl",
+      "ordinary_shared_dsl_admission": true,
+      "memory_semantics": "sequentially_consistent_schedule",
+      "translation_trust_boundary": "The complete kernel uses the existing admitted shared DSL and normalized full-source projection. The original wrapper is modeled separately by ordered logical tensor metadata and was source-compared/probed, not admitted as Python by the shared DSL. The grid executes every actual program with previous memory; reference has independent prior-reference-memory recurrence. Native ABI, caller dtype domain, launch legality and concurrency remain separate.",
+      "original_python": "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py",
+      "candidate_python": null,
+      "selected_definitions": {
+        "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchSource.lean": [
+          "source"
+        ]
+      }
+    }
+  ],
+  "declarations": [
+    {
+      "file": "bench/tritonbench_g/lora_expand_gemv/LogicalHostCorrect.lean",
+      "declaration": "lora_expand_logical_wrapper_correctness",
+      "statement_sha256": "48a39f2005e4726f522b08e01081cc09f9ffb14c4d6755351a3110b0aa35e598",
+      "kind": "specification",
+      "model_kind": "bit_interpreter_contract",
+      "role": "parametric_value_contract",
+      "scope_relation": "full_declared_stage",
+      "source_variant": "original_source_translation",
+      "covers_stages": [
+        "full_kernel"
+      ],
+      "dtype_profile": "All six source-asserted input/weight profiles and explicit fp16/bf16/fp32 output binding; unrestricted natural logical shape/stride metadata, all ordered host branches including 3D/singleton-4D, source-derived BLOCK_K/EVEN_K/CAST_TYPE, both ADD_INPUTS values, all (N,batches) programs in one sequential schedule, mathematical signed indices.",
+      "dtype_scope_relation": "selected_explicit_profiles_only",
+      "unclosed_numeric_callbacks": [],
+      "extra_numeric_law_ids": [],
+      "native_binding_status": "not_established",
+      "original_scope": {
+        "standard_accepted": false,
+        "covered": "Complete ordered logical wrapper and successful actual sequential execution of every grid program, or ordered host rejection before launch. The final independent memory and global frame retain inter-program aliases and changed indices.",
+        "remaining_structural_obligations": [
+          "Unrestricted output/index dtype domain is not closed: output is explicitly bound to fp16/bf16/fp32, and indices use the inherited mathematical signed-cell model. The original Python wrapper has no output/index dtype assertion.",
+          "Logical natural tensor metadata, contiguous checks, squeeze and region data pointers need native tensor/byte-memory/allocation correspondence. Source Python-to-logical-model equivalence is reviewed/probed, not a verified Python compiler theorem.",
+          "Fixed-width integer arithmetic, intermediate overflow, negative active indices, native pointer/address legality and allocated bounds remain open. The total interpreter uses Nat/Int element offsets and may clamp negative pointer offsets.",
+          "Native block/arange/resource legality and JIT/launch admission remain open, including zero-N SPLIT_N=0 and empty grids. The installed six-shift next_power_of_2 is modeled exactly, without asserting an ideal unbounded power-of-two property.",
+          "One explicit pid0-fastest sequential traversal is proved. Native GPU cross-program scheduling, read/write races, byte aliases and schedule independence remain unproved."
+        ],
+        "remaining_native_numerical_bindings": [
+          "Bind native FP configuration, rounding/FTZ/special values and low-precision operations to the software operations.",
+          "Bind compiled reduction tree, seeds, fusion and reassociation to the supplied valid ReductionPlan.",
+          "Bind native conversion details, including fp16/bf16 cross-conversion via fp32 and NaN/signed-zero behavior."
+        ]
+      }
+    }
+  ]
+}
