@@ -107,7 +107,7 @@ the existing `fp16=true` contract uses fp32 storage and internal half casts.
 Its correction does not establish the separate `fp16=false` branch or host program.
 
 The workflow's catalog and supplement now point to the
-`matrix-scope-and-relu-fp64` batch, with the unchanged
+`vector-typed-host-and-rotary-grid` batch, with the unchanged
 `original-scope-extensions/metadata-baseline` and preceding final-source manifest
 retained as its historical base. Neither global success nor scope
 success establishes corpus comparator replay, the integration build or native
@@ -116,6 +116,13 @@ GPU correctness; those remain independent checks.
 The full-scope review covers all 183 original programs, with no unreviewed
 programs. Matrix transpose has passed its schema2 source-scope check; 182 scopes
 remain pending. This is not a claim that whole-corpus CI or official comparator
-replay has passed. The cumulative supplemental proof inventory contains 48
+replay has passed. The cumulative supplemental proof inventory contains 51
 execution contracts and
-four protocol contracts across 14 tasks; those counts are not completed programs.
+six protocol contracts across 15 tasks; those counts are not completed programs.
+
+The latest partial extensions compose vector addition's 189 existing typed
+routes through source-order host allocation/assertions and canonical rejection
+cases, and RotaryEmb's original real-erased source through the complete Q-derived
+grid with initial-memory formulas and tail frames. Vector safe-view/address and
+exact numerical registration gaps remain; rotary rounded execution and dtype/
+admission/address-domain gaps remain. Neither task is counted as accepted.

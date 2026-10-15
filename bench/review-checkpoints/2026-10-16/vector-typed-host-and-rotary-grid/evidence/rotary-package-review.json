@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "kind": "rotary_host_grid_frozen_substantive_root_review",
+  "reviewer": "root",
+  "status": "partial_real_source_proof_review_passed_pending_integration",
+  "recorded_at_utc": "2026-10-15T20:13:42.286326+00:00",
+  "mechanical_validation": {
+    "path": "/tmp/veritile-standardization-20261015/rotary-root-validation/validation.json",
+    "sha256": "274b9b08a6ec7424f0918e5e2b25b3bdd559cae1f8bd9767569b055854d0efbe"
+  },
+  "producer_receipt_sha256": "f954cfbc0aa96093c7d2406b791daf48c7188e8b33f608dfbd12d31a1d9ed5eb",
+  "proof_defects": [],
+  "semantic_review": "Root substantively read original Python, all final host metadata/geometry/execution/coverage/public/witness modules and generated probes/inventory/probe/freezing scripts, with earlier draft review confirmed by exact import-only transformations. The actual 34-statement source executes at every scheduled PID on preceding memory; disjointness derives initial-memory Q/K formulas and raw-cell frames. Host preparation respects conversion-before-assertions and exact BH4/BS16/Q-derived grid/warp branches. Complete coordinates, partial/odd tails and K heads beyond the launched Q grid are proved under explicit nonnegative-stride/dimension, ownership, injectivity, widths and active bounds. Cos strides are faithfully reused for Sin. Four-program nonunit-stride witness is nonempty. Arithmetic is explicitly exact-real erasure: symbolic storage tags do not establish rounded typed or native correctness. Trusted metadata and Python int-product primitive are explicit. 63 unchanged original wrapper AST probes reproduced; 5573 imported modules and 21821 file hashes checked. Frozen public is a theorem, not yet a catalog specification; integration must record exact keyword transformation and recompile.",
+  "integration_sources": {
+    "bench/tritonbench_g/rotary_emb/Proofs/HostMetadata.lean": "ca904cebcbc119a5c8a2a8d6b81dd75b60a84cfce09d0ec4fc41b4e4e14f8cdf",
+    "bench/tritonbench_g/rotary_emb/Proofs/HostGeometry.lean": "d9a288321ce9aa93127ccf13dc34356ffe7e86a542cd70d25e611b5bf701017a",
+    "bench/tritonbench_g/rotary_emb/Proofs/HostExecution.lean": "318b3e018a3aa6bbc08644e043e7ceb2ff2304395e5e3e8bb0528e6cdd3557f5",
+    "bench/tritonbench_g/rotary_emb/Proofs/HostCoverage.lean": "2d0075d2c09cf13aada306564db21bb9533e1ed636d81aa125993ee9a07bba35",
+    "bench/tritonbench_g/rotary_emb/HostCorrect.lean": "c721c625b784666b6fdf57293c0deef4ba34a78381aaed0c744abf2f6db07206",
+    "bench/tritonbench_g/rotary_emb/Proofs/HostWitness.lean": "7745767229fe0e3aa12b3a528ed5c973d856e8908a063aec247498ee0793ac4e",
+    "bench/tritonbench_g/rotary_emb/Proofs/HostProbe.lean": "c1d55659db03b946da53bf893beba7cb1f0889294739b2bcd7955ee44dc96e39"
+  },
+  "integration_transformations": [
+    "Change only theorem rotary_emb_host_grid_correctness to specification rotary_emb_host_grid_correctness in active HostCorrect.lean; retain frozen original source exactly as evidence.",
+    "SupportInventory.lean is build instrumentation, retained with its log and dependency manifest as exact evidence rather than adding an active module that prints 5573 dependencies in every full build."
+  ],
+  "remaining_finite_obligations": [
+    "Rounded typed whole-grid arithmetic and a valid numerical result relation; no universally false real=floating equality deferral.",
+    "Source-grounded actual dtype combinations and frontend arange/configuration admission/rejections.",
+    "Source-relevant signed dimensions, strides/view offsets, finite machine addresses, alias/bounds outcomes and exact return/error composition within justified API domain.",
+    "Exact schema2 stage/dtype/branch review and numerical registrations where valid."
+  ],
+  "numerical_registrations": 0,
+  "acceptance_increment": 0,
+  "native_runs": 0,
+  "evidence_preservation": "All later failed attempts preserved. Exact pre-existing HostExecution source recovered and replayed; initial raw error log had been overwritten before preservation instruction, disclosed in producer-evidence/attempts/preexisting-recovery.json."
+}

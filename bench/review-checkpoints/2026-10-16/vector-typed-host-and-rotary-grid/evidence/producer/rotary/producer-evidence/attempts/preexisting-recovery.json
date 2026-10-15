@@ -1,0 +1,7 @@
+{
+  "original_HostExecution_source_recovered_exactly": true,
+  "source_sha256": "b5f7e68bf288af5620f42f5811d38e78d933a06b085df299a7c263f80087234c",
+  "preexisting_compile_exit_code": 1,
+  "preexisting_log_sha256": "b1c07e02cee891a000417d688ea808aab9f3faadfca7d6d9b1c1c1dda88737bf",
+  "preexisting_failure": "Unknown identifier b on lines 111, 113, 114 after rcases List.mem_cons.mp hb with rfl. Original raw log was overwritten by compile.py before task.md instruction to preserve attempts arrived; the error text is retained in the agent tool transcript. All later attempts are preserved."
+}

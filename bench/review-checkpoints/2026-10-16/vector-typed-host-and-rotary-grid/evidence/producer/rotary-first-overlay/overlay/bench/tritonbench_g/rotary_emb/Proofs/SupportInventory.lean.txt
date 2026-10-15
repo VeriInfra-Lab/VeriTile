@@ -1,0 +1,10 @@
+import bench.tritonbench_g.rotary_emb.Proofs.HostWitness
+import bench.tritonbench_g.rotary_emb.Proofs.HostProbe
+
+open Lean Elab Command in
+elab "#rotarySupportInventory" : command => do
+  let env ← getEnv
+  for entry in env.header.modules do
+    liftIO <| IO.println s!"dependency {entry.module}"
+
+#rotarySupportInventory

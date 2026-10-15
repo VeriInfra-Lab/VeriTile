@@ -1,0 +1,21 @@
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.Plan.logicalResult: definition does not reference [VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.Plan.run,
+ VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.Plan.kernel,
+ VeriTile.Triton.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.schedule_nodup: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.schedule_mem: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.q_heads_covered: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.coordinates_cover: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.result_logical: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.footprint_covered: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.untouched_outside: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.RotaryEmb.HostGrid.grid_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

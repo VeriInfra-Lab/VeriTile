@@ -1,0 +1,11 @@
+{
+  "scope_verified": 1,
+  "pending": 182,
+  "partial_rows_updated": [
+    "vector_addition",
+    "rotary_emb"
+  ],
+  "matrix_catalog_review_rebound": true,
+  "unrelated_rows_unchanged": 180,
+  "catalog_sha256": "295e1489d964ad994330dd06c1b6e1578933c420fea4f829dc158a9493bc5b5d"
+}
