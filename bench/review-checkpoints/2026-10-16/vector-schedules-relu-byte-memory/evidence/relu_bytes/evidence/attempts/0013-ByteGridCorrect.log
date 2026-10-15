@@ -1,0 +1,6 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteGridCorrect.relu_byte_grid_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteGridCorrect.constructed_byte_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

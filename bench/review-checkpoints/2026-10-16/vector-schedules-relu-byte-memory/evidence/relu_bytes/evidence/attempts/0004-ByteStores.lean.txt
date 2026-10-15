@@ -1,0 +1,160 @@
+import bench.tritonbench_g.relu_triton_kernel.Proofs.ByteCodec
+
+/-! Sequential four-byte stores and the memory projection of pid-zero ReLU.
+Byte loads are total in this mathematical model. This is not native access
+admission, allocation, compiler or concurrent instruction semantics. -/
+namespace VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory
+open VeriTile.Triton FP.Structural IntegerWords FiniteAddress GatedGrid
+
+def storePrefix (values : Nat → BitVec 32) (base : Nat) (initial : Memory) : Nat → Memory
+  | 0 => initial
+  | count + 1 => storeLE 4 (storePrefix values base initial count) (base + count * 4) (values count)
+
+/-- Independent complete byte-memory reference for contiguous fp32 stores. -/
+def prefixSpec (values : Nat → BitVec 32) (base : Nat) (initial : Memory)
+    (count : Nat) : Memory := fun address =>
+  if base ≤ address ∧ address < base + count * 4 then
+    splitByte (values ((address - base) / 4)) ((address - base) % 4) else initial address
+
+theorem prefix_correct (values : Nat → BitVec 32) (base : Nat) (initial : Memory) (count : Nat) :
+    storePrefix values base initial count = prefixSpec values base initial count := by
+  induction count with
+  | zero => funext address; simp [storePrefix, prefixSpec]
+  | succ count ih =>
+    funext address
+    simp only [storePrefix, storeLE, ih, prefixSpec]
+    by_cases last : base + count * 4 ≤ address ∧ address < base + count * 4 + 4
+    · rw [if_pos last, if_pos (by omega)]
+      rw [show (address - base) / 4 = count by omega,
+        show (address - base) % 4 = address - (base + count * 4) by omega]
+    · rw [if_neg last]
+      have same : (base ≤ address ∧ address < base + count * 4) ↔
+          (base ≤ address ∧ address < base + (count + 1) * 4) := by omega
+      simp only [same]
+
+theorem prefix_byte (values : Nat → BitVec 32) (base : Nat) (initial : Memory)
+    (count index byte : Nat) (active : index < count) (within : byte < 4) :
+    storePrefix values base initial count (base + index * 4 + byte) = splitByte (values index) byte := by
+  rw [prefix_correct]
+  unfold prefixSpec
+  rw [if_pos (by omega), show (base + index * 4 + byte - base) / 4 = index by omega,
+    show (base + index * 4 + byte - base) % 4 = byte by omega]
+
+theorem prefix_frame (values : Nat → BitVec 32) (base : Nat) (initial : Memory)
+    (count address : Nat) (outside : address < base ∨ base + count * 4 ≤ address) :
+    storePrefix values base initial count address = initial address := by
+  rw [prefix_correct]
+  unfold prefixSpec
+  rw [if_neg (by omega)]
+
+theorem prefix_load32 (values : Nat → BitVec 32) (base : Nat) (initial : Memory)
+    (count index : Nat) (active : index < count) :
+    load32 (storePrefix values base initial count) base index = values index := by
+  unfold load32
+  rw [load_congr 4 _ (storeLE 4 initial (base + index * 4) (values index)) (base + index * 4)]
+  · exact load_store 4 initial (base + index * 4) (values index)
+  · intro byte within
+    rw [prefix_byte values base initial count index byte active within,
+      store_byte 4 initial (base + index * 4) (values index) byte within]
+
+theorem prefix_load32_tail (values : Nat → BitVec 32) (base : Nat) (initial : Memory)
+    (count index : Nat) (tail : count ≤ index) :
+    load32 (storePrefix values base initial count) base index = load32 initial base index := by
+  apply load_congr
+  intro byte within
+  exact prefix_frame values base initial count _ (Or.inr (by omega))
+
+def Separate (encoding : Encoding) (inputBase outputBase N : Nat) : Prop :=
+  inputBase + N * elementBytes encoding ≤ outputBase ∨ outputBase + N * 4 ≤ inputBase
+
+theorem prefix_input_preserved (encoding : Encoding) (values : Nat → BitVec 32)
+    (inputBase outputBase N count index : Nat) (initial : Memory)
+    (separate : Separate encoding inputBase outputBase N)
+    (countBound : count ≤ N) (active : index < N) :
+    loadInput encoding (storePrefix values outputBase initial count) inputBase index =
+      loadInput encoding initial inputBase index := by
+  unfold loadInput
+  congr 1
+  apply load_congr
+  intro byte within
+  apply prefix_frame
+  have inputBound := relative_byte_bound (elementBytes encoding) N index byte active within
+  rcases separate with before | after
+  · left; omega
+  · right; omega
+
+def values (M : Algebra (BitVec 32)) (encoding : Encoding)
+    (inputBase : Nat) (mem : Memory) : Nat → BitVec 32 :=
+  fun index => wordValue M encoding (loadInput encoding mem inputBase index)
+
+/-- Memory effect after the source's total masked loads and comparisons.
+The pid-zero lane values all read the same pre-store byte memory, then stores
+run in lane order. Other programs' pure computations have no memory effect. -/
+def byteProgram (M : Algebra (BitVec 32)) (encoding : Encoding)
+    (inputBase outputBase N pid : Nat) (mem : Memory) : Memory :=
+  let loaded := fun lane => loadInput encoding mem inputBase (pid * blockSize + lane)
+  let result := fun lane => wordValue M encoding (loaded lane)
+  if pid = 0 then storePrefix result outputBase mem (min N blockSize) else mem
+
+def bytePrefix (M : Algebra (BitVec 32)) (encoding : Encoding)
+    (inputBase outputBase N : Nat) (initial : Memory) : Nat → Memory
+  | 0 => initial
+  | count + 1 => byteProgram M encoding inputBase outputBase N count
+      (bytePrefix M encoding inputBase outputBase N initial count)
+
+def byteGrid (M : Algebra (BitVec 32)) (encoding : Encoding)
+    (inputBase outputBase N : Nat) (initial : Memory) : Memory :=
+  bytePrefix M encoding inputBase outputBase N initial (gridCount N blockSize)
+
+def byteSpec (M : Algebra (BitVec 32)) (encoding : Encoding)
+    (inputBase outputBase N : Nat) (initial : Memory) : Memory :=
+  prefixSpec (values M encoding inputBase initial) outputBase initial (min N blockSize)
+
+theorem byte_prefix_first (M : Algebra (BitVec 32)) (encoding : Encoding)
+    (inputBase outputBase N count : Nat) (initial : Memory) :
+    bytePrefix M encoding inputBase outputBase N initial count =
+      if count = 0 then initial else
+        storePrefix (values M encoding inputBase initial) outputBase initial (min N blockSize) := by
+  induction count with
+  | zero => rfl
+  | succ count ih =>
+    cases count with
+    | zero =>
+      simp only [bytePrefix, byteProgram, Nat.zero_mul, Nat.zero_add,
+        if_pos rfl, Nat.succ_ne_zero, if_false]
+      rfl
+    | succ count =>
+      rw [bytePrefix]
+      simpa only [byteProgram, Nat.succ_ne_zero, if_false] using ih
+
+theorem byte_grid_stores (M : Algebra (BitVec 32)) (encoding : Encoding)
+    (inputBase outputBase N : Nat) (initial : Memory) :
+    byteGrid M encoding inputBase outputBase N initial =
+      storePrefix (values M encoding inputBase initial) outputBase initial (min N blockSize) := by
+  unfold byteGrid
+  rw [byte_prefix_first]
+  by_cases empty : N = 0
+  · subst N
+    simp [empty_grid_count, storePrefix]
+  · rw [if_neg (Nat.ne_of_gt (positive_grid_count N blockSize (by omega) (by decide)))]
+
+theorem byte_grid_correct (M : Algebra (BitVec 32)) (encoding : Encoding)
+    (inputBase outputBase N : Nat) (initial : Memory) :
+    byteGrid M encoding inputBase outputBase N initial = byteSpec M encoding inputBase outputBase N initial := by
+  rw [byte_grid_stores, prefix_correct]
+  rfl
+
+#specNonCircular byteSpec avoiding [byteProgram, bytePrefix, byteGrid, storePrefix,
+  TypedValue.source, runGrid, FP.Structural.exec]
+#axiomsClean prefix_correct
+#axiomsClean prefix_byte
+#axiomsClean prefix_frame
+#axiomsClean prefix_load32
+#axiomsClean prefix_load32_tail
+#axiomsClean prefix_input_preserved
+#axiomsClean byte_prefix_first
+#axiomsClean byte_grid_stores
+#axiomsClean byte_grid_correct
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory
