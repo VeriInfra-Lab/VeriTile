@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/probe_native.py", line 25, in <module>
+    compiled=triton.compile(ASTSource(function,rec['signature'],constexprs=config.kwargs),target=GPUTarget('cuda',90,32),options=rec['options'])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py", line 307, in compile
+    module = src.make_ir(target, options, codegen_fns, module_map, context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py", line 80, in make_ir
+    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/triton/language/__init__.py", line 301, in str_to_ty
+    ty = str_to_ty(name, c)
+         ^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/triton/language/__init__.py", line 356, in str_to_ty
+    return tys[name]
+           ~~~^^^^^^
+KeyError: 'complex128'

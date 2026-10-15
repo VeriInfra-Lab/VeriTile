@@ -92,6 +92,22 @@ The inventory covers 184 tasks: 77 have concrete native-binding recipes, and the
 | `VECTOR-FINITE-B-REST-CAST-NONE-FP32-F8E5` | `exact_profile_bound_validation_pending` | 1 |
 | `VECTOR-FINITE-B-WIDE-TOE5RTNE` | `exact_profile_bound_validation_pending` | 1 |
 | `VECTOR-FINITE-B-REST-BINARY-NONE-F8E5-ADD` | `exact_profile_bound_validation_pending` | 1 |
+| `QG-FINITE-ABS` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-MAX` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-RECIP` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-U8TO32` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-I8TO32` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-I16TO32` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-I32TO32` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-I64TO32` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-BOOL32` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-MUL32` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-MUL64` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-LIT32` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-LIT64` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-LLRINT32` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-LLRINT64` | `awaiting_explicit_numeric_validation` | 1 |
+| `QG-FINITE-STORE8` | `awaiting_explicit_numeric_validation` | 1 |
 
 Five profiles still need exact binding. Existing reports remain limited to their recorded configuration. The unrestricted fp16 rounding-is-identity assumption is refuted; it must be repaired, not submitted as a validation target.
 
@@ -123,6 +139,6 @@ Keep failed and not-run cases. A source/compiled graph mismatch requires a corre
 
 ## Exact scalar follow-up bindings
 
-73 additional scalar families bind 786 exact dtype/port instances across 2999 declaration cases. All remain unvalidated.
+89 additional scalar families bind 1206 exact dtype/port instances across 5399 declaration cases. All remain unvalidated.
 
 The original fp64 and ReLU records retain their frozen sm90 configurations. The finite ReLU extension covers all 17 canonical profiles with block_size=1024 and 0<=N<=2^31, including errors and empty launches; its 84 numerical ports apply to the 39 nonempty successful cases. The queue preserves structural gaps and adds no accepted original programs.

@@ -5,9 +5,9 @@ The requested standard covers **all declared stages, dtypes and branches of
 existing contract is for a repaired candidate. This exclusion does not cover
 the separate original-source task `fp4_to_bf16`.
 
-[`original_program_scope.json`](original_program_scope.json) has **3 source scopes accepted and 180 pending**, bound to the current extension
+[`original_program_scope.json`](original_program_scope.json) has **4 source scopes accepted and 179 pending**, bound to the current extension
 catalog. `matrix_transpose` is verified under explicit primitive contracts without
-numerical deferrals; `relu_triton_kernel` and `vector_addition` are verified with exactly registered
+numerical deferrals; `relu_triton_kernel`, `vector_addition` and `quantize_global` are verified with exactly registered
 numerical deferrals. Official comparator and whole-corpus
 CI results remain separate. It preserves initial gaps
 as provenance and records reviewed partial extensions with their remaining
@@ -73,8 +73,9 @@ That earlier ReLU declaration is registered only for N=1025, block_size=1024,
 sm90. The independently reviewed finite ReLU extension adds 12 families and 84
 exact scalar ports for its full source-outcome contract (340 cases). The reviewed
 finite vector extension adds 43 families and 616 ports across 2,601 cases. The
-current queue has 84 rules, with 786 exact bindings across 2,999 cases in five
-declarations. Empty and rejected cases require no unused numerical callbacks. These registrations do not apply to unrelated declarations.
+reviewed quantize_global extension adds 16 families and 420 ports in 2,400 cases.
+The current queue has 100 rules, with 1,206 exact bindings across 5,399 cases in
+six declarations. Empty and rejected cases require no unused numerical callbacks. These registrations do not apply to unrelated declarations.
 The checker derives case-specific callback requirements from pinned sources and
 requires every applicable scalar-port reference. These registrations discharge
 no structural obligations by themselves; acceptance requires the separate
@@ -113,7 +114,7 @@ the existing `fp16=true` contract uses fp32 storage and internal half casts.
 Its correction does not establish the separate `fp16=false` branch or host program.
 
 The workflow's catalog and supplement now point to the
-`vector-finite-source-acceptance` batch, with the unchanged
+`quant-global-finite-source-acceptance` batch, with the unchanged
 `original-scope-extensions/metadata-baseline` and preceding final-source manifest
 retained as its historical base. Neither global success nor scope
 success establishes corpus comparator replay, the integration build or native
@@ -121,11 +122,11 @@ GPU correctness; those remain independent checks.
 
 The full-scope review covers all 183 original programs, with no unreviewed
 programs. Matrix transpose has passed its schema2 source-scope check. ReLU and
-vector addition have passed with exactly registered numerical deferrals;
-180 scopes remain pending. This is not a claim that whole-corpus CI or official comparator
-replay has passed. The cumulative supplemental proof inventory contains 55
+vector addition and quantize_global have passed with exactly registered numerical
+deferrals; 179 scopes remain pending. This is not a claim that whole-corpus CI or official comparator
+replay has passed. The cumulative supplemental proof inventory contains 56
 execution contracts and
-six protocol contracts across 16 tasks; those counts are not completed programs.
+six protocol contracts across 17 tasks; those counts are not completed programs.
 
 RotaryEmb's partial extension composes its original real-erased source through
 the complete Q-derived grid with initial-memory formulas and tail frames. Its
@@ -149,3 +150,10 @@ first compiler rejection and saved-output/gradient aliasing. Its two new public
 contracts remain partial progress: typed rounded arithmetic and finite scalar/
 pointer/view domains still prevent whole-source acceptance. No additional
 numerical registrations or completed programs are counted.
+
+Quantize_global now covers all 22 canonical dense dtype families, both source
+configs, host allocation and logical abs/max, typed linear kernel execution,
+all autotune trials, finite byte-memory effects and frames. Its 2,400 source
+cases include exact first rejections, source hazards and returned-or-undefined
+conversion outcomes without a Safe premise. The 16 numerical families / 420
+ports remain unvalidated; no native/GPU or comparator success is claimed.

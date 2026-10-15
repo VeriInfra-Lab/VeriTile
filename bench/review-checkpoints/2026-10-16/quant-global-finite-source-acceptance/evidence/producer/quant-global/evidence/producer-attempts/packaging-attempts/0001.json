@@ -1,0 +1,7 @@
+{
+  "status": "failed_packaging_only",
+  "exit_code": 1,
+  "reason": "Adapter declaration parser uses local names; fully qualified public-name lookup caused KeyError. All11 final mapped Lean compiles exited0. No source/proof/compiled result was changed to repair metadata.",
+  "failed_candidate": "/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/frozen-v1",
+  "exact_script": "0001-make_proposals.py.txt"
+}

@@ -27,7 +27,8 @@ COMPLETE_DTYPE_RELATIONS = {'complete_enumerated_wrapper_dtype_domain',
                             'complete_original_declared_domain'}
 DTYPES = {'bool', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32',
           'uint64', 'fp8e4m3fn', 'fp8e4m3fnuz', 'fp8e5m2', 'fp8e5m2fnuz',
-          'fp16', 'bf16', 'fp32', 'fp64', 'packed_fp4e2m1'}
+          'fp16', 'bf16', 'fp32', 'fp64', 'packed_fp4e2m1',
+          'complex32', 'complex64', 'complex128', 'fp8e8m0fnu'}
 
 
 def validate_case(case):

@@ -1,0 +1,236 @@
+import FiniteScalar
+
+namespace QuantizeGlobalFinite
+set_option maxRecDepth 24000
+set_option maxHeartbeats 8000000
+
+inductive Cell where
+  | mk (dtype : Storage) (value : Word dtype)
+abbrev Memory := String → Nat → Option Cell
+
+def readCell (d : Storage) : Option Cell → Option (Word d)
+  | none => none
+  | some (.mk actual v) => if h : actual=d then some (h ▸ v) else none
+@[simp] theorem read_same (d : Storage) (v : Word d) : readCell d (some (.mk d v))=some v := by simp [readCell]
+
+def write (m : Memory) (r : String) (o : Nat) (v : Option Cell) : Memory :=
+  fun r' o' => if r'=r ∧ o'=o then v else m r' o'
+
+inductive Config where | block1024 | block2048
+  deriving DecidableEq, Repr
+
+def Config.block : Config → Nat | .block1024 => 1024 | .block2048 => 2048
+/-- Includes constructor defaults, not invented explicit decorator arguments. -/
+def Config.warps (_ : Config) : Nat := 4
+def Config.stages : Config → Nat | .block1024 => 3 | .block2048 => 1
+
+def programs (n : Nat) (c : Config) : Nat := (n+c.block-1)/c.block
+def offset (c : Config) (pid lane : Nat) := pid*c.block+lane
+
+structure Parameters where
+  n : Nat
+  x : String
+  scale : String
+  output : String
+
+def Separated (p : Parameters) : Prop := p.x≠p.output ∧ p.scale≠p.output
+
+def Inputs (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (inverse : Word (compute d)) (mem : Memory) : Prop :=
+  (∀ i, i<p.n → mem p.x i=some (.mk d (xs i))) ∧ mem p.scale 0=some (.mk (compute d) inverse)
+
+def Defined (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (inverse : Word (compute d)) : Prop :=
+  ∀ i, i<p.n → LlrintDefined d (scaled b d (xs i) inverse)
+
+def outCell (b : Numerics) (d : Storage) (xs : Nat → Word d)
+    (inverse : Word (compute d)) (i : Nat) : Option Cell :=
+  (result b d (xs i) inverse).map (Cell.mk .i8)
+
+def referenceIndices (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (inverse : Word (compute d)) (indices : List Nat) (initial : Memory) : Memory :=
+  fun r i => if r=p.output ∧ i<p.n ∧ i∈indices then outCell b d xs inverse i else initial r i
+
+def reference (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (inverse : Word (compute d)) (initial : Memory) : Memory :=
+  fun r i => if r=p.output ∧ i<p.n then outCell b d xs inverse i else initial r i
+
+@[simp] theorem reference_nil (b : Numerics) (d : Storage) (p : Parameters)
+    (xs : Nat → Word d) (v : Word (compute d)) (m : Memory) : referenceIndices b d p xs v [] m=m := by
+  funext r i; simp [referenceIndices]
+
+theorem reference_cons (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (v : Word (compute d)) (i : Nat) (is : List Nat) (m : Memory) :
+    referenceIndices b d p xs v (i::is) m=
+    referenceIndices b d p xs v is (if i<p.n then write m p.output i (outCell b d xs v i) else m) := by
+  funext r j
+  by_cases hr : r=p.output <;> by_cases hi : i<p.n <;> by_cases hj : j<p.n <;>
+    by_cases he : j=i <;> by_cases hm : j∈is <;>
+    simp [referenceIndices,write,hr,hi,hj,he,hm]
+  all_goals subst j; contradiction
+
+theorem reference_append (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (v : Word (compute d)) (left right : List Nat) (m : Memory) :
+    referenceIndices b d p xs v right (referenceIndices b d p xs v left m)=
+    referenceIndices b d p xs v (left++right) m := by
+  funext r i
+  by_cases hr : r=p.output <;> by_cases hi : i<p.n <;> by_cases hl : i∈left <;> by_cases hu : i∈right <;>
+    simp [referenceIndices,hr,hi,hl,hu]
+
+theorem reference_inputs (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (v : Word (compute d)) (indices : List Nat) (m : Memory)
+    (sep : Separated p) (hi : Inputs d p xs v m) :
+    Inputs d p xs v (referenceIndices b d p xs v indices m) := by
+  exact ⟨fun i h => by simpa [referenceIndices,sep.1] using hi.1 i h,
+    by simpa [referenceIndices,sep.2] using hi.2⟩
+
+inductive Fault where
+  | inputUnavailable (index : Nat)
+  | inverseUnavailable
+  | conversionUndefined (index : Nat)
+  deriving DecidableEq, Repr
+
+/-- The source's unmasked inverse load happens once per program, including
+programs whose input/store lanes are all masked. Active x loads have no default.
+Inactive undefined arithmetic cannot produce an observable store. Faults are
+interpreter diagnostics, not claimed native exceptions or rollback behavior. -/
+def runLanes (b : Numerics) (d : Storage) (p : Parameters) (snapshot : Memory)
+    (v : Word (compute d)) (c : Config) (pid : Nat) : List Nat → Memory → Except Fault Memory
+  | [],working => .ok working
+  | lane::lanes,working =>
+    let i := offset c pid lane
+    if i<p.n then
+      match readCell d (snapshot p.x i) with
+      | none => .error (.inputUnavailable i)
+      | some x => match (source d).eval b x v with
+        | none => .error (.conversionUndefined i)
+        | some z => runLanes b d p snapshot v c pid lanes (write working p.output i (some (.mk .i8 z)))
+    else runLanes b d p snapshot v c pid lanes working
+
+def runProgram (b : Numerics) (d : Storage) (p : Parameters) (c : Config) (pid : Nat)
+    (initial : Memory) : Except Fault Memory :=
+  match readCell (compute d) (initial p.scale 0) with
+  | none => .error .inverseUnavailable
+  | some v => runLanes b d p initial v c pid (List.range c.block) initial
+
+def runGrid (b : Numerics) (d : Storage) (p : Parameters) (c : Config) : List Nat → Memory → Except Fault Memory
+  | [],initial => .ok initial
+  | pid::pids,initial => do runGrid b d p c pids (← runProgram b d p c pid initial)
+
+def footprint (c : Config) (pids : List Nat) : List Nat :=
+  pids.flatMap (fun pid => (List.range c.block).map (offset c pid))
+
+theorem lanes_success (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (v : Word (compute d)) (snapshot : Memory) (inputs : Inputs d p xs v snapshot)
+    (defined : Defined b d p xs v) (c : Config) (pid : Nat) (lanes : List Nat) (working : Memory) :
+    runLanes b d p snapshot v c pid lanes working=
+      .ok (referenceIndices b d p xs v (lanes.map (offset c pid)) working) := by
+  induction lanes generalizing working with
+  | nil => simp [runLanes]
+  | cons lane lanes ih =>
+    rw [runLanes]
+    by_cases active : offset c pid lane<p.n
+    · have hd := (defined_result b d (xs (offset c pid lane)) v).2 (defined _ active)
+      obtain ⟨z,hz⟩ := Option.isSome_iff_exists.mp hd
+      rw [if_pos active,inputs.1 _ active,read_same]
+      dsimp only
+      rw [source_scalar,hz]
+      dsimp only
+      rw [ih]
+      simp [reference_cons,active,outCell,hz]
+    · rw [if_neg active,ih]
+      simp [reference_cons,active]
+
+theorem program_success (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (v : Word (compute d)) (initial : Memory) (inputs : Inputs d p xs v initial)
+    (defined : Defined b d p xs v) (c : Config) (pid : Nat) :
+    runProgram b d p c pid initial=
+      .ok (referenceIndices b d p xs v ((List.range c.block).map (offset c pid)) initial) := by
+  rw [runProgram,inputs.2,read_same]
+  exact lanes_success b d p xs v initial inputs defined c pid _ initial
+
+theorem grid_success (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (v : Word (compute d)) (sep : Separated p) (defined : Defined b d p xs v)
+    (c : Config) (pids : List Nat) (initial : Memory) (inputs : Inputs d p xs v initial) :
+    runGrid b d p c pids initial=.ok (referenceIndices b d p xs v (footprint c pids) initial) := by
+  induction pids generalizing initial with
+  | nil => simp [runGrid,footprint]
+  | cons pid pids ih =>
+    rw [runGrid,program_success b d p xs v initial inputs defined c pid]
+    change runGrid b d p c pids _ = _
+    rw [ih _ (reference_inputs b d p xs v _ initial sep inputs),reference_append]
+    rfl
+
+theorem footprint_membership (c : Config) (pids : List Nat) (i : Nat) :
+    i∈footprint c pids ↔ i/c.block∈pids := by
+  simp only [footprint,List.mem_flatMap,List.mem_map,List.mem_range]
+  constructor
+  · rintro ⟨pid,hp,lane,hl,hi⟩
+    have he : i/c.block=pid := by cases c <;> simp [offset,Config.block] at hi hl ⊢ <;> omega
+    simpa [he] using hp
+  · intro hp
+    refine ⟨i/c.block,hp,i%c.block,Nat.mod_lt _ (by cases c <;> decide),?_⟩
+    cases c <;> simp [offset,Config.block] <;> omega
+
+theorem complete_grid (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (v : Word (compute d)) (sep : Separated p) (defined : Defined b d p xs v)
+    (c : Config) (initial : Memory) (inputs : Inputs d p xs v initial) :
+    runGrid b d p c (List.range (programs p.n c)) initial=.ok (reference b d p xs v initial) := by
+  rw [grid_success b d p xs v sep defined c _ initial inputs]
+  congr 1
+  funext r i
+  by_cases hi : i<p.n
+  · have hc : i∈footprint c (List.range (programs p.n c)) := by
+      rw [footprint_membership,List.mem_range]
+      cases c <;> simp [programs,Config.block] <;> omega
+    simp [referenceIndices,reference,hi,hc]
+  · simp [referenceIndices,reference,hi]
+
+/-- Every benchmark trial and final selected launch consumes the preceding
+memory. Cache hits and arbitrary finite warmups/repetitions are included. -/
+def runTrials (b : Numerics) (d : Storage) (p : Parameters) : List Config → Memory → Except Fault Memory
+  | [],initial => .ok initial
+  | c::cs,initial => do runTrials b d p cs (← runGrid b d p c (List.range (programs p.n c)) initial)
+
+theorem reference_idempotent (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (v : Word (compute d)) (initial : Memory) :
+    reference b d p xs v (reference b d p xs v initial)=reference b d p xs v initial := by
+  funext r i
+  by_cases h : r=p.output ∧ i<p.n <;> simp [reference,h]
+
+theorem full_reference_inputs (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (v : Word (compute d)) (m : Memory) (sep : Separated p) (hi : Inputs d p xs v m) :
+    Inputs d p xs v (reference b d p xs v m) := by
+  exact ⟨fun i h => by simpa [reference,sep.1] using hi.1 i h,
+    by simpa [reference,sep.2] using hi.2⟩
+
+theorem trials_correct (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
+    (v : Word (compute d)) (sep : Separated p) (defined : Defined b d p xs v)
+    (trials : List Config) (last : Config) (initial : Memory) (inputs : Inputs d p xs v initial) :
+    runTrials b d p (trials++[last]) initial=.ok (reference b d p xs v initial) := by
+  induction trials generalizing initial with
+  | nil =>
+    simp only [List.nil_append,runTrials,complete_grid b d p xs v sep defined last initial inputs]
+    rfl
+  | cons c cs ih =>
+    simp only [List.cons_append,runTrials]
+    rw [complete_grid b d p xs v sep defined c initial inputs]
+    change runTrials b d p (cs++[last]) _ = _
+    rw [ih _ (full_reference_inputs b d p xs v initial sep inputs),reference_idempotent]
+
+/-- Source i32 pid/block/lane arithmetic cannot wrap for this exact bound.
+At n=2^31 the scalar n argument specializes to i64; offsets remain nonnegative.
+Larger shapes are explicitly outside this no-wrap result. -/
+theorem finite_offsets (n : Nat) (c : Config) (pid lane : Nat)
+    (hn : n≤2^31) (hp : pid<programs n c) (hl : lane<c.block) :
+    offset c pid lane<2^31 := by
+  cases c <;> simp [programs,Config.block,offset] at * <;> omega
+
+#specNonCircular reference avoiding [runTrials,runGrid,runProgram,runLanes,source,Expr.eval]
+#specNonCircular Defined avoiding [runTrials,runGrid,runProgram,runLanes,source,Expr.eval]
+#axiomsClean trials_correct
+#axiomsClean complete_grid
+#axiomsClean finite_offsets
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end QuantizeGlobalFinite

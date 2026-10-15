@@ -1,0 +1,197 @@
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FullSource.lean:29:90: error: unsolved goals
+env : Environment
+device : Device
+d : DType
+n : ℕ
+rankZero : Bool
+r : Storage
+h :
+  (match
+      match env Stage.abs with
+      | none => Except.ok ()
+      | some detail => Except.error { stage := Stage.abs, reason := Rejection.primitive detail } with
+    | Except.error err => Except.error err
+    | Except.ok v =>
+      if (!absSupported device d) = true then Except.error { stage := Stage.abs, reason := Rejection.unsupportedAbs }
+      else
+        match
+          match env Stage.maximum with
+          | none => Except.ok ()
+          | some detail => Except.error { stage := Stage.maximum, reason := Rejection.primitive detail } with
+        | Except.error err => Except.error err
+        | Except.ok v =>
+          if n = 0 then Except.error { stage := Stage.maximum, reason := Rejection.emptyMaximum }
+          else
+            if (!maxSupported d) = true then
+              Except.error { stage := Stage.maximum, reason := Rejection.unsupportedMaximum }
+            else
+              match
+                match env Stage.unsqueeze with
+                | none => Except.ok ()
+                | some detail => Except.error { stage := Stage.unsqueeze, reason := Rejection.primitive detail } with
+              | Except.error err => Except.error err
+              | Except.ok v =>
+                match
+                  match env Stage.reciprocal with
+                  | none => Except.ok ()
+                  | some detail => Except.error { stage := Stage.reciprocal, reason := Rejection.primitive detail } with
+                | Except.error err => Except.error err
+                | Except.ok v =>
+                  if rankZero = true then
+                    Except.error { stage := Stage.outputAllocation, reason := Rejection.missingSize }
+                  else
+                    match
+                      match env Stage.outputAllocation with
+                      | none => Except.ok ()
+                      | some detail =>
+                        Except.error { stage := Stage.outputAllocation, reason := Rejection.primitive detail } with
+                    | Except.error err => Except.error err
+                    | Except.ok v =>
+                      if (device == Device.cpu) = true then
+                        Except.error { stage := Stage.cudaAssertion, reason := Rejection.cudaAssertion }
+                      else
+                        match
+                          match env Stage.signature with
+                          | none => Except.ok ()
+                          | some detail =>
+                            Except.error { stage := Stage.signature, reason := Rejection.primitive detail } with
+                        | Except.error err => Except.error err
+                        | Except.ok v =>
+                          if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then
+                            Except.error { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                          else
+                            match
+                              match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail } with
+                            | Except.error err => Except.error err
+                            | Except.ok v =>
+                              if d = DType.fp16 ∨ d = DType.bf16 then
+                                Except.error { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                              else
+                                match
+                                  match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail } with
+                                | Except.error err => Except.error err
+                                | Except.ok v =>
+                                  match route d with
+                                  | some r => Except.ok r
+                                  | none =>
+                                    throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }) =
+    Except.ok r
+⊢ Admitted env device d n rankZero r
+env : Environment
+device : Device
+d : DType
+n : ℕ
+rankZero : Bool
+r : Storage
+h :
+  (match
+      match env Stage.abs with
+      | none => Except.ok ()
+      | some detail => Except.error { stage := Stage.abs, reason := Rejection.primitive detail } with
+    | Except.error err => Except.error err
+    | Except.ok v =>
+      if (!absSupported device d) = true then Except.error { stage := Stage.abs, reason := Rejection.unsupportedAbs }
+      else
+        match
+          match env Stage.maximum with
+          | none => Except.ok ()
+          | some detail => Except.error { stage := Stage.maximum, reason := Rejection.primitive detail } with
+        | Except.error err => Except.error err
+        | Except.ok v =>
+          if n = 0 then Except.error { stage := Stage.maximum, reason := Rejection.emptyMaximum }
+          else
+            if (!maxSupported d) = true then
+              Except.error { stage := Stage.maximum, reason := Rejection.unsupportedMaximum }
+            else
+              match
+                match env Stage.unsqueeze with
+                | none => Except.ok ()
+                | some detail => Except.error { stage := Stage.unsqueeze, reason := Rejection.primitive detail } with
+              | Except.error err => Except.error err
+              | Except.ok v =>
+                match
+                  match env Stage.reciprocal with
+                  | none => Except.ok ()
+                  | some detail => Except.error { stage := Stage.reciprocal, reason := Rejection.primitive detail } with
+                | Except.error err => Except.error err
+                | Except.ok v =>
+                  if rankZero = true then
+                    Except.error { stage := Stage.outputAllocation, reason := Rejection.missingSize }
+                  else
+                    match
+                      match env Stage.outputAllocation with
+                      | none => Except.ok ()
+                      | some detail =>
+                        Except.error { stage := Stage.outputAllocation, reason := Rejection.primitive detail } with
+                    | Except.error err => Except.error err
+                    | Except.ok v =>
+                      if (device == Device.cpu) = true then
+                        Except.error { stage := Stage.cudaAssertion, reason := Rejection.cudaAssertion }
+                      else
+                        match
+                          match env Stage.signature with
+                          | none => Except.ok ()
+                          | some detail =>
+                            Except.error { stage := Stage.signature, reason := Rejection.primitive detail } with
+                        | Except.error err => Except.error err
+                        | Except.ok v =>
+                          if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then
+                            Except.error { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                          else
+                            match
+                              match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail } with
+                            | Except.error err => Except.error err
+                            | Except.ok v =>
+                              if d = DType.fp16 ∨ d = DType.bf16 then
+                                Except.error { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                              else
+                                match
+                                  match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail } with
+                                | Except.error err => Except.error err
+                                | Except.ok v =>
+                                  match route d with
+                                  | some r => Except.ok r
+                                  | none =>
+                                    throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }) =
+    Except.ok r
+⊢ Admitted env device d n rankZero r
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FullSource.lean:31:57: warning: This simp argument is unused:
+  MonadExceptOf.throw
+
+Hint: Omit it from the simp argument list.
+  simp only [̵B̵i̵n̵d̵.̵b̵i̵n̵d̵,̵E̵x̵c̵e̵p̵t̵.̵b̵i̵n̵d̵,̵P̵u̵r̵e̵.̵p̵u̵r̵e̵,̵E̵x̵c̵e̵p̵t̵.̵p̵u̵r̵e̵,̵M̵o̵n̵a̵d̵E̵x̵c̵e̵p̵t̵O̵f̵.̵t̵h̵r̵o̵w̵]̵[̲B̲i̲n̲d̲.̲b̲i̲n̲d̲,̲ ̲E̲x̲c̲e̲p̲t̲.̲b̲i̲n̲d̲,̲ ̲P̲u̲r̲e̲.̲p̲u̲r̲e̲,̲ ̲E̲x̲c̲e̲p̲t̲.̲p̲u̲r̲e̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FullSource.lean:32:48: warning: This simp argument is unused:
+  except_bind_ok
+
+Hint: Omit it from the simp argument list.
+  simp_all only [̵e̵x̵c̵e̵p̵t̵_̵b̵i̵n̵d̵_̵o̵k̵,̵e̵x̵c̵e̵p̵t̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵,̵r̵e̵d̵u̵c̵e̵C̵t̵o̵r̵E̵q̵,̵E̵x̵c̵e̵p̵t̵.̵o̵k̵.̵i̵n̵j̵E̵q̵]̵[̲e̲x̲c̲e̲p̲t̲_̲b̲i̲n̲d̲_̲e̲r̲r̲o̲r̲,̲ ̲r̲e̲d̲u̲c̲e̲C̲t̲o̲r̲E̲q̲,̲ ̲E̲x̲c̲e̲p̲t̲.̲o̲k̲.̲i̲n̲j̲E̲q̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FullSource.lean:32:63: warning: This simp argument is unused:
+  except_bind_error
+
+Hint: Omit it from the simp argument list.
+  simp_all only [̵e̵x̵c̵e̵p̵t̵_̵b̵i̵n̵d̵_̵o̵k̵,̵e̵x̵c̵e̵p̵t̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵,̵r̵e̵d̵u̵c̵e̵C̵t̵o̵r̵E̵q̵,̵E̵x̵c̵e̵p̵t̵.̵o̵k̵.̵i̵n̵j̵E̵q̵]̵[̲e̲x̲c̲e̲p̲t̲_̲b̲i̲n̲d̲_̲o̲k̲,̲ ̲r̲e̲d̲u̲c̲e̲C̲t̲o̲r̲E̲q̲,̲ ̲E̲x̲c̲e̲p̲t̲.̲o̲k̲.̲i̲n̲j̲E̲q̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FullSource.lean:32:94: warning: This simp argument is unused:
+  Except.ok.injEq
+
+Hint: Omit it from the simp argument list.
+  simp_all only [̵e̵x̵c̵e̵p̵t̵_̵b̵i̵n̵d̵_̵o̵k̵,̵e̵x̵c̵e̵p̵t̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵,̵r̵e̵d̵u̵c̵e̵C̵t̵o̵r̵E̵q̵,̵E̵x̵c̵e̵p̵t̵.̵o̵k̵.̵i̵n̵j̵E̵q̵]̵[̲e̲x̲c̲e̲p̲t̲_̲b̲i̲n̲d̲_̲o̲k̲,̲ ̲e̲x̲c̲e̲p̲t̲_̲b̲i̲n̲d̲_̲e̲r̲r̲o̲r̲,̲ ̲r̲e̲d̲u̲c̲e̲C̲t̲o̲r̲E̲q̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

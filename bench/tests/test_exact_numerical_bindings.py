@@ -8,7 +8,7 @@ from exact_numerical_bindings import (PACKAGE_PATHS,collect,derive_authority,
     validate_exact_queue,canonical,sha)
 from deferred_numerical_experiments import collect_legacy
 from reviewed_numerical_extensions import (RELU_FINITE_PACKAGE, RELU_FINITE_REVIEW,
-    VECTOR_FINITE_PACKAGE, VECTOR_FINITE_REVIEW)
+    VECTOR_FINITE_PACKAGE, VECTOR_FINITE_REVIEW, QUANT_GLOBAL_PACKAGE, QUANT_GLOBAL_REVIEW)
 import check_original_program_scope as gate
 legacy,authority,queue=collect(REPO)
 
@@ -51,12 +51,12 @@ class ExactBindings(unittest.TestCase):
  def assert_reject(self,data):
   with self.assertRaises(ValueError):validate_exact_queue(data,authority,legacy)
  def test_complete_authority_and_legacy_unchanged(self):
-  self.assertEqual(queue['rules'][:11],legacy['rules']);self.assertEqual(84,len(queue['rules']))
-  self.assertEqual([29,20,9,340,2601],[len(r['cases']) for r in authority['requirements']])
-  self.assertEqual([15,13,3,9,26],[len(r['callback_union']) for r in authority['requirements']])
-  self.assertEqual(833,sum(len(b['declarations']) for r in authority['rules'] for b in r['scope_bindings']))
+  self.assertEqual(queue['rules'][:11],legacy['rules']);self.assertEqual(100,len(queue['rules']))
+  self.assertEqual([29,20,9,340,2601,2400],[len(r['cases']) for r in authority['requirements']])
+  self.assertEqual([15,13,3,9,26,14],[len(r['callback_union']) for r in authority['requirements']])
+  self.assertEqual(1253,sum(len(b['declarations']) for r in authority['rules'] for b in r['scope_bindings']))
   result=validate_exact_queue(queue,authority,legacy)
-  self.assertEqual(786,result['exact_bindings']);self.assertEqual(2999,result['declaration_cases'])
+  self.assertEqual(1206,result['exact_bindings']);self.assertEqual(5399,result['declaration_cases'])
  def test_all_exact_usage_cases(self):
   for task in ('vector_addition','relu_triton_kernel'):
    row,p,c=usage(task);gate.validate_used_numerics(task,row,p,c,queue,root=REPO)
@@ -212,6 +212,31 @@ class ExactBindings(unittest.TestCase):
    with tempfile.TemporaryDirectory() as tmp:
     root=clone_inputs(tmp);path=root/relative;path.write_bytes(path.read_bytes()+b' ')
     with self.assertRaisesRegex(ValueError,'changed reviewed vector input'):
+     derive_authority(root)
+ def test_quantize_rejections_and_hazards_need_no_numeric_assumptions(self):
+  row,p,c=usage('quantize_global',lambda t,c:c['configuration']['outcome']!='returned_or_undefined_conversion')
+  self.assertEqual({},row['callback_assumptions']);self.assertEqual([],row['deferred_numerical_assumptions'])
+  gate.validate_used_numerics('quantize_global',row,p,c,queue,root=REPO)
+ def test_quantize_each_source_multiply_port_is_required(self):
+  table=authority['requirements'][5]
+  case=next(c for c in table['cases'] if len(c['required_binding_refs'])>len(c['required_callbacks']))
+  row,p,c=usage('quantize_global',lambda t,x:t['declaration']==table['declaration'] and x==case)
+  gate.validate_used_numerics('quantize_global',row,p,c,queue,root=REPO)
+  callback=next(k for k,v in row['callback_assumptions'].items() if len(v)>1)
+  row['callback_assumptions'][callback].pop()
+  with self.assertRaisesRegex(ValueError,'exact scalar port omitted'):
+   gate.validate_used_numerics('quantize_global',row,p,c,queue,root=REPO)
+ def test_changed_quantize_execution_native_receipt_ports_or_review_rejected(self):
+  for relative in [
+    'bench/tritonbench_g/quantize_global/Proofs/FinitePhysicalExecution.lean',
+    QUANT_GLOBAL_PACKAGE+'/evidence/receipt.json',
+    QUANT_GLOBAL_PACKAGE+'/evidence/native-attempts/20261015T204252377299Z/receipt.json',
+    QUANT_GLOBAL_PACKAGE+'/evidence/numerical-authority-delta.json',
+    QUANT_GLOBAL_REVIEW,
+  ]:
+   with tempfile.TemporaryDirectory() as tmp:
+    root=clone_inputs(tmp);path=root/relative;path.write_bytes(path.read_bytes()+b' ')
+    with self.assertRaisesRegex(ValueError,'changed reviewed quantize input'):
      derive_authority(root)
  def test_exact_consumer_requires_every_port_ref(self):
   # Same-callback ports need independent references; the source-derived current

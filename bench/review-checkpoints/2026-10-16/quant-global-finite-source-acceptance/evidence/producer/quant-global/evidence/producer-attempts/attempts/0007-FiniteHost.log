@@ -1,0 +1,19 @@
+QuantizeGlobalFinite.Result: definition does not reference [QuantizeGlobalFinite.execute,
+ QuantizeGlobalFinite.prepare,
+ QuantizeGlobalFinite.runTrials,
+ QuantizeGlobalFinite.runGrid,
+ QuantizeGlobalFinite.runProgram,
+ QuantizeGlobalFinite.runLanes,
+ QuantizeGlobalFinite.source,
+ QuantizeGlobalFinite.Expr.eval] — non-circular ✓
+QuantizeGlobalFinite.produced: definition does not reference [QuantizeGlobalFinite.execute,
+ QuantizeGlobalFinite.prepare,
+ QuantizeGlobalFinite.runTrials,
+ QuantizeGlobalFinite.runGrid,
+ QuantizeGlobalFinite.runProgram,
+ QuantizeGlobalFinite.runLanes,
+ QuantizeGlobalFinite.source,
+ QuantizeGlobalFinite.Expr.eval] — non-circular ✓
+QuantizeGlobalFinite.quantize_global_finite_host_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

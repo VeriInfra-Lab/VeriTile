@@ -1,0 +1,1097 @@
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteAdmission.lean:101:63: error: unsolved goals
+case boolean
+n : ℕ
+hn : 0 < n
+⊢ (do
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok Storage.boolean) =
+    Except.ok Storage.boolean
+
+case u8
+n : ℕ
+hn : 0 < n
+⊢ (do
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok Storage.u8) =
+    Except.ok Storage.u8
+
+case i8
+n : ℕ
+hn : 0 < n
+⊢ (do
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok Storage.i8) =
+    Except.ok Storage.i8
+
+case i16
+n : ℕ
+hn : 0 < n
+⊢ (do
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok Storage.i16) =
+    Except.ok Storage.i16
+
+case i32
+n : ℕ
+hn : 0 < n
+⊢ (do
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok Storage.i32) =
+    Except.ok Storage.i32
+
+case i64
+n : ℕ
+hn : 0 < n
+⊢ (do
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok Storage.i64) =
+    Except.ok Storage.i64
+
+case fp32
+n : ℕ
+hn : 0 < n
+⊢ (do
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok Storage.fp32) =
+    Except.ok Storage.fp32
+
+case fp64
+n : ℕ
+hn : 0 < n
+⊢ (do
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok ()
+      Except.ok Storage.fp64) =
+    Except.ok Storage.fp64
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteAdmission.lean:131:66: error: unsolved goals
+env : Environment
+device : Device
+d : DType
+n : ℕ
+z : Bool
+detail : String
+h : env Stage.abs = some detail
+⊢ (do
+      Except.error { stage := Stage.abs, reason := Rejection.primitive detail }
+      if absSupported device d = false then do
+          throw { stage := Stage.abs, reason := Rejection.unsupportedAbs }
+          match env Stage.maximum with
+            | none => Except.ok ()
+            | some detail => Except.error { stage := Stage.maximum, reason := Rejection.primitive detail }
+          if n = 0 then do
+              throw { stage := Stage.maximum, reason := Rejection.emptyMaximum }
+              if maxSupported d = false then do
+                  throw { stage := Stage.maximum, reason := Rejection.unsupportedMaximum }
+                  match env Stage.unsqueeze with
+                    | none => Except.ok ()
+                    | some detail => Except.error { stage := Stage.unsqueeze, reason := Rejection.primitive detail }
+                  match env Stage.reciprocal with
+                    | none => Except.ok ()
+                    | some detail => Except.error { stage := Stage.reciprocal, reason := Rejection.primitive detail }
+                  if z = true then do
+                      throw { stage := Stage.outputAllocation, reason := Rejection.missingSize }
+                      match env Stage.outputAllocation with
+                        | none => Except.ok ()
+                        | some detail =>
+                          Except.error { stage := Stage.outputAllocation, reason := Rejection.primitive detail }
+                      if device = Device.cpu then do
+                          throw { stage := Stage.cudaAssertion, reason := Rejection.cudaAssertion }
+                          match env Stage.signature with
+                            | none => Except.ok ()
+                            | some detail =>
+                              Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                          if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                              throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            else do
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                        else do
+                          match env Stage.signature with
+                            | none => Except.ok ()
+                            | some detail =>
+                              Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                          if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                              throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            else do
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                    else do
+                      match env Stage.outputAllocation with
+                        | none => Except.ok ()
+                        | some detail =>
+                          Except.error { stage := Stage.outputAllocation, reason := Rejection.primitive detail }
+                      if device = Device.cpu then do
+                          throw { stage := Stage.cudaAssertion, reason := Rejection.cudaAssertion }
+                          match env Stage.signature with
+                            | none => Except.ok ()
+                            | some detail =>
+                              Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                          if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                              throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            else do
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                        else do
+                          match env Stage.signature with
+                            | none => Except.ok ()
+                            | some detail =>
+                              Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                          if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                              throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            else do
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                else do
+                  match env Stage.unsqueeze with
+                    | none => Except.ok ()
+                    | some detail => Except.error { stage := Stage.unsqueeze, reason := Rejection.primitive detail }
+                  match env Stage.reciprocal with
+                    | none => Except.ok ()
+                    | some detail => Except.error { stage := Stage.reciprocal, reason := Rejection.primitive detail }
+                  if z = true then do
+                      throw { stage := Stage.outputAllocation, reason := Rejection.missingSize }
+                      match env Stage.outputAllocation with
+                        | none => Except.ok ()
+                        | some detail =>
+                          Except.error { stage := Stage.outputAllocation, reason := Rejection.primitive detail }
+                      if device = Device.cpu then do
+                          throw { stage := Stage.cudaAssertion, reason := Rejection.cudaAssertion }
+                          match env Stage.signature with
+                            | none => Except.ok ()
+                            | some detail =>
+                              Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                          if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                              throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            else do
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                        else do
+                          match env Stage.signature with
+                            | none => Except.ok ()
+                            | some detail =>
+                              Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                          if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                              throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            else do
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                    else do
+                      match env Stage.outputAllocation with
+                        | none => Except.ok ()
+                        | some detail =>
+                          Except.error { stage := Stage.outputAllocation, reason := Rejection.primitive detail }
+                      if device = Device.cpu then do
+                          throw { stage := Stage.cudaAssertion, reason := Rejection.cudaAssertion }
+                          match env Stage.signature with
+                            | none => Except.ok ()
+                            | some detail =>
+                              Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                          if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                              throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            else do
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                        else do
+                          match env Stage.signature with
+                            | none => Except.ok ()
+                            | some detail =>
+                              Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                          if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                              throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            else do
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else do
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+            else
+              if maxSupported d = false then do
+                throw { stage := Stage.maximum, reason := Rejection.unsupportedMaximum }
+                match env Stage.unsqueeze with
+                  | none => Except.ok ()
+                  | some detail => Except.error { stage := Stage.unsqueeze, reason := Rejection.primitive detail }
+                match env Stage.reciprocal with
+                  | none => Except.ok ()
+                  | some detail => Except.error { stage := Stage.reciprocal, reason := Rejection.primitive detail }
+                if z = true then do
+                    throw { stage := Stage.outputAllocation, reason := Rejection.missingSize }
+                    match env Stage.outputAllocation with
+                      | none => Except.ok ()
+                      | some detail =>
+                        Except.error { stage := Stage.outputAllocation, reason := Rejection.primitive detail }
+                    if device = Device.cpu then do
+                        throw { stage := Stage.cudaAssertion, reason := Rejection.cudaAssertion }
+                        match env Stage.signature with
+                          | none => Except.ok ()
+                          | some detail =>
+                            Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                        if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                            throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                          else do
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                      else do
+                        match env Stage.signature with
+                          | none => Except.ok ()
+                          | some detail =>
+                            Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                        if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                            throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                          else do
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                  else do
+                    match env Stage.outputAllocation with
+                      | none => Except.ok ()
+                      | some detail =>
+                        Except.error { stage := Stage.outputAllocation, reason := Rejection.primitive detail }
+                    if device = Device.cpu then do
+                        throw { stage := Stage.cudaAssertion, reason := Rejection.cudaAssertion }
+                        match env Stage.signature with
+                          | none => Except.ok ()
+                          | some detail =>
+                            Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                        if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                            throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                          else do
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                      else do
+                        match env Stage.signature with
+                          | none => Except.ok ()
+                          | some detail =>
+                            Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                        if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                            throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                          else do
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+              else do
+                match env Stage.unsqueeze with
+                  | none => Except.ok ()
+                  | some detail => Except.error { stage := Stage.unsqueeze, reason := Rejection.primitive detail }
+                match env Stage.reciprocal with
+                  | none => Except.ok ()
+                  | some detail => Except.error { stage := Stage.reciprocal, reason := Rejection.primitive detail }
+                if z = true then do
+                    throw { stage := Stage.outputAllocation, reason := Rejection.missingSize }
+                    match env Stage.outputAllocation with
+                      | none => Except.ok ()
+                      | some detail =>
+                        Except.error { stage := Stage.outputAllocation, reason := Rejection.primitive detail }
+                    if device = Device.cpu then do
+                        throw { stage := Stage.cudaAssertion, reason := Rejection.cudaAssertion }
+                        match env Stage.signature with
+                          | none => Except.ok ()
+                          | some detail =>
+                            Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                        if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                            throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                          else do
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                      else do
+                        match env Stage.signature with
+                          | none => Except.ok ()
+                          | some detail =>
+                            Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                        if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                            throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                          else do
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                  else do
+                    match env Stage.outputAllocation with
+                      | none => Except.ok ()
+                      | some detail =>
+                        Except.error { stage := Stage.outputAllocation, reason := Rejection.primitive detail }
+                    if device = Device.cpu then do
+                        throw { stage := Stage.cudaAssertion, reason := Rejection.cudaAssertion }
+                        match env Stage.signature with
+                          | none => Except.ok ()
+                          | some detail =>
+                            Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                        if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                            throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                          else do
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                      else do
+                        match env Stage.signature with
+                          | none => Except.ok ()
+                          | some detail =>
+                            Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                        if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                            throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                          else do
+                            match env Stage.compilation with
+                              | none => Except.ok ()
+                              | some detail =>
+                                Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                            if d = DType.fp16 ∨ d = DType.bf16 then do
+                                throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              else do
+                                match env Stage.launch with
+                                  | none => Except.ok ()
+                                  | some detail =>
+                                    Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                match route d with
+                                  | some r => pure r
+                                  | none => throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+        else do
+          match env Stage.maximum with
+            | none => Except.ok ()
+            | some detail => Except.error { stage := Stage.maximum, reason := Rejection.primitive detail }
+          if n = 0 then do
+              throw { stage := Stage.maximum, reason := Rejection.emptyMaximum }
+              if maxSupported d = false then do
+                  throw { stage := Stage.maximum, reason := Rejection.unsupportedMaximum }
+                  match env Stage.unsqueeze with
+                    | none => Except.ok ()
+                    | some detail => Except.error { stage := Stage.unsqueeze, reason := Rejection.primitive detail }
+                  match env Stage.reciprocal with
+                    | none => Except.ok ()
+                    | some detail => Except.error { stage := Stage.reciprocal, reason := Rejection.primitive detail }
+                  if z = true then do
+                      throw { stage := Stage.outputAllocation, reason := Rejection.missingSize }
+                      match env Stage.outputAllocation with
+                        | none => Except.ok ()
+                        | some detail =>
+                          Except.error { stage := Stage.outputAllocation, reason := Rejection.primitive detail }
+                      if device = Device.cpu then do
+                          throw { stage := Stage.cudaAssertion, reason := Rejection.cudaAssertion }
+                          match env Stage.signature with
+                            | none => Except.ok ()
+                            | some detail =>
+                              Except.error { stage := Stage.signature, reason := Rejection.primitive detail }
+                          if d = DType.c32 ∨ d = DType.c64 ∨ d = DType.c128 then do
+                              throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                              match env Stage.compilation with
+                                | none => Except.ok ()
+                                | some detail =>
+                                  Except.error { stage := Stage.compilation, reason := Rejection.primitive detail }
+                              if d = DType.fp16 ∨ d = DType.bf16 then do
+                                  throw { stage := Stage.compilation, reason := Rejection.unsupportedLlrint }
+                                  match env Stage.launch with
+                                    | none => Except.ok ()
+                                    | some detail =>
+                                      Except.error { stage := Stage.launch, reason := Rejection.primitive detail }
+                                  match route d with
+                                    | some r => pure r
+                                    | none =>
+                                      throw { stage := Stage.signature, reason := Rejection.unsupportedSignature }
+                                else ⋯
+                            else ⋯
+                        else ⋯
+                    else ⋯
+                else ⋯
+            else ⋯) =
+    ⋯
+QuantizeGlobalFinite.quantize_global_dtype_admission_inventory: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteAdmission.lean:134:0: error: QuantizeGlobalFinite.admitted_route: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+QuantizeGlobalFinite.route_signature: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteAdmission.lean:136:0: error: QuantizeGlobalFinite.first_primitive_failure: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

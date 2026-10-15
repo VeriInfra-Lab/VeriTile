@@ -1,0 +1,109 @@
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:20:11: error: expected token
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:28:16: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.rejected`
+  APIResult
+is not of the form `C ...` or `... → C ...` where C is a constant
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:30:25: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.unsafe` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Aesop.ForwardRulePriority.unsafe`
+  [apply] `Aesop.PhaseName.unsafe`
+  [apply] `Aesop.PhaseSpec.unsafe`
+  [apply] `Aesop.RegularRule.unsafe`
+  [apply] `Lean.DefinitionSafety.unsafe`
+  [apply] `Lean.Parser.Command.unsafe`
+  [apply] `Lean.Parser.Term.unsafe`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:31:57: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.unsafe` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Aesop.ForwardRulePriority.unsafe`
+  [apply] `Aesop.PhaseName.unsafe`
+  [apply] `Aesop.PhaseSpec.unsafe`
+  [apply] `Aesop.RegularRule.unsafe`
+  [apply] `Lean.DefinitionSafety.unsafe`
+  [apply] `Lean.Parser.Command.unsafe`
+  [apply] `Lean.Parser.Term.unsafe`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:32:9: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.attempted` could not be determined
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:45:69: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.attempted` could not be determined
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:55:13: error: unsolved goals
+case cons
+b : Numerics
+d : Storage
+a : Input
+alloc : Allocations
+m : Memory
+x : String
+xs : ℕ → Word d
+nonempty : 0 < a.numel
+rank : a.shape ≠ []
+cuda : a.isCuda = true
+trials : List Config
+last : Config
+h : Word d
+t : List (Word d)
+D : Domain d a alloc m x (h :: t) xs
+safe : Safe b d a alloc x (h :: t) xs
+hlen : a.logicalOffsets.length = (h :: t).length
+hne : h :: t ≠ []
+maximum : Word d := b.maximum d (b.abs d h) (List.map (b.abs d) t)
+hm : produced b d (h :: t) = some maximum
+ret : Returned
+hr : execute b (fun x => none) d a alloc m x trials last = Except.ok ret
+hres : Result b d a alloc m xs maximum ret
+hroute : admission (fun x => none) Device.cuda (dtype d) a.numel false = Except.ok d
+hz : a.shape.isEmpty = false
+⊢ sorry () = ?m.25 b d a alloc m x (h :: t) xs D nonempty rank cuda safe trials last maximum ret
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:38:14: error(lean.unknownIdentifier): Unknown constant `quantize_global_complete_finite_execution`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:63:10: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:63:36: warning: This simp argument is unused:
+  hr
+
+Hint: Omit it from the simp argument list.
+  simp [̵e̵x̵e̵c̵u̵t̵e̵A̵P̵I̵,̵c̵u̵d̵a̵,̵h̵z̵,̵h̵r̵o̵u̵t̵e̵,̵h̵r̵,̵N̵a̵t̵.̵n̵o̵t̵_̵l̵t̵_̵o̵f̵_̵g̵e̵ ̵D̵.̵i̵n̵d̵e̵x̵B̵o̵u̵n̵d̵,̵N̵a̵t̵.̵n̵o̵t̵_̵l̵t̵_̵o̵f̵_̵g̵e̵[̲e̲x̲e̲c̲u̲t̲e̲A̲P̲I̲,̲ ̲c̲u̲d̲a̲,̲ ̲h̲z̲,̲ ̲h̲r̲o̲u̲t̲e̲,̲ ̲N̲a̲t̲.̲n̲o̲t̲_̲l̲t̲_̲o̲f̲_̲g̲e̲ ̲D̲.̲i̲n̲d̲e̲x̲B̲o̲u̲n̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲ ̲ ̲N̲a̲t̲.̲n̲o̲t̲_̲l̲t̲_̲o̲f̲_̲g̲e̲ D.linearBounds]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:69:47: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.rejected` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `String.Slice.Pattern.SearchStep.rejected`
+  [apply] `Std.Iterators.Types.TakeWhile.PlausibleStep.rejected`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:65:14: error(lean.unknownIdentifier): Unknown constant `quantize_global_rejected_source_outcome`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:150:47: error(lean.invalidDottedIdent): Invalid dotted identifier notation: The expected type of `.unsafe` could not be determined
+
+Hint: Using one of these would be unambiguous:
+  [apply] `Aesop.ForwardRulePriority.unsafe`
+  [apply] `Aesop.PhaseName.unsafe`
+  [apply] `Aesop.PhaseSpec.unsafe`
+  [apply] `Aesop.RegularRule.unsafe`
+  [apply] `Lean.DefinitionSafety.unsafe`
+  [apply] `Lean.Parser.Command.unsafe`
+  [apply] `Lean.Parser.Term.unsafe`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:145:14: error(lean.unknownIdentifier): Unknown constant `quantize_global_unsafe_source_outcome`
+QuantizeGlobalFinite.Safe: definition does not reference [QuantizeGlobalFinite.executeAPI,
+ QuantizeGlobalFinite.execute,
+ QuantizeGlobalFinite.prepare,
+ QuantizeGlobalFinite.runTrials,
+ QuantizeGlobalFinite.runGrid,
+ QuantizeGlobalFinite.runProgram,
+ QuantizeGlobalFinite.runLanes,
+ QuantizeGlobalFinite.source,
+ QuantizeGlobalFinite.Expr.eval] — non-circular ✓
+QuantizeGlobalFinite.UndefinedAt: definition does not reference [QuantizeGlobalFinite.executeAPI,
+ QuantizeGlobalFinite.execute,
+ QuantizeGlobalFinite.prepare,
+ QuantizeGlobalFinite.runTrials,
+ QuantizeGlobalFinite.runGrid,
+ QuantizeGlobalFinite.runProgram,
+ QuantizeGlobalFinite.runLanes,
+ QuantizeGlobalFinite.source,
+ QuantizeGlobalFinite.Expr.eval] — non-circular ✓
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:156:13: error(lean.unknownIdentifier): Unknown constant `quantize_global_complete_finite_execution`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:157:13: error(lean.unknownIdentifier): Unknown constant `quantize_global_rejected_source_outcome`
+QuantizeGlobalFinite.quantize_global_undefined_conversion_outcome: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+QuantizeGlobalFinite.quantize_global_source_address_domain: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+QuantizeGlobalFinite.quantize_global_large_shape_unsafe: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteCorrect.lean:161:13: error(lean.unknownIdentifier): Unknown constant `quantize_global_unsafe_source_outcome`

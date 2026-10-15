@@ -1,0 +1,73 @@
+{
+  "integration-build": {
+    "exit_code": 0,
+    "jobs": 7400,
+    "log": {
+      "path": "evidence/integration/quant-global-finite-integration-build.log",
+      "sha256": "8fcc3273ea4c6bac933f47d28a8f19541c46e90b7fbfbf163c3816cd6ae3a872"
+    }
+  },
+  "catalog": {
+    "exit_code": 0,
+    "public_declarations": 955,
+    "log": {
+      "path": "evidence/integration/quant-global-finite-catalog.log",
+      "sha256": "8a5776938c6c0bf261fb9c2163d8b0ff71a4a8b48b2b626d1033d056de2b1c7b"
+    }
+  },
+  "queue": {
+    "exit_code": 0,
+    "rules": 100,
+    "log": {
+      "path": "evidence/integration/quant-global-finite-queue.log",
+      "sha256": "1152d46c4f387538afd7845456601eda3abec769b194947acf4825ac6b637d50"
+    }
+  },
+  "rebind-ledger": {
+    "exit_code": 0,
+    "verified": 1,
+    "verified_with_deferred_numerics": 3,
+    "pending": 179,
+    "log": {
+      "path": "evidence/integration/quant-global-finite-rebind-ledger.log",
+      "sha256": "1a45da61e017ebfa1dab3f2660771c62cbf35d18fea65fac893b63010c89b265"
+    }
+  },
+  "global": {
+    "exit_code": 1,
+    "failed_gates": [
+      "comparator_preflight",
+      "library_replay",
+      "scope_review"
+    ],
+    "log": {
+      "path": "evidence/integration/quant-global-finite-global.log",
+      "sha256": "589039dfd365171fe78ce44a01875cac4a2bd32415c5fee174bfec3395653f11"
+    }
+  },
+  "other-bench-tests": {
+    "exit_code": 0,
+    "tests": 210,
+    "selection": "all benchmark tests except the separately run exact_numerical_bindings module",
+    "log": {
+      "path": "evidence/integration/quant-global-finite-other-bench-tests.log",
+      "sha256": "053995e61a176bccfb16761c1f9e440444f74a2c6cc143b37e222ad2b16902ae"
+    }
+  },
+  "exact-tests": {
+    "exit_code": 0,
+    "tests": 37,
+    "log": {
+      "path": "evidence/integration/quant-global-finite-exact-tests.log",
+      "sha256": "89bb4125d1924a441b48590907f02a1a218c86ef14414850b6f0eee8358702e9"
+    }
+  },
+  "shard-tests": {
+    "exit_code": 0,
+    "tests": 25,
+    "log": {
+      "path": "evidence/integration/quant-global-finite-shard-tests.log",
+      "sha256": "0aefe55e62397a212cfe4c4ef9c2cc5c2649873a00540a6bfa6a32c7a801211c"
+    }
+  }
+}

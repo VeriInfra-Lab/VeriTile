@@ -1,0 +1,245 @@
+import FinitePhysical
+
+namespace QuantizeGlobalFinite
+set_option maxHeartbeats 8000000
+set_option maxRecDepth 24000
+
+def externalMemory (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (m : Memory) : ByteMemory :=
+  externalBytes d a alloc p ⟨m,(outputTensor a alloc,maximumTensor d a alloc)⟩
+
+def byteWrite (m : ByteMemory) (address : Nat) (z : BitVec 8) : ByteMemory :=
+  fun q => if q=address then some z else m q
+
+/-- Primitive store refinement. Logical source stores and physical byte stores
+commute at every active source index, for arbitrary intermediate memory. -/
+theorem output_store_commutes (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (m : Memory) (x : String) (fresh : alloc.Fresh x)
+    (i : Nat) (hi : i<a.numel) (z : BitVec 8) :
+    externalMemory d a alloc p (write m alloc.output i (some (.mk .i8 z)))=
+      byteWrite (externalMemory d a alloc p m) (p.output.base+i) z := by
+  funext address
+  by_cases he : address=p.output.base+i
+  · subst address
+    simp [externalMemory,externalBytes,byteWrite,write,inRange,hi,cellByte,read_same,byteOf,Storage.width]
+  · have hidx : inRange p.output.base a.numel address → address-p.output.base≠i := by
+      unfold inRange
+      omega
+    by_cases ho : inRange p.output.base a.numel address
+    · simp [externalMemory,externalBytes,byteWrite,write,he,ho,hidx ho]
+    · simp [externalMemory,externalBytes,byteWrite,write,he,ho,fresh.2.2.2.2.1,fresh.2.2.2.2.2]
+
+/-- An execution trace of primitive stores, each carrying the active source
+index and the corresponding concrete byte mutation. The proof below constructs
+this trace from the actual source interpreter; it is not an assumed replay. -/
+inductive PhysicalStores (a : Input) (alloc : Allocations) (p : PhysicalLayout) :
+    Memory → ByteMemory → Memory → ByteMemory → Prop where
+  | nil (m : Memory) (bytes : ByteMemory) : PhysicalStores a alloc p m bytes m bytes
+  | step (m : Memory) (bytes : ByteMemory) (i : Nat) (z : BitVec 8) (active : i<a.numel)
+      {final : Memory} {finalBytes : ByteMemory}
+      (rest : PhysicalStores a alloc p (write m alloc.output i (some (.mk .i8 z)))
+        (byteWrite bytes (p.output.base+i) z) final finalBytes) :
+      PhysicalStores a alloc p m bytes final finalBytes
+
+theorem PhysicalStores.trans {a : Input} {alloc : Allocations} {p : PhysicalLayout}
+    {m₀ m₁ m₂ : Memory} {b₀ b₁ b₂ : ByteMemory}
+    (left : PhysicalStores a alloc p m₀ b₀ m₁ b₁)
+    (right : PhysicalStores a alloc p m₁ b₁ m₂ b₂) : PhysicalStores a alloc p m₀ b₀ m₂ b₂ := by
+  induction left with
+  | nil => exact right
+  | step m bytes i z active rest ih => exact .step m bytes i z active (ih right)
+
+theorem PhysicalStores.logical_frame {a : Input} {alloc : Allocations} {p : PhysicalLayout}
+    {initial final : Memory} {initialBytes finalBytes : ByteMemory}
+    (trace : PhysicalStores a alloc p initial initialBytes final finalBytes)
+    (r : String) (i : Nat) (outside : r≠alloc.output) : final r i=initial r i := by
+  induction trace with
+  | nil => rfl
+  | step m bytes j z active rest ih => simpa [write,outside] using ih
+
+theorem PhysicalStores.byte_frame {a : Input} {alloc : Allocations} {p : PhysicalLayout}
+    {initial final : Memory} {initialBytes finalBytes : ByteMemory}
+    (trace : PhysicalStores a alloc p initial initialBytes final finalBytes)
+    (address : Nat) (outside : ¬inRange p.output.base a.numel address) :
+    finalBytes address=initialBytes address := by
+  induction trace with
+  | nil => rfl
+  | step m bytes i z active rest ih =>
+    have he : address≠p.output.base+i := by unfold inRange at outside; omega
+    simpa [byteWrite,he] using ih
+
+theorem PhysicalStores.preserves_inputs {d : Storage} {a : Input} {alloc : Allocations}
+    {p : PhysicalLayout} {initial final : Memory} {initialBytes finalBytes : ByteMemory}
+    (trace : PhysicalStores a alloc p initial initialBytes final finalBytes)
+    (x : String) (sep : Separated (parameters a alloc x))
+    (xs : Nat → Word d) (inverse : Word (compute d))
+    (input : Inputs d (parameters a alloc x) xs inverse initial) :
+    Inputs d (parameters a alloc x) xs inverse final := by
+  refine ⟨?_,?_⟩
+  · intro i hi
+    change final x i=some (.mk d (xs i))
+    rw [trace.logical_frame x i sep.1]
+    exact input.1 i hi
+  · change final alloc.scale 0=some (.mk (compute d) inverse)
+    rw [trace.logical_frame alloc.scale 0 sep.2]
+    exact input.2
+
+theorem lanes_physical (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (x : String) (fresh : alloc.Fresh x) (snapshot : Memory)
+    (v : Word (compute d)) (c : Config) (pid : Nat) (lanes : List Nat)
+    (working final : Memory)
+    (run : runLanes b d (parameters a alloc x) snapshot v c pid lanes working=.ok final) :
+    PhysicalStores a alloc p working (externalMemory d a alloc p working)
+      final (externalMemory d a alloc p final) := by
+  induction lanes generalizing working with
+  | nil => simp only [runLanes,Except.ok.injEq] at run; subst final; exact .nil _ _
+  | cons lane lanes ih =>
+    by_cases active : offset c pid lane<(parameters a alloc x).n
+    · rw [runLanes,if_pos active] at run
+      cases hx : readCell d (snapshot x (offset c pid lane)) with
+      | none => simp [parameters,hx] at run
+      | some value =>
+        simp only [parameters,hx] at run
+        cases hz : (source d).eval b value v with
+        | none => simp [hz] at run
+        | some z =>
+          simp only [hz] at run
+          have tail := ih _ run
+          rw [output_store_commutes d a alloc p working x fresh _ (by simpa [parameters] using active) z] at tail
+          exact .step working _ _ z (by simpa [parameters] using active) tail
+    · rw [runLanes,if_neg active] at run
+      exact ih working run
+
+theorem program_physical (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (x : String) (fresh : alloc.Fresh x) (c : Config) (pid : Nat)
+    (initial final : Memory)
+    (run : runProgram b d (parameters a alloc x) c pid initial=.ok final) :
+    PhysicalStores a alloc p initial (externalMemory d a alloc p initial)
+      final (externalMemory d a alloc p final) := by
+  unfold runProgram at run
+  cases hv : readCell (compute d) (initial (parameters a alloc x).scale 0) with
+  | none => simp [hv] at run
+  | some v =>
+    simp only [hv] at run
+    exact lanes_physical b d a alloc p x fresh initial v c pid _ initial final run
+
+theorem grid_physical (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (p : PhysicalLayout) (x : String) (fresh : alloc.Fresh x) (c : Config) (pids : List Nat)
+    (initial final : Memory)
+    (run : runGrid b d (parameters a alloc x) c pids initial=.ok final) :
+    PhysicalStores a alloc p initial (externalMemory d a alloc p initial)
+      final (externalMemory d a alloc p final) := by
+  induction pids generalizing initial with
+  | nil => simp only [runGrid,Except.ok.injEq] at run; subst final; exact .nil _ _
+  | cons pid pids ih =>
+    rw [runGrid] at run
+    cases hp : runProgram b d (parameters a alloc x) c pid initial with
+    | error e => simp [hp] at run; cases run
+    | ok next =>
+      simp only [hp] at run
+      exact (program_physical b d a alloc p x fresh c pid initial next hp).trans (ih next run)
+
+theorem quantize_global_trial_physical_execution
+    (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations) (p : PhysicalLayout)
+    (x : String) (fresh : alloc.Fresh x) (trials : List Config) (initial final : Memory)
+    (run : runTrials b d (parameters a alloc x) trials initial=.ok final) :
+    PhysicalStores a alloc p initial (externalMemory d a alloc p initial)
+      final (externalMemory d a alloc p final) := by
+  induction trials generalizing initial with
+  | nil => simp only [runTrials,Except.ok.injEq] at run; subst final; exact .nil _ _
+  | cons c cs ih =>
+    rw [runTrials] at run
+    cases hg : runGrid b d (parameters a alloc x) c (List.range (programs (parameters a alloc x).n c)) initial with
+    | error e => simp [hg] at run; cases run
+    | ok next =>
+      simp only [hg] at run
+      exact (grid_physical b d a alloc p x fresh c _ initial next hg).trans (ih next run)
+
+def wordWrite {d : Storage} (m : ByteMemory) (base : Nat) (w : Word d) : ByteMemory :=
+  fun address => if inRange base (bytes d) address then some (byteOf w (address-base)) else m address
+
+def hostPhysical (d : Storage) (p : PhysicalLayout) (maximum : Word d)
+    (inverse : Word (compute d)) : ByteMemory :=
+  wordWrite (wordWrite p.initialBytes p.maximum.base maximum) p.inverse.base inverse
+
+/-- The host publishes only its produced scalar maximum and inverse. The
+fresh output allocation already contains its arbitrary bound payload. -/
+theorem host_physical_preparation (d : Storage) (a : Input) (alloc : Allocations)
+    (m : Memory) (x : String) (p : PhysicalLayout) (fresh : alloc.Fresh x)
+    (P : PhysicalBinding d a alloc m x p) (maximum : Word d) (inverse : Word (compute d)) :
+    externalMemory d a alloc p (allocated d a alloc m maximum inverse)=
+      hostPhysical d p maximum inverse := by
+  funext address
+  by_cases ho : inRange p.output.base a.numel address
+  · have inside : p.output.Contains address := by
+      have cap:=P.outputCapacity
+      unfold inRange at ho
+      unfold ByteRegion.Contains
+      omega
+    have hm := disjoint_range p.output p.maximum _ _ (disjoint_symm _ _ P.maximumOutput) P.maximumCapacity inside
+    have hv := disjoint_range p.output p.inverse _ _ (disjoint_symm _ _ P.inverseOutput) P.inverseCapacity inside
+    have hi : address-p.output.base<a.numel := by unfold inRange at ho; omega
+    have he : p.output.base+(address-p.output.base)=address := by unfold inRange at ho; omega
+    have init := P.outputInitialWords (address-p.output.base) hi
+    rw [he] at init
+    simp [externalMemory,externalBytes,ho,allocated,Ne.symm fresh.2.2.2.2.1,
+      Ne.symm fresh.2.2.2.2.2,hi,cellByte,read_same,byteOf,Storage.width,hostPhysical,wordWrite,hm,hv,init]
+  · by_cases hm : inRange p.maximum.base (bytes d) address
+    · have inside : p.maximum.Contains address := by
+        have cap:=P.maximumCapacity
+        unfold inRange at hm
+        unfold ByteRegion.Contains
+        omega
+      have hv := disjoint_range p.maximum p.inverse _ _ P.maximumInverse P.inverseCapacity inside
+      simp [externalMemory,externalBytes,ho,hm,allocated,cellByte,read_same,hostPhysical,wordWrite,hv]
+    · simp [externalMemory,externalBytes,ho,hm,allocated,Ne.symm fresh.2.2.2.1,
+        cellByte,read_same,hostPhysical,wordWrite]
+
+theorem physical_input_load (d : Storage) (a : Input) (alloc : Allocations)
+    (m current : Memory) (x : String) (p : PhysicalLayout) (logical : List (Word d))
+    (xs : Nat → Word d) (D : Domain d a alloc m x logical xs)
+    (P : PhysicalBinding d a alloc m x p) (i k : Nat) (hi : i<a.numel) (hk : k<bytes d) :
+    externalMemory d a alloc p current (p.inputPointer.toNat+i*bytes d+k)=some (byteOf (xs i) k) := by
+  have inside := (quantize_global_physical_accesses d a alloc m x logical xs p D P i k hi hk).1
+  have ho := disjoint_range p.input p.output _ _ P.inputOutput P.outputCapacity inside
+  have hm := disjoint_range p.input p.maximum _ _ P.inputMaximum P.maximumCapacity inside
+  have hv := disjoint_range p.input p.inverse _ _ P.inputInverse P.inverseCapacity inside
+  simp only [externalMemory,externalBytes,if_neg ho,if_neg hm,if_neg hv]
+  exact P.inputWords i (Or.inr hi) (xs i) (D.linear i hi) k hk
+
+theorem physical_inverse_load (d : Storage) (a : Input) (alloc : Allocations)
+    (m current : Memory) (x : String) (p : PhysicalLayout)
+    (P : PhysicalBinding d a alloc m x p) (v : Word (compute d))
+    (load : current alloc.scale 0=some (.mk (compute d) v)) (k : Nat) (hk : k<bytes (compute d)) :
+    externalMemory d a alloc p current (p.inverse.base+k)=some (byteOf v k) := by
+  have inside := (quantize_global_scalar_physical_accesses d a alloc m x p P k hk).1
+  have ho := disjoint_range p.inverse p.output _ _ P.inverseOutput P.outputCapacity inside
+  have hm := disjoint_range p.inverse p.maximum _ _ (disjoint_symm _ _ P.maximumInverse) P.maximumCapacity inside
+  have hv : inRange p.inverse.base (bytes (compute d)) (p.inverse.base+k) := by
+    unfold inRange; constructor <;> omega
+  simp [externalMemory,externalBytes,ho,hm,hv,load,cellByte,read_same]
+
+theorem execute_physical (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (m : Memory) (x : String) (p : PhysicalLayout) (fresh : alloc.Fresh x)
+    (prepared : Prepared d) (hp : prepare b (fun _ => none) d a alloc m x=.ok prepared)
+    (trials : List Config) (last : Config) (ret : Returned)
+    (run : execute b (fun _ => none) d a alloc m x trials last=.ok ret) :
+    PhysicalStores a alloc p prepared.initial (externalMemory d a alloc p prepared.initial)
+      ret.memory (externalBytes d a alloc p ret) := by
+  unfold execute at run
+  rw [hp] at run
+  dsimp only at run
+  cases ht : runTrials b d (parameters a alloc x) (trials++[last]) prepared.initial with
+  | error e => simp [ht] at run
+  | ok final =>
+    simp only [ht,Except.ok.injEq] at run
+    subst ret
+    exact quantize_global_trial_physical_execution b d a alloc p x fresh (trials++[last]) prepared.initial final ht
+
+#axiomsClean output_store_commutes
+#axiomsClean lanes_physical
+#axiomsClean grid_physical
+#axiomsClean quantize_global_trial_physical_execution
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end QuantizeGlobalFinite

@@ -1,0 +1,24 @@
+/tmp/veritile-standardization-20261015/quant-global-finite-root-validation/replay/probe_dtypes.py:17: UserWarning: ComplexHalf support is experimental and many operators don't support it yet. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/EmptyTensor.cpp:54.)
+  x=torch.tensor([-2,0,1] if shape==[3] else ([] if shape==[0] else 1)).to(d)
+bool rejected abs [] "abs_cpu" not implemented for 'Bool'
+uint8 host_primitives_success  [('abs', 'torch.uint8'), ('max', 'torch.uint8'), ('unsqueeze', 'torch.uint8'), ('reciprocal', 'torch.float32')] 
+int8 host_primitives_success  [('abs', 'torch.int8'), ('max', 'torch.int8'), ('unsqueeze', 'torch.int8'), ('reciprocal', 'torch.float32')] 
+int16 host_primitives_success  [('abs', 'torch.int16'), ('max', 'torch.int16'), ('unsqueeze', 'torch.int16'), ('reciprocal', 'torch.float32')] 
+int32 host_primitives_success  [('abs', 'torch.int32'), ('max', 'torch.int32'), ('unsqueeze', 'torch.int32'), ('reciprocal', 'torch.float32')] 
+int64 host_primitives_success  [('abs', 'torch.int64'), ('max', 'torch.int64'), ('unsqueeze', 'torch.int64'), ('reciprocal', 'torch.float32')] 
+uint16 rejected abs [] "abs_cpu" not implemented for 'UInt16'
+uint32 rejected abs [] "abs_cpu" not implemented for 'UInt32'
+uint64 rejected abs [] "abs_cpu" not implemented for 'UInt64'
+float16 host_primitives_success  [('abs', 'torch.float16'), ('max', 'torch.float16'), ('unsqueeze', 'torch.float16'), ('reciprocal', 'torch.float16')] 
+bfloat16 host_primitives_success  [('abs', 'torch.bfloat16'), ('max', 'torch.bfloat16'), ('unsqueeze', 'torch.bfloat16'), ('reciprocal', 'torch.bfloat16')] 
+float32 host_primitives_success  [('abs', 'torch.float32'), ('max', 'torch.float32'), ('unsqueeze', 'torch.float32'), ('reciprocal', 'torch.float32')] 
+float64 host_primitives_success  [('abs', 'torch.float64'), ('max', 'torch.float64'), ('unsqueeze', 'torch.float64'), ('reciprocal', 'torch.float64')] 
+complex32 host_primitives_success  [('abs', 'torch.float16'), ('max', 'torch.float16'), ('unsqueeze', 'torch.float16'), ('reciprocal', 'torch.float16')] 
+complex64 host_primitives_success  [('abs', 'torch.float32'), ('max', 'torch.float32'), ('unsqueeze', 'torch.float32'), ('reciprocal', 'torch.float32')] 
+complex128 host_primitives_success  [('abs', 'torch.float64'), ('max', 'torch.float64'), ('unsqueeze', 'torch.float64'), ('reciprocal', 'torch.float64')] 
+float8_e4m3fn rejected max [('abs', 'torch.float8_e4m3fn')] "max_all" not implemented for 'Float8_e4m3fn'
+float8_e5m2 rejected max [('abs', 'torch.float8_e5m2')] "max_all" not implemented for 'Float8_e5m2'
+float8_e4m3fnuz rejected max [('abs', 'torch.float8_e4m3fnuz')] "max_all" not implemented for 'Float8_e4m3fnuz'
+float8_e5m2fnuz rejected max [('abs', 'torch.float8_e5m2fnuz')] "max_all" not implemented for 'Float8_e5m2fnuz'
+float8_e8m0fnu rejected abs [] "abs_cpu" not implemented for 'Float8_e8m0fnu'
+float4_e2m1fn_x2 rejected input_construction [] "copy_" not implemented for 'Float4_e2m1fn_x2'

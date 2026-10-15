@@ -1,0 +1,7 @@
+{
+  "exit_code": 1,
+  "reason": "Read-only staging checker started while git add was still running; the old index did not yet contain the expected batch. It failed before writing staging-review.json. Awaited successful git add before retrying.",
+  "script_sha256": "4efe6ba10c9553908d80e44a751e67d303b35e329c6adfbaf9586ee31dfbba94",
+  "log_sha256": "50eb74d8d158294c4954918fbe78603621f06edb643f3d5736f35eca331a797b",
+  "repository_source_mutation": false
+}

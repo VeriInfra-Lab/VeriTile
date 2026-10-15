@@ -1,0 +1,85 @@
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:47:21: error: Type mismatch
+  b.mul32
+has type
+  Word Storage.fp32 → Word Storage.fp32 → Word Storage.fp32
+but is expected to have type
+  Word (compute x✝) → Word (compute x✝) → Word (compute x✝)
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:54:25: error: Application type mismatch: The argument
+  x
+has type
+  Word (compute x✝)
+but is expected to have type
+  BitVec FP.Format.fp32.width
+in the application
+  { bits := x }
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:79:36: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp [llrint, ̲LlrintDefined, ̲hp,̵h̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:97:30: error(lean.invalidField): Invalid field notation: Type of
+  t
+is not known; cannot resolve field `width`
+
+Hint: Consider replacing the field projection with a call to one of the following:
+  • `RegType.width`
+  • `Storage.width`
+  • `Std.Format.format.width`
+  • `FP.Format.width`
+  • `Lean.Elab.Tactic.BVDecide.Frontend.Atom.width`
+  • `Lean.Elab.Tactic.BVDecide.Frontend.ReifiedBVExpr.width`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:97:11: error: Application type mismatch: The argument
+  t
+has type
+  ?m.1
+but is expected to have type
+  RegType d
+in the application
+  Expr d t
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:118:15: error(lean.invalidField): Invalid field `eval`: The environment does not contain `QuantizeGlobalFinite.Expr.eval`, so it is not possible to project the field `eval` from an expression
+  source d
+of type `Expr d RegType.output8`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:128:2: error: Tactic `decide` failed for proposition
+  llrint Storage.fp32 2139095040 = none ∧
+    llrint Storage.fp32 2143289344 = none ∧
+      llrint Storage.fp64 9218868437227405312 = none ∧
+        llrint Storage.fp64 9221120237041090560 = none ∧
+          llrint Storage.fp32 1593835520 = none ∧ llrint Storage.fp64 4890909195324358656 = none
+because its `Decidable` instance
+  instDecidableAnd
+did not reduce to `isTrue` or `isFalse`.
+
+Reduction got stuck at the `Decidable` instance
+  match llrint Storage.fp32 2139095040 with
+  | none => isTrue ⋯
+  | some val => isFalse ⋯
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:134:2: error: Tactic `decide` failed for proposition
+  llrint Storage.fp32 1056964608 = some 0 ∧
+    llrint Storage.fp32 1069547520 = some 2 ∧
+      llrint Storage.fp32 3217031168 = some (BitVec.ofInt 64 (-2)) ∧
+        llrint Storage.fp64 14114281232179134464 = some (BitVec.ofInt 64 (-2 ^ 63))
+because its `Decidable` instance
+  instDecidableAnd
+did not reduce to `isTrue` or `isFalse`.
+
+Reduction got stuck at the `Decidable` instance
+  match llrint Storage.fp32 1056964608 with
+  | none =>
+    match some 0 with
+    | none => isTrue ⋯
+    | some val => isFalse ⋯
+  | some a =>
+    match some 0 with
+    | none => isFalse ⋯
+    | some b =>
+      match instDecidableEqBitVec a b with
+      | isTrue h => isTrue ⋯
+      | isFalse n => isFalse ⋯
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:136:41: error(lean.unknownIdentifier): Unknown constant `Expr.eval`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:137:48: error(lean.unknownIdentifier): Unknown constant `Expr.eval`
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:138:0: error: QuantizeGlobalFinite.source_scalar: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:139:0: error: QuantizeGlobalFinite.defined_result: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:140:0: error: QuantizeGlobalFinite.special_conversions: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-global-finite-acceptance-wip/FiniteScalar.lean:141:0: error: QuantizeGlobalFinite.conversion_boundaries: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

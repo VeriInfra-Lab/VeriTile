@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "kind": "additive_exact_rejected_dtype_labels",
+  "checker": "bench/check_original_program_scope.py",
+  "existing_checker_sha256": "fdaea9635c386e2b9083e82f6a40958142733d49dfd242154a8d02d5365347e6",
+  "add_to_DTYPES": [
+    "complex128",
+    "complex32",
+    "complex64",
+    "fp8e8m0fnu"
+  ],
+  "existing_fp4_label": "packed_fp4e2m1",
+  "reason": "Canonical installed Torch dense dtype families must retain exact rejection labels; no validation rule is removed or relaxed.",
+  "canonical_integration": "pending independent root review",
+  "producer_validation": "unchanged validator functions with only these exact labels added in memory; canonical validation is not thereby claimed"
+}
