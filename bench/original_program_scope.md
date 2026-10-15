@@ -7,7 +7,7 @@ the separate original-source task `fp4_to_bf16`.
 
 [`original_program_scope.json`](original_program_scope.json) has all 183 tasks
 **pending**, bound to the current extension catalog. It preserves initial gaps
-as provenance and records the five new partial extensions with their remaining
+as provenance and records seven reviewed partial extensions with their remaining
 structural work. Its observed input hashes and partial-progress records do not
 constitute whole-program reviews. Existing mathematics, equivalence and value
 proofs remain available as evidence for each substantive review.
@@ -90,7 +90,8 @@ the existing `fp16=true` contract uses fp32 storage and internal half casts.
 Its correction does not establish the separate `fp16=false` branch or host program.
 
 The workflow's catalog and supplement now point to the
-`original-scope-extensions` batch, with the preceding final-source manifest
+`host-and-lora-scope-extensions` batch, with the unchanged
+`original-scope-extensions/metadata-baseline` and preceding final-source manifest
 retained as its historical base. Neither global success nor scope
 success establishes corpus comparator replay, the integration build or native
 GPU correctness; those remain independent checks.

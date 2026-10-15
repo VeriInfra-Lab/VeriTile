@@ -1,0 +1,526 @@
+{
+  "schema_version": 1,
+  "task": "lora_expand_gemv",
+  "review_kind": "read_only_source_and_scope_review",
+  "standard_accepted": false,
+  "classification": "selected explicit software profiles",
+  "review_basis": "Static Python/Lean/native-package source inspection; no native compilation or device execution. Software source, execution/reference, whole-loop correctness, backend independence, public all-branches contract and alias/sentinel witnesses passed their dependent revalidation. The full normalized source projection passed independently. This remains selected explicit software profiles, not whole-program standard acceptance or native specialization coverage.",
+  "native_package_version": "3.7.1",
+  "files": {
+    "python_source": {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py",
+      "sha256": "212f030cd93c3381dc1fe6aab372d8568fbed9330954772cd49c69670575a3d3"
+    },
+    "branch_source": {
+      "path": "/tmp/veritile-standardization-20261015/lora-wip/bench/tritonbench_g/lora_expand_gemv/Proofs/BranchSource.lean",
+      "sha256": "67d35e8009e6c9fa3a7dc60c7de1d7d54dd4ce614ea5c96bdb58f6263a9ce565"
+    },
+    "branch_reference": {
+      "path": "/tmp/veritile-standardization-20261015/lora-wip/bench/tritonbench_g/lora_expand_gemv/Proofs/BranchReference.lean",
+      "sha256": "ec95c5062ce8bd0ed5761ed99fafc797a4431cde18b2dec1884731f03a0f8564"
+    },
+    "branch_assembly": {
+      "path": "/tmp/veritile-standardization-20261015/lora-wip/bench/tritonbench_g/lora_expand_gemv/Proofs/BranchAssembly.lean",
+      "sha256": "67c16f9ef82cb1928d81dcbcbadb38ecb8c289b1cc300b77358a7a73e217adb8"
+    },
+    "fp_model": {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/lora_expand_gemv/Proofs/FPModel.lean",
+      "sha256": "3da96951e0e0f73d8a2eaed4216338b8e9cfb5d7e2e34f6c9cceea5d9e870d66"
+    },
+    "structural_semantics": {
+      "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/VeriTile/Triton/Float/Structural.lean",
+      "sha256": "3760dd66ad0e0eab77f42a866eecef47240833e6ca2929a60674b6fd70599928"
+    },
+    "native_version": {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/__init__.py",
+      "sha256": "fc8d0ce7535a4773769dfdcdb3a8b7bcee1bf58d3d03cc318529104c1e1431fd"
+    },
+    "native_standard": {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/language/standard.py",
+      "sha256": "7e3ef84c68c2804c3476dd3f1fccce432aaa1ea6ee367ed7d229f1902dd0a2aa"
+    },
+    "native_core": {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/language/core.py",
+      "sha256": "373eebe68a4c1f6959c81ae6c382b65c5c2893d53274a205f5ff9bbb100fb31b"
+    },
+    "native_semantic": {
+      "path": "/usr/local/lib/python3.12/site-packages/triton/language/semantic.py",
+      "sha256": "22b7669ff8ba591fc1540ce01a4030cf54aa2dccfdb21c2d31fa55d5cab77c7c"
+    },
+    "branch_shape": {
+      "path": "/tmp/veritile-standardization-20261015/lora-wip/bench/tritonbench_g/lora_expand_gemv/Proofs/BranchShape.lean",
+      "sha256": "6e9008353729972c7cced8128a2bf267a9ea99f55b173568f66c04bc03b91733"
+    }
+  },
+  "selected_scope": {
+    "input_weight_profiles": [
+      "fp16/fp16",
+      "fp16/bf16",
+      "bf16/fp16",
+      "bf16/bf16",
+      "fp32/fp16",
+      "fp32/bf16"
+    ],
+    "output_formats": [
+      "fp16",
+      "bf16",
+      "fp32"
+    ],
+    "profile_count": 18,
+    "booleans": [
+      "EVEN_K=false/true",
+      "ADD_INPUTS=false/true",
+      "CAST_TYPE=false/true"
+    ],
+    "execution_model": "One program over total typed element memory, mathematical Nat/Int address arithmetic, explicit software floating operations and a supplied valid reduction tree.",
+    "full_python_dtype_closure": false,
+    "host_launch_closure": false,
+    "native_pointer_refinement": false,
+    "native_concurrency_refinement": false,
+    "source_projection_bridge": "Proved: VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.full_source_projection equates the entire eraseDType.body of Branches.source and fullLegacySource (original bgmv_expand_surface) after normalizeConst. Both sourceAlgorithmSupported and legacyAlgorithmSupported prove successful checked algorithm projection. The normalizer only inlines syntactic constBool branches and recursively retains all dynamic guards, loops, bounds and non-control statements. This is an AST source relation, not a native arithmetic or concurrency theorem.",
+    "parameter_domain": "Parameters quantify a total typed-memory interpreter, including values outside native compilation/launch admissibility. Successful software execution is not a claim that arbitrary split counts, BLOCK_K/arange shapes or fixed-width sizes compile or execute natively."
+  },
+  "findings": [
+    {
+      "id": "sum_dtype",
+      "classification": "source_semantics_confirmed_for_local_package",
+      "finding": "The local sum implementation preserves floating input dtype. _pick_sum_dtype only selects a new default for sub-32-bit integers. sum calls core.reduce without a floating conversion; reduction result is wrapped with inputs[i].type.scalar. The software productFormat reduction is consistent with these local frontend rules.",
+      "evidence": [
+        {
+          "file": "native_standard",
+          "line_start": 261,
+          "line_end": 293
+        },
+        {
+          "file": "native_core",
+          "line_start": 2675,
+          "line_end": 2708
+        },
+        {
+          "file": "native_semantic",
+          "line_start": 1706,
+          "line_end": 1722
+        },
+        {
+          "file": "branch_reference",
+          "line_start": 56,
+          "line_end": 64
+        }
+      ],
+      "limit": "This establishes frontend dtype choice, not the native reduction tree, instruction rounding, fusion, FTZ, or special-value behavior."
+    },
+    {
+      "id": "promotion_rules",
+      "classification": "source_semantics_confirmed_for_selected_formats",
+      "finding": "Native computation_type_impl chooses fp32 if either operand is fp32, then fp16 if either is fp16, and bf16 only for bf16/bf16. This matches promote for multiplication and ADD_INPUTS in the selected three-format domain.",
+      "evidence": [
+        {
+          "file": "native_semantic",
+          "line_start": 68,
+          "line_end": 110
+        },
+        {
+          "file": "branch_source",
+          "line_start": 24,
+          "line_end": 45
+        },
+        {
+          "file": "branch_reference",
+          "line_start": 56,
+          "line_end": 81
+        }
+      ]
+    },
+    {
+      "id": "store_cast",
+      "classification": "source_semantics_confirmed_for_selected_formats",
+      "finding": "BranchSource materializes accumulator.to(output dtype). Native _store_legacy performs val=self.cast(val,elt_ty) before emitting the store, so the added explicit cast records an actual implicit source conversion. Same-dtype native cast returns the input.",
+      "evidence": [
+        {
+          "file": "python_source",
+          "line_start": 68,
+          "line_end": 74
+        },
+        {
+          "file": "branch_source",
+          "line_start": 87,
+          "line_end": 93
+        },
+        {
+          "file": "native_semantic",
+          "line_start": 1277,
+          "line_end": 1295
+        },
+        {
+          "file": "native_semantic",
+          "line_start": 804,
+          "line_end": 809
+        }
+      ],
+      "limit": "Software castWord remains a numerical binding boundary; native fp16/bf16 cross conversion routes through fp32 (semantic.py 839-842), whereas castWord directly decodes and rounds. Exact finite extension supports such a relation, but NaN payload, signed-zero, FTZ and chosen configuration correspondence are not proved by this inspection."
+    },
+    {
+      "id": "sentinel_guard",
+      "classification": "branch_transcription_confirmed_in_mathematical_signed_model",
+      "finding": "Python reads lora_index then returns exactly when it equals -1. BranchSource wraps all remaining statements in lora_index != -1. No observable store precedes either guard. BranchAssembly.guardEval proves the generated guard equals selected != -1; sourceShape and headerMemory are axiom-clean. Negative values other than -1 remain active in both branch conditions.",
+      "evidence": [
+        {
+          "file": "python_source",
+          "line_start": 32,
+          "line_end": 39
+        },
+        {
+          "file": "branch_source",
+          "line_start": 61,
+          "line_end": 67
+        },
+        {
+          "file": "branch_assembly",
+          "line_start": 18,
+          "line_end": 21
+        },
+        {
+          "file": "branch_assembly",
+          "line_start": 54,
+          "line_end": 69
+        }
+      ],
+      "limit": "This is the mathematical signed-index branch. Actual index storage dtype, width and load representation still need source/runtime binding."
+    },
+    {
+      "id": "signed_pointer",
+      "classification": "structural_gap_not_numerical_deferral",
+      "finding": "weightBase applies Int.toNat to the entire loraStride*selected + pid0*length*weightRowStride expression. Native addptr treats the integer offset as signed and does not saturate negative offsets. Example loraStride=10, selected=-2, pid0=0 gives model base offset 0 but native pointer base-20.",
+      "evidence": [
+        {
+          "file": "branch_reference",
+          "line_start": 25,
+          "line_end": 30
+        },
+        {
+          "file": "python_source",
+          "line_start": 53,
+          "line_end": 64
+        },
+        {
+          "file": "native_semantic",
+          "line_start": 230,
+          "line_end": 250
+        },
+        {
+          "file": "structural_semantics",
+          "line_start": 20,
+          "line_end": 25
+        },
+        {
+          "file": "structural_semantics",
+          "line_start": 609,
+          "line_end": 610
+        }
+      ],
+      "required_closure": [
+        "Prove all relevant final signed offsets are nonnegative or introduce a signed/byte pointer model.",
+        "Bind mathematical integer operations to each native index/stride width and prove intermediate no-overflow conditions.",
+        "Relate region bases and element offsets to allocations, sizes and valid masked addresses."
+      ],
+      "note": "Nonnegative final offset alone does not discharge fixed-width intermediate overflow, native pointer base mapping or memory bounds."
+    },
+    {
+      "id": "dtype_scope",
+      "classification": "structural_gap_not_numerical_deferral",
+      "finding": "Six input-weight combinations cover all explicit input/weight assertions. Python does not assert output_tensor.dtype or lora_indices_tensor.dtype. The three selected output formats and mathematical .int index storage therefore do not establish all caller dtype specializations. In particular, an fp64 output changes ADD_INPUTS promotion and store format.",
+      "evidence": [
+        {
+          "file": "python_source",
+          "line_start": 78,
+          "line_end": 105
+        },
+        {
+          "file": "python_source",
+          "line_start": 125,
+          "line_end": 144
+        },
+        {
+          "file": "branch_source",
+          "line_start": 15,
+          "line_end": 20
+        },
+        {
+          "file": "branch_source",
+          "line_start": 98,
+          "line_end": 117
+        },
+        {
+          "file": "branch_reference",
+          "line_start": 10,
+          "line_end": 20
+        }
+      ],
+      "required_closure": [
+        "Enumerate actual supported output/index dtype specializations and prove them, or state a selected-profile contract without whole-program acceptance.",
+        "Prove raw storage/typed-cell representation for each supported dtype and index width."
+      ]
+    },
+    {
+      "id": "host_dispatch",
+      "classification": "structural_gap_not_numerical_deferral",
+      "finding": "The new source covers kernel constexpr branches but does not prove wrapper shape assertions, the 4D squeeze versus 3D path, argument/stride extraction, next_power_of_2, generated EVEN_K/CAST_TYPE, 2D grid construction or composition of launches. The actual wrapper uses BLOCK_N=256 and SPLIT_N=N, so for N>0 its split_n_length is 1; a generalized multi-block kernel contract is broader but is not itself a host binding.",
+      "evidence": [
+        {
+          "file": "python_source",
+          "line_start": 97,
+          "line_end": 150
+        },
+        {
+          "file": "branch_source",
+          "line_start": 15,
+          "line_end": 22
+        },
+        {
+          "file": "branch_source",
+          "line_start": 67,
+          "line_end": 93
+        }
+      ],
+      "required_closure": [
+        "Bind legal host shapes/strides and pointer bases to Parameters.",
+        "Prove actual constexpr derivation, including CAST_TYPE exactly for fp32 input and EVEN_K from K/BLOCK_K.",
+        "Prove native launch legality, including nonzero divisor, positive dimensions where required and supported arange block sizes.",
+        "Compose all launched program IDs with valid memory and concurrency conditions."
+      ],
+      "total_interpreter_boundary": "The proved parameter space belongs to the total software interpreter. Positive SPLIT_N, valid BLOCK_K and tl.arange shapes, finite-width shape arithmetic and native specialization/launch admissibility remain host/shape structural obligations, not deferred numerical assumptions or claims of native success."
+    },
+    {
+      "id": "alias_and_store_order",
+      "classification": "structural_gap_not_numerical_deferral",
+      "finding": "writeBlock snapshots block-entry reads and applies lane writes in TileShape.allIndices.foldl order; reference serializes successive blocks in one program. This matches the chosen interpreter. It is not evidence that simultaneous GPU lanes writing the same address have that order, or that different launched programs with weight/output or input/output aliases are race-free.",
+      "evidence": [
+        {
+          "file": "branch_reference",
+          "line_start": 83,
+          "line_end": 104
+        },
+        {
+          "file": "structural_semantics",
+          "line_start": 848,
+          "line_end": 876
+        },
+        {
+          "file": "python_source",
+          "line_start": 127,
+          "line_end": 150
+        }
+      ],
+      "required_closure": [
+        "Prove per-store active output-address injectivity, or use an appropriate nondeterministic native-store refinement.",
+        "Prove cross-program read/write race freedom or an explicit synchronization/ordering semantics.",
+        "Bind typed element cells to byte memory; cross-dtype aliases can overlap bytes with different element sizes and Cell.read currently returns defaults on dtype mismatch."
+      ],
+      "typed_memory_evidence": [
+        {
+          "file": "structural_semantics",
+          "line_start": 194,
+          "line_end": 208
+        }
+      ],
+      "note": "Arbitrary aliases remain valid inputs to the total typed software theorem. They must not be advertised as unrestricted native GPU alias support."
+    },
+    {
+      "id": "max_contiguous",
+      "classification": "source_value_transcription_confirmed_with_launch_boundary",
+      "finding": "Native max_contiguous adds the tt.contiguity attribute and returns its input. The model preserves the current_n value; validity of optimization hints and legal arange/block sizes belongs to the host/native structural binding.",
+      "evidence": [
+        {
+          "file": "python_source",
+          "line_start": 56,
+          "line_end": 64
+        },
+        {
+          "file": "branch_source",
+          "line_start": 80,
+          "line_end": 86
+        },
+        {
+          "file": "native_semantic",
+          "line_start": 1821,
+          "line_end": 1825
+        }
+      ]
+    },
+    {
+      "id": "version_label",
+      "classification": "evidence_label_inaccuracy",
+      "finding": "The currently inspected local package declares 3.7.1 in __init__.py:2. Existing FPModel/README claims of local Triton 3.8 should not be repeated as current environment evidence. Use the recorded version and file hashes.",
+      "evidence": [
+        {
+          "file": "native_version",
+          "line_start": 2,
+          "line_end": 2
+        },
+        {
+          "file": "fp_model",
+          "line_start": 102,
+          "line_end": 104
+        }
+      ]
+    },
+    {
+      "id": "fp32_real_channel_reduce_callback",
+      "classification": "software_callback_binding_repaired_and_recompiled",
+      "finding": "Static fp32 annotations use the historical .real channel. For fp32 input with CAST_TYPE=false, the reduction uses Algebra.reduceSum rather than reduceSumTyped. The old engine inherited this callback from rest; BranchReference.engine now binds reduceSum explicitly to FPValue.sumValues cfg .single plans, so this used fp32 reduction is defined by the software tree instead of an unconstrained fallback.",
+      "evidence": [
+        {
+          "file": "branch_reference",
+          "line_start": 10,
+          "line_end": 17
+        }
+      ],
+      "status": "Source repair and dependent revalidation completed. Logs for BranchReference, BranchExecution, BranchFrame, BranchBody, BranchBodyValue, BranchAssembly, BranchLoop, BranchComplete, BranchCorrect and BranchWitness were inspected without errors. Complete correctness/backend independence and the public all-branches theorem plus alias/sentinel witnesses passed axiomsClean.",
+      "native_scope_effect": "No change: the result remains selected explicit software profiles, with native numerical and structural binding boundaries recorded separately."
+    },
+    {
+      "id": "full_normalized_source_projection",
+      "classification": "proved_full_structural_source_bridge_for_selected_profiles",
+      "finding": "The entire generated source body equals the entire original bgmv_expand_surface body after floating dtype erasure and constant-branch normalization, for all six input-weight profiles, all three output formats and all boolean flags. The dynamic signed sentinel guard, all loop bounds and all executed statements are retained. Constant-branch normalization handles the DSL continuation duplication introduced by dtype-changing assignments. Successful algorithm-projection theorems exclude a rejected/fallback projection.",
+      "evidence": [
+        {
+          "file": "branch_shape",
+          "line_start": 11,
+          "line_end": 35
+        },
+        {
+          "file": "branch_shape",
+          "line_start": 37,
+          "line_end": 50
+        },
+        {
+          "file": "branch_shape",
+          "line_start": 52,
+          "line_end": 82
+        }
+      ],
+      "declarations": [
+        "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.sourceAlgorithmSupported",
+        "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.legacyAlgorithmSupported",
+        "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches.full_source_projection"
+      ],
+      "validation_log": "/tmp/veritile-standardization-20261015/lora-branch-shape.log",
+      "exit_code": 0,
+      "axioms_clean": true,
+      "limits": [
+        "The theorem concerns normalized AST equality; it does not equate typed floating execution with Real arithmetic.",
+        "The relation is to the existing original DSL transcription, not a newly proved Python-to-DSL compiler translation.",
+        "Native integer/pointer, byte-memory, dtype-domain, host shape/launch and concurrency obligations remain as separately recorded."
+      ]
+    }
+  ],
+  "numerical_binding_obligations": [
+    "Select and bind the actual native reduction tree to the supplied valid ReductionPlan, including explicit zero seeds and handling of masked products.",
+    "Bind chosen FP.Config to device rounding, FTZ, low-precision add/mul, conversions, NaN payload/canonicalization and signed-zero behavior.",
+    "Validate or explicitly register the cross-format cast relation, including native fp16/bf16 conversion via fp32 versus direct software decode/round.",
+    "Bind compiler fusion/reassociation behavior to the independent software product-and-add tree."
+  ],
+  "numerical_deferral_policy": "These numerical relations may be explicitly registered and deferred under user authorization. None of the pointer, host, dtype-domain, storage-representation or concurrency gaps above may be reclassified as numerical assumptions.",
+  "assembly_validation": {
+    "exit_code": 0,
+    "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchAssembly.log",
+    "axiom_clean_declarations": [
+      "sourceShape",
+      "runActive",
+      "guardEval",
+      "headerMemory",
+      "setupMemory"
+    ],
+    "namespace": "VeriTile.Bench.TritonBenchG.LoraExpandGemv.Branches",
+    "edit_summary": [
+      "Added private stepConstIf/stepConstIfElse normalization lemmas.",
+      "runActive uses control-only normalization and Option.bind_assoc instead of unfolding all primitive execution.",
+      "guardEval finishes with function extensionality and FP.Structural.bop."
+    ],
+    "scope": "Only temporary BranchAssembly.lean changed during the assembly repair. The subsequent source bridge is in the new temporary BranchShape.lean. This review did not modify existing source/model/proof files.",
+    "dependency_snapshot_at_success": {
+      "branch_reference_sha256": "7098de21b37df85d51bf7aa5023355dcbf6b870ad984176f3f8c18265be92690"
+    },
+    "current_dependency_revalidation": "complete after explicit fp32 real-channel reduceSum binding",
+    "current_dependency_validation_complete": true,
+    "validated_current_dependency_sha256": "ec95c5062ce8bd0ed5761ed99fafc797a4431cde18b2dec1884731f03a0f8564"
+  },
+  "software_revalidation": {
+    "status": "complete",
+    "native_execution_performed": false,
+    "logs": [
+      {
+        "module": "BranchReference",
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchReference.log",
+        "log_sha256": "ab7e7596cac5f9f7807e0bace6ee99271fe500d3304830b44176af6892db421c",
+        "error_count": 0,
+        "axiom_clean_check_count": 0
+      },
+      {
+        "module": "BranchExecution",
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchExecution.log",
+        "log_sha256": "eb5d9bfcd2d69f38a0ef5941d9233e2d542e5186f57389027d70ad441de2c8b3",
+        "error_count": 0,
+        "axiom_clean_check_count": 3
+      },
+      {
+        "module": "BranchFrame",
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchFrame.log",
+        "log_sha256": "293a9521b376d7c57da67b5a3b86f7cca53c9f0f76c84240dba162ebdd0a34f7",
+        "error_count": 0,
+        "axiom_clean_check_count": 3
+      },
+      {
+        "module": "BranchBody",
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchBody.log",
+        "log_sha256": "7d08916a32c641e7013a571a8a01412e596ea818fe96b79a5a70b288695ba9f9",
+        "error_count": 0,
+        "axiom_clean_check_count": 1
+      },
+      {
+        "module": "BranchBodyValue",
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchBodyValue.log",
+        "log_sha256": "150bd5da980d465961cfbb460145bc6f747d248e17ff5c21cd031b53433acf45",
+        "error_count": 0,
+        "axiom_clean_check_count": 2
+      },
+      {
+        "module": "BranchAssembly",
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchAssembly.log",
+        "log_sha256": "6eb7f7e8419de1c6b5404e338a47d0e18ad1963ce3b04cb5ca465b9e134983f3",
+        "error_count": 0,
+        "axiom_clean_check_count": 5
+      },
+      {
+        "module": "BranchLoop",
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchLoop.log",
+        "log_sha256": "175779bf96cf0559e5a4915ecd9550e692ff0d94ef5da18fceff3b76b468b066",
+        "error_count": 0,
+        "axiom_clean_check_count": 1
+      },
+      {
+        "module": "BranchComplete",
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchComplete.log",
+        "log_sha256": "1b4bf38915cf2c75b64547fcd8be07a354727ff05f870ce463e48195baf14605",
+        "error_count": 0,
+        "axiom_clean_check_count": 2
+      },
+      {
+        "module": "BranchCorrect",
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchCorrect.log",
+        "log_sha256": "a7f60878542428e8f0b45a3b2859d205e5a44dd50ce1d771a2ed9ca2062a8651",
+        "error_count": 0,
+        "axiom_clean_check_count": 1
+      },
+      {
+        "module": "BranchWitness",
+        "log": "/tmp/veritile-standardization-20261015/lora-rebuild-BranchWitness.log",
+        "log_sha256": "3a98a1a089777f1f1db2df72bba6a28140fbc421faaf0eddd610f63c1034d142",
+        "error_count": 0,
+        "axiom_clean_check_count": 3
+      }
+    ],
+    "source_projection_log": "/tmp/veritile-standardization-20261015/lora-branch-shape.log",
+    "source_projection_exit_code": 0
+  }
+}

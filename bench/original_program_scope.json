@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "kind": "original_program_scope_ledger",
-  "catalog_sha256": "e69b08dc876cb93749ca1a5673ef2b21e24e0cfa063265b517f2ce3b3c3258ba",
+  "catalog_sha256": "043ff739bf9f3b731e314b6bd0e73ed40c0c4315b363d65210c789aa0fe86a00",
   "binding_status": "current_catalog_bound_pending_scope_reviews",
   "expected_tasks": [
     "adam_update_triton",
@@ -29261,8 +29261,20 @@
       "status": "pending",
       "input_sha256": {
         "lean": {
+          "bench/tritonbench_g/lora_expand_gemv/BranchCorrect.lean": "2b6da140ee3ad171158012bbe1951fba60b173463882c3a9d3e44611758e4b32",
           "bench/tritonbench_g/lora_expand_gemv/FPCorrect.lean": "c6adfef2281a96e2212ead0651f81b73b7b68fa723cc90b651ef569888dd3c63",
           "bench/tritonbench_g/lora_expand_gemv/LoraExpandGemv.lean": "c6eee47ffe5cab7cc42922ec07271871a2bfda249453d763d02a53064f24f1c5",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchAssembly.lean": "67c16f9ef82cb1928d81dcbcbadb38ecb8c289b1cc300b77358a7a73e217adb8",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBody.lean": "9a64b6aaaffd5d0244972aa69d7576a1fc183c6502a6ee3f898dc1e87cb6b640",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBodyValue.lean": "a9efc21c5b24e13ae29dee126879be76e94d7a16c76f5ce676babdea3b5da615",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchComplete.lean": "6b5dbf61213b0acaf8818b0217cbe0e05bb2cfd6a2bd39ae646f726bd35ed8e6",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchExecution.lean": "1667f26e25b4c4ae69ee6bc940b1a7a61fde5d385dd82ac761826786d2090a6a",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchFrame.lean": "fe60c6204184bc63f9830ef0455d18f1b27fa35e7096c94e9047cc215ebcbe9d",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchLoop.lean": "824238b20a8f27698b79c09ea8e7b480c332ee50504c6fddd4e3554a2b585a33",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchReference.lean": "ec95c5062ce8bd0ed5761ed99fafc797a4431cde18b2dec1884731f03a0f8564",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchShape.lean": "6e9008353729972c7cced8128a2bf267a9ea99f55b173568f66c04bc03b91733",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchSource.lean": "67d35e8009e6c9fa3a7dc60c7de1d7d54dd4ce614ea5c96bdb58f6263a9ce565",
+          "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchWitness.lean": "435efc0b0500620b0bb5f6abbe9bae67727493c6fa327983703457e1e279dd55",
           "bench/tritonbench_g/lora_expand_gemv/Proofs/FPComplete.lean": "c1d035057ab9331be971fd480d23ec2870936885f5795871f567e069244c73fa",
           "bench/tritonbench_g/lora_expand_gemv/Proofs/FPExecution.lean": "1f2d1e285213947378143eb3ef7b0725ad66450f1cf333bfbfb88d01254f5f8e",
           "bench/tritonbench_g/lora_expand_gemv/Proofs/FPModel.lean": "3da96951e0e0f73d8a2eaed4216338b8e9cfb5d7e2e34f6c9cceea5d9e870d66",
@@ -29490,6 +29502,40 @@
       },
       "structural_gaps": [
         {
+          "kind": "remaining_original_program_scope",
+          "finding": "Python output/index dtype are not enumerated; fp16/bf16/fp32 output and mathematical signed index are selected profiles.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Host shape/squeeze/stride/grid/BLOCK_K dispatch is not connected to the per-program theorem.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "The total interpreter parameter space does not establish native specialization admissibility; positive splits and legal BLOCK_K/arange shapes still need binding or explicit rejection classification.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Mathematical Nat/Int offsets need fixed-width no-overflow, nonnegative address, allocation and byte-memory correspondence.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Ordered interpreter writes do not close native duplicate-address or cross-program concurrency; a race/injectivity or concurrency refinement is required.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [
+        "(hundef : ∀ rg o, s.undef rg o = 0)"
+      ],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "branch",
           "finding": "ADD_INPUTS=true is wrapper default and tested, CAST_TYPE=true for fp32 inputs and sentinel lora_index=-1 return are outside current active false/false body.",
           "can_defer_as_numeric_assumption": false
@@ -29500,13 +29546,27 @@
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "structural_gaps_confirmed",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [
-        "(hundef : ∀ rg o, s.undef rg o = 0)"
-      ],
-      "callback_assumptions": {},
-      "review": null
+      "partial_progress": {
+        "status": "reviewed_profile_extensions_not_whole_program_acceptance",
+        "declarations": [
+          {
+            "file": "bench/tritonbench_g/lora_expand_gemv/BranchCorrect.lean",
+            "declaration": "lora_expand_all_branches_machine_correctness",
+            "statement_sha256": "0d5ca833e68ee8bb5b5ebe78d83095ec93a75cfeeddd2630a847e9c450890bbb",
+            "dtype_profile": "Six input/weight pairs fp16/fp16, fp16/bf16, bf16/fp16, bf16/bf16, fp32/fp16, fp32/bf16; each with fp16, bf16 or fp32 output. Signed mathematical index; both EVEN_K, ADD_INPUTS and CAST_TYPE choices; sentinel and full dynamic output loop. Concrete software casts/mul/add and valid reduction trees, including the historical fp32 real-channel reduction.",
+            "covers_stages": [
+              "full_kernel"
+            ]
+          }
+        ],
+        "review": {
+          "path": "2026-10-15/host-and-lora-scope-extensions/root-review.json",
+          "sha256": "1853ad77ccab0c0811fd2c9261100da92c44c8cf9f7811f55345d551a00fb783",
+          "source_hashes_pointer": [
+            "reviewed_input_sha256"
+          ]
+        }
+      }
     },
     {
       "task": "masked_add_cuda",
@@ -32700,6 +32760,7 @@
           "bench/tritonbench_g/matrix_transpose/Correct.lean": "c6e29ddb868b2bc60a2d7b361f4f6d03523359436cd051ce12a8f454d6dc373e",
           "bench/tritonbench_g/matrix_transpose/FPCorrect.lean": "5a1370d9756d3df225c0e6e281c5e471d5db9b5ffd3bae3164c31ca34590677c",
           "bench/tritonbench_g/matrix_transpose/FPEquiv.lean": "ba3dda73e482b88f8a849f5f1bd4f051b4ebd0db12ed1cc336570a557c762ce0",
+          "bench/tritonbench_g/matrix_transpose/HostCorrect.lean": "a074ba086ee81a2e1d23d9d1f670e0353492289ddffa95a4aaa4e14cf895a6af",
           "bench/tritonbench_g/matrix_transpose/Kernels.lean": "c8ae2d96fdb3ef90045dc97cac990cb91eae8872b17a8a1db435457b7dc97434",
           "bench/tritonbench_g/matrix_transpose/Proofs/Candidate.lean": "1fcb226cc98b96bbc297502830c5673dffdb0ee0ec0642cb136f89925c7d2f62",
           "bench/tritonbench_g/matrix_transpose/Proofs/FPBits.lean": "d87a1550451e28a33b41de8fad5cb64d1c575db095d7284af2fb03701c4f4a6e",
@@ -32800,16 +32861,59 @@
       },
       "structural_gaps": [
         {
+          "kind": "remaining_original_program_scope",
+          "finding": "Represent original native rejection behavior: zero arange endpoints and non-power-of-two dimensions are accepted by the logical execution model but rejected by Triton; the wrapper has no guard. Corrected empty-shape strides do not resolve this error-path obligation.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Cover Python caller types and negative dimensions, tensor allocator failure/CUDA availability, and all original host-error exits; Input Nat omits these.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Bind returned tensor shape/stride/storage metadata and logical allocation regions to actual wrapper/native allocation behavior.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Establish complete native arange/tile admissibility beyond power-of-two necessity, runtime stride/index width, physical byte addressing, ABI, lowering and device execution correspondence.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "verification",
           "finding": "Actual wrapper fixes fp16 and grid=(1,); theorem covers arbitrary original strides/dimensions and six statements. Candidate closest to standard; need explicit wrapper parameter instantiation and final current binding check.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "partial_progress": {
+        "status": "reviewed_profile_extensions_not_whole_program_acceptance",
+        "declarations": [
+          {
+            "file": "bench/tritonbench_g/matrix_transpose/HostCorrect.lean",
+            "declaration": "matrix_transpose_host_correctness",
+            "statement_sha256": "641ab7047f47b7809c447d69c81c176fdc81ff8964a07757697a38e22d34f99f",
+            "dtype_profile": "Original wrapper hardcodes fp16 input/output. All BitVec16 sampled payloads; natural m,d, logical allocation into distinct regions and one original program. Native caller/error/shape admissibility and allocator/ABI are not established.",
+            "covers_stages": [
+              "logical_fp16_wrapper_allocation_and_single_original_program"
+            ]
+          }
+        ],
+        "review": {
+          "path": "2026-10-15/host-and-lora-scope-extensions/root-review.json",
+          "sha256": "1853ad77ccab0c0811fd2c9261100da92c44c8cf9f7811f55345d551a00fb783",
+          "source_hashes_pointer": [
+            "reviewed_input_sha256"
+          ]
+        }
+      }
     },
     {
       "task": "matrix_vector_multip",
@@ -48110,5 +48214,5 @@
       "review": null
     }
   ],
-  "progress_checkpoint": "bench/review-checkpoints/2026-10-15/original-scope-extensions/README.md"
+  "progress_checkpoint": "bench/review-checkpoints/2026-10-15/host-and-lora-scope-extensions/README.md"
 }

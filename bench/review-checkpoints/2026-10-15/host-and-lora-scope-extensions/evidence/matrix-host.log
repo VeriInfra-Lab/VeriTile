@@ -1,0 +1,14 @@
+VeriTile.Bench.TritonBenchG.MatrixTranspose.Host.output_injective: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.MatrixTranspose.Host.full_memory: axiom footprint ⊆ standard base ✓  ([Quot.sound,
+ propext,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatrixTranspose.Host.matrix_transpose_host_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.MatrixTranspose.Host.signed32_offset_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.MatrixTranspose.Host.expectedMemory: definition does not reference [VeriTile.Bench.TritonBenchG.MatrixTranspose.FPBits.source,
+ VeriTile.Bench.TritonBenchG.MatrixTranspose.FPBits.execution,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.TritonBenchG.MatrixTranspose.Host.run] — non-circular ✓

@@ -23,7 +23,7 @@ materialized as an explicit cast. The original mathematical theorem did not
 select a storage format; this result does not claim all possible Python output
 dtypes or the host dispatch/signed-sentinel path.
 
-Local Triton 3.8 `standard.sum` and `core.reduce` retain the floating input dtype.
+The reviewed local Triton 3.7.1 `standard.sum` and `core.reduce` retain the floating input dtype. The earlier 3.8 version label was incorrect.
 Half/bfloat16 mixed multiplication converts the bfloat16 operand to half; sum
 then retains that product dtype. This corrects the earlier planning review's
 unverified suggestion of automatic fp32 sum promotion. `FPModel` implements true
@@ -39,3 +39,27 @@ binding, including NaN/zero behavior, rounding and FTZ, low-precision arithmetic
 output casts, and possible compiler fusion. `FPWitness` supplies a supporting
 three-iteration run with input/output aliasing, K padding and an output tail;
 it does not replace the parameterized contract.
+
+
+`BranchCorrect.lean` adds the complete per-program source: the signed `-1`
+sentinel, both `EVEN_K`, `ADD_INPUTS` and `CAST_TYPE` values, and every output-loop
+iteration. Six input/weight pairs (fp16, bf16 or fp32 input; fp16 or bf16
+weights) combine with fp16, bf16 or fp32 output. Only `BLOCK_N > 0` is assumed.
+The explicit software engine binds all used arithmetic, including the fp32
+real-channel reduction. There is no numerical callback premise.
+
+The independent reference reads each output block from that block's entry
+memory, so later blocks observe earlier stores and weight/output aliases.
+The full memory result and frame require no alias or output-injectivity
+hypothesis. This is ordered interpreter behavior; it does not establish
+race safety for colliding native stores. A full-source projection proves the
+entire original body after dtype erasure and constant-branch normalization,
+retaining the dynamic sentinel and all loops. Concrete checks exercise fp32
+casting, add-inputs, aliases, padding, the final tail and the signed sentinel.
+
+This is still a selected software execution profile. The wrapper's squeeze,
+shape/stride/grid dispatch, other output/index dtypes, admissible native tile
+shapes, signed fixed-width address and byte-memory correspondence, and native
+concurrency remain structural obligations. They cannot be deferred as numerical
+assumptions. Floating configuration, reduction-tree/fusion and conversion
+bindings to the compiler/device require separate numerical follow-up.

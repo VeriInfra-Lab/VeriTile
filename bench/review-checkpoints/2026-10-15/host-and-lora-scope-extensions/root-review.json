@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "kind": "current_source_profile_extension_review",
+  "reviewer": "root",
+  "status": "reviewed_explicit_profile_extensions_only",
+  "prepared_by": "/root/scope_integration_review",
+  "review_authorization": "Root confirmed independent source/mathematical reviews, the public registration repair, exact repository copies and frozen Lake registration, then authorized this bounded review record. Catalog generation follows final root metadata cross-check.",
+  "reviewed_input_sha256": {
+    "bench/tritonbench_g/lora_expand_gemv/BranchCorrect.lean": "2b6da140ee3ad171158012bbe1951fba60b173463882c3a9d3e44611758e4b32",
+    "bench/tritonbench_g/lora_expand_gemv/LoraExpandGemv.lean": "c6eee47ffe5cab7cc42922ec07271871a2bfda249453d763d02a53064f24f1c5",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchAssembly.lean": "67c16f9ef82cb1928d81dcbcbadb38ecb8c289b1cc300b77358a7a73e217adb8",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBody.lean": "9a64b6aaaffd5d0244972aa69d7576a1fc183c6502a6ee3f898dc1e87cb6b640",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchBodyValue.lean": "a9efc21c5b24e13ae29dee126879be76e94d7a16c76f5ce676babdea3b5da615",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchComplete.lean": "6b5dbf61213b0acaf8818b0217cbe0e05bb2cfd6a2bd39ae646f726bd35ed8e6",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchExecution.lean": "1667f26e25b4c4ae69ee6bc940b1a7a61fde5d385dd82ac761826786d2090a6a",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchFrame.lean": "fe60c6204184bc63f9830ef0455d18f1b27fa35e7096c94e9047cc215ebcbe9d",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchLoop.lean": "824238b20a8f27698b79c09ea8e7b480c332ee50504c6fddd4e3554a2b585a33",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchReference.lean": "ec95c5062ce8bd0ed5761ed99fafc797a4431cde18b2dec1884731f03a0f8564",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchShape.lean": "6e9008353729972c7cced8128a2bf267a9ea99f55b173568f66c04bc03b91733",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchSource.lean": "67d35e8009e6c9fa3a7dc60c7de1d7d54dd4ce614ea5c96bdb58f6263a9ce565",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/BranchWitness.lean": "435efc0b0500620b0bb5f6abbe9bae67727493c6fa327983703457e1e279dd55",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/FPModel.lean": "3da96951e0e0f73d8a2eaed4216338b8e9cfb5d7e2e34f6c9cceea5d9e870d66",
+    "bench/tritonbench_g/lora_expand_gemv/Proofs/FPTypedSource.lean": "55c3f6731b1debd9655b1338536a29a696553cde00171a8d8c524006b6a1eb6d",
+    "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py": "212f030cd93c3381dc1fe6aab372d8568fbed9330954772cd49c69670575a3d3",
+    "bench/tritonbench_g/matrix_transpose/HostCorrect.lean": "a074ba086ee81a2e1d23d9d1f670e0353492289ddffa95a4aaa4e14cf895a6af",
+    "bench/tritonbench_g/matrix_transpose/Kernels.lean": "c8ae2d96fdb3ef90045dc97cac990cb91eae8872b17a8a1db435457b7dc97434",
+    "bench/tritonbench_g/matrix_transpose/Proofs/FPBits.lean": "d87a1550451e28a33b41de8fad5cb64d1c575db095d7284af2fb03701c4f4a6e",
+    "bench/tritonbench_g/matrix_transpose/Proofs/FPSoftware.lean": "0c29df5818b59108446204621a9736df78a8f77ddf7a277070a6d53f270c74e2",
+    "bench/tritonbench_g/matrix_transpose/matrix_transpose.py": "0ceaf829e152415896fea92229c45c00f34ade1ff5f0da7aaefa8769a84c5957"
+  },
+  "reviewed_value_scope_sha256": {
+    "lora_expand_gemv": "a20378153b59686b07441003d6bf971160237f6c18721d9fb1111dc5dd60d79b",
+    "matrix_transpose": "55225e73119b1d187f949f828eb30aea97d2d3d31c552d33d680c6765cd779e0"
+  },
+  "reviewed_metadata_corrections_sha256": {},
+  "semantic_review": {
+    "lora_expand_gemv": [
+      "Root accepted the independent read of all twelve final Lean modules and the original Python, then reviewed the exact public specification registration fix. Six input/weight pairs and three output formats cover eighteen selected storage profiles, every EVEN_K/ADD_INPUTS/CAST_TYPE choice, the mathematical signed -1 guard and full positive-step output loop. The fp32/CAST_TYPE=false real-channel reduceSum and fp32Load callbacks are explicit; every used arithmetic callback is closed by FP.Config and ReductionPlan software definitions. The independent recurrence caches the initial input/index, reads each block from its entry memory, preserves aliases and returns the exact full memory with frame. Normalized full-body dtype-erasure equality retains the dynamic guard and all loops/statements. No whole output/index dtype domain, host/grid, native integer/pointer/byte-memory, allocation, concurrency or compiler/numerical refinement is inferred. Native sum/promotion source was inspected in Triton 3.7.1; prior 3.8 wording is not current evidence."
+    ],
+    "matrix_transpose": [
+      "Root accepted the independent repaired-source review and exact-wrapper CPU metadata probe. For natural dimensions and distinct logical input/output regions, logical allocation initializes arbitrary sampled fp16 words and zero output, then executes the complete original typed kernel once with fresh registers and program id zero. The independent flat transpose reference covers every output bit, preserves allocated inputs and frames all cells outside the two allocation slices. Output injectivity is proved. Empty-shape contiguous strides use max(dim,1), with simplification justified by actual Fin indices. The result includes equal shape products; the shape/stride helpers are ghost metadata, not a returned native Tensor theorem. Nat parameters, logical allocation and total execution do not classify Python caller/error paths or native zero/non-power-of-two arange rejection, prove CUDA allocation/launch, establish complete native shape/resource admission, or bind physical storage/ABI. signed32_offset_bounds concerns final logical element offsets only. Arbitrary raw fp16 payloads require no RNG distribution law or floating numerical callback; no numerical assumption is added."
+    ]
+  },
+  "independent_reviews": {
+    "lora_expand_gemv": {
+      "path": "evidence/lora-independent-review.json",
+      "sha256": "c52d6313c4ea451f73cfee593527d5b3b59264455a37ae70aa1a16c6a76bdfac"
+    },
+    "matrix_transpose": {
+      "path": "evidence/matrix-host-review.json",
+      "sha256": "e55456d41ed5912f3da2dcaba469c9fbe9d78f8d5a9f075f10090086fb8a5bab"
+    }
+  },
+  "public_registration_revision": {
+    "path": "evidence/lora-root-public-registration-revision.json",
+    "sha256": "494d6b3f8b219d07d1d4fbcc82f8dcf45de5b27f927c41693711f1eaf4d48c4d"
+  },
+  "historical_supplement": {
+    "path": "bench/review-checkpoints/2026-10-15/original-scope-extensions/catalog-supplement.json",
+    "sha256": "a3098bcedc9f87e74030fa050506f52a5af22edf39d1c11858e441afd800132a",
+    "preserved_rows": [
+      "int4_matmul",
+      "parallel_retention_attention",
+      "parallel_attention",
+      "fp4_to_bf16",
+      "multinomial_sampling",
+      "kcache_copy_triton",
+      "triton_conv2d_fwd",
+      "attention_kernel_aligned"
+    ],
+    "preserved_rows_sha256": "aad985b697d4af02dc76eef5b9796e7d82f42e9faca06d4d67e50dd689936ebd",
+    "policy": "All eight prior rows, including three source-binding-only rows, retain exact declarations, metadata, source bindings and predecessor review references. No historical evidence is rewritten."
+  },
+  "metadata_baseline": {
+    "receipt": "bench/review-checkpoints/2026-10-15/original-scope-extensions/metadata-baseline/receipt.json",
+    "receipt_sha256": "207d0fc6f6fd80c3dd15b54908e87c4c72a5fc6e7bf5ebac08d9344ed890ddd3",
+    "source_commit": "9327d49ade58b9895672d462e230fe686626ebd2",
+    "review": "Complete unchanged pre-extension metadata checker passes against all pinned committed public sources. Live metadata remains exactly these bytes; no public scan is skipped."
+  },
+  "whole_original_program_acceptance": "not_established; all 183 original-program scope rows remain pending",
+  "independent_comparator": "not_run_for_new_modules in this preparation; independent replay remains a separate gate",
+  "native_functional_correctness": "not_established",
+  "integration_validation": "Individual reviewed Lean compiles are retained. The root full integration build and global gates are recorded separately; this source review is not their success receipt."
+}
