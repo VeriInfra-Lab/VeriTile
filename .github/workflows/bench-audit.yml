@@ -122,13 +122,13 @@ jobs:
         run: |
           python3 -B bench/current_source_audit.py \
             --root . \
-            --catalog bench/review-checkpoints/2026-10-16/fp64-admission-relu-access/current-source-catalog.json \
+            --catalog bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json \
             --baseline-package bench/review-checkpoints/2026-10-15/original-scope-extensions/metadata-baseline \
             --source-map bench/current_source_selections.json \
             --legacy-inventory bench/tritonbench_g/current_completion_inventory.json \
             --evidence-root bench/review-checkpoints \
             --review-manifest bench/review-checkpoints/2026-10-15/raw-copy-software-metadata/catalog-review-rebased.json \
-            --supplement bench/review-checkpoints/2026-10-16/fp64-admission-relu-access/catalog-supplement.json \
+            --supplement bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/catalog-supplement.json \
             --scope-ledger bench/original_program_scope.json \
             --output "$RUNNER_TEMP/current-source-global"
 
@@ -166,7 +166,7 @@ jobs:
       - name: Run corpus shard with comparator
         run: |
           bench/audit_trust.sh --catalog \
-            bench/review-checkpoints/2026-10-16/fp64-admission-relu-access/current-source-catalog.json
+            bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/current-source-catalog.json
 
   complete:
     name: TritonBench-G audit complete

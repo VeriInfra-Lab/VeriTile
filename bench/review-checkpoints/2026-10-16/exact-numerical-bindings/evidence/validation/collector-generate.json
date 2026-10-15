@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/usr/local/bin/python3",
+    "-B",
+    "/tmp/veritile-numeric-adapter-4gs1s34u/first/bench/deferred_numerical_experiments.py",
+    "--root",
+    "/tmp/veritile-numeric-adapter-4gs1s34u/first"
+  ],
+  "exit_code": 0,
+  "stdout_sha256": "fc62452034af191aad4c937cdd77010dbbd61977c9625e54955dd1fe6821debd",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

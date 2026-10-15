@@ -16,12 +16,13 @@ import sys
 
 from adapter_common import BASE, canonical, checked, hash_file, load, sha, unique_rows, write_json
 from current_source_catalog import validate_catalog
+from exact_scope_gate import validated_exact_requirements, validate_exact_case_links
 
 EXCLUDED_TASK = 'fp4_to_bf16_conversion'
 QUEUE = BASE + 'deferred_numerical_experiments.json'
 DIMENSIONS = ('stages', 'dtypes', 'branches')
 ACCEPTED = {'verified', 'verified_with_deferred_numerics'}
-RULE_STATES = {'pending_exact_binding', 'existing_report_optional_replay', 'shared_model_check'}
+RULE_STATES = {'pending_exact_binding', 'existing_report_optional_replay', 'shared_model_check', 'pending_numeric_validation'}
 COMPLETE_DTYPE_RELATIONS = {'complete_enumerated_wrapper_dtype_domain',
                             'complete_original_declared_domain'}
 DTYPES = {'bool', 'int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32',
@@ -261,7 +262,7 @@ def validate_deferrals(task, deferrals, queue):
     return result
 
 
-def validate_used_numerics(task, row, public, proof_cases, queue):
+def validate_used_numerics(task, row, public, proof_cases, queue, *, root=None):
     """Match every used theorem/callback/case to an exact queue registration.
 
     The queue registration is the semantic authority for which operation a
@@ -270,8 +271,15 @@ def validate_used_numerics(task, row, public, proof_cases, queue):
     """
     deferrals = row.get('deferred_numerical_assumptions', [])
     bindings = validate_deferrals(task, deferrals, queue)
-    callbacks = {callback for key in proof_cases
-                 for callback in public[key].get('unclosed_numeric_callbacks', [])}
+    exact = validated_exact_requirements(root, task, public, proof_cases, queue)
+
+    def required_callbacks(proof, case):
+        if proof in exact:
+            return exact[proof][case]['required_callbacks']
+        return public[proof].get('unclosed_numeric_callbacks', [])
+
+    callbacks = {callback for key, cases in proof_cases.items() for case in cases
+                 for callback in required_callbacks(key, case)}
     callback_bindings = row.get('callback_assumptions', {})
     if not isinstance(callback_bindings, dict) or set(callback_bindings) != callbacks:
         raise ValueError('unclosed numerical callbacks lack exact registered assumptions')
@@ -303,12 +311,13 @@ def validate_used_numerics(task, row, public, proof_cases, queue):
             applicable = {key for key, binding in bindings.items()
                 if reference in binding['declarations']
                 and canonical({k: binding[k] for k in ('dtype_profile', 'configuration')}) == case}
+            validate_exact_case_links(exact, proof, case, applicable, callback_links)
             for ident in required_ids:
                 matches = {key for key in applicable if key[0] == ident}
                 if not matches:
                     raise ValueError('used numerical assumptions omitted or wrong declaration/dtype/configuration: ' + ident)
                 used_bindings.update(matches)
-            for callback in declaration.get('unclosed_numeric_callbacks', []):
+            for callback in required_callbacks(proof, case):
                 matches = applicable & callback_links[callback]
                 if not matches:
                     raise ValueError('callback lacks compatible declaration/dtype/configuration binding: ' + callback)
@@ -390,7 +399,7 @@ def validate_task(root, catalog, task, row, queue):
                 raise ValueError('no full original execution contract for scope obligation: ' + ident)
             if covered_cases != required_cases:
                 raise ValueError('execution evidence does not match required dtype/configuration cases: ' + ident)
-    deferrals, callback_bindings = validate_used_numerics(name, row, public, proof_cases, queue)
+    deferrals, callback_bindings = validate_used_numerics(name, row, public, proof_cases, queue, root=root)
     if (row['status'] == 'verified_with_deferred_numerics') != bool(deferrals):
         raise ValueError('conditional status and numerical deferral list disagree')
     review_ref = row.get('review') or {}

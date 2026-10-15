@@ -1,0 +1,19 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.SourceBlockCorrect.byteSpec: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.program,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.checkedLoad,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock.checkedGate,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.source,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.materialized,
+ VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Triton.FP.Structural.step,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedTileIO.storeMapped,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedTileIO.loadMapped,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.ByteMemory.byteProgram] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.SourceBlockCorrect.byte_program_spec: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.SourceBlockCorrect.byte_spec_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.SourceBlockCorrect.relu_checked_source_block_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

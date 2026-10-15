@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "kind": "original_program_scope_ledger",
-  "catalog_sha256": "8a1067debf1ab6f279876937140490c3b41862c4108e983aef6e645a2dd8be6e",
+  "catalog_sha256": "db3b58d53ac88c71e959a2c1f485b4544c8e15435aba99aef33fcece5620a075",
   "binding_status": "current_catalog_bound_pending_scope_reviews",
   "expected_tasks": [
     "adam_update_triton",
@@ -193,7 +193,7 @@
   ],
   "deferred_queue": {
     "path": "bench/tritonbench_g/deferred_numerical_experiments.json",
-    "sha256": "d06f5ac80e386bea8ad85db1dcf133796417af1614e2a766e4998183c73b706f"
+    "sha256": "f38329a8340d6b8f4929514694714f2ca233c25bcabbd292889c123f8fff95dd"
   },
   "initial_audit_sha256": "dda8c0a98e100c0c9490cb1016d5d30febb550eb3f511b8c48f0e520b873d38d",
   "initialization_note": "Initial audit preserved as provenance. Current observed Lean/Python hashes are rebound to the new reviewed catalog; this does not accept any whole-program scope. All 183 rows remain pending.",
@@ -38079,6 +38079,9 @@
           "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
           "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
           "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.lean": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b",
+          "bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedBlock.lean": "6653affb9a648c6aa8ede196521b25c4b475ea8d5aa5e4c91f1c33d5788bfc17",
+          "bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedSchedule.lean": "9b81dcd8e7e6f5b8856a4bbe81cef8f94e052da601a9186cbee559e4df2ef730",
+          "bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedTileIO.lean": "b89a37c32624209cda593d570aa1cdc100ff94155831a0e0040706c93d3f35dd",
           "bench/tritonbench_g/relu_triton_kernel/Proofs/FP.lean": "0629d3b7b9ee85bf65e4313ca14f076d4db0871bb19d7653f709daec9d71dfb9",
           "bench/tritonbench_g/relu_triton_kernel/Proofs/FiniteAddress.lean": "be5aaa873701f0e882cc2994fa7f361e51c48a58c8ec0d5ad662d3aec01ed881",
           "bench/tritonbench_g/relu_triton_kernel/Proofs/GatedGrid.lean": "ab72e796a93ce107f6f932d87ef968d9e36d4677ec77aac17f0c68a14634833f",
@@ -38086,9 +38089,12 @@
           "bench/tritonbench_g/relu_triton_kernel/Proofs/IntegerWords.lean": "1bd893d8f7091d1334463167ecb36e59eceac9e0025fc52594de134f5a6dd274",
           "bench/tritonbench_g/relu_triton_kernel/Proofs/Real.lean": "baff90ac64d860b82469734df7149bd1e6dbb22371fd3581e10914d1e69b07ef",
           "bench/tritonbench_g/relu_triton_kernel/Proofs/SoftwareFP32.lean": "017f6d7cbc1f3e182d65beb4463edf925a6bde7024949058a60526454d65a297",
+          "bench/tritonbench_g/relu_triton_kernel/Proofs/SourceStages.lean": "b22520f9b866db8794df8375d36f2e770ee051da467667038188c56add048c57",
           "bench/tritonbench_g/relu_triton_kernel/Proofs/TypedGrid.lean": "9762ea888384a68276c2eeb6ec7f21fc8cf193df4f932c706a43d48773edd1a6",
           "bench/tritonbench_g/relu_triton_kernel/Proofs/TypedValue.lean": "b0f93f59b5e2131c456429003e3c875d8050d53f3d1f47e5151dc678d575ee4e",
           "bench/tritonbench_g/relu_triton_kernel/Proofs/WordGrid.lean": "7713efc80df8facdcf1dc948ff040a86cc32b99cc9309806f6b2bee5a3f1bf5c",
+          "bench/tritonbench_g/relu_triton_kernel/SourceBlockCorrect.lean": "c81680c34f276e51e35923ff5d8c56f754174235781122f3e9b678403506e845",
+          "bench/tritonbench_g/relu_triton_kernel/SourceGridCorrect.lean": "30733b9622fc5a01773d1cf3cf3bc48dd49ac8354dec013f7f2a6b7f1ce2bbdf",
           "bench/tritonbench_g/relu_triton_kernel/TypedGridCorrect.lean": "2fa9b6daa50f0da67d5f369fef69c4125a5f64fbefad541ecd6c67bdad0b5507",
           "bench/tritonbench_g/relu_triton_kernel/WordGridCorrect.lean": "7b8a1995e52205dff86331907345b597da1d6680d1cd87abe901d7a4e679f86b"
         },
@@ -38201,27 +38207,22 @@
       "structural_gaps": [
         {
           "kind": "remaining_original_program_scope",
-          "finding": "RELU-A-S1: Native allocation, storage and access permissions. The custom partial interface is a total mathematical byte payload plus explicit allocated/readable/writable maps. Native device allocation, memory validity, access rights, little-endian layout, alignment and provenance are not related to those maps. Full-N input readability and first-tile output writability are selected-domain premises, not host-established facts.",
+          "finding": "RELU-C-S1: Native storage, access and address correspondence. The allocation/read/write maps and ordered byte failures remain selected mathematical semantics. Native allocation, layout/strides, little-endian storage, alignment, pointer provenance, access rights, finite-width index/pointer behavior and native fault/poison/trap order are not related to this interpreter. Existing finite-address certificates are preserved but are not a native pointer simulation.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "RELU-A-S2: Native source/compiler and error correspondence. Every active input byte of every pid now passes a failing-access bind before the store gate. The nonzero-pid missing-byte theorem distinguishes this from the old total memory-effect projection. This custom interpreter still has no stepwise Python/TTIR/compiler bridge. Deterministic first-unavailable-byte errors and retained partial-write states are mathematical semantics, not native traps, poison, sanitizers or observable fault order. Scalar comparisons/conversions are pure total callbacks; nonzero-pid scalar results are not separately evaluated and no native instruction trace follows. Unloaded entries in loadWords/loadedPrefix are zero placeholders used only to complete the mathematical container; original no-other masked-load values are not specified.",
+          "finding": "RELU-C-S2: Python/frontend/native compiler and host/module stages. The checked program now composes with all seven exact statements of the frozen manually materialized TypedValue.source, using its real step and exec functions. This closes the earlier custom-load-to-source-block gap and computes every pid result. It is not independent Python extraction, TTIR/LLVM/backend correctness, native empty_like freshness, wrapper/layout validation, launch admission/error or import-time test-harness/module closure.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "RELU-A-S3: Host-established layout and domains. Logical name distinction, numeric interval separation, B1024, N<2^31 and representable endpoints remain theorem premises. Native empty_like freshness, layouts/strides, shifted/overlapping aliases, other sizes/blocks, launch limits and native zero-grid/error behavior remain open. No allocation or permission is required for the unmodified output tail.",
+          "finding": "RELU-C-S3: Native scheduling and error correspondence. Every complete permutation of whole programs is executed against preceding state, with a complete source trace per pid. Programs remain atomic relative to one another. Native instruction interleavings, synchronization, races, concurrency faults and callback evaluation side effects remain outside the model. Structural failures and per-byte access failures are explicit custom errors, not proofs of native observable errors.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "RELU-A-S4: Native instruction interleaving and remaining dtype/module scope. All complete permutations of whole programs are proved in the partial-access model. Programs remain atomic relative to each other; native instruction interleavings and races remain open. The same nine finite-word profiles are refined with no new dtype names. Prior fp64/fp8/error families and host/harness/module/compiler target scope remain required.",
-          "can_defer_as_numeric_assumption": false
-        },
-        {
-          "kind": "remaining_original_program_scope",
-          "finding": "The original dtype/error/host/module/harness obligations outside these nine finite-word profiles remain. Explicit readability, writability, separated intervals and finite-address domains are theorem premises, not wrapper-established runtime guards.",
+          "finding": "RELU-C-S4: Remaining original dtype and admission/error families. This package refines only the same nine integer/bool profiles. Floating fp16/bf16/fp32 byte/source composition, fp64 and fp8 execution/admission/error routes, and noncanonical/complex/quantized/packed dtype/device/layout/module branches remain structural work. The original17-profile audit and12-profile logical materialization are unchanged.",
           "can_defer_as_numeric_assumption": false
         }
       ],
@@ -38238,7 +38239,7 @@
         }
       ],
       "partial_progress": {
-        "status": "reviewed_profile_extensions_not_whole_program_acceptance",
+        "status": "reviewed_source_byte_composition_not_whole_program_acceptance",
         "declarations": [
           {
             "file": "bench/tritonbench_g/relu_triton_kernel/TypedGridCorrect.lean",
@@ -38299,18 +38300,43 @@
             "model_kind": "backend_value_contract",
             "role": "parametric_value_contract",
             "scope_relation": "full_declared_stage"
+          },
+          {
+            "file": "bench/tritonbench_g/relu_triton_kernel/SourceBlockCorrect.lean",
+            "declaration": "relu_checked_source_block_correctness",
+            "statement_sha256": "8734abb2c4e2f465218e7384afe37645ace4c50cae52d59be28c20ab1cb78ba7",
+            "dtype_profile": "The same nine integer/bool finite-word profiles; B1024, mathematical Nat indices and byte addresses, actual seven-statement source traces, pure total numerical callbacks. single_program_source_coupling",
+            "covers_stages": [
+              "checked_byte_source_seven_statement_block_trace"
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
+          },
+          {
+            "file": "bench/tritonbench_g/relu_triton_kernel/SourceGridCorrect.lean",
+            "declaration": "relu_checked_source_grid_correctness",
+            "statement_sha256": "010d9fca2ebd29917dc0cfda1759bac9b2e371802c1bb65179bd99e43cf4f8e1",
+            "dtype_profile": "The same nine integer/bool finite-word profiles; B1024, mathematical Nat indices and byte addresses, actual seven-statement source traces, pure total numerical callbacks. full_grid_source_coupling",
+            "covers_stages": [
+              "checked_byte_source_seven_statement_traces_complete_program_permutation"
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           }
         ],
         "review": {
-          "path": "2026-10-16/fp64-admission-relu-access/root-review.json",
-          "sha256": "d524ef5d388031f77312cce2bb2b82efb656395e8071e9f1c0bfc6f14393badd",
+          "path": "2026-10-16/relu-source-grid-and-exact-numerics/root-review.json",
+          "sha256": "7e405086c3c495ecde874e41423b67e890ca25bf0d9dfd3294d34eb515641d6c",
           "source_hashes_pointer": [
             "reviewed_input_sha256"
           ]
         },
-        "execution_contracts": 5,
+        "execution_contracts": 7,
         "protocol_contracts": 0,
-        "protocols_counted_as_execution": false
+        "protocols_counted_as_execution": false,
+        "exact_numeric_registration": "The older access-grid declaration has nine N1025/B1024/sm90 cases; the two new source-coupled declarations are not yet registered."
       }
     },
     {
@@ -50368,6 +50394,6 @@
       }
     }
   ],
-  "progress_checkpoint": "bench/review-checkpoints/2026-10-16/fp64-admission-relu-access/README.md",
+  "progress_checkpoint": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/README.md",
   "scope_audit_checkpoint": "bench/review-checkpoints/2026-10-16/original-scope-review-24/README.md"
 }

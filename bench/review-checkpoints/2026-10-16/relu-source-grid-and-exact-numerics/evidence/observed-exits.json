@@ -1,0 +1,80 @@
+{
+  "integration-build": {
+    "exit_code": 0,
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lake",
+      "build",
+      "VeriTile",
+      "VeriTileMath",
+      "VeriTileFull",
+      "TritonBenchGVerified",
+      "TritonBenchGInProgress",
+      "TritonBenchGLegacy",
+      "TritonBenchSpecExamples",
+      "FPFrontendRegressions"
+    ],
+    "log": {
+      "path": "evidence/integration/relu-source-grid-integration-build.log",
+      "sha256": "d6f5dbee2500e5e3a943e80cef7ce5e9e2ab1a7ce7b2545b35e3af8bb6b85054"
+    }
+  },
+  "catalog": {
+    "exit_code": 0,
+    "result": "184 tasks;938 public;3549 task modules;3980 registered modules",
+    "log": {
+      "path": "evidence/integration/relu-source-grid-catalog.log",
+      "sha256": "8c82d0856dae09b41263f4cf50aa670f8371f512635c327a770315b965862622"
+    }
+  },
+  "shard-tests": {
+    "exit_code": 0,
+    "tests": 25,
+    "log": {
+      "path": "evidence/integration/relu-source-grid-shard-tests.log",
+      "sha256": "0cf5416175fa2258a3f4aaebb51543ca729cb46b7b0416427bfd6caf442cee17"
+    }
+  },
+  "numerical-check": {
+    "exit_code": 0,
+    "command": [
+      "python3",
+      "-B",
+      "bench/deferred_numerical_experiments.py",
+      "--root",
+      ".",
+      "--check"
+    ],
+    "log": {
+      "path": "evidence/integration/relu-source-grid-numerical-check.log",
+      "sha256": "fc62452034af191aad4c937cdd77010dbbd61977c9625e54955dd1fe6821debd"
+    }
+  },
+  "exact-check": {
+    "exit_code": 0,
+    "command": [
+      "python3",
+      "-B",
+      "bench/exact_numerical_bindings.py",
+      "--root",
+      ".",
+      "--output",
+      "/tmp/veritile-standardization-20261015/relu-source-grid-exact-current"
+    ],
+    "log": {
+      "path": "evidence/integration/relu-source-grid-exact-check.log",
+      "sha256": "facec3cde1dc81ff828b652fe8e0d1f5022cc3d0337191f0f472032163e9ade0"
+    }
+  },
+  "global": {
+    "exit_code": 1,
+    "failed_gates": [
+      "comparator_preflight",
+      "library_replay",
+      "scope_review"
+    ],
+    "log": {
+      "path": "evidence/integration/relu-source-grid-global.log",
+      "sha256": "589039dfd365171fe78ce44a01875cac4a2bd32415c5fee174bfec3395653f11"
+    }
+  }
+}

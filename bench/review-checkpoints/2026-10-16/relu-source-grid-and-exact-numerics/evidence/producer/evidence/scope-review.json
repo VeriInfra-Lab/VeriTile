@@ -1,0 +1,249 @@
+{
+  "task": "relu_triton_kernel checked bytes, exact typed-source block traces and complete full-grid permutations",
+  "standard": "All original declared stages, dtypes and branches. Only explicitly registered numerical correspondence may be deferred; structural omissions remain blocking.",
+  "whole_original_program_accepted": false,
+  "completed_original_program_increment": 0,
+  "source_sha256": "2dffef82d69f280104c25b798e23f59a1ba9d00325552b91149a1d3b50fcffb0",
+  "prior_frozen_receipts": {
+    "/tmp/veritile-standardization-20261015/relu-partial-byte-execution-wip": {
+      "receipt": "0f845c08f838bb9f2f36c9c0fbcdbd799ba2ec7d5e394d41afa13ef9b4aa8228",
+      "scope": "375a7f945b9d020babf5bdec78f0bee589401121a7f773b01f8f62f4269413ca"
+    },
+    "/tmp/veritile-standardization-20261015/relu-byte-memory-wip": {
+      "receipt": "3623d3f83bb16d279d601ad8ce5a8a87c4e9565e84ba7be073cc76b165bec40b",
+      "scope": "a1cac8990de499ec700642d1609405b1d76bbcd2d223e5d1dcb6e22fe3bdcee3"
+    },
+    "/tmp/veritile-standardization-20261015/relu-finite-address-wip": {
+      "receipt": "fc98bfa9d776e2b5592506905eda9241efb16a4809c7ad112f500afc83d815f3",
+      "scope": "6eaaf3bfa779c674ad6a6a3436354b9684a8d67e55c4e1d7d58ce892491c6e6e"
+    },
+    "/tmp/veritile-standardization-20261015/relu-integer-word-refinement-wip": {
+      "receipt": "bf37c9bb89af701ca3737ce96fbc21d9a707d8a3d7c41e1a47d11a2e73c31276",
+      "scope": "da4d9317436b3f73bfc2aac6e1c0a795501b0af18904e7e065a185175ba60e57"
+    },
+    "/tmp/veritile-standardization-20261015/relu-original-wip": {
+      "receipt": "ed4a852afafce5efd027f62565e32afe42146eb9c0b140d872990a5da211fd90",
+      "scope": "f484d80a8fbb1ff238a4a2ebb360b5d0991938d6b79437adb9c1b6f0b8d49453"
+    }
+  },
+  "public_contracts": [
+    {
+      "file": "bench/tritonbench_g/relu_triton_kernel/SourceBlockCorrect.lean",
+      "parser_name": "relu_checked_source_block_correctness",
+      "declaration": "VeriTile.Bench.TritonBenchG.ReluTritonKernel.SourceBlockCorrect.relu_checked_source_block_correctness",
+      "kind": "specification",
+      "statement_sha256": "8734abb2c4e2f465218e7384afe37645ace4c50cae52d59be28c20ab1cb78ba7",
+      "model_kind": "backend_value_contract",
+      "role": "parametric_value_contract",
+      "coverage_role": "single_program_source_coupling",
+      "dtype_scope_relation": "selected_explicit_profiles_only",
+      "profiles": [
+        "int8",
+        "int16",
+        "int32",
+        "int64",
+        "uint8",
+        "uint16",
+        "uint32",
+        "uint64",
+        "bool"
+      ],
+      "unclosed_numeric_callbacks": [
+        "M.fromInt none on decoded signed source-width integers",
+        "M.fromNat none on decoded unsigned words or normalized unsigned i1 bool",
+        "M.literal none fp32 0 in the signed negative branch"
+      ],
+      "bit_interpreter_closed_command": false,
+      "native_binding_status": "not_established",
+      "carrier": "BitVec32 Algebra; signed/unsigned/bool inputs decoded from checked8-bit memory",
+      "premises": [
+        "B1024; arbitrary Nat N, bases and program id in the mathematical model.",
+        "Every active logical input cell is the complete decoded cell of the corresponding initial byte word.",
+        "All N input words allocated/readable; only first min(N,1024) fp32 output words allocated/writable.",
+        "No execution/result premise; no output-tail or output-readability premise."
+      ],
+      "conclusion": "The checked program succeeds and returns the independent seven-state reference trace; all seven original source step equations and original exec success hold, loaded/result registers are exact, inactive lanes preserve undef, all active results match finite words, final bytes equal an independent pid-zero-prefix specification and access maps/frame are preserved."
+    },
+    {
+      "file": "bench/tritonbench_g/relu_triton_kernel/SourceGridCorrect.lean",
+      "parser_name": "relu_checked_source_grid_correctness",
+      "declaration": "VeriTile.Bench.TritonBenchG.ReluTritonKernel.SourceGridCorrect.relu_checked_source_grid_correctness",
+      "kind": "specification",
+      "statement_sha256": "010d9fca2ebd29917dc0cfda1759bac9b2e371802c1bb65179bd99e43cf4f8e1",
+      "model_kind": "backend_value_contract",
+      "role": "parametric_value_contract",
+      "coverage_role": "full_grid_source_coupling",
+      "dtype_scope_relation": "selected_explicit_profiles_only",
+      "profiles": [
+        "int8",
+        "int16",
+        "int32",
+        "int64",
+        "uint8",
+        "uint16",
+        "uint32",
+        "uint64",
+        "bool"
+      ],
+      "unclosed_numeric_callbacks": [
+        "M.fromInt none on decoded signed source-width integers",
+        "M.fromNat none on decoded unsigned words or normalized unsigned i1 bool",
+        "M.literal none fp32 0 in the signed negative branch"
+      ],
+      "bit_interpreter_closed_command": false,
+      "native_binding_status": "not_established",
+      "carrier": "BitVec32 Algebra; signed/unsigned/bool inputs decoded from checked8-bit memory",
+      "premises": [
+        "Complete permutation of the original ceil(N/1024) program ids, including the empty N=0 schedule.",
+        "Initial complete input/output LogicalView of the latent byte payload.",
+        "Distinct logical input/output region names and nonoverlapping full N-element byte intervals.",
+        "All N input words allocated/readable; only first min(N,1024) fp32 output words allocated/writable."
+      ],
+      "conclusion": "Actual checked source programs compose on preceding logical and byte states; one seven-statement source trace and actual result register is retained for every pid; final logical memory is the frozen wordSpec, bytes are the frozen byteGrid/byteSpec, final LogicalView holds, the old partial-access schedule agrees, access maps and the output-tail frame are preserved."
+    }
+  ],
+  "counts": {
+    "finite_word_profiles": 9,
+    "new_dtype_pairs": 0,
+    "new_logical_profile_names": 0,
+    "original_logical_profiles_unchanged": 12,
+    "new_public_contracts": 2,
+    "source_statements_per_program": 7,
+    "all_pid_result_registers": true,
+    "inactive_load_semantics": "incoming typed State.undef; no other=0",
+    "complete_whole_program_permutations": true,
+    "raw_bool_input_bytes": 256,
+    "new_frontend_compilations": 0,
+    "native_backend_compilations": 0,
+    "gpu_executions": 0
+  },
+  "new_proved": [
+    "Exact seven-statement traces reference the unchanged TypedValue.source surfaceBody, with no separately substituted source AST.",
+    "Checked active byte reads consume the actual offsets/mask registers and populate the actual original x register; their success is proved equal to the original source load step.",
+    "Inactive source lanes retain the incoming typed undef and perform no physical access; the actual comparison/conversion/where result statement executes for every pid before the store gate.",
+    "The original source gate is extracted and evaluated; checked stores consume actual result/offsets/mask registers and match the original typed final store state and exact byte effect.",
+    "Unavailable first active input bytes fail the checked program before result/gate, for arbitrary pid including nonzero programs.",
+    "Checked source programs compose on previous logical and byte state for every complete whole-program permutation, with one complete source/result trace for every pid and zero traces for N=0.",
+    "Final grid logical memory equals frozen independent wordSpec; final bytes equal frozen byteGrid/byteSpec; final LogicalView, old partial-access schedule agreement, access maps and output-tail frame hold under separation."
+  ],
+  "source_coupling": {
+    "source": "Frozen TypedValue.source encoding.profile; SourceStages.statement selects its seven actual list elements.",
+    "changed_interpreter_boundary": "Statements0..3 and5..6 call actual FP.Structural.step. Statement4 uses a checked byte-load hook proved equal to the original step under the input view. A checked physical store hook runs before original logical statement6; both are coupled through actual gate/result/offsets/mask registers.",
+    "original_step_trace": "Seven exact equations, not just memory-effect equality; original exec is derived from those equations.",
+    "scalar_callbacks": "Pure total inherited fromInt/fromNat/fp32zero callbacks; state/value trace only, not native callback scheduling or side-effect evidence.",
+    "schedule": "Every pid receives the preceding checked program final logical state and byte memory; complete schedules are whole-program permutations, not instruction interleavings."
+  },
+  "permission_domain": {
+    "input": "Readable initial inputBase (N*elementBytes encoding)",
+    "output": "Writable initial outputBase (min(N,1024)*4)",
+    "no_output_tail_requirement": true,
+    "no_output_read_permission_requirement": true
+  },
+  "address_domain": "B1024; Nat addresses/indices for these custom composition contracts. Native finite-width/host correspondence remains structural; predecessor finite-address sources remain unchanged.",
+  "alias_policy": "Single-block contract binds initial active input cells and output effects; full-grid LogicalView requires distinct logical names and nonoverlapping input/output byte intervals.",
+  "structural_remaining": [
+    {
+      "id": "RELU-C-S1",
+      "gap": "Native storage, access and address correspondence",
+      "detail": "The allocation/read/write maps and ordered byte failures remain selected mathematical semantics. Native allocation, layout/strides, little-endian storage, alignment, pointer provenance, access rights, finite-width index/pointer behavior and native fault/poison/trap order are not related to this interpreter. Existing finite-address certificates are preserved but are not a native pointer simulation."
+    },
+    {
+      "id": "RELU-C-S2",
+      "gap": "Python/frontend/native compiler and host/module stages",
+      "detail": "The checked program now composes with all seven exact statements of the frozen manually materialized TypedValue.source, using its real step and exec functions. This closes the earlier custom-load-to-source-block gap and computes every pid result. It is not independent Python extraction, TTIR/LLVM/backend correctness, native empty_like freshness, wrapper/layout validation, launch admission/error or import-time test-harness/module closure."
+    },
+    {
+      "id": "RELU-C-S3",
+      "gap": "Native scheduling and error correspondence",
+      "detail": "Every complete permutation of whole programs is executed against preceding state, with a complete source trace per pid. Programs remain atomic relative to one another. Native instruction interleavings, synchronization, races, concurrency faults and callback evaluation side effects remain outside the model. Structural failures and per-byte access failures are explicit custom errors, not proofs of native observable errors."
+    },
+    {
+      "id": "RELU-C-S4",
+      "gap": "Remaining original dtype and admission/error families",
+      "detail": "This package refines only the same nine integer/bool profiles. Floating fp16/bf16/fp32 byte/source composition, fp64 and fp8 execution/admission/error routes, and noncanonical/complex/quantized/packed dtype/device/layout/module branches remain structural work. The original17-profile audit and12-profile logical materialization are unchanged."
+    }
+  ],
+  "numerical_followups": [
+    {
+      "id": "RELU-W-N1",
+      "scope": "Nine finite-word integer/bool profiles after native load-to-InputWords mapping is established",
+      "primitive": "M.fromInt/M.fromNat to fp32",
+      "status": "descriptive_pending_exact_queue_scope_binding",
+      "requirements": [
+        "Bind direct source-width signed/unsigned conversion rounding and exceptional behavior to fp32.",
+        "Do not reclassify native byte assembly, dtype/tag mapping, pointer validity or physical aliasing as numerical assumptions."
+      ]
+    },
+    {
+      "id": "RELU-W-N2",
+      "scope": "Signed negative source-word branch only",
+      "primitive": "M.literal none fp32 0",
+      "status": "descriptive_pending_exact_queue_scope_binding",
+      "requirements": [
+        "Bind the literal to native positive fp32 zero.",
+        "The word-level comparisons and bool normalization have no remaining numerical callback."
+      ]
+    }
+  ],
+  "new_numerical_callbacks": [],
+  "suggested_covered_stage": "checked_byte_source_seven_statement_traces_complete_program_permutation",
+  "source_view_constraint": "Retain original source views; manual typed materialization plus custom checked access is not an independent native source extraction/compiler simulation.",
+  "inherited_route_review": {
+    "path": "/tmp/veritile-standardization-20261015/relu-finite-address-wip/evidence/address-route-review.json",
+    "sha256": "8e07181a10a354fe185efb74aa664a3e87e7ecf0b7cdc14c551a7fdbc8eecdcc"
+  },
+  "verification": {
+    "module_count": 6,
+    "actual_exit_codes": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "seconds": 34.55581164336763,
+    "named_axiom_checks": 40,
+    "spec_noncircularity_checks": 5,
+    "module_axiom_audits": 6,
+    "warnings": 0,
+    "dependency_file_count": 190,
+    "dependency_breakdown": {
+      "repository": 168,
+      "relu-finite-address-wip": 3,
+      "relu-byte-memory-wip": 4,
+      "relu-partial-byte-execution-wip": 3,
+      "package": 6,
+      "relu-original-wip": 3,
+      "relu-integer-word-refinement-wip": 3
+    },
+    "imported_project_olean_count": 179,
+    "frozen_predecessor_source_count": 20,
+    "inherited_ttir_count": 13,
+    "source_dependency_and_olean_hashes_unchanged": true,
+    "all_twenty_frozen_relu_source_modules_unchanged": true,
+    "actual_lakefile_toml_and_declaration_parser_bound": true,
+    "external_library_build_rechecked": false,
+    "repository_comparator_run": false,
+    "source_whitespace_check": "All six sources have a final newline and no trailing spaces/tabs.",
+    "compiler_results": "evidence/verification-results.json",
+    "all_compile_attempts": "evidence/verification-attempts.json",
+    "attempts_retained": 23,
+    "failed_attempts_retained": 10,
+    "failure_exit_codes": [
+      -15,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "failure_logs_and_source_snapshots_retained": true,
+    "terminated_attempt_note": "Attempt0001 was explicitly terminated with SIGTERM after reported errors and prolonged simplification; the subprocess returned -15 and its unmodified source/log are retained."
+  },
+  "independent_review": "pending root/independent integration review"
+}

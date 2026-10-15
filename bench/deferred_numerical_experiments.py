@@ -17,6 +17,7 @@ OUTPUT = BASE + "deferred_numerical_experiments"
 SUPPLEMENT = BASE + "parallel_retention_attention/NUMERICAL_ASSUMPTIONS.json"
 RULE_STATES = {
     "pending_exact_binding": "pending_exact_binding",
+    "pending_numeric_validation": "exact_profile_bound_validation_pending",
     "existing_report_optional_replay": "reported_profile_only",
     "shared_model_check": "model_requirement_not_hardware_evidence",
     "not_an_experiment": "refuted_unrestricted_assumption",
@@ -74,7 +75,7 @@ def unique(rows, key):
     return result
 
 
-def collect(root: Path = ROOT):
+def collect_legacy(root: Path = ROOT):
     inputs = Inputs(root)
     current = inputs.read(BASE + "fp_value_current_status.json")
     rules = inputs.read(BASE + "numeric_experiment_tasks.json")
@@ -189,6 +190,11 @@ def collect(root: Path = ROOT):
     }
 
 
+def collect(root: Path = ROOT):
+    from exact_numerical_bindings import derive_authority, extend_queue
+    return extend_queue(collect_legacy(root), derive_authority(root))
+
+
 def markdown(data):
     summary = data["summary"]
     lines = ["# Deferred numerical experiments", "",
@@ -223,6 +229,15 @@ def markdown(data):
               "graph or an explicit scoped relation before numerical comparison; do not silently "
               "reassociate arithmetic, replace undefined padding with zero, or substitute "
               "dotAcc for dot-from-zero plus add.", ""]
+    exact = data.get("exact_numerical_summary")
+    if exact:
+        lines += ["## Exact scalar follow-up bindings", "",
+            f"{exact['new_scalar_families']} additional scalar families bind "
+            f"{exact['scope_bindings']} exact dtype/port instances across "
+            f"{exact['declaration_cases']} declaration cases. All remain unvalidated.", "",
+            "The fp64 cases bind the frozen sm90 frontend configuration. ReLU binds only "
+            "N=1025, block_size=1024, sm90; other specializations remain unregistered. "
+            "The queue preserves structural gaps and adds no accepted original programs.", ""]
     return "\n".join(lines)
 
 

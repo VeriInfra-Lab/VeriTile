@@ -1,0 +1,61 @@
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/SourceStages.lean:70:33: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  LE (Value α (Encoding.signed width✝).kind.inputType)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/SourceStages.lean:72:48: error: Application type mismatch: The argument
+  value
+has type
+  Value α Encoding.boolean.kind.inputType
+but is expected to have type
+  Prop
+in the application
+  @ite ?m.20 value
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/SourceStages.lean:70:33: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  OfNat (Value α (Encoding.signed width✝).kind.inputType) 0
+numerals are polymorphic in Lean, but the numeral `0` cannot be used in a context where the expected type is
+  Value α (Encoding.signed width✝).kind.inputType
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/SourceStages.lean:101:94: error: unsolved goals
+α : Type
+inst✝ : Inhabited α
+M : FP.Structural.Algebra α
+e : Encoding
+x y : RegionName
+N B : ℕ
+initial : State α
+⊢ ((initial.setReg "pid" TileDType.nat [] fun x => initial.pids 0).setReg "block_start" TileDType.nat []
+        (bop (fun x1 x2 => x1 * x2) Broadcast.nil (fun x => initial.pids 0) fun x => B) =
+      (initial.setReg "pid" TileDType.nat [] fun x => initial.pids 0).setReg "block_start" TileDType.nat [] fun x =>
+        initial.pids 0 * B) ∧
+    ((initial.setReg "pid" TileDType.nat [] fun x => initial.pids 0).setReg "block_start" TileDType.nat [] fun x =>
+              initial.pids 0 * B).setReg
+          "offsets" TileDType.nat [B]
+          (bop (fun x1 x2 => x1 + x2) Broadcast.scalarL (fun x => initial.pids 0 * B) fun i => ↑i.1) =
+        ((initial.setReg "pid" TileDType.nat [] fun x => initial.pids 0).setReg "block_start" TileDType.nat [] fun x =>
+              initial.pids 0 * B).setReg
+          "offsets" TileDType.nat [B] (offsetValues B initial) ∧
+      (((initial.setReg "pid" TileDType.nat [] fun x => initial.pids 0).setReg "block_start" TileDType.nat [] fun x =>
+                  initial.pids 0 * B).setReg
+              "offsets" TileDType.nat [B] (offsetValues B initial)).setReg
+          "mask" TileDType.bool [B]
+          (bop (fun a b => decide (a < b)) Broadcast.scalarR (offsetValues B initial) fun x => N) =
+        (((initial.setReg "pid" TileDType.nat [] fun x => initial.pids 0).setReg "block_start" TileDType.nat [] fun x =>
+                  initial.pids 0 * B).setReg
+              "offsets" TileDType.nat [B] (offsetValues B initial)).setReg
+          "mask" TileDType.bool [B] (maskValues N B initial)
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/SourceStages.lean:103:62: warning: This simp argument is unused:
+  FP.Structural.bop
+
+Hint: Omit it from the simp argument list.
+  simp [statement, TypedValue.source, materialized, ComputeKernel.surfaceBody, step, evalExpr,
+  ̲  ̲ ̲ ̲evalOp_unfold, numeric, numericLt, natLt, F̵P̵.̵S̵t̵r̵u̵c̵t̵u̵r̵a̵l̵.̵b̵o̵p̵,̵pidState, startState, offsetsState, maskState,
+  ̲  ̲ ̲ ̲maskValues, offsetValues]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/relu-source-coupled-block-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/SourceStages.lean:104:51: warning: This simp argument is unused:
+  maskValues
+
+Hint: Omit it from the simp argument list.
+  simp [statement, TypedValue.source, materialized, ComputeKernel.surfaceBody,

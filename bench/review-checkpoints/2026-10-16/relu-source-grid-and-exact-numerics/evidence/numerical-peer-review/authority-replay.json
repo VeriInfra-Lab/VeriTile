@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/usr/local/bin/python",
+    "-B",
+    "/tmp/veritile-standardization-20261015/exact-numerical-adapter-independent-review/first-root/bench/exact_numerical_bindings.py",
+    "--root",
+    "/tmp/veritile-standardization-20261015/exact-numerical-adapter-independent-review/first-root",
+    "--output",
+    "/tmp/veritile-standardization-20261015/exact-numerical-adapter-independent-review/generated"
+  ],
+  "exit_code": 0,
+  "stdout_sha256": "facec3cde1dc81ff828b652fe8e0d1f5022cc3d0337191f0f472032163e9ade0",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

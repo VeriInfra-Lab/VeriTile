@@ -1,0 +1,147 @@
+import bench.tritonbench_g.relu_triton_kernel.Proofs.SourceStages
+import bench.tritonbench_g.relu_triton_kernel.Proofs.CheckedTileIO
+
+/-! Composition of actual source-statement execution and checked byte hooks.
+The load hook populates the original x register from bytes. The actual original
+result statement then executes for every pid. The original gate is evaluated
+before checked stores consume the resulting value/offset/mask registers. -/
+namespace VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock
+open VeriTile.Triton FP.Structural IntegerWords FiniteAddress TypedValue SourceStages
+open AccessMemory CheckedTileIO
+noncomputable section
+set_option maxHeartbeats 400000
+set_option maxRecDepth 24000
+
+inductive Failure where
+  | structural (statementIndex : Nat)
+  | access (fault : Fault)
+  deriving DecidableEq, Repr
+
+abbrev Result (α : Type) := Except (Failure × Memory) α
+
+def requireState (index : Nat) (mem : Memory) (value : Option (State (BitVec 32))) :
+    Result (State (BitVec 32)) :=
+  match value with
+  | some state => .ok state
+  | none => .error (.structural index, mem)
+
+def accessResult {α : Type} (mem : Memory) (value : Except Fault α) : Result α :=
+  match value with
+  | .ok value => .ok value
+  | .error fault => .error (.access fault, mem)
+
+def storeResult (value : AccessMemory.Execution) : Result Memory :=
+  match value with
+  | .ok mem => .ok mem
+  | .error (fault, mem) => .error (.access fault, mem)
+
+def extend {d : TileDType} (fallback : Value (BitVec 32) d)
+    (values : Values (BitVec 32) d [blockSize]) (lane : Nat) : Value (BitVec 32) d :=
+  if within : lane < blockSize then values (⟨lane, within⟩, PUnit.unit) else fallback
+
+theorem extend_at {d : TileDType} (fallback : Value (BitVec 32) d)
+    (values : Values (BitVec 32) d [blockSize]) (i : TileIndex [blockSize]) :
+    extend fallback values i.1.val = values i := by
+  rcases i with ⟨i, ⟨⟩⟩
+  simp only [extend, dif_pos i.isLt]
+
+def checkedLoad (e : Encoding) (x : RegionName) (inputBase : Nat)
+    (state : State (BitVec 32)) (mem : Memory) : Result (State (BitVec 32)) :=
+  match state.regs .nat [blockSize] "offsets", state.regs .bool [blockSize] "mask" with
+  | some offsets, some active => do
+    let loaded ← accessResult mem (loadMapped e mem inputBase (extend 0 offsets) (extend false active)
+      (fun lane => state.undef e.kind.inputType x (extend 0 offsets lane)) blockSize)
+    pure (state.setReg "x" e.kind.inputType [blockSize] (fun i => loaded i.1.val))
+  | _, _ => .error (.structural 4, mem)
+
+def gateCondition (e : Encoding) (x y : RegionName) (N : Nat) : Op .bool [] :=
+  match statement e x y N blockSize 6 with
+  | .ifThen condition _ => condition
+  | _ => .constBool false
+
+def checkedGate (backend : Algebra (BitVec 32)) (e : Encoding)
+    (x y : RegionName) (outputBase N : Nat) (state : State (BitVec 32)) (mem : Memory) : Result Memory :=
+  match evalOp backend none (gateCondition e x y N) state with
+  | none => .error (.structural 6, mem)
+  | some gate =>
+    if gate PUnit.unit then
+      match state.regs .nat [blockSize] "offsets", state.regs .bool [blockSize] "mask",
+          state.regs .fp32 [blockSize] "result" with
+      | some offsets, some active, some values =>
+        storeResult (storeMapped (extend 0 values) (extend 0 offsets) (extend false active) outputBase mem blockSize)
+      | _, _, _ => .error (.structural 6, mem)
+    else .ok mem
+
+def program (M : Algebra (BitVec 32)) (cmp16 cmp32 : BitVec 32 → BitVec 32 → Bool)
+    (e : Encoding) (x y : RegionName) (inputBase outputBase N : Nat)
+    (initial : State (BitVec 32)) (mem : Memory) : Result (Trace (BitVec 32) × Memory) := do
+  let p ← requireState 0 mem (step (backend M cmp16 cmp32) (statement e x y N blockSize 0) initial)
+  let s ← requireState 1 mem (step (backend M cmp16 cmp32) (statement e x y N blockSize 1) p)
+  let o ← requireState 2 mem (step (backend M cmp16 cmp32) (statement e x y N blockSize 2) s)
+  let m ← requireState 3 mem (step (backend M cmp16 cmp32) (statement e x y N blockSize 3) o)
+  let l ← checkedLoad e x inputBase m mem
+  let r ← requireState 5 mem (step (backend M cmp16 cmp32) (statement e x y N blockSize 5) l)
+  let bytes ← checkedGate (backend M cmp16 cmp32) e x y outputBase N r mem
+  let f ← requireState 6 bytes (step (backend M cmp16 cmp32) (statement e x y N blockSize 6) r)
+  pure (⟨p, s, o, m, l, r, f⟩, bytes)
+
+theorem checked_load_success (e : Encoding) (x : RegionName) (inputBase N : Nat)
+    (initial : State (BitVec 32)) (mem : Memory)
+    (view : InputWords e (ByteMemory.loadInput e mem.bytes inputBase) x N initial.mem)
+    (available : Readable mem inputBase (N * elementBytes e)) :
+    checkedLoad e x inputBase (maskState N blockSize initial) mem =
+      .ok (loadedState e x N blockSize initial) := by
+  let offsets := extend 0 (offsetValues blockSize initial)
+  let active := extend false (maskValues N blockSize initial)
+  let fallback := fun lane => initial.undef e.kind.inputType x (offsets lane)
+  have readable : ∀ lane, lane < blockSize → active lane = Bool.true →
+      Readable mem (inputBase + offsets lane * elementBytes e) (elementBytes e) := by
+    intro lane within enabled
+    have access : initial.pids 0 * blockSize + lane < N := by
+      simpa only [active, extend, dif_pos within, maskValues, offsetValues, decide_eq_true_eq] using enabled
+    simpa only [offsets, extend, dif_pos within, offsetValues] using
+      readable_element e mem inputBase N (initial.pids 0 * blockSize + lane) available access
+  have loads := load_mapped_success e mem inputBase offsets active fallback blockSize readable
+  have same : (fun i : TileIndex [blockSize] =>
+      loadSpec e mem inputBase offsets active fallback blockSize i.1.val) =
+      loadedValues e x N blockSize initial := by
+    funext i
+    simp only [loadSpec, offsets, active, fallback, extend_at, i.1.isLt, true_and,
+      maskValues, decide_eq_true_eq, loadedValues]
+    by_cases enabled : offsetValues blockSize initial i < N
+    · rw [if_pos enabled, if_pos enabled, view _ enabled]
+      rfl
+    · rw [if_neg enabled, if_neg enabled]
+  change (do
+    let loaded ← accessResult mem (loadMapped e mem inputBase offsets active fallback blockSize)
+    pure ((maskState N blockSize initial).setReg "x" e.kind.inputType [blockSize]
+      (fun i => loaded i.1.val))) = _
+  rw [loads]
+  change Except.ok ((maskState N blockSize initial).setReg "x" e.kind.inputType [blockSize]
+    (fun i => loadSpec e mem inputBase offsets active fallback blockSize i.1.val)) = _
+  rw [same]
+  rfl
+
+theorem scalar_decoded (M : Algebra (BitVec 32)) (e : Encoding) (word : Word e) :
+    scalar M e (decoded e word) = wordValue M e word := by
+  cases e <;> simp [scalar, decoded, decodeCell, Encoding.kind, Kind.inputType,
+    Cell.read, wordValue]
+
+theorem active_result (M : Algebra (BitVec 32)) (e : Encoding) (x : RegionName)
+    (inputBase N : Nat) (initial : State (BitVec 32)) (mem : Memory)
+    (view : InputWords e (ByteMemory.loadInput e mem.bytes inputBase) x N initial.mem)
+    (i : TileIndex [blockSize]) (enabled : offsetValues blockSize initial i < N) :
+    resultValues M e x N blockSize initial i =
+      wordValue M e (ByteMemory.loadInput e mem.bytes inputBase (offsetValues blockSize initial i)) := by
+  unfold resultValues loadedValues
+  rw [if_pos enabled, view _ enabled]
+  exact scalar_decoded M e _
+
+#axiomsClean extend_at
+#axiomsClean checked_load_success
+#axiomsClean scalar_decoded
+#axiomsClean active_result
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedBlock

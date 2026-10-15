@@ -1,0 +1,152 @@
+import bench.tritonbench_g.relu_triton_kernel.Proofs.AccessGrid
+
+/-! Checked byte operations parameterized by the actual offset, mask and
+value registers. Active lanes read all source bytes in order. Inactive lanes
+retain the supplied undef value and perform no access. Stores retain the
+partial byte memory when an access fails. -/
+namespace VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedTileIO
+open VeriTile.Triton FP.Structural IntegerWords FiniteAddress AccessMemory
+
+def decoded (e : Encoding) (word : Word e) : Value (BitVec 32) e.kind.inputType :=
+  (decodeCell e word).read e.kind.inputType
+
+def loadMapped (e : Encoding) (mem : Memory) (base : Nat)
+    (offsets : Nat → Nat) (active : Nat → Bool)
+    (fallback : Nat → Value (BitVec 32) e.kind.inputType) :
+    Nat → Except Fault (Nat → Value (BitVec 32) e.kind.inputType)
+  | 0 => .ok fallback
+  | count + 1 => do
+    let previous ← loadMapped e mem base offsets active fallback count
+    if active count then
+      let word ← AccessMemory.loadInput e mem base (offsets count)
+      pure (fun lane => if lane = count then decoded e word else previous lane)
+    else pure previous
+
+def loadSpec (e : Encoding) (mem : Memory) (base : Nat)
+    (offsets : Nat → Nat) (active : Nat → Bool)
+    (fallback : Nat → Value (BitVec 32) e.kind.inputType) (count : Nat) :
+    Nat → Value (BitVec 32) e.kind.inputType :=
+  fun lane => if lane < count ∧ active lane = Bool.true then
+    decoded e (ByteMemory.loadInput e mem.bytes base (offsets lane)) else fallback lane
+
+theorem load_mapped_success (e : Encoding) (mem : Memory) (base : Nat)
+    (offsets : Nat → Nat) (active : Nat → Bool)
+    (fallback : Nat → Value (BitVec 32) e.kind.inputType) (count : Nat)
+    (available : ∀ lane, lane < count → active lane = Bool.true →
+      Readable mem (base + offsets lane * elementBytes e) (elementBytes e)) :
+    loadMapped e mem base offsets active fallback count =
+      .ok (loadSpec e mem base offsets active fallback count) := by
+  induction count with
+  | zero =>
+    have zero : loadSpec e mem base offsets active fallback 0 = fallback := by
+      funext lane; simp [loadSpec]
+    rw [zero]
+    rfl
+  | succ count ih =>
+    rw [loadMapped, ih (fun lane within enabled => available lane (by omega) enabled)]
+    change (if active count then _ else Except.ok _) = _
+    by_cases enabled : active count = Bool.true
+    · rw [if_pos enabled, load_input_success _ _ _ _ (available count (by omega) enabled)]
+      change Except.ok (fun lane => if lane = count then _ else
+        loadSpec e mem base offsets active fallback count lane) = _
+      congr 1
+      funext lane
+      by_cases last : lane = count
+      · subst lane; simp [loadSpec, enabled]
+      · have same : lane < count ↔ lane < count + 1 := by omega
+        simp only [last, if_false, loadSpec, same]
+    · rw [if_neg enabled]
+      congr 1
+      funext lane
+      by_cases last : lane = count
+      · subst lane; simp [loadSpec, enabled]
+      · have same : lane < count ↔ lane < count + 1 := by omega
+        simp only [loadSpec, same]
+
+theorem load_mapped_inactive (e : Encoding) (mem : Memory) (base : Nat)
+    (offsets : Nat → Nat) (active : Nat → Bool)
+    (fallback : Nat → Value (BitVec 32) e.kind.inputType) (count lane : Nat)
+    (inactive : active lane = Bool.false) :
+    loadSpec e mem base offsets active fallback count lane = fallback lane := by
+  simp only [loadSpec, inactive, Bool.false_eq_true, and_false, if_false]
+
+theorem load_first_unavailable (e : Encoding) (mem : Memory) (base : Nat)
+    (offsets : Nat → Nat) (active : Nat → Bool)
+    (fallback : Nat → Value (BitVec 32) e.kind.inputType) (count : Nat)
+    (first : active 0 = Bool.true)
+    (unavailable : ¬ (mem.allocated (base + offsets 0 * elementBytes e) = Bool.true ∧
+      mem.readable (base + offsets 0 * elementBytes e) = Bool.true)) :
+    loadMapped e mem base offsets active fallback (count + 1) =
+      .error (.loadUnavailable (base + offsets 0 * elementBytes e)) := by
+  induction count with
+  | zero =>
+    rw [loadMapped, loadMapped]
+    change (if active 0 then _ else Except.ok _) = _
+    rw [if_pos first, load_input_first_unavailable _ _ _ _ unavailable]
+    rfl
+  | succ count ih =>
+    rw [loadMapped, ih]
+    rfl
+
+def storeMapped (values : Nat → BitVec 32) (offsets : Nat → Nat) (active : Nat → Bool)
+    (base : Nat) (mem : Memory) : Nat → Execution
+  | 0 => .ok mem
+  | count + 1 => do
+    let previous ← storeMapped values offsets active base mem count
+    if active count then
+      writePrefix (fun byte => ByteMemory.splitByte (values count) byte)
+        (base + offsets count * 4) previous 4
+    else pure previous
+
+def storeEffect (values : Nat → BitVec 32) (offsets : Nat → Nat) (active : Nat → Bool)
+    (base : Nat) (mem : ByteMemory.Memory) : Nat → ByteMemory.Memory
+  | 0 => mem
+  | count + 1 => if active count then
+      ByteMemory.storeLE 4 (storeEffect values offsets active base mem count)
+        (base + offsets count * 4) (values count)
+    else storeEffect values offsets active base mem count
+
+theorem store_mapped_success (values : Nat → BitVec 32) (offsets : Nat → Nat) (active : Nat → Bool)
+    (base : Nat) (mem : Memory) (count : Nat)
+    (available : ∀ lane, lane < count → active lane = Bool.true → Writable mem (base + offsets lane * 4) 4) :
+    storeMapped values offsets active base mem count =
+      .ok (withBytes mem (storeEffect values offsets active base mem.bytes count)) := by
+  induction count with
+  | zero => rfl
+  | succ count ih =>
+    rw [storeMapped, ih (fun lane within enabled => available lane (by omega) enabled)]
+    change (if active count then _ else Except.ok _) = _
+    by_cases enabled : active count = Bool.true
+    · have permitted : Writable (withBytes mem (storeEffect values offsets active base mem.bytes count))
+          (base + offsets count * 4) 4 := available count (by omega) enabled
+      rw [if_pos enabled, write_prefix_success _ _ _ _ permitted]
+      simp only [storeEffect, if_pos enabled]
+      rfl
+    · rw [if_neg enabled]
+      simp only [storeEffect, if_neg enabled]
+
+/-- A canonical source mask stores exactly its active prefix. The generic
+hook itself does not assume contiguous offsets or ignore the mask register. -/
+theorem canonical_store (values : Nat → BitVec 32) (base N count : Nat)
+    (mem : ByteMemory.Memory) :
+    storeEffect values id (fun lane => decide (lane < N)) base mem count =
+      ByteMemory.storePrefix values base mem (min N count) := by
+  induction count with
+  | zero => simp only [storeEffect, Nat.min_zero, ByteMemory.storePrefix]
+  | succ count ih =>
+    rw [storeEffect, ih]
+    by_cases active : count < N
+    · simp only [decide_eq_true_eq, if_pos active, id_eq]
+      rw [Nat.min_eq_right (by omega), Nat.min_eq_right (by omega), ByteMemory.storePrefix]
+    · simp only [decide_eq_true_eq, if_neg active]
+      rw [Nat.min_eq_left (by omega), Nat.min_eq_left (by omega)]
+
+#specNonCircular loadSpec avoiding [loadMapped, AccessMemory.loadInput, AccessMemory.loadLE, readByte]
+#axiomsClean load_mapped_success
+#axiomsClean load_mapped_inactive
+#axiomsClean load_first_unavailable
+#axiomsClean store_mapped_success
+#axiomsClean canonical_store
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end VeriTile.Bench.TritonBenchG.ReluTritonKernel.CheckedTileIO

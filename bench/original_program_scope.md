@@ -7,7 +7,7 @@ the separate original-source task `fp4_to_bf16`.
 
 [`original_program_scope.json`](original_program_scope.json) has all 183 tasks
 **pending**, bound to the current extension catalog. It preserves initial gaps
-as provenance and records seven reviewed partial extensions with their remaining
+as provenance and records reviewed partial extensions with their remaining
 structural work. Its observed input hashes and partial-progress records do not
 constitute whole-program reviews. Existing mathematics, equivalence and value
 proofs remain available as evidence for each substantive review.
@@ -57,6 +57,15 @@ callback links reference both the rule ID and the scope-binding ID. A matching
 rule name or arbitrary free-text configuration is insufficient: a fp32 rule
 cannot certify fp64, and an exp2 callback cannot borrow a rounding-only binding.
 
+The exact numerical adapter adds 18 unvalidated scalar families to the 11 legacy
+rules. Its 86 dtype/port bindings cover 58 cases in three earlier declarations:
+the two fp64 vector-addition grid contracts and the ReLU access-grid contract.
+ReLU is registered only for N=1025, block_size=1024, sm90; other configurations
+and the newer ReLU source-block/source-grid declarations need separate bindings.
+The checker derives case-specific callback requirements from pinned sources and
+requires every applicable scalar-port reference. These registrations discharge
+no structural obligations and do not mark any program accepted.
+
 After preparing a new reviewed catalog and rebinding the ledger, run:
 
 ```sh
@@ -90,8 +99,13 @@ the existing `fp16=true` contract uses fp32 storage and internal half casts.
 Its correction does not establish the separate `fp16=false` branch or host program.
 
 The workflow's catalog and supplement now point to the
-`host-and-lora-scope-extensions` batch, with the unchanged
+`relu-source-grid-and-exact-numerics` batch, with the unchanged
 `original-scope-extensions/metadata-baseline` and preceding final-source manifest
 retained as its historical base. Neither global success nor scope
 success establishes corpus comparator replay, the integration build or native
 GPU correctness; those remain independent checks.
+
+The current full-scope review inventory is 66 programs with confirmed structural
+gaps and 117 without a completed scope review. All 183 remain pending. The
+cumulative supplemental proof inventory contains 41 execution contracts and
+four protocol contracts across 10 tasks; those counts are not completed programs.
