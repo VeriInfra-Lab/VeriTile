@@ -729,6 +729,17 @@
               "excerpt": "def additionSite (x_ptr output_ptr : RegionName) (N B : Nat) (value : ℝ) : Site :=\n  .addScalar (Source.prefixBefore (puzzle1_kernel x_ptr output_ptr N B value).surfaceBody\n    \"output\") B [] (.ref .real [B] \"x\") (.const value)"
             }
           ]
+        },
+        {
+          "id": "ADD_VALUE-ANNOTATED-I32",
+          "kind": "runtime_integer_scope_omission",
+          "finding": "The original annotated runtime length admits Python2^31, casts it to signed-minimum32 and takes a valid all-masks-false no-access return path; the finite SafeAPI extent<2^31 hypothesis excludes it.",
+          "why_blocks_full_original_scope": "An actual source route is omitted even though no numerical scalar operation or active access is required. The existing finite theorem remains valid under its explicit hypotheses.",
+          "can_defer_as_numeric_assumption": false,
+          "review": {
+            "path": "bench/review-checkpoints/2026-10-16/integer-domain-scope-reopening/root-review.json",
+            "sha256": "645086732323dcf37b764d92df2999a7f2ff1d1609294881a5200d97b526b022"
+          }
         }
       ],
       "initial_assessment": "structural_gaps_confirmed",
@@ -750,6 +761,14 @@
         "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
         "task": "add_value",
         "status": "reviewed_gaps_not_acceptance"
+      },
+      "scope_reopening": {
+        "review": {
+          "path": "bench/review-checkpoints/2026-10-16/integer-domain-scope-reopening/root-review.json",
+          "sha256": "645086732323dcf37b764d92df2999a7f2ff1d1609294881a5200d97b526b022"
+        },
+        "status": "pending_actual_i32_execution_repair",
+        "finite_proofs_and_numerical_registrations_retained": true
       }
     },
     {
@@ -422335,7 +422354,7 @@
     },
     {
       "task": "relu_triton_kernel",
-      "status": "verified_with_deferred_numerics",
+      "status": "pending",
       "input_sha256": {
         "lean": {
           "bench/tritonbench_g/relu_triton_kernel/AccessGridCorrect.lean": "d4577753ca046e1186dbb2a6820602a049a18e510525d46a4e63d6c6ff945b8e",
@@ -422441,7 +422460,7 @@
         "stages": [
           {
             "id": "stage:bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py:6:relu_kernel",
-            "status": "covered",
+            "status": "partial_pending_scope_repair",
             "cases": [
               {
                 "dtype_profile": {
@@ -436391,11 +436410,12 @@
                 "statement_sha256": "9e6b61d79cd9823adf839cb8d4ee8359af200a370b74c151a1d6607b22a9bc0f"
               }
             ],
-            "explanation": "Complete finite source-target API with all17 canonical dtypes, four disjoint N ranges, each early error site and all terminal dispatch outcomes. Successful calls derive execution from existing typed/fp64 grids and connect physical input views, output metadata/freshness, addresses, masks, frames and pid0-only stores. Unsafe/out-of-domain states remain explicit in domain-review.json."
+            "explanation": "Complete finite source-target API with all17 canonical dtypes, four disjoint N ranges, each early error site and all terminal dispatch outcomes. Successful calls derive execution from existing typed/fp64 grids and connect physical input views, output metadata/freshness, addresses, masks, frames and pid0-only stores. Unsafe/out-of-domain states remain explicit in domain-review.json. Full-source acceptance withdrawn: actual larger constexpr lengths are outside this bounded finite theorem; see scope_reopening.",
+            "historical_status_before_reopening": "covered"
           },
           {
             "id": "stage:bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py:23:relu",
-            "status": "covered",
+            "status": "partial_pending_scope_repair",
             "cases": [
               {
                 "dtype_profile": {
@@ -450345,7 +450365,8 @@
                 "statement_sha256": "9e6b61d79cd9823adf839cb8d4ee8359af200a370b74c151a1d6607b22a9bc0f"
               }
             ],
-            "explanation": "Complete finite source-target API with all17 canonical dtypes, four disjoint N ranges, each early error site and all terminal dispatch outcomes. Successful calls derive execution from existing typed/fp64 grids and connect physical input views, output metadata/freshness, addresses, masks, frames and pid0-only stores. Unsafe/out-of-domain states remain explicit in domain-review.json."
+            "explanation": "Complete finite source-target API with all17 canonical dtypes, four disjoint N ranges, each early error site and all terminal dispatch outcomes. Successful calls derive execution from existing typed/fp64 grids and connect physical input views, output metadata/freshness, addresses, masks, frames and pid0-only stores. Unsafe/out-of-domain states remain explicit in domain-review.json. Full-source acceptance withdrawn: actual larger constexpr lengths are outside this bounded finite theorem; see scope_reopening.",
+            "historical_status_before_reopening": "covered"
           },
           {
             "id": "stage:bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py:45:test_relu",
@@ -450356,7 +450377,7 @@
         "dtypes": [
           {
             "id": "dtype-domain:bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py",
-            "status": "covered",
+            "status": "partial_pending_scope_repair",
             "cases": [
               {
                 "dtype_profile": {
@@ -464306,13 +464327,14 @@
                 "statement_sha256": "9e6b61d79cd9823adf839cb8d4ee8359af200a370b74c151a1d6607b22a9bc0f"
               }
             ],
-            "explanation": "Complete finite source-target API with all17 canonical dtypes, four disjoint N ranges, each early error site and all terminal dispatch outcomes. Successful calls derive execution from existing typed/fp64 grids and connect physical input views, output metadata/freshness, addresses, masks, frames and pid0-only stores. Unsafe/out-of-domain states remain explicit in domain-review.json."
+            "explanation": "Complete finite source-target API with all17 canonical dtypes, four disjoint N ranges, each early error site and all terminal dispatch outcomes. Successful calls derive execution from existing typed/fp64 grids and connect physical input views, output metadata/freshness, addresses, masks, frames and pid0-only stores. Unsafe/out-of-domain states remain explicit in domain-review.json. Full-source acceptance withdrawn: actual larger constexpr lengths are outside this bounded finite theorem; see scope_reopening.",
+            "historical_status_before_reopening": "covered"
           }
         ],
         "branches": [
           {
             "id": "branch:bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py:6:relu_kernel:20:4:If",
-            "status": "covered",
+            "status": "partial_pending_scope_repair",
             "cases": [
               {
                 "dtype_profile": {
@@ -478262,11 +478284,24 @@
                 "statement_sha256": "9e6b61d79cd9823adf839cb8d4ee8359af200a370b74c151a1d6607b22a9bc0f"
               }
             ],
-            "explanation": "Complete finite source-target API with all17 canonical dtypes, four disjoint N ranges, each early error site and all terminal dispatch outcomes. Successful calls derive execution from existing typed/fp64 grids and connect physical input views, output metadata/freshness, addresses, masks, frames and pid0-only stores. Unsafe/out-of-domain states remain explicit in domain-review.json."
+            "explanation": "Complete finite source-target API with all17 canonical dtypes, four disjoint N ranges, each early error site and all terminal dispatch outcomes. Successful calls derive execution from existing typed/fp64 grids and connect physical input views, output metadata/freshness, addresses, masks, frames and pid0-only stores. Unsafe/out-of-domain states remain explicit in domain-review.json. Full-source acceptance withdrawn: actual larger constexpr lengths are outside this bounded finite theorem; see scope_reopening.",
+            "historical_status_before_reopening": "covered"
           }
         ]
       },
-      "structural_gaps": [],
+      "structural_gaps": [
+        {
+          "id": "RELU-CONSTEXPR-INDEX-SCOPE",
+          "kind": "constexpr_integer_scope_omission",
+          "finding": "Original constexpr N=2^31+1 compiles with legal grid; i32 block offsets wrap while unsigned mask can remain true. The finite SourceDomain numel≤2^31 excludes this actual source path.",
+          "why_blocks_full_original_scope": "Source loads execute in all programs before the pid0-only store gate. Wrapped access observations and their defined returned alternatives require actual-address coverage; bounded safety is not a source rejection.",
+          "can_defer_as_numeric_assumption": false,
+          "review": {
+            "path": "bench/review-checkpoints/2026-10-16/integer-domain-scope-reopening/relu-root-review.json",
+            "sha256": "73e0ccd2b85afcbc86a715b0bf314b847f51e0e4abe0d24ec6bde5f57104a2ce"
+          }
+        }
+      ],
       "initial_assessment": "structural_gaps_confirmed",
       "deferred_numerical_assumptions": [
         {
@@ -482491,10 +482526,7 @@
           }
         ]
       },
-      "review": {
-        "path": "bench/review-checkpoints/2026-10-16/quant-global-finite-source-acceptance/relu_triton_kernel-original-scope-review-rebound.json",
-        "sha256": "2386afe183920016a0107afa241c168eb720a7682a93d93a7a740e03f631b4d5"
-      },
+      "review": null,
       "initial_structural_gaps": [
         {
           "kind": "unverified_scope",
@@ -482765,7 +482797,7 @@
       },
       "scope_schema": 2,
       "accepted_scope_progress": {
-        "status": "finite_source_scope_accepted_with_deferred_numerics",
+        "status": "historical_acceptance_withdrawn_structural_gap",
         "scope_review": {
           "path": "bench/review-checkpoints/2026-10-16/quant-global-finite-source-acceptance/relu_triton_kernel-original-scope-review-rebound.json",
           "sha256": "2386afe183920016a0107afa241c168eb720a7682a93d93a7a740e03f631b4d5"
@@ -483042,7 +483074,32 @@
         "numerical_families": 12,
         "numerical_ports": 84,
         "known_source_bug": "Only pid0 stores; N>1024 output tail retains arbitrary allocation contents.",
-        "native_execution": false
+        "native_execution": false,
+        "previous_status_before_reopening": "finite_source_scope_accepted_with_deferred_numerics"
+      },
+      "accepted_scope_history": [
+        {
+          "withdrawn_at_review": {
+            "path": "bench/review-checkpoints/2026-10-16/integer-domain-scope-reopening/relu-root-review.json",
+            "sha256": "73e0ccd2b85afcbc86a715b0bf314b847f51e0e4abe0d24ec6bde5f57104a2ce"
+          },
+          "status": "verified_with_deferred_numerics",
+          "review": {
+            "path": "bench/review-checkpoints/2026-10-16/quant-global-finite-source-acceptance/relu_triton_kernel-original-scope-review-rebound.json",
+            "sha256": "2386afe183920016a0107afa241c168eb720a7682a93d93a7a740e03f631b4d5"
+          },
+          "accepted_scope_progress_status": "finite_source_scope_accepted_with_deferred_numerics",
+          "coverage_sha256": "338dd03837a98687ce03a277ce77f9785972a2841ed78456f5f61c31e9549fdf",
+          "original_status_explanation": "Historical bounded acceptance retained; full-source recommendation withdrawn."
+        }
+      ],
+      "scope_reopening": {
+        "review": {
+          "path": "bench/review-checkpoints/2026-10-16/integer-domain-scope-reopening/relu-root-review.json",
+          "sha256": "73e0ccd2b85afcbc86a715b0bf314b847f51e0e4abe0d24ec6bde5f57104a2ce"
+        },
+        "status": "pending_actual_constexpr_and_i32_execution_repair",
+        "finite_proofs_and_numerical_registrations_retained": true
       }
     },
     {
@@ -496648,7 +496705,7 @@
     },
     {
       "task": "vector_addition",
-      "status": "verified_with_deferred_numerics",
+      "status": "pending",
       "input_sha256": {
         "lean": {
           "bench/tritonbench_g/vector_addition/Correct.lean": "4128f543e4c1c5d358da769024f5a6da7ddc048eb2025c75f709bb19d9bf299e",
@@ -496763,7 +496820,7 @@
         "stages": [
           {
             "id": "stage:bench/tritonbench_g/vector_addition/vector_addition.py:6:add_kernel",
-            "status": "covered",
+            "status": "partial_pending_scope_repair",
             "cases": [
               {
                 "dtype_profile": {
@@ -625023,11 +625080,12 @@
                 "statement_sha256": "3eabb495b8b069705668592710f2e7bc6bd76ff8f0f540d9b316cf4cc8973907"
               }
             ],
-            "explanation": "Complete finite source-target API: all289 dtype pairs, first allocation/CUDA/signature/addition outcomes, all189 actual execution routes, linear storage-offset addresses despite arbitrary strides, complete grid, finite signed indices, byte widths, input/output frames and arbitrary active-lane schedules. See domain-review.json for explicit unsafe and undefined cases."
+            "explanation": "Complete finite source-target API: all289 dtype pairs, first allocation/CUDA/signature/addition outcomes, all189 actual execution routes, linear storage-offset addresses despite arbitrary strides, complete grid, finite signed indices, byte widths, input/output frames and arbitrary active-lane schedules. See domain-review.json for explicit unsafe and undefined cases. Full-source acceptance withdrawn: annotated i32 runtime extent2^31 is an omitted source route; see scope_reopening.",
+            "historical_status_before_reopening": "covered"
           },
           {
             "id": "stage:bench/tritonbench_g/vector_addition/vector_addition.py:21:add",
-            "status": "covered",
+            "status": "partial_pending_scope_repair",
             "cases": [
               {
                 "dtype_profile": {
@@ -753287,7 +753345,8 @@
                 "statement_sha256": "3eabb495b8b069705668592710f2e7bc6bd76ff8f0f540d9b316cf4cc8973907"
               }
             ],
-            "explanation": "Complete finite source-target API: all289 dtype pairs, first allocation/CUDA/signature/addition outcomes, all189 actual execution routes, linear storage-offset addresses despite arbitrary strides, complete grid, finite signed indices, byte widths, input/output frames and arbitrary active-lane schedules. See domain-review.json for explicit unsafe and undefined cases."
+            "explanation": "Complete finite source-target API: all289 dtype pairs, first allocation/CUDA/signature/addition outcomes, all189 actual execution routes, linear storage-offset addresses despite arbitrary strides, complete grid, finite signed indices, byte widths, input/output frames and arbitrary active-lane schedules. See domain-review.json for explicit unsafe and undefined cases. Full-source acceptance withdrawn: annotated i32 runtime extent2^31 is an omitted source route; see scope_reopening.",
+            "historical_status_before_reopening": "covered"
           },
           {
             "id": "stage:bench/tritonbench_g/vector_addition/vector_addition.py:34:test_add",
@@ -753298,7 +753357,7 @@
         "dtypes": [
           {
             "id": "dtype-domain:bench/tritonbench_g/vector_addition/vector_addition.py",
-            "status": "covered",
+            "status": "partial_pending_scope_repair",
             "cases": [
               {
                 "dtype_profile": {
@@ -881558,12 +881617,25 @@
                 "statement_sha256": "3eabb495b8b069705668592710f2e7bc6bd76ff8f0f540d9b316cf4cc8973907"
               }
             ],
-            "explanation": "Complete finite source-target API: all289 dtype pairs, first allocation/CUDA/signature/addition outcomes, all189 actual execution routes, linear storage-offset addresses despite arbitrary strides, complete grid, finite signed indices, byte widths, input/output frames and arbitrary active-lane schedules. See domain-review.json for explicit unsafe and undefined cases."
+            "explanation": "Complete finite source-target API: all289 dtype pairs, first allocation/CUDA/signature/addition outcomes, all189 actual execution routes, linear storage-offset addresses despite arbitrary strides, complete grid, finite signed indices, byte widths, input/output frames and arbitrary active-lane schedules. See domain-review.json for explicit unsafe and undefined cases. Full-source acceptance withdrawn: annotated i32 runtime extent2^31 is an omitted source route; see scope_reopening.",
+            "historical_status_before_reopening": "covered"
           }
         ],
         "branches": []
       },
-      "structural_gaps": [],
+      "structural_gaps": [
+        {
+          "id": "VECTOR_ADDITION-ANNOTATED-I32",
+          "kind": "runtime_integer_scope_omission",
+          "finding": "The original annotated runtime length admits Python2^31, casts it to signed-minimum32 and takes a valid all-masks-false no-access return path; the finite SafeAPI extent<2^31 hypothesis excludes it.",
+          "why_blocks_full_original_scope": "An actual source route is omitted even though no numerical scalar operation or active access is required. The existing finite theorem remains valid under its explicit hypotheses.",
+          "can_defer_as_numeric_assumption": false,
+          "review": {
+            "path": "bench/review-checkpoints/2026-10-16/integer-domain-scope-reopening/root-review.json",
+            "sha256": "645086732323dcf37b764d92df2999a7f2ff1d1609294881a5200d97b526b022"
+          }
+        }
+      ],
       "initial_assessment": "structural_gaps_confirmed",
       "deferred_numerical_assumptions": [
         {
@@ -917968,10 +918040,7 @@
           }
         ]
       },
-      "review": {
-        "path": "bench/review-checkpoints/2026-10-16/quant-global-finite-source-acceptance/vector_addition-original-scope-review-rebound.json",
-        "sha256": "152c6485b4ff841ea8c3c54d77c53be320a2e3be8ac11c145ab4e8c415a5146d"
-      },
+      "review": null,
       "initial_structural_gaps": [
         {
           "kind": "unverified_scope",
@@ -918476,7 +918545,7 @@
       },
       "scope_schema": 2,
       "accepted_scope_progress": {
-        "status": "finite_source_scope_accepted_with_deferred_numerics",
+        "status": "historical_acceptance_withdrawn_structural_gap",
         "scope_review": {
           "path": "bench/review-checkpoints/2026-10-16/quant-global-finite-source-acceptance/vector_addition-original-scope-review-rebound.json",
           "sha256": "152c6485b4ff841ea8c3c54d77c53be320a2e3be8ac11c145ab4e8c415a5146d"
@@ -918987,7 +919056,32 @@
         "numerical_families": 43,
         "numerical_ports": 616,
         "source_semantics": "Physical flat-prefix addition through original typed routes, with arbitrary safe strided views, input aliasing and fresh preserve-format output; y logical numel is unrestricted when its actual backing span suffices.",
-        "native_execution": false
+        "native_execution": false,
+        "previous_status_before_reopening": "finite_source_scope_accepted_with_deferred_numerics"
+      },
+      "accepted_scope_history": [
+        {
+          "withdrawn_at_review": {
+            "path": "bench/review-checkpoints/2026-10-16/integer-domain-scope-reopening/root-review.json",
+            "sha256": "645086732323dcf37b764d92df2999a7f2ff1d1609294881a5200d97b526b022"
+          },
+          "status": "verified_with_deferred_numerics",
+          "review": {
+            "path": "bench/review-checkpoints/2026-10-16/quant-global-finite-source-acceptance/vector_addition-original-scope-review-rebound.json",
+            "sha256": "152c6485b4ff841ea8c3c54d77c53be320a2e3be8ac11c145ab4e8c415a5146d"
+          },
+          "accepted_scope_progress_status": "finite_source_scope_accepted_with_deferred_numerics",
+          "coverage_sha256": "7f8466fdedccdc3b543a91b5165ca4ecd90684e602e1a3198bd388fe31f7c9fc",
+          "original_status_explanation": "Historical finite acceptance retained; full-source recommendation withdrawn by concrete omitted route."
+        }
+      ],
+      "scope_reopening": {
+        "review": {
+          "path": "bench/review-checkpoints/2026-10-16/integer-domain-scope-reopening/root-review.json",
+          "sha256": "645086732323dcf37b764d92df2999a7f2ff1d1609294881a5200d97b526b022"
+        },
+        "status": "pending_actual_i32_execution_repair",
+        "finite_proofs_and_numerical_registrations_retained": true
       }
     },
     {
@@ -919148,6 +919242,17 @@
               "excerpt": "def additionSite (A B C : RegionName) (size BLOCK : Nat) : Site :=\n  .add (Source.prefixBeforeStore (_add_kernel A B C size BLOCK).surfaceBody) [BLOCK]\n    (.ref .real [BLOCK] \"a\") (.ref .real [BLOCK] \"b\")"
             }
           ]
+        },
+        {
+          "id": "VECTOR_ADDITION_CUSTOM-ANNOTATED-I32",
+          "kind": "runtime_integer_scope_omission",
+          "finding": "The original annotated runtime length admits Python2^31, casts it to signed-minimum32 and takes a valid all-masks-false no-access return path; the finite SafeAPI extent<2^31 hypothesis excludes it.",
+          "why_blocks_full_original_scope": "An actual source route is omitted even though no numerical scalar operation or active access is required. The existing finite theorem remains valid under its explicit hypotheses.",
+          "can_defer_as_numeric_assumption": false,
+          "review": {
+            "path": "bench/review-checkpoints/2026-10-16/integer-domain-scope-reopening/root-review.json",
+            "sha256": "645086732323dcf37b764d92df2999a7f2ff1d1609294881a5200d97b526b022"
+          }
         }
       ],
       "initial_assessment": "structural_gaps_confirmed",
@@ -919169,6 +919274,14 @@
         "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
         "task": "vector_addition_custom",
         "status": "reviewed_gaps_not_acceptance"
+      },
+      "scope_reopening": {
+        "review": {
+          "path": "bench/review-checkpoints/2026-10-16/integer-domain-scope-reopening/root-review.json",
+          "sha256": "645086732323dcf37b764d92df2999a7f2ff1d1609294881a5200d97b526b022"
+        },
+        "status": "pending_actual_i32_execution_repair",
+        "finite_proofs_and_numerical_registrations_retained": true
       }
     }
   ],
@@ -919179,5 +919292,6 @@
     "path": "bench/review-checkpoints/2026-10-16/acceptance-standard-calibration/root-review.json",
     "sha256": "211a2a409265e7f64353a82b442d439d28edc7f8839b619a2ef89db7c20b0104",
     "status": "finite_source_boundary_reviewed_no_acceptance"
-  }
+  },
+  "scope_reopening_checkpoint": "bench/review-checkpoints/2026-10-16/integer-domain-scope-reopening/README.md"
 }

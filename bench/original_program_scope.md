@@ -5,9 +5,9 @@ The requested standard covers **all declared stages, dtypes and branches of
 existing contract is for a repaired candidate. This exclusion does not cover
 the separate original-source task `fp4_to_bf16`.
 
-[`original_program_scope.json`](original_program_scope.json) has **4 source scopes accepted and 179 pending**, bound to the current extension
+[`original_program_scope.json`](original_program_scope.json) has **2 source scopes accepted and 181 pending**, bound to the current extension
 catalog. `matrix_transpose` is verified under explicit primitive contracts without
-numerical deferrals; `relu_triton_kernel`, `vector_addition` and `quantize_global` are verified with exactly registered
+numerical deferrals; `quantize_global` is verified with exactly registered
 numerical deferrals. Official comparator and whole-corpus
 CI results remain separate. It preserves initial gaps
 as provenance and records reviewed partial extensions with their remaining
@@ -121,9 +121,8 @@ success establishes corpus comparator replay, the integration build or native
 GPU correctness; those remain independent checks.
 
 The full-scope review covers all 183 original programs, with no unreviewed
-programs. Matrix transpose has passed its schema2 source-scope check. ReLU and
-vector addition and quantize_global have passed with exactly registered numerical
-deferrals; 179 scopes remain pending. This is not a claim that whole-corpus CI or official comparator
+programs. Matrix transpose has passed its schema2 source-scope check. Quantize_global has passed with exactly registered numerical
+deferrals; 181 scopes remain pending. ReLU's earlier acceptance was also withdrawn because larger constexpr lengths were excluded. Vector addition's earlier acceptance was withdrawn after an actual runtime-i32 source route was found outside its finite theorem. This is not a claim that whole-corpus CI or official comparator
 replay has passed. The cumulative supplemental proof inventory contains 56
 execution contracts and
 six protocol contracts across 17 tasks; those counts are not completed programs.
@@ -131,13 +130,13 @@ six protocol contracts across 17 tasks; those counts are not completed programs.
 RotaryEmb's partial extension composes its original real-erased source through
 the complete Q-derived grid with initial-memory formulas and tail frames. Its
 rounded execution and dtype/admission/address-domain gaps remain, so it is not
-counted as accepted. Vector addition now connects all 189 typed source routes
+counted as accepted. Within its explicitly bounded theorem domain, vector addition connects 189 typed source routes
 and 100 frontend rejections to finite views, pointers, physical execution, frames
 and source-order host outcomes. Its 2,601 cases and 616 numerical ports are
 registered; its explicit defined-conversion domain and physical flat behavior
 remain distinct from arbitrary logical Torch elementwise addition.
 
-ReLU now has complete finite source coverage for all 17 canonical CUDA profiles,
+Within its bounded theorem domain, ReLU has finite source coverage for 17 canonical CUDA profiles,
 340 outcome cases and the safe index domain through N=2^31. Its 12 numerical
 families / 84 exact ports remain unvalidated. Source pointer/view permissions,
 fresh allocation metadata and pid0-only stores are explicit. For N>1024 this
@@ -157,3 +156,7 @@ all autotune trials, finite byte-memory effects and frames. Its 2,400 source
 cases include exact first rejections, source hazards and returned-or-undefined
 conversion outcomes without a Safe premise. The 16 numerical families / 420
 ports remain unvalidated; no native/GPU or comparator success is claimed.
+
+The [annotated i32 scope reopening](review-checkpoints/2026-10-16/integer-domain-scope-reopening/README.md) preserves the earlier vector review and numerical registrations. Python length `2^31` is accepted by the real binder and narrows to `-2^31`; every signed mask is false, so ordinary successful setup returns unchanged allocation bytes. The prior `<2^31` premise omits this source path. Vector addition and ReLU are pending again, and the custom-vector/add-value candidates remain pending until actual runtime arithmetic and outcomes are covered. This is a structural omission, not a numerical deferral.
+
+The same checkpoint records ReLU's independently compiled `N=2^31+1` route: its grid is valid, i32 offsets wrap before the pid-zero store gate, and its constexpr-promoted mask can remain active. The previous `N≤2^31` theorem remains available, but its applicability bound cannot establish complete original-source acceptance.
