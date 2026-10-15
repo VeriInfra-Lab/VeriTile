@@ -1,0 +1,2441 @@
+{
+  "generated_at_utc": "2026-10-15T16:18:13.084031+00:00",
+  "read_only_audit": true,
+  "package_receipt_sha256": "85dc08106852c4a3f69516046182954693eb5afd0158064db358c708a70b9100",
+  "scope_sha256": "99f8b349f2915998ef13338026a7e4f855cb2444089a57a931a0680d6de22934",
+  "artifact_hashes_verified": 214,
+  "dependency_hashes_verified": 158,
+  "dependency_sources": {
+    "repository": 149,
+    "package": 5,
+    "frozen_vector_package": 4
+  },
+  "before_after_dependencies_equal": true,
+  "compile_exit_codes": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "producer_axiom_checks": 19,
+  "wrapper_axiom_checks": 1,
+  "producer_noncircularity_checks": 3,
+  "warnings": 0,
+  "wrapper_source_sha256": "b9917c860ad9df439f676fdd931fc6381459b4152a9d5366f0f09300c3d92888",
+  "wrapper_receipt_sha256": "86317c07447d0e0e5b3ff2371f3c75494149ecb55c65189f905228a3b0543564",
+  "wrapper_log_sha256": "3d366cb12655f38b1b49fb813d4dfad47ec53174734605bead59ae8a99c33fef",
+  "ast_identical_frontend_source": true,
+  "frontend_rows": 289,
+  "ttir_hashes_verified": 189,
+  "frontend_errors": 100,
+  "independently_traced_integer_store_graphs": [
+    {
+      "x": "bool",
+      "y": "bool",
+      "promotion_width": 1,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "extui",
+        1,
+        8,
+        [
+          "add",
+          1,
+          [
+            "ne",
+            [
+              "load",
+              "x",
+              8
+            ],
+            [
+              "const",
+              8,
+              0
+            ]
+          ],
+          [
+            "ne",
+            [
+              "load",
+              "y",
+              8
+            ],
+            [
+              "const",
+              8,
+              0
+            ]
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "bool",
+      "y": "int8",
+      "promotion_width": 8,
+      "promotion_signed": true,
+      "store_width": 8,
+      "store_dataflow": [
+        "add",
+        8,
+        [
+          "extui",
+          1,
+          8,
+          [
+            "ne",
+            [
+              "load",
+              "x",
+              8
+            ],
+            [
+              "const",
+              8,
+              0
+            ]
+          ]
+        ],
+        [
+          "load",
+          "y",
+          8
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "bool",
+      "y": "uint8",
+      "promotion_width": 8,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "add",
+        8,
+        [
+          "extui",
+          1,
+          8,
+          [
+            "ne",
+            [
+              "load",
+              "x",
+              8
+            ],
+            [
+              "const",
+              8,
+              0
+            ]
+          ]
+        ],
+        [
+          "load",
+          "y",
+          8
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "bool",
+      "y": "int16",
+      "promotion_width": 16,
+      "promotion_signed": true,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        16,
+        8,
+        [
+          "add",
+          16,
+          [
+            "extui",
+            1,
+            16,
+            [
+              "ne",
+              [
+                "load",
+                "x",
+                8
+              ],
+              [
+                "const",
+                8,
+                0
+              ]
+            ]
+          ],
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "bool",
+      "y": "uint16",
+      "promotion_width": 16,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        16,
+        8,
+        [
+          "add",
+          16,
+          [
+            "extui",
+            1,
+            16,
+            [
+              "ne",
+              [
+                "load",
+                "x",
+                8
+              ],
+              [
+                "const",
+                8,
+                0
+              ]
+            ]
+          ],
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "bool",
+      "y": "int32",
+      "promotion_width": 32,
+      "promotion_signed": true,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        32,
+        8,
+        [
+          "add",
+          32,
+          [
+            "extui",
+            1,
+            32,
+            [
+              "ne",
+              [
+                "load",
+                "x",
+                8
+              ],
+              [
+                "const",
+                8,
+                0
+              ]
+            ]
+          ],
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "bool",
+      "y": "uint32",
+      "promotion_width": 32,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        32,
+        8,
+        [
+          "add",
+          32,
+          [
+            "extui",
+            1,
+            32,
+            [
+              "ne",
+              [
+                "load",
+                "x",
+                8
+              ],
+              [
+                "const",
+                8,
+                0
+              ]
+            ]
+          ],
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "bool",
+      "y": "int64",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        64,
+        8,
+        [
+          "add",
+          64,
+          [
+            "extui",
+            1,
+            64,
+            [
+              "ne",
+              [
+                "load",
+                "x",
+                8
+              ],
+              [
+                "const",
+                8,
+                0
+              ]
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "bool",
+      "y": "uint64",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        64,
+        8,
+        [
+          "add",
+          64,
+          [
+            "extui",
+            1,
+            64,
+            [
+              "ne",
+              [
+                "load",
+                "x",
+                8
+              ],
+              [
+                "const",
+                8,
+                0
+              ]
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int8",
+      "y": "bool",
+      "promotion_width": 8,
+      "promotion_signed": true,
+      "store_width": 8,
+      "store_dataflow": [
+        "add",
+        8,
+        [
+          "load",
+          "x",
+          8
+        ],
+        [
+          "extui",
+          1,
+          8,
+          [
+            "ne",
+            [
+              "load",
+              "y",
+              8
+            ],
+            [
+              "const",
+              8,
+              0
+            ]
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int8",
+      "y": "int8",
+      "promotion_width": 8,
+      "promotion_signed": true,
+      "store_width": 8,
+      "store_dataflow": [
+        "add",
+        8,
+        [
+          "load",
+          "x",
+          8
+        ],
+        [
+          "load",
+          "y",
+          8
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int8",
+      "y": "uint8",
+      "promotion_width": 8,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "add",
+        8,
+        [
+          "load",
+          "x",
+          8
+        ],
+        [
+          "load",
+          "y",
+          8
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int8",
+      "y": "int16",
+      "promotion_width": 16,
+      "promotion_signed": true,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        16,
+        8,
+        [
+          "add",
+          16,
+          [
+            "extsi",
+            8,
+            16,
+            [
+              "load",
+              "x",
+              8
+            ]
+          ],
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int8",
+      "y": "uint16",
+      "promotion_width": 16,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        16,
+        8,
+        [
+          "add",
+          16,
+          [
+            "extsi",
+            8,
+            16,
+            [
+              "load",
+              "x",
+              8
+            ]
+          ],
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int8",
+      "y": "int32",
+      "promotion_width": 32,
+      "promotion_signed": true,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        32,
+        8,
+        [
+          "add",
+          32,
+          [
+            "extsi",
+            8,
+            32,
+            [
+              "load",
+              "x",
+              8
+            ]
+          ],
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int8",
+      "y": "uint32",
+      "promotion_width": 32,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        32,
+        8,
+        [
+          "add",
+          32,
+          [
+            "extsi",
+            8,
+            32,
+            [
+              "load",
+              "x",
+              8
+            ]
+          ],
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int8",
+      "y": "int64",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        64,
+        8,
+        [
+          "add",
+          64,
+          [
+            "extsi",
+            8,
+            64,
+            [
+              "load",
+              "x",
+              8
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int8",
+      "y": "uint64",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        64,
+        8,
+        [
+          "add",
+          64,
+          [
+            "extsi",
+            8,
+            64,
+            [
+              "load",
+              "x",
+              8
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint8",
+      "y": "bool",
+      "promotion_width": 8,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "add",
+        8,
+        [
+          "load",
+          "x",
+          8
+        ],
+        [
+          "extui",
+          1,
+          8,
+          [
+            "ne",
+            [
+              "load",
+              "y",
+              8
+            ],
+            [
+              "const",
+              8,
+              0
+            ]
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint8",
+      "y": "int8",
+      "promotion_width": 8,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "add",
+        8,
+        [
+          "load",
+          "x",
+          8
+        ],
+        [
+          "load",
+          "y",
+          8
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint8",
+      "y": "uint8",
+      "promotion_width": 8,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "add",
+        8,
+        [
+          "load",
+          "x",
+          8
+        ],
+        [
+          "load",
+          "y",
+          8
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint8",
+      "y": "int16",
+      "promotion_width": 16,
+      "promotion_signed": true,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        16,
+        8,
+        [
+          "add",
+          16,
+          [
+            "extui",
+            8,
+            16,
+            [
+              "load",
+              "x",
+              8
+            ]
+          ],
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint8",
+      "y": "uint16",
+      "promotion_width": 16,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        16,
+        8,
+        [
+          "add",
+          16,
+          [
+            "extui",
+            8,
+            16,
+            [
+              "load",
+              "x",
+              8
+            ]
+          ],
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint8",
+      "y": "int32",
+      "promotion_width": 32,
+      "promotion_signed": true,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        32,
+        8,
+        [
+          "add",
+          32,
+          [
+            "extui",
+            8,
+            32,
+            [
+              "load",
+              "x",
+              8
+            ]
+          ],
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint8",
+      "y": "uint32",
+      "promotion_width": 32,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        32,
+        8,
+        [
+          "add",
+          32,
+          [
+            "extui",
+            8,
+            32,
+            [
+              "load",
+              "x",
+              8
+            ]
+          ],
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint8",
+      "y": "int64",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        64,
+        8,
+        [
+          "add",
+          64,
+          [
+            "extui",
+            8,
+            64,
+            [
+              "load",
+              "x",
+              8
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint8",
+      "y": "uint64",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 8,
+      "store_dataflow": [
+        "trunci",
+        64,
+        8,
+        [
+          "add",
+          64,
+          [
+            "extui",
+            8,
+            64,
+            [
+              "load",
+              "x",
+              8
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int16",
+      "y": "bool",
+      "promotion_width": 16,
+      "promotion_signed": true,
+      "store_width": 16,
+      "store_dataflow": [
+        "add",
+        16,
+        [
+          "load",
+          "x",
+          16
+        ],
+        [
+          "extui",
+          1,
+          16,
+          [
+            "ne",
+            [
+              "load",
+              "y",
+              8
+            ],
+            [
+              "const",
+              8,
+              0
+            ]
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int16",
+      "y": "int8",
+      "promotion_width": 16,
+      "promotion_signed": true,
+      "store_width": 16,
+      "store_dataflow": [
+        "add",
+        16,
+        [
+          "load",
+          "x",
+          16
+        ],
+        [
+          "extsi",
+          8,
+          16,
+          [
+            "load",
+            "y",
+            8
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int16",
+      "y": "uint8",
+      "promotion_width": 16,
+      "promotion_signed": true,
+      "store_width": 16,
+      "store_dataflow": [
+        "add",
+        16,
+        [
+          "load",
+          "x",
+          16
+        ],
+        [
+          "extui",
+          8,
+          16,
+          [
+            "load",
+            "y",
+            8
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int16",
+      "y": "int16",
+      "promotion_width": 16,
+      "promotion_signed": true,
+      "store_width": 16,
+      "store_dataflow": [
+        "add",
+        16,
+        [
+          "load",
+          "x",
+          16
+        ],
+        [
+          "load",
+          "y",
+          16
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int16",
+      "y": "uint16",
+      "promotion_width": 16,
+      "promotion_signed": false,
+      "store_width": 16,
+      "store_dataflow": [
+        "add",
+        16,
+        [
+          "load",
+          "x",
+          16
+        ],
+        [
+          "load",
+          "y",
+          16
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int16",
+      "y": "int32",
+      "promotion_width": 32,
+      "promotion_signed": true,
+      "store_width": 16,
+      "store_dataflow": [
+        "trunci",
+        32,
+        16,
+        [
+          "add",
+          32,
+          [
+            "extsi",
+            16,
+            32,
+            [
+              "load",
+              "x",
+              16
+            ]
+          ],
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int16",
+      "y": "uint32",
+      "promotion_width": 32,
+      "promotion_signed": false,
+      "store_width": 16,
+      "store_dataflow": [
+        "trunci",
+        32,
+        16,
+        [
+          "add",
+          32,
+          [
+            "extsi",
+            16,
+            32,
+            [
+              "load",
+              "x",
+              16
+            ]
+          ],
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int16",
+      "y": "int64",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 16,
+      "store_dataflow": [
+        "trunci",
+        64,
+        16,
+        [
+          "add",
+          64,
+          [
+            "extsi",
+            16,
+            64,
+            [
+              "load",
+              "x",
+              16
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int16",
+      "y": "uint64",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 16,
+      "store_dataflow": [
+        "trunci",
+        64,
+        16,
+        [
+          "add",
+          64,
+          [
+            "extsi",
+            16,
+            64,
+            [
+              "load",
+              "x",
+              16
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint16",
+      "y": "bool",
+      "promotion_width": 16,
+      "promotion_signed": false,
+      "store_width": 16,
+      "store_dataflow": [
+        "add",
+        16,
+        [
+          "load",
+          "x",
+          16
+        ],
+        [
+          "extui",
+          1,
+          16,
+          [
+            "ne",
+            [
+              "load",
+              "y",
+              8
+            ],
+            [
+              "const",
+              8,
+              0
+            ]
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint16",
+      "y": "int8",
+      "promotion_width": 16,
+      "promotion_signed": false,
+      "store_width": 16,
+      "store_dataflow": [
+        "add",
+        16,
+        [
+          "load",
+          "x",
+          16
+        ],
+        [
+          "extsi",
+          8,
+          16,
+          [
+            "load",
+            "y",
+            8
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint16",
+      "y": "uint8",
+      "promotion_width": 16,
+      "promotion_signed": false,
+      "store_width": 16,
+      "store_dataflow": [
+        "add",
+        16,
+        [
+          "load",
+          "x",
+          16
+        ],
+        [
+          "extui",
+          8,
+          16,
+          [
+            "load",
+            "y",
+            8
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint16",
+      "y": "int16",
+      "promotion_width": 16,
+      "promotion_signed": false,
+      "store_width": 16,
+      "store_dataflow": [
+        "add",
+        16,
+        [
+          "load",
+          "x",
+          16
+        ],
+        [
+          "load",
+          "y",
+          16
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint16",
+      "y": "uint16",
+      "promotion_width": 16,
+      "promotion_signed": false,
+      "store_width": 16,
+      "store_dataflow": [
+        "add",
+        16,
+        [
+          "load",
+          "x",
+          16
+        ],
+        [
+          "load",
+          "y",
+          16
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint16",
+      "y": "int32",
+      "promotion_width": 32,
+      "promotion_signed": true,
+      "store_width": 16,
+      "store_dataflow": [
+        "trunci",
+        32,
+        16,
+        [
+          "add",
+          32,
+          [
+            "extui",
+            16,
+            32,
+            [
+              "load",
+              "x",
+              16
+            ]
+          ],
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint16",
+      "y": "uint32",
+      "promotion_width": 32,
+      "promotion_signed": false,
+      "store_width": 16,
+      "store_dataflow": [
+        "trunci",
+        32,
+        16,
+        [
+          "add",
+          32,
+          [
+            "extui",
+            16,
+            32,
+            [
+              "load",
+              "x",
+              16
+            ]
+          ],
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint16",
+      "y": "int64",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 16,
+      "store_dataflow": [
+        "trunci",
+        64,
+        16,
+        [
+          "add",
+          64,
+          [
+            "extui",
+            16,
+            64,
+            [
+              "load",
+              "x",
+              16
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint16",
+      "y": "uint64",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 16,
+      "store_dataflow": [
+        "trunci",
+        64,
+        16,
+        [
+          "add",
+          64,
+          [
+            "extui",
+            16,
+            64,
+            [
+              "load",
+              "x",
+              16
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int32",
+      "y": "bool",
+      "promotion_width": 32,
+      "promotion_signed": true,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "extui",
+          1,
+          32,
+          [
+            "ne",
+            [
+              "load",
+              "y",
+              8
+            ],
+            [
+              "const",
+              8,
+              0
+            ]
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int32",
+      "y": "int8",
+      "promotion_width": 32,
+      "promotion_signed": true,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "extsi",
+          8,
+          32,
+          [
+            "load",
+            "y",
+            8
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int32",
+      "y": "uint8",
+      "promotion_width": 32,
+      "promotion_signed": true,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "extui",
+          8,
+          32,
+          [
+            "load",
+            "y",
+            8
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int32",
+      "y": "int16",
+      "promotion_width": 32,
+      "promotion_signed": true,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "extsi",
+          16,
+          32,
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int32",
+      "y": "uint16",
+      "promotion_width": 32,
+      "promotion_signed": true,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "extui",
+          16,
+          32,
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int32",
+      "y": "int32",
+      "promotion_width": 32,
+      "promotion_signed": true,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "load",
+          "y",
+          32
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int32",
+      "y": "uint32",
+      "promotion_width": 32,
+      "promotion_signed": false,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "load",
+          "y",
+          32
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int32",
+      "y": "int64",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 32,
+      "store_dataflow": [
+        "trunci",
+        64,
+        32,
+        [
+          "add",
+          64,
+          [
+            "extsi",
+            32,
+            64,
+            [
+              "load",
+              "x",
+              32
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int32",
+      "y": "uint64",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 32,
+      "store_dataflow": [
+        "trunci",
+        64,
+        32,
+        [
+          "add",
+          64,
+          [
+            "extsi",
+            32,
+            64,
+            [
+              "load",
+              "x",
+              32
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint32",
+      "y": "bool",
+      "promotion_width": 32,
+      "promotion_signed": false,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "extui",
+          1,
+          32,
+          [
+            "ne",
+            [
+              "load",
+              "y",
+              8
+            ],
+            [
+              "const",
+              8,
+              0
+            ]
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint32",
+      "y": "int8",
+      "promotion_width": 32,
+      "promotion_signed": false,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "extsi",
+          8,
+          32,
+          [
+            "load",
+            "y",
+            8
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint32",
+      "y": "uint8",
+      "promotion_width": 32,
+      "promotion_signed": false,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "extui",
+          8,
+          32,
+          [
+            "load",
+            "y",
+            8
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint32",
+      "y": "int16",
+      "promotion_width": 32,
+      "promotion_signed": false,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "extsi",
+          16,
+          32,
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint32",
+      "y": "uint16",
+      "promotion_width": 32,
+      "promotion_signed": false,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "extui",
+          16,
+          32,
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint32",
+      "y": "int32",
+      "promotion_width": 32,
+      "promotion_signed": false,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "load",
+          "y",
+          32
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint32",
+      "y": "uint32",
+      "promotion_width": 32,
+      "promotion_signed": false,
+      "store_width": 32,
+      "store_dataflow": [
+        "add",
+        32,
+        [
+          "load",
+          "x",
+          32
+        ],
+        [
+          "load",
+          "y",
+          32
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint32",
+      "y": "int64",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 32,
+      "store_dataflow": [
+        "trunci",
+        64,
+        32,
+        [
+          "add",
+          64,
+          [
+            "extui",
+            32,
+            64,
+            [
+              "load",
+              "x",
+              32
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint32",
+      "y": "uint64",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 32,
+      "store_dataflow": [
+        "trunci",
+        64,
+        32,
+        [
+          "add",
+          64,
+          [
+            "extui",
+            32,
+            64,
+            [
+              "load",
+              "x",
+              32
+            ]
+          ],
+          [
+            "load",
+            "y",
+            64
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int64",
+      "y": "bool",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extui",
+          1,
+          64,
+          [
+            "ne",
+            [
+              "load",
+              "y",
+              8
+            ],
+            [
+              "const",
+              8,
+              0
+            ]
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int64",
+      "y": "int8",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extsi",
+          8,
+          64,
+          [
+            "load",
+            "y",
+            8
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int64",
+      "y": "uint8",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extui",
+          8,
+          64,
+          [
+            "load",
+            "y",
+            8
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int64",
+      "y": "int16",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extsi",
+          16,
+          64,
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int64",
+      "y": "uint16",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extui",
+          16,
+          64,
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int64",
+      "y": "int32",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extsi",
+          32,
+          64,
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int64",
+      "y": "uint32",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extui",
+          32,
+          64,
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int64",
+      "y": "int64",
+      "promotion_width": 64,
+      "promotion_signed": true,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "load",
+          "y",
+          64
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "int64",
+      "y": "uint64",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "load",
+          "y",
+          64
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint64",
+      "y": "bool",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extui",
+          1,
+          64,
+          [
+            "ne",
+            [
+              "load",
+              "y",
+              8
+            ],
+            [
+              "const",
+              8,
+              0
+            ]
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint64",
+      "y": "int8",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extsi",
+          8,
+          64,
+          [
+            "load",
+            "y",
+            8
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint64",
+      "y": "uint8",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extui",
+          8,
+          64,
+          [
+            "load",
+            "y",
+            8
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint64",
+      "y": "int16",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extsi",
+          16,
+          64,
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint64",
+      "y": "uint16",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extui",
+          16,
+          64,
+          [
+            "load",
+            "y",
+            16
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint64",
+      "y": "int32",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extsi",
+          32,
+          64,
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint64",
+      "y": "uint32",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "extui",
+          32,
+          64,
+          [
+            "load",
+            "y",
+            32
+          ]
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint64",
+      "y": "int64",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "load",
+          "y",
+          64
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    },
+    {
+      "x": "uint64",
+      "y": "uint64",
+      "promotion_width": 64,
+      "promotion_signed": false,
+      "store_width": 64,
+      "store_dataflow": [
+        "add",
+        64,
+        [
+          "load",
+          "x",
+          64
+        ],
+        [
+          "load",
+          "y",
+          64
+        ]
+      ],
+      "same_logical_offset_and_mask": true
+    }
+  ],
+  "current_lakefile_sha256": "62ac5bf7b5d33bfd9b363dda03bba49fc627aa9af1a0c6dd4cadb734fa5a4928",
+  "lakefile_limit": "The producer 158-file snapshot omits lakefile.toml. This review binds its current hash; root integration full build remains the environment verification.",
+  "native_backend_recompiled": false,
+  "gpu_executed": false,
+  "script_sha256": "b99e07777047b8c7e26f2102a65ae733196eebf959b82c67be92109f9445f417"
+}

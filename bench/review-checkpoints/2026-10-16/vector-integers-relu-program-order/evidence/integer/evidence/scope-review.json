@@ -1,0 +1,4124 @@
+{
+  "task": "vector_addition integer/bool extension and full canonical frontend audit",
+  "standard": "all original declared stages/dtypes/branches; only explicitly registered numerical assumptions may be deferred",
+  "source_sha256": "cfcb749bd562924106c1e0e95e18a9bd987238be3a3b522abac89e099de3d098",
+  "whole_original_program_accepted": false,
+  "completed_original_program_increment": 0,
+  "prior_frozen_receipt": {
+    "path": "/tmp/veritile-standardization-20261015/vector-addition-wip/evidence/receipt.json",
+    "sha256": "e93c0e62996286f4b03419dfebb76fe0b2b959b6b6eb2cd1153d7387f73e3d1f"
+  },
+  "prior_frozen_scope": {
+    "path": "/tmp/veritile-standardization-20261015/vector-addition-wip/evidence/scope-review.json",
+    "sha256": "8e2d77dabddb72fdbea97aac47ac20267246beda6607692b0cad86f8a95e51df"
+  },
+  "counts": {
+    "canonical_scalar_signatures": 17,
+    "promotion_pairs_audited": 289,
+    "promoted_pairs_observed": 217,
+    "promotion_errors_observed": 72,
+    "exact_source_frontend_profiles": 289,
+    "frontend_generated": 189,
+    "frontend_errors": 100,
+    "new_integer_bool_pairs_with_logical_value_and_grid_proof": 81,
+    "prior_floating_pairs_with_logical_value_and_grid_proof": 25,
+    "cumulative_pairs_with_logical_value_and_grid_proof": 106,
+    "promoted_pairs_without_logical_value_execution": 111,
+    "remaining_mixed_float_integer_pairs": 72,
+    "remaining_supported_frontend_fp64_float_pairs": 11,
+    "remaining_promoted_fnuz_frontend_rejections": 28,
+    "all_fnuz_pairs_rejected_at_sm90": 64,
+    "native_backend_compilations": 0,
+    "gpu_executions": 0,
+    "whole_original_program_completion_increment": 0
+  },
+  "new_proved": [
+    "all 81 canonical integer/bool ordered-pair promotion/store formats",
+    "actual complete eight-statement logical source execution without successful-run premise",
+    "shared fixed-width signed/unsigned BitVec casts and promoted-width modular addition",
+    "bool i8 load followed by !=0, unsigned i1 arithmetic for bool/bool, destination signed8 storage",
+    "closed per-program masked readback/frame and full ascending-grid initial-memory formula",
+    "all input loads precede output stores; equal logical x/y/output regions permitted"
+  ],
+  "frontend_assessment": {
+    "fp64": "11 new floating pairs generate frontend IR; typed binary64 value graph remains pending. Generic .real is not fp64 provenance.",
+    "fnuz": "all64 pairs containing fnuz reject at sm90; 28 were semantically promoted and36 overlap promotion errors. Other architectures and source/native error proofs remain open.",
+    "mixed": "all72 routes generated; scalar conversion routes were checked but no mixed whole-program value proof is claimed in this batch.",
+    "old_evidence_unchanged": "Prior13 frontend probes remain in the old frozen package; this new289-profile audit does not overwrite them."
+  },
+  "public_contract": {
+    "module": "bench.tritonbench_g.vector_addition.IntegerValueCorrect",
+    "declaration": "VeriTile.Bench.TritonBenchG.VectorAddition.IntegerValueCorrect.correct",
+    "kind": "ordinary theorem",
+    "specification_command": false,
+    "bit_interpreter_closed_command": false,
+    "specification": "concrete BitVec casts and modular sum from initial logical memory",
+    "floating_callback_assumptions": [],
+    "algebra_parameter": "arbitrary and unused by this integer graph; no binary/cast floating primitive occurs",
+    "native_conformance_proved": false
+  },
+  "numerical_assumptions": [
+    {
+      "id": "VA-N1",
+      "status": "registered_deferred_not_assumed_by_current_theorems",
+      "primitive": "native fp32 scalar add versus FP.add cfg",
+      "scope": "explicit typed fp32 and legacy fp32 software instantiations",
+      "requirements": [
+        "pin target, FTZ/DAZ, rounding, NaN payload/signaling behavior and exceptional bit domain",
+        "FP.add theorem is exact software semantics; native equivalence is not proved"
+      ]
+    },
+    {
+      "id": "VA-N2",
+      "status": "registered_deferred_not_assumed_by_current_theorems",
+      "primitive": "Algebra.binary none dtype add for fp16,bf16,f8e4,f8e5",
+      "scope": "25 represented floating input pairs after promotion",
+      "requirements": [
+        "bind each callback to actual promoted-dtype addition and exceptional-value behavior",
+        "do not assume commutativity, real exactness, finite inputs, or arithmetic laws"
+      ]
+    },
+    {
+      "id": "VA-N3",
+      "status": "registered_deferred_not_assumed_by_current_theorems",
+      "primitive": "Algebra.cast none src dst for distinct floating formats",
+      "scope": "operand promotion and final cast back to x storage format",
+      "requirements": [
+        "RTNE where selected by frontend, exceptional values and exact format interpretation",
+        "bf16\u2194fp16 must match the actual via-fp32 route; a direct opaque callback is not proof of that native route",
+        "same-format conversion is explicitly defined as identity, not a cast-idempotence axiom"
+      ]
+    },
+    {
+      "id": "VA-N4",
+      "status": "registered_deferred_not_assumed_by_current_theorems",
+      "primitive": "Torch seeded random value stream",
+      "scope": "harness manual_seed(0), CUDA rand x/y per case",
+      "requirements": [
+        "native generator state/algorithm/default dtype mapping remains a structural primitive boundary",
+        "any numerical bitstream/distribution correspondence can be deferred only after that mapping is explicit"
+      ]
+    },
+    {
+      "id": "VA-N5",
+      "status": "registered_for_pending_mixed_value_proofs_not_assumed_by_integer_theorem",
+      "primitive": "direct signed/unsigned integer conversion to fp16/fp32/fp64, promoted add and toward-zero float-to-integer store",
+      "requirements": [
+        "integer-to-fp16 is direct; do not introduce fp32 intermediate rounding",
+        "bf16 mixed with integer promotes to fp32",
+        "fp16 arithmetic result extends to fp32 before fptosi/fptoui",
+        "bool output is fptosi to signed8; not a nonzero predicate",
+        "NaN/Inf/out-of-range conversions need an explicit undefined-result policy and a proved active defined-domain independence theorem",
+        "do not require masked inactive values to be finite or claim a specific undefined native result"
+      ]
+    }
+  ],
+  "structural_remaining": [
+    {
+      "id": "VA-I-S1",
+      "gap": "111 semantically promoted pairs have no logical value/grid proof",
+      "detail": "72 mixed float/integer, 11 supported fp64 float pairs, 28 fnuz promoted pairs rejected by this sm90 frontend; per-pair entries below."
+    },
+    {
+      "id": "VA-I-S2",
+      "gap": "Source/native compiler and error refinement",
+      "detail": "289 actual AST-identical-source frontend profiles generated 189 TTIR modules and 100 errors. This is an observation at pinned Triton/sm90/options, not a native backend compilation, universal rejection theorem or source interpreter refinement."
+    },
+    {
+      "id": "VA-I-S3",
+      "gap": "Native finite-width address and debug/sanitizer behavior",
+      "detail": "Model pid/block_start/offsets/n use Nat. Native n_elements is i32 and default debug=false,sanitize_overflow=true remains frozen. TTIR overflow computations do not establish native traps/error behavior. No address overflow guard was added to the source."
+    },
+    {
+      "id": "VA-I-S4",
+      "gap": "Native bytes, views, pointer widths and signed value representability",
+      "detail": "The new logical int/nat cells and BitVec casts are explicit. Signed/unsigned loads require an unproved native byte/tag representability relation; Cell.read mismatch defaults are not native values. Equal logical regions at the same element offset are supported, but physical overlaps with differing element widths, strides or bases are not covered."
+    },
+    {
+      "id": "VA-I-S5",
+      "gap": "Native scheduling",
+      "detail": "This batch proves the complete ascending logical grid with current-memory program reads. Arbitrary native instruction interleavings, sanitizer effects and physical byte races are not established."
+    },
+    {
+      "id": "VA-I-S6",
+      "gap": "Host allocation, dtype dispatch, harness and unsupported dtype domains",
+      "detail": "No changes to prior logical wrapper/harness coverage. Typed dispatch is not composed with native empty_like/allocation/Python/Torch execution. Absent dtype/shape/stride/device guards were not invented. All prior noncanonical dtype/error gaps remain."
+    }
+  ],
+  "dtype_pairs": [
+    {
+      "x": "bool",
+      "y": "bool",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "int1",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "int8",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "int8",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "uint8",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "uint8",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "int16",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "int16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "uint16",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "uint16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "int32",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "int32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "uint32",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "uint32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "int64",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "uint64",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "float16",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "bfloat16",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "float32",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "float64",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "float8_e4m3fn",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int1 and fp8e4nv",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "float8_e5m2",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int1 and fp8e5",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "float8_e4m3fnuz",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int1 and fp8e4b8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "bool",
+      "y": "float8_e5m2fnuz",
+      "output": "bool",
+      "store_element_type": "int8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int1 and fp8e5b16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "bool",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "int8",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "int8",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "int8",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "uint8",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "uint8",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "int16",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "int16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "uint16",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "uint16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "int32",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "int32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "uint32",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "uint32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "int64",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "uint64",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "float16",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "bfloat16",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "float32",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "float64",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "float8_e4m3fn",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int8 and fp8e4nv",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "float8_e5m2",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int8 and fp8e5",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "float8_e4m3fnuz",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int8 and fp8e4b8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int8",
+      "y": "float8_e5m2fnuz",
+      "output": "int8",
+      "store_element_type": "int8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int8 and fp8e5b16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "bool",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promoted",
+      "add_dtype": "uint8",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "int8",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promoted",
+      "add_dtype": "uint8",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "uint8",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promoted",
+      "add_dtype": "uint8",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "int16",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promoted",
+      "add_dtype": "int16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "uint16",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promoted",
+      "add_dtype": "uint16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "int32",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promoted",
+      "add_dtype": "int32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "uint32",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promoted",
+      "add_dtype": "uint32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "int64",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "uint64",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "float16",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "bfloat16",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "float32",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "float64",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "float8_e4m3fn",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint8 and fp8e4nv",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "float8_e5m2",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint8 and fp8e5",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "float8_e4m3fnuz",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint8 and fp8e4b8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint8",
+      "y": "float8_e5m2fnuz",
+      "output": "uint8",
+      "store_element_type": "uint8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint8 and fp8e5b16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "bool",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promoted",
+      "add_dtype": "int16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "int8",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promoted",
+      "add_dtype": "int16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "uint8",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promoted",
+      "add_dtype": "int16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "int16",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promoted",
+      "add_dtype": "int16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "uint16",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promoted",
+      "add_dtype": "uint16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "int32",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promoted",
+      "add_dtype": "int32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "uint32",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promoted",
+      "add_dtype": "uint32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "int64",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "uint64",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "float16",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "bfloat16",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "float32",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "float64",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "float8_e4m3fn",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int16 and fp8e4nv",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "float8_e5m2",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int16 and fp8e5",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "float8_e4m3fnuz",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int16 and fp8e4b8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int16",
+      "y": "float8_e5m2fnuz",
+      "output": "int16",
+      "store_element_type": "int16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int16 and fp8e5b16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "bool",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promoted",
+      "add_dtype": "uint16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "int8",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promoted",
+      "add_dtype": "uint16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "uint8",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promoted",
+      "add_dtype": "uint16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "int16",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promoted",
+      "add_dtype": "uint16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "uint16",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promoted",
+      "add_dtype": "uint16",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "int32",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promoted",
+      "add_dtype": "int32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "uint32",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promoted",
+      "add_dtype": "uint32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "int64",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "uint64",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "float16",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "bfloat16",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "float32",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "float64",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "float8_e4m3fn",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint16 and fp8e4nv",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "float8_e5m2",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint16 and fp8e5",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "float8_e4m3fnuz",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint16 and fp8e4b8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint16",
+      "y": "float8_e5m2fnuz",
+      "output": "uint16",
+      "store_element_type": "uint16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint16 and fp8e5b16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "bool",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promoted",
+      "add_dtype": "int32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "int8",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promoted",
+      "add_dtype": "int32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "uint8",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promoted",
+      "add_dtype": "int32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "int16",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promoted",
+      "add_dtype": "int32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "uint16",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promoted",
+      "add_dtype": "int32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "int32",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promoted",
+      "add_dtype": "int32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "uint32",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promoted",
+      "add_dtype": "uint32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "int64",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "uint64",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "float16",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "bfloat16",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "float32",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "float64",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "float8_e4m3fn",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int32 and fp8e4nv",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "float8_e5m2",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int32 and fp8e5",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "float8_e4m3fnuz",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int32 and fp8e4b8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int32",
+      "y": "float8_e5m2fnuz",
+      "output": "int32",
+      "store_element_type": "int32",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int32 and fp8e5b16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "bool",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promoted",
+      "add_dtype": "uint32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "int8",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promoted",
+      "add_dtype": "uint32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "uint8",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promoted",
+      "add_dtype": "uint32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "int16",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promoted",
+      "add_dtype": "uint32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "uint16",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promoted",
+      "add_dtype": "uint32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "int32",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promoted",
+      "add_dtype": "uint32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "uint32",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promoted",
+      "add_dtype": "uint32",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "int64",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "uint64",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "float16",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "bfloat16",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "float32",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "float64",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "float8_e4m3fn",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint32 and fp8e4nv",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "float8_e5m2",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint32 and fp8e5",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "float8_e4m3fnuz",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint32 and fp8e4b8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint32",
+      "y": "float8_e5m2fnuz",
+      "output": "uint32",
+      "store_element_type": "uint32",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint32 and fp8e5b16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "bool",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "int8",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "uint8",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "int16",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "uint16",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "int32",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "uint32",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "int64",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promoted",
+      "add_dtype": "int64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "uint64",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "float16",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "bfloat16",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "float32",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "float64",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "float8_e4m3fn",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int64 and fp8e4nv",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "float8_e5m2",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int64 and fp8e5",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "float8_e4m3fnuz",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int64 and fp8e4b8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "int64",
+      "y": "float8_e5m2fnuz",
+      "output": "int64",
+      "store_element_type": "int64",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type int64 and fp8e5b16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "bool",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "int8",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "uint8",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "int16",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "uint16",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "int32",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "uint32",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "int64",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "uint64",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promoted",
+      "add_dtype": "uint64",
+      "frontend_status": "frontend_generated",
+      "coverage": "new_integer_bool_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "source/native memory and finite-width address/error bridges"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "float16",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "bfloat16",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "float32",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "float64",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "float8_e4m3fn",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint64 and fp8e4nv",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "float8_e5m2",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint64 and fp8e5",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "float8_e4m3fnuz",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint64 and fp8e4b8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "uint64",
+      "y": "float8_e5m2fnuz",
+      "output": "uint64",
+      "store_element_type": "uint64",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type uint64 and fp8e5b16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "bool",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "int8",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "uint8",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "int16",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "uint16",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "int32",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "uint32",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "int64",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "uint64",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "float16",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "bfloat16",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "float32",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "float64",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "fp64_float_frontend_generated_value_proof_pending",
+      "remaining": [
+        "explicit fp64 typed provenance and binary64 load/add/cast/store graph"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "float8_e4m3fn",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "float8_e5m2",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "float8_e4m3fnuz",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float16",
+      "y": "float8_e5m2fnuz",
+      "output": "float16",
+      "store_element_type": "float16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "bool",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "int8",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "uint8",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "int16",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "uint16",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "int32",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "uint32",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "int64",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "uint64",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "float16",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "bfloat16",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "bf16",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "float32",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "float64",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "fp64_float_frontend_generated_value_proof_pending",
+      "remaining": [
+        "explicit fp64 typed provenance and binary64 load/add/cast/store graph"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "float8_e4m3fn",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "float8_e5m2",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "float8_e4m3fnuz",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "bfloat16",
+      "y": "float8_e5m2fnuz",
+      "output": "bfloat16",
+      "store_element_type": "bfloat16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "bool",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "int8",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "uint8",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "int16",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "uint16",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "int32",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "uint32",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "int64",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "uint64",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "float16",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "bfloat16",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "float32",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "float64",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "fp64_float_frontend_generated_value_proof_pending",
+      "remaining": [
+        "explicit fp64 typed provenance and binary64 load/add/cast/store graph"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "float8_e4m3fn",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "float8_e5m2",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "float8_e4m3fnuz",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float32",
+      "y": "float8_e5m2fnuz",
+      "output": "float32",
+      "store_element_type": "float32",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "bool",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "int8",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "uint8",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "int16",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "uint16",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "int32",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "uint32",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "int64",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "uint64",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "mixed_float_integer_frontend_route_audited_value_proof_pending",
+      "remaining": [
+        "direct signed/unsigned integer-to-promoted-float conversion",
+        "promoted floating add and exact store cast route",
+        "defined-domain float-to-integer conversion and unspecified masked lanes"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "float16",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "fp64_float_frontend_generated_value_proof_pending",
+      "remaining": [
+        "explicit fp64 typed provenance and binary64 load/add/cast/store graph"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "bfloat16",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "fp64_float_frontend_generated_value_proof_pending",
+      "remaining": [
+        "explicit fp64 typed provenance and binary64 load/add/cast/store graph"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "float32",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "fp64_float_frontend_generated_value_proof_pending",
+      "remaining": [
+        "explicit fp64 typed provenance and binary64 load/add/cast/store graph"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "float64",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "fp64_float_frontend_generated_value_proof_pending",
+      "remaining": [
+        "explicit fp64 typed provenance and binary64 load/add/cast/store graph"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "float8_e4m3fn",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "fp64_float_frontend_generated_value_proof_pending",
+      "remaining": [
+        "explicit fp64 typed provenance and binary64 load/add/cast/store graph"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "float8_e5m2",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "fp64_float_frontend_generated_value_proof_pending",
+      "remaining": [
+        "explicit fp64 typed provenance and binary64 load/add/cast/store graph"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "float8_e4m3fnuz",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float64",
+      "y": "float8_e5m2fnuz",
+      "output": "float64",
+      "store_element_type": "float64",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "bool",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4nv and int1",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "int8",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4nv and int8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "uint8",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4nv and uint8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "int16",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4nv and int16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "uint16",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4nv and uint16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "int32",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4nv and int32",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "uint32",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4nv and uint32",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "int64",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4nv and int64",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "uint64",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4nv and uint64",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float16",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "bfloat16",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float32",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float64",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "fp64_float_frontend_generated_value_proof_pending",
+      "remaining": [
+        "explicit fp64 typed provenance and binary64 load/add/cast/store graph"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float8_e4m3fn",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promoted",
+      "add_dtype": "fp8e4nv",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float8_e5m2",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float8_e4m3fnuz",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e4m3fn",
+      "y": "float8_e5m2fnuz",
+      "output": "float8_e4m3fn",
+      "store_element_type": "float8e4nv",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "bool",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5 and int1",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "int8",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5 and int8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "uint8",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5 and uint8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "int16",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5 and int16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "uint16",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5 and uint16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "int32",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5 and int32",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "uint32",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5 and uint32",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "int64",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5 and int64",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "uint64",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5 and uint64",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float16",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "bfloat16",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float32",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float64",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_generated",
+      "coverage": "fp64_float_frontend_generated_value_proof_pending",
+      "remaining": [
+        "explicit fp64 typed provenance and binary64 load/add/cast/store graph"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float8_e4m3fn",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float8_e5m2",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promoted",
+      "add_dtype": "fp8e5",
+      "frontend_status": "frontend_generated",
+      "coverage": "prior_frozen_five_format_logical_value_and_ordered_grid_proved",
+      "remaining": [
+        "prior frozen scope numerical and structural obligations"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float8_e4m3fnuz",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e5m2",
+      "y": "float8_e5m2fnuz",
+      "output": "float8_e5m2",
+      "store_element_type": "float8e5",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "bool",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4b8 and int1",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "int8",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4b8 and int8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "uint8",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4b8 and uint8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "int16",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4b8 and int16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "uint16",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4b8 and uint16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "int32",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4b8 and int32",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "uint32",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4b8 and uint32",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "int64",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4b8 and int64",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "uint64",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e4b8 and uint64",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float16",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "bfloat16",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float32",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float64",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float8_e4m3fn",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float8_e5m2",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float8_e4m3fnuz",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promoted",
+      "add_dtype": "fp8e4b8",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e4m3fnuz",
+      "y": "float8_e5m2fnuz",
+      "output": "float8_e4m3fnuz",
+      "store_element_type": "float8e4b8",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "bool",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5b16 and int1",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "int8",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5b16 and int8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "uint8",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5b16 and uint8",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "int16",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5b16 and int16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "uint16",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5b16 and uint16",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "int32",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5b16 and int32",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "uint32",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5b16 and uint32",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "int64",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5b16 and int64",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "uint64",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promotion_error",
+      "error_type": "TypeError",
+      "error": "unexpected type fp8e5b16 and uint64",
+      "frontend_status": "frontend_error",
+      "coverage": "promotion_error_observed_not_formally_proved",
+      "remaining": [
+        "source-bound host/compiler error theorem and architecture/runtime binding"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float16",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "bfloat16",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float32",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promoted",
+      "add_dtype": "fp32",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float64",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promoted",
+      "add_dtype": "fp64",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float8_e4m3fn",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float8_e5m2",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float8_e4m3fnuz",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promoted",
+      "add_dtype": "fp16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    },
+    {
+      "x": "float8_e5m2fnuz",
+      "y": "float8_e5m2fnuz",
+      "output": "float8_e5m2fnuz",
+      "store_element_type": "float8e5b16",
+      "status": "promoted",
+      "add_dtype": "fp8e5b16",
+      "frontend_status": "frontend_error",
+      "coverage": "semantically_promoted_but_sm90_frontend_rejected_not_formally_proved",
+      "remaining": [
+        "distinct fnuz format or exact architecture-dependent source error theorem"
+      ]
+    }
+  ],
+  "independent_review": "pending parent integration review"
+}

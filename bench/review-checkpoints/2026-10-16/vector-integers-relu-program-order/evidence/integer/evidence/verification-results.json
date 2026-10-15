@@ -1,0 +1,82 @@
+[
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/IntegerSource.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/bench/tritonbench_g/vector_addition/Proofs/IntegerSource.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/bench/tritonbench_g/vector_addition/Proofs/IntegerSource.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 4.869037930155173,
+    "source_sha256_before": "2c81f40c77047b656f8a7b2b4d68d63b97b43cbffc99d2fe6a56e70cb004f84a",
+    "source_sha256_after": "2c81f40c77047b656f8a7b2b4d68d63b97b43cbffc99d2fe6a56e70cb004f84a",
+    "log": "evidence/IntegerSource.compile.log",
+    "log_sha256": "10f4f558c605e917a438090680a1d9c27110fceeadee71097d6980d8c7e40281"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/IntegerValue.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/bench/tritonbench_g/vector_addition/Proofs/IntegerValue.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/bench/tritonbench_g/vector_addition/Proofs/IntegerValue.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 42.197437167866156,
+    "source_sha256_before": "9dc9f69d9485ead9cec4aa8e007005592e52179436e98addb9fa843dc24ce139",
+    "source_sha256_after": "9dc9f69d9485ead9cec4aa8e007005592e52179436e98addb9fa843dc24ce139",
+    "log": "evidence/IntegerValue.compile.log",
+    "log_sha256": "ba9c390bf276b6c54b3a909c8f805fc70b55a477937805330c3e75fff215e88e"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/IntegerProfiles.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/bench/tritonbench_g/vector_addition/Proofs/IntegerProfiles.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/bench/tritonbench_g/vector_addition/Proofs/IntegerProfiles.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 2.9570324399974197,
+    "source_sha256_before": "49ae01135821124140fd5e89c1f329bf9857bd77dd3d3a0858f03dc09dd824c6",
+    "source_sha256_after": "49ae01135821124140fd5e89c1f329bf9857bd77dd3d3a0858f03dc09dd824c6",
+    "log": "evidence/IntegerProfiles.compile.log",
+    "log_sha256": "228e1c797cc10ef6ac629180c549f4ef9c80b6bf06b60ce56b466ee90224fe78"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/IntegerGrid.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/bench/tritonbench_g/vector_addition/Proofs/IntegerGrid.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/bench/tritonbench_g/vector_addition/Proofs/IntegerGrid.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 3.080972289899364,
+    "source_sha256_before": "197d52ec02fbfc1874767b1184969dc00934ad5a2812d0f169b81c33237f802d",
+    "source_sha256_after": "197d52ec02fbfc1874767b1184969dc00934ad5a2812d0f169b81c33237f802d",
+    "log": "evidence/IntegerGrid.compile.log",
+    "log_sha256": "a3176072d5ccc105e093304482449e823ecaec835ef32aedbd4c33870af258d4"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/IntegerValueCorrect.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/bench/tritonbench_g/vector_addition/IntegerValueCorrect.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-dtype-extension-wip/bench/tritonbench_g/vector_addition/IntegerValueCorrect.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 2.7219593769405037,
+    "source_sha256_before": "25a41ad6ba7207415d3dac267dee69b34a795735a078336868d0ed33e61b8537",
+    "source_sha256_after": "25a41ad6ba7207415d3dac267dee69b34a795735a078336868d0ed33e61b8537",
+    "log": "evidence/IntegerValueCorrect.compile.log",
+    "log_sha256": "83710622d8bc3be82b0b404fed134a45030cd11237be08bcb24c4b1c4fe26430"
+  }
+]

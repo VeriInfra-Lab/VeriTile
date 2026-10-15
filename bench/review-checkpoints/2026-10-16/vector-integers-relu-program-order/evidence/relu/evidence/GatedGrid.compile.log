@@ -1,0 +1,23 @@
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.legacyReference: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.relu_kernel,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.runPrefix,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.runGrid,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.prefix_of_first_only: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.original_pid_memory: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.original_prefix_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.original_grid_correct: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.legacy_reference_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.empty_grid_count: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.GatedGrid.positive_grid_count: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
