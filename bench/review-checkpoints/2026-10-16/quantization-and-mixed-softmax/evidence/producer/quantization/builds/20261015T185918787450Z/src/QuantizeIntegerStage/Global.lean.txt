@@ -1,0 +1,91 @@
+import QuantizeIntegerStage.Semantics
+
+namespace QuantizeIntegerStage.Global
+open VeriTile.Triton FP.Structural QuantizeIntegerStage.FP32
+noncomputable section
+set_option maxHeartbeats 3000000
+set_option maxRecDepth 18000
+set_option linter.unusedSimpArgs false
+
+/-- Exact kernel body for the selected fp32 input/scale and int8 output
+signature. No pre-llrint store, explicit added float cast, or extra multiply. -/
+def source (X AbsmaxInv Out : RegionName) (N B : Nat) : ComputeKernel := triton {
+  tl.region X = tl.float32, AbsmaxInv = tl.float32, Out = tl.int8
+  pid = tl.program_id(0)
+  block_start = pid * $(B)
+  offsets = block_start + tl.arange(0, $(B))
+  mask = offsets < $(N)
+  x = tl.load(X + offsets, mask=mask)
+  absmax_inv = tl.load(AbsmaxInv)
+  output = tl.extra.cuda.libdevice.llrint(127.0 * (x * absmax_inv))
+  tl.store(Out + offsets, output, mask=mask)
+}
+
+def kernel (X AbsmaxInv Out : RegionName) (N B : Nat) : TypedKernel :=
+  ⟨source X AbsmaxInv Out N B, byteOutput Out, outputRegister⟩
+
+def offset (s : State Word) (B : Nat) (i : TileIndex [B]) := s.pids 0 * B + i.1.val
+
+def word (round : Llrint64 Word) (cfg : FP.Config) (s : State Word)
+    (X AbsmaxInv : RegionName) (B : Nat) (i : TileIndex [B]) : BitVec 8 :=
+  outputWord round cfg ((s.mem X (offset s B i)).read .real) ((s.mem AbsmaxInv 0).read .real)
+
+def written (round : Llrint64 Word) (cfg : FP.Config) (s : State Word)
+    (X AbsmaxInv Out : RegionName) (N B : Nat) : State Word :=
+  (TileShape.allIndices [B]).foldl (fun t i =>
+    if offset s B i < N then t.write Out (offset s B i) (.mk .int (word round cfg s X AbsmaxInv B i).toInt)
+    else t) s
+
+theorem source_run (rest : Algebra Word) (round : Llrint64 Word) (cfg : FP.Config) (s : State Word)
+    (X AbsmaxInv Out : RegionName) (N B : Nat) :
+    ∃ t, QuantizeIntegerStage.exec (backend rest cfg) (some round) (kernel X AbsmaxInv Out N B) s = some t ∧
+      t.mem = (written round cfg s X AbsmaxInv Out N B).mem := by
+  simp +contextual (config := { maxSteps := 1000000 }) [kernel, source, ComputeKernel.surfaceBody,
+    QuantizeIntegerStage.exec, QuantizeIntegerStage.run, QuantizeIntegerStage.step,
+    QuantizeIntegerStage.evalExpr, QuantizeIntegerStage.store, storedInteger, byteOutput, outputRegister,
+    FP.Structural.step, stepAlg, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
+    FP.Structural.store, backend, FP.Software.scalarFP32, FP.Software.fp32Context,
+    State.setReg, TileShape.axisDim, written, word, outputWord, scaled, offset,
+    ofFloat, toFloat, Region.cast, ComputeDType.eraseDType, bop, numeric,
+    numericLt, natLt, Option.bind]
+  simp only [fold_memory]
+  simp +contextual [show (127.0 : ℝ) = 127 by norm_num]
+  all_goals rfl
+
+theorem offset_injective (s : State Word) (B : Nat) : Function.Injective (offset s B) := by
+  intro i j h
+  have hf : i.1 = j.1 := Fin.ext (Nat.add_left_cancel h)
+  exact Prod.ext hf (Subsingleton.elim _ _)
+
+specification quantize_global_fp32_llrint_int8_correctness
+    (rest : Algebra Word) (round : Llrint64 Word) (cfg : FP.Config) (s : State Word)
+    (X AbsmaxInv Out : RegionName) (N B : Nat) :
+    ∃ t, QuantizeIntegerStage.exec (backend rest cfg) (some round) (kernel X AbsmaxInv Out N B) s = some t ∧
+      (∀ i, offset s B i < N →
+        t.mem Out (offset s B i) = .mk .int (word round cfg s X AbsmaxInv B i).toInt) ∧
+      (∀ i, offset s B i < N →
+        BitVec.ofInt 8 ((t.mem Out (offset s B i)).read .int) = word round cfg s X AbsmaxInv B i) ∧
+      (∀ r o, (r ≠ Out ∨ ∀ i, offset s B i < N → o ≠ offset s B i) → t.mem r o = s.mem r o) := by
+  obtain ⟨t, he, hm⟩ := source_run rest round cfg s X AbsmaxInv Out N B
+  have readback (i) (hi : offset s B i < N) :
+      t.mem Out (offset s B i) = .mk .int (word round cfg s X AbsmaxInv B i).toInt := by
+    rw [hm]
+    exact State.masked_scatter_readback Out (offset s B) _ (fun i => offset s B i < N)
+      s i hi (offset_injective s B)
+  refine ⟨t, he, readback, ?_, ?_⟩
+  · intro i hi
+    rw [readback i hi]
+    simp only [Cell.read_same, BitVec.ofInt_toInt]
+  · intro r o hmiss
+    rw [hm]
+    unfold written
+    apply State.masked_scatter_frame
+    rcases hmiss with hr | ho
+    · exact Or.inl hr
+    · exact Or.inr (fun i _ hi => ho i hi)
+
+#axiomsClean source_run
+#axiomsClean offset_injective
+#axiomsClean quantize_global_fp32_llrint_int8_correctness
+end
+end QuantizeIntegerStage.Global

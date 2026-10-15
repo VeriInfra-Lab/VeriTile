@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "kind": "original_program_scope_ledger",
-  "catalog_sha256": "db3b58d53ac88c71e959a2c1f485b4544c8e15435aba99aef33fcece5620a075",
+  "catalog_sha256": "5e710316ce4828d9b0d1e6d1edad246b895557aa25baca6893a14c74f68886d7",
   "binding_status": "current_catalog_bound_pending_scope_reviews",
   "expected_tasks": [
     "adam_update_triton",
@@ -37354,6 +37354,7 @@
       "input_sha256": {
         "lean": {
           "bench/tritonbench_g/quant_transpose_kernel/FPCorrect.lean": "dee7d9ac55cfe289def37676c231ecc77bdb9cd606eb18b0fabbcd29733af18a",
+          "bench/tritonbench_g/quant_transpose_kernel/IntegerCorrect.lean": "538b41d02f1b96441ae0d2fae1c0e7a64aded9c60d4fa5f77409ebe60956fca9",
           "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedScaled.lean": "55eb7c0c14fee596ab569268f58f1b50e28254e2aacdfb2189e40eca15c25ba2",
           "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedShape.lean": "3d1c25e2d6f3a9e9ce28304afd071a8e4763f55337cd38a0728b0d772653a776",
           "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean": "7c2b124ace154bc1edc7d3a973f5cb5e1436000bd2683423c3d34f8f910b7bf0"
@@ -37449,101 +37450,34 @@
       },
       "structural_gaps": [
         {
-          "id": "quant_transpose_kernel:round_int8_store",
-          "kind": "missing_executing_stage_and_storage_dtype",
-          "finding": "Original llrint(127*(a*absmax_inv)) writes to wrapper-allocated int8. The executing TypedScaled.source declares fp32 A, scale and B and stores two rounded multiplications without llrint or int8 conversion. The original surface has an explicit lowering-failure theorem.",
-          "why_blocks_full_original_scope": "Native conformance of an already represented scalar operation may be deferred, but neither the final rounding stage nor the original output representation is executed here.",
-          "can_defer_as_numeric_assumption": false,
-          "evidence": [
-            {
-              "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
-              "line": 53,
-              "end_line": 61,
-              "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
-              "excerpt": "    output = tl.extra.cuda.libdevice.llrint(127.0 * (a * absmax_inv))\n\n    tl.store(B, output, mask=mask)\n\ndef quantize_global_transpose(input):\n    absmax = input.abs().max().unsqueeze(0)\n    absmax_inv = 1.0 / absmax\n    M, N = input.shape\n    out = torch.empty(N, M, device=\"cuda\", dtype=torch.int8)"
-            },
-            {
-              "path": "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedScaled.lean",
-              "line": 10,
-              "end_line": 26,
-              "sha256": "55eb7c0c14fee596ab569268f58f1b50e28254e2aacdfb2189e40eca15c25ba2",
-              "excerpt": "/-- The already accepted pre-llrint scaled-store stage, with actual fp32 storage\nand compute precision. This does not implement the final integer quantization. -/\ndef source (A AbsmaxInv B : RegionName)\n    (sam san sbn sbm M N BM BN : Nat) : ComputeKernel := triton {\n  tl.region A = tl.float32, AbsmaxInv = tl.float32, B = tl.float32\n  pid_m = tl.program_id(0)\n  pid_n = tl.program_id(1)\n  rm = pid_m * $(BM) + tl.arange(0, $(BM))\n  rn = pid_n * $(BN) + tl.arange(0, $(BN))\n  mask = (rm[:, None] < $(M)) & (rn[None, :] < $(N))\n  a = tl.load(A + rm[:, None] * $(sam) + rn[None, :] * $(san), mask=mask).to(tl.float32)\n  absmax_inv = tl.load(AbsmaxInv).to(tl.float32)\n  output = 127.0 * (a * absmax_inv)\n  tl.store(B + rm[:, None] * $(sbm) + rn[None, :] * $(sbn), output, mask=mask)\n}\n\nabbrev Word := FP.Value .fp32"
-            },
-            {
-              "path": "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean",
-              "line": 99,
-              "end_line": 106,
-              "sha256": "7c2b124ace154bc1edc7d3a973f5cb5e1436000bd2683423c3d34f8f910b7bf0",
-              "excerpt": "theorem quantize_global_transpose_real_surface_toAlgorithm_blocked\n    (A AbsmaxInv B : RegionName)\n    (stride_am stride_an stride_bn stride_bm M N BLOCK_M BLOCK_N GROUP_M : Nat) :\n    ∃ err,\n      (quantize_global_transpose_real_surface A AbsmaxInv B stride_am stride_an\n        stride_bn stride_bm M N BLOCK_M BLOCK_N GROUP_M).toAlgorithm? =\n        Except.error err := by\n  simp [quantize_global_transpose_real_surface, ComputeExpr.toAlgorithm?]"
-            }
-          ]
+          "kind": "remaining_original_program_scope",
+          "finding": "Host abs/max/unsqueeze/reciprocal and relation of loaded inverse_absmax to input",
+          "can_defer_as_numeric_assumption": false
         },
         {
-          "id": "quant_transpose_kernel:grouped_pid_mapping",
-          "kind": "source_launch_mapping",
-          "finding": "Original one-dimensional pid is remapped through GROUP_M/grid_n/group_size into pid_m and pid_n, including the last partial group. The proved scaled slice reads independent pids0/pids1 instead. No public contract relates those grid coordinates or composes the original grouped launch.",
-          "why_blocks_full_original_scope": "The source scheduler and its final-group branch must correspond to the executing slice; output-offset injectivity alone does not provide that relation.",
-          "can_defer_as_numeric_assumption": false,
-          "evidence": [
-            {
-              "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
-              "line": 30,
-              "end_line": 43,
-              "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
-              "excerpt": "    pid = tl.program_id(0)\n    grid_m = (M + BLOCK_M - 1) // BLOCK_M\n    grid_n = (N + BLOCK_N - 1) // BLOCK_N\n\n    width = GROUP_M * grid_n\n    group_id = pid // width\n    group_size = min(grid_m - group_id * GROUP_M, GROUP_M)\n    pid_m = group_id * GROUP_M + (pid % group_size)\n    pid_n = (pid % width) // group_size\n\n    rm = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)\n    rn = pid_n * BLOCK_N + tl.arange(0, BLOCK_N)\n    A = A + (rm[:, None] * stride_am + rn[None, :] * stride_an)\n    mask = (rm < M)[:, None] & (rn < N)[None, :]"
-            },
-            {
-              "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
-              "line": 63,
-              "end_line": 78,
-              "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
-              "excerpt": "    assert out.size(0) == N and out.size(1) == M\n    assert input.stride(0) == 1 or input.stride(1) == 1\n    assert out.stride(0) == 1 or out.stride(1) == 1\n\n    grid = lambda META: (triton.cdiv(M, META[\"BLOCK_M\"]) * triton.cdiv(N, META[\"BLOCK_N\"]),)\n    _quantize_global_transpose[grid](\n        input,\n        absmax_inv,\n        out,\n        input.stride(0),\n        input.stride(1),\n        out.stride(0),\n        out.stride(1),\n        M,\n        N,\n    )"
-            },
-            {
-              "path": "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedScaled.lean",
-              "line": 12,
-              "end_line": 21,
-              "sha256": "55eb7c0c14fee596ab569268f58f1b50e28254e2aacdfb2189e40eca15c25ba2",
-              "excerpt": "def source (A AbsmaxInv B : RegionName)\n    (sam san sbn sbm M N BM BN : Nat) : ComputeKernel := triton {\n  tl.region A = tl.float32, AbsmaxInv = tl.float32, B = tl.float32\n  pid_m = tl.program_id(0)\n  pid_n = tl.program_id(1)\n  rm = pid_m * $(BM) + tl.arange(0, $(BM))\n  rn = pid_n * $(BN) + tl.arange(0, $(BN))\n  mask = (rm[:, None] < $(M)) & (rn[None, :] < $(N))\n  a = tl.load(A + rm[:, None] * $(sam) + rn[None, :] * $(san), mask=mask).to(tl.float32)\n  absmax_inv = tl.load(AbsmaxInv).to(tl.float32)"
-            },
-            {
-              "path": "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean",
-              "line": 546,
-              "end_line": 557,
-              "sha256": "7c2b124ace154bc1edc7d3a973f5cb5e1436000bd2683423c3d34f8f910b7bf0",
-              "excerpt": "specification quant_transpose_scaled_store_io_correctness\n    (A AbsmaxInv B : RegionName)\n    (stride_am stride_an stride_bn stride_bm M N BLOCK_M BLOCK_N : Nat)\n    (scale127 : ℝ)\n    (hM : 0 < BLOCK_M) (hN : 0 < BLOCK_N)\n    (hOutInj : ∀ p₀ p₁ : Nat, Function.Injective\n      (fun idx : TileIndex [BLOCK_M, BLOCK_N] =>\n        (p₀ * BLOCK_M + idx.1.val) * stride_bm\n          + (p₁ * BLOCK_N + idx.2.1.val) * stride_bn)) :\n    quantTransposeScaledIO A AbsmaxInv B stride_am stride_an stride_bn stride_bm\n        M N BLOCK_M BLOCK_N scale127\n      ⊨ fun _p₀ _p₁ xs ys idx => scale127 * (xs idx * ys idx) := by"
-            }
-          ]
+          "kind": "remaining_original_program_scope",
+          "finding": "Host allocations/assertions and returned absmax/output tuple",
+          "can_defer_as_numeric_assumption": false
         },
         {
-          "id": "quant_transpose_kernel:host_reduction_and_tuple",
-          "kind": "host_stage_composition",
-          "finding": "Wrapper abs/max/unsqueeze and reciprocal compute the scale from the input and return both transposed int8 output and absmax. Public correctness receives AbsmaxInv as unrelated input and proves no composition from the tensor through those host stages and the complete launch to both outputs.",
-          "why_blocks_full_original_scope": "The scale-to-source relation and returned absmax value are part of the original program and are absent from the proved stage, independently of the chosen numerical primitives.",
-          "can_defer_as_numeric_assumption": false,
-          "evidence": [
-            {
-              "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
-              "line": 57,
-              "end_line": 79,
-              "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
-              "excerpt": "def quantize_global_transpose(input):\n    absmax = input.abs().max().unsqueeze(0)\n    absmax_inv = 1.0 / absmax\n    M, N = input.shape\n    out = torch.empty(N, M, device=\"cuda\", dtype=torch.int8)\n\n    assert out.size(0) == N and out.size(1) == M\n    assert input.stride(0) == 1 or input.stride(1) == 1\n    assert out.stride(0) == 1 or out.stride(1) == 1\n\n    grid = lambda META: (triton.cdiv(M, META[\"BLOCK_M\"]) * triton.cdiv(N, META[\"BLOCK_N\"]),)\n    _quantize_global_transpose[grid](\n        input,\n        absmax_inv,\n        out,\n        input.stride(0),\n        input.stride(1),\n        out.stride(0),\n        out.stride(1),\n        M,\n        N,\n    )\n    return out, absmax"
-            },
-            {
-              "path": "bench/tritonbench_g/quant_transpose_kernel/FPCorrect.lean",
-              "line": 10,
-              "end_line": 18,
-              "sha256": "dee7d9ac55cfe289def37676c231ecc77bdb9cd606eb18b0fabbcd29733af18a",
-              "excerpt": "specification quant_transpose_scaled_store_fp32_correctness\n    (rest : Algebra Word) (cfg : FP.Config) (s : State Word)\n    (A AbsmaxInv B : RegionName) (sam san sbn sbm M N BM BN : Nat)\n    (hOutInj : Function.Injective (outputOffset s sbn sbm BM BN)) :\n    ∃ t, FP.Structural.exec (backend rest cfg) (source A AbsmaxInv B sam san sbn sbm M N BM BN) s = some t ∧\n      (∀ i, TypedScaled.active s M N BM BN i →\n        t.mem B (outputOffset s sbn sbm BM BN i) = .mk .real (value cfg s A AbsmaxInv sam san BM BN i)) ∧\n      (∀ r o, (r ≠ B ∨ ∀ i, TypedScaled.active s M N BM BN i → o ≠ outputOffset s sbn sbm BM BN i) →\n        t.mem r o = s.mem r o) :="
-            },
-            {
-              "path": "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean",
-              "line": 163,
-              "end_line": 169,
-              "sha256": "7c2b124ace154bc1edc7d3a973f5cb5e1436000bd2683423c3d34f8f910b7bf0",
-              "excerpt": "noncomputable def quantTransposeScaledSpec\n    (s : BlockState) (A AbsmaxInv : RegionName)\n    (stride_am stride_an BLOCK_M BLOCK_N : Nat) (scale127 : ℝ)\n    (idx : TileIndex [BLOCK_M, BLOCK_N]) : ℝ :=\n  scale127 *\n    (s.readMem A (aOffset s stride_am stride_an BLOCK_M BLOCK_N idx) *\n      s.readMem AbsmaxInv 0)"
-            }
-          ]
+          "kind": "remaining_original_program_scope",
+          "finding": "Complete launch/grid composition",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "quant_transpose original grouped-pid mapping, including last partial group",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Other admitted input/scale dtype routes and exact admission/rejection contracts",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Native physical memory/runtime/launch refinement",
+          "can_defer_as_numeric_assumption": false
         }
       ],
       "initial_assessment": "structural_gaps_confirmed",
@@ -37563,6 +37497,134 @@
         "sha256": "164b599df19a175b69ab1a48b0ae9bfcbb5fa4b81a34904ba5a833f302b04d5f",
         "task": "quant_transpose_kernel",
         "status": "reviewed_gaps_not_acceptance"
+      },
+      "partial_progress": {
+        "status": "reviewed_partial_execution_stages_not_whole_program_acceptance",
+        "declarations": [
+          {
+            "file": "bench/tritonbench_g/quant_transpose_kernel/IntegerCorrect.lean",
+            "declaration": "quant_transpose_fp32_llrint_int8_correctness",
+            "statement_sha256": "ecf73c7f23ba5ae0aa0b9b58dc6f8ec06ae75365ebd2f20444216f7bf7e50467",
+            "dtype_profile": "FP32 input and inverse scale, source-ordered software FP32 multiplications, explicit BitVec64 llrint callback, signed int8 output. Natural indices and logical tagged cells; mathematical tile dimensions.",
+            "covers_stages": [
+              "fp32_llrint_int8_transposed_tile_stage"
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
+          }
+        ],
+        "review": {
+          "path": "2026-10-16/quantization-and-mixed-softmax/root-review.json",
+          "sha256": "0ee87412c39c18add8276f27edd75c4805340e0da49ed92f73277611dd0d8127",
+          "source_hashes_pointer": [
+            "reviewed_input_sha256"
+          ]
+        },
+        "execution_contracts": 1,
+        "protocol_contracts": 0,
+        "protocols_counted_as_execution": false,
+        "previous_structural_gaps": [
+          {
+            "id": "quant_transpose_kernel:round_int8_store",
+            "kind": "missing_executing_stage_and_storage_dtype",
+            "finding": "Original llrint(127*(a*absmax_inv)) writes to wrapper-allocated int8. The executing TypedScaled.source declares fp32 A, scale and B and stores two rounded multiplications without llrint or int8 conversion. The original surface has an explicit lowering-failure theorem.",
+            "why_blocks_full_original_scope": "Native conformance of an already represented scalar operation may be deferred, but neither the final rounding stage nor the original output representation is executed here.",
+            "can_defer_as_numeric_assumption": false,
+            "evidence": [
+              {
+                "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+                "line": 53,
+                "end_line": 61,
+                "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
+                "excerpt": "    output = tl.extra.cuda.libdevice.llrint(127.0 * (a * absmax_inv))\n\n    tl.store(B, output, mask=mask)\n\ndef quantize_global_transpose(input):\n    absmax = input.abs().max().unsqueeze(0)\n    absmax_inv = 1.0 / absmax\n    M, N = input.shape\n    out = torch.empty(N, M, device=\"cuda\", dtype=torch.int8)"
+              },
+              {
+                "path": "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedScaled.lean",
+                "line": 10,
+                "end_line": 26,
+                "sha256": "55eb7c0c14fee596ab569268f58f1b50e28254e2aacdfb2189e40eca15c25ba2",
+                "excerpt": "/-- The already accepted pre-llrint scaled-store stage, with actual fp32 storage\nand compute precision. This does not implement the final integer quantization. -/\ndef source (A AbsmaxInv B : RegionName)\n    (sam san sbn sbm M N BM BN : Nat) : ComputeKernel := triton {\n  tl.region A = tl.float32, AbsmaxInv = tl.float32, B = tl.float32\n  pid_m = tl.program_id(0)\n  pid_n = tl.program_id(1)\n  rm = pid_m * $(BM) + tl.arange(0, $(BM))\n  rn = pid_n * $(BN) + tl.arange(0, $(BN))\n  mask = (rm[:, None] < $(M)) & (rn[None, :] < $(N))\n  a = tl.load(A + rm[:, None] * $(sam) + rn[None, :] * $(san), mask=mask).to(tl.float32)\n  absmax_inv = tl.load(AbsmaxInv).to(tl.float32)\n  output = 127.0 * (a * absmax_inv)\n  tl.store(B + rm[:, None] * $(sbm) + rn[None, :] * $(sbn), output, mask=mask)\n}\n\nabbrev Word := FP.Value .fp32"
+              },
+              {
+                "path": "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean",
+                "line": 99,
+                "end_line": 106,
+                "sha256": "7c2b124ace154bc1edc7d3a973f5cb5e1436000bd2683423c3d34f8f910b7bf0",
+                "excerpt": "theorem quantize_global_transpose_real_surface_toAlgorithm_blocked\n    (A AbsmaxInv B : RegionName)\n    (stride_am stride_an stride_bn stride_bm M N BLOCK_M BLOCK_N GROUP_M : Nat) :\n    ∃ err,\n      (quantize_global_transpose_real_surface A AbsmaxInv B stride_am stride_an\n        stride_bn stride_bm M N BLOCK_M BLOCK_N GROUP_M).toAlgorithm? =\n        Except.error err := by\n  simp [quantize_global_transpose_real_surface, ComputeExpr.toAlgorithm?]"
+              }
+            ]
+          },
+          {
+            "id": "quant_transpose_kernel:grouped_pid_mapping",
+            "kind": "source_launch_mapping",
+            "finding": "Original one-dimensional pid is remapped through GROUP_M/grid_n/group_size into pid_m and pid_n, including the last partial group. The proved scaled slice reads independent pids0/pids1 instead. No public contract relates those grid coordinates or composes the original grouped launch.",
+            "why_blocks_full_original_scope": "The source scheduler and its final-group branch must correspond to the executing slice; output-offset injectivity alone does not provide that relation.",
+            "can_defer_as_numeric_assumption": false,
+            "evidence": [
+              {
+                "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+                "line": 30,
+                "end_line": 43,
+                "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
+                "excerpt": "    pid = tl.program_id(0)\n    grid_m = (M + BLOCK_M - 1) // BLOCK_M\n    grid_n = (N + BLOCK_N - 1) // BLOCK_N\n\n    width = GROUP_M * grid_n\n    group_id = pid // width\n    group_size = min(grid_m - group_id * GROUP_M, GROUP_M)\n    pid_m = group_id * GROUP_M + (pid % group_size)\n    pid_n = (pid % width) // group_size\n\n    rm = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)\n    rn = pid_n * BLOCK_N + tl.arange(0, BLOCK_N)\n    A = A + (rm[:, None] * stride_am + rn[None, :] * stride_an)\n    mask = (rm < M)[:, None] & (rn < N)[None, :]"
+              },
+              {
+                "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+                "line": 63,
+                "end_line": 78,
+                "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
+                "excerpt": "    assert out.size(0) == N and out.size(1) == M\n    assert input.stride(0) == 1 or input.stride(1) == 1\n    assert out.stride(0) == 1 or out.stride(1) == 1\n\n    grid = lambda META: (triton.cdiv(M, META[\"BLOCK_M\"]) * triton.cdiv(N, META[\"BLOCK_N\"]),)\n    _quantize_global_transpose[grid](\n        input,\n        absmax_inv,\n        out,\n        input.stride(0),\n        input.stride(1),\n        out.stride(0),\n        out.stride(1),\n        M,\n        N,\n    )"
+              },
+              {
+                "path": "bench/tritonbench_g/quant_transpose_kernel/Proofs/TypedScaled.lean",
+                "line": 12,
+                "end_line": 21,
+                "sha256": "55eb7c0c14fee596ab569268f58f1b50e28254e2aacdfb2189e40eca15c25ba2",
+                "excerpt": "def source (A AbsmaxInv B : RegionName)\n    (sam san sbn sbm M N BM BN : Nat) : ComputeKernel := triton {\n  tl.region A = tl.float32, AbsmaxInv = tl.float32, B = tl.float32\n  pid_m = tl.program_id(0)\n  pid_n = tl.program_id(1)\n  rm = pid_m * $(BM) + tl.arange(0, $(BM))\n  rn = pid_n * $(BN) + tl.arange(0, $(BN))\n  mask = (rm[:, None] < $(M)) & (rn[None, :] < $(N))\n  a = tl.load(A + rm[:, None] * $(sam) + rn[None, :] * $(san), mask=mask).to(tl.float32)\n  absmax_inv = tl.load(AbsmaxInv).to(tl.float32)"
+              },
+              {
+                "path": "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean",
+                "line": 546,
+                "end_line": 557,
+                "sha256": "7c2b124ace154bc1edc7d3a973f5cb5e1436000bd2683423c3d34f8f910b7bf0",
+                "excerpt": "specification quant_transpose_scaled_store_io_correctness\n    (A AbsmaxInv B : RegionName)\n    (stride_am stride_an stride_bn stride_bm M N BLOCK_M BLOCK_N : Nat)\n    (scale127 : ℝ)\n    (hM : 0 < BLOCK_M) (hN : 0 < BLOCK_N)\n    (hOutInj : ∀ p₀ p₁ : Nat, Function.Injective\n      (fun idx : TileIndex [BLOCK_M, BLOCK_N] =>\n        (p₀ * BLOCK_M + idx.1.val) * stride_bm\n          + (p₁ * BLOCK_N + idx.2.1.val) * stride_bn)) :\n    quantTransposeScaledIO A AbsmaxInv B stride_am stride_an stride_bn stride_bm\n        M N BLOCK_M BLOCK_N scale127\n      ⊨ fun _p₀ _p₁ xs ys idx => scale127 * (xs idx * ys idx) := by"
+              }
+            ]
+          },
+          {
+            "id": "quant_transpose_kernel:host_reduction_and_tuple",
+            "kind": "host_stage_composition",
+            "finding": "Wrapper abs/max/unsqueeze and reciprocal compute the scale from the input and return both transposed int8 output and absmax. Public correctness receives AbsmaxInv as unrelated input and proves no composition from the tensor through those host stages and the complete launch to both outputs.",
+            "why_blocks_full_original_scope": "The scale-to-source relation and returned absmax value are part of the original program and are absent from the proved stage, independently of the chosen numerical primitives.",
+            "can_defer_as_numeric_assumption": false,
+            "evidence": [
+              {
+                "path": "bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py",
+                "line": 57,
+                "end_line": 79,
+                "sha256": "ccf3ff3369cddbb96364cbff33ae9efa6e722450eae0e5b59b195a8eaa39534a",
+                "excerpt": "def quantize_global_transpose(input):\n    absmax = input.abs().max().unsqueeze(0)\n    absmax_inv = 1.0 / absmax\n    M, N = input.shape\n    out = torch.empty(N, M, device=\"cuda\", dtype=torch.int8)\n\n    assert out.size(0) == N and out.size(1) == M\n    assert input.stride(0) == 1 or input.stride(1) == 1\n    assert out.stride(0) == 1 or out.stride(1) == 1\n\n    grid = lambda META: (triton.cdiv(M, META[\"BLOCK_M\"]) * triton.cdiv(N, META[\"BLOCK_N\"]),)\n    _quantize_global_transpose[grid](\n        input,\n        absmax_inv,\n        out,\n        input.stride(0),\n        input.stride(1),\n        out.stride(0),\n        out.stride(1),\n        M,\n        N,\n    )\n    return out, absmax"
+              },
+              {
+                "path": "bench/tritonbench_g/quant_transpose_kernel/FPCorrect.lean",
+                "line": 10,
+                "end_line": 18,
+                "sha256": "dee7d9ac55cfe289def37676c231ecc77bdb9cd606eb18b0fabbcd29733af18a",
+                "excerpt": "specification quant_transpose_scaled_store_fp32_correctness\n    (rest : Algebra Word) (cfg : FP.Config) (s : State Word)\n    (A AbsmaxInv B : RegionName) (sam san sbn sbm M N BM BN : Nat)\n    (hOutInj : Function.Injective (outputOffset s sbn sbm BM BN)) :\n    ∃ t, FP.Structural.exec (backend rest cfg) (source A AbsmaxInv B sam san sbn sbm M N BM BN) s = some t ∧\n      (∀ i, TypedScaled.active s M N BM BN i →\n        t.mem B (outputOffset s sbn sbm BM BN i) = .mk .real (value cfg s A AbsmaxInv sam san BM BN i)) ∧\n      (∀ r o, (r ≠ B ∨ ∀ i, TypedScaled.active s M N BM BN i → o ≠ outputOffset s sbn sbm BM BN i) →\n        t.mem r o = s.mem r o) :="
+              },
+              {
+                "path": "bench/tritonbench_g/quant_transpose_kernel/QuantTransposeKernel.lean",
+                "line": 163,
+                "end_line": 169,
+                "sha256": "7c2b124ace154bc1edc7d3a973f5cb5e1436000bd2683423c3d34f8f910b7bf0",
+                "excerpt": "noncomputable def quantTransposeScaledSpec\n    (s : BlockState) (A AbsmaxInv : RegionName)\n    (stride_am stride_an BLOCK_M BLOCK_N : Nat) (scale127 : ℝ)\n    (idx : TileIndex [BLOCK_M, BLOCK_N]) : ℝ :=\n  scale127 *\n    (s.readMem A (aOffset s stride_am stride_an BLOCK_M BLOCK_N idx) *\n      s.readMem AbsmaxInv 0)"
+              }
+            ]
+          }
+        ],
+        "previous_partial_progress": null,
+        "exact_numeric_registration": "No new rule/statement/case/port bindings. Scalar callbacks remain unvalidated and require explicit registration for this new statement."
       }
     },
     {
@@ -37700,6 +37762,9 @@
       "input_sha256": {
         "lean": {
           "bench/tritonbench_g/quantize_global/FPCorrect.lean": "e447293883a94065aa367b6f344dde356cdbe06d14d580b5cb2b0e2db03bd85a",
+          "bench/tritonbench_g/quantize_global/IntegerCorrect.lean": "26364f0ed23dc305d93ded36de0af672e983e1a50e62696ab6f57e6192f4b016",
+          "bench/tritonbench_g/quantize_global/Proofs/IntegerSemantics.lean": "bc478057c56d5ebf1607e73f19c6486041331dfccbb9920b83d0d63c8c98590a",
+          "bench/tritonbench_g/quantize_global/Proofs/IntegerSourceChecks.lean": "98e55e5e508f184f9ab31238a4f26003a315cda2ad47987a9796e75b01a4b8fd",
           "bench/tritonbench_g/quantize_global/Proofs/TypedScaled.lean": "a99ae062693b5914fb41bd9adbe1ee191d6530ccda6fa25aaa9c4c96d431dd64",
           "bench/tritonbench_g/quantize_global/Proofs/TypedShape.lean": "b33db9b034d6f5ba9520643c66bbe67948917052c5b783c0c61e98b531ecc943",
           "bench/tritonbench_g/quantize_global/QuantizeGlobal.lean": "9b919f2e6828a2104ef6209e38a7f027ba94c255b28d5ecba692fb0d589f9f87"
@@ -37795,71 +37860,29 @@
       },
       "structural_gaps": [
         {
-          "id": "QUANTIZE_GLOBAL-S1",
-          "kind": "missing_round_and_integer_store",
-          "finding": "The original executes llrint then writes int8, but TypedScaled.source writes the unrounded scaled value to fp32 storage.",
-          "why_blocks_full_original_scope": "The numerical-stage executable is absent; a deferred numerical assumption cannot make the scaled-store slice the original program.",
-          "can_defer_as_numeric_assumption": false,
-          "evidence": [
-            {
-              "line": 28,
-              "end_line": 29,
-              "path": "bench/tritonbench_g/quantize_global/quantize_global.py",
-              "sha256": "163f6e73234587c1d05763ed60ccc1ac4ca7d7d384f18b7af17399509205032f",
-              "excerpt": "    output = tl.extra.cuda.libdevice.llrint(127.0 * (x * absmax_inv))\n    tl.store(output_ptr + offsets, output, mask=mask)"
-            },
-            {
-              "line": 34,
-              "end_line": 37,
-              "path": "bench/tritonbench_g/quantize_global/quantize_global.py",
-              "sha256": "163f6e73234587c1d05763ed60ccc1ac4ca7d7d384f18b7af17399509205032f",
-              "excerpt": "    output = torch.empty(*x.shape, device=\"cuda\", dtype=torch.int8)\n    assert x.is_cuda and output.is_cuda\n    n_elements = output.numel()\n    grid = lambda meta: (triton.cdiv(n_elements, meta[\"BLOCK_SIZE\"]),)"
-            },
-            {
-              "line": 10,
-              "end_line": 21,
-              "path": "bench/tritonbench_g/quantize_global/Proofs/TypedScaled.lean",
-              "sha256": "a99ae062693b5914fb41bd9adbe1ee191d6530ccda6fa25aaa9c4c96d431dd64",
-              "excerpt": "/-- The already accepted pre-llrint scaled-store stage, with actual fp32 storage\nand compute precision. This does not implement the final integer quantization. -/\ndef source (X AbsmaxInv Out : RegionName) (N B : Nat) : ComputeKernel := triton {\n  tl.region X = tl.float32, AbsmaxInv = tl.float32, Out = tl.float32\n  pid = tl.program_id(0)\n  block_start = pid * $(B)\n  offsets = block_start + tl.arange(0, $(B))\n  mask = offsets < $(N)\n  x = tl.load(X + offsets, mask=mask).to(tl.float32)\n  absmax_inv = tl.load(AbsmaxInv).to(tl.float32)\n  output = 127.0 * (x * absmax_inv)\n  tl.store(Out + offsets, output, mask=mask)"
-            },
-            {
-              "line": 147,
-              "end_line": 153,
-              "path": "bench/tritonbench_g/quantize_global/QuantizeGlobal.lean",
-              "sha256": "9b919f2e6828a2104ef6209e38a7f027ba94c255b28d5ecba692fb0d589f9f87",
-              "excerpt": "theorem quantize_global_surface_toAlgorithm?_blocked\n    (x_ptr absmax_inv_ptr output_ptr : RegionName)\n    (n_elements BLOCK_SIZE : Nat) :\n    ∃ err,\n      (quantize_global_surface x_ptr absmax_inv_ptr output_ptr\n        n_elements BLOCK_SIZE).toAlgorithm? = Except.error err := by\n  simp [quantize_global_surface, ComputeExpr.toAlgorithm?]"
-            }
-          ]
+          "kind": "remaining_original_program_scope",
+          "finding": "Host abs/max/unsqueeze/reciprocal and relation of loaded inverse_absmax to input",
+          "can_defer_as_numeric_assumption": false
         },
         {
-          "id": "QUANTIZE_GLOBAL-S2",
-          "kind": "host_reduction_and_tuple_composition",
-          "finding": "The wrapper computes global absmax and reciprocal, then returns both quantized data and absmax after the complete launch.",
-          "why_blocks_full_original_scope": "Current public contracts receive AbsmaxInv as an independent input and prove no relation from the original tensor through host reduction to both returned values.",
-          "can_defer_as_numeric_assumption": false,
-          "evidence": [
-            {
-              "line": 31,
-              "end_line": 39,
-              "path": "bench/tritonbench_g/quantize_global/quantize_global.py",
-              "sha256": "163f6e73234587c1d05763ed60ccc1ac4ca7d7d384f18b7af17399509205032f",
-              "excerpt": "def quantize_global(x: torch.Tensor):\n    absmax = x.abs().max().unsqueeze(0)\n    absmax_inv = 1.0 / absmax\n    output = torch.empty(*x.shape, device=\"cuda\", dtype=torch.int8)\n    assert x.is_cuda and output.is_cuda\n    n_elements = output.numel()\n    grid = lambda meta: (triton.cdiv(n_elements, meta[\"BLOCK_SIZE\"]),)\n    _quantize_global[grid](x, absmax_inv, output, n_elements)\n    return output, absmax"
-            },
-            {
-              "line": 7,
-              "end_line": 12,
-              "path": "bench/tritonbench_g/quantize_global/FPCorrect.lean",
-              "sha256": "e447293883a94065aa367b6f344dde356cdbe06d14d580b5cb2b0e2db03bd85a",
-              "excerpt": "specification quantize_global_scaled_fp32 (rest : Algebra Word) (cfg : FP.Config)\n    (s : State Word) (X AbsmaxInv Out : RegionName) (N B : Nat) :\n    ∃ t, FP.Structural.exec (backend rest cfg) (source X AbsmaxInv Out N B) s = some t ∧\n      (∀ i, TypedScaled.offset s B i < N → t.mem Out (TypedScaled.offset s B i) = .mk .real (value cfg s X AbsmaxInv B i)) ∧\n      (∀ r o, (r ≠ Out ∨ ∀ i, TypedScaled.offset s B i < N → o ≠ TypedScaled.offset s B i) → t.mem r o = s.mem r o) :=\n  source_correct rest cfg s X AbsmaxInv Out N B"
-            },
-            {
-              "line": 320,
-              "end_line": 327,
-              "path": "bench/tritonbench_g/quantize_global/QuantizeGlobal.lean",
-              "sha256": "9b919f2e6828a2104ef6209e38a7f027ba94c255b28d5ecba692fb0d589f9f87",
-              "excerpt": "specification quantize_global_correctness\n    (x_ptr absmax_inv_ptr output_ptr : RegionName)\n    (n_elements BLOCK_SIZE : Nat) (scale127 : ℝ)\n    (hBS : 0 < BLOCK_SIZE) :\n    (∃ err, (quantize_global_surface x_ptr absmax_inv_ptr output_ptr\n        n_elements BLOCK_SIZE).toAlgorithm? = Except.error err) ∧\n    (quantizeGlobalIO x_ptr absmax_inv_ptr output_ptr n_elements BLOCK_SIZE\n        scale127 ⊨ fun _ _ xs ys i => scale127 * (xs i * ys i)) := by"
-            }
-          ]
+          "kind": "remaining_original_program_scope",
+          "finding": "Host allocations/assertions and returned absmax/output tuple",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Complete launch/grid composition",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Other admitted input/scale dtype routes and exact admission/rejection contracts",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Native physical memory/runtime/launch refinement",
+          "can_defer_as_numeric_assumption": false
         }
       ],
       "initial_assessment": "structural_gaps_confirmed",
@@ -37879,6 +37902,104 @@
         "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
         "task": "quantize_global",
         "status": "reviewed_gaps_not_acceptance"
+      },
+      "partial_progress": {
+        "status": "reviewed_partial_execution_stages_not_whole_program_acceptance",
+        "declarations": [
+          {
+            "file": "bench/tritonbench_g/quantize_global/IntegerCorrect.lean",
+            "declaration": "quantize_global_fp32_llrint_int8_correctness",
+            "statement_sha256": "64c124da12fd774490907111039bb91ef69bf33e9d47ac2b57ee3974d91d8a47",
+            "dtype_profile": "FP32 input and inverse scale, source-ordered software FP32 multiplications, explicit BitVec64 llrint callback, signed int8 output. Natural indices and logical tagged cells; mathematical tile dimensions.",
+            "covers_stages": [
+              "complete_fp32_llrint_int8_kernel"
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
+          }
+        ],
+        "review": {
+          "path": "2026-10-16/quantization-and-mixed-softmax/root-review.json",
+          "sha256": "0ee87412c39c18add8276f27edd75c4805340e0da49ed92f73277611dd0d8127",
+          "source_hashes_pointer": [
+            "reviewed_input_sha256"
+          ]
+        },
+        "execution_contracts": 1,
+        "protocol_contracts": 0,
+        "protocols_counted_as_execution": false,
+        "previous_structural_gaps": [
+          {
+            "id": "QUANTIZE_GLOBAL-S1",
+            "kind": "missing_round_and_integer_store",
+            "finding": "The original executes llrint then writes int8, but TypedScaled.source writes the unrounded scaled value to fp32 storage.",
+            "why_blocks_full_original_scope": "The numerical-stage executable is absent; a deferred numerical assumption cannot make the scaled-store slice the original program.",
+            "can_defer_as_numeric_assumption": false,
+            "evidence": [
+              {
+                "line": 28,
+                "end_line": 29,
+                "path": "bench/tritonbench_g/quantize_global/quantize_global.py",
+                "sha256": "163f6e73234587c1d05763ed60ccc1ac4ca7d7d384f18b7af17399509205032f",
+                "excerpt": "    output = tl.extra.cuda.libdevice.llrint(127.0 * (x * absmax_inv))\n    tl.store(output_ptr + offsets, output, mask=mask)"
+              },
+              {
+                "line": 34,
+                "end_line": 37,
+                "path": "bench/tritonbench_g/quantize_global/quantize_global.py",
+                "sha256": "163f6e73234587c1d05763ed60ccc1ac4ca7d7d384f18b7af17399509205032f",
+                "excerpt": "    output = torch.empty(*x.shape, device=\"cuda\", dtype=torch.int8)\n    assert x.is_cuda and output.is_cuda\n    n_elements = output.numel()\n    grid = lambda meta: (triton.cdiv(n_elements, meta[\"BLOCK_SIZE\"]),)"
+              },
+              {
+                "line": 10,
+                "end_line": 21,
+                "path": "bench/tritonbench_g/quantize_global/Proofs/TypedScaled.lean",
+                "sha256": "a99ae062693b5914fb41bd9adbe1ee191d6530ccda6fa25aaa9c4c96d431dd64",
+                "excerpt": "/-- The already accepted pre-llrint scaled-store stage, with actual fp32 storage\nand compute precision. This does not implement the final integer quantization. -/\ndef source (X AbsmaxInv Out : RegionName) (N B : Nat) : ComputeKernel := triton {\n  tl.region X = tl.float32, AbsmaxInv = tl.float32, Out = tl.float32\n  pid = tl.program_id(0)\n  block_start = pid * $(B)\n  offsets = block_start + tl.arange(0, $(B))\n  mask = offsets < $(N)\n  x = tl.load(X + offsets, mask=mask).to(tl.float32)\n  absmax_inv = tl.load(AbsmaxInv).to(tl.float32)\n  output = 127.0 * (x * absmax_inv)\n  tl.store(Out + offsets, output, mask=mask)"
+              },
+              {
+                "line": 147,
+                "end_line": 153,
+                "path": "bench/tritonbench_g/quantize_global/QuantizeGlobal.lean",
+                "sha256": "9b919f2e6828a2104ef6209e38a7f027ba94c255b28d5ecba692fb0d589f9f87",
+                "excerpt": "theorem quantize_global_surface_toAlgorithm?_blocked\n    (x_ptr absmax_inv_ptr output_ptr : RegionName)\n    (n_elements BLOCK_SIZE : Nat) :\n    ∃ err,\n      (quantize_global_surface x_ptr absmax_inv_ptr output_ptr\n        n_elements BLOCK_SIZE).toAlgorithm? = Except.error err := by\n  simp [quantize_global_surface, ComputeExpr.toAlgorithm?]"
+              }
+            ]
+          },
+          {
+            "id": "QUANTIZE_GLOBAL-S2",
+            "kind": "host_reduction_and_tuple_composition",
+            "finding": "The wrapper computes global absmax and reciprocal, then returns both quantized data and absmax after the complete launch.",
+            "why_blocks_full_original_scope": "Current public contracts receive AbsmaxInv as an independent input and prove no relation from the original tensor through host reduction to both returned values.",
+            "can_defer_as_numeric_assumption": false,
+            "evidence": [
+              {
+                "line": 31,
+                "end_line": 39,
+                "path": "bench/tritonbench_g/quantize_global/quantize_global.py",
+                "sha256": "163f6e73234587c1d05763ed60ccc1ac4ca7d7d384f18b7af17399509205032f",
+                "excerpt": "def quantize_global(x: torch.Tensor):\n    absmax = x.abs().max().unsqueeze(0)\n    absmax_inv = 1.0 / absmax\n    output = torch.empty(*x.shape, device=\"cuda\", dtype=torch.int8)\n    assert x.is_cuda and output.is_cuda\n    n_elements = output.numel()\n    grid = lambda meta: (triton.cdiv(n_elements, meta[\"BLOCK_SIZE\"]),)\n    _quantize_global[grid](x, absmax_inv, output, n_elements)\n    return output, absmax"
+              },
+              {
+                "line": 7,
+                "end_line": 12,
+                "path": "bench/tritonbench_g/quantize_global/FPCorrect.lean",
+                "sha256": "e447293883a94065aa367b6f344dde356cdbe06d14d580b5cb2b0e2db03bd85a",
+                "excerpt": "specification quantize_global_scaled_fp32 (rest : Algebra Word) (cfg : FP.Config)\n    (s : State Word) (X AbsmaxInv Out : RegionName) (N B : Nat) :\n    ∃ t, FP.Structural.exec (backend rest cfg) (source X AbsmaxInv Out N B) s = some t ∧\n      (∀ i, TypedScaled.offset s B i < N → t.mem Out (TypedScaled.offset s B i) = .mk .real (value cfg s X AbsmaxInv B i)) ∧\n      (∀ r o, (r ≠ Out ∨ ∀ i, TypedScaled.offset s B i < N → o ≠ TypedScaled.offset s B i) → t.mem r o = s.mem r o) :=\n  source_correct rest cfg s X AbsmaxInv Out N B"
+              },
+              {
+                "line": 320,
+                "end_line": 327,
+                "path": "bench/tritonbench_g/quantize_global/QuantizeGlobal.lean",
+                "sha256": "9b919f2e6828a2104ef6209e38a7f027ba94c255b28d5ecba692fb0d589f9f87",
+                "excerpt": "specification quantize_global_correctness\n    (x_ptr absmax_inv_ptr output_ptr : RegionName)\n    (n_elements BLOCK_SIZE : Nat) (scale127 : ℝ)\n    (hBS : 0 < BLOCK_SIZE) :\n    (∃ err, (quantize_global_surface x_ptr absmax_inv_ptr output_ptr\n        n_elements BLOCK_SIZE).toAlgorithm? = Except.error err) ∧\n    (quantizeGlobalIO x_ptr absmax_inv_ptr output_ptr n_elements BLOCK_SIZE\n        scale127 ⊨ fun _ _ xs ys i => scale127 * (xs i * ys i)) := by"
+              }
+            ]
+          }
+        ],
+        "previous_partial_progress": null,
+        "exact_numeric_registration": "No new rule/statement/case/port bindings. Scalar callbacks remain unvalidated and require explicit registration for this new statement."
       }
     },
     {
@@ -48093,6 +48214,11 @@
       "input_sha256": {
         "lean": {
           "bench/tritonbench_g/token_softmax_bloom/FPCorrect.lean": "57634772eb8268ad7f15c781853cfbc13cf24e8742b1c415a950aa0cf0aa52d7",
+          "bench/tritonbench_g/token_softmax_bloom/MixedFPCorrect.lean": "9981ea2673b9b21a2e1a94eea7a21604073c090c4859bc10f5d61acc82bc3238",
+          "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedContract.lean": "9ef94d288fb25e10268084b302776637c73193fe933b1b142b7576cfd98b23e0",
+          "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedIO.lean": "edb0060a47a14d88ed6b0558e58c2e9d3b33becf49edf05a32377cf2c2d7826f",
+          "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedShape.lean": "af65e1f8aff8eeef595b0118bca574379f9c56236aa8739ed9353ca9c91de2bf",
+          "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedSource.lean": "7792e628dc4169bb365dc62da1af085fc022bd590df4fb081968b136277b9ad2",
           "bench/tritonbench_g/token_softmax_bloom/Proofs/TypedContract.lean": "af1cd2e47c3cdc5ba08dbf8e8d97266e46c0d9f8fdbe0a0e0b7c54372bc668cf",
           "bench/tritonbench_g/token_softmax_bloom/Proofs/TypedIO.lean": "421fdf3d317a800935f00e99060cc714d0ffe8b377e89b49679536a388b6dc56",
           "bench/tritonbench_g/token_softmax_bloom/Proofs/TypedShape.lean": "5359e06927349936c6ecdae34fed1082f87eff39ae8197fe1d11805660090d97",
@@ -48263,64 +48389,14 @@
       },
       "structural_gaps": [
         {
-          "id": "TOKEN_SOFTMAX_BLOOM-S1",
-          "kind": "host_block_selection_and_head_batch_grid",
-          "finding": "The host chooses block/warps and launches (B_Start_Loc.shape[0],Logics.shape[0]); public IO/typed execution describe one selected pid pair.",
-          "why_blocks_full_original_scope": "Full Prob_Out behavior across the actual launch, valid metadata intervals and unchanged cells lacks a composition theorem.",
-          "can_defer_as_numeric_assumption": false,
-          "evidence": [
-            {
-              "line": 35,
-              "end_line": 54,
-              "path": "bench/tritonbench_g/token_softmax_bloom/token_softmax_bloom.py",
-              "sha256": "043577948fab74005f05d1824b68df2d65c5b26d4a4f47097676f7ac48118e84",
-              "excerpt": "@torch.no_grad()\ndef token_softmax_fwd(Logics, B_Start_Loc, B_Seqlen, Prob_Out, max_input_len):\n    BLOCK_SIZE = triton.next_power_of_2(max_input_len)\n    batch, head_num = B_Start_Loc.shape[0], Logics.shape[0]\n\n    num_warps = 4\n    if BLOCK_SIZE >= 2048:\n        num_warps = 8\n    if BLOCK_SIZE >= 4096:\n        num_warps = 16\n\n    _fwd_kernel_token_softmax[(batch, head_num)](\n        Logics, B_Start_Loc, B_Seqlen,\n        Prob_Out,\n        Logics.stride(0), Logics.stride(1),\n        Prob_Out.stride(0), Prob_Out.stride(1),\n        num_warps=num_warps,\n        BLOCK_SIZE=BLOCK_SIZE,\n    )\n    return"
-            },
-            {
-              "line": 663,
-              "end_line": 679,
-              "path": "bench/tritonbench_g/token_softmax_bloom/TokenSoftmaxBloom.lean",
-              "sha256": "d6cdbddb9210dbd3c6df9ac7e41e99ad026c882760c0c27a92103778afacc760",
-              "excerpt": "def tokenSoftmaxIO (Logics B_Start_Loc B_Seqlen Prob_Out : RegionName)\n    (stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs\n      BLOCK_SIZE : Nat) : MetaMasked2DKernelIO₁ where\n  kernel := token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out\n    stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs BLOCK_SIZE\n  mbuf1 := B_Start_Loc\n  mbuf2 := B_Seqlen\n  inp := Logics\n  out := Prob_Out\n  B := BLOCK_SIZE\n  mwin1 := fun pid₀ _ => pid₀\n  mwin2 := fun pid₀ _ => pid₀\n  read := fun _ pid₁ m₁ _ j =>\n    pid₁ * stride_logic_h + (m₁ + j.val) * stride_logic_bs\n  write := fun _ pid₁ m₁ _ j =>\n    pid₁ * stride_prob_h + (m₁ + j.val) * stride_prob_bs\n  mask := fun _ _ _ m₂ j => j.val < m₂"
-            },
-            {
-              "line": 9,
-              "end_line": 20,
-              "path": "bench/tritonbench_g/token_softmax_bloom/FPCorrect.lean",
-              "sha256": "57634772eb8268ad7f15c781853cfbc13cf24e8742b1c415a950aa0cf0aa52d7",
-              "excerpt": "specification token_softmax_typed_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (d : FloatDType) (p : Parameters) (s : State α)\n    (hwidth : 0 < p.width) (hstride : p.outputTokenStride ≠ 0) :\n    ∃ t, FP.Structural.exec M (kernel d p) s = some t ∧\n      t.mem = (reference M d p s).mem ∧\n      (∀ i : TileIndex [p.width], i.1.val < count p s →\n        t.mem p.output (outputOffset p s i) =\n          .mk d.toTileDType (ofFloat d (outputValues M d p s i))) ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) := by\n  refine ⟨(execution M d p s hwidth).val, (execution M d p s hwidth).property,\n    execution_memory M d p s hwidth, ?_, ?_⟩\n  · intro i hi"
-            }
-          ]
+          "kind": "remaining_original_program_scope",
+          "finding": "The wrapper computes next_power_of_2(max_input_len), chooses num_warps at 2048/4096, and launches the full (batch,head) grid. The new result proves a single selected pid pair; cross-program composition over metadata intervals and host-selected launch is still required.",
+          "can_defer_as_numeric_assumption": false
         },
         {
-          "id": "TOKEN_SOFTMAX_BLOOM-S2",
-          "kind": "independent_destination_dtype",
-          "finding": "The wrapper accepts an independent Prob_Out tensor, but the typed theorem uses a single d for both source and output.",
-          "why_blocks_full_original_scope": "The output conversion for mixed input/output storage cannot be obtained by deferring a scalar law on the homogeneous route.",
-          "can_defer_as_numeric_assumption": false,
-          "evidence": [
-            {
-              "line": 22,
-              "end_line": 31,
-              "path": "bench/tritonbench_g/token_softmax_bloom/token_softmax_bloom.py",
-              "sha256": "043577948fab74005f05d1824b68df2d65c5b26d4a4f47097676f7ac48118e84",
-              "excerpt": "    row = tl.load(Logics + cur_head * stride_logic_h + (cur_batch_in_all_start_index + col_offsets) * stride_logic_bs,\n                  mask=col_offsets < cur_batch_seq_len, other=-float('inf')).to(tl.float32)\n\n    row_minus_max = row - tl.max(row, axis=0)\n    numerator = tl.exp(row_minus_max)\n    denominator = tl.sum(numerator, axis=0)\n    softmax_output = numerator / denominator\n\n    tl.store(Prob_Out + cur_head * stride_prob_h + (cur_batch_in_all_start_index + col_offsets)\n             * stride_prob_bs, softmax_output, mask=col_offsets < cur_batch_seq_len)"
-            },
-            {
-              "line": 36,
-              "end_line": 50,
-              "path": "bench/tritonbench_g/token_softmax_bloom/token_softmax_bloom.py",
-              "sha256": "043577948fab74005f05d1824b68df2d65c5b26d4a4f47097676f7ac48118e84",
-              "excerpt": "def token_softmax_fwd(Logics, B_Start_Loc, B_Seqlen, Prob_Out, max_input_len):\n    BLOCK_SIZE = triton.next_power_of_2(max_input_len)\n    batch, head_num = B_Start_Loc.shape[0], Logics.shape[0]\n\n    num_warps = 4\n    if BLOCK_SIZE >= 2048:\n        num_warps = 8\n    if BLOCK_SIZE >= 4096:\n        num_warps = 16\n\n    _fwd_kernel_token_softmax[(batch, head_num)](\n        Logics, B_Start_Loc, B_Seqlen,\n        Prob_Out,\n        Logics.stride(0), Logics.stride(1),\n        Prob_Out.stride(0), Prob_Out.stride(1),"
-            },
-            {
-              "line": 9,
-              "end_line": 17,
-              "path": "bench/tritonbench_g/token_softmax_bloom/FPCorrect.lean",
-              "sha256": "57634772eb8268ad7f15c781853cfbc13cf24e8742b1c415a950aa0cf0aa52d7",
-              "excerpt": "specification token_softmax_typed_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (d : FloatDType) (p : Parameters) (s : State α)\n    (hwidth : 0 < p.width) (hstride : p.outputTokenStride ≠ 0) :\n    ∃ t, FP.Structural.exec M (kernel d p) s = some t ∧\n      t.mem = (reference M d p s).mem ∧\n      (∀ i : TileIndex [p.width], i.1.val < count p s →\n        t.mem p.output (outputOffset p s i) =\n          .mk d.toTileDType (ofFloat d (outputValues M d p s i))) ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) := by"
-            }
-          ]
+          "kind": "remaining_original_program_scope",
+          "finding": "Independent source/destination storage is represented for the nine fp16/bf16/fp32 pairs only. The original caller-supplied tensors are not restricted to these pairs. Other floating formats, integer/bool storage and admission/error branches are not established by this package; no whole dtype-domain closure is claimed.",
+          "can_defer_as_numeric_assumption": false
         }
       ],
       "initial_assessment": "structural_gaps_confirmed",
@@ -48340,6 +48416,97 @@
         "sha256": "307b7b690bb56bb418b6f17d3a8194607b555aac744dd24d5d0a2a62b74dfa52",
         "task": "token_softmax_bloom",
         "status": "reviewed_gaps_not_acceptance"
+      },
+      "partial_progress": {
+        "status": "reviewed_partial_execution_stages_not_whole_program_acceptance",
+        "declarations": [
+          {
+            "file": "bench/tritonbench_g/token_softmax_bloom/MixedFPCorrect.lean",
+            "declaration": "token_softmax_mixed_output_typed_correctness",
+            "statement_sha256": "a1eb7235dd5798b85aab36b6d94efcefdbd8a0bb74a64b87f4127cca0d4146f4",
+            "dtype_profile": "Nine independent fp16/bf16/fp32 input/output storage pairs, fp32 max/sub/exp/sum/div graph, positive tile width, nonzero output token stride and natural metadata/strides; total typed logical memory.",
+            "covers_stages": [
+              "complete_per_program_mixed_floating_row_value_and_frame"
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
+          }
+        ],
+        "review": {
+          "path": "2026-10-16/quantization-and-mixed-softmax/root-review.json",
+          "sha256": "0ee87412c39c18add8276f27edd75c4805340e0da49ed92f73277611dd0d8127",
+          "source_hashes_pointer": [
+            "reviewed_input_sha256"
+          ]
+        },
+        "execution_contracts": 1,
+        "protocol_contracts": 0,
+        "protocols_counted_as_execution": false,
+        "previous_structural_gaps": [
+          {
+            "id": "TOKEN_SOFTMAX_BLOOM-S1",
+            "kind": "host_block_selection_and_head_batch_grid",
+            "finding": "The host chooses block/warps and launches (B_Start_Loc.shape[0],Logics.shape[0]); public IO/typed execution describe one selected pid pair.",
+            "why_blocks_full_original_scope": "Full Prob_Out behavior across the actual launch, valid metadata intervals and unchanged cells lacks a composition theorem.",
+            "can_defer_as_numeric_assumption": false,
+            "evidence": [
+              {
+                "line": 35,
+                "end_line": 54,
+                "path": "bench/tritonbench_g/token_softmax_bloom/token_softmax_bloom.py",
+                "sha256": "043577948fab74005f05d1824b68df2d65c5b26d4a4f47097676f7ac48118e84",
+                "excerpt": "@torch.no_grad()\ndef token_softmax_fwd(Logics, B_Start_Loc, B_Seqlen, Prob_Out, max_input_len):\n    BLOCK_SIZE = triton.next_power_of_2(max_input_len)\n    batch, head_num = B_Start_Loc.shape[0], Logics.shape[0]\n\n    num_warps = 4\n    if BLOCK_SIZE >= 2048:\n        num_warps = 8\n    if BLOCK_SIZE >= 4096:\n        num_warps = 16\n\n    _fwd_kernel_token_softmax[(batch, head_num)](\n        Logics, B_Start_Loc, B_Seqlen,\n        Prob_Out,\n        Logics.stride(0), Logics.stride(1),\n        Prob_Out.stride(0), Prob_Out.stride(1),\n        num_warps=num_warps,\n        BLOCK_SIZE=BLOCK_SIZE,\n    )\n    return"
+              },
+              {
+                "line": 663,
+                "end_line": 679,
+                "path": "bench/tritonbench_g/token_softmax_bloom/TokenSoftmaxBloom.lean",
+                "sha256": "d6cdbddb9210dbd3c6df9ac7e41e99ad026c882760c0c27a92103778afacc760",
+                "excerpt": "def tokenSoftmaxIO (Logics B_Start_Loc B_Seqlen Prob_Out : RegionName)\n    (stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs\n      BLOCK_SIZE : Nat) : MetaMasked2DKernelIO₁ where\n  kernel := token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out\n    stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs BLOCK_SIZE\n  mbuf1 := B_Start_Loc\n  mbuf2 := B_Seqlen\n  inp := Logics\n  out := Prob_Out\n  B := BLOCK_SIZE\n  mwin1 := fun pid₀ _ => pid₀\n  mwin2 := fun pid₀ _ => pid₀\n  read := fun _ pid₁ m₁ _ j =>\n    pid₁ * stride_logic_h + (m₁ + j.val) * stride_logic_bs\n  write := fun _ pid₁ m₁ _ j =>\n    pid₁ * stride_prob_h + (m₁ + j.val) * stride_prob_bs\n  mask := fun _ _ _ m₂ j => j.val < m₂"
+              },
+              {
+                "line": 9,
+                "end_line": 20,
+                "path": "bench/tritonbench_g/token_softmax_bloom/FPCorrect.lean",
+                "sha256": "57634772eb8268ad7f15c781853cfbc13cf24e8742b1c415a950aa0cf0aa52d7",
+                "excerpt": "specification token_softmax_typed_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (d : FloatDType) (p : Parameters) (s : State α)\n    (hwidth : 0 < p.width) (hstride : p.outputTokenStride ≠ 0) :\n    ∃ t, FP.Structural.exec M (kernel d p) s = some t ∧\n      t.mem = (reference M d p s).mem ∧\n      (∀ i : TileIndex [p.width], i.1.val < count p s →\n        t.mem p.output (outputOffset p s i) =\n          .mk d.toTileDType (ofFloat d (outputValues M d p s i))) ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) := by\n  refine ⟨(execution M d p s hwidth).val, (execution M d p s hwidth).property,\n    execution_memory M d p s hwidth, ?_, ?_⟩\n  · intro i hi"
+              }
+            ]
+          },
+          {
+            "id": "TOKEN_SOFTMAX_BLOOM-S2",
+            "kind": "independent_destination_dtype",
+            "finding": "The wrapper accepts an independent Prob_Out tensor, but the typed theorem uses a single d for both source and output.",
+            "why_blocks_full_original_scope": "The output conversion for mixed input/output storage cannot be obtained by deferring a scalar law on the homogeneous route.",
+            "can_defer_as_numeric_assumption": false,
+            "evidence": [
+              {
+                "line": 22,
+                "end_line": 31,
+                "path": "bench/tritonbench_g/token_softmax_bloom/token_softmax_bloom.py",
+                "sha256": "043577948fab74005f05d1824b68df2d65c5b26d4a4f47097676f7ac48118e84",
+                "excerpt": "    row = tl.load(Logics + cur_head * stride_logic_h + (cur_batch_in_all_start_index + col_offsets) * stride_logic_bs,\n                  mask=col_offsets < cur_batch_seq_len, other=-float('inf')).to(tl.float32)\n\n    row_minus_max = row - tl.max(row, axis=0)\n    numerator = tl.exp(row_minus_max)\n    denominator = tl.sum(numerator, axis=0)\n    softmax_output = numerator / denominator\n\n    tl.store(Prob_Out + cur_head * stride_prob_h + (cur_batch_in_all_start_index + col_offsets)\n             * stride_prob_bs, softmax_output, mask=col_offsets < cur_batch_seq_len)"
+              },
+              {
+                "line": 36,
+                "end_line": 50,
+                "path": "bench/tritonbench_g/token_softmax_bloom/token_softmax_bloom.py",
+                "sha256": "043577948fab74005f05d1824b68df2d65c5b26d4a4f47097676f7ac48118e84",
+                "excerpt": "def token_softmax_fwd(Logics, B_Start_Loc, B_Seqlen, Prob_Out, max_input_len):\n    BLOCK_SIZE = triton.next_power_of_2(max_input_len)\n    batch, head_num = B_Start_Loc.shape[0], Logics.shape[0]\n\n    num_warps = 4\n    if BLOCK_SIZE >= 2048:\n        num_warps = 8\n    if BLOCK_SIZE >= 4096:\n        num_warps = 16\n\n    _fwd_kernel_token_softmax[(batch, head_num)](\n        Logics, B_Start_Loc, B_Seqlen,\n        Prob_Out,\n        Logics.stride(0), Logics.stride(1),\n        Prob_Out.stride(0), Prob_Out.stride(1),"
+              },
+              {
+                "line": 9,
+                "end_line": 17,
+                "path": "bench/tritonbench_g/token_softmax_bloom/FPCorrect.lean",
+                "sha256": "57634772eb8268ad7f15c781853cfbc13cf24e8742b1c415a950aa0cf0aa52d7",
+                "excerpt": "specification token_softmax_typed_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (d : FloatDType) (p : Parameters) (s : State α)\n    (hwidth : 0 < p.width) (hstride : p.outputTokenStride ≠ 0) :\n    ∃ t, FP.Structural.exec M (kernel d p) s = some t ∧\n      t.mem = (reference M d p s).mem ∧\n      (∀ i : TileIndex [p.width], i.1.val < count p s →\n        t.mem p.output (outputOffset p s i) =\n          .mk d.toTileDType (ofFloat d (outputValues M d p s i))) ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) := by"
+              }
+            ]
+          }
+        ],
+        "previous_partial_progress": null,
+        "exact_numeric_registration": "No new rule/statement/case/port bindings. Scalar callbacks remain unvalidated and require explicit registration for this new statement."
       }
     },
     {
@@ -48348,6 +48515,8 @@
       "input_sha256": {
         "lean": {
           "bench/tritonbench_g/token_softmax_llama/FPCorrect.lean": "59d3b113eab85bf25bba634314738d9f41152bf0b462a1e5161a3dd867cfe35d",
+          "bench/tritonbench_g/token_softmax_llama/MixedFPCorrect.lean": "1194d01c0dced472ba94fef3bf2db2754e694afaaf4f0763cf5e5a0b55b49398",
+          "bench/tritonbench_g/token_softmax_llama/Proofs/MixedShape.lean": "7ed35273d402466639328fc4c46c18c00f4fa5324f22d8696df5b087464b626c",
           "bench/tritonbench_g/token_softmax_llama/Proofs/TypedShape.lean": "cb9f8897e547db3e55e0d86073179dd6e0de3543971419d5a3eb1f5d454feac6",
           "bench/tritonbench_g/token_softmax_llama/TokenSoftmaxLlama.lean": "6dd633e57e5fdb3e6df6283724b684ff6a103d1779046427f37eca42979b136e"
         },
@@ -48481,64 +48650,14 @@
       },
       "structural_gaps": [
         {
-          "id": "TOKEN_SOFTMAX_LLAMA-S1",
-          "kind": "host_block_selection_and_head_batch_grid",
-          "finding": "The host chooses block/warps and launches (B_Start_Loc.shape[0],Logics.shape[0]); public IO/typed execution describe one selected pid pair.",
-          "why_blocks_full_original_scope": "Full Prob_Out behavior across the actual launch, valid metadata intervals and unchanged cells lacks a composition theorem.",
-          "can_defer_as_numeric_assumption": false,
-          "evidence": [
-            {
-              "line": 35,
-              "end_line": 54,
-              "path": "bench/tritonbench_g/token_softmax_llama/token_softmax_llama.py",
-              "sha256": "0fa02ee678899b4524478c77876bd07c331494faf2320e76f5f7669d458a1f41",
-              "excerpt": "@torch.no_grad()\ndef token_softmax_fwd(Logics, B_Start_Loc, B_Seqlen, Prob_Out, max_input_len):\n    BLOCK_SIZE = triton.next_power_of_2(max_input_len)\n    batch, head_num = B_Start_Loc.shape[0], Logics.shape[0]\n\n    num_warps = 4\n    if BLOCK_SIZE >= 2048:\n        num_warps = 8\n    if BLOCK_SIZE >= 4096:\n        num_warps = 16\n\n    _fwd_kernel_token_softmax[(batch, head_num)](\n        Logics, B_Start_Loc, B_Seqlen,\n        Prob_Out,\n        Logics.stride(0), Logics.stride(1),\n        Prob_Out.stride(0), Prob_Out.stride(1),\n        num_warps=num_warps,\n        BLOCK_SIZE=BLOCK_SIZE,\n    )\n    return"
-            },
-            {
-              "line": 647,
-              "end_line": 665,
-              "path": "bench/tritonbench_g/token_softmax_llama/TokenSoftmaxLlama.lean",
-              "sha256": "6dd633e57e5fdb3e6df6283724b684ff6a103d1779046427f37eca42979b136e",
-              "excerpt": "def tokenSoftmaxLlamaIO\n    (Logics B_Start_Loc B_Seqlen Prob_Out : RegionName)\n    (stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs\n      BLOCK_SIZE : Nat) :\n    MetaMasked2DKernelIO₁ where\n  kernel := token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out\n    stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs BLOCK_SIZE\n  mbuf1 := B_Start_Loc\n  mbuf2 := B_Seqlen\n  inp := Logics\n  out := Prob_Out\n  B := BLOCK_SIZE\n  mwin1 := fun pid₀ _ => pid₀\n  mwin2 := fun pid₀ _ => pid₀\n  read := fun _ pid₁ m₁ _ j =>\n    pid₁ * stride_logic_h + (m₁ + j.val) * stride_logic_bs\n  write := fun _ pid₁ m₁ _ j =>\n    pid₁ * stride_prob_h + (m₁ + j.val) * stride_prob_bs\n  mask := fun _ _ _ m₂ j => j.val < m₂"
-            },
-            {
-              "line": 9,
-              "end_line": 20,
-              "path": "bench/tritonbench_g/token_softmax_llama/FPCorrect.lean",
-              "sha256": "59d3b113eab85bf25bba634314738d9f41152bf0b462a1e5161a3dd867cfe35d",
-              "excerpt": "specification token_softmax_typed_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (d : FloatDType) (p : Parameters) (s : State α)\n    (hwidth : 0 < p.width) (hstride : p.outputTokenStride ≠ 0) :\n    ∃ t, FP.Structural.exec M (kernel d p) s = some t ∧\n      t.mem = (reference M d p s).mem ∧\n      (∀ i : TileIndex [p.width], i.1.val < count p s →\n        t.mem p.output (outputOffset p s i) =\n          .mk d.toTileDType (ofFloat d (outputValues M d p s i))) ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) := by\n  refine ⟨(execution M d p s hwidth).val, (execution M d p s hwidth).property,\n    execution_memory M d p s hwidth, ?_, ?_⟩\n  · intro i hi"
-            }
-          ]
+          "kind": "remaining_original_program_scope",
+          "finding": "The wrapper computes next_power_of_2(max_input_len), chooses num_warps at 2048/4096, and launches the full (batch,head) grid. The new result proves a single selected pid pair; cross-program composition over metadata intervals and host-selected launch is still required.",
+          "can_defer_as_numeric_assumption": false
         },
         {
-          "id": "TOKEN_SOFTMAX_LLAMA-S2",
-          "kind": "independent_destination_dtype",
-          "finding": "The wrapper accepts an independent Prob_Out tensor, but the typed theorem uses a single d for both source and output.",
-          "why_blocks_full_original_scope": "The output conversion for mixed input/output storage cannot be obtained by deferring a scalar law on the homogeneous route.",
-          "can_defer_as_numeric_assumption": false,
-          "evidence": [
-            {
-              "line": 22,
-              "end_line": 31,
-              "path": "bench/tritonbench_g/token_softmax_llama/token_softmax_llama.py",
-              "sha256": "0fa02ee678899b4524478c77876bd07c331494faf2320e76f5f7669d458a1f41",
-              "excerpt": "    row = tl.load(Logics + cur_head * stride_logic_h + (cur_batch_in_all_start_index + col_offsets) * stride_logic_bs,\n                  mask=col_offsets < cur_batch_seq_len, other=-float('inf')).to(tl.float32)\n\n    row_minus_max = row - tl.max(row, axis=0)\n    numerator = tl.exp(row_minus_max)\n    denominator = tl.sum(numerator, axis=0)\n    softmax_output = numerator / denominator\n\n    tl.store(Prob_Out + cur_head * stride_prob_h + (cur_batch_in_all_start_index + col_offsets)\n             * stride_prob_bs, softmax_output, mask=col_offsets < cur_batch_seq_len)"
-            },
-            {
-              "line": 36,
-              "end_line": 50,
-              "path": "bench/tritonbench_g/token_softmax_llama/token_softmax_llama.py",
-              "sha256": "0fa02ee678899b4524478c77876bd07c331494faf2320e76f5f7669d458a1f41",
-              "excerpt": "def token_softmax_fwd(Logics, B_Start_Loc, B_Seqlen, Prob_Out, max_input_len):\n    BLOCK_SIZE = triton.next_power_of_2(max_input_len)\n    batch, head_num = B_Start_Loc.shape[0], Logics.shape[0]\n\n    num_warps = 4\n    if BLOCK_SIZE >= 2048:\n        num_warps = 8\n    if BLOCK_SIZE >= 4096:\n        num_warps = 16\n\n    _fwd_kernel_token_softmax[(batch, head_num)](\n        Logics, B_Start_Loc, B_Seqlen,\n        Prob_Out,\n        Logics.stride(0), Logics.stride(1),\n        Prob_Out.stride(0), Prob_Out.stride(1),"
-            },
-            {
-              "line": 9,
-              "end_line": 17,
-              "path": "bench/tritonbench_g/token_softmax_llama/FPCorrect.lean",
-              "sha256": "59d3b113eab85bf25bba634314738d9f41152bf0b462a1e5161a3dd867cfe35d",
-              "excerpt": "specification token_softmax_typed_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (d : FloatDType) (p : Parameters) (s : State α)\n    (hwidth : 0 < p.width) (hstride : p.outputTokenStride ≠ 0) :\n    ∃ t, FP.Structural.exec M (kernel d p) s = some t ∧\n      t.mem = (reference M d p s).mem ∧\n      (∀ i : TileIndex [p.width], i.1.val < count p s →\n        t.mem p.output (outputOffset p s i) =\n          .mk d.toTileDType (ofFloat d (outputValues M d p s i))) ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) := by"
-            }
-          ]
+          "kind": "remaining_original_program_scope",
+          "finding": "Independent source/destination storage is represented for the nine fp16/bf16/fp32 pairs only. The original caller-supplied tensors are not restricted to these pairs. Other floating formats, integer/bool storage and admission/error branches are not established by this package; no whole dtype-domain closure is claimed.",
+          "can_defer_as_numeric_assumption": false
         }
       ],
       "initial_assessment": "structural_gaps_confirmed",
@@ -48558,6 +48677,97 @@
         "sha256": "307b7b690bb56bb418b6f17d3a8194607b555aac744dd24d5d0a2a62b74dfa52",
         "task": "token_softmax_llama",
         "status": "reviewed_gaps_not_acceptance"
+      },
+      "partial_progress": {
+        "status": "reviewed_partial_execution_stages_not_whole_program_acceptance",
+        "declarations": [
+          {
+            "file": "bench/tritonbench_g/token_softmax_llama/MixedFPCorrect.lean",
+            "declaration": "token_softmax_mixed_output_typed_correctness",
+            "statement_sha256": "a1eb7235dd5798b85aab36b6d94efcefdbd8a0bb74a64b87f4127cca0d4146f4",
+            "dtype_profile": "Nine independent fp16/bf16/fp32 input/output storage pairs, fp32 max/sub/exp/sum/div graph, positive tile width, nonzero output token stride and natural metadata/strides; total typed logical memory.",
+            "covers_stages": [
+              "complete_per_program_mixed_floating_row_value_and_frame"
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
+          }
+        ],
+        "review": {
+          "path": "2026-10-16/quantization-and-mixed-softmax/root-review.json",
+          "sha256": "0ee87412c39c18add8276f27edd75c4805340e0da49ed92f73277611dd0d8127",
+          "source_hashes_pointer": [
+            "reviewed_input_sha256"
+          ]
+        },
+        "execution_contracts": 1,
+        "protocol_contracts": 0,
+        "protocols_counted_as_execution": false,
+        "previous_structural_gaps": [
+          {
+            "id": "TOKEN_SOFTMAX_LLAMA-S1",
+            "kind": "host_block_selection_and_head_batch_grid",
+            "finding": "The host chooses block/warps and launches (B_Start_Loc.shape[0],Logics.shape[0]); public IO/typed execution describe one selected pid pair.",
+            "why_blocks_full_original_scope": "Full Prob_Out behavior across the actual launch, valid metadata intervals and unchanged cells lacks a composition theorem.",
+            "can_defer_as_numeric_assumption": false,
+            "evidence": [
+              {
+                "line": 35,
+                "end_line": 54,
+                "path": "bench/tritonbench_g/token_softmax_llama/token_softmax_llama.py",
+                "sha256": "0fa02ee678899b4524478c77876bd07c331494faf2320e76f5f7669d458a1f41",
+                "excerpt": "@torch.no_grad()\ndef token_softmax_fwd(Logics, B_Start_Loc, B_Seqlen, Prob_Out, max_input_len):\n    BLOCK_SIZE = triton.next_power_of_2(max_input_len)\n    batch, head_num = B_Start_Loc.shape[0], Logics.shape[0]\n\n    num_warps = 4\n    if BLOCK_SIZE >= 2048:\n        num_warps = 8\n    if BLOCK_SIZE >= 4096:\n        num_warps = 16\n\n    _fwd_kernel_token_softmax[(batch, head_num)](\n        Logics, B_Start_Loc, B_Seqlen,\n        Prob_Out,\n        Logics.stride(0), Logics.stride(1),\n        Prob_Out.stride(0), Prob_Out.stride(1),\n        num_warps=num_warps,\n        BLOCK_SIZE=BLOCK_SIZE,\n    )\n    return"
+              },
+              {
+                "line": 647,
+                "end_line": 665,
+                "path": "bench/tritonbench_g/token_softmax_llama/TokenSoftmaxLlama.lean",
+                "sha256": "6dd633e57e5fdb3e6df6283724b684ff6a103d1779046427f37eca42979b136e",
+                "excerpt": "def tokenSoftmaxLlamaIO\n    (Logics B_Start_Loc B_Seqlen Prob_Out : RegionName)\n    (stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs\n      BLOCK_SIZE : Nat) :\n    MetaMasked2DKernelIO₁ where\n  kernel := token_softmax_surface Logics B_Start_Loc B_Seqlen Prob_Out\n    stride_logic_h stride_logic_bs stride_prob_h stride_prob_bs BLOCK_SIZE\n  mbuf1 := B_Start_Loc\n  mbuf2 := B_Seqlen\n  inp := Logics\n  out := Prob_Out\n  B := BLOCK_SIZE\n  mwin1 := fun pid₀ _ => pid₀\n  mwin2 := fun pid₀ _ => pid₀\n  read := fun _ pid₁ m₁ _ j =>\n    pid₁ * stride_logic_h + (m₁ + j.val) * stride_logic_bs\n  write := fun _ pid₁ m₁ _ j =>\n    pid₁ * stride_prob_h + (m₁ + j.val) * stride_prob_bs\n  mask := fun _ _ _ m₂ j => j.val < m₂"
+              },
+              {
+                "line": 9,
+                "end_line": 20,
+                "path": "bench/tritonbench_g/token_softmax_llama/FPCorrect.lean",
+                "sha256": "59d3b113eab85bf25bba634314738d9f41152bf0b462a1e5161a3dd867cfe35d",
+                "excerpt": "specification token_softmax_typed_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (d : FloatDType) (p : Parameters) (s : State α)\n    (hwidth : 0 < p.width) (hstride : p.outputTokenStride ≠ 0) :\n    ∃ t, FP.Structural.exec M (kernel d p) s = some t ∧\n      t.mem = (reference M d p s).mem ∧\n      (∀ i : TileIndex [p.width], i.1.val < count p s →\n        t.mem p.output (outputOffset p s i) =\n          .mk d.toTileDType (ofFloat d (outputValues M d p s i))) ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) := by\n  refine ⟨(execution M d p s hwidth).val, (execution M d p s hwidth).property,\n    execution_memory M d p s hwidth, ?_, ?_⟩\n  · intro i hi"
+              }
+            ]
+          },
+          {
+            "id": "TOKEN_SOFTMAX_LLAMA-S2",
+            "kind": "independent_destination_dtype",
+            "finding": "The wrapper accepts an independent Prob_Out tensor, but the typed theorem uses a single d for both source and output.",
+            "why_blocks_full_original_scope": "The output conversion for mixed input/output storage cannot be obtained by deferring a scalar law on the homogeneous route.",
+            "can_defer_as_numeric_assumption": false,
+            "evidence": [
+              {
+                "line": 22,
+                "end_line": 31,
+                "path": "bench/tritonbench_g/token_softmax_llama/token_softmax_llama.py",
+                "sha256": "0fa02ee678899b4524478c77876bd07c331494faf2320e76f5f7669d458a1f41",
+                "excerpt": "    row = tl.load(Logics + cur_head * stride_logic_h + (cur_batch_in_all_start_index + col_offsets) * stride_logic_bs,\n                  mask=col_offsets < cur_batch_seq_len, other=-float('inf')).to(tl.float32)\n\n    row_minus_max = row - tl.max(row, axis=0)\n    numerator = tl.exp(row_minus_max)\n    denominator = tl.sum(numerator, axis=0)\n    softmax_output = numerator / denominator\n\n    tl.store(Prob_Out + cur_head * stride_prob_h + (cur_batch_in_all_start_index + col_offsets)\n             * stride_prob_bs, softmax_output, mask=col_offsets < cur_batch_seq_len)"
+              },
+              {
+                "line": 36,
+                "end_line": 50,
+                "path": "bench/tritonbench_g/token_softmax_llama/token_softmax_llama.py",
+                "sha256": "0fa02ee678899b4524478c77876bd07c331494faf2320e76f5f7669d458a1f41",
+                "excerpt": "def token_softmax_fwd(Logics, B_Start_Loc, B_Seqlen, Prob_Out, max_input_len):\n    BLOCK_SIZE = triton.next_power_of_2(max_input_len)\n    batch, head_num = B_Start_Loc.shape[0], Logics.shape[0]\n\n    num_warps = 4\n    if BLOCK_SIZE >= 2048:\n        num_warps = 8\n    if BLOCK_SIZE >= 4096:\n        num_warps = 16\n\n    _fwd_kernel_token_softmax[(batch, head_num)](\n        Logics, B_Start_Loc, B_Seqlen,\n        Prob_Out,\n        Logics.stride(0), Logics.stride(1),\n        Prob_Out.stride(0), Prob_Out.stride(1),"
+              },
+              {
+                "line": 9,
+                "end_line": 17,
+                "path": "bench/tritonbench_g/token_softmax_llama/FPCorrect.lean",
+                "sha256": "59d3b113eab85bf25bba634314738d9f41152bf0b462a1e5161a3dd867cfe35d",
+                "excerpt": "specification token_softmax_typed_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (d : FloatDType) (p : Parameters) (s : State α)\n    (hwidth : 0 < p.width) (hstride : p.outputTokenStride ≠ 0) :\n    ∃ t, FP.Structural.exec M (kernel d p) s = some t ∧\n      t.mem = (reference M d p s).mem ∧\n      (∀ i : TileIndex [p.width], i.1.val < count p s →\n        t.mem p.output (outputOffset p s i) =\n          .mk d.toTileDType (ofFloat d (outputValues M d p s i))) ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) := by"
+              }
+            ]
+          }
+        ],
+        "previous_partial_progress": null,
+        "exact_numeric_registration": "No new rule/statement/case/port bindings. Scalar callbacks remain unvalidated and require explicit registration for this new statement."
       }
     },
     {
@@ -51743,6 +51953,6 @@
       }
     }
   ],
-  "progress_checkpoint": "bench/review-checkpoints/2026-10-16/relu-source-grid-and-exact-numerics/README.md",
+  "progress_checkpoint": "bench/review-checkpoints/2026-10-16/quantization-and-mixed-softmax/README.md",
   "scope_audit_checkpoint": "bench/review-checkpoints/2026-10-16/original-scope-review-19/README.md"
 }

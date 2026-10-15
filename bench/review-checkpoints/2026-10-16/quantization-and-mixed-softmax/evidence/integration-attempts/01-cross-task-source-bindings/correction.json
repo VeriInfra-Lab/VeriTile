@@ -1,0 +1,33 @@
+{
+  "observed_catalog_exit_code": 1,
+  "error": "supplement source outside task",
+  "correction": "Only task-local files belong to source_sha256. Shared files remain bound in the existing root review and explicit shared_dependency_sha256. The llama view selects its original task-local source and records the proved shared typed source bridge.",
+  "changes": [
+    {
+      "task": "quant_transpose_kernel",
+      "shared_dependency_sha256": {
+        "bench/tritonbench_g/quantize_global/Proofs/IntegerSemantics.lean": "bc478057c56d5ebf1607e73f19c6486041331dfccbb9920b83d0d63c8c98590a"
+      }
+    },
+    {
+      "task": "token_softmax_llama",
+      "shared_dependency_sha256": {
+        "bench/tritonbench_g/token_softmax_bloom/FPCorrect.lean": "57634772eb8268ad7f15c781853cfbc13cf24e8742b1c415a950aa0cf0aa52d7",
+        "bench/tritonbench_g/token_softmax_bloom/Proofs/TypedContract.lean": "af1cd2e47c3cdc5ba08dbf8e8d97266e46c0d9f8fdbe0a0e0b7c54372bc668cf",
+        "bench/tritonbench_g/token_softmax_bloom/Proofs/TypedIO.lean": "421fdf3d317a800935f00e99060cc714d0ffe8b377e89b49679536a388b6dc56",
+        "bench/tritonbench_g/token_softmax_bloom/Proofs/TypedShape.lean": "5359e06927349936c6ecdae34fed1082f87eff39ae8197fe1d11805660090d97",
+        "bench/tritonbench_g/token_softmax_bloom/Proofs/TypedSource.lean": "4c93e1493b6d7f40c7240422432a56d7a21c5a3dfe18bbcb4a2237f029513ffe",
+        "bench/tritonbench_g/token_softmax_bloom/TokenSoftmaxBloom.lean": "d6cdbddb9210dbd3c6df9ac7e41e99ad026c882760c0c27a92103778afacc760",
+        "bench/tritonbench_g/token_softmax_bloom/token_softmax_bloom.py": "043577948fab74005f05d1824b68df2d65c5b26d4a4f47097676f7ac48118e84",
+        "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedSource.lean": "7792e628dc4169bb365dc62da1af085fc022bd590df4fb081968b136277b9ad2",
+        "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedContract.lean": "9ef94d288fb25e10268084b302776637c73193fe933b1b142b7576cfd98b23e0",
+        "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedIO.lean": "edb0060a47a14d88ed6b0558e58c2e9d3b33becf49edf05a32377cf2c2d7826f",
+        "bench/tritonbench_g/token_softmax_bloom/Proofs/MixedShape.lean": "af65e1f8aff8eeef595b0118bca574379f9c56236aa8739ed9353ca9c91de2bf",
+        "bench/tritonbench_g/token_softmax_bloom/MixedFPCorrect.lean": "9981ea2673b9b21a2e1a94eea7a21604073c090c4859bc10f5d61acc82bc3238"
+      }
+    }
+  ],
+  "proof_sources_changed": 0,
+  "root_review_sha256_unchanged": "0ee87412c39c18add8276f27edd75c4805340e0da49ed92f73277611dd0d8127",
+  "corrected_supplement_sha256": "20d72b66362a3905d24e851b0f1cc4ec920b3ff1f81e946bb3f8ae11090907b7"
+}

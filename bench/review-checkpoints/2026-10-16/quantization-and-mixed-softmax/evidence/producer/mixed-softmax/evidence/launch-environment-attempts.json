@@ -1,0 +1,16 @@
+[
+  {
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lake",
+      "env",
+      "python",
+      "-B",
+      "/tmp/veritile-standardization-20261015/token-softmax-mixed-output-wip/verify.py"
+    ],
+    "phase": "initial sandboxed compiler launch",
+    "exit_code": 1,
+    "stderr": "error: could not detect the configuration of the Lake installation",
+    "lean_source_compilation_started": false,
+    "resolution": "Existing Lake invocation run with elevated sandbox access; no toolchain installation or replacement."
+  }
+]

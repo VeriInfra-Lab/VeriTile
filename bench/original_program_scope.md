@@ -99,7 +99,7 @@ the existing `fp16=true` contract uses fp32 storage and internal half casts.
 Its correction does not establish the separate `fp16=false` branch or host program.
 
 The workflow's catalog and supplement now point to the
-`relu-source-grid-and-exact-numerics` batch, with the unchanged
+`quantization-and-mixed-softmax` batch, with the unchanged
 `original-scope-extensions/metadata-baseline` and preceding final-source manifest
 retained as its historical base. Neither global success nor scope
 success establishes corpus comparator replay, the integration build or native
@@ -107,5 +107,5 @@ GPU correctness; those remain independent checks.
 
 The current full-scope review inventory is 85 programs with confirmed structural
 gaps and 98 without a completed scope review. All 183 remain pending. The
-cumulative supplemental proof inventory contains 41 execution contracts and
-four protocol contracts across 10 tasks; those counts are not completed programs.
+cumulative supplemental proof inventory contains 45 execution contracts and
+four protocol contracts across 14 tasks; those counts are not completed programs.
