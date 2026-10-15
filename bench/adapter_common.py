@@ -1,11 +1,13 @@
 """Small, fail-closed primitives shared by the source and build adapters."""
 from __future__ import annotations
+import gzip
 import hashlib
 import json
 from pathlib import Path, PurePosixPath
 import re
 import sys
 import tomllib
+import zlib
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE / 'current_catalog_vendor'))
@@ -32,7 +34,14 @@ def canonical(data):
 
 def write_json(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + '\n')
+    text = json.dumps(data, indent=2, ensure_ascii=False) + '\n'
+    if path.name.endswith('.json.gz'):
+        # Pin timestamp and omit the filename so output is reproducible.
+        with path.open('wb') as stream:
+            with gzip.GzipFile(filename='', mode='wb', fileobj=stream, mtime=0) as compressed:
+                compressed.write(text.encode('utf-8'))
+    else:
+        path.write_text(text)
 
 def load(path):
     def unique(pairs):
@@ -42,7 +51,16 @@ def load(path):
                 raise ValueError('duplicate JSON key: ' + key)
             result[key] = value
         return result
-    return json.loads(path.read_text(), object_pairs_hook=unique)
+    if path.name.endswith('.json.gz'):
+        try:
+            # Read to EOF to verify the gzip trailer before accepting the JSON.
+            with gzip.open(path, 'rt', encoding='utf-8') as stream:
+                text = stream.read()
+        except (gzip.BadGzipFile, EOFError, zlib.error) as error:
+            raise ValueError('invalid gzip JSON: ' + str(path)) from error
+    else:
+        text = path.read_text()
+    return json.loads(text, object_pairs_hook=unique)
 
 def relative(name):
     if (not isinstance(name, str) or not name or '\\' in name or '\0' in name

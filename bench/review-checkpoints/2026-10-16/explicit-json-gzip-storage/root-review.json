@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "recorded_at_utc": "2026-10-15T23:40:37.250042+00:00",
+  "base_commit": "94c62a4bc4f188cfeb869add00b479a5dbefb7cc",
+  "producer_receipt_sha256": "48b2f06eb4b0194e8a13c7c03fda82e9ca50cf88f1a4fd9701fc854ad9b6ef0e",
+  "status": "reviewed_and_installed_storage_support",
+  "candidate_files": {
+    "bench/adapter_common.py": "f553afe1345a77c499a77278c5b8a91942917d1c08745fc1e1679e6c67e9c4b7",
+    "bench/tests/test_gzip_source_audit.py": "bf3989a34d15100649a8ade78088da359b97c2f42d2a36a1b67e0047669e6053",
+    "bench/tests/test_json_storage.py": "a8b5a5d9c95d2e86828d544662b247274c195a43d3c522f1320f36137024c7eb",
+    "scripts/test_audit_shards.py": "6bbfce8897305f037ca71a1abb9a76fa2b02035d72c239debc4457b09acc05af"
+  },
+  "review": {
+    "implementation": "Read complete production diff and all new/changed tests. Only exact case-sensitive .json.gz paths opt into gzip; plain JSON formatting and duplicate-key validation are preserved. UTF8 gzip has no embedded filename and timestamp zero. Full-stream reads validate trailers before parsing. No fallback or automatic migration is added.",
+    "authority": "Canonical JSON hashes, raw file hashes, path validation and schema checks are unchanged. Metadata-only compressed-byte mutation invalidates raw-byte receipts; malformed or truncated streams fail closed.",
+    "real_data": "Verified all 203 frozen producer artifacts and the frozen receipt. Producer compared actual catalog, supplement, root review and ledger objects/canonical hashes; final plain/gzip scope outputs were byte-identical at one verified, three deferred,179 pending. Preserved stale-helper and harness failures remain in the lossless archive.",
+    "validation": "Root ran228 tests against the installed candidate: storage, compressed audits and bound reviews, plain source adapters/audits/value metadata/scope, and shard dispatch. Stubbed comparator fixtures do not establish comparator or GPU correctness.",
+    "scope": "This commit adds storage support only. It neither rewrites historical evidence nor migrates any active catalog/ledger; future integration must use explicit paths and normal current gates. Accepted programs remain4/183."
+  },
+  "installed_test_count": 228,
+  "installed_test_exit_code": 0,
+  "installed_test_log_sha256": "08e58a5b23bc979dbac5266b7360b25b96d4924d8f660aa1181e6f2fd1cbbb60",
+  "archive_sha256": "43190998639d4f89f7de7cc6ed1891ad434dbd662001cfd82747ac4862b8896c",
+  "accepted_programs": 4,
+  "numerical_conformance_validated": false,
+  "native_gpu_execution": false,
+  "official_comparator_passed": false
+}

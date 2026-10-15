@@ -142,8 +142,13 @@ print('Comparator: scheduling fixture')
 if a.file == os.environ.get('MUTATE_TARGET'):
     Path(a.file).write_text('-- worker changed the source snapshot\\n')
 if a.file == os.environ.get('MUTATE_CATALOG_TARGET'):
-    catalog = Path('catalog.json')
-    catalog.write_text(catalog.read_text() + ' ')
+    catalog = Path(os.environ.get('MUTATE_CATALOG_PATH', 'catalog.json'))
+    raw = bytearray(catalog.read_bytes())
+    if catalog.name.endswith('.json.gz'):
+        raw[4] ^= 1  # Valid gzip timestamp change; decoded JSON is identical.
+    else:
+        raw += b' '
+    catalog.write_bytes(raw)
 raise SystemExit(1 if a.file == os.environ.get('FAIL_TARGET') else 0)
 ''')
         self.env = {key: value for key, value in os.environ.items()
@@ -224,8 +229,11 @@ raise SystemExit(1 if a.file == os.environ.get('FAIL_TARGET') else 0)
 class CatalogAuditShardTests(AuditShardTests):
     """Actual catalog validation and launcher; only comparator work is stubbed."""
 
+    CATALOG_NAME = 'catalog.json'
+
     def setUp(self):
         super().setUp()
+        self.env['MUTATE_CATALOG_PATH'] = self.CATALOG_NAME
         for name in ('current_source_catalog.py', 'adapter_common.py'):
             shutil.copyfile(ROOT / 'bench' / name, self.root / 'bench' / name)
         shutil.copytree(ROOT / 'bench/current_catalog_vendor',
@@ -265,10 +273,10 @@ class CatalogAuditShardTests(AuditShardTests):
             'expected_task_names': names, 'registered_modules': regs,
             'unregistered_task_modules': [], 'build_input_sha256': bindings,
             'tasks': rows}
-        write_json(self.root / 'catalog.json', self.catalog)
+        write_json(self.root / self.CATALOG_NAME, self.catalog)
 
     def run_audit(self, env=None, args=()):
-        return super().run_audit(env, ['--catalog', 'catalog.json', *args])
+        return super().run_audit(env, ['--catalog', self.CATALOG_NAME, *args])
 
     def test_unsharded_and_named_modes_still_work(self):
         expected_beta = [p for p in self.targets if p.startswith('bench/tritonbench_g/beta/')]
@@ -315,6 +323,18 @@ class CatalogAuditShardTests(AuditShardTests):
         shutil.rmtree(self.root / 'bench/examples')
         result, calls = self.run_audit()
         self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(calls, [])
+
+
+class GzipCatalogAuditShardTests(CatalogAuditShardTests):
+    CATALOG_NAME = 'catalog.json.gz'
+
+    def test_corrupt_gzip_never_launches_proofs(self):
+        path = self.root / self.CATALOG_NAME
+        path.write_bytes(path.read_bytes()[:-1])
+        result, calls = self.run_audit()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('invalid gzip JSON', result.stderr)
         self.assertEqual(calls, [])
 
 
