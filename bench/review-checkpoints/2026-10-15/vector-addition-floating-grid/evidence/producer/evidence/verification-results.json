@@ -1,0 +1,130 @@
+[
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/Value.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/Value.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/Value.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 9.960211873985827,
+    "source_sha256_before": "79adba6c3fad2c9aad389e5ce7be89252be0822de60469d8f17f3842e4a0fd5b",
+    "source_sha256_after": "79adba6c3fad2c9aad389e5ce7be89252be0822de60469d8f17f3842e4a0fd5b",
+    "log": "evidence/Value.compile.log",
+    "log_sha256": "802534cea66e9d7a44c468106bb0c9ade8da17d8f84ff52989cc14e65a86211d"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/HostGrid.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/HostGrid.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/HostGrid.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 3.5364248021505773,
+    "source_sha256_before": "873eaff589ad70bb166c40936369367b0c3d5f65779d0be8c6e73b05a51ff1ce",
+    "source_sha256_after": "873eaff589ad70bb166c40936369367b0c3d5f65779d0be8c6e73b05a51ff1ce",
+    "log": "evidence/HostGrid.compile.log",
+    "log_sha256": "a4c7dc835f6a2bcc2f7a364666707902cd210682f3440d6974510d2a6545d496"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/TypedFloat.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/TypedFloat.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/TypedFloat.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 18.160268370062113,
+    "source_sha256_before": "9c194d420a7535b0f970625ae21e77bb544961f90b793b1a6fe7db629b381b6f",
+    "source_sha256_after": "9c194d420a7535b0f970625ae21e77bb544961f90b793b1a6fe7db629b381b6f",
+    "log": "evidence/TypedFloat.compile.log",
+    "log_sha256": "5a190a58799acef53c795d162b7fdccdd5ccce6ae4398da5a1c95c7ef7c949d5"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/TypedGrid.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/TypedGrid.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/TypedGrid.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 3.5211801070254296,
+    "source_sha256_before": "11ef3ba002aa2aa6cfea03246e94f780c97e95dca176953dbec5cb20a84f9ff8",
+    "source_sha256_after": "11ef3ba002aa2aa6cfea03246e94f780c97e95dca176953dbec5cb20a84f9ff8",
+    "log": "evidence/TypedGrid.compile.log",
+    "log_sha256": "d7730a830201029912463bd3769df344ce940a662714a70073338888786ab779"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/DTypeScope.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/DTypeScope.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/DTypeScope.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 3.2756461719982326,
+    "source_sha256_before": "47f247289be76548b31f0fe787a3ba7b9058f7457409bdb6226437ca99558312",
+    "source_sha256_after": "47f247289be76548b31f0fe787a3ba7b9058f7457409bdb6226437ca99558312",
+    "log": "evidence/DTypeScope.compile.log",
+    "log_sha256": "fac6650c9a9e5abd815ecd516c8466ca6e4dce119e239eb9023df17acc3cd538"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/SoftwareFP32.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/SoftwareFP32.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/SoftwareFP32.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 3.4710578799713403,
+    "source_sha256_before": "c4022e0918aef23e318ef8b6ac6a92ffe379c41b90c74b653a0cc62fc6995575",
+    "source_sha256_after": "c4022e0918aef23e318ef8b6ac6a92ffe379c41b90c74b653a0cc62fc6995575",
+    "log": "evidence/SoftwareFP32.compile.log",
+    "log_sha256": "655c0e8b00aef33541dd219ddd22e342630eecceaab6ec4696d4d864de5e940b"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/Proofs/HostWrapper.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/HostWrapper.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/Proofs/HostWrapper.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 3.217380427988246,
+    "source_sha256_before": "8b247a594346d9f7e6b9f302b38c75b252eee5c0556ad18844657b6612b5cf22",
+    "source_sha256_after": "8b247a594346d9f7e6b9f302b38c75b252eee5c0556ad18844657b6612b5cf22",
+    "log": "evidence/HostWrapper.compile.log",
+    "log_sha256": "0d7b9f4da757157d9dbc69f6f13306dc16eda2f0ebc7dc0fa06358acf8d28aad"
+  },
+  {
+    "module": "bench/tritonbench_g/vector_addition/TypedValueCorrect.lean",
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/vector-addition-wip",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/TypedValueCorrect.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/vector-addition-wip/bench/tritonbench_g/vector_addition/TypedValueCorrect.olean"
+    ],
+    "exit_code": 0,
+    "seconds": 2.911346023902297,
+    "source_sha256_before": "aa9b65e9d8dea0fa61fa29263fd863e900bab43e639f5c07a395a171bf5afc71",
+    "source_sha256_after": "aa9b65e9d8dea0fa61fa29263fd863e900bab43e639f5c07a395a171bf5afc71",
+    "log": "evidence/TypedValueCorrect.compile.log",
+    "log_sha256": "2001b9aa045678437efa9e5fcb0566befa91bf71e574cc88a973e3366742be89"
+  }
+]

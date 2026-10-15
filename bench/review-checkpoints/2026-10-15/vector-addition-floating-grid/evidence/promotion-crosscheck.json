@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "method": "parse Lean literal rows and reorder by explicit native/Lean dtype name mapping; compare all frozen observations without rerunning compiler probes",
+  "profiles": [
+    "b1",
+    "i8",
+    "u8",
+    "i16",
+    "u16",
+    "i32",
+    "u32",
+    "i64",
+    "u64",
+    "fp16",
+    "bf16",
+    "fp32",
+    "fp64",
+    "fp8e5",
+    "fp8e4nv",
+    "fp8e5b16",
+    "fp8e4b8"
+  ],
+  "matrix_entries": 289,
+  "promotion_successes": 217,
+  "promotion_rejections": 72,
+  "typed_float_pairs": 25,
+  "promoted_pairs_without_typed_execution": 192,
+  "output_dtype_rows_checked": 289,
+  "native_store_element_type_rows_checked": 289,
+  "matrix_sha256": "6049ee18bc252e0b8aab035fde83c219be9da7735b58a2779a0cccf4e98bc854"
+}

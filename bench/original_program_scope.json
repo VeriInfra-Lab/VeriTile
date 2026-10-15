@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "kind": "original_program_scope_ledger",
-  "catalog_sha256": "cc762f2850b3080805fd036031afbd84695df6b30968d676618e4818c9a3585d",
+  "catalog_sha256": "cd33dedc39548eb2c56ce88bbd56119e97292050d8278794a723c188433fade1",
   "binding_status": "current_catalog_bound_pending_scope_reviews",
   "expected_tasks": [
     "adam_update_triton",
@@ -48166,7 +48166,16 @@
           "bench/tritonbench_g/vector_addition/Correct.lean": "4128f543e4c1c5d358da769024f5a6da7ddc048eb2025c75f709bb19d9bf299e",
           "bench/tritonbench_g/vector_addition/FPEquiv.lean": "ee365e292341aa2313644d72aa5c63b31a6ab8dc109110bdd455e7f3ec3b398c",
           "bench/tritonbench_g/vector_addition/Kernels.lean": "f9033fb31ae6585f0148768f54d20774235d7b10c2c5db7882eac4a05c5b47b0",
-          "bench/tritonbench_g/vector_addition/Proofs/Real.lean": "631e73a35466f7549403ec80466e3d57c276030527a0c3ef63a66e608cb43e84"
+          "bench/tritonbench_g/vector_addition/Proofs/DTypeScope.lean": "47f247289be76548b31f0fe787a3ba7b9058f7457409bdb6226437ca99558312",
+          "bench/tritonbench_g/vector_addition/Proofs/HostGrid.lean": "873eaff589ad70bb166c40936369367b0c3d5f65779d0be8c6e73b05a51ff1ce",
+          "bench/tritonbench_g/vector_addition/Proofs/HostWrapper.lean": "8b247a594346d9f7e6b9f302b38c75b252eee5c0556ad18844657b6612b5cf22",
+          "bench/tritonbench_g/vector_addition/Proofs/Real.lean": "631e73a35466f7549403ec80466e3d57c276030527a0c3ef63a66e608cb43e84",
+          "bench/tritonbench_g/vector_addition/Proofs/SoftwareFP32.lean": "c4022e0918aef23e318ef8b6ac6a92ffe379c41b90c74b653a0cc62fc6995575",
+          "bench/tritonbench_g/vector_addition/Proofs/TypedFloat.lean": "9c194d420a7535b0f970625ae21e77bb544961f90b793b1a6fe7db629b381b6f",
+          "bench/tritonbench_g/vector_addition/Proofs/TypedGrid.lean": "11ef3ba002aa2aa6cfea03246e94f780c97e95dca176953dbec5cb20a84f9ff8",
+          "bench/tritonbench_g/vector_addition/Proofs/Value.lean": "79adba6c3fad2c9aad389e5ce7be89252be0822de60469d8f17f3842e4a0fd5b",
+          "bench/tritonbench_g/vector_addition/TypedGridCorrect.lean": "4403d57af644c43ac2f13d4e47cc221ac33e43086f36132c4c6870ddb5a5f9b3",
+          "bench/tritonbench_g/vector_addition/TypedValueCorrect.lean": "aa9b65e9d8dea0fa61fa29263fd863e900bab43e639f5c07a395a171bf5afc71"
         },
         "python": {
           "bench/tritonbench_g/vector_addition/vector_addition.py": "cfcb749bd562924106c1e0e95e18a9bd987238be3a3b522abac89e099de3d098"
@@ -48257,18 +48266,86 @@
       },
       "structural_gaps": [
         {
-          "kind": "unverified_scope",
-          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-S1: 192 promoted canonical dtype pairs outside the five-format 25-pair materialization. Full per-pair omissions are enumerated in dtype_pairs; includes 8 signed/unsigned widths, bool, fp64 and two fnuz formats. No unbounded Int/Nat addition is claimed as modular native addition.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-S2: 72 observed frontend promotion errors lack a complete source-bound host/compiler error proof. 289-entry Lean rule matches frozen observed table, not a proved Python/Triton semantic implementation. The 13 exact-source frontend probes do not establish 289 native backend outcomes or GPU execution.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-S3: Original dtype domain beyond the 17 canonical signatures. Torch int1/uint1 shell aliases, complex, quantized, packed and other unrecognized/shell dtypes are inventoried in frozen audit; allocation, canonicalization and exact error behavior remain uncharacterized.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-S4: Native memory, allocation and tensor metadata refinement. empty_like semantics including output dtype/shape/device/layout, allocation failures/freshness, input bounds despite absent shape checks, noncontiguous strides/storage offsets, same-device behavior, signed pointer arithmetic and physical allocation are not proved. No missing runtime guards are invented.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-S5: Finite-width launch and address arithmetic. Nat element counts, offsets, pid arithmetic, ceil division and grid dimensions require a source-bound refinement to n_elements:tl.int32 and finite native pids/address math, including overflow/error domains.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-S6: Logical tags and aliasing versus native byte-addressed views. Cell.read returns default on tag mismatch; typed-cell correspondence is unproved. Equal logical region names at identical natural offsets are supported. Distinct or overlapping physical views with different bases/strides/element widths are not established by that theorem.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-S7: Native launch scheduling and runtime/compiler/debug outcomes. runGrid is an ascending sequential program schedule. Previous programs read/write current logical memory and disjoint tile windows justify initial-memory formula. No concurrent instruction interleaving, arbitrary physical overlap, overflow sanitizer or full architecture-sensitive success/error theorem is supplied.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-S8: Host and harness native primitive implementation. HostWrapper preserves fallible stateful empty_like, CUDA guard, output-derived numel, explicit x/y/output metadata passed to launch, returns, seed/rand order, dictionary and result_gold module assignment. Those are logical control-flow definitions with native callbacks; original host/harness native execution and Python import/metadata behavior remain unbound. Its logicalLaunch theorem uses the legacy source; typed native dispatch is not composed.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Original Python caller, property/method access and non-Tensor attribute/type failures remain outside the logical Tensor record. Native Python/compiler translation is not verified.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
+      "initial_assessment": "structural_gaps_confirmed",
       "deferred_numerical_assumptions": [],
       "potential_numeric_ids_not_yet_accepted": [
         "fp32_add_commute_real"
       ],
       "callback_assumptions": {},
-      "review": null
+      "review": null,
+      "initial_structural_gaps": [
+        {
+          "kind": "unverified_scope",
+          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "partial_progress": {
+        "status": "reviewed_profile_extensions_not_whole_program_acceptance",
+        "declarations": [
+          {
+            "file": "bench/tritonbench_g/vector_addition/TypedGridCorrect.lean",
+            "declaration": "vector_addition_typed_grid_correctness",
+            "statement_sha256": "efb3ca4c0aea47008468832aa273ee8570c727530ff1d71f64a76a4213f8eae1",
+            "dtype_profile": "25 ordered pairs of fp16/bf16/fp32/f8e4/f8e5 logical storage formats; explicit tensor promotion and cast back to x dtype, positive natural block size and complete ascending ceil grid. Arbitrary floating add/cast backend, including fp32; wrong-tag reads use logical defaults. No native storage/layout or full dtype domain claim.",
+            "covers_stages": [
+              "five_float_profiles_complete_sequential_grid"
+            ]
+          }
+        ],
+        "review": {
+          "path": "2026-10-15/vector-addition-floating-grid/root-review.json",
+          "sha256": "7bedcfae36ad00a4843c8c89e4adb7b834fda9ecea539dc60ed6bd12ee159487",
+          "source_hashes_pointer": [
+            "reviewed_input_sha256"
+          ]
+        }
+      }
     },
     {
       "task": "vector_addition_custom",
@@ -48384,5 +48461,5 @@
       "review": null
     }
   ],
-  "progress_checkpoint": "bench/review-checkpoints/2026-10-15/vecmat-program-order/README.md"
+  "progress_checkpoint": "bench/review-checkpoints/2026-10-15/vector-addition-floating-grid/README.md"
 }
