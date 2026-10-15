@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "kind": "original_scope_gap_review",
+  "task": "square_matrix",
+  "reviewer": "root",
+  "reviewed_at_utc": "2026-10-15T18:14:55.395329+00:00",
+  "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+  "catalog": {
+    "path": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/current-source-catalog.json",
+    "sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875"
+  },
+  "status": "structural_gaps_confirmed",
+  "whole_original_program_accepted": false,
+  "completion_increment": 0,
+  "source_sha256": {
+    "bench/tritonbench_g/square_matrix/square_matrix.py": "be2641b4b0f98c21216a2b5511d0ddc89567af41f320880d0277537d5a2af815",
+    "bench/tritonbench_g/square_matrix/Kernels.lean": "5fcaa6afa13f068947d653d13fb5b9ded20da5f4b201a74035e6067b4b560c84",
+    "bench/tritonbench_g/square_matrix/Correct.lean": "85b2da13629625d7f054afe04a74f9a4d83c1d1f5e3fe0da9eb34e0c25a32bb5",
+    "bench/tritonbench_g/square_matrix/FPEquiv.lean": "5ec4c0820024d7198a64ebcc3090bc1227809a33aee18e2adc6ccb8b711f476b"
+  },
+  "public_declarations_checked": [
+    {
+      "file": "bench/tritonbench_g/square_matrix/Correct.lean",
+      "declaration": "square_typed_real_correct",
+      "statement_sha256": "5c0473060c75889832f82f52a1d9240b9aaa32285ff16247b8cb793867938e19"
+    },
+    {
+      "file": "bench/tritonbench_g/square_matrix/FPEquiv.lean",
+      "declaration": "square_index_equiv",
+      "statement_sha256": "04873813a8cd341396b91da97bc4983ccc0ae68a3dad98a64b77c42c5d19c685"
+    }
+  ],
+  "scope_review": [
+    "Both public specifications are preserved: mathematical masked row-square correctness and complete typed index-commutation equivalence.",
+    "Both source versions preserve other=-inf, multiplication, row addressing and both masks. Source and destination row strides remain symbolic.",
+    "The old square_kernel_correctness helper remains available and has not been counted as another public program."
+  ],
+  "structural_gaps": [
+    {
+      "id": "square_matrix:storage_dtype_dispatch",
+      "kind": "dtype",
+      "finding": "square(x) allocates empty_like(x) and forwards x without a dtype restriction. The public typed kernel Storage enumerates fp32, fp16 and bf16 only. Other payload dtype execution or frontend rejection paths are not covered. No unsupported dtype is assumed to compile merely because the Python wrapper accepts it.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/square_matrix/square_matrix.py",
+          "line": 26,
+          "sha256": "be2641b4b0f98c21216a2b5511d0ddc89567af41f320880d0277537d5a2af815"
+        },
+        {
+          "path": "bench/tritonbench_g/square_matrix/square_matrix.py",
+          "line": 40,
+          "sha256": "be2641b4b0f98c21216a2b5511d0ddc89567af41f320880d0277537d5a2af815"
+        },
+        {
+          "path": "bench/tritonbench_g/square_matrix/Kernels.lean",
+          "line": 63,
+          "sha256": "5fcaa6afa13f068947d653d13fb5b9ded20da5f4b201a74035e6067b4b560c84"
+        }
+      ]
+    },
+    {
+      "id": "square_matrix:wrapper_grid_and_launch_branches",
+      "kind": "host_grid_composition",
+      "finding": "The wrapper computes next_power_of_2(n_cols), selects 4/8/16 warps using the 2048 and 4096 thresholds, allocates output and launches n_rows programs. Public contracts cover a symbolic single row program with a positive B; no public wrapper/grid contract binds those three launch configurations to all rows. Different row strides and partial tiles are already covered per program and are not treated as bugs.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/square_matrix/square_matrix.py",
+          "line": 29,
+          "sha256": "be2641b4b0f98c21216a2b5511d0ddc89567af41f320880d0277537d5a2af815"
+        },
+        {
+          "path": "bench/tritonbench_g/square_matrix/square_matrix.py",
+          "line": 35,
+          "sha256": "be2641b4b0f98c21216a2b5511d0ddc89567af41f320880d0277537d5a2af815"
+        },
+        {
+          "path": "bench/tritonbench_g/square_matrix/square_matrix.py",
+          "line": 37,
+          "sha256": "be2641b4b0f98c21216a2b5511d0ddc89567af41f320880d0277537d5a2af815"
+        },
+        {
+          "path": "bench/tritonbench_g/square_matrix/square_matrix.py",
+          "line": 43,
+          "sha256": "be2641b4b0f98c21216a2b5511d0ddc89567af41f320880d0277537d5a2af815"
+        },
+        {
+          "path": "bench/tritonbench_g/square_matrix/Correct.lean",
+          "line": 84,
+          "sha256": "85b2da13629625d7f054afe04a74f9a4d83c1d1f5e3fe0da9eb34e0c25a32bb5"
+        }
+      ]
+    }
+  ],
+  "numerical_boundary": "The mathematical value theorem erases dtype while the FP theorem proves equality of original/candidate execution. A future scalar multiplication correspondence may be explicitly deferred, but it is not registered by this read-only review and cannot replace absent dtype or launch cases.",
+  "verification": {
+    "new_lean_runs": 0,
+    "new_frontend_runs": 0,
+    "gpu_runs": 0,
+    "basis": "Read original production Python, all public statements and the named key source/IO definitions; bind exact file hashes and evidence lines. No new proof or native execution result claimed."
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "kind": "original_scope_gap_review",
+  "task": "destindex_copy_kv2",
+  "reviewer": "root",
+  "reviewed_at_utc": "2026-10-15T18:14:55.372163+00:00",
+  "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+  "catalog": {
+    "path": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/current-source-catalog.json",
+    "sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875"
+  },
+  "status": "structural_gaps_confirmed",
+  "whole_original_program_accepted": false,
+  "completion_increment": 0,
+  "source_sha256": {
+    "bench/tritonbench_g/destindex_copy_kv2/destindex_copy_kv2.py": "55d156385db9cad88c1bf43d66469811ad428472625b2a4532a11a393a22f547",
+    "bench/tritonbench_g/destindex_copy_kv2/Kernels.lean": "3df373c3a6a84e8b201e52234491b8543d1871706129798fe1112fa33a72d881",
+    "bench/tritonbench_g/destindex_copy_kv2/Correct.lean": "c5e6631d4ef7e80e33151928b44a0f32cd55f11d05572ab9fc51fc0dd46fcdd0",
+    "bench/tritonbench_g/destindex_copy_kv2/FPEquiv.lean": "ff061f0d54fd586795c6a4c4f1de9ccf9d4dd169530db24cafb1504347dbecba",
+    "bench/tritonbench_g/destindex_copy_kv2/Proofs/Layout.lean": "63f47288f9292ff218076c6faf724440d9a476e9e42fc48f878c2d0022619b66",
+    "bench/tritonbench_g/destindex_copy_kv2/Proofs/RealIO.lean": "5ab220d03dabc706ec07c93d37ad8c380d84a8aac8d05fb6182070b3332fb2d1",
+    "bench/tritonbench_g/destindex_copy_kv2/Proofs/FP.lean": "9ca5cd178d8f070c6383c1ecc2886e41b0f42f8478b3c78a8e13a53a77314fc6",
+    "bench/tritonbench_g/destindex_copy_kv2/Proofs/SourceIO.lean": "99fe0e3c21ce9b17dcd40615022cbe01942b859ee40ee918a07bf06806d738b4"
+  },
+  "public_declarations_checked": [
+    {
+      "file": "bench/tritonbench_g/destindex_copy_kv2/Correct.lean",
+      "declaration": "destindex_copy_kv_correctness",
+      "statement_sha256": "9ca95182c560e8747404b76db61a6a3b3dcf140f4ab598e998e9c1125edf348c"
+    },
+    {
+      "file": "bench/tritonbench_g/destindex_copy_kv2/Correct.lean",
+      "declaration": "index_commuted_correctness",
+      "statement_sha256": "98ef350c588abb89dabaa3c62515cd1b002b38effd37b9116df4f91efbe80d33"
+    },
+    {
+      "file": "bench/tritonbench_g/destindex_copy_kv2/FPEquiv.lean",
+      "declaration": "index_commuted_equiv",
+      "statement_sha256": "91a67c37580769b6de1540ba9a2be18adbad6deccbb3ee0e3f32517b085794de"
+    }
+  ],
+  "scope_review": [
+    "All three public specifications and their existing proofs are retained.",
+    "Full per-program masked source, unmasked signed metadata load, explicit destination cast, successful mathematical flat IO and outside-write frame are present.",
+    "The index-commutation equivalence covers complete typed states and failure with no extra numerical law for the nine selected storage pairs.",
+    "kv1 masks both head and column padding; kv2 intentionally masks only heads and passes head_dim directly as BLOCK_DMODEL. The review does not repair kv2 to next_power_of_2 or invent a column mask."
+  ],
+  "structural_gaps": [
+    {
+      "id": "destindex_copy_kv2:payload_dtype_dispatch",
+      "kind": "dtype",
+      "finding": "The original wrapper checks matching head dimensions but has no K/Out dtype restriction. The actual public source family enumerates only fp16, bf16 and fp32 independently (nine pairs). Other payload dtypes and their admission or rejection paths are absent; this review does not infer that every unconstrained dtype compiles successfully.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/destindex_copy_kv2/destindex_copy_kv2.py",
+          "line": 31,
+          "sha256": "55d156385db9cad88c1bf43d66469811ad428472625b2a4532a11a393a22f547"
+        },
+        {
+          "path": "bench/tritonbench_g/destindex_copy_kv2/Kernels.lean",
+          "line": 42,
+          "sha256": "3df373c3a6a84e8b201e52234491b8543d1871706129798fe1112fa33a72d881"
+        },
+        {
+          "path": "bench/tritonbench_g/destindex_copy_kv2/Correct.lean",
+          "line": 34,
+          "sha256": "c5e6631d4ef7e80e33151928b44a0f32cd55f11d05572ab9fc51fc0dd46fcdd0"
+        }
+      ]
+    },
+    {
+      "id": "destindex_copy_kv2:metadata_dtype_dispatch",
+      "kind": "metadata_representation",
+      "finding": "The wrapper forwards DestLoc without a dtype check, while Layout fixes Dest_loc to Region .int and IO.Pins reads one mathematical Int. The actual original test supplies torch.int32. Metadata dtype admission and finite-width representation are not distinguished by this source family; this is separate from the permitted nonnegative-index/bounds input contract.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/destindex_copy_kv2/destindex_copy_kv2.py",
+          "line": 61,
+          "sha256": "55d156385db9cad88c1bf43d66469811ad428472625b2a4532a11a393a22f547"
+        },
+        {
+          "path": "bench/tritonbench_g/destindex_copy_kv2/Proofs/Layout.lean",
+          "line": 6,
+          "sha256": "63f47288f9292ff218076c6faf724440d9a476e9e42fc48f878c2d0022619b66"
+        },
+        {
+          "path": "bench/tritonbench_g/destindex_copy_kv2/Proofs/RealIO.lean",
+          "line": 30,
+          "sha256": "5ab220d03dabc706ec07c93d37ad8c380d84a8aac8d05fb6182070b3332fb2d1"
+        }
+      ]
+    },
+    {
+      "id": "destindex_copy_kv2:wrapper_grid",
+      "kind": "host_grid_composition",
+      "finding": "The wrapper launches DestLoc.shape[0] programs and computes concrete launch widths from K.shape. The public correctness IO quantifies one initial state and s.pids 0; its injectivity condition concerns one output tile. It does not compose the launched sequence, resolve repeated destination indices, or establish cross-program alias/collision requirements. Existing per-program bounds and layout preconditions are legitimate and are preserved.",
+      "can_defer_as_numeric_assumption": false,
+      "evidence": [
+        {
+          "path": "bench/tritonbench_g/destindex_copy_kv2/destindex_copy_kv2.py",
+          "line": 37,
+          "sha256": "55d156385db9cad88c1bf43d66469811ad428472625b2a4532a11a393a22f547"
+        },
+        {
+          "path": "bench/tritonbench_g/destindex_copy_kv2/Proofs/RealIO.lean",
+          "line": 42,
+          "sha256": "5ab220d03dabc706ec07c93d37ad8c380d84a8aac8d05fb6182070b3332fb2d1"
+        },
+        {
+          "path": "bench/tritonbench_g/destindex_copy_kv2/Correct.lean",
+          "line": 35,
+          "sha256": "c5e6631d4ef7e80e33151928b44a0f32cd55f11d05572ab9fc51fc0dd46fcdd0"
+        }
+      ]
+    }
+  ],
+  "numerical_boundary": "Future native output-conversion assumptions may be recorded per exact dtype/configuration, but cannot cover missing dtype routes or grid composition. Existing real copying and backend equivalence remain partial contracts.",
+  "verification": {
+    "new_lean_runs": 0,
+    "new_frontend_runs": 0,
+    "gpu_runs": 0,
+    "basis": "Read original production Python, all public statements and the named key source/IO definitions; bind exact file hashes and evidence lines. No new proof or native execution result claimed."
+  }
+}

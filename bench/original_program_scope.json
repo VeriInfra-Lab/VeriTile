@@ -410,18 +410,79 @@
       },
       "structural_gaps": [
         {
-          "kind": "unverified_scope",
-          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
-          "can_defer_as_numeric_assumption": false
+          "id": "ADD_EXAMPLE-S1",
+          "kind": "host_initialization_and_grid",
+          "finding": "add_wrapper allocates zeros_like and computes (numel+3)//4 before returning all blocks results.",
+          "why_blocks_full_original_scope": "Current addIO states only one program window; initial output and complete returned buffer are not assembled.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 23,
+              "end_line": 35,
+              "path": "bench/tritonbench_g/add_example/add_example.py",
+              "sha256": "4f2314d163aed2aab3a0dce796534c0c24145d506750da93349044640e62f913",
+              "excerpt": "def add_wrapper(x, y):\n    out = torch.zeros_like(x)\n    \n    BLOCK_SIZE = 4\n    n_elements = x.numel()\n\n    # Calculate the number of blocks needed\n    num_blocks = (n_elements + BLOCK_SIZE - 1) // BLOCK_SIZE\n\n    # Launch the kernel\n    add_kernel[(num_blocks,)](x, y, out, n_elements, BLOCK_SIZE)\n\n    return out"
+            },
+            {
+              "line": 15,
+              "end_line": 33,
+              "path": "bench/tritonbench_g/add_example/Correct.lean",
+              "sha256": "77338ee0c538ad02263292f834c21b288998d5cf7f6202e5ce2f324077b6bf3b",
+              "excerpt": "def addIO (in_ptr0 in_ptr1 out_ptr : RegionName)\n    (n_elements BLOCK_SIZE : Nat) : MaskedKernelIO₂ where\n  kernel := add_kernel in_ptr0 in_ptr1 out_ptr n_elements BLOCK_SIZE\n  in1 := in_ptr0\n  in2 := in_ptr1\n  out := out_ptr\n  B := BLOCK_SIZE\n  read1 := fun pid => pid * BLOCK_SIZE\n  read2 := fun pid => pid * BLOCK_SIZE\n  write := fun pid => pid * BLOCK_SIZE\n  mask := fun pid j => pid * BLOCK_SIZE + j.val < n_elements\n\n\n/-- Original source implements mathematical pointwise addition. -/\nspecification add_kernel_correctness\n    (in_ptr0 in_ptr1 out_ptr : RegionName)\n    (n_elements BLOCK_SIZE : Nat) :\n    Spec.Real (addIO in_ptr0 in_ptr1 out_ptr n_elements BLOCK_SIZE\n      ⊨ fun xs ys i => xs i + ys i) := by"
+            }
+          ]
+        },
+        {
+          "id": "ADD_EXAMPLE-S2",
+          "kind": "mixed_dtype_promotion",
+          "finding": "No input dtype guards enforce the uniform real/fp32 arithmetic route used by the Lean kernel.",
+          "why_blocks_full_original_scope": "Mixed input promotion and conversion into x-typed output are missing source execution paths.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 18,
+              "end_line": 24,
+              "path": "bench/tritonbench_g/add_example/add_example.py",
+              "sha256": "4f2314d163aed2aab3a0dce796534c0c24145d506750da93349044640e62f913",
+              "excerpt": "    x = tl.load(in_ptr0 + offsets, mask=mask)\n    y = tl.load(in_ptr1 + offsets, mask=mask)\n    output = x + y\n    tl.store(out_ptr + offsets, output, mask=mask)\n\ndef add_wrapper(x, y):\n    out = torch.zeros_like(x)"
+            },
+            {
+              "line": 12,
+              "end_line": 24,
+              "path": "bench/tritonbench_g/add_example/Kernels.lean",
+              "sha256": "ec10be22a043c5e9f430112831ca6b1c4aafdebd10c24f3d342a4186ce697050",
+              "excerpt": "def add_kernel\n    (in_ptr0 in_ptr1 out_ptr : RegionName)\n    (n_elements BLOCK_SIZE : Nat) :\n    ComputeKernel := triton {\n  pid = tl.program_id(axis=0)\n  block_start = pid * $(BLOCK_SIZE)\n  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))\n  mask = offsets < $(n_elements)\n  x = tl.load(in_ptr0 + offsets, mask=mask)\n  y = tl.load(in_ptr1 + offsets, mask=mask)\n  output = x + y\n  tl.store(out_ptr + offsets, output, mask=mask)\n}"
+            },
+            {
+              "line": 19,
+              "end_line": 25,
+              "path": "bench/tritonbench_g/add_example/FPEquiv.lean",
+              "sha256": "e45deb167127ad04cfa9522ab0be784f31cac9e435fdf14296a3af0fb8abf511",
+              "excerpt": "def additionSite (in_ptr0 in_ptr1 out_ptr : RegionName) (n B : Nat) : Site :=\n  .add (Source.prefixBefore (add_kernel in_ptr0 in_ptr1 out_ptr n B).surfaceBody \"output\") [B]\n    (.ref .real [B] \"x\") (.ref .real [B] \"y\")\n\ndef original (in_ptr0 in_ptr1 out_ptr : RegionName) (n B : Nat) : Program where\n  kernel := add_kernel in_ptr0 in_ptr1 out_ptr n B\n  domain := [additionSite in_ptr0 in_ptr1 out_ptr n B]"
+            }
+          ]
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
+      "initial_assessment": "structural_gaps_confirmed",
       "deferred_numerical_assumptions": [],
       "potential_numeric_ids_not_yet_accepted": [
         "fp32_add_commute_real"
       ],
       "callback_assumptions": {},
-      "review": null
+      "review": null,
+      "initial_structural_gaps": [
+        {
+          "kind": "unverified_scope",
+          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "add_example",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "add_value",
@@ -528,18 +589,93 @@
       },
       "structural_gaps": [
         {
-          "kind": "unverified_scope",
-          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
-          "can_defer_as_numeric_assumption": false
+          "id": "ADD_VALUE-S1",
+          "kind": "host_grid_composition",
+          "finding": "puzzle1 allocates output and launches ceil(N/1024) programs with value=10, but all three public specifications describe one kernel program or original/candidate equivalence.",
+          "why_blocks_full_original_scope": "A whole returned tensor result does not follow until the actual wrapper parameters and every launched program are composed; no blanket formalization of torch allocation internals is requested.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 17,
+              "end_line": 23,
+              "path": "bench/tritonbench_g/add_value/add_value.py",
+              "sha256": "018443803f71ddd60d1fa6cdf59eb5e791853f3c43be9cc17d5fb31c029aad62",
+              "excerpt": "def puzzle1(x: torch.Tensor):\n    output = torch.empty_like(x)\n    assert x.is_cuda and output.is_cuda\n    N = output.numel()\n    grid = lambda meta: (triton.cdiv(N, meta['BLOCK_SIZE']),)\n    puzzle1_kernel[grid](x, output, N, BLOCK_SIZE=1024, value=10)\n    return output"
+            },
+            {
+              "line": 15,
+              "end_line": 30,
+              "path": "bench/tritonbench_g/add_value/Correct.lean",
+              "sha256": "5188472b96bc6f44f1b5e220fe9846eae1c39e6002b9a6ef551d9e7c2347bd23",
+              "excerpt": "def addValueIO (x_ptr output_ptr : RegionName)\n    (N BLOCK_SIZE : Nat) (value : ℝ) : MaskedKernelIO₁ where\n  kernel := puzzle1_kernel x_ptr output_ptr N BLOCK_SIZE value\n  inp := x_ptr\n  out := output_ptr\n  B := BLOCK_SIZE\n  read := fun pid => pid * BLOCK_SIZE\n  write := fun pid => pid * BLOCK_SIZE\n  mask := fun pid j => pid * BLOCK_SIZE + j.val < N\n\n/-- Mathematical correctness of the original source. -/\nspecification puzzle1_kernel_correctness\n    (x_ptr output_ptr : RegionName)\n    (N BLOCK_SIZE : Nat) (value : ℝ) :\n    Spec.Real (addValueIO x_ptr output_ptr N BLOCK_SIZE value\n      ⊨ fun xs i => xs i + value) := by"
+            },
+            {
+              "line": 33,
+              "end_line": 35,
+              "path": "bench/tritonbench_g/add_value/FPEquiv.lean",
+              "sha256": "484ce7a82339f070ba261ac44c8ea0023c118a764a108b5230223f451a5d45d8",
+              "excerpt": "specification add_value_commuted_equiv (x_ptr output_ptr : RegionName)\n    (N B : Nat) (value : ℝ) (R : Rules) :\n    original x_ptr output_ptr N B value ≡[R] commuted x_ptr output_ptr N B value := by"
+            }
+          ]
+        },
+        {
+          "id": "ADD_VALUE-S2",
+          "kind": "dtype_dispatch_and_store",
+          "finding": "The wrapper does not restrict tensor dtype, while the materialized kernel and fp32 rewrite site erase storage-specific input/scalar promotion/output conversion into one real/fp32 channel.",
+          "why_blocks_full_original_scope": "An unrepresented dtype execution route cannot be supplied by deferring a rounding law for an existing route.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 7,
+              "end_line": 14,
+              "path": "bench/tritonbench_g/add_value/add_value.py",
+              "sha256": "018443803f71ddd60d1fa6cdf59eb5e791853f3c43be9cc17d5fb31c029aad62",
+              "excerpt": "def puzzle1_kernel(x_ptr: tl.tensor, output_ptr: tl.tensor, N: tl.int32, BLOCK_SIZE: tl.constexpr, value: tl.float32):\n    pid = tl.program_id(axis=0)\n    block_start = pid * BLOCK_SIZE\n    offsets = block_start + tl.arange(0, BLOCK_SIZE)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    output = x + value\n    tl.store(output_ptr + offsets, output, mask=mask)"
+            },
+            {
+              "line": 17,
+              "end_line": 22,
+              "path": "bench/tritonbench_g/add_value/add_value.py",
+              "sha256": "018443803f71ddd60d1fa6cdf59eb5e791853f3c43be9cc17d5fb31c029aad62",
+              "excerpt": "def puzzle1(x: torch.Tensor):\n    output = torch.empty_like(x)\n    assert x.is_cuda and output.is_cuda\n    N = output.numel()\n    grid = lambda meta: (triton.cdiv(N, meta['BLOCK_SIZE']),)\n    puzzle1_kernel[grid](x, output, N, BLOCK_SIZE=1024, value=10)"
+            },
+            {
+              "line": 17,
+              "end_line": 27,
+              "path": "bench/tritonbench_g/add_value/Kernels.lean",
+              "sha256": "eba1f664daa76884a613af1d80f3fbc4c3c78fa4cd360d89d62bb54678e44cdb",
+              "excerpt": "def puzzle1_kernel\n    (x_ptr output_ptr : RegionName)\n    (N BLOCK_SIZE : Nat) (value : ℝ) :\n    ComputeKernel := triton {\n  pid = tl.program_id(axis=0)\n  block_start = pid * $(BLOCK_SIZE)\n  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))\n  mask = offsets < $(N)\n  x = tl.load(x_ptr + offsets, mask=mask)\n  output = x + $(value)\n  tl.store(output_ptr + offsets, output, mask=mask)"
+            },
+            {
+              "line": 19,
+              "end_line": 21,
+              "path": "bench/tritonbench_g/add_value/FPEquiv.lean",
+              "sha256": "484ce7a82339f070ba261ac44c8ea0023c118a764a108b5230223f451a5d45d8",
+              "excerpt": "def additionSite (x_ptr output_ptr : RegionName) (N B : Nat) (value : ℝ) : Site :=\n  .addScalar (Source.prefixBefore (puzzle1_kernel x_ptr output_ptr N B value).surfaceBody\n    \"output\") B [] (.ref .real [B] \"x\") (.const value)"
+            }
+          ]
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
+      "initial_assessment": "structural_gaps_confirmed",
       "deferred_numerical_assumptions": [],
       "potential_numeric_ids_not_yet_accepted": [
         "fp32_add_commute_real"
       ],
       "callback_assumptions": {},
-      "review": null
+      "review": null,
+      "initial_structural_gaps": [
+        {
+          "kind": "unverified_scope",
+          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "add_value",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "apply_penalty",
@@ -6140,18 +6276,86 @@
       },
       "structural_gaps": [
         {
-          "kind": "unverified_scope",
-          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
-          "can_defer_as_numeric_assumption": false
+          "id": "CHUNK_CUMSUM_KERNEL-S1",
+          "kind": "host_rows_and_dtype_selection",
+          "finding": "The host picks dtype or s.dtype, allocates z and launches exactly B*H row programs.",
+          "why_blocks_full_original_scope": "Existing stream IO executes all time chunks in one row, but no public wrapper theorem maps that result over the returned BxHxT tensor and both dtype-selection branches.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 34,
+              "end_line": 46,
+              "path": "bench/tritonbench_g/chunk_cumsum_kernel/chunk_cumsum_kernel.py",
+              "sha256": "570e219e5ac810a8a3af0bf6c8a2aa3f76039b654cd2121f0b67a8d420bd1093",
+              "excerpt": "def chunk_global_cumsum_scalar(\n    s: torch.Tensor,\n    dtype: Optional[torch.dtype] = None,\n) -> torch.Tensor:\n    B, H, T = s.shape\n    dtype = dtype or s.dtype\n    grid = (B * H,)\n    z = torch.empty_like(s, dtype=dtype)\n    chunk_global_cumsum_scalar_kernel[grid](\n        s, z,\n        T=T\n    )\n    return z"
+            },
+            {
+              "line": 23,
+              "end_line": 35,
+              "path": "bench/tritonbench_g/chunk_cumsum_kernel/Correct.lean",
+              "sha256": "a3036043867283c4873c5d2d9f8a0900a0aee56ac7febb7b1d37c431833ff955",
+              "excerpt": "def originalIO (dtype out_dtype : FloatDType) (s o : RegionName) (T BT : Nat) :\n    StreamEmitMasked2DKernelIO₁ where\n  kernel := (TypedSource.original dtype out_dtype s o T BT).eraseDType\n  projection := (RealIO.io Bool.false dtype out_dtype s o T BT).projection\n  inp1 := s\n  out := o\n  T := ccNumChunks T BT\n  B1 := BT\n  C := BT\n  read1 := fun pid _ t j => pid * T + (t.val * BT + j.val)\n  write := fun pid _ t j => pid * T + (t.val * BT + j.val)\n  mask1 := fun _ _ t j => t.val * BT + j.val < T\n  writeMask := fun _ _ t j => t.val * BT + j.val < T"
+            },
+            {
+              "line": 53,
+              "end_line": 61,
+              "path": "bench/tritonbench_g/chunk_cumsum_kernel/Correct.lean",
+              "sha256": "a3036043867283c4873c5d2d9f8a0900a0aee56ac7febb7b1d37c431833ff955",
+              "excerpt": "specification chunk_cumsum_correctness (dtype out_dtype : FloatDType)\n    (s o : RegionName) (T BT : Nat) (hSO : o ≠ s) (hBT : 0 < BT) :\n    Spec.Real (originalIO dtype out_dtype s o T BT ⊨ expected T BT) := by\n  exact RealIO.original_implements dtype out_dtype s o T BT hSO hBT\n\nspecification chunk_sum_left_correctness (dtype out_dtype : FloatDType)\n    (s o : RegionName) (T BT : Nat) (hSO : o ≠ s) (hBT : 0 < BT) :\n    Spec.Real (sumLeftIO dtype out_dtype s o T BT ⊨ expected T BT) := by\n  exact RealIO.candidate_implements dtype out_dtype s o T BT hSO hBT"
+            }
+          ]
+        },
+        {
+          "id": "CHUNK_CUMSUM_KERNEL-S2",
+          "kind": "integer_storage_conversion_routes",
+          "finding": "Both materialized dtype parameters are FloatDType despite the unrestricted torch.dtype override and explicit fp32 input conversion in production.",
+          "why_blocks_full_original_scope": "Nonfloating input/output conversion is source structure rather than just a scan accuracy assumption.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 28,
+              "end_line": 32,
+              "path": "bench/tritonbench_g/chunk_cumsum_kernel/chunk_cumsum_kernel.py",
+              "sha256": "570e219e5ac810a8a3af0bf6c8a2aa3f76039b654cd2121f0b67a8d420bd1093",
+              "excerpt": "        b_s = tl.load(p_s, boundary_check=(0,)).to(tl.float32)\n        b_o = tl.cumsum(b_s, axis=0) + b_z[None]\n        b_zz = tl.sum(b_s, axis=0)\n        b_z += b_zz\n        tl.store(p_o, b_o.to(p_o.dtype.element_ty), boundary_check=(0,))"
+            },
+            {
+              "line": 35,
+              "end_line": 41,
+              "path": "bench/tritonbench_g/chunk_cumsum_kernel/chunk_cumsum_kernel.py",
+              "sha256": "570e219e5ac810a8a3af0bf6c8a2aa3f76039b654cd2121f0b67a8d420bd1093",
+              "excerpt": "    s: torch.Tensor,\n    dtype: Optional[torch.dtype] = None,\n) -> torch.Tensor:\n    B, H, T = s.shape\n    dtype = dtype or s.dtype\n    grid = (B * H,)\n    z = torch.empty_like(s, dtype=dtype)"
+            },
+            {
+              "line": 19,
+              "end_line": 33,
+              "path": "bench/tritonbench_g/chunk_cumsum_kernel/Kernels.lean",
+              "sha256": "15bb93fcdcd6ab447190a51cf62bc151d8cc07e7e5a805bfe32146a2764af545",
+              "excerpt": "    `(fun (dtype out_dtype : FloatDType) (s o : RegionName) (T BT : Nat) =>\n      ComputeKernel.mk [s] [o] (triton {\n        tl.region s = DTYPE, o = OUT_DTYPE\n        i_bh = tl.program_id(0)\n        b_z = tl.zeros([], dtype=tl.float32)\n        for i_t in range($(0), tl.cdiv($(T), $(BT)), $(1)) {\n          p_s = tl.make_block_ptr(base=s+i_bh*$(T), shape=($(T)), strides=($(1)),\n            offsets=(i_t*$(BT)), block_shape=($(BT)), order=(0))\n          p_o = tl.make_block_ptr(base=o+i_bh*$(T), shape=($(T)), strides=($(1)),\n            offsets=(i_t*$(BT)), block_shape=($(BT)), order=(0))\n          b_s = tl.load(p_s, boundary_check=([0] : List Nat)).to(tl.float32)\n          b_o = tl.cumsum(b_s, axis=0) + b_z[None]\n          b_zz = tl.sum(b_s, axis=0)\n          $update\n          tl.store(p_o, (b_o).to(OUT_DTYPE), boundary_check=([0] : List Nat))"
+            }
+          ]
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
+      "initial_assessment": "structural_gaps_confirmed",
       "deferred_numerical_assumptions": [],
       "potential_numeric_ids_not_yet_accepted": [
         "fp32_add_commute_real"
       ],
       "callback_assumptions": {},
-      "review": null
+      "review": null,
+      "initial_structural_gaps": [
+        {
+          "kind": "unverified_scope",
+          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "chunk_cumsum_kernel",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "chunk_cumsum_vector",
@@ -10854,16 +11058,77 @@
       },
       "structural_gaps": [
         {
+          "id": "COSINE_COMPUTE-S1",
+          "kind": "host_block_selection_and_grid",
+          "finding": "cos chooses next_power_of_2(ceil(sqrt(numel))) and launches a three-axis tuple before returning empty_like(A).",
+          "why_blocks_full_original_scope": "The actual block-size/launch/result relation is missing, although the block theorem is reusable for every legal selected size.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 21,
+              "end_line": 32,
+              "path": "bench/tritonbench_g/cosine_compute/cosine_compute.py",
+              "sha256": "363fe81932ce7a18a907f330311e1214130e1c5cad0c0f7c91b476e6eca13d7a",
+              "excerpt": "def cos(A):\n    # Prepare output tensor `B` with the same shape and type as `A`\n    B = torch.empty_like(A)\n    # Determine the total number of elements in the input tensor `A`\n    n_elements = A.numel()\n    # Calculate the optimal block size\n    block_size = triton.next_power_of_2(math.ceil(math.sqrt(n_elements)))\n    # Determine the grid size needed to cover all elements\n    grid_size = triton.cdiv(n_elements, block_size)\n    # Launch the Triton kernel\n    cos_func[(grid_size, 1, 1)](A, B, n_elements, block_size)\n    return B"
+            },
+            {
+              "line": 19,
+              "end_line": 27,
+              "path": "bench/tritonbench_g/cosine_compute/Correct.lean",
+              "sha256": "59f3fe645f3a40a7dd880fc85264c33de251473b0f1437762a9233c490463fb4",
+              "excerpt": "def originalIO (storage : Storage) (a b : RegionName) (n B : Nat) : MaskedKernelIO₁ where\n  kernel := (kernel storage Bool.false a b n B).eraseDType\n  projection := RealProof.projection storage Bool.false a b n B\n  inp := a\n  out := b\n  B := B\n  read := fun pid => pid*B\n  write := fun pid => pid*B\n  mask := fun pid j => pid*B+j.val < n"
+            }
+          ]
+        },
+        {
+          "id": "COSINE_COMPUTE-S2",
+          "kind": "input_cast_dtype_route",
+          "finding": "Only three storage constructors are materialized although the source explicitly casts loaded A to fp32 and stores to A dtype.",
+          "why_blocks_full_original_scope": "fp64/integer input and output conversion paths cannot be replaced by an assumption about cosine accuracy.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 16,
+              "end_line": 18,
+              "path": "bench/tritonbench_g/cosine_compute/cosine_compute.py",
+              "sha256": "363fe81932ce7a18a907f330311e1214130e1c5cad0c0f7c91b476e6eca13d7a",
+              "excerpt": "    b_value = tl.cos(a_value.to(tl.float32))\n    # Store the result back to tensor `b`\n    tl.store(b + offset, b_value, mask=mask)  "
+            },
+            {
+              "line": 11,
+              "end_line": 13,
+              "path": "bench/tritonbench_g/cosine_compute/Kernels.lean",
+              "sha256": "12186c73e9eab875486d9dadcef6ec42f512d65a590304a4e5b49d4d747f0632",
+              "excerpt": "inductive Storage where\n  | fp16 | bf16 | fp32\n  deriving DecidableEq"
+            },
+            {
+              "line": 24,
+              "end_line": 29,
+              "path": "bench/tritonbench_g/cosine_compute/Kernels.lean",
+              "sha256": "12186c73e9eab875486d9dadcef6ec42f512d65a590304a4e5b49d4d747f0632",
+              "excerpt": "  tl.region a = $storage, b = $storage\n  offset = tl.program_id(0) * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))\n  mask = offset < $(n_elements)\n  a_value = tl.load(a + offset, mask=mask)\n  b_value = tl.cos((a_value).to(tl.float32))\n  tl.store(b + offset, (b_value).to($storage:tritonDType), mask=mask)"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "cosine_compute",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "cross_entropy1",
@@ -13015,16 +13280,77 @@
       },
       "structural_gaps": [
         {
+          "id": "DEQUANTIZE_ROWWISE-S1",
+          "kind": "host_row_grid_and_shape",
+          "finding": "The wrapper determines row width, P2 and exactly shape[0] programs and returns allocated fp16 output.",
+          "why_blocks_full_original_scope": "Per-row theorems take arbitrary inv/block/lanes and have no host binding or whole matrix composition.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 29,
+              "end_line": 38,
+              "path": "bench/tritonbench_g/dequantize_rowwise/dequantize_rowwise.py",
+              "sha256": "b76256a631a2f4ec07bae27f1d4ed665f94056c8891ec30ae33ee07ad5e869da",
+              "excerpt": "def dequantize_rowwise(x: torch.Tensor, state_x: torch.Tensor):\n    output = torch.empty(*x.shape, device=x.device, dtype=torch.float16)\n\n    P2 = int(2 ** (math.ceil(math.log2(x.shape[1]))))\n\n    assert x.is_cuda and output.is_cuda\n    n_elements = output.numel()\n    grid = lambda meta: (x.shape[0],)\n    _dequantize_rowwise[grid](x, state_x, output, 1.0 / 127, n_elements, BLOCK_SIZE=x.shape[1], P2=P2)\n    return output"
+            },
+            {
+              "line": 16,
+              "end_line": 30,
+              "path": "bench/tritonbench_g/dequantize_rowwise/Correct.lean",
+              "sha256": "90078b30c0ca4cecc22eb75ee9a64b67e0f173ba5b381003204612be125f801f",
+              "excerpt": "def originalIO (x scale out : RegionName) (inv : ℝ) (n block lanes : Nat) : Masked2DKernelIO₂ where\n  kernel := (original x scale out inv n block lanes).eraseDType\n  projection := by\n    have h : (original x scale out inv n block lanes).toAlgorithm? =\n        .ok (original x scale out inv n block lanes).toAlgKernel := rfl\n    simp only [ComputeKernel.eraseDType,h,ComputeKernel.toAlgorithm?_fromKernelBody,\n      ComputeKernel.toAlgKernel_fromKernelBody]\n  in1 := x\n  in2 := scale\n  out := out\n  B := lanes\n  read1 := fun pid _ j => pid*block+j.val\n  read2 := fun pid _ _ => pid\n  write := fun pid _ j => pid*block+j.val\n  mask := fun _ _ j => j.val<block"
+            },
+            {
+              "line": 42,
+              "end_line": 50,
+              "path": "bench/tritonbench_g/dequantize_rowwise/Correct.lean",
+              "sha256": "90078b30c0ca4cecc22eb75ee9a64b67e0f173ba5b381003204612be125f801f",
+              "excerpt": "specification original_correct (x scale out : RegionName) (inv : ℝ) (n block lanes : Nat)\n    (positiveBlock : 0<block) (positiveLanes : 0<lanes) :\n    Spec.Real (originalIO x scale out inv n block lanes ⊨ᵢ fun _ _ xs ys j => ys j*(xs j : ℝ)*inv) := by\n  exact RealIO.original_correct x scale out inv n block lanes positiveBlock positiveLanes\n\nspecification index_commuted_correct (x scale out : RegionName) (inv : ℝ) (n block lanes : Nat)\n    (positiveBlock : 0<block) (positiveLanes : 0<lanes) :\n    Spec.Real (indexCommutedIO x scale out inv n block lanes ⊨ᵢ fun _ _ xs ys j => ys j*(xs j : ℝ)*inv) := by\n  exact RealIO.index_commuted_correct x scale out inv n block lanes positiveBlock positiveLanes"
+            }
+          ]
+        },
+        {
+          "id": "DEQUANTIZE_ROWWISE-S2",
+          "kind": "scale_and_input_storage_routes",
+          "finding": "TypedSource fixes x=int8 and state_x=fp32 while the wrapper accepts independently typed tensors.",
+          "why_blocks_full_original_scope": "Alternative scale/input loads and promotion are missing execution structure; numerical multiplication assumptions cannot introduce these routes.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 29,
+              "end_line": 37,
+              "path": "bench/tritonbench_g/dequantize_rowwise/dequantize_rowwise.py",
+              "sha256": "b76256a631a2f4ec07bae27f1d4ed665f94056c8891ec30ae33ee07ad5e869da",
+              "excerpt": "def dequantize_rowwise(x: torch.Tensor, state_x: torch.Tensor):\n    output = torch.empty(*x.shape, device=x.device, dtype=torch.float16)\n\n    P2 = int(2 ** (math.ceil(math.log2(x.shape[1]))))\n\n    assert x.is_cuda and output.is_cuda\n    n_elements = output.numel()\n    grid = lambda meta: (x.shape[0],)\n    _dequantize_rowwise[grid](x, state_x, output, 1.0 / 127, n_elements, BLOCK_SIZE=x.shape[1], P2=P2)"
+            },
+            {
+              "line": 19,
+              "end_line": 30,
+              "path": "bench/tritonbench_g/dequantize_rowwise/Kernels.lean",
+              "sha256": "43b52e95790f4ad3d3eb9b2fe6081f9784d2bbf97a37aba257a5b4836f5543bc",
+              "excerpt": "    `(fun (x_ptr state_x output_ptr : RegionName) (inv_127 : ℝ) (n_elements BLOCK_SIZE P2 : Nat) =>\n      ComputeKernel.mk [x_ptr,state_x] [output_ptr] (triton {\n  tl.region x_ptr = tl.int8, state_x = tl.float32, output_ptr = tl.float16\n  pid = tl.program_id(axis=0)\n  $indexStmt\n  arange = tl.arange(0, $(P2))\n  offsets = block_start + arange\n  row_mask = arange < $(BLOCK_SIZE)\n  x = tl.load(x_ptr + offsets, mask=row_mask)\n  max_val = tl.load(state_x + pid)\n  output = max_val * x * $((inv_127 : ℝ))\n  tl.store(output_ptr + offsets, (output).to(tl.float16), mask=row_mask)"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "dequantize_rowwise",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "destindex_copy",
@@ -13266,16 +13592,93 @@
       },
       "structural_gaps": [
         {
+          "id": "destindex_copy_kv1:payload_dtype_dispatch",
+          "kind": "dtype",
+          "finding": "The original wrapper checks matching head dimensions but has no K/Out dtype restriction. The actual public source family enumerates only fp16, bf16 and fp32 independently (nine pairs). Other payload dtypes and their admission or rejection paths are absent; this review does not infer that every unconstrained dtype compiles successfully.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv1/destindex_copy_kv1.py",
+              "line": 38,
+              "sha256": "0a8ee1ff5e32510dfc6e574432a7fea2b24a5d95f380982ad9c589941ca9c881"
+            },
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv1/Kernels.lean",
+              "line": 44,
+              "sha256": "c25f27f34d5f5a2c9809d55248ece89eb9f1e98d225b34b63eef5d57d65c8f6e"
+            },
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv1/Correct.lean",
+              "line": 34,
+              "sha256": "617d8d244c7f4b36ced21b1dab6c48587064bc2bce126d880f3b12f760606433"
+            }
+          ]
+        },
+        {
+          "id": "destindex_copy_kv1:metadata_dtype_dispatch",
+          "kind": "metadata_representation",
+          "finding": "The wrapper forwards DestLoc without a dtype check, while Layout fixes Dest_loc to Region .int and IO.Pins reads one mathematical Int. The actual original test supplies torch.int32. Metadata dtype admission and finite-width representation are not distinguished by this source family; this is separate from the permitted nonnegative-index/bounds input contract.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv1/destindex_copy_kv1.py",
+              "line": 78,
+              "sha256": "0a8ee1ff5e32510dfc6e574432a7fea2b24a5d95f380982ad9c589941ca9c881"
+            },
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv1/Proofs/Layout.lean",
+              "line": 6,
+              "sha256": "96892b8d2570be6299e5c75b7be969419e297337e3a84b79b1736572d235d11d"
+            },
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv1/Proofs/RealIO.lean",
+              "line": 30,
+              "sha256": "05f41f11b21ba443d863c85108641fda0cfcb6926dd8674b421275049cd8ba63"
+            }
+          ]
+        },
+        {
+          "id": "destindex_copy_kv1:wrapper_grid",
+          "kind": "host_grid_composition",
+          "finding": "The wrapper launches DestLoc.shape[0] programs and computes concrete launch widths from K.shape. The public correctness IO quantifies one initial state and s.pids 0; its injectivity condition concerns one output tile. It does not compose the launched sequence, resolve repeated destination indices, or establish cross-program alias/collision requirements. Existing per-program bounds and layout preconditions are legitimate and are preserved.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv1/destindex_copy_kv1.py",
+              "line": 45,
+              "sha256": "0a8ee1ff5e32510dfc6e574432a7fea2b24a5d95f380982ad9c589941ca9c881"
+            },
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv1/Proofs/RealIO.lean",
+              "line": 42,
+              "sha256": "05f41f11b21ba443d863c85108641fda0cfcb6926dd8674b421275049cd8ba63"
+            },
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv1/Correct.lean",
+              "line": 35,
+              "sha256": "617d8d244c7f4b36ced21b1dab6c48587064bc2bce126d880f3b12f760606433"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/destindex_copy_kv1.json",
+        "sha256": "06dd9595f169a05ce9d3efb82f083599f5443a44a638b85ab659f586da25802e",
+        "task": "destindex_copy_kv1",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "destindex_copy_kv2",
@@ -13387,16 +13790,93 @@
       },
       "structural_gaps": [
         {
+          "id": "destindex_copy_kv2:payload_dtype_dispatch",
+          "kind": "dtype",
+          "finding": "The original wrapper checks matching head dimensions but has no K/Out dtype restriction. The actual public source family enumerates only fp16, bf16 and fp32 independently (nine pairs). Other payload dtypes and their admission or rejection paths are absent; this review does not infer that every unconstrained dtype compiles successfully.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv2/destindex_copy_kv2.py",
+              "line": 31,
+              "sha256": "55d156385db9cad88c1bf43d66469811ad428472625b2a4532a11a393a22f547"
+            },
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv2/Kernels.lean",
+              "line": 42,
+              "sha256": "3df373c3a6a84e8b201e52234491b8543d1871706129798fe1112fa33a72d881"
+            },
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv2/Correct.lean",
+              "line": 34,
+              "sha256": "c5e6631d4ef7e80e33151928b44a0f32cd55f11d05572ab9fc51fc0dd46fcdd0"
+            }
+          ]
+        },
+        {
+          "id": "destindex_copy_kv2:metadata_dtype_dispatch",
+          "kind": "metadata_representation",
+          "finding": "The wrapper forwards DestLoc without a dtype check, while Layout fixes Dest_loc to Region .int and IO.Pins reads one mathematical Int. The actual original test supplies torch.int32. Metadata dtype admission and finite-width representation are not distinguished by this source family; this is separate from the permitted nonnegative-index/bounds input contract.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv2/destindex_copy_kv2.py",
+              "line": 61,
+              "sha256": "55d156385db9cad88c1bf43d66469811ad428472625b2a4532a11a393a22f547"
+            },
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv2/Proofs/Layout.lean",
+              "line": 6,
+              "sha256": "63f47288f9292ff218076c6faf724440d9a476e9e42fc48f878c2d0022619b66"
+            },
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv2/Proofs/RealIO.lean",
+              "line": 30,
+              "sha256": "5ab220d03dabc706ec07c93d37ad8c380d84a8aac8d05fb6182070b3332fb2d1"
+            }
+          ]
+        },
+        {
+          "id": "destindex_copy_kv2:wrapper_grid",
+          "kind": "host_grid_composition",
+          "finding": "The wrapper launches DestLoc.shape[0] programs and computes concrete launch widths from K.shape. The public correctness IO quantifies one initial state and s.pids 0; its injectivity condition concerns one output tile. It does not compose the launched sequence, resolve repeated destination indices, or establish cross-program alias/collision requirements. Existing per-program bounds and layout preconditions are legitimate and are preserved.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv2/destindex_copy_kv2.py",
+              "line": 37,
+              "sha256": "55d156385db9cad88c1bf43d66469811ad428472625b2a4532a11a393a22f547"
+            },
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv2/Proofs/RealIO.lean",
+              "line": 42,
+              "sha256": "5ab220d03dabc706ec07c93d37ad8c380d84a8aac8d05fb6182070b3332fb2d1"
+            },
+            {
+              "path": "bench/tritonbench_g/destindex_copy_kv2/Correct.lean",
+              "line": 35,
+              "sha256": "c5e6631d4ef7e80e33151928b44a0f32cd55f11d05572ab9fc51fc0dd46fcdd0"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/destindex_copy_kv2.json",
+        "sha256": "59ff7867a0ef236d83f306bdb4568f046b2c81ddd21fc08ea0cfc36c1ab7fd6d",
+        "task": "destindex_copy_kv2",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "diag_ssm_triton",
@@ -13922,16 +14402,77 @@
       },
       "structural_gaps": [
         {
+          "id": "DROPOUT_TRITON-S1",
+          "kind": "host_grid_composition",
+          "finding": "dropout returns output after the whole B1024 ceil-grid, whereas correct_target describes one block.",
+          "why_blocks_full_original_scope": "The wrapper result and input-contiguity domain have not been connected to a full launch.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 28,
+              "end_line": 34,
+              "path": "bench/tritonbench_g/dropout_triton/dropout_triton.py",
+              "sha256": "d6bb851a46b453dce59ea513ec08be3fd3bf7b0da0a96f51ca422375bc94adf4",
+              "excerpt": "def dropout(x, x_keep, p):\n    output = torch.empty_like(x)\n    assert x.is_contiguous()\n    n_elements = x.numel()\n    grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']), )\n    _dropout[grid](x, x_keep, output, n_elements, p, BLOCK_SIZE=1024)\n    return output"
+            },
+            {
+              "line": 38,
+              "end_line": 48,
+              "path": "bench/tritonbench_g/dropout_triton/Correct.lean",
+              "sha256": "fb601a8c0aba1e90a8958360c31094fabffc4b57be51117aed8429a0fc48236e",
+              "excerpt": "def correct_target (kernel : ComputeKernel) (keep : KeepStorage) (x k y : RegionName) (n B : Nat) (p : ℝ) : Prop :=\n  ∀ A : FlatAlloc, A.Disjoint → (∀ r, r ∉ A.regions → A.extent r=0) →\n  ∀ u : BlockState, u.undef=(fun _ _ => 0) → Bounds x k y n B u A.extent →\n    ∃ v, exec (A.flattenKernel kernel.toAlgKernel) (A.flattenState u)=some v ∧\n      (∀ j : Fin B, offset u B j<n →\n        v.readMem A.flat (A.addr y (offset u B j))=expected keep u x k p (offset u B j)) ∧\n      (∀ r o, Outside A u y n B r o → v.mem r o=(A.flattenState u).mem r o)\n\nspecification dropout_correctness (storage : Storage) (keep : KeepStorage)\n    (x k y : RegionName) (n B : Nat) (p : ℝ) :\n    Spec.Real (correct_target (original storage keep x k y n B p) keep x k y n B p) := by"
+            }
+          ]
+        },
+        {
+          "id": "DROPOUT_TRITON-S2",
+          "kind": "data_and_keep_dtype_routes",
+          "finding": "The materialized source selects only three data and two keep dtypes; fp64 data or int64 keep conversion is absent.",
+          "why_blocks_full_original_scope": "Unrepresented dtype and truthiness paths require structural coverage; floating division assumptions do not supply them.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 20,
+              "end_line": 25,
+              "path": "bench/tritonbench_g/dropout_triton/dropout_triton.py",
+              "sha256": "d6bb851a46b453dce59ea513ec08be3fd3bf7b0da0a96f51ca422375bc94adf4",
+              "excerpt": "    x = tl.load(x_ptr + offsets, mask=mask)\n    x_keep = tl.load(x_keep_ptr + offsets, mask=mask)\n    # The line below is the crucial part, described in the paragraph above!\n    output = tl.where(x_keep, x / (1 - p), 0.0)\n    # Write-back output\n    tl.store(output_ptr + offsets, output, mask=mask)"
+            },
+            {
+              "line": 13,
+              "end_line": 18,
+              "path": "bench/tritonbench_g/dropout_triton/Kernels.lean",
+              "sha256": "3890ee07a2713e1a764b68fa61e1aaa6c69f20fd967599125bc9ecfdba6480ff",
+              "excerpt": "inductive Storage where\n  | fp32 | fp16 | bf16\n  deriving DecidableEq\ninductive KeepStorage where\n  | int32 | bool\n  deriving DecidableEq"
+            },
+            {
+              "line": 31,
+              "end_line": 39,
+              "path": "bench/tritonbench_g/dropout_triton/Kernels.lean",
+              "sha256": "3890ee07a2713e1a764b68fa61e1aaa6c69f20fd967599125bc9ecfdba6480ff",
+              "excerpt": "  tl.region x_ptr = $storage, x_keep_ptr = $keep, output_ptr = $storage\n  pid = tl.program_id(axis=0)\n  $blockStart\n  offsets = block_start + tl.arange(0, $(BLOCK_SIZE))\n  mask = offsets < $(n_elements)\n  x = tl.load(x_ptr + offsets, mask=mask)\n  x_keep = tl.load(x_keep_ptr + offsets, mask=mask)\n  output = tl.where(x_keep, x / (1 - $(p)), 0.0)\n  tl.store(output_ptr + offsets, (output).to($storage:tritonDType), mask=mask)"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "dropout_triton",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "embedding_triton_kernel",
@@ -16875,18 +17416,79 @@
       },
       "structural_gaps": [
         {
-          "kind": "unverified_scope",
-          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
-          "can_defer_as_numeric_assumption": false
+          "id": "FUSED_ACTIVATION-S1",
+          "kind": "host_specialization_and_grid",
+          "finding": "The wrapper chooses B=min(2048,numel), multiplier=0.5 and sigmoid, mutates in_out_tensor across its ceil-grid and returns the same tensor.",
+          "why_blocks_full_original_scope": "No public contract binds these parameters and complete in-place effects, including the host zero-length/block-size domain.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 33,
+              "end_line": 44,
+              "path": "bench/tritonbench_g/fused_activation/fused_activation.py",
+              "sha256": "49136061c50ce006bacbaf6108156aaceacfdcfd3f5ddd6a9eb1a3c3cfbffd7a",
+              "excerpt": "def fused_add_mul_activation_torch(in_out_tensor: torch.Tensor, bias: torch.Tensor,\n                                   in_tensor: torch.Tensor) -> torch.Tensor:\n    # print(\"calling fused_add_mul_relu_torch\")\n    grid = lambda meta: (triton.cdiv(in_out_tensor.numel(), meta['BLOCK_SIZE']),)\n    BLOCK_SIZE = min(2048, in_out_tensor.numel())\n    fused_add_mul_activation_kernel[grid](in_out_tensor, bias, in_tensor,\n                                          bias.numel(),\n                                          in_out_tensor.numel(),\n                                          multiplier=0.5,\n                                          activation=\"sigmoid\",\n                                          BLOCK_SIZE=BLOCK_SIZE)\n    return in_out_tensor"
+            },
+            {
+              "line": 132,
+              "end_line": 137,
+              "path": "bench/tritonbench_g/fused_activation/Correct.lean",
+              "sha256": "5a3ce45b260ea8243765d55e9745c29bb9beaef2c399ce457765aff65508ce03",
+              "excerpt": "specification original_real_correct (x b i : RegionName) (W N B : Nat)\n    (m : ℝ) (a : Bool) (_hW : 0 < W) :\n    VeriTile.Spec.Real (fusedActivationIO x b i W N B m a\n      ⊨ fun _ _ xs _ j => activationFormula a\n        (xs (⟨0, by decide⟩ : Fin 3) j) (xs (⟨1, by decide⟩ : Fin 3) j)\n        (xs (⟨2, by decide⟩ : Fin 3) j) m) := by"
+            }
+          ]
+        },
+        {
+          "id": "FUSED_ACTIVATION-S2",
+          "kind": "mixed_input_dtype_and_conversion",
+          "finding": "Current source and FP site use the real/fp32 channel without the independent tensor dtype routes or final x-typed conversion.",
+          "why_blocks_full_original_scope": "Promotion and storage paths are missing executable structure, separate from sigmoid/max numeric behavior.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 17,
+              "end_line": 30,
+              "path": "bench/tritonbench_g/fused_activation/fused_activation.py",
+              "sha256": "49136061c50ce006bacbaf6108156aaceacfdcfd3f5ddd6a9eb1a3c3cfbffd7a",
+              "excerpt": "    tmp0 = tl.load(x_ptr + index, mask)\n    tmp1 = tl.load(bias_ptr + bias_index, mask, eviction_policy='evict_last')\n    tmp3 = tl.load(in_ptr + index, mask)\n    activ_input = multiplier * tmp3 + tmp0 + tmp1\n    if activation == \"sigmoid\":\n        ma_result = tl.sigmoid(activ_input)\n        # option 2 - calculate sigmoid using exp\n        # ma_result = 1.0 / (1.0 + tl.exp(-sigmoid_input))\n        # option 3: fast sigmoid - inaccurate but faster\n        # ma_result = 1.0 / (1.0 + tl.abs(sigmoid_input))\n    elif activation == \"relu\":\n        ma_result = tl.maximum(0, activ_input)\n\n    tl.store(x_ptr + index, ma_result, mask)"
+            },
+            {
+              "line": 19,
+              "end_line": 37,
+              "path": "bench/tritonbench_g/fused_activation/Kernels.lean",
+              "sha256": "41cd4beed66073bd1cbf4a71a9f636a0b902a316cca5b679e41b824f26723b06",
+              "excerpt": "def fused_add_mul_activation_kernel\n    (x_ptr bias_ptr in_ptr : RegionName)\n    (num_weights xnumel BLOCK_SIZE : Nat)\n    (multiplier : ℝ) (activation : Bool) :\n    ComputeKernel := triton {\n  xoffset = tl.program_id(0) * $(BLOCK_SIZE)\n  index = xoffset + tl.arange(0, $(BLOCK_SIZE))[:]\n  mask = index < $(xnumel)\n  bias_index = index % $(num_weights)\n  tmp0 = tl.load(x_ptr + index, mask)\n  tmp1 = tl.load(bias_ptr + bias_index, mask, eviction_policy=\"evict_last\")\n  tmp3 = tl.load(in_ptr + index, mask)\n  activ_input = $(multiplier) * tmp3 + tmp0 + tmp1\n  if activation {\n    ma_result = tl.sigmoid(activ_input)\n  } else {\n    ma_result = tl.maximum(0, activ_input)\n  }\n  tl.store(x_ptr + index, ma_result, mask)"
+            },
+            {
+              "line": 15,
+              "end_line": 24,
+              "path": "bench/tritonbench_g/fused_activation/FPEquiv.lean",
+              "sha256": "6ebf262d499af1753b4932db58709030ed385e16f64e4dbac93b99735f973468",
+              "excerpt": "def additionSite (x b i : RegionName) (W N B : Nat) (m : ℝ) (a : Bool) : Site :=\n  .add (Source.prefixBefore\n    (fused_add_mul_activation_kernel x b i W N B m a).surfaceBody \"activ_input\")\n    [B] (.add .real (.consSame .nil)\n      (.mul .real .scalarL (.const m) (.ref .real [B] \"tmp3\"))\n      (.ref .real [B] \"tmp0\")) (.ref .real [B] \"tmp1\")\n\ndef original (x b i : RegionName) (W N B : Nat) (m : ℝ) (a : Bool) : Program where\n  kernel := fused_add_mul_activation_kernel x b i W N B m a\n  domain := [additionSite x b i W N B m a]"
+            }
+          ]
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
+      "initial_assessment": "structural_gaps_confirmed",
       "deferred_numerical_assumptions": [],
       "potential_numeric_ids_not_yet_accepted": [
         "fp32_add_commute_real"
       ],
       "callback_assumptions": {},
-      "review": null
+      "review": null,
+      "initial_structural_gaps": [
+        {
+          "kind": "unverified_scope",
+          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "fused_activation",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "fused_layernorm_triton",
@@ -22583,16 +23185,77 @@
       },
       "structural_gaps": [
         {
+          "id": "KLDIV_COMPUTE-S1",
+          "kind": "host_grid_composition",
+          "finding": "The production wrapper returns output after all ceil(N/1024) blocks; public specifications cover one block only.",
+          "why_blocks_full_original_scope": "Per-program correctness and source equivalence do not assemble the returned buffer for the wrapper.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 24,
+              "end_line": 30,
+              "path": "bench/tritonbench_g/kldiv_compute/kldiv_compute.py",
+              "sha256": "277fe50965bceefdf3aab7b4780aa051c531ca97fe161519eea590b119e96fc6",
+              "excerpt": "def kldivergence(x: torch.Tensor, y: torch.Tensor):\n    output = torch.empty_like(x)\n    assert x.is_cuda and y.is_cuda and output.is_cuda\n    n_elements = output.numel()\n    grid = lambda meta: (triton.cdiv(n_elements, meta[\"BLOCK_SIZE\"]),)\n    kldivergence_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)\n    return output"
+            },
+            {
+              "line": 45,
+              "end_line": 50,
+              "path": "bench/tritonbench_g/kldiv_compute/Correct.lean",
+              "sha256": "5ac18352f521f1d6850c257b0d7572ccbbf9f107394b9a7dd2ee192f15d04497",
+              "excerpt": "specification typed_real_correct (x y output : Storage) (v : Bool)\n    (_hSource : sourceSupported x y = Bool.true)\n    (X Y O : RegionName) (N B : Nat) :\n    VeriTile.Spec.Real (typedIO x y output v X Y O N B ⊨\n      fun xs ys i => klDivSpec (xs i) (ys i)) := by\n  exact typed_real_correct_bridge x y output v X Y O N B"
+            }
+          ]
+        },
+        {
+          "id": "KLDIV_COMPUTE-S2",
+          "kind": "nonfloating_dtype_route",
+          "finding": "The selected floating matrix lacks the integer/bool storage routes allowed past the Python entry guards, including empty_like(x) output.",
+          "why_blocks_full_original_scope": "A numeric div/log/mul assumption cannot introduce missing source casts or rejection behavior.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 24,
+              "end_line": 29,
+              "path": "bench/tritonbench_g/kldiv_compute/kldiv_compute.py",
+              "sha256": "277fe50965bceefdf3aab7b4780aa051c531ca97fe161519eea590b119e96fc6",
+              "excerpt": "def kldivergence(x: torch.Tensor, y: torch.Tensor):\n    output = torch.empty_like(x)\n    assert x.is_cuda and y.is_cuda and output.is_cuda\n    n_elements = output.numel()\n    grid = lambda meta: (triton.cdiv(n_elements, meta[\"BLOCK_SIZE\"]),)\n    kldivergence_kernel[grid](x, y, output, n_elements, BLOCK_SIZE=1024)"
+            },
+            {
+              "line": 98,
+              "end_line": 108,
+              "path": "bench/tritonbench_g/kldiv_compute/Kernels.lean",
+              "sha256": "e120f219973660cf7e1582dc2ff3780d5ef1e9e751039ff1051ae2d30562164e",
+              "excerpt": "inductive Storage where\n  | fp32 | fp16 | bf16 | fp64 | f8e4 | f8e5\n  deriving DecidableEq, Repr\n\n/-- Pinned Triton rejects both-fp8 input pairs before the logarithm: division\nleaves fp8 or fp16, while `tl.log` accepts only fp32/fp64. This classifier does\nnot establish target lowering or general native support. -/\ndef sourceSupported (x y : Storage) : Bool :=\n  match x, y with\n  | .f8e4, .f8e4 | .f8e4, .f8e5 | .f8e5, .f8e4 | .f8e5, .f8e5 => Bool.false\n  | _, _ => Bool.true"
+            },
+            {
+              "line": 8,
+              "end_line": 18,
+              "path": "bench/tritonbench_g/kldiv_compute/Proofs/Contracts.lean",
+              "sha256": "a4bcf334c0da656cd661a05ff5f3da3d5278d81d1b6a3a90c26b864c60b87c64",
+              "excerpt": "def typedIO (x y output : Storage) (v : Bool)\n    (X Y O : RegionName) (N B : Nat) : MaskedKernelIO₂ :=\n  { kldivIO X Y O N B with\n    kernel := (kernel x y output v X Y O N B).eraseDType\n    projection := typed_supported x y output v X Y O N B }\n\n/-- Full flat execution and raw-cell frame for the independent pointwise real KL formula. -/\ntheorem typed_real_correct_bridge (x y output : Storage) (v : Bool)\n    (X Y O : RegionName) (N B : Nat) :\n    VeriTile.Spec.Real (typedIO x y output v X Y O N B ⊨\n      fun xs ys i => klDivSpec (xs i) (ys i)) := by"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "kldiv_compute",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "kldiv_ops",
@@ -29842,18 +30505,86 @@
       },
       "structural_gaps": [
         {
-          "kind": "unverified_scope",
-          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
-          "can_defer_as_numeric_assumption": false
+          "id": "MASKED_ADD_CUDA-S1",
+          "kind": "host_in_place_grid_composition",
+          "finding": "The wrapper mutates grad through every ceil(N/1024) block under CUDA/layout/stride assertions, but no public contract packages that complete mutation.",
+          "why_blocks_full_original_scope": "The selected per-block frame and alias premises do not yet establish the exact host traversal/result.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 23,
+              "end_line": 33,
+              "path": "bench/tritonbench_g/masked_add_cuda/masked_add_cuda.py",
+              "sha256": "f63b770cca4f2f858a3d57614e740dd4b9d48adc777bef384160e9a57e663541",
+              "excerpt": "def masked_add(grad: torch.Tensor, p_data: torch.Tensor, p_mask: torch.Tensor, alpha: float = 0):\n    '''\n    equivalent to\n    grad.add_(p.data * (1 - p.mask), alpha=decay)\n    '''\n    assert grad.is_cuda and p_data.is_cuda and p_mask.is_cuda\n    assert (grad.layout, p_data.layout, p_mask.layout) == (torch.strided, torch.strided, torch.strided)\n    assert grad.stride() == p_data.stride() == p_mask.stride()\n    n_elements = grad.numel()\n    grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']),)\n    masked_add_kernel[grid](grad, p_data, p_mask, n_elements, alpha, BLOCK_SIZE=1024)"
+            },
+            {
+              "line": 186,
+              "end_line": 210,
+              "path": "bench/tritonbench_g/masked_add_cuda/Correct.lean",
+              "sha256": "a8f06b925b15f8d5089d6ecd12ff9e05e7de20a79606d6e4eb1eaf5be30f67e6",
+              "excerpt": "def fullIntegerIO (gradType pType : FloatStorage) (storage : MaskStorage) (candidate : Bool)\n    (grad p mask : RegionName)\n    (n : Nat) (alpha : ℝ) (B : Nat) : IntMasked2DKernelIO₂ where\n  kernel := (typed_integer_kernel gradType pType storage candidate grad p mask n alpha B).eraseDType\n  projection := full_integer_supported ..\n  in1 := p\n  in2 := grad\n  mbuf := mask\n  out := grad\n  B := B\n  read1 := fun pid _ j => pid * B + j.val\n  read2 := fun pid _ j => pid * B + j.val\n  readm := fun pid _ j => pid * B + j.val\n  write := fun pid _ j => pid * B + j.val\n  mask := fun pid _ j => pid * B + j.val < n\n  writeMask := fun pid _ ms j => pid * B + j.val < n ∧ ms j = 0\n\n/-- Both complete typed source profiles implement the in-place mathematical\nformula. Integer mask values are arbitrary signed integers; exactly zero writes.\nThe contract includes termination, active-address safety and the full frame. -/\nspecification masked_add_typed_integer_real_correct (gradType pType : FloatStorage)\n    (storage : MaskStorage) (candidate : Bool)\n    (grad p mask : RegionName) (n : Nat) (alpha : ℝ) (B : Nat) :\n    Spec.Real ((fullIntegerIO gradType pType storage candidate grad p mask n alpha B).Implements\n      (fun _ _ _ xs ys j => ys j + xs j * alpha)) := by"
+            }
+          ]
+        },
+        {
+          "id": "MASKED_ADD_CUDA-S2",
+          "kind": "dtype_cross_product_missing",
+          "finding": "Current typed routes cover the 3x3 small-floating data pairs with integer masks and separate fp64/fp64, leaving mixed fp64 and typed bool-mask combinations absent.",
+          "why_blocks_full_original_scope": "The source does not constrain those combinations; missing promotion and mask-storage routes are structural, not a numeric add-commutation assumption.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 28,
+              "end_line": 33,
+              "path": "bench/tritonbench_g/masked_add_cuda/masked_add_cuda.py",
+              "sha256": "f63b770cca4f2f858a3d57614e740dd4b9d48adc777bef384160e9a57e663541",
+              "excerpt": "    assert grad.is_cuda and p_data.is_cuda and p_mask.is_cuda\n    assert (grad.layout, p_data.layout, p_mask.layout) == (torch.strided, torch.strided, torch.strided)\n    assert grad.stride() == p_data.stride() == p_mask.stride()\n    n_elements = grad.numel()\n    grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']),)\n    masked_add_kernel[grid](grad, p_data, p_mask, n_elements, alpha, BLOCK_SIZE=1024)"
+            },
+            {
+              "line": 46,
+              "end_line": 64,
+              "path": "bench/tritonbench_g/masked_add_cuda/Kernels.lean",
+              "sha256": "54f8b0050c89a895320c319e9947e1d2e9a020e79d9e2f791c3fe9d63c486843",
+              "excerpt": "inductive MaskStorage where\n  | int32 | int64\n  deriving DecidableEq, Repr\n\nopen Lean\nset_option hygiene false in\nmacro \"maskedAddSource%[\" gradType:tritonDType \",\" pType:tritonDType \",\" maskType:tritonDType \",\" candidate:ident \"]\" : term => do\n  let update ← if candidate.getId == `original then\n    `(tritonStmt| grad += p * $((alpha : ℝ)).to(tl.float32))\n  else if candidate.getId == `commuted then\n    `(tritonStmt| grad = p * $((alpha : ℝ)).to(tl.float32) + grad)\n  else Macro.throwError \"expected original or commuted\"\n  let store ← match gradType with\n    | `(tritonDType| tl.float32) | `(tritonDType| tl.float64) =>\n        `(tritonStmt| tl.store(grad_ptr + offsets, grad, mask=mask))\n    | _ => `(tritonStmt| tl.store(grad_ptr + offsets, grad.to($gradType:tritonDType), mask=mask))\n  `(fun (grad_ptr p_ptr p_mask_ptr : RegionName) (n_elements : Nat) (alpha : ℝ)\n      (BLOCK_SIZE : Nat) => triton {\n    tl.region grad_ptr = $gradType, p_ptr = $pType, p_mask_ptr = $maskType"
+            },
+            {
+              "line": 97,
+              "end_line": 124,
+              "path": "bench/tritonbench_g/masked_add_cuda/Kernels.lean",
+              "sha256": "54f8b0050c89a895320c319e9947e1d2e9a020e79d9e2f791c3fe9d63c486843",
+              "excerpt": "def integer_fp64_kernel (storage : MaskStorage) (candidate : Bool)\n    (grad_ptr p_ptr p_mask_ptr : RegionName)\n    (n_elements : Nat) (alpha : ℝ) (BLOCK_SIZE : Nat) : ComputeKernel :=\n  match storage, candidate with\n  | .int32, Bool.false =>\n      maskedAddSource%[tl.float64, tl.float64, tl.int32, original]\n        grad_ptr p_ptr p_mask_ptr n_elements alpha BLOCK_SIZE\n  | .int64, Bool.false =>\n      maskedAddSource%[tl.float64, tl.float64, tl.int64, original]\n        grad_ptr p_ptr p_mask_ptr n_elements alpha BLOCK_SIZE\n  | .int32, Bool.true =>\n      maskedAddSource%[tl.float64, tl.float64, tl.int32, commuted]\n        grad_ptr p_ptr p_mask_ptr n_elements alpha BLOCK_SIZE\n  | .int64, Bool.true =>\n      maskedAddSource%[tl.float64, tl.float64, tl.int64, commuted]\n        grad_ptr p_ptr p_mask_ptr n_elements alpha BLOCK_SIZE\n\n/-- Floating storage profiles whose runtime fp32 alpha promotes arithmetic to fp32. -/\ninductive FloatStorage where\n  | fp32 | fp16 | bf16\n  deriving DecidableEq, Repr\n\n/-- Full independent gradient/data storage combinations. The final cast spells\nout Triton's implicit conversion back to the gradient pointer element type. -/\ndef typed_integer_kernel (gradType pType : FloatStorage) (maskType : MaskStorage)\n    (candidate : Bool) (grad_ptr p_ptr p_mask_ptr : RegionName)\n    (n_elements : Nat) (alpha : ℝ) (BLOCK_SIZE : Nat) : ComputeKernel :=\n  match gradType, pType, maskType, candidate with"
+            },
+            {
+              "line": 32,
+              "end_line": 57,
+              "path": "bench/tritonbench_g/masked_add_cuda/FPEquiv.lean",
+              "sha256": "b4f0a268e4d0524c8f8fb3d2a96d45d9f7d6bb037c3ee6cd80f7bf20084a9c05",
+              "excerpt": "def storedOperand (storage : FloatStorage) (name : RegName) (B : Nat) : Op .real [B] :=\n  match storage with\n  | .fp32 => .ref .real [B] name\n  | .fp16 => .castFloat .fp16 .real (.ref .fp16 [B] name)\n  | .bf16 => .castFloat .bf16 .real (.ref .bf16 [B] name)\n\ndef typedAdditionSite (gt pt : FloatStorage) (mt : MaskStorage) (g p m : RegionName)\n    (n : Nat) (a : ℝ) (B : Nat) : Site :=\n  .addFP32 (Source.prefixBefore\n    (typed_integer_kernel gt pt mt Bool.false g p m n a B).surfaceBody \"grad\" 1) [B]\n    (storedOperand gt \"grad\" B)\n    (.mul .real .scalarR (storedOperand pt \"p\" B) (.castFloat .real .real (.const a)))\n\ndef typedOriginal (gt pt : FloatStorage) (mt : MaskStorage) (g p m : RegionName)\n    (n : Nat) (a : ℝ) (B : Nat) : Program where\n  kernel := typed_integer_kernel gt pt mt Bool.false g p m n a B\n  domain := [typedAdditionSite gt pt mt g p m n a B]\n\ndef typedCommuted (gt pt : FloatStorage) (mt : MaskStorage) (g p m : RegionName)\n    (n : Nat) (a : ℝ) (B : Nat) : Program :=\n  { typedOriginal gt pt mt g p m n a B with\n    kernel := typed_integer_kernel gt pt mt Bool.true g p m n a B }\n\nspecification masked_add_typed_commuted_equiv (gt pt : FloatStorage) (mt : MaskStorage)\n    (g p m : RegionName) (n : Nat) (a : ℝ) (B : Nat) (R : FP.ScalarArithmetic.Rules) :\n    typedOriginal gt pt mt g p m n a B ≡[R] typedCommuted gt pt mt g p m n a B := by"
+            }
+          ]
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
+      "initial_assessment": "structural_gaps_confirmed",
       "deferred_numerical_assumptions": [],
       "potential_numeric_ids_not_yet_accepted": [
         "fp32_add_commute_real"
       ],
       "callback_assumptions": {},
-      "review": null
+      "review": null,
+      "initial_structural_gaps": [
+        {
+          "kind": "unverified_scope",
+          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "masked_add_cuda",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "masked_select",
@@ -32911,16 +33642,54 @@
       },
       "structural_gaps": [
         {
+          "id": "MATRIX_REDUCTION-S1",
+          "kind": "wrapper_setup_and_result_contract",
+          "finding": "The source wrapper is a validation harness: it allocates random fp16/fp32 matrices, invokes grid(1), computes torch.max, and asserts_close; existing public specs start from supplied memories and never state that wrapper outcome.",
+          "why_blocks_full_original_scope": "Full original-function coverage needs a small binding of shape/dtype/strides, generated inputs and observed assertion result. This does not require formalizing print formatting or torch internals wholesale.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 26,
+              "end_line": 39,
+              "path": "bench/tritonbench_g/matrix_reduction/matrix_reduction.py",
+              "sha256": "892dbf360e3cfa530ca8f0b3d1532d4308b991299466dbd8fea3bac107300770",
+              "excerpt": "def load_reduce(BLOCK_M, BLOCK_N, dtype_str):\n    dtype_mapping = {\n        'float16': torch.float16,\n        'float32': torch.float32,\n    }\n    dtype = dtype_mapping[dtype_str]\n    x = torch.randn((BLOCK_M, BLOCK_N), device='cuda', dtype=dtype)\n    y = torch.empty((BLOCK_M,), device='cuda', dtype=dtype)\n\n    load_reduce_kernel[(1,)](x, y, x.stride(0), x.stride(1), y.stride(0), BLOCK_M, BLOCK_N)\n\n    golden = x.max(dim=1)[0]\n    torch.set_printoptions(profile='full')\n    assert_close(y, golden, rtol=1e-2, atol=1e-3, check_dtype=False)"
+            },
+            {
+              "line": 12,
+              "end_line": 24,
+              "path": "bench/tritonbench_g/matrix_reduction/FPCorrect.lean",
+              "sha256": "cab28786c110bf90f2b4df6287bab98e9f3f82536ce42b249adbd4f0c084e218",
+              "excerpt": "specification matrix_reduction_machine_correctness\n    (storage : Storage) (rest : Algebra Word)\n    (s : State Word) (X Y : RegionName) (sm sn sy M N : Nat) (hN : 0 < N)\n    (xs : Fin M → Fin N → Bits storage)\n    (hinput : ∀ i j, s.mem X (i.val * sm + j.val * sn) =\n      .mk (channel storage).toTileDType (ofFloat (channel storage) (encode storage (xs i j))))\n    (hnotNaN : ∀ i j, isNaN storage (xs i j) = Bool.false) :\n    ∃ t, FP.Structural.exec (backend rest) (kernel storage X Y sm sn sy M N) s = some t ∧\n      (∀ i : Fin M, ∃ v : Bits storage,\n        t.mem Y i.val = .mk (channel storage).toTileDType (ofFloat (channel storage) (encode storage v)) ∧\n        IsMaximum storage (xs i) v ∧ isNaN storage v = Bool.false) ∧\n      (∀ r o, r ≠ Y ∨ M ≤ o → t.mem r o = s.mem r o) :=\n  ConcreteCorrect.source_correct storage rest s X Y sm sn sy M N hN xs hinput hnotNaN"
+            },
+            {
+              "line": 6,
+              "end_line": 28,
+              "path": "bench/tritonbench_g/matrix_reduction/Proofs/TypedSource.lean",
+              "sha256": "6e4a769a7b871e50b630b7b8c80d024c8e5fc743279174a0d48b22ed6460ae8e",
+              "excerpt": "inductive Storage where\n  | fp16 | fp32\n  deriving DecidableEq, Repr\n\nsyntax \"matrixMax%\" \"[\" tritonDType \"]\" : term\nset_option hygiene false in\nmacro_rules\n  | `(matrixMax%[$dtype:tritonDType]) =>\n    `(fun (x_ptr y_ptr : RegionName) (stride_xm stride_xn _stride_y BLOCK_M BLOCK_N : Nat) =>\n      ComputeKernel.mk [x_ptr] [y_ptr] (triton {\n        tl.region x_ptr = $dtype, y_ptr = $dtype\n        x_ptr = tl.make_block_ptr(base=x_ptr,\n          shape=($(BLOCK_M), $(BLOCK_N)), strides=($(stride_xm), $(stride_xn)),\n          offsets=($(0), $(0)), block_shape=($(BLOCK_M), $(BLOCK_N)), order=(1, 0))\n        x = tl.load(x_ptr)\n        y = tl.max(x, axis=1)\n        tl.store(y_ptr + tl.arange(0, $(BLOCK_M)), y.to($dtype))\n      }).surfaceBody)\n\ndef kernel (storage : Storage) : RegionName → RegionName → Nat → Nat → Nat → Nat → Nat → ComputeKernel :=\n  match storage with\n  | .fp16 => matrixMax%[tl.float16]\n  | .fp32 => matrixMax%[tl.float32]"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "matrix_reduction",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "matrix_transpose",
@@ -33974,18 +34743,86 @@
       },
       "structural_gaps": [
         {
-          "kind": "unverified_scope",
-          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
-          "can_defer_as_numeric_assumption": false
+          "id": "MUL_EXPONENT_COMPENSATOR-S1",
+          "kind": "host_floor_grid_and_tail",
+          "finding": "The host allocates shape-preserving fp32 output but launches only shape[0]//B complete blocks; public specs cover one complete block.",
+          "why_blocks_full_original_scope": "A whole-wrapper specification must compose that exact floor grid and account for the unwritten tail/multidimensional extent; current proofs do not state it.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 20,
+              "end_line": 25,
+              "path": "bench/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator.py",
+              "sha256": "d1978613929a72a7d01dc152e095143a27abfe01be68071c845e38468b086027",
+              "excerpt": "def launch_mul_kernel(src, BLOCK_SIZE=1):\n    # Create an empty tensor for the result\n    dst = torch.empty(src.shape, dtype=torch.float32, device='cuda')\n    # Launch the Triton kernel\n    mul_kernel[(src.shape[0] // BLOCK_SIZE,)](src, dst, BLOCK_SIZE)\n    return dst"
+            },
+            {
+              "line": 22,
+              "end_line": 42,
+              "path": "bench/tritonbench_g/mul_exponent_compensator/Correct.lean",
+              "sha256": "8bd739b4eb2cac7a80192a8fb74255df9341cc599a70b8d0729922e64abdce9b",
+              "excerpt": "noncomputable def mulIO (src dst : RegionName) (B : Nat) : KernelIO₁ where\n  kernel := mul_kernel src dst B\n  inp := src\n  out := dst\n  Bin := B\n  Bout := B\n  read := fun pid => pid * B\n  write := fun pid => pid * B\n\n/-- **The headline**: `mul_kernel` implements the elementwise constant\nscaling `xs i * exponentCompensator` on its IO signature. Spelled out (see\n`KernelIO₁.Implements`): for every disjoint flat placement of the two\nbuffers, every program id whose windows are in bounds, and every launch\nstate whose input window holds `xs` — everything else arbitrary — the\ntranslated pointer kernel terminates, its output window holds\n`xs i * exponentCompensator`, and every other memory cell is unchanged.\nProof: `Implements.intro` assembles the region-model triple with the bridge\nside conditions. -/\nspecification mul_kernel_correctness (src dst : RegionName) (B : Nat)\n    (hB : 0 < B) :\n    mulIO src dst B ⊨ fun xs i => xs i * exponentCompensator := by"
+            }
+          ]
+        },
+        {
+          "id": "MUL_EXPONENT_COMPENSATOR-S2",
+          "kind": "input_dtype_and_conversion",
+          "finding": "The wrapper permits non-fp32 src but the selected FP source uses one fp32 input/arithmetic channel and no typed input/output conversion family.",
+          "why_blocks_full_original_scope": "Implicit dtype dispatch and destination conversion are missing execution structure, independent of whether native rounding correspondence is deferred.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 7,
+              "end_line": 17,
+              "path": "bench/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator.py",
+              "sha256": "d1978613929a72a7d01dc152e095143a27abfe01be68071c845e38468b086027",
+              "excerpt": "def mul_kernel(src, dst, BLOCK_SIZE: tl.constexpr):\n    # Define a constant exponent compensator\n    exponent_compensator: tl.constexpr = 2.0 ** (127 - 15)\n    # Calculate the indices for the current program ID\n    idxs = tl.program_id(0) * BLOCK_SIZE + tl.arange(0, BLOCK_SIZE)\n    # Load elements from the source tensor\n    x = tl.load(src + idxs)\n    # Multiply each element by the exponent compensator\n    y = x * exponent_compensator\n    # Store the result in the destination tensor\n    tl.store(dst + idxs, y)"
+            },
+            {
+              "line": 20,
+              "end_line": 24,
+              "path": "bench/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator.py",
+              "sha256": "d1978613929a72a7d01dc152e095143a27abfe01be68071c845e38468b086027",
+              "excerpt": "def launch_mul_kernel(src, BLOCK_SIZE=1):\n    # Create an empty tensor for the result\n    dst = torch.empty(src.shape, dtype=torch.float32, device='cuda')\n    # Launch the Triton kernel\n    mul_kernel[(src.shape[0] // BLOCK_SIZE,)](src, dst, BLOCK_SIZE)"
+            },
+            {
+              "line": 22,
+              "end_line": 30,
+              "path": "bench/tritonbench_g/mul_exponent_compensator/Kernels.lean",
+              "sha256": "1b8d479d47a60129b26a95106a9c1e6cabe01b6dfa052483da0c744c5189bf0d",
+              "excerpt": "noncomputable def mul_kernel\n    (src dst : RegionName)\n    (BLOCK_SIZE : Nat) :\n    ComputeKernel := triton {\n  exponent_compensator = $((exponentCompensator : ℝ))\n  idxs = tl.program_id(0) * $(BLOCK_SIZE) + tl.arange(0, $(BLOCK_SIZE))\n  x = tl.load(src + idxs)\n  y = x * exponent_compensator\n  tl.store(dst + idxs, y)"
+            },
+            {
+              "line": 13,
+              "end_line": 19,
+              "path": "bench/tritonbench_g/mul_exponent_compensator/FPEquiv.lean",
+              "sha256": "9428b24321489b9e3664fa9a24c034bdaea0681410991048efa233dc112d4a1d",
+              "excerpt": "noncomputable def multiplicationSite (src dst : RegionName) (B : Nat) : Site :=\n  .mulScalar (Source.prefixBefore (mul_kernel src dst B).surfaceBody \"y\") B []\n    (.ref .real [B] \"x\") (.ref .real [] \"exponent_compensator\")\n\nnoncomputable def original (src dst : RegionName) (B : Nat) : Program where\n  kernel := mul_kernel src dst B\n  domain := [multiplicationSite src dst B]"
+            }
+          ]
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
+      "initial_assessment": "structural_gaps_confirmed",
       "deferred_numerical_assumptions": [],
       "potential_numeric_ids_not_yet_accepted": [
         "fp32_mul_commute_real"
       ],
       "callback_assumptions": {},
-      "review": null
+      "review": null,
+      "initial_structural_gaps": [
+        {
+          "kind": "unverified_scope",
+          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "mul_exponent_compensator",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "multinomial_sampling",
@@ -34462,18 +35299,63 @@
       },
       "structural_gaps": [
         {
-          "kind": "unverified_scope",
-          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
-          "can_defer_as_numeric_assumption": false
+          "id": "NESTED_LOOPS_PROCESSING-S1",
+          "kind": "duplicated_host_grid_and_initialization",
+          "finding": "wrapper_nested3 builds arange int32 input and zero output then launches n_cols//4 identical programs, all using the same pointers and no program_id offset.",
+          "why_blocks_full_original_scope": "Current RegionCopy/FlatCopy prove one complete program only. The actual repeated/overlapping launch, bounds domain sm+47*sn<extent, initialization and final observable output are unassembled; ordinary local safety assumptions are not themselves defects.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 6,
+              "end_line": 15,
+              "path": "bench/tritonbench_g/nested_loops_processing/nested_loops_processing.py",
+              "sha256": "5d879bf126fc9fecfb7d402648ca125c1d62a7b85c3339247adfa3d1b7bb5662",
+              "excerpt": "def nested3(in_ptr, out_ptr, stride_m, stride_n):\n    offs_am = tl.arange(0, 2)\n    offs_an = tl.arange(0, 2)\n    a_ptrs = in_ptr + (offs_am[:, None] * stride_m +\n                        offs_an[None, :] * stride_n)\n\n    offs_cm = tl.arange(0, 2)\n    offs_cn = tl.arange(0, 2)\n    c_ptrs = out_ptr + stride_m * offs_cm[:, None] + stride_n * offs_cn[\n        None, :]"
+            },
+            {
+              "line": 38,
+              "end_line": 43,
+              "path": "bench/tritonbench_g/nested_loops_processing/nested_loops_processing.py",
+              "sha256": "5d879bf126fc9fecfb7d402648ca125c1d62a7b85c3339247adfa3d1b7bb5662",
+              "excerpt": "def wrapper_nested3(n_rows, n_cols):\n    x = torch.arange(0, n_rows * n_cols, device=\"cuda\", dtype=torch.int32).reshape([n_rows, n_cols])\n    output = torch.zeros([n_rows, n_cols], device=x.device, dtype=x.dtype)\n    grid = lambda meta: (n_cols // 4,)\n    nested3[grid](x, output, x.stride(0), x.stride(1))\n    print(output)"
+            },
+            {
+              "line": 568,
+              "end_line": 606,
+              "path": "bench/tritonbench_g/nested_loops_processing/Correct.lean",
+              "sha256": "cb59e119d0c47c53fd46cb45d93a15ce0589c5d8dfd8870634231aaee78fe744",
+              "excerpt": "specification original_real_correct (storage : Storage) (bounds : RegionBounds)\n    (s : BlockState) (src dst : RegionName) (sm sn : Nat)\n    (hsep : src ≠ dst) (hinjective : FullReal.TileInjective sm sn)\n    (hsrc : sm + 27 * sn < bounds src) (hdst : sm + 47 * sn < bounds dst) :\n    Spec.Real (Contracts.RegionCopy storage Bool.false bounds s src dst sm sn) := by\n  exact ⟨hinjective, PayloadReal.original_io storage s src dst sm sn hsep,\n    PayloadReal.original_safe storage bounds src dst sm sn s hsrc hdst⟩\n\n/-- The actual candidate has the same independently specified ordered output and full frame. -/\nspecification candidate_real_correct (storage : Storage) (bounds : RegionBounds)\n    (s : BlockState) (src dst : RegionName) (sm sn : Nat)\n    (hsep : src ≠ dst) (hinjective : FullReal.TileInjective sm sn)\n    (hsrc : sm + 27 * sn < bounds src) (hdst : sm + 47 * sn < bounds dst) :\n    Spec.Real (Contracts.RegionCopy storage Bool.true bounds s src dst sm sn) := by\n  exact ⟨hinjective, PayloadReal.candidate_io storage s src dst sm sn hsep,\n    PayloadReal.candidate_safe storage bounds src dst sm sn s hsrc hdst⟩\n\n/-- Complete original flat-memory contract; the library bridge's zero-undef\nrequirement is explicit and is absent from the region-memory contract. -/\nspecification original_flat_real_correct (storage : Storage) (A : FlatAlloc)\n    (hd : A.Disjoint) (hcov : ∀ r, r ∉ A.regions → A.extent r = 0)\n    (s : BlockState) (src dst : RegionName) (sm sn : Nat)\n    (hsep : src ≠ dst) (hinjective : FullReal.TileInjective sm sn)\n    (hsrc : sm + 27 * sn < A.extent src) (hdst : sm + 47 * sn < A.extent dst)\n    (hu : s.undef = fun _ _ ↦ 0) :\n    Spec.Real (Contracts.FlatCopy storage Bool.false A s src dst sm sn) := by\n  exact ⟨hinjective, PayloadReal.original_flat_io storage A hd hcov s src dst sm sn\n    hsep hsrc hdst hu, PayloadReal.original_safe storage A.extent src dst sm sn s hsrc hdst⟩\n\n/-- Complete candidate flat-memory contract, including untouched raw cell types. -/\nspecification candidate_flat_real_correct (storage : Storage) (A : FlatAlloc)\n    (hd : A.Disjoint) (hcov : ∀ r, r ∉ A.regions → A.extent r = 0)\n    (s : BlockState) (src dst : RegionName) (sm sn : Nat)\n    (hsep : src ≠ dst) (hinjective : FullReal.TileInjective sm sn)\n    (hsrc : sm + 27 * sn < A.extent src) (hdst : sm + 47 * sn < A.extent dst)\n    (hu : s.undef = fun _ _ ↦ 0) :\n    Spec.Real (Contracts.FlatCopy storage Bool.true A s src dst sm sn) := by\n  exact ⟨hinjective, PayloadReal.candidate_flat_io storage A hd hcov s src dst sm sn\n    hsep hsrc hdst hu, PayloadReal.candidate_safe storage A.extent src dst sm sn s hsrc hdst⟩"
+            },
+            {
+              "line": 6,
+              "end_line": 23,
+              "path": "bench/tritonbench_g/nested_loops_processing/Proofs/Contracts.lean",
+              "sha256": "560e4ce928035376fa74e9b3533eb88f92bf6cf1cb780e3f8a32419d3c783b04",
+              "excerpt": "/-- Complete per-program execution and ordered mathematical output, a full raw\nmemory frame, and safety of every actual load/store. Tile injectivity separates\nnative concurrent lane stores from the retained cross-tile overwrite order. -/\ndef RegionCopy (storage : Storage) (version : Bool) (bounds : RegionBounds)\n    (s : BlockState) (src dst : RegionName) (sm sn : Nat) : Prop :=\n  FullReal.TileInjective sm sn ∧\n  PayloadReal.RegionCopyContract (PayloadReal.carrier storage)\n    (RealCandidate.algorithm storage version src dst sm sn) s src dst sm sn ∧\n  (RealCandidate.algorithm storage version src dst sm sn).TraceSafe bounds s\n\n/-- The complete flat-memory version retains translated cell types and the full\noutside-footprint frame, with source access safety and native lane injectivity. -/\ndef FlatCopy (storage : Storage) (version : Bool) (A : FlatAlloc)\n    (s : BlockState) (src dst : RegionName) (sm sn : Nat) : Prop :=\n  FullReal.TileInjective sm sn ∧\n  PayloadReal.FlatCopyContract (PayloadReal.carrier storage) A\n    (RealCandidate.algorithm storage version src dst sm sn) s src dst sm sn ∧\n  (RealCandidate.algorithm storage version src dst sm sn).TraceSafe A.extent s"
+            }
+          ]
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
+      "initial_assessment": "structural_gaps_confirmed",
       "deferred_numerical_assumptions": [],
       "potential_numeric_ids_not_yet_accepted": [
         "(hu : s.undef = fun _ _ ↦ 0)"
       ],
       "callback_assumptions": {},
-      "review": null
+      "review": null,
+      "initial_structural_gaps": [
+        {
+          "kind": "unverified_scope",
+          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "nested_loops_processing",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "parallel_attention",
@@ -36237,16 +37119,91 @@
       },
       "structural_gaps": [
         {
+          "id": "QUANTIZE_GLOBAL-S1",
+          "kind": "missing_round_and_integer_store",
+          "finding": "The original executes llrint then writes int8, but TypedScaled.source writes the unrounded scaled value to fp32 storage.",
+          "why_blocks_full_original_scope": "The numerical-stage executable is absent; a deferred numerical assumption cannot make the scaled-store slice the original program.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 28,
+              "end_line": 29,
+              "path": "bench/tritonbench_g/quantize_global/quantize_global.py",
+              "sha256": "163f6e73234587c1d05763ed60ccc1ac4ca7d7d384f18b7af17399509205032f",
+              "excerpt": "    output = tl.extra.cuda.libdevice.llrint(127.0 * (x * absmax_inv))\n    tl.store(output_ptr + offsets, output, mask=mask)"
+            },
+            {
+              "line": 34,
+              "end_line": 37,
+              "path": "bench/tritonbench_g/quantize_global/quantize_global.py",
+              "sha256": "163f6e73234587c1d05763ed60ccc1ac4ca7d7d384f18b7af17399509205032f",
+              "excerpt": "    output = torch.empty(*x.shape, device=\"cuda\", dtype=torch.int8)\n    assert x.is_cuda and output.is_cuda\n    n_elements = output.numel()\n    grid = lambda meta: (triton.cdiv(n_elements, meta[\"BLOCK_SIZE\"]),)"
+            },
+            {
+              "line": 10,
+              "end_line": 21,
+              "path": "bench/tritonbench_g/quantize_global/Proofs/TypedScaled.lean",
+              "sha256": "a99ae062693b5914fb41bd9adbe1ee191d6530ccda6fa25aaa9c4c96d431dd64",
+              "excerpt": "/-- The already accepted pre-llrint scaled-store stage, with actual fp32 storage\nand compute precision. This does not implement the final integer quantization. -/\ndef source (X AbsmaxInv Out : RegionName) (N B : Nat) : ComputeKernel := triton {\n  tl.region X = tl.float32, AbsmaxInv = tl.float32, Out = tl.float32\n  pid = tl.program_id(0)\n  block_start = pid * $(B)\n  offsets = block_start + tl.arange(0, $(B))\n  mask = offsets < $(N)\n  x = tl.load(X + offsets, mask=mask).to(tl.float32)\n  absmax_inv = tl.load(AbsmaxInv).to(tl.float32)\n  output = 127.0 * (x * absmax_inv)\n  tl.store(Out + offsets, output, mask=mask)"
+            },
+            {
+              "line": 147,
+              "end_line": 153,
+              "path": "bench/tritonbench_g/quantize_global/QuantizeGlobal.lean",
+              "sha256": "9b919f2e6828a2104ef6209e38a7f027ba94c255b28d5ecba692fb0d589f9f87",
+              "excerpt": "theorem quantize_global_surface_toAlgorithm?_blocked\n    (x_ptr absmax_inv_ptr output_ptr : RegionName)\n    (n_elements BLOCK_SIZE : Nat) :\n    ∃ err,\n      (quantize_global_surface x_ptr absmax_inv_ptr output_ptr\n        n_elements BLOCK_SIZE).toAlgorithm? = Except.error err := by\n  simp [quantize_global_surface, ComputeExpr.toAlgorithm?]"
+            }
+          ]
+        },
+        {
+          "id": "QUANTIZE_GLOBAL-S2",
+          "kind": "host_reduction_and_tuple_composition",
+          "finding": "The wrapper computes global absmax and reciprocal, then returns both quantized data and absmax after the complete launch.",
+          "why_blocks_full_original_scope": "Current public contracts receive AbsmaxInv as an independent input and prove no relation from the original tensor through host reduction to both returned values.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 31,
+              "end_line": 39,
+              "path": "bench/tritonbench_g/quantize_global/quantize_global.py",
+              "sha256": "163f6e73234587c1d05763ed60ccc1ac4ca7d7d384f18b7af17399509205032f",
+              "excerpt": "def quantize_global(x: torch.Tensor):\n    absmax = x.abs().max().unsqueeze(0)\n    absmax_inv = 1.0 / absmax\n    output = torch.empty(*x.shape, device=\"cuda\", dtype=torch.int8)\n    assert x.is_cuda and output.is_cuda\n    n_elements = output.numel()\n    grid = lambda meta: (triton.cdiv(n_elements, meta[\"BLOCK_SIZE\"]),)\n    _quantize_global[grid](x, absmax_inv, output, n_elements)\n    return output, absmax"
+            },
+            {
+              "line": 7,
+              "end_line": 12,
+              "path": "bench/tritonbench_g/quantize_global/FPCorrect.lean",
+              "sha256": "e447293883a94065aa367b6f344dde356cdbe06d14d580b5cb2b0e2db03bd85a",
+              "excerpt": "specification quantize_global_scaled_fp32 (rest : Algebra Word) (cfg : FP.Config)\n    (s : State Word) (X AbsmaxInv Out : RegionName) (N B : Nat) :\n    ∃ t, FP.Structural.exec (backend rest cfg) (source X AbsmaxInv Out N B) s = some t ∧\n      (∀ i, TypedScaled.offset s B i < N → t.mem Out (TypedScaled.offset s B i) = .mk .real (value cfg s X AbsmaxInv B i)) ∧\n      (∀ r o, (r ≠ Out ∨ ∀ i, TypedScaled.offset s B i < N → o ≠ TypedScaled.offset s B i) → t.mem r o = s.mem r o) :=\n  source_correct rest cfg s X AbsmaxInv Out N B"
+            },
+            {
+              "line": 320,
+              "end_line": 327,
+              "path": "bench/tritonbench_g/quantize_global/QuantizeGlobal.lean",
+              "sha256": "9b919f2e6828a2104ef6209e38a7f027ba94c255b28d5ecba692fb0d589f9f87",
+              "excerpt": "specification quantize_global_correctness\n    (x_ptr absmax_inv_ptr output_ptr : RegionName)\n    (n_elements BLOCK_SIZE : Nat) (scale127 : ℝ)\n    (hBS : 0 < BLOCK_SIZE) :\n    (∃ err, (quantize_global_surface x_ptr absmax_inv_ptr output_ptr\n        n_elements BLOCK_SIZE).toAlgorithm? = Except.error err) ∧\n    (quantizeGlobalIO x_ptr absmax_inv_ptr output_ptr n_elements BLOCK_SIZE\n        scale127 ⊨ fun _ _ xs ys i => scale127 * (xs i * ys i)) := by"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "quantize_global",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "quantize_kv_copy",
@@ -37686,16 +38643,77 @@
       },
       "structural_gaps": [
         {
+          "id": "REVERSED_CUMSUM_SCALAR-S1",
+          "kind": "host_rows_and_dtype_selection",
+          "finding": "The wrapper chooses dtype, allocates z and executes one complete reverse scan for every B*H row.",
+          "why_blocks_full_original_scope": "Public contracts are complete within one row but do not assemble the exact wrapper output/selection branches.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 35,
+              "end_line": 47,
+              "path": "bench/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar.py",
+              "sha256": "e145461bdb74f2d5ae5de59275181e6e22d39f0b0b133cd191d214ec5ab4f40a",
+              "excerpt": "def chunk_global_reversed_cumsum_scalar(\n    s: torch.Tensor,\n    dtype: Optional[torch.dtype] = None,\n) -> torch.Tensor:\n    B, H, T = s.shape\n    dtype = dtype or s.dtype\n    grid = (B * H,)\n    z = torch.empty_like(s, dtype=dtype)\n    chunk_global_reversed_cumsum_scalar_kernel[grid](\n        s, z,\n        T=T\n    )\n    return z"
+            },
+            {
+              "line": 21,
+              "end_line": 33,
+              "path": "bench/tritonbench_g/reversed_cumsum_scalar/Correct.lean",
+              "sha256": "87c9bd8764102e38d8c99c60103eb2458884bd67992d90674342a4d0e5c6631f",
+              "excerpt": "def Contract (kernel : ComputeKernel) (T BT : Nat) (s o : RegionName) : Prop :=\n  (∀ initial : BlockState, s ≠ o → 0 < BT →\n    ∃ final, exec kernel.toAlgKernel initial = some final ∧\n      RealExecution.Post T BT s o initial final) ∧\n  (∀ initial : BlockState, s ≠ o → 0 < BT →\n    ComputeCorrect.RealizesFrame_without_Rounding kernel initial\n      (RealSurface.writes T (initial.pids 0) o) (RealSurface.expectedCell T BT s initial)) ∧\n  (∀ (A : FlatAlloc), A.Disjoint → (∀ r, r ∉ A.regions → A.extent r = 0) →\n    ∀ initial : BlockState, s ≠ o → 0 < BT →\n      RealSafety.Bounds T (initial.pids 0) s o A.extent →\n      initial.undef = (fun _ _ => 0) →\n      ∃ final, exec (A.flattenKernel kernel.toAlgKernel) (A.flattenState initial) = some final ∧\n        RealIO.Post A T s o initial final)"
+            }
+          ]
+        },
+        {
+          "id": "REVERSED_CUMSUM_SCALAR-S2",
+          "kind": "integer_storage_conversion_routes",
+          "finding": "Only FloatDType input/output are materialized, while production casts input to fp32 and accepts arbitrary torch.dtype output override.",
+          "why_blocks_full_original_scope": "Missing integer load/store conversion paths cannot be discharged by deferring fp32 scan rounding.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 28,
+              "end_line": 32,
+              "path": "bench/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar.py",
+              "sha256": "e145461bdb74f2d5ae5de59275181e6e22d39f0b0b133cd191d214ec5ab4f40a",
+              "excerpt": "        b_s = tl.load(p_s, boundary_check=(0,)).to(tl.float32)\n        b_zz = tl.sum(b_s, axis=0)\n        b_z += b_zz\n        b_o = b_s - tl.cumsum(b_s, axis=0) + b_z[None]\n        tl.store(p_o, b_o.to(p_o.dtype.element_ty), boundary_check=(0,))"
+            },
+            {
+              "line": 35,
+              "end_line": 42,
+              "path": "bench/tritonbench_g/reversed_cumsum_scalar/reversed_cumsum_scalar.py",
+              "sha256": "e145461bdb74f2d5ae5de59275181e6e22d39f0b0b133cd191d214ec5ab4f40a",
+              "excerpt": "def chunk_global_reversed_cumsum_scalar(\n    s: torch.Tensor,\n    dtype: Optional[torch.dtype] = None,\n) -> torch.Tensor:\n    B, H, T = s.shape\n    dtype = dtype or s.dtype\n    grid = (B * H,)\n    z = torch.empty_like(s, dtype=dtype)"
+            },
+            {
+              "line": 28,
+              "end_line": 41,
+              "path": "bench/tritonbench_g/reversed_cumsum_scalar/Proofs/Source.lean",
+              "sha256": "ba4834a908fa0627cc61d22caa8b9200786d881b2a31cadf012901043a3276d7",
+              "excerpt": "    `(fun (dtype out_dtype : FloatDType) (s o : RegionName) (T BT : Nat) =>\n      ComputeKernel.mk [s] [o] (triton {\n        tl.region s = DTYPE, o = OUT_DTYPE\n        i_bh = tl.program_id(0)\n        b_z = tl.zeros([], dtype=tl.float32)\n        for i_t in range(tl.cdiv($(T), $(BT)) - $(1), -$(1), -$(1)) {\n          $ptr\n          p_o = tl.make_block_ptr(base=o+i_bh*$(T), shape=($(T)), strides=($(1)),\n            offsets=(i_t*$(BT)), block_shape=($(BT)), order=(0))\n          b_s = tl.load(p_s, boundary_check=([0] : List Nat)).to(tl.float32)\n          b_zz = tl.sum(b_s, axis=0)\n          b_z += b_zz\n          b_o = b_s - tl.cumsum(b_s, axis=0) + b_z[None]\n          tl.store(p_o, (b_o).to(p_o.dtype.element_ty), boundary_check=([0] : List Nat))"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "reversed_cumsum_scalar",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "rms_matmul_rbe",
@@ -40944,16 +41962,91 @@
       },
       "structural_gaps": [
         {
+          "id": "ROWWISE_QUANTIZATION_TRITON-S1",
+          "kind": "missing_round_and_integer_store",
+          "finding": "Original line44 applies llrint and line49 allocates int8 output; accepted TypedScaled.source instead stores fp32 scaledValue.",
+          "why_blocks_full_original_scope": "The missing final quantization operation and integer destination are executable stages, not merely unvalidated numeric assumptions.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 42,
+              "end_line": 50,
+              "path": "bench/tritonbench_g/rowwise_quantization_triton/rowwise_quantization_triton.py",
+              "sha256": "7e9c271d5128c7ccdd1e2b6c43fd35cdbe902f272f7bde03191d69e7182cca25",
+              "excerpt": "    abs_x = tl.abs(x)\n    max_val = tl.max(tl.where(row_mask, abs_x, 0), axis=0)\n    output = tl.extra.cuda.libdevice.llrint(127.0 * (x / max_val))\n    tl.store(output_ptr + offsets, output, mask=row_mask)\n    tl.store(output_maxs + pid, max_val)\n\ndef quantize_rowwise(x: torch.Tensor):\n    output = torch.empty(*x.shape, device=x.device, dtype=torch.int8)\n    output_maxs = torch.empty(x.shape[0], device=x.device, dtype=torch.float16)"
+            },
+            {
+              "line": 10,
+              "end_line": 24,
+              "path": "bench/tritonbench_g/rowwise_quantization_triton/Proofs/TypedScaled.lean",
+              "sha256": "97b6c11f0e0afd3d98e2ec24ec7259d5a834d3e4d2a2e795b3564afc5c12bf1f",
+              "excerpt": "/-- Original accepted pre-llrint stage, including the actual fp16 maximum\noutput. Input and the observable pre-rounding value register are fp32. -/\ndef source (x_ptr output_ptr output_maxs : RegionName) (BLOCK_SIZE P2 : Nat) : ComputeKernel := triton {\n  tl.region x_ptr = tl.float32, output_ptr = tl.float32, output_maxs = tl.float16\n  pid = tl.program_id(axis=0)\n  block_start = pid * $(BLOCK_SIZE)\n  arange = tl.arange(0, $(P2))\n  offsets = block_start + arange\n  row_mask = arange < $(BLOCK_SIZE)\n  x = tl.load(x_ptr + offsets, mask=row_mask)\n  abs_x = tl.abs(x)\n  max_val = tl.max(tl.where(row_mask, abs_x, 0.0), axis=0)\n  output = 127.0 * (x / max_val)\n  tl.store(output_ptr + offsets, output, mask=row_mask)\n  tl.store(output_maxs + pid, max_val.to(tl.float16))"
+            },
+            {
+              "line": 103,
+              "end_line": 109,
+              "path": "bench/tritonbench_g/rowwise_quantization_triton/RowwiseQuantizationTriton.lean",
+              "sha256": "771ca1d7a70299dd919f82f3b1567ccf319f51a565e6d996219ad6eb5b8a1e7d",
+              "excerpt": "theorem quantize_rowwise_real_surface_toAlgorithm_blocked\n    (x_ptr output_ptr output_maxs : RegionName)\n    (_n_elements BLOCK_SIZE P2 : Nat) :\n    ∃ err,\n      (quantize_rowwise_real_surface x_ptr output_ptr output_maxs _n_elements\n        BLOCK_SIZE P2).toAlgorithm? = Except.error err := by\n  simp [quantize_rowwise_real_surface, ComputeExpr.toAlgorithm?]"
+            },
+            {
+              "line": 8,
+              "end_line": 27,
+              "path": "bench/tritonbench_g/rowwise_quantization_triton/FPCorrect.lean",
+              "sha256": "da77c522dce298085b4cc9b0069101a10a0a0b31b35777854927530551cb99ba",
+              "excerpt": "specification rowwise_scaled_typed_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (p : Parameters) (s : State α)\n    (hwidth : 0 < p.width) (hregions : p.out ≠ p.maxOut) :\n    ∃ t, FP.Structural.exec M (kernel p) s = some t ∧\n      (∀ i : TileIndex [p.width], i.1.val < p.columns →\n        t.mem p.out (TypedScaled.offset p s i) = .mk .real (scaledValue M p s i)) ∧\n      t.mem p.maxOut (s.pids 0) = .mk .fp16 (maximumStored M p s) ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) :=\n  source_correct M p s hwidth hregions\n/-- Explicit binary32 values for the row and direct binary16 rounding for\nits maximum. The explicit maxnum reduction schedule and NaN/zero profile\nare part of this software model; native lowering remains a separate binding. -/\nspecification rowwise_scaled_software_correctness [Inhabited Word]\n    (rest : Algebra Word) (cfg : FP.Config) (p : Parameters) (s : State Word)\n    (hwidth : 0 < p.width) (hregions : p.out ≠ p.maxOut) :\n    ∃ t, FP.Structural.exec (bitBackend rest cfg) (kernel p) s = some t ∧\n      (∀ i : TileIndex [p.width], i.1.val < p.columns →\n        t.mem p.out (TypedScaled.offset p s i) = .mk .real (bitValue cfg p s i)) ∧\n      t.mem p.maxOut (s.pids 0) = .mk .fp16 (bitMaximumStored cfg p s) ∧\n      (∀ r o, Outside p s r o → t.mem r o = s.mem r o) := by"
+            }
+          ]
+        },
+        {
+          "id": "ROWWISE_QUANTIZATION_TRITON-S2",
+          "kind": "host_pair_and_row_grid",
+          "finding": "The host derives P2 from columns, allocates both output arrays and launches one program per row before returning the pair.",
+          "why_blocks_full_original_scope": "No public result composes all rows or binds the int8/fp16 returned tuple to those allocations and exact parameters.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 48,
+              "end_line": 58,
+              "path": "bench/tritonbench_g/rowwise_quantization_triton/rowwise_quantization_triton.py",
+              "sha256": "7e9c271d5128c7ccdd1e2b6c43fd35cdbe902f272f7bde03191d69e7182cca25",
+              "excerpt": "def quantize_rowwise(x: torch.Tensor):\n    output = torch.empty(*x.shape, device=x.device, dtype=torch.int8)\n    output_maxs = torch.empty(x.shape[0], device=x.device, dtype=torch.float16)\n\n    P2 = int(2 ** (math.ceil(math.log2(x.shape[1]))))\n\n    assert x.is_cuda and output.is_cuda\n    n_elements = output.numel()\n    grid = lambda meta: (x.shape[0],)\n    _quantize_rowwise[grid](x, output, output_maxs, n_elements, BLOCK_SIZE=x.shape[1], P2=P2)\n    return output, output_maxs"
+            },
+            {
+              "line": 447,
+              "end_line": 462,
+              "path": "bench/tritonbench_g/rowwise_quantization_triton/RowwiseQuantizationTriton.lean",
+              "sha256": "771ca1d7a70299dd919f82f3b1567ccf319f51a565e6d996219ad6eb5b8a1e7d",
+              "excerpt": "def quantizeRowwiseIO (x_ptr inert output_ptr output_maxs : RegionName)\n    (n_elements BLOCK_SIZE P2 : Nat) : Masked2DKernelIO₂ₓ₂ where\n  kernel := quantize_rowwise_scaled x_ptr output_ptr output_maxs n_elements\n    BLOCK_SIZE P2\n  in1 := x_ptr\n  in2 := inert\n  out1 := output_ptr\n  out2 := output_maxs\n  B := P2\n  read1 := fun pid _ j => pid * BLOCK_SIZE + j.val\n  read2 := fun _ _ _ => 0\n  write1 := fun pid _ j => pid * BLOCK_SIZE + j.val\n  write2 := fun pid _ _ => pid\n  mask := fun _ _ j => j.val < BLOCK_SIZE\n  read2Mask := fun _ _ _ => False\n  writeMask2 := fun _ _ j => j.val = 0"
+            },
+            {
+              "line": 486,
+              "end_line": 494,
+              "path": "bench/tritonbench_g/rowwise_quantization_triton/RowwiseQuantizationTriton.lean",
+              "sha256": "771ca1d7a70299dd919f82f3b1567ccf319f51a565e6d996219ad6eb5b8a1e7d",
+              "excerpt": "specification quantize_rowwise_correctness\n    (x_ptr inert output_ptr output_maxs : RegionName)\n    (n_elements BLOCK_SIZE P2 : Nat) (hP : 0 < P2)\n    (hRegions : output_ptr ≠ output_maxs) :\n    quantizeRowwiseIO x_ptr inert output_ptr output_maxs n_elements\n        BLOCK_SIZE P2 ⊨\n      fun _ _ xs _ =>\n        (fun i => qrOutSpec BLOCK_SIZE P2 xs i,\n         fun _ => qrMaxSpec BLOCK_SIZE P2 xs) := by"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "rowwise_quantization_triton",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "seeded_dropout",
@@ -41067,16 +42160,91 @@
       },
       "structural_gaps": [
         {
+          "id": "SEEDED_DROPOUT-S1",
+          "kind": "host_seed_and_grid_composition",
+          "finding": "The public contract quantifies one u.pid below grid N B; it does not execute and compose every pid of seeded_dropout with B=1024 or connect host seed dispatch and fresh output to the final tensor.",
+          "why_blocks_full_original_scope": "A predicate restricting pid to the grid is not itself the wrapper launch/result theorem.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 29,
+              "end_line": 35,
+              "path": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
+              "sha256": "2fd4f4e6aff35d5720156b9cf046f2d112173a431d886106a6441382f63ab570",
+              "excerpt": "def seeded_dropout(x, p, seed):\n    output = torch.empty_like(x)\n    assert x.is_contiguous()\n    n_elements = x.numel()\n    grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']), )\n    _seeded_dropout[grid](x, output, n_elements, p, seed, BLOCK_SIZE=1024)\n    return output"
+            },
+            {
+              "line": 27,
+              "end_line": 37,
+              "path": "bench/tritonbench_g/seeded_dropout/Correct.lean",
+              "sha256": "e789f84c46a8f9125e65f803ffb019bc41fc46abed2736a41057ed9fafa49163",
+              "excerpt": "specification seeded_dropout_correctness (storage : Storage) (kind : Random.IntegerType)\n    (x y : RegionName) (N : Nat) (p : ℝ) (seed : SeedCarrier kind)\n    (B : Nat) (hB : SourceDomain.LegalBlock B) :\n    Spec.Real (\n      (∀ u : BlockState, N < 2^31 → u.pid < SourceDomain.grid N B →\n        kind.inRange (seedInt kind seed) = Bool.true →\n        ComputeCorrect.RealizesFrame_without_Rounding (α := MemCell)\n          (original storage kind x y N p seed B hB) u\n          (RealSurface.writes y N B u.pid) (RealSurface.expected x p (seedInt kind seed) B u)) ∧\n      RealIO.Implements (original storage kind x y N p seed B hB).toAlgKernel\n        kind x y N p seed B) := by"
+            },
+            {
+              "line": 13,
+              "end_line": 23,
+              "path": "bench/tritonbench_g/seeded_dropout/Proofs/RealIO.lean",
+              "sha256": "f21fc7cdacefac8c1e575ab65c4cf03f0471dda636a22918ca38a3bcb69abed8",
+              "excerpt": "def Implements (kernel : Kernel) (kind : Random.IntegerType) (x y : RegionName)\n    (N : Nat) (p : ℝ) (seed : SeedCarrier kind) (B : Nat) : Prop :=\n  ∀ A : FlatAlloc, A.Disjoint → (∀ r, r ∉ A.regions → A.extent r = 0) →\n  ∀ u : BlockState, N < 2^31 → u.pid < SourceDomain.grid N B →\n    kind.inRange (seedInt kind seed) = Bool.true → u.undef = (fun _ _ => 0) →\n    FlatMemory.Bounds x y N B u A.extent →\n    ∃ v, exec (A.flattenKernel kernel) (A.flattenState u) = some v ∧\n      (∀ j : Fin B, Index.offset u.pid B j < N →\n        v.mem A.flat (A.addr y (Index.offset u.pid B j)) =\n          MemCell.real (Formula.expected (u.readMem x) p (seedInt kind seed) (Index.offset u.pid B j))) ∧\n      (∀ r o, FlatMemory.Outside A u y N B r o →"
+            }
+          ]
+        },
+        {
+          "id": "SEEDED_DROPOUT-S2",
+          "kind": "nonfloating_data_route",
+          "finding": "Storage has only floating constructors while the wrapper has no floating-only input restriction.",
+          "why_blocks_full_original_scope": "Integer load/division/output conversion or an explicit unsupported-input contract is missing; RNG correctness and division numerical assumptions do not add that path.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 20,
+              "end_line": 26,
+              "path": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
+              "sha256": "2fd4f4e6aff35d5720156b9cf046f2d112173a431d886106a6441382f63ab570",
+              "excerpt": "    x = tl.load(x_ptr + offsets, mask=mask)\n    # randomly prune it\n    random = tl.rand(seed, offsets)\n    x_keep = random > p\n    # write-back\n    output = tl.where(x_keep, x / (1 - p), 0.0)\n    tl.store(output_ptr + offsets, output, mask=mask)"
+            },
+            {
+              "line": 29,
+              "end_line": 34,
+              "path": "bench/tritonbench_g/seeded_dropout/seeded_dropout.py",
+              "sha256": "2fd4f4e6aff35d5720156b9cf046f2d112173a431d886106a6441382f63ab570",
+              "excerpt": "def seeded_dropout(x, p, seed):\n    output = torch.empty_like(x)\n    assert x.is_contiguous()\n    n_elements = x.numel()\n    grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']), )\n    _seeded_dropout[grid](x, output, n_elements, p, seed, BLOCK_SIZE=1024)"
+            },
+            {
+              "line": 20,
+              "end_line": 22,
+              "path": "bench/tritonbench_g/seeded_dropout/Kernels.lean",
+              "sha256": "6880ce076cfbddbcd826adc4b6c2e0e89c6907ce13253e06d6b786d99e69a5ef",
+              "excerpt": "inductive Storage where\n  | fp32 | fp16 | bf16 | fp64 | f8e4 | f8e5\n  deriving DecidableEq"
+            },
+            {
+              "line": 50,
+              "end_line": 62,
+              "path": "bench/tritonbench_g/seeded_dropout/Kernels.lean",
+              "sha256": "6880ce076cfbddbcd826adc4b6c2e0e89c6907ce13253e06d6b786d99e69a5ef",
+              "excerpt": "  tl.region x_ptr = $storage, output_ptr = $storage\n  seed_arg = $((seed : $seedTy))\n  tl.source_integer seed_arg = $seedDType\n  BLOCK_SIZE_arg = $(_root_.VeriTile.Triton.Random.i32ArangeSize BLOCK_SIZE (RandomDomain.arange_domain hBlock))\n  pid = tl.program_id(axis=0)\n  $blockStart\n  offsets = block_start + tl.arange(0, BLOCK_SIZE_arg)\n  mask = offsets < $(n_elements)\n  x = tl.load(x_ptr + offsets, mask=mask)\n  random = tl.rand(seed_arg, offsets)\n  x_keep = random > $(p)\n  output = tl.where(x_keep, x / (1 - $(p)), 0.0)\n  tl.store(output_ptr + offsets, (output).to($storage:tritonDType), mask=mask)"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "seeded_dropout",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "sgmv_expand_slice",
@@ -41463,16 +42631,84 @@
       },
       "structural_gaps": [
         {
+          "id": "SIN_COMPUTATION-S1",
+          "kind": "host_grid_composition",
+          "finding": "sin_triton passes the grid (n_elements,) with B=4, but typed_real_correct and source_equivalence are per-program and do not state the final caller-provided output after this exact launch.",
+          "why_blocks_full_original_scope": "Universal pid lemmas are useful ingredients, but the N-program sequence, including fully masked excess programs and empty input, has not been assembled into the wrapper result.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 21,
+              "end_line": 23,
+              "path": "bench/tritonbench_g/sin_computation/sin_computation.py",
+              "sha256": "c700381fd71c67258bb9020580368012faab205a5e77ac51930d08ae066405ba",
+              "excerpt": "def sin_triton(x, out):\n    n_elements = x.numel()\n    sin_kernel[(n_elements,)](x, out, n_elements, BLOCK_SIZE=4)"
+            },
+            {
+              "line": 40,
+              "end_line": 55,
+              "path": "bench/tritonbench_g/sin_computation/Correct.lean",
+              "sha256": "3ef407f56a5f2bc14b11784af3ba8f178c6e41d3cee15157526c9921572dc476",
+              "excerpt": "def typedIO (input : InputStorage) (output : OutputStorage) (v : Bool)\n    (X Y : RegionName) (N B : Nat) : MaskedKernelIO₁ :=\n  { sinIO X Y N B with\n    kernel := (typedKernel input output v X Y N B).eraseDType\n    projection := typed_supported input output v X Y N B }\n\n/-- Independent Real.sin formula for every active lane of either complete typed\nsource program, including successful flat execution, active bounds and full frame. -/\nspecification typed_real_correct (input : InputStorage) (output : OutputStorage) (v : Bool)\n    (X Y : RegionName) (N B : Nat) :\n    VeriTile.Spec.Real (typedIO input output v X Y N B ⊨ fun xs i => Real.sin (xs i)) := by\n  intro A hd hr hc pid hx ho hscr xs s hp hu hxs\n  obtain ⟨t, he, hv, hf⟩ := sin_kernel_correctness X Y N B\n    A hd hr hc pid hx ho hscr xs s hp hu hxs\n  refine ⟨t, ?_, hv, hf⟩\n  exact (typed_flat_exec A input output v X Y N B (A.flattenState s)).trans he"
+            },
+            {
+              "line": 25,
+              "end_line": 35,
+              "path": "bench/tritonbench_g/sin_computation/FPEquiv.lean",
+              "sha256": "2f2ef74de3f54012842963caf70ed1ea14e7c72442985a274040447702c11ffb",
+              "excerpt": "specification source_equivalence (input : InputStorage) (output : OutputStorage)\n    (X Y : RegionName) (N B : Nat) :\n    program input output Bool.false X Y N B ≡[assumptions]\n      program input output Bool.true X Y N B := by\n  apply Spec.FloatingPoint.ofNumerical (structural := fun _ _ => False) rfl\n    (by cases input <;> cases output <;> rfl)\n  intro α _ M D _ s _\n  change run (engine M) (typedKernel input output Bool.false X Y N B).surfaceBody s =\n    run (engine M) (typedKernel input output Bool.true X Y N B).surfaceBody s\n  rw [decomposition input output Bool.false X Y N B,\n    decomposition input output Bool.true X Y N B]"
+            }
+          ]
+        },
+        {
+          "id": "SIN_COMPUTATION-S2",
+          "kind": "output_dtype_route",
+          "finding": "The independently supplied out argument is not restricted, but OutputStorage enumerates only six floating types.",
+          "why_blocks_full_original_scope": "For nonfloating outputs, structural store conversion or explicit rejection behavior is missing; floating rounding deferrals cannot establish that branch.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 21,
+              "end_line": 23,
+              "path": "bench/tritonbench_g/sin_computation/sin_computation.py",
+              "sha256": "c700381fd71c67258bb9020580368012faab205a5e77ac51930d08ae066405ba",
+              "excerpt": "def sin_triton(x, out):\n    n_elements = x.numel()\n    sin_kernel[(n_elements,)](x, out, n_elements, BLOCK_SIZE=4)"
+            },
+            {
+              "line": 76,
+              "end_line": 89,
+              "path": "bench/tritonbench_g/sin_computation/Kernels.lean",
+              "sha256": "2c8d9a09bc59586750cca27d1e857408439c5bec72d8ebdf17b958658c307080",
+              "excerpt": "inductive InputStorage where\n  | fp32 | fp64\n  deriving DecidableEq, Repr\n\n/-- Supplied output storage is independent of the sine input storage. -/\ninductive OutputStorage where\n  | fp32 | fp64 | fp16 | bf16 | f8e4 | f8e5\n  deriving DecidableEq, Repr\n\n/-- Complete typed source and its natural-index commutation candidate. Explicit\nstore casts expose Triton's implicit conversion to the output pointer dtype. -/\ndef typedKernel (input : InputStorage) (output : OutputStorage) (v : Bool)\n    (X Y : RegionName) (N B : Nat) : ComputeKernel :=\n  match input, output, v with"
+            },
+            {
+              "line": 130,
+              "end_line": 138,
+              "path": "bench/tritonbench_g/sin_computation/Kernels.lean",
+              "sha256": "2c8d9a09bc59586750cca27d1e857408439c5bec72d8ebdf17b958658c307080",
+              "excerpt": "  | .fp32, .fp16, Bool.false => ComputeKernel.mk [X] [Y] (triton {\n      tl.region X = tl.float32, Y = tl.float16\n      pid = tl.program_id(0)\n      block_start = pid * $(B)\n      offsets = block_start + tl.arange(0, $(B))\n      mask = offsets < $(N)\n      x = tl.load(X + offsets, mask=mask)\n      output = tl.sin(x)\n      tl.store(Y + offsets, output.to(tl.float16), mask=mask)"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "sin_computation",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "sin_kernel",
@@ -41579,16 +42815,61 @@
       },
       "structural_gaps": [
         {
+          "id": "SIN_KERNEL-S1",
+          "kind": "host_grid_composition",
+          "finding": "call_kernel allocates and returns output after ceil(N/1024) programs, while both public specifications are one-program IO or typed source equivalence.",
+          "why_blocks_full_original_scope": "The already proved per-pid result and frame need an actual complete launch/output composition; ordinary disjoint-layout and bounds assumptions are not themselves errors.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 22,
+              "end_line": 28,
+              "path": "bench/tritonbench_g/sin_kernel/sin_kernel.py",
+              "sha256": "dd65b4c273b7eb1fba19b79f7eb8c6f8286f391257195a8c4b7590bf8c7962c1",
+              "excerpt": "def call_kernel(x):\n    # x: input tensor\n    n_elements = x.numel()\n    output = torch.empty_like(x)\n    grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']),)\n    kernel_function[grid](x, output, n_elements, BLOCK_SIZE=1024)\n    return output"
+            },
+            {
+              "line": 40,
+              "end_line": 55,
+              "path": "bench/tritonbench_g/sin_kernel/Correct.lean",
+              "sha256": "a834f89865d4703e773abf40a67fad2c19f4f7b5a4471cf71154ab0f3095cb47",
+              "excerpt": "def typedIO (input : InputStorage) (v : Bool)\n    (X Y : RegionName) (N B : Nat) : MaskedKernelIO₁ :=\n  { sinIO X Y N B with\n    kernel := (typedKernel input v X Y N B).eraseDType\n    projection := typed_supported input v X Y N B }\n\n/-- Independent Real.sin formula for every active lane of either complete typed\nsource program, including successful flat execution, active bounds and full frame. -/\nspecification typed_real_correct (input : InputStorage) (v : Bool)\n    (X Y : RegionName) (N B : Nat) :\n    VeriTile.Spec.Real (typedIO input v X Y N B ⊨ fun xs i => Real.sin (xs i)) := by\n  intro A hd hr hc pid hx ho hscr xs s hp hu hxs\n  obtain ⟨t, he, hv, hf⟩ := kernel_function_correctness X Y N B\n    A hd hr hc pid hx ho hscr xs s hp hu hxs\n  refine ⟨t, ?_, hv, hf⟩\n  exact (typed_flat_exec A input v X Y N B (A.flattenState s)).trans he"
+            },
+            {
+              "line": 25,
+              "end_line": 35,
+              "path": "bench/tritonbench_g/sin_kernel/FPEquiv.lean",
+              "sha256": "90ea257aab0107f536f43af9f52692efee2c1769022801087fc665c7d9b532bb",
+              "excerpt": "specification source_equivalence (input : InputStorage)\n    (X Y : RegionName) (N B : Nat) :\n    program input Bool.false X Y N B ≡[assumptions]\n      program input Bool.true X Y N B := by\n  apply Spec.FloatingPoint.ofNumerical (structural := fun _ _ => False) rfl\n    (by cases input <;> rfl)\n  intro α _ M D _ s _\n  change run (engine M) (typedKernel input Bool.false X Y N B).surfaceBody s =\n    run (engine M) (typedKernel input Bool.true X Y N B).surfaceBody s\n  rw [decomposition input Bool.false X Y N B,\n    decomposition input Bool.true X Y N B]"
+            },
+            {
+              "line": 75,
+              "end_line": 83,
+              "path": "bench/tritonbench_g/sin_kernel/Kernels.lean",
+              "sha256": "6b5945236b9b3c1cf9e0f3659d75b8db9bcf72c7b442d40f6d486f228b300860",
+              "excerpt": "inductive InputStorage where\n  | fp32 | fp64\n  deriving DecidableEq, Repr\n\n/-- Complete typed source and its natural-index commutation candidate. The\nwrapper's empty_like output has the same dtype as its input. -/\ndef typedKernel (input : InputStorage) (v : Bool)\n    (X Y : RegionName) (N B : Nat) : ComputeKernel :=\n  match input, v with"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "sin_kernel",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "softmax_flaggems",
@@ -43775,16 +45056,80 @@
       },
       "structural_gaps": [
         {
+          "id": "square_matrix:storage_dtype_dispatch",
+          "kind": "dtype",
+          "finding": "square(x) allocates empty_like(x) and forwards x without a dtype restriction. The public typed kernel Storage enumerates fp32, fp16 and bf16 only. Other payload dtype execution or frontend rejection paths are not covered. No unsupported dtype is assumed to compile merely because the Python wrapper accepts it.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "path": "bench/tritonbench_g/square_matrix/square_matrix.py",
+              "line": 26,
+              "sha256": "be2641b4b0f98c21216a2b5511d0ddc89567af41f320880d0277537d5a2af815"
+            },
+            {
+              "path": "bench/tritonbench_g/square_matrix/square_matrix.py",
+              "line": 40,
+              "sha256": "be2641b4b0f98c21216a2b5511d0ddc89567af41f320880d0277537d5a2af815"
+            },
+            {
+              "path": "bench/tritonbench_g/square_matrix/Kernels.lean",
+              "line": 63,
+              "sha256": "5fcaa6afa13f068947d653d13fb5b9ded20da5f4b201a74035e6067b4b560c84"
+            }
+          ]
+        },
+        {
+          "id": "square_matrix:wrapper_grid_and_launch_branches",
+          "kind": "host_grid_composition",
+          "finding": "The wrapper computes next_power_of_2(n_cols), selects 4/8/16 warps using the 2048 and 4096 thresholds, allocates output and launches n_rows programs. Public contracts cover a symbolic single row program with a positive B; no public wrapper/grid contract binds those three launch configurations to all rows. Different row strides and partial tiles are already covered per program and are not treated as bugs.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "path": "bench/tritonbench_g/square_matrix/square_matrix.py",
+              "line": 29,
+              "sha256": "be2641b4b0f98c21216a2b5511d0ddc89567af41f320880d0277537d5a2af815"
+            },
+            {
+              "path": "bench/tritonbench_g/square_matrix/square_matrix.py",
+              "line": 35,
+              "sha256": "be2641b4b0f98c21216a2b5511d0ddc89567af41f320880d0277537d5a2af815"
+            },
+            {
+              "path": "bench/tritonbench_g/square_matrix/square_matrix.py",
+              "line": 37,
+              "sha256": "be2641b4b0f98c21216a2b5511d0ddc89567af41f320880d0277537d5a2af815"
+            },
+            {
+              "path": "bench/tritonbench_g/square_matrix/square_matrix.py",
+              "line": 43,
+              "sha256": "be2641b4b0f98c21216a2b5511d0ddc89567af41f320880d0277537d5a2af815"
+            },
+            {
+              "path": "bench/tritonbench_g/square_matrix/Correct.lean",
+              "line": 84,
+              "sha256": "85b2da13629625d7f054afe04a74f9a4d83c1d1f5e3fe0da9eb34e0c25a32bb5"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/square_matrix.json",
+        "sha256": "16a14ee664016eb6197b83783830c176f242941c3a99f868dfabdb66edd0d4fd",
+        "task": "square_matrix",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "streamk_matmul",
@@ -44712,16 +46057,77 @@
       },
       "structural_gaps": [
         {
+          "id": "SWIGLU_FWD-S1",
+          "kind": "host_views_and_output_branches",
+          "finding": "The wrapper reshapes and chunks xy, optionally copies it, selects/reshapes out, launches (M,cdiv(N,B)) and restores batch_shape.",
+          "why_blocks_full_original_scope": "Per-program IO with independent region/stride parameters does not connect shared x/y views or both output branches to the complete returned tensor; the actual view/alias domain needs explicit composition.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 35,
+              "end_line": 51,
+              "path": "bench/tritonbench_g/swiglu_fwd/swiglu_fwd.py",
+              "sha256": "fd3c5c22224f7d23f1b663668cc6ee6158737bb0bd11828ed7119fd621bf4c92",
+              "excerpt": "def _swiglu_fwd(xy, out=None):\n    if xy.stride(-1) != 1:\n        xy = xy.contiguous()\n    batch_shape = xy.shape[:-1]\n    xy = xy.reshape(-1, xy.shape[-1])\n    x, y = xy.chunk(2, dim=-1)\n    if out is None:\n        out = torch.empty_like(x)\n    else:\n        out = out.reshape(-1, out.shape[-1])\n        assert out.shape == x.shape\n    assert out.stride(-1) == 1\n    M, N = x.shape\n    grid = lambda META: (M, triton.cdiv(N, META['BLOCK_N']))\n    with torch.cuda.device(x.device.index):\n        _swiglu_fwd_kernel[grid](x, y, out, x.stride(0), y.stride(0), out.stride(0), N)\n    return out.reshape(*batch_shape, out.shape[-1])"
+            },
+            {
+              "line": 46,
+              "end_line": 63,
+              "path": "bench/tritonbench_g/swiglu_fwd/Correct.lean",
+              "sha256": "7016643519d7920e3148e6bca8ed0c183bc4a6f3a217ee681135043170691838",
+              "excerpt": "\ndef typedIO (input partner output : Storage) (v : Bool)\n    (X Y OUT : RegionName) (sx sy so N B : Nat) : Masked2DKernelIO₂ :=\n  { swigluIO X Y OUT sx sy so N B with\n    kernel := (typedKernel input partner output v X Y OUT sx sy so N B).eraseDType\n    projection := typed_supported input partner output v X Y OUT sx sy so N B }\n\n/-- Every source storage triple and both variants satisfy the independent scalar\nformula, successful flat execution, active bounds and the complete memory frame.\nBoth program axes and all three independent row strides remain symbolic. -/\nspecification typed_real_correct (input partner output : Storage) (v : Bool)\n    (X Y OUT : RegionName) (sx sy so N B : Nat) :\n    VeriTile.Spec.Real (typedIO input partner output v X Y OUT sx sy so N B\n      ⊨ fun _ _ xs ys i => Math.forward (xs i) (ys i)) := by\n  intro A hd hr hc p0 p1 hx hy ho hscr xs ys s hp0 hp1 hu hxs hys\n  obtain ⟨t, he, hv, hf⟩ := formula_correct X Y OUT sx sy so N B\n    A hd hr hc p0 p1 hx hy ho hscr xs ys s hp0 hp1 hu hxs hys\n  refine ⟨t, ?_, hv, hf⟩"
+            }
+          ]
+        },
+        {
+          "id": "SWIGLU_FWD-S2",
+          "kind": "nonfloating_conversion_route",
+          "finding": "Materialized Storage is six floating formats, but production explicitly converts loaded x/y to fp32 and accepts an independently typed out.",
+          "why_blocks_full_original_scope": "Integer input-to-fp32 and integer output conversion/rejection need source representation; sigmoid accuracy deferral is insufficient.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 29,
+              "end_line": 32,
+              "path": "bench/tritonbench_g/swiglu_fwd/swiglu_fwd.py",
+              "sha256": "fd3c5c22224f7d23f1b663668cc6ee6158737bb0bd11828ed7119fd621bf4c92",
+              "excerpt": "    x = tl.load(X + cols, mask=cols < ncols, other=0.).to(tl.float32)\n    y = tl.load(Y + cols, mask=cols < ncols, other=0.).to(tl.float32)\n    out = x * tl.sigmoid(x) * y\n    tl.store(OUT + cols, out, mask=cols < ncols)"
+            },
+            {
+              "line": 41,
+              "end_line": 46,
+              "path": "bench/tritonbench_g/swiglu_fwd/swiglu_fwd.py",
+              "sha256": "fd3c5c22224f7d23f1b663668cc6ee6158737bb0bd11828ed7119fd621bf4c92",
+              "excerpt": "    if out is None:\n        out = torch.empty_like(x)\n    else:\n        out = out.reshape(-1, out.shape[-1])\n        assert out.shape == x.shape\n    assert out.stride(-1) == 1"
+            },
+            {
+              "line": 115,
+              "end_line": 140,
+              "path": "bench/tritonbench_g/swiglu_fwd/Kernels.lean",
+              "sha256": "f552d291423b1ebdc29b07a783cafa7712e8d071b6a89890362a0c11e3218733",
+              "excerpt": "        `(tritonStmt| tl.store(OUT + cols, out, mask=cols < $(ncols)))\n      | _ => `(tritonStmt| tl.store(OUT + cols, out.to($outType), mask=cols < $(ncols)))\n    `(fun (X Y OUT : RegionName)\n        (stride_x_row stride_y_row stride_out_row ncols BLOCK_N : Nat) =>\n      ComputeKernel.mk [X,Y] [OUT] (triton {\n  tl.region X = $xType, Y = $yType, OUT = $outType\n  row = tl.program_id(0)\n  start_col = tl.program_id(1) * $(BLOCK_N)\n  $xBase\n  $yBase\n  $outBase\n  cols = start_col + tl.arange(0, $(BLOCK_N))\n  x = tl.load(X + cols, mask=cols < $(ncols), other=0.0).to(tl.float32)\n  y = tl.load(Y + cols, mask=cols < $(ncols), other=0.0).to(tl.float32)\n  out = x * tl.sigmoid(x) * y\n  $output\n}).surfaceBody)\n\ninductive Storage where\n  | fp32 | fp16 | bf16 | fp64 | f8e4 | f8e5\n  deriving DecidableEq, Repr\n\nset_option maxHeartbeats 8000000\nset_option maxRecDepth 16000\n\n/-- Full source with fixed input storage and independent output storage. -/"
+            }
+          ]
+        }
+      ],
+      "initial_assessment": "structural_gaps_confirmed",
+      "deferred_numerical_assumptions": [],
+      "potential_numeric_ids_not_yet_accepted": [],
+      "callback_assumptions": {},
+      "review": null,
+      "initial_structural_gaps": [
+        {
           "kind": "unverified_scope",
           "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
-      "deferred_numerical_assumptions": [],
-      "potential_numeric_ids_not_yet_accepted": [],
-      "callback_assumptions": {},
-      "review": null
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "swiglu_fwd",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "swiglu_triton",
@@ -48267,18 +49673,50 @@
       },
       "structural_gaps": [
         {
-          "kind": "unverified_scope",
-          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "id": "VLC-S1",
+          "kind": "dtype",
+          "finding": "Original wrapper forwards independently typed source and destination tensors without same-dtype assertion. Kernels.Storage enumerates six floating types (36 pairs), while DiscreteSource.kernel only has nine homogeneous discrete pairs. Mixed floating/discrete and heterogeneous discrete store conversions are outside these public families; source supports no restriction to that union.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "id": "VLC-S2",
+          "kind": "host_grid_composition",
+          "finding": "Wrapper launches len(old_a_start) programs with BLOCK_SIZE=256. Existing public contracts quantify a single s.pids 0 and its metadata; they do not establish the entire host launch, per-program output collision policy, cross-program aliasing and ordering.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "id": "VLC-S3",
+          "kind": "metadata_and_address_width",
+          "finding": "int32/int64 metadata labels both erase to mathematical Int, and other metadata dtypes are not modeled. Loaded starts and loop arithmetic have no established native finite-width overflow/byte-address mapping. This is a representation/dispatch gap, not an arithmetic callback to defer.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "id": "VLC-S4",
+          "kind": "source_safety_domain",
+          "finding": "Original mask is lane<length rather than i+lane<length. Existing full-loop proofs correctly retain overcopy and require bounds for Math.copiedLength. The wrapper adds no corresponding check. Original host/error domain and safe allocation/collision preconditions still need explicit whole-program coverage; the requested segment length alone cannot justify source safety.",
           "can_defer_as_numeric_assumption": false
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
+      "initial_assessment": "structural_gaps_confirmed",
       "deferred_numerical_assumptions": [],
       "potential_numeric_ids_not_yet_accepted": [
         "(hu : s.undef = fun _ _ ↦ 0)"
       ],
       "callback_assumptions": {},
-      "review": null
+      "review": null,
+      "initial_structural_gaps": [
+        {
+          "kind": "unverified_scope",
+          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/var_len_copy.json",
+        "sha256": "791b755953e8e53b682d30ad695beca9e09686886304266942ed8070bab38af4",
+        "task": "var_len_copy",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     },
     {
       "task": "vector_addition",
@@ -48848,19 +50286,88 @@
       },
       "structural_gaps": [
         {
-          "kind": "unverified_scope",
-          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
-          "can_defer_as_numeric_assumption": false
+          "id": "VECTOR_ADDITION_CUSTOM-S1",
+          "kind": "host_extent_and_grid",
+          "finding": "The source launches ceil(c.size(0)/16) and returns empty_like(a), whereas public IO covers an arbitrary selected program window only.",
+          "why_blocks_full_original_scope": "The exact first-dimension extent and remaining output cells have not been connected to the returned tensor, including multidimensional and empty cases.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 15,
+              "end_line": 23,
+              "path": "bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py",
+              "sha256": "a1e1a05555a7d42a6cee871847907ef6e6fbe6834ac0088d186921d994a10957",
+              "excerpt": "def custom_add(a, b):\n    \"\"\"custom add one.\"\"\"\n    c = torch.empty_like(a)\n    size = c.size(0)\n    BLOCK = 16\n\n    grid = (triton.cdiv(size, BLOCK), )\n    _add_kernel[grid](a, b, c, size, BLOCK=BLOCK)\n    return c"
+            },
+            {
+              "line": 15,
+              "end_line": 31,
+              "path": "bench/tritonbench_g/vector_addition_custom/Correct.lean",
+              "sha256": "d5afa4a25fd2ff12ed416d473f2d3903f0b9882c36d5752a8a56bdbb041e813a",
+              "excerpt": "def addCustomIO (A B C : RegionName)\n    (size BLOCK : Nat) : MaskedKernelIO₂ where\n  kernel := _add_kernel A B C size BLOCK\n  in1 := A\n  in2 := B\n  out := C\n  B := BLOCK\n  read1 := fun pid => pid * BLOCK\n  read2 := fun pid => pid * BLOCK\n  write := fun pid => pid * BLOCK\n  mask := fun pid j => pid * BLOCK + j.val < size\n\nspecification add_kernel_correctness\n    (A B C : RegionName)\n    (size BLOCK : Nat) :\n    Spec.Real (addCustomIO A B C size BLOCK\n      ⊨ fun as bs i => as i + bs i) := by"
+            }
+          ]
+        },
+        {
+          "id": "VECTOR_ADDITION_CUSTOM-S2",
+          "kind": "mixed_dtype_promotion",
+          "finding": "Independent a/b dtypes and c=a dtype are not represented by the uniform untyped/fp32 materialized kernels.",
+          "why_blocks_full_original_scope": "All original successful promotion/store routes require structural representation before any native arithmetic correspondence can be deferred.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 7,
+              "end_line": 13,
+              "path": "bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py",
+              "sha256": "a1e1a05555a7d42a6cee871847907ef6e6fbe6834ac0088d186921d994a10957",
+              "excerpt": "def _add_kernel(A: tl.tensor, B: tl.tensor, C: tl.tensor, size: tl.int32, BLOCK: tl.constexpr):\n    \"\"\"add kernel.\"\"\"\n    prog_id = tl.program_id(0)\n    offs = prog_id * BLOCK + tl.arange(0, BLOCK)\n    a = tl.load(A + offs, mask=offs < size)\n    b = tl.load(B + offs, mask=offs < size)\n    tl.store(C + offs, a + b, mask=offs < size)"
+            },
+            {
+              "line": 17,
+              "end_line": 22,
+              "path": "bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py",
+              "sha256": "a1e1a05555a7d42a6cee871847907ef6e6fbe6834ac0088d186921d994a10957",
+              "excerpt": "    c = torch.empty_like(a)\n    size = c.size(0)\n    BLOCK = 16\n\n    grid = (triton.cdiv(size, BLOCK), )\n    _add_kernel[grid](a, b, c, size, BLOCK=BLOCK)"
+            },
+            {
+              "line": 15,
+              "end_line": 23,
+              "path": "bench/tritonbench_g/vector_addition_custom/Kernels.lean",
+              "sha256": "823476df97721e68dc933b43e73c8ad6ea61e35937c491ddffdc2356d7ba300f",
+              "excerpt": "def _add_kernel\n    (A B C : RegionName)\n    (size BLOCK : Nat) :\n    ComputeKernel := triton {\n  prog_id = tl.program_id(0)\n  offs = prog_id * $(BLOCK) + tl.arange(0, $(BLOCK))\n  a = tl.load(A + offs, mask=offs < $(size))\n  b = tl.load(B + offs, mask=offs < $(size))\n  tl.store(C + offs, a + b, mask=offs < $(size))"
+            },
+            {
+              "line": 19,
+              "end_line": 21,
+              "path": "bench/tritonbench_g/vector_addition_custom/FPEquiv.lean",
+              "sha256": "c56d45479e433b93f10b5fd1f09be722e26ae3964e93cdf80d5f1660b106f955",
+              "excerpt": "def additionSite (A B C : RegionName) (size BLOCK : Nat) : Site :=\n  .add (Source.prefixBeforeStore (_add_kernel A B C size BLOCK).surfaceBody) [BLOCK]\n    (.ref .real [BLOCK] \"a\") (.ref .real [BLOCK] \"b\")"
+            }
+          ]
         }
       ],
-      "initial_assessment": "full_scope_not_yet_verified",
+      "initial_assessment": "structural_gaps_confirmed",
       "deferred_numerical_assumptions": [],
       "potential_numeric_ids_not_yet_accepted": [
         "fp32_add_commute_real"
       ],
       "callback_assumptions": {},
-      "review": null
+      "review": null,
+      "initial_structural_gaps": [
+        {
+          "kind": "unverified_scope",
+          "finding": "Historical selected source replay explicitly did not perform all-JIT comparison; current catalog/TSV preserve selected public scope, not proof of full Python stages/dtypes/branches. Inspect each recorded function/branch against the recorded declarations before acceptance.",
+          "can_defer_as_numeric_assumption": false
+        }
+      ],
+      "scope_gap_review": {
+        "path": "bench/review-checkpoints/2026-10-16/original-scope-review-24/evidence/batch-01-review.json",
+        "sha256": "14637a2817702322b8d71d4c0194fb14deac9d31dba91038918db781008fdc65",
+        "task": "vector_addition_custom",
+        "status": "reviewed_gaps_not_acceptance"
+      }
     }
   ],
-  "progress_checkpoint": "bench/review-checkpoints/2026-10-16/fp64-admission-relu-access/README.md"
+  "progress_checkpoint": "bench/review-checkpoints/2026-10-16/fp64-admission-relu-access/README.md",
+  "scope_audit_checkpoint": "bench/review-checkpoints/2026-10-16/original-scope-review-24/README.md"
 }
