@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "kind": "independent_actual_program_reference_readback_review",
+  "reviewer": "root",
+  "status": "reviewed_no_proof_defect_found",
+  "producer_receipt": {
+    "path": "/tmp/veritile-standardization-20261015/batched-vecmat-readback-wip/evidence/readback-receipt.json",
+    "sha256": "39f037af23d65975f14525387da7275a0444e68f97b4ef74b192679af9f8d029"
+  },
+  "reviewed_new_source_sha256": {
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostReadback.lean": "36d5c353b14ade5fb0efbcb86619fd4e9f1cc4631ba8b8a9a36480798eaa5782"
+  },
+  "verified_existing_dependency_sha256": {
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostOutputBounds.lean": "54e1e443bf535e907ee8886c47db491c3434b232e48cb2c593783db07a4ed081",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostAccess.lean": "1a7325672edbfdb8a3cd0fcb0c229593c9d39b75af971d3a2d9f907029ba98ca",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostGrid.lean": "f4217abfa7b184c0f18c9430eff3494532a005dccf48af09d602df8b42037cd9",
+    "bench/tritonbench_g/batched_vecmat_mult/ValueCorrect.lean": "6a57a65ed9b89aeb6bb0b18221e428c1659698195f3b48b32ff9597185a045e9",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueComplete.lean": "543849bdc43c78f436039ccfa2adcb935cbb1a4679be20b04ec223eec14b8016",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueExecution.lean": "9a16709f65318c1d6a76b01a47d799bb34bbf933598e2df16bf4e27b9bc96fd6",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueModel.lean": "ce5596fd79d858ec50d90d392e9495bbf3e08abbd18f21090e06bce6eb633095",
+    "bench/tritonbench_g/batched_vecmat_mult/Kernels.lean": "47ea0babf7e16c8a122b7087c1701600a2bed558ebce26cdbb5fddf93bb13fc0",
+    "VeriTile/Triton/Float/Structural.lean": "3760dd66ad0e0eab77f42a866eecef47240833e6ca2929a60674b6fd70599928",
+    "VeriTile/Triton/Core/Shape.lean": "97a634b9623f864dd27c755699d400572df83011ec33b2cc6e79ff028df9ee1f",
+    "VeriTile/Meta/StatementAudit.lean": "9c82458cd9f705e8bd4511b8c8fa9580d314c1ec274cba9ab93f665a0d7b1ea5"
+  },
+  "reviewed_internal_statements": [
+    {
+      "file": "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostReadback.lean",
+      "declaration": "actual_program_expected_readback",
+      "kind": "theorem",
+      "statement_sha256": "2991bbf56b6678a6e54813bc740b24fb5b2df4d2f351814af961d5618bbf64ce"
+    }
+  ],
+  "semantic_findings": [
+    "Root read the complete frozen helper and the exact existing fold_write_memory, Structural.State.scatter_readback/list, and actual_program_output_unique definitions/proofs.",
+    "The unchanged independent expectedMemory pure-memory fold is rewritten to the exact State.write fold. scatter_readback supplies exhaustive allIndices membership and nodup. actual_program_output_unique at the same valid k derives lane injectivity, rather than assuming it.",
+    "The result is the exact Cell.mk .real fp32 Word accumulated over K/BK. Parameters/cfg/valid reduction plans and entry memory remain arbitrary. No execution success, value equality, no-alias or new numerical law premise is introduced.",
+    "K=0 is covered whenever there is a valid output program/lane. Empty grid/tile has no such index. The helper proves one program reference readback; it does not by itself prove whole-grid initial-memory values or schedule invariance."
+  ],
+  "validation": {
+    "producer_compile_exit": 0,
+    "compile_log": {
+      "path": "/tmp/veritile-standardization-20261015/batched-vecmat-readback-wip/evidence/HostReadback.compile.log",
+      "sha256": "a95dd2f18e41513edbaf6ebdc3cbd7d63e4146501d5c44551c50ca995798fd08"
+    },
+    "explicit_named_axiom_checks": 1,
+    "independent_compile_rerun": false,
+    "reason": "Small direct composition reviewed against exact already-built dependencies and recorded fresh producer compilation. Integration compilation remains required when registered."
+  },
+  "public_contracts_added": 0,
+  "whole_program_acceptance": false,
+  "standard_accepted": false,
+  "numerical_deferrals": [],
+  "remaining_nondeferrable_gaps": [
+    "This helper proves one actual program reference scatter readback, not arbitrary whole-grid schedule invariance by itself.",
+    "Native allocation and physical regions/byte pointers, signed/native-width metadata, native compiler/resource legality and GPU instruction interleavings remain separate structural boundaries.",
+    "Full original program stage/dtype/branch acceptance does not follow from this helper; existing numerical and structural registrations are unchanged."
+  ],
+  "repository_mutation": false,
+  "frozen_source_mutation": false
+}

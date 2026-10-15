@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "kind": "original_program_scope_ledger",
-  "catalog_sha256": "53cac38dc530fedb463edf4f3d9671ebd1a1b378b2ee8cc18a89b277d231e6cc",
+  "catalog_sha256": "cc762f2850b3080805fd036031afbd84695df6b30968d676618e4818c9a3585d",
   "binding_status": "current_catalog_bound_pending_scope_reviews",
   "expected_tasks": [
     "adam_update_triton",
@@ -3196,6 +3196,9 @@
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostGrid.lean": "f4217abfa7b184c0f18c9430eff3494532a005dccf48af09d602df8b42037cd9",
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostOutputBounds.lean": "54e1e443bf535e907ee8886c47db491c3434b232e48cb2c593783db07a4ed081",
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostPrepare.lean": "6e7e084367dc595791ed8c95aa0d36afd6f357fe3f19444fcb214a1bb8f120ca",
+          "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostReadback.lean": "36d5c353b14ade5fb0efbcb86619fd4e9f1cc4631ba8b8a9a36480798eaa5782",
+          "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostSchedule.lean": "7a1376b7230199c35da180b1426b4e97c47e5718167c8cbcf829d38f2844a6cf",
+          "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostScheduleInputs.lean": "f4cf123ca7354d30a3c452ae2ddc709a73432cd799fbcf4d88d04b38a4c2f47c",
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/Real.lean": "57f4390123a8b0a4daf839ce1c35a84520925acf5143eb65a195ebf16bf27c9b",
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/RealExecution.lean": "d3524f46cb986086e0fbe1f7c2b1630d367b8b4fe58c97db57a75413eeeb1af4",
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/RealFoundation.lean": "e5a20123cc89288ae4324a8597a94c7814f493c2103f0537858e5b4a5b593e16",
@@ -3204,6 +3207,7 @@
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueComplete.lean": "543849bdc43c78f436039ccfa2adcb935cbb1a4679be20b04ec223eec14b8016",
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueExecution.lean": "9a16709f65318c1d6a76b01a47d799bb34bbf933598e2df16bf4e27b9bc96fd6",
           "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueModel.lean": "ce5596fd79d858ec50d90d392e9495bbf3e08abbd18f21090e06bce6eb633095",
+          "bench/tritonbench_g/batched_vecmat_mult/ScheduleCorrect.lean": "96d2de277d7fbdb0d9ba7cd91f0a30a4ed51a770e13420cc2bea89ba138ca7fb",
           "bench/tritonbench_g/batched_vecmat_mult/ValueCorrect.lean": "6a57a65ed9b89aeb6bb0b18221e428c1659698195f3b48b32ff9597185a045e9"
         },
         "python": {
@@ -3336,7 +3340,7 @@
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "Complete grid is one explicit sequential pid0-fastest schedule. Native allocation freshness, race freedom and concurrent schedule refinement remain unproved.",
+          "finding": "Arbitrary order of complete logical programs is proved only under A/output and B/output region separation. Physical allocation freshness, native byte aliases, GPU instruction/warp interleavings, data races and concurrent refinement remain unproved.",
           "can_defer_as_numeric_assumption": false
         },
         {
@@ -3379,11 +3383,20 @@
             "covers_stages": [
               "logical_wrapper_and_complete_sequential_2d_grid"
             ]
+          },
+          {
+            "file": "bench/tritonbench_g/batched_vecmat_mult/ScheduleCorrect.lean",
+            "declaration": "batched_vecmat_arbitrary_program_order_correctness",
+            "statement_sha256": "fdececff32be1d308fbd509f6857e13c8b8364e32de051c9accee757d8ecf4ef",
+            "dtype_profile": "Concrete fp32 Word carrier and fp32 wrapper dtype, natural metadata, output region logically distinct from both A and B; arbitrary permutation of every floor-grid program including empty grids and K=0. A and B may alias each other. A fixed FP.Config and valid ReductionPlan family retain exact per-program rounded operation/tree/block order.",
+            "covers_stages": [
+              "separated_fp32_arbitrary_sequential_program_order"
+            ]
           }
         ],
         "review": {
-          "path": "2026-10-15/vecmat-value-and-view-address/root-review.json",
-          "sha256": "c6584e9f4a74bd8b9f72321c42d9b4eb66b71908cc46c8a69ec00006c93e92c3",
+          "path": "2026-10-15/vecmat-program-order/root-review.json",
+          "sha256": "ae138f6914137f928d3c87f7a0b0dfefa689ee74bbc7735a98beae6053a7722e",
           "source_hashes_pointer": [
             "reviewed_input_sha256"
           ]
@@ -48371,5 +48384,5 @@
       "review": null
     }
   ],
-  "progress_checkpoint": "bench/review-checkpoints/2026-10-15/vecmat-value-and-view-address/README.md"
+  "progress_checkpoint": "bench/review-checkpoints/2026-10-15/vecmat-program-order/README.md"
 }

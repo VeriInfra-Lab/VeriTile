@@ -1,0 +1,71 @@
+[
+  {
+    "module": "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostScheduleInputs.lean",
+    "source_sha256": "f4cf123ca7354d30a3c452ae2ddc709a73432cd799fbcf4d88d04b38a4c2f47c",
+    "source_sha256_before": "f4cf123ca7354d30a3c452ae2ddc709a73432cd799fbcf4d88d04b38a4c2f47c",
+    "source_sha256_after": "f4cf123ca7354d30a3c452ae2ddc709a73432cd799fbcf4d88d04b38a4c2f47c",
+    "source_unchanged_during_compile": true,
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip",
+      "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostScheduleInputs.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostScheduleInputs.olean"
+    ],
+    "LEAN_PATH": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+    "exit_code": 0,
+    "seconds": 2.87,
+    "log": "evidence/HostScheduleInputs.log",
+    "log_sha256": "b0d86c53e6a14d8d9d8445ed1943394da9dce49d5d5450de4f6790b9ba56e19e",
+    "observed_exec_session": 10982,
+    "named_axiom_checks": 11,
+    "noncircular_checks": 0,
+    "module_audit_directives": 1
+  },
+  {
+    "module": "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostSchedule.lean",
+    "source_sha256": "7a1376b7230199c35da180b1426b4e97c47e5718167c8cbcf829d38f2844a6cf",
+    "source_sha256_before": "7a1376b7230199c35da180b1426b4e97c47e5718167c8cbcf829d38f2844a6cf",
+    "source_sha256_after": "7a1376b7230199c35da180b1426b4e97c47e5718167c8cbcf829d38f2844a6cf",
+    "source_unchanged_during_compile": true,
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip",
+      "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostSchedule.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostSchedule.olean"
+    ],
+    "LEAN_PATH": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+    "exit_code": 0,
+    "seconds": 3.867,
+    "log": "evidence/HostSchedule.log",
+    "log_sha256": "cee5771eb114b62058c9eb5dbf5849c274fb7376b0005ef9d3b51e0ecfc93fb8",
+    "observed_exec_session": 27882,
+    "named_axiom_checks": 11,
+    "noncircular_checks": 1,
+    "module_audit_directives": 1
+  },
+  {
+    "module": "bench/tritonbench_g/batched_vecmat_mult/ScheduleCorrect.lean",
+    "source_sha256": "96d2de277d7fbdb0d9ba7cd91f0a30a4ed51a770e13420cc2bea89ba138ca7fb",
+    "source_sha256_before": "96d2de277d7fbdb0d9ba7cd91f0a30a4ed51a770e13420cc2bea89ba138ca7fb",
+    "source_sha256_after": "96d2de277d7fbdb0d9ba7cd91f0a30a4ed51a770e13420cc2bea89ba138ca7fb",
+    "source_unchanged_during_compile": true,
+    "command": [
+      "/tmp/veritile-lean-toolchain/bin/lean",
+      "--root=/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip",
+      "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/ScheduleCorrect.lean",
+      "-o",
+      "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/ScheduleCorrect.olean"
+    ],
+    "LEAN_PATH": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+    "exit_code": 0,
+    "seconds": 2.284,
+    "log": "evidence/ScheduleCorrect.log",
+    "log_sha256": "713218311d8871c91670fbec94329589d83eab3ecb6ab692b8796b98c26e86fd",
+    "observed_exec_session": 44113,
+    "named_axiom_checks": 1,
+    "noncircular_checks": 0,
+    "module_audit_directives": 1
+  }
+]

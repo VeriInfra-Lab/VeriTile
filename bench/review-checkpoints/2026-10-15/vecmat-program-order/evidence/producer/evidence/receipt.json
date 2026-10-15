@@ -1,0 +1,291 @@
+{
+  "schema": 1,
+  "kind": "batched_vecmat_arbitrary_complete_program_order_producer_receipt",
+  "task": "batched_vecmat_mult",
+  "author": "scope_integration_review",
+  "status": "compiled_frozen_pending_root_semantic_review_and_integration",
+  "frozen_at_utc": "2026-10-15T15:25:28.402567+00:00",
+  "whole_program_acceptance": false,
+  "standard_accepted": false,
+  "repository_sources_modified": false,
+  "repository_head_at_freeze": "51518a8cab74082ff27ec1039d6f61a5d8df9cd5",
+  "integration_counts": {
+    "modules": 4,
+    "self_authored_schedule_modules": 3,
+    "independently_produced_readback_modules": 1,
+    "public_specifications": 1
+  },
+  "new_source_sha256": {
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostScheduleInputs.lean": "f4cf123ca7354d30a3c452ae2ddc709a73432cd799fbcf4d88d04b38a4c2f47c",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostReadback.lean": "36d5c353b14ade5fb0efbcb86619fd4e9f1cc4631ba8b8a9a36480798eaa5782",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostSchedule.lean": "7a1376b7230199c35da180b1426b4e97c47e5718167c8cbcf829d38f2844a6cf",
+    "bench/tritonbench_g/batched_vecmat_mult/ScheduleCorrect.lean": "96d2de277d7fbdb0d9ba7cd91f0a30a4ed51a770e13420cc2bea89ba138ca7fb"
+  },
+  "dependency_source_sha256": {
+    "VeriTile/Meta/Specification.lean": "7580bdc657b49d3cb8c518cbc08bcd7f405f0ede509e3a7deb6dd8ab9dbdb8fe",
+    "VeriTile/Meta/StatementAudit.lean": "9c82458cd9f705e8bd4511b8c8fa9580d314c1ec274cba9ab93f665a0d7b1ea5",
+    "VeriTile/Spec.lean": "f94f43290c0ea840da152773cb7f73b6c7a9494e8e48185a27ac754cd4e7c84c",
+    "VeriTile/Triton/Core.lean": "f2c559b54eff3fbf43926fa5930428ec02a55fba27686bbd58a5b5f3b6c28a2d",
+    "VeriTile/Triton/Core/Ast.lean": "47e385628f3c98d3e17c2a83b3b864c91adf7b88dbd6be7245ffe96144f9563d",
+    "VeriTile/Triton/Core/DiscreteReduction.lean": "afa9c2d98feab63377d0f8a1c558411b5f49468f6bc3f3fd5b859efe4cbf4e9c",
+    "VeriTile/Triton/Core/FixedInteger.lean": "c2cf48fbd4b6c2e257b77d33cc947e879097428d85ef6d07f4e679f4abf686b8",
+    "VeriTile/Triton/Core/Float8.lean": "2425adfde67fe0c645437bd1945429dbd5b991c2b70519de6861262c8d914c59",
+    "VeriTile/Triton/Core/Integer.lean": "ef1c0c34a0038ce6538f2d02f3a3941bb1a4a631fdb5e089f0dae063f26efe57",
+    "VeriTile/Triton/Core/Reshape.lean": "4e3e858f5b928bcdd25b207ec6a43a78fbe46011ed42fc6e55041690d5bb20e9",
+    "VeriTile/Triton/Core/Shape.lean": "97a634b9623f864dd27c755699d400572df83011ec33b2cc6e79ff028df9ee1f",
+    "VeriTile/Triton/Core/SignedCast.lean": "41081ffabb1ee3f6c6f016cc0c1a59eb91afad9c09ae8d4a4d2698b776d4603c",
+    "VeriTile/Triton/Core/Types.lean": "6081c35bbf70ce3df78e95f45965e8d0130e71423bdbddf04de05c3795e64a58",
+    "VeriTile/Triton/DSL.lean": "2423c62c7d2ce4f66fb836f36c35d2b904fc759e8f782684a28af52d0ab7faf4",
+    "VeriTile/Triton/DSL/Expansion.lean": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802",
+    "VeriTile/Triton/DSL/Expansion/Common.lean": "4b6380326b745c239a07e67224591b75b8532a897a3e7947a29e6b23cc4cc0d7",
+    "VeriTile/Triton/DSL/Expansion/Compute.lean": "bdd65896322d89f007017d0c772625c992949aa9f5a35bf7a52af0fe9d2b4bbd",
+    "VeriTile/Triton/DSL/Expansion/Control.lean": "5a64987af770f0c2ffbf01c23c3069ad9971e03a55e3b117a76c1578f42b8b1d",
+    "VeriTile/Triton/DSL/Expansion/DType.lean": "2d61abff958ff6abdd0768a6bcd72c9d1192679b4c30c2d67c83efa774c23b7b",
+    "VeriTile/Triton/DSL/Expansion/DirectRandom.lean": "7bd69539f4301bf3de9a42074fd1d90318b682552c0c28e4e39eab20ba7cf6dc",
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "2f5e6635c7a1d4d3e079caa9fbb36ffd3f058eb2c51f715f26bc9f93947543c2",
+    "VeriTile/Triton/DSL/Expansion/Memory.lean": "e44b7908c6d74c70a58b84a675b3f303d1f09d950ea5c4870a52b746f5ea36e1",
+    "VeriTile/Triton/DSL/FiniteHelperSource.lean": "b16e6ac66af74f85feefa9219e4aa880b46d54277d1d309ca495dbb62cccf0d0",
+    "VeriTile/Triton/DSL/Inference.lean": "26d322c80b08a3432a44eaddf14c07deac1895f254b37dd699ede7af7af74593",
+    "VeriTile/Triton/DSL/Metadata.lean": "294ce5f93b00df02ae8e12da07fd032d933b56123bafe5070d6a723cd16366f1",
+    "VeriTile/Triton/DSL/RandomProfile.lean": "61f31027a53ea7305b18341f0c7dced51c9407589bf4fe16b1c7bfded7859d04",
+    "VeriTile/Triton/DSL/Syntax.lean": "3775dc3c5b1045080e8110fe456ce44c5c4152327e362555349ca3c96083e6a9",
+    "VeriTile/Triton/DSL/Typing.lean": "2e42a8276db7a03700a36e310f742f7f06b9e2f54cd75778501fbbe2def86d79",
+    "VeriTile/Triton/Float/BitValue.lean": "92f8bf41aac7a1268815a58fea6e68475c134903893b8e075599c5427be6a1eb",
+    "VeriTile/Triton/Float/Equational.lean": "8e2b9fa6d36ed83a7a5e10449f34db08079c6695a84c529d005bd80196a4e14a",
+    "VeriTile/Triton/Float/ScalarOps.lean": "26bd46b941918c3a617cb6e15b2ddb2003a85c40cd69fca3a3905ba181bc6072",
+    "VeriTile/Triton/Float/Structural.lean": "3760dd66ad0e0eab77f42a866eecef47240833e6ca2929a60674b6fd70599928",
+    "VeriTile/Triton/Float/TermModel.lean": "e8c98fd3d0bb93493e4570e5c4dab2369f1b5dcb3795f1696ec7bbe85e073e6d",
+    "VeriTile/Triton/Random/Direct.lean": "83dd0dea48ecccbd10605ecf916651842dedc5797ee6479aab4144b4f2eca568",
+    "VeriTile/Triton/Random/DirectProfile.lean": "a75b2388a81156451e046b72540887f38e7241f2226ad640ff09ae3f42899d98",
+    "VeriTile/Triton/Random/Philox.lean": "af9c757d813b48f48ab75e43c1edbb6cc4a3a79aeccf58c57a7defa8fb1e0be8",
+    "VeriTile/Triton/Random/SourceProfile.lean": "fb47ebbcf78dd10ce64048904b24d1cfab8f9c48d18ee92349b7bf7e9a9868f0",
+    "bench/adapter_common.py": "0f6817ac657b1c1d53d8cb9073a32bfd850526e1cc42dce3168aa6108889dcef",
+    "bench/tritonbench_g/batched_vecmat_mult/HostCorrect.lean": "ddc4e7c5a86ecf10e0a3c1412969dc19c2d827a3007f1c8a2e570f7da05518e2",
+    "bench/tritonbench_g/batched_vecmat_mult/Kernels.lean": "47ea0babf7e16c8a122b7087c1701600a2bed558ebce26cdbb5fddf93bb13fc0",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostAccess.lean": "1a7325672edbfdb8a3cd0fcb0c229593c9d39b75af971d3a2d9f907029ba98ca",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostGrid.lean": "f4217abfa7b184c0f18c9430eff3494532a005dccf48af09d602df8b42037cd9",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostOutputBounds.lean": "54e1e443bf535e907ee8886c47db491c3434b232e48cb2c593783db07a4ed081",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostPrepare.lean": "6e7e084367dc595791ed8c95aa0d36afd6f357fe3f19444fcb214a1bb8f120ca",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueComplete.lean": "543849bdc43c78f436039ccfa2adcb935cbb1a4679be20b04ec223eec14b8016",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueExecution.lean": "9a16709f65318c1d6a76b01a47d799bb34bbf933598e2df16bf4e27b9bc96fd6",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/ValueModel.lean": "ce5596fd79d858ec50d90d392e9495bbf3e08abbd18f21090e06bce6eb633095",
+    "bench/tritonbench_g/batched_vecmat_mult/ValueCorrect.lean": "6a57a65ed9b89aeb6bb0b18221e428c1659698195f3b48b32ff9597185a045e9",
+    "bench/tritonbench_g/batched_vecmat_mult/batched_vecmat_mult.py": "bd525838a1f9c98a6a3cd0aa7f24ed54a2b03c9bedcdb918459952fabc914992",
+    "lake-manifest.json": "de981cfa9d3ed8d548669570dde19d20b103c081d0772c0184d6e401f9fe96f7",
+    "lakefile.toml": "62ac5bf7b5d33bfd9b363dda03bba49fc627aa9af1a0c6dd4cadb734fa5a4928",
+    "lean-toolchain": "651c8accb402b0c071cd336e9d3dc0a55516b1bfb434ddc4801f14936785b1d2"
+  },
+  "source_freeze": {
+    "path": "evidence/source-freeze.json",
+    "sha256": "fffd32567979b4eeed62ca11fa42ce30916830f4f4364b2777a7be888604156e",
+    "before_after_equal": true
+  },
+  "public_contract": {
+    "file": "bench/tritonbench_g/batched_vecmat_mult/ScheduleCorrect.lean",
+    "declaration": "batched_vecmat_arbitrary_program_order_correctness",
+    "kind": "specification",
+    "statement_sha256": "fdececff32be1d308fbd509f6857e13c8b8364e32de051c9accee757d8ecf4ef",
+    "model_kind": "bit_interpreter_contract",
+    "role": "parametric_value_contract",
+    "scope_relation": "full_declared_stage",
+    "source_variant": "original_source_translation",
+    "covers_stages": [
+      "separated_fp32_arbitrary_sequential_program_order"
+    ],
+    "dtype_profile": "Concrete fp32 Word carrier and fp32 wrapper dtype, natural metadata, output region logically distinct from both A and B; arbitrary permutation of every floor-grid program including empty grids and K=0. A and B may alias each other. A fixed FP.Config and valid ReductionPlan family retain exact per-program rounded operation/tree/block order.",
+    "dtype_scope_relation": "selected_explicit_profiles_only",
+    "unclosed_numeric_callbacks": [],
+    "extra_numeric_law_ids": [],
+    "native_binding_status": "not_established",
+    "original_scope": {
+      "standard_accepted": false,
+      "covered": "Actual complete source executions for every permutation of the full logical grid, threading preceding actual memory and fresh registers, equal both independent initial-input memory and the existing current-memory grid reference, with global frame. Partial valid schedules may be empty or repeat IDs; no out-of-grid ID is admitted.",
+      "memory_profile": "InputsSeparate p := p.A != p.output and p.B != p.output. This is an explicit logical-region condition; native allocator/storage separation is not inferred.",
+      "remaining_structural_obligations": [
+        "Host Arguments use natural metadata; arbitrary Python types, negative dimensions/blocks/tuning remain outside the Lean host domain. Source probes confirm some negative blocks pass assertions and reach negative-grid or invalid-block dispatch.",
+        "Allocator is an explicit non-numerical callback for all three ordered fp32 CUDA requests. Native allocation failure behavior, fresh physical separation, contiguous fp32 cells and tensor-to-region/byte-memory/ABI representation remain unbound. Kernel correctness quantifies all produced words, requiring no RNG distribution law.",
+        "Address bounds and output/K coverage are proved for natural element indices. Fixed-width sizes, intermediate overflow, storage representation and native pointer correspondence remain open.",
+        "Native block/arange/resource legality, empty grids and zero-K specialization admission, and supported num_warps/num_stages remain open; Python accepts some non-power-of-two blocks and invalid tuning.",
+        "Arbitrary order of complete logical programs is proved only under A/output and B/output region separation. Physical allocation freshness, native byte aliases, GPU instruction/warp interleavings, data races and concurrent refinement remain unproved.",
+        "Source equality uses the existing full admitted TypedSource.original transcription. Static source comparison and wrapper AST probes do not constitute a verified Python compiler translation."
+      ],
+      "remaining_native_numerical_bindings": [
+        "Bind chosen FP.Config and concrete fp32 FP.add/FP.mul behavior to device rounding, FTZ, infinities/NaNs, signed zero and special-value handling.",
+        "Identify and bind actual native reduction tree and explicit padding/seeds to the supplied valid ReductionPlan at block_k.",
+        "Bind compiler fusion/reassociation and any operation contraction across product/reduction/block-accumulation boundaries; no equality to a real sum is assumed."
+      ]
+    },
+    "review_basis": "Producer-proved exact actual body load registers, footprint-dependent FP reference, complete-execution input preservation, actual output address disjointness, initial-input program overlays and permutation of their commuting effects. Root final semantic/source review is still required."
+  },
+  "lean_checks": [
+    {
+      "module": "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostScheduleInputs.lean",
+      "source_sha256": "f4cf123ca7354d30a3c452ae2ddc709a73432cd799fbcf4d88d04b38a4c2f47c",
+      "source_sha256_before": "f4cf123ca7354d30a3c452ae2ddc709a73432cd799fbcf4d88d04b38a4c2f47c",
+      "source_sha256_after": "f4cf123ca7354d30a3c452ae2ddc709a73432cd799fbcf4d88d04b38a4c2f47c",
+      "source_unchanged_during_compile": true,
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "--root=/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip",
+        "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostScheduleInputs.lean",
+        "-o",
+        "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostScheduleInputs.olean"
+      ],
+      "LEAN_PATH": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+      "exit_code": 0,
+      "seconds": 2.87,
+      "log": "evidence/HostScheduleInputs.log",
+      "log_sha256": "b0d86c53e6a14d8d9d8445ed1943394da9dce49d5d5450de4f6790b9ba56e19e",
+      "observed_exec_session": 10982,
+      "named_axiom_checks": 11,
+      "noncircular_checks": 0,
+      "module_audit_directives": 1
+    },
+    {
+      "module": "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostSchedule.lean",
+      "source_sha256": "7a1376b7230199c35da180b1426b4e97c47e5718167c8cbcf829d38f2844a6cf",
+      "source_sha256_before": "7a1376b7230199c35da180b1426b4e97c47e5718167c8cbcf829d38f2844a6cf",
+      "source_sha256_after": "7a1376b7230199c35da180b1426b4e97c47e5718167c8cbcf829d38f2844a6cf",
+      "source_unchanged_during_compile": true,
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "--root=/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip",
+        "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostSchedule.lean",
+        "-o",
+        "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostSchedule.olean"
+      ],
+      "LEAN_PATH": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+      "exit_code": 0,
+      "seconds": 3.867,
+      "log": "evidence/HostSchedule.log",
+      "log_sha256": "cee5771eb114b62058c9eb5dbf5849c274fb7376b0005ef9d3b51e0ecfc93fb8",
+      "observed_exec_session": 27882,
+      "named_axiom_checks": 11,
+      "noncircular_checks": 1,
+      "module_audit_directives": 1
+    },
+    {
+      "module": "bench/tritonbench_g/batched_vecmat_mult/ScheduleCorrect.lean",
+      "source_sha256": "96d2de277d7fbdb0d9ba7cd91f0a30a4ed51a770e13420cc2bea89ba138ca7fb",
+      "source_sha256_before": "96d2de277d7fbdb0d9ba7cd91f0a30a4ed51a770e13420cc2bea89ba138ca7fb",
+      "source_sha256_after": "96d2de277d7fbdb0d9ba7cd91f0a30a4ed51a770e13420cc2bea89ba138ca7fb",
+      "source_unchanged_during_compile": true,
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "--root=/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip",
+        "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/ScheduleCorrect.lean",
+        "-o",
+        "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/ScheduleCorrect.olean"
+      ],
+      "LEAN_PATH": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+      "exit_code": 0,
+      "seconds": 2.284,
+      "log": "evidence/ScheduleCorrect.log",
+      "log_sha256": "713218311d8871c91670fbec94329589d83eab3ecb6ab692b8796b98c26e86fd",
+      "observed_exec_session": 44113,
+      "named_axiom_checks": 1,
+      "noncircular_checks": 0,
+      "module_audit_directives": 1
+    }
+  ],
+  "independent_readback": {
+    "source": "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostReadback.lean",
+    "producer_receipt": "evidence/readback-producer-receipt.json",
+    "producer_receipt_sha256": "39f037af23d65975f14525387da7275a0444e68f97b4ef74b192679af9f8d029",
+    "root_review": "evidence/readback-root-review.json",
+    "root_review_sha256": "76d7d76e5c34d0859ddf17dcdf816dedb72a960d5ea6caf7e8be8540835941e1",
+    "actual_compile_exit_code": 0,
+    "compile_not_repeated_because_unchanged": true
+  },
+  "compiled_direct_imports": {
+    "bench.tritonbench_g.batched_vecmat_mult.Proofs.HostOutputBounds": {
+      "resolved_olean": "/tmp/veritile-tritonbench-lake/build/lib/lean/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostOutputBounds.olean",
+      "sha256": "76ce18ab8eff40d6fe49db1e7cad8b3ed1c94354700ea384cd21db9644caee2f"
+    },
+    "bench.tritonbench_g.batched_vecmat_mult.Proofs.HostReadback": {
+      "resolved_olean": "/tmp/veritile-standardization-20261015/batched-vecmat-readback-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostReadback.olean",
+      "sha256": "b2f5dd21a0dba08bf9192d8836c2e4811e03400b1ecf784d3b088f545450f584"
+    },
+    "bench.tritonbench_g.batched_vecmat_mult.Proofs.HostScheduleInputs": {
+      "resolved_olean": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostScheduleInputs.olean",
+      "sha256": "0606110132992142ebc6fc629d15d4f6ada7550d847b1341ac0334f50d21a5f8"
+    },
+    "bench.tritonbench_g.batched_vecmat_mult.Proofs.HostSchedule": {
+      "resolved_olean": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/bench/tritonbench_g/batched_vecmat_mult/Proofs/HostSchedule.olean",
+      "sha256": "50c6f0bcd541bc68e9dde631865c39a6f650fd799eebf8dcdfec50f7cc54079a"
+    }
+  },
+  "verification_summary": {
+    "self_authored_actual_compile_exits": [
+      0,
+      0,
+      0
+    ],
+    "all_before_after_source_hashes_equal": true,
+    "all_project_dependencies_unchanged_since_before_final_checks": true,
+    "self_authored_named_axiom_checks": 23,
+    "inherited_readback_named_axiom_checks": 1,
+    "total_named_axiom_checks": 24,
+    "noncircular_checks": 1,
+    "module_audit_directives": 4,
+    "audit_precision": "Named checks explicitly cover the recursive footprint of every new theorem. Module audit directives discover the registered specification/headline surfaces; they are not claimed as an indiscriminate audit of every declaration.",
+    "allowed_axioms": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "warnings_in_final_logs": 0
+  },
+  "semantic_scope": {
+    "actual_execution": "Every listed program invokes FP.Structural.exec of the unchanged source with freshly reset registers, derived pids/numPids and previous actual memory.",
+    "read_footprint": "Exact A BM×BK and B BN×BM×BK body load-register values and offsets; c ranges over K/BK iterations. FP accumulated output depends only on these reads and fixed pids.",
+    "profile_condition": "A != output and B != output; A and B may alias. No allocator freshness theorem is inferred.",
+    "write_sets": "Exact source output offsets, not an overapproximate interval; distinct valid program IDs have disjoint writes by derived actual grid/lane address injectivity.",
+    "partial_schedules": "Any finite list of valid IDs, including empty lists and repetitions, executes and equals its fixed initial-input reference. Extra out-of-grid IDs are excluded.",
+    "public_schedule": "Any permutation of List.range(gridCount p): exactly one execution per valid grid ID.",
+    "reference": "Fixed initial-input overlay fold over the complete grid, proved equal to existing gridExpectedMemory under InputsSeparate. Both appear in public result.",
+    "empty_grid": "Included without positive-dimension premises; complete schedule is empty and initial memory is retained.",
+    "zero_k": "Included; inherited positive-zero accumulation and final stores remain present, and output uniqueness does not require a K-loop lane.",
+    "fp_boundary": "One fixed FP.Config and valid ReductionPlan family; same per-program leaf/tree/seed/multiply/add and ordered block accumulation. No equality across different plans, reassociation or real-sum law.",
+    "concurrency_boundary": "Arbitrary sequential complete-program order only. No instruction-level logical interleaving theorem or native GPU concurrency refinement is claimed."
+  },
+  "remaining_nondeferable_gaps": [
+    "Host Arguments use natural metadata; arbitrary Python types, negative dimensions/blocks/tuning remain outside the Lean host domain. Source probes confirm some negative blocks pass assertions and reach negative-grid or invalid-block dispatch.",
+    "Allocator is an explicit non-numerical callback for all three ordered fp32 CUDA requests. Native allocation failure behavior, fresh physical separation, contiguous fp32 cells and tensor-to-region/byte-memory/ABI representation remain unbound. Kernel correctness quantifies all produced words, requiring no RNG distribution law.",
+    "Address bounds and output/K coverage are proved for natural element indices. Fixed-width sizes, intermediate overflow, storage representation and native pointer correspondence remain open.",
+    "Native block/arange/resource legality, empty grids and zero-K specialization admission, and supported num_warps/num_stages remain open; Python accepts some non-power-of-two blocks and invalid tuning.",
+    "Arbitrary order of complete logical programs is proved only under A/output and B/output region separation. Physical allocation freshness, native byte aliases, GPU instruction/warp interleavings, data races and concurrent refinement remain unproved.",
+    "Source equality uses the existing full admitted TypedSource.original transcription. Static source comparison and wrapper AST probes do not constitute a verified Python compiler translation."
+  ],
+  "numerical_deferrals_added": [],
+  "existing_numerical_followup_reused_unchanged": "batched-vecmat-fp32-native-tree-and-scalar-conformance",
+  "retained_artifact_sha256": {
+    "README.md": "a4d251e30788a387ec93cd0b9e5f10688be4f8f935b1e1d37ced29d811533e8e",
+    "compile.py": "7b752ba82beef227ed92c5307f4ddfcdf4ca1aa9c10b04810f486ad5e069ee1b",
+    "catalog-addition-proposal.json": "a243cdd2cb23419b34aa74d8c9c3a7ad3144076d10cc81e27b49a5bf4175e705",
+    "evidence/source-freeze-before.json": "c8deea8936dc21b389304af6abb06947c0833ed142b7fcc035dc429dff13456e",
+    "evidence/source-freeze.json": "fffd32567979b4eeed62ca11fa42ce30916830f4f4364b2777a7be888604156e",
+    "evidence/lean-checks.json": "40daf938bca7d0c0f56865260f30bf427e65ddc284f658bdbcbea80cc9cdbfdc",
+    "evidence/readback-producer-receipt.json": "39f037af23d65975f14525387da7275a0444e68f97b4ef74b192679af9f8d029",
+    "evidence/readback-root-review.json": "76d7d76e5c34d0859ddf17dcdf816dedb72a960d5ea6caf7e8be8540835941e1",
+    "evidence/HostReadback.compile.log": "a95dd2f18e41513edbaf6ebdc3cbd7d63e4146501d5c44551c50ca995798fd08",
+    "evidence/HostScheduleInputs.json": "7cc4f43cddbe9fd631c4047ffb288ecc490822225eae69a096447582e1d02a0e",
+    "evidence/HostScheduleInputs.log": "b0d86c53e6a14d8d9d8445ed1943394da9dce49d5d5450de4f6790b9ba56e19e",
+    "evidence/HostSchedule.json": "a7014ae6068af67d1f91da9c7cea1b5fd92a8729b0c6b29e3e3144267c57682c",
+    "evidence/HostSchedule.log": "cee5771eb114b62058c9eb5dbf5849c274fb7376b0005ef9d3b51e0ecfc93fb8",
+    "evidence/ScheduleCorrect.json": "ea074dc874330c20a86c7256b1152cb2e30f2af196684433afc4b7533cb853d6",
+    "evidence/ScheduleCorrect.log": "713218311d8871c91670fbec94329589d83eab3ecb6ab692b8796b98c26e86fd"
+  },
+  "temporary_artifact_policy": "Integrate only the four frozen .lean sources. Dependency symlinks and .olean compilation outputs are scratch artifacts; evidence may be copied according to root checkpoint policy.",
+  "draft_history": [
+    "Default-sandbox toolchain self-location failure was resolved with the existing authorized escalated compiler invocation, without changing shared environment.",
+    "Initial isolated LEAN_PATH root shadowed project imports; read-only dependency-object symlinks resolved it.",
+    "Independent sibling local unnamed instances collided; the new scheduling modules now give their local instances explicit distinct names.",
+    "One readback rewrite required explicit normalization of memory-independent outputOffset states; the final proof compiles cleanly."
+  ],
+  "integration_checks_not_yet_run": [
+    "Full registered repository build after integration",
+    "Current catalog reproduction and global gates",
+    "Root review and original-program scope-ledger rebind"
+  ]
+}

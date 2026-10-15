@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "kind": "compact_vecmat_program_order_evidence",
+  "retained_exact_artifacts": {
+    "producer/README.md": {
+      "path": "evidence/producer/README.md",
+      "sha256": "a4d251e30788a387ec93cd0b9e5f10688be4f8f935b1e1d37ced29d811533e8e",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/README.md"
+    },
+    "producer/catalog-addition-proposal.json": {
+      "path": "evidence/producer/catalog-addition-proposal.json",
+      "sha256": "a243cdd2cb23419b34aa74d8c9c3a7ad3144076d10cc81e27b49a5bf4175e705",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/catalog-addition-proposal.json"
+    },
+    "producer/compile.py": {
+      "path": "evidence/producer/compile.py",
+      "sha256": "7b752ba82beef227ed92c5307f4ddfcdf4ca1aa9c10b04810f486ad5e069ee1b",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/compile.py"
+    },
+    "producer/evidence/HostReadback.compile.log": {
+      "path": "evidence/producer/evidence/HostReadback.compile.log",
+      "sha256": "a95dd2f18e41513edbaf6ebdc3cbd7d63e4146501d5c44551c50ca995798fd08",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/evidence/HostReadback.compile.log"
+    },
+    "producer/evidence/HostSchedule.json": {
+      "path": "evidence/producer/evidence/HostSchedule.json",
+      "sha256": "a7014ae6068af67d1f91da9c7cea1b5fd92a8729b0c6b29e3e3144267c57682c",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/evidence/HostSchedule.json"
+    },
+    "producer/evidence/HostSchedule.log": {
+      "path": "evidence/producer/evidence/HostSchedule.log",
+      "sha256": "cee5771eb114b62058c9eb5dbf5849c274fb7376b0005ef9d3b51e0ecfc93fb8",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/evidence/HostSchedule.log"
+    },
+    "producer/evidence/HostScheduleInputs.json": {
+      "path": "evidence/producer/evidence/HostScheduleInputs.json",
+      "sha256": "7cc4f43cddbe9fd631c4047ffb288ecc490822225eae69a096447582e1d02a0e",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/evidence/HostScheduleInputs.json"
+    },
+    "producer/evidence/HostScheduleInputs.log": {
+      "path": "evidence/producer/evidence/HostScheduleInputs.log",
+      "sha256": "b0d86c53e6a14d8d9d8445ed1943394da9dce49d5d5450de4f6790b9ba56e19e",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/evidence/HostScheduleInputs.log"
+    },
+    "producer/evidence/ScheduleCorrect.json": {
+      "path": "evidence/producer/evidence/ScheduleCorrect.json",
+      "sha256": "ea074dc874330c20a86c7256b1152cb2e30f2af196684433afc4b7533cb853d6",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/evidence/ScheduleCorrect.json"
+    },
+    "producer/evidence/ScheduleCorrect.log": {
+      "path": "evidence/producer/evidence/ScheduleCorrect.log",
+      "sha256": "713218311d8871c91670fbec94329589d83eab3ecb6ab692b8796b98c26e86fd",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/evidence/ScheduleCorrect.log"
+    },
+    "producer/evidence/lean-checks.json": {
+      "path": "evidence/producer/evidence/lean-checks.json",
+      "sha256": "40daf938bca7d0c0f56865260f30bf427e65ddc284f658bdbcbea80cc9cdbfdc",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/evidence/lean-checks.json"
+    },
+    "producer/evidence/readback-producer-receipt.json": {
+      "path": "evidence/producer/evidence/readback-producer-receipt.json",
+      "sha256": "39f037af23d65975f14525387da7275a0444e68f97b4ef74b192679af9f8d029",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/evidence/readback-producer-receipt.json"
+    },
+    "producer/evidence/readback-root-review.json": {
+      "path": "evidence/producer/evidence/readback-root-review.json",
+      "sha256": "76d7d76e5c34d0859ddf17dcdf816dedb72a960d5ea6caf7e8be8540835941e1",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/evidence/readback-root-review.json"
+    },
+    "producer/evidence/source-freeze-before.json": {
+      "path": "evidence/producer/evidence/source-freeze-before.json",
+      "sha256": "c8deea8936dc21b389304af6abb06947c0833ed142b7fcc035dc429dff13456e",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/evidence/source-freeze-before.json"
+    },
+    "producer/evidence/source-freeze.json": {
+      "path": "evidence/producer/evidence/source-freeze.json",
+      "sha256": "fffd32567979b4eeed62ca11fa42ce30916830f4f4364b2777a7be888604156e",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/evidence/source-freeze.json"
+    },
+    "producer/evidence/receipt.json": {
+      "path": "evidence/producer/evidence/receipt.json",
+      "sha256": "5d3a21bc8f96ec89b26548d5c131f9082e3c4d0d221c10b0cb9acf886da16337",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-wip/evidence/receipt.json"
+    },
+    "independent-review.json": {
+      "path": "evidence/independent-review.json",
+      "sha256": "15f62a872cb08405a177e44eb3a6515641f2b3a0d0ab4eefb7c661c6a10dd9da",
+      "producer_path": "/tmp/veritile-standardization-20261015/batched-vecmat-schedule-root-review.json"
+    }
+  },
+  "new_source_sha256": {
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostScheduleInputs.lean": "f4cf123ca7354d30a3c452ae2ddc709a73432cd799fbcf4d88d04b38a4c2f47c",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostReadback.lean": "36d5c353b14ade5fb0efbcb86619fd4e9f1cc4631ba8b8a9a36480798eaa5782",
+    "bench/tritonbench_g/batched_vecmat_mult/Proofs/HostSchedule.lean": "7a1376b7230199c35da180b1426b4e97c47e5718167c8cbcf829d38f2844a6cf",
+    "bench/tritonbench_g/batched_vecmat_mult/ScheduleCorrect.lean": "96d2de277d7fbdb0d9ba7cd91f0a30a4ed51a770e13420cc2bea89ba138ca7fb"
+  },
+  "raw_receipt_path_policy": "Exact producer records preserve temporary paths and pre-review statuses. This index maps them to retained bytes; no .olean, symlink or draft is integrated.",
+  "metadata_baseline_reused": "bench/review-checkpoints/2026-10-15/original-scope-extensions/metadata-baseline",
+  "whole_task_acceptance": {
+    "accepted": 0,
+    "requested": 183
+  },
+  "integration_build_or_global_audit_claimed": false
+}
