@@ -1,0 +1,7619 @@
+{
+  "successes": [
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 256,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 512,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 1024,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 2048,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 4096,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 8192,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 16384,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 32768,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 65536,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 131072,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 262144,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 524288,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1,
+        "D_HEAD": 1048576,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 256,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 512,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 1024,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 2048,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 4096,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 8192,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 16384,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 32768,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 65536,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 131072,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 262144,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2,
+        "D_HEAD": 524288,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 256,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 512,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 1024,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 2048,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 4096,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 8192,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 16384,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 32768,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 65536,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 131072,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4,
+        "D_HEAD": 262144,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 256,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 512,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 1024,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 2048,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 4096,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 8192,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 16384,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 32768,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 65536,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8,
+        "D_HEAD": 131072,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 256,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 512,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 1024,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 2048,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 4096,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 8192,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 16384,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 32768,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16,
+        "D_HEAD": 65536,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 256,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 512,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 1024,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 2048,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 4096,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 8192,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 16384,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32,
+        "D_HEAD": 32768,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 256,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 512,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 1024,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 2048,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 4096,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 8192,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 64,
+        "D_HEAD": 16384,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 256,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 512,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 1024,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 2048,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 4096,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 128,
+        "D_HEAD": 8192,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 256,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 256,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 256,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 256,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 256,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 256,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 256,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 256,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 256,
+        "D_HEAD": 256,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 256,
+        "D_HEAD": 512,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 256,
+        "D_HEAD": 1024,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 256,
+        "D_HEAD": 2048,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 256,
+        "D_HEAD": 4096,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 512,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 512,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 512,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 512,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 512,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 512,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 512,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 512,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 512,
+        "D_HEAD": 256,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 512,
+        "D_HEAD": 512,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 512,
+        "D_HEAD": 1024,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 512,
+        "D_HEAD": 2048,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1024,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1024,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1024,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1024,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1024,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1024,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1024,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1024,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1024,
+        "D_HEAD": 256,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1024,
+        "D_HEAD": 512,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1024,
+        "D_HEAD": 1024,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2048,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2048,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2048,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2048,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2048,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2048,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2048,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2048,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2048,
+        "D_HEAD": 256,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 2048,
+        "D_HEAD": 512,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4096,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4096,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4096,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4096,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4096,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4096,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4096,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4096,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 4096,
+        "D_HEAD": 256,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8192,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8192,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8192,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8192,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8192,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8192,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8192,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 8192,
+        "D_HEAD": 128,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16384,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16384,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16384,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16384,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16384,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16384,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 16384,
+        "D_HEAD": 64,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32768,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32768,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32768,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32768,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32768,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 32768,
+        "D_HEAD": 32,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 65536,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 65536,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 65536,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 65536,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 65536,
+        "D_HEAD": 16,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 131072,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 131072,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 131072,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 131072,
+        "D_HEAD": 8,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 262144,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 262144,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 262144,
+        "D_HEAD": 4,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 524288,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 524288,
+        "D_HEAD": 2,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "returned",
+        "SIZE_M": 1048576,
+        "D_HEAD": 1,
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": false
+      }
+    }
+  ],
+  "rejections": [
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "frontend_rejection",
+        "partition": "sizeMRange.indexWidth",
+        "SIZE_M_domain": "Nat",
+        "D_HEAD_domain": "Nat",
+        "predicate_conjunction": [
+          "SIZE_M >= 4294967296"
+        ],
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": "arbitrary_bool_ignored_after_earlier_failure"
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "frontend_rejection",
+        "partition": "sizeMRange.nonPositive",
+        "SIZE_M_domain": "Nat",
+        "D_HEAD_domain": "Nat",
+        "predicate_conjunction": [
+          "SIZE_M = 0"
+        ],
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": "arbitrary_bool_ignored_after_earlier_failure"
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "frontend_rejection",
+        "partition": "sizeMRange.nonPowerOfTwo",
+        "SIZE_M_domain": "Nat",
+        "D_HEAD_domain": "Nat",
+        "predicate_conjunction": [
+          "0 < SIZE_M < 4294967296 and (SIZE_M & (SIZE_M-1)) != 0"
+        ],
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": "arbitrary_bool_ignored_after_earlier_failure"
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "frontend_rejection",
+        "partition": "sizeMRange.tensorSize",
+        "SIZE_M_domain": "Nat",
+        "D_HEAD_domain": "Nat",
+        "predicate_conjunction": [
+          "1048576 < SIZE_M < 4294967296 and (SIZE_M & (SIZE_M-1)) = 0"
+        ],
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": "arbitrary_bool_ignored_after_earlier_failure"
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "frontend_rejection",
+        "partition": "dHeadRange.indexWidth",
+        "SIZE_M_domain": "Nat",
+        "D_HEAD_domain": "Nat",
+        "predicate_conjunction": [
+          "arangeCheck(SIZE_M) = none",
+          "D_HEAD >= 4294967296"
+        ],
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": "arbitrary_bool_ignored_after_earlier_failure"
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "frontend_rejection",
+        "partition": "dHeadRange.nonPositive",
+        "SIZE_M_domain": "Nat",
+        "D_HEAD_domain": "Nat",
+        "predicate_conjunction": [
+          "arangeCheck(SIZE_M) = none",
+          "D_HEAD = 0"
+        ],
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": "arbitrary_bool_ignored_after_earlier_failure"
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "frontend_rejection",
+        "partition": "dHeadRange.nonPowerOfTwo",
+        "SIZE_M_domain": "Nat",
+        "D_HEAD_domain": "Nat",
+        "predicate_conjunction": [
+          "arangeCheck(SIZE_M) = none",
+          "0 < D_HEAD < 4294967296 and (D_HEAD & (D_HEAD-1)) != 0"
+        ],
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": "arbitrary_bool_ignored_after_earlier_failure"
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "frontend_rejection",
+        "partition": "dHeadRange.tensorSize",
+        "SIZE_M_domain": "Nat",
+        "D_HEAD_domain": "Nat",
+        "predicate_conjunction": [
+          "arangeCheck(SIZE_M) = none",
+          "1048576 < D_HEAD < 4294967296 and (D_HEAD & (D_HEAD-1)) = 0"
+        ],
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": "arbitrary_bool_ignored_after_earlier_failure"
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "frontend_rejection",
+        "partition": "matrixPointerTensorSize",
+        "SIZE_M_domain": "Nat",
+        "D_HEAD_domain": "Nat",
+        "predicate_conjunction": [
+          "arangeCheck(SIZE_M) = none",
+          "arangeCheck(D_HEAD) = none",
+          "SIZE_M * D_HEAD > 1048576"
+        ],
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": "arbitrary_bool_ignored_after_earlier_failure"
+      }
+    }
+  ],
+  "primitive_errors": [
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "primitive_error",
+        "first_failure": "randn",
+        "SIZE_M_domain": "Nat",
+        "D_HEAD_domain": "Nat",
+        "randn_error": true,
+        "zeros_error": "arbitrary_bool_ignored_after_earlier_failure",
+        "launch_setup_error": "arbitrary_bool_ignored_after_earlier_failure",
+        "backend_error": "arbitrary_bool_ignored_after_earlier_failure"
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "primitive_error",
+        "first_failure": "zeros",
+        "SIZE_M_domain": "Nat",
+        "D_HEAD_domain": "Nat",
+        "randn_error": false,
+        "zeros_error": true,
+        "launch_setup_error": "arbitrary_bool_ignored_after_earlier_failure",
+        "backend_error": "arbitrary_bool_ignored_after_earlier_failure"
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "primitive_error",
+        "first_failure": "launch_setup",
+        "SIZE_M_domain": "Nat",
+        "D_HEAD_domain": "Nat",
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": true,
+        "backend_error": "arbitrary_bool_ignored_after_earlier_failure"
+      }
+    },
+    {
+      "dtype_profile": {
+        "inputs": {
+          "matrix": "fp16"
+        },
+        "outputs": {
+          "out": "fp16"
+        },
+        "compute": {
+          "arange": "int32",
+          "stride_products": "int32",
+          "transpose": "fp16"
+        }
+      },
+      "configuration": {
+        "entrypoint": "wrapper",
+        "grid": [
+          1
+        ],
+        "shape_api": "natural_dimensions_after_trusted_Torch_conversion",
+        "source_variant": "original",
+        "storage_allocation": "fresh_contiguous_cuda_fp16",
+        "outcome": "primitive_error",
+        "first_failure": "backend",
+        "SIZE_M_domain": "Nat",
+        "D_HEAD_domain": "Nat",
+        "randn_error": false,
+        "zeros_error": false,
+        "launch_setup_error": false,
+        "backend_error": true,
+        "shape_predicate": "SourceShape(SIZE_M,D_HEAD)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "integration-build": {
+    "exit_code": 0,
+    "jobs": 7357,
+    "log": {
+      "path": "evidence/integration/matrix-relu-integration-build.log",
+      "sha256": "959418be075a7466c7c98f6b64518a78c2f1721ee5d372edbdc8de18ddb7da48"
+    }
+  },
+  "catalog": {
+    "exit_code": 0,
+    "public_declarations": 945,
+    "log": {
+      "path": "evidence/integration/matrix-relu-catalog.log",
+      "sha256": "e14ebf8a0e8431288c4dff6055118ed3c5a43f552488a3dbb8e08b73c6bcdb3a"
+    }
+  },
+  "rebind-ledger": {
+    "exit_code": 0,
+    "scope_verified": 1,
+    "pending": 182,
+    "log": {
+      "path": "evidence/integration/matrix-relu-rebind-ledger.log",
+      "sha256": "63552c228ab57f9293765f962eb8a0941f361f1f5999ca1ddccb4fad9ae851b0"
+    }
+  },
+  "global": {
+    "exit_code": 1,
+    "failed_gates": [
+      "comparator_preflight",
+      "library_replay",
+      "scope_review"
+    ],
+    "log": {
+      "path": "evidence/integration/matrix-relu-global.log",
+      "sha256": "589039dfd365171fe78ce44a01875cac4a2bd32415c5fee174bfec3395653f11"
+    }
+  },
+  "shard-tests": {
+    "exit_code": 0,
+    "tests": 25,
+    "log": {
+      "path": "evidence/integration/matrix-relu-shard-tests.log",
+      "sha256": "c0fd6347ea880a08fc9291aeb26ea597b037e4896814ddc61943dae55a21d7fb"
+    }
+  }
+}

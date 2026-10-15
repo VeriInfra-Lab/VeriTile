@@ -5,8 +5,10 @@ The requested standard covers **all declared stages, dtypes and branches of
 existing contract is for a repaired candidate. This exclusion does not cover
 the separate original-source task `fp4_to_bf16`.
 
-[`original_program_scope.json`](original_program_scope.json) has all 183 tasks
-**pending**, bound to the current extension catalog. It preserves initial gaps
+[`original_program_scope.json`](original_program_scope.json) has **1 source scope verified and 182 pending**, bound to the current extension
+catalog. The verified scope is `matrix_transpose`, under explicit primitive
+contracts and without numerical deferrals. Official comparator and whole-corpus
+CI results remain separate. It preserves initial gaps
 as provenance and records reviewed partial extensions with their remaining
 structural work. Its observed input hashes and partial-progress records do not
 constitute whole-program reviews. Existing mathematics, equivalence and value
@@ -16,7 +18,7 @@ The [finite acceptance boundary](original_program_acceptance.md) separates
 source-specific obligations from trusted Python/Torch/Triton primitive semantics.
 It preserves real coverage requirements without adding universal compiler, runtime
 or test-harness implementation proofs. The reviewed first calibration changes
-four gap lists and leaves every task pending.
+four gap lists and introduced no acceptance by itself.
 
 The checker rejects omitted tasks, pending reviews, changed sources, missing
 dimensions, unresolved structural gaps, candidate/standalone proof substitutions,
@@ -105,14 +107,15 @@ the existing `fp16=true` contract uses fp32 storage and internal half casts.
 Its correction does not establish the separate `fp16=false` branch or host program.
 
 The workflow's catalog and supplement now point to the
-`quantization-and-mixed-softmax` batch, with the unchanged
+`matrix-scope-and-relu-fp64` batch, with the unchanged
 `original-scope-extensions/metadata-baseline` and preceding final-source manifest
 retained as its historical base. Neither global success nor scope
 success establishes corpus comparator replay, the integration build or native
 GPU correctness; those remain independent checks.
 
-The full-scope review now covers all 183 original programs. Each retains
-concrete unresolved structural obligations, so all 183 remain pending. No
-program is left without a completed scope-gap review. The
-cumulative supplemental proof inventory contains 45 execution contracts and
+The full-scope review covers all 183 original programs, with no unreviewed
+programs. Matrix transpose has passed its schema2 source-scope check; 182 scopes
+remain pending. This is not a claim that whole-corpus CI or official comparator
+replay has passed. The cumulative supplemental proof inventory contains 48
+execution contracts and
 four protocol contracts across 14 tasks; those counts are not completed programs.

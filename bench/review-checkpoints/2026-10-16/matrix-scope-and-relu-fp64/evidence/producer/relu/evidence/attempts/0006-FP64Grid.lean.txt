@@ -1,0 +1,138 @@
+import bench.tritonbench_g.relu_triton_kernel.Proofs.FP64Source
+
+namespace VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source
+open VeriTile.Triton GatedGrid
+noncomputable section
+set_option maxHeartbeats 3000000
+set_option linter.unusedSimpArgs false
+
+/-- The whole returned state is passed from each pid to the next. -/
+def runSchedule (num : Numerics) (x y : RegionName) (N B : Nat) :
+    List Nat → State B → State B
+  | [], s => s
+  | pid :: rest, s => runSchedule num x y N B rest (run num x y N B pid s)
+
+/-- Retains a complete before/after pair for every launched program. -/
+def scheduleTrace (num : Numerics) (x y : RegionName) (N B : Nat) :
+    List Nat → State B → List (Nat × State B × State B)
+  | [], _ => []
+  | pid :: rest, s =>
+      let t := run num x y N B pid s
+      (pid, s, t) :: scheduleTrace num x y N B rest t
+
+theorem trace_pids (num : Numerics) (x y : RegionName) (N B : Nat)
+    (order : List Nat) (s : State B) :
+    (scheduleTrace num x y N B order s).map Prod.fst = order := by
+  induction order generalizing s with
+  | nil => rfl
+  | cons pid rest ih => simp [scheduleTrace, ih]
+
+theorem trace_executes_source (num : Numerics) (x y : RegionName) (N B : Nat)
+    (order : List Nat) (s : State B) (pid : Nat) (before after : State B)
+    (entry : (pid, before, after) ∈ scheduleTrace num x y N B order s) :
+    after = run num x y N B pid before ∧
+    after.regs = computedRegisters x N B pid before := by
+  induction order generalizing s with
+  | nil => simp [scheduleTrace] at entry
+  | cons p rest ih =>
+    simp only [scheduleTrace, List.mem_cons] at entry
+    rcases entry with h | h
+    · cases h
+      exact ⟨rfl, (source_registers num x y N B pid before).1⟩
+    · exact ih _ h
+
+/-- Even a repeated pid zero has the same memory effect because the f64 input
+view is immutable. Complete launch permutations are a narrower corollary. -/
+theorem schedule_memory (num : Numerics) (x y : RegionName) (N B : Nat)
+    (order : List Nat) (s : State B) :
+    (runSchedule num x y N B order s).mem =
+      if 0 ∈ order then reference num x y N B s.mem else s.mem := by
+  induction order generalizing s with
+  | nil => simp [runSchedule]
+  | cons pid rest ih =>
+    rw [runSchedule, ih, source_memory]
+    by_cases hp : pid = 0 <;> by_cases hr : 0 ∈ rest
+    all_goals simp [hp, hr, reference_idempotent]
+
+theorem grid_memory (num : Numerics) (x y : RegionName) (N B : Nat)
+    (order : List Nat) (s : State B)
+    (complete : order.Perm (List.range (gridCount N B))) :
+    (runSchedule num x y N B order s).mem =
+      if gridCount N B = 0 then s.mem else reference num x y N B s.mem := by
+  rw [schedule_memory]
+  have h : 0 ∈ order ↔ 0 < gridCount N B := by
+    simpa only [List.mem_range] using (complete.mem_iff (a := 0))
+  by_cases hz : gridCount N B = 0
+  · simp [hz, h]
+  · have hn : 0 < gridCount N B := Nat.pos_of_ne_zero hz
+    simp [h, hn, hz]
+
+theorem grid_frame (num : Numerics) (x y r : RegionName) (N B o : Nat)
+    (order : List Nat) (s : State B)
+    (outside : r ≠ y ∨ B ≤ o ∨ N ≤ o) :
+    (runSchedule num x y N B order s).mem.f32 r o = s.mem.f32 r o := by
+  rw [schedule_memory]
+  split
+  · exact reference_frame num x y r N B o s.mem outside
+  · rfl
+
+theorem grid_input_frame (num : Numerics) (x y : RegionName) (N B : Nat)
+    (order : List Nat) (s : State B) :
+    (runSchedule num x y N B order s).mem.f64 = s.mem.f64 := by
+  rw [schedule_memory]
+  split <;> rfl
+
+theorem grid_output (num : Numerics) (x y : RegionName) (N B o : Nat)
+    (order : List Nat) (s : State B)
+    (complete : order.Perm (List.range (gridCount N B)))
+    (inBlock : o < B) (active : o < N) :
+    (runSchedule num x y N B order s).mem.f32 y o = value num (s.mem.f64 x o) := by
+  rw [grid_memory num x y N B order s complete]
+  have hn := positive_grid_count N B (by omega) (by omega)
+  simp [Nat.ne_of_gt hn, reference, inBlock, active]
+
+/-- The actual computed registers are tied to the inherited fixed-1024
+signed-i32 arithmetic domain, for every lane, including inactive lanes. -/
+theorem registers_finite_address (num : Numerics) (x y : RegionName)
+    (N pid : Nat) (s : State 1024) (i : Fin 1024)
+    (domain : FiniteAddress.IndexDomain N)
+    (launched : pid < gridCount N 1024) :
+    (FiniteAddress.offset32 pid i.val).toNat =
+      (run num x y N 1024 pid s).regs.offsets i ∧
+    FiniteAddress.mask32 N pid i.val =
+      (run num x y N 1024 pid s).regs.mask i ∧
+    FiniteAddress.stores32 pid = decide ((run num x y N 1024 pid s).regs.pid = 0) := by
+  rw [(source_registers num x y N 1024 pid s).1]
+  exact ⟨(FiniteAddress.lane_arithmetic N pid i.val domain launched i.isLt).2.2,
+    FiniteAddress.mask_exact N pid i.val domain launched i.isLt,
+    FiniteAddress.stores_exact N pid domain launched⟩
+
+/-- A positive value at 1024 is not computed into the output. This theorem
+preserves the actual source bug for every narrowing callback and initial tail. -/
+theorem tail_preserved (num : Numerics) (x y : RegionName) (N o : Nat)
+    (order : List Nat) (s : State 1024) (tail : 1024 ≤ o) :
+    (runSchedule num x y N 1024 order s).mem.f32 y o = s.mem.f32 y o :=
+  grid_frame num x y y N 1024 o order s (Or.inr (Or.inl tail))
+
+theorem tail_differs_from_full_relu (num : Numerics) (x y : RegionName)
+    (N o : Nat) (order : List Nat) (s : State 1024)
+    (tail : 1024 ≤ o) (active : o < N)
+    (different : s.mem.f32 y o ≠ value num (s.mem.f64 x o)) :
+    (runSchedule num x y N 1024 order s).mem.f32 y o ≠ value num (s.mem.f64 x o) := by
+  rw [tail_preserved num x y N o order s tail]
+  exact different
+
+#axiomsClean trace_pids
+#axiomsClean trace_executes_source
+#axiomsClean schedule_memory
+#axiomsClean grid_memory
+#axiomsClean grid_frame
+#axiomsClean grid_input_frame
+#axiomsClean grid_output
+#axiomsClean registers_finite_address
+#axiomsClean tail_preserved
+#axiomsClean tail_differs_from_full_relu
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Source

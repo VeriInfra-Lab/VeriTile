@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "kind": "independent_matrix_frontend_evidence_check",
+  "status": "passed",
+  "receipt_sha256": "d2515272f59f4c42a3c585d89a1867f187e84af52082dcf9dc0aab8b453d5e21",
+  "original_source_sha256": "0ceaf829e152415896fea92229c45c00f34ade1ff5f0da7aaefa8769a84c5957",
+  "successful_shape_pairs": 231,
+  "complete_individually_legal_product_rejections": 210,
+  "boundary_rejections": 14,
+  "retained_ir_bodies_independently_read": 6,
+  "independent_source_ast_identity": true,
+  "native_backend_execution": false,
+  "gpu_execution": false,
+  "whole_program_acceptance_increment": 0,
+  "boundary": "Pinned exact original JIT frontend. Nat supported shape domain; negative/non-shape inputs are primitive API boundaries, not silently claimed as Lean Nat coverage."
+}

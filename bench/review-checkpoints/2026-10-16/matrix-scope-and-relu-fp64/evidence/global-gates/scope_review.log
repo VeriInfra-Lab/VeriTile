@@ -1,0 +1,929 @@
+{
+  "schema": 1,
+  "status": "failed",
+  "requested_tasks": 183,
+  "counts": {
+    "not_accepted": 182,
+    "verified": 1
+  },
+  "errors": [
+    "182 original-program scopes remain unaccepted"
+  ],
+  "tasks": [
+    {
+      "task": "adam_update_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "add_example",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "add_value",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "apply_penalty",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "attention_forward_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "attention_fwd_triton1",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "attention_fwd_triton2",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "attention_fwd_triton3",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "attention_kernel",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "attention_kernel_aligned",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "attention_llama",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "attention_score",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "attn_fwd_causal",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "attn_fwd_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "batched_vecmat_mult",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "bgmv_expand_slice",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "bgmv_shrink_kernel",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "block_sparse_attn",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "bmm_chunk_bwd",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "bmm_chunk_fwd",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "bmm_optimized",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "cache_transform_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "chunk_bwd_dqkg",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "chunk_cumsum_kernel",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "chunk_cumsum_vector",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "chunk_delta_fwd",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "chunk_gate_recurrence",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "chunk_gated_attention",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "chunk_gla_fwd",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "chunk_gla_simple",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "chunk_linear_attn",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "chunk_retention",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "chunk_retention_ops",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "chunked_cumsum_fwd",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "context_attn_bloom",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "context_attn_fwd",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "context_attn_llama",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "context_attn_mistral",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "context_attn_nopad",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "cosine_compute",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "cross_entropy1",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "cross_entropy2",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "cross_entropy_ops",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "decay_cumsum",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "dequantize_matmul",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "dequantize_rowwise",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "destindex_copy",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "destindex_copy_kv1",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "destindex_copy_kv2",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "diag_ssm_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "dropout_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "embedding_triton_kernel",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "f8_conversion_utils",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "fast_ce_loss",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "fast_layernorm",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "fast_rms_layernorm",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "fast_rope_embedding",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "fifth_order_sph_harmonics",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "flash_attn",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "flash_decode2_llama",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "flash_decode2_phi",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "fp4_to_bf16",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "fused_activation",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "fused_layernorm_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "fused_recurrent_delta",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "fused_recurrent_hgrn",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "fused_recurrent_retention",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "fused_rotary_embedding",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "fused_rwkv6_kernel",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "geglu_tanh_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "index_select_bwd",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "index_select_cat",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "int4_matmul",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "int8_dequant_matmul",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "int8_matmul_kernel",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "int8_matmul_quantization",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "int8_quantization",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "int_scaled_matmul",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "isfinite_kernel",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "iv_dependent_matmul",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "kcache_copy_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "kldiv_compute",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "kldiv_ops",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "kldiv_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "ksoftmax_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "kv_cache_copy",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "kv_cache_filling",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "l2_norm_bwd",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "l2_norm_triton1",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "l2_norm_triton2",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "layer_norm_fwd",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "layer_norm_liger",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "layer_norm_ops",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "layer_norm_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "layer_norm_welfold",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "layernorm_fwd_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "lightning_attention",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "llama_ff_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "log_softmax",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "logsumexp_fwd",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "lora_expand_gemv",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "masked_add_cuda",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "masked_select",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "matmul_dequant_int4",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "matmul_dequantize",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "matmul_dequantize_int4",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "matmul_kernel",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "matmul_leakyrelu",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "matmul_leakyrelu_fp8",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "matmul_persistent_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "matmul_tma",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "matmul_triton1",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "matmul_triton2",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "matmul_triton_autotune",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "matrix_reduction",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "matrix_transpose",
+      "status": "verified"
+    },
+    {
+      "task": "matrix_vector_multip",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "max_reduction",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "mean_reduction",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "mixed_sparse_attention",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "mul_exponent_compensator",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "multinomial_sampling",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "nested_loops_processing",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "parallel_attention",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "parallel_retention_attention",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "pow_scalar_tensor",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "quant_transpose_kernel",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "quantize_copy_kv",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "quantize_global",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "quantize_kv_copy",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "quantize_kv_transform",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rbe_triton_transform",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "relu_strided_buffer",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "relu_triton_kernel",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "reversed_cumsum",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "reversed_cumsum_scalar",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rms_matmul_rbe",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rms_norm_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rms_rbe_matmul",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rmsnorm_fused",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rmsnorm_fused_llama",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rmsnorm_implementation",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rmsnorm_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rope_backward_transform",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rope_embedding",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rope_transform",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rotary_emb",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rotary_emb_nopad",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rotary_transform",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rotary_transform_ops",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "rowwise_quantization_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "seeded_dropout",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "sgmv_expand_slice",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "sin_computation",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "sin_kernel",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "softmax_flaggems",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "softmax_optimize",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "softmax_reducev",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "softmax_triton1",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "softmax_triton2",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "softmax_triton3",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "spinning_lock_reduction",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "square_matrix",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "streamk_matmul",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "swiglu_backward",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "swiglu_fwd",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "swiglu_triton",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "token_attn_llama2",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "token_attn_mistral",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "token_attn_reduceV",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "token_softmax_bloom",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "token_softmax_llama",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "triton_argmax",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "triton_attention",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "triton_conv2d_fwd",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "triton_linear_activation",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "triton_matmul",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "triton_mul2",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "triton_softmax",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "uniform_sampling",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "var_len_copy",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "vector_addition",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    },
+    {
+      "task": "vector_addition_custom",
+      "status": "not_accepted",
+      "error": "scope remains pending"
+    }
+  ],
+  "boundary": "Source-scope review only; full build, axiom and official comparator replay are independent gates. Deferred numerical rules remain assumptions, not validated hardware facts."
+}

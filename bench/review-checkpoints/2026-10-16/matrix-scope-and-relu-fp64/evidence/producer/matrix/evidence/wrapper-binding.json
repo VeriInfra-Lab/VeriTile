@@ -1,0 +1,6622 @@
+{
+  "status": "passed",
+  "source_sha256": "0ceaf829e152415896fea92229c45c00f34ade1ff5f0da7aaefa8769a84c5957",
+  "wrapper_ast_sha256": "58af7ce2acde06582dfa6d4a8c517f555ea1616f31f820dcafb75e16765aa903",
+  "torch_version": "2.13.0+cu130",
+  "admitted_metadata_cases": [
+    {
+      "m": 1,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 256,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        256,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 512,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        512,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 1024,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1024,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 2048,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2048,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 4096,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4096,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 8192,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8192,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 16384,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16384,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 32768,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32768,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 65536,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        65536,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 131072,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        131072,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 262144,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        262144,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 524288,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        524288,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1,
+      "d": 1048576,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1048576,
+        1
+      ],
+      "output_stride": [
+        1,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 256,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        256,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 512,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        512,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 1024,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1024,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 2048,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2048,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 4096,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4096,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 8192,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8192,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 16384,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16384,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 32768,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32768,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 65536,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        65536,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 131072,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        131072,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 262144,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        262144,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2,
+      "d": 524288,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        524288,
+        2
+      ],
+      "output_stride": [
+        2,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 256,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        256,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 512,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        512,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 1024,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1024,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 2048,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2048,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 4096,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4096,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 8192,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8192,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 16384,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16384,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 32768,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32768,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 65536,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        65536,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 131072,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        131072,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 262144,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        262144,
+        4
+      ],
+      "output_stride": [
+        4,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 256,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        256,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 512,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        512,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 1024,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1024,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 2048,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2048,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 4096,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4096,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 8192,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8192,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 16384,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16384,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 32768,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32768,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 65536,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        65536,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8,
+      "d": 131072,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        131072,
+        8
+      ],
+      "output_stride": [
+        8,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 256,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        256,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 512,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        512,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 1024,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1024,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 2048,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2048,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 4096,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4096,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 8192,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8192,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16384,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16384,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 32768,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32768,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 65536,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        65536,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 256,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        256,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 512,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        512,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 1024,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1024,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 2048,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2048,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 4096,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4096,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 8192,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8192,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 16384,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16384,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 32768,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32768,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 256,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        256,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 512,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        512,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 1024,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1024,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 2048,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2048,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 4096,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4096,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 8192,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8192,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 64,
+      "d": 16384,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16384,
+        64
+      ],
+      "output_stride": [
+        64,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 256,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        256,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 512,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        512,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 1024,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1024,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 2048,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2048,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 4096,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4096,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 128,
+      "d": 8192,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8192,
+        128
+      ],
+      "output_stride": [
+        128,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 256,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        256
+      ],
+      "output_stride": [
+        256,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 256,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        256
+      ],
+      "output_stride": [
+        256,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 256,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        256
+      ],
+      "output_stride": [
+        256,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 256,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        256
+      ],
+      "output_stride": [
+        256,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 256,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        256
+      ],
+      "output_stride": [
+        256,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 256,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        256
+      ],
+      "output_stride": [
+        256,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 256,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        256
+      ],
+      "output_stride": [
+        256,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 256,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        256
+      ],
+      "output_stride": [
+        256,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 256,
+      "d": 256,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        256,
+        256
+      ],
+      "output_stride": [
+        256,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 256,
+      "d": 512,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        512,
+        256
+      ],
+      "output_stride": [
+        256,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 256,
+      "d": 1024,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1024,
+        256
+      ],
+      "output_stride": [
+        256,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 256,
+      "d": 2048,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2048,
+        256
+      ],
+      "output_stride": [
+        256,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 256,
+      "d": 4096,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4096,
+        256
+      ],
+      "output_stride": [
+        256,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 512,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        512
+      ],
+      "output_stride": [
+        512,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 512,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        512
+      ],
+      "output_stride": [
+        512,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 512,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        512
+      ],
+      "output_stride": [
+        512,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 512,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        512
+      ],
+      "output_stride": [
+        512,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 512,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        512
+      ],
+      "output_stride": [
+        512,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 512,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        512
+      ],
+      "output_stride": [
+        512,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 512,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        512
+      ],
+      "output_stride": [
+        512,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 512,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        512
+      ],
+      "output_stride": [
+        512,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 512,
+      "d": 256,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        256,
+        512
+      ],
+      "output_stride": [
+        512,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 512,
+      "d": 512,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        512,
+        512
+      ],
+      "output_stride": [
+        512,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 512,
+      "d": 1024,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1024,
+        512
+      ],
+      "output_stride": [
+        512,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 512,
+      "d": 2048,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2048,
+        512
+      ],
+      "output_stride": [
+        512,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1024,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        1024
+      ],
+      "output_stride": [
+        1024,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1024,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        1024
+      ],
+      "output_stride": [
+        1024,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1024,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        1024
+      ],
+      "output_stride": [
+        1024,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1024,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        1024
+      ],
+      "output_stride": [
+        1024,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1024,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        1024
+      ],
+      "output_stride": [
+        1024,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1024,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        1024
+      ],
+      "output_stride": [
+        1024,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1024,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        1024
+      ],
+      "output_stride": [
+        1024,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1024,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        1024
+      ],
+      "output_stride": [
+        1024,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1024,
+      "d": 256,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        256,
+        1024
+      ],
+      "output_stride": [
+        1024,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1024,
+      "d": 512,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        512,
+        1024
+      ],
+      "output_stride": [
+        1024,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1024,
+      "d": 1024,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1024,
+        1024
+      ],
+      "output_stride": [
+        1024,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2048,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        2048
+      ],
+      "output_stride": [
+        2048,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2048,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        2048
+      ],
+      "output_stride": [
+        2048,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2048,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        2048
+      ],
+      "output_stride": [
+        2048,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2048,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        2048
+      ],
+      "output_stride": [
+        2048,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2048,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        2048
+      ],
+      "output_stride": [
+        2048,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2048,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        2048
+      ],
+      "output_stride": [
+        2048,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2048,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        2048
+      ],
+      "output_stride": [
+        2048,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2048,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        2048
+      ],
+      "output_stride": [
+        2048,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2048,
+      "d": 256,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        256,
+        2048
+      ],
+      "output_stride": [
+        2048,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 2048,
+      "d": 512,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        512,
+        2048
+      ],
+      "output_stride": [
+        2048,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4096,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        4096
+      ],
+      "output_stride": [
+        4096,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4096,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        4096
+      ],
+      "output_stride": [
+        4096,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4096,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        4096
+      ],
+      "output_stride": [
+        4096,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4096,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        4096
+      ],
+      "output_stride": [
+        4096,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4096,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        4096
+      ],
+      "output_stride": [
+        4096,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4096,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        4096
+      ],
+      "output_stride": [
+        4096,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4096,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        4096
+      ],
+      "output_stride": [
+        4096,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4096,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        4096
+      ],
+      "output_stride": [
+        4096,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 4096,
+      "d": 256,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        256,
+        4096
+      ],
+      "output_stride": [
+        4096,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8192,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        8192
+      ],
+      "output_stride": [
+        8192,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8192,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        8192
+      ],
+      "output_stride": [
+        8192,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8192,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        8192
+      ],
+      "output_stride": [
+        8192,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8192,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        8192
+      ],
+      "output_stride": [
+        8192,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8192,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        8192
+      ],
+      "output_stride": [
+        8192,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8192,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        8192
+      ],
+      "output_stride": [
+        8192,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8192,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        8192
+      ],
+      "output_stride": [
+        8192,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 8192,
+      "d": 128,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        128,
+        8192
+      ],
+      "output_stride": [
+        8192,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16384,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        16384
+      ],
+      "output_stride": [
+        16384,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16384,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        16384
+      ],
+      "output_stride": [
+        16384,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16384,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        16384
+      ],
+      "output_stride": [
+        16384,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16384,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        16384
+      ],
+      "output_stride": [
+        16384,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16384,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        16384
+      ],
+      "output_stride": [
+        16384,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16384,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        16384
+      ],
+      "output_stride": [
+        16384,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16384,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        16384
+      ],
+      "output_stride": [
+        16384,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32768,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        32768
+      ],
+      "output_stride": [
+        32768,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32768,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        32768
+      ],
+      "output_stride": [
+        32768,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32768,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        32768
+      ],
+      "output_stride": [
+        32768,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32768,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        32768
+      ],
+      "output_stride": [
+        32768,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32768,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        32768
+      ],
+      "output_stride": [
+        32768,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32768,
+      "d": 32,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        32,
+        32768
+      ],
+      "output_stride": [
+        32768,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 65536,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        65536
+      ],
+      "output_stride": [
+        65536,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 65536,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        65536
+      ],
+      "output_stride": [
+        65536,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 65536,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        65536
+      ],
+      "output_stride": [
+        65536,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 65536,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        65536
+      ],
+      "output_stride": [
+        65536,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 65536,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        65536
+      ],
+      "output_stride": [
+        65536,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 131072,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        131072
+      ],
+      "output_stride": [
+        131072,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 131072,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        131072
+      ],
+      "output_stride": [
+        131072,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 131072,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        131072
+      ],
+      "output_stride": [
+        131072,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 131072,
+      "d": 8,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        8,
+        131072
+      ],
+      "output_stride": [
+        131072,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 262144,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        262144
+      ],
+      "output_stride": [
+        262144,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 262144,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        262144
+      ],
+      "output_stride": [
+        262144,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 262144,
+      "d": 4,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        4,
+        262144
+      ],
+      "output_stride": [
+        262144,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 524288,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        524288
+      ],
+      "output_stride": [
+        524288,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 524288,
+      "d": 2,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        2,
+        524288
+      ],
+      "output_stride": [
+        524288,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 1,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        1,
+        1048576
+      ],
+      "output_stride": [
+        1048576,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    }
+  ],
+  "source_failure_cases": [
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        16,
+        16
+      ],
+      "output_stride": [
+        16,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "backend",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "launch",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "launch",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "zeros"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "zeros",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "zeros",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "zeros",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "randn"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "zeros"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [],
+      "status": "returned",
+      "output_shape": [
+        64,
+        32
+      ],
+      "output_stride": [
+        32,
+        1
+      ],
+      "output_dtype": "torch.float16",
+      "return_identity": true,
+      "trace": [
+        "randn",
+        "zeros",
+        "launch",
+        "returned"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "backend",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "launch",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "launch",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "zeros"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "zeros",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "zeros",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "zeros",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "randn"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "randn",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "randn",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "randn",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "randn",
+        "zeros"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 32,
+      "d": 64,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [],
+      "status": "error",
+      "error_kind": "frontend.sizeMRange.nonPositive",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "frontend.sizeMRange.nonPositive",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "launch",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "launch",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "zeros"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "zeros",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "zeros",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "zeros",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "randn"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "zeros"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 0,
+      "d": 16,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [],
+      "status": "error",
+      "error_kind": "frontend.dHeadRange.nonPowerOfTwo",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "frontend.dHeadRange.nonPowerOfTwo",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "launch",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "launch",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "zeros"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "zeros",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "zeros",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "zeros",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "randn"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "randn",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "randn",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "randn",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "randn",
+        "zeros"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 16,
+      "d": 3,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [],
+      "status": "error",
+      "error_kind": "frontend.matrixPointerTensorSize",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "frontend.matrixPointerTensorSize",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "launch",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "launch",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "zeros"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "zeros",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "zeros",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "zeros",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "randn"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "randn",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "randn",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "randn",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "randn",
+        "zeros"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 1048576,
+      "d": 2,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [],
+      "status": "error",
+      "error_kind": "frontend.sizeMRange.tensorSize",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "frontend.sizeMRange.tensorSize",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "launch",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "launch",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros",
+        "launch"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "zeros"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "zeros",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "zeros",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "zeros",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "zeros",
+      "error_type": "Injected",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "randn"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "randn",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "randn",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "randn",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "randn",
+        "zeros"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "launch"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 2097152,
+      "d": 0,
+      "failure_flags": [
+        "randn",
+        "zeros",
+        "launch",
+        "backend"
+      ],
+      "status": "error",
+      "error_kind": "randn",
+      "error_type": "Injected",
+      "trace": [
+        "randn"
+      ]
+    }
+  ],
+  "invalid_shape_boundary_cases": [
+    {
+      "m": -1,
+      "d": 4,
+      "failure_flags": [],
+      "status": "error",
+      "error_kind": "torch.RuntimeError",
+      "error_type": "RuntimeError",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 4,
+      "d": -1,
+      "failure_flags": [],
+      "status": "error",
+      "error_kind": "torch.RuntimeError",
+      "error_type": "RuntimeError",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 1.5,
+      "d": 4,
+      "failure_flags": [],
+      "status": "error",
+      "error_kind": "torch.TypeError",
+      "error_type": "TypeError",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 4,
+      "d": 1.5,
+      "failure_flags": [],
+      "status": "error",
+      "error_kind": "torch.TypeError",
+      "error_type": "TypeError",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": true,
+      "d": 4,
+      "failure_flags": [],
+      "status": "error",
+      "error_kind": "torch.TypeError",
+      "error_type": "TypeError",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": 4,
+      "d": false,
+      "failure_flags": [],
+      "status": "error",
+      "error_kind": "torch.TypeError",
+      "error_type": "TypeError",
+      "trace": [
+        "randn",
+        "zeros"
+      ]
+    },
+    {
+      "m": null,
+      "d": 4,
+      "failure_flags": [],
+      "status": "error",
+      "error_kind": "torch.TypeError",
+      "error_type": "TypeError",
+      "trace": [
+        "randn"
+      ]
+    },
+    {
+      "m": "4",
+      "d": 4,
+      "failure_flags": [],
+      "status": "error",
+      "error_kind": "torch.TypeError",
+      "error_type": "TypeError",
+      "trace": [
+        "randn"
+      ]
+    }
+  ],
+  "trusted_contracts": [
+    "Torch randn/zeros return fresh contiguous fp16 tensors of requested shape on CUDA when their primitive call succeeds.",
+    "randn samples are arbitrary fp16 words; no probability distribution is used.",
+    "Torch allocation failure, Python shape conversion and unsupported caller types are ordinary allocation-call primitive failures (the observed boolean second argument reaches zeros before rejection).",
+    "Triton JIT/driver and backend/runtime errors propagate from the single launch call. Successful execution is proved by the actual interpreter; there is no arbitrary final-value result."
+  ],
+  "limitations": [
+    "CUDA requests redirected to meta device for metadata evidence.",
+    "Injected errors test source call wiring only; they do not prove allocator/runtime implementation or all Python caller classifications.",
+    "No GPU or full native backend execution."
+  ]
+}
