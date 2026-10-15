@@ -1,0 +1,11 @@
+{
+  "Core": "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridCore.lean",
+  "Forward": "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridForward.lean",
+  "Backward": "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridBackward.lean",
+  "Metadata": "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridMetadata.lean",
+  "Dispatch": "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridDispatch.lean",
+  "Tuning": "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridTuning.lean",
+  "Host": "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridHost.lean",
+  "Admitted": "bench/tritonbench_g/softmax_flaggems/HostCorrect.lean",
+  "Safety": "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridSafety.lean"
+}

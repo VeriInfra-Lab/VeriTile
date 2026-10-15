@@ -1,0 +1,23 @@
+[
+  {
+    "caller": "probe_next",
+    "signature": {
+      "out_ptr": "*i32",
+      "a": "i32",
+      "b": "i32"
+    },
+    "status": "frontend_error",
+    "exception_type": "CompilationError",
+    "message": "at 2:21:\ndef probe_next(out_ptr,a,b):\n    tl.store(out_ptr,next_multiple_of(a,b))\n                     ^"
+  },
+  {
+    "caller": "probe_prev",
+    "signature": {
+      "out_ptr": "*i32",
+      "a": "i32",
+      "b": "i32"
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "4b10ac43f1c5a633f6e1b916774601a152f6d0f5b787ed668cb1946dd669c666"
+  }
+]

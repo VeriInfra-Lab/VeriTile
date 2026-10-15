@@ -1,0 +1,17 @@
+{
+  "status": "failed",
+  "gates": {
+    "source_tools": "passed",
+    "structure": "passed",
+    "baseline": "passed",
+    "catalog_reproduction": "passed",
+    "scope_review": "failed",
+    "legacy_source": "passed",
+    "value_metadata": "passed",
+    "deferred_numerics": "passed",
+    "comparator_preflight": "failed",
+    "library_replay": "failed",
+    "unchanged_inputs": "passed"
+  },
+  "boundary": "Global gates only; corpus replay and integration build are separate."
+}

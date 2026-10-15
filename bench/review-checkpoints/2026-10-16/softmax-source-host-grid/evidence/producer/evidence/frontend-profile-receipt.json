@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "source_sha256": "11f0c747af151465286ea9e8821932f80b71513fbb2d343a304ba54f4e8013f4",
+  "triton_version": "3.7.1",
+  "function_body_ast_identical": true,
+  "kernel_and_helper_body_sha256": {
+    "softmax_kernel_non_inner": "75bf07c1599c49ab7c854c886a7a75b636636f713960fe9a0d04ebad05ea4989",
+    "next_multiple_of": "a6e2e85a50030b1521a7abeb0c98e9f79a0109e356ab88dc52be173f11ab067c",
+    "prev_multiple_of": "6ec077d43f02ea52c36092863ab60cdd8c048856ba653e4af4459876020cdd8b",
+    "softmax_kernel_inner": "26718a2859fbf1819df5bec049d4c50a89ad77563a882c7e7389cff226925545",
+    "softmax_backward_kernel_non_inner": "e128238516bd94c02b6bd36eedc59b56d7da2793aa818955e87ca20677f68e33",
+    "softmax_backward_kernel_inner": "368d6e6b486573d149ae627bc4cc6308338642619beeea0a39c688a5f4ab0114"
+  },
+  "only_decorator_change": "heuristics/autotune wrappers removed; original functions remain @triton.jit and unchanged body AST. Host selection wrappers are checked separately by probe_host.py.",
+  "profiles": 80,
+  "generated": 70,
+  "rejected": 10,
+  "complete_declared_profile_partition": "one=true admits every modeled Storage; one=false rejects fp64 input/storage and admits fp16/bf16/fp32.",
+  "target": {
+    "backend": "cuda",
+    "arch": 90,
+    "warp_size": 32
+  },
+  "native_backend_execution": false,
+  "gpu_execution": false
+}

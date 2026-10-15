@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "kind": "original_program_scope_ledger",
-  "catalog_sha256": "defcf71a25670cfe2bbb7f4f048a0475ad2c656c46a04ae56028c564ec908c14",
+  "catalog_sha256": "32098aeda6088cedf4d6052ba6cd69ce3dac61e0a8a38f08d74f1cab01e66d3c",
   "binding_status": "current_catalog_bound_pending_scope_reviews",
   "expected_tasks": [
     "adam_update_triton",
@@ -62260,8 +62260,8 @@
       "potential_numeric_ids_not_yet_accepted": [],
       "callback_assumptions": {},
       "review": {
-        "path": "bench/review-checkpoints/2026-10-16/relu-finite-source-acceptance/matrix-original-scope-review-rebound.json",
-        "sha256": "38d4e2c44c64d6052c692635c7999f6527eb0e4dca7f84f16ac23650e3281bb4"
+        "path": "bench/review-checkpoints/2026-10-16/softmax-source-host-grid/matrix_transpose-original-scope-review-rebound.json",
+        "sha256": "d274cb4e6110e8078b408066b6e635ceeaa43fda68dfc68c975f4bf8336e871c"
       },
       "initial_structural_gaps": [
         {
@@ -62317,8 +62317,8 @@
           }
         ],
         "scope_review": {
-          "path": "bench/review-checkpoints/2026-10-16/relu-finite-source-acceptance/matrix-original-scope-review-rebound.json",
-          "sha256": "38d4e2c44c64d6052c692635c7999f6527eb0e4dca7f84f16ac23650e3281bb4"
+          "path": "bench/review-checkpoints/2026-10-16/softmax-source-host-grid/matrix_transpose-original-scope-review-rebound.json",
+          "sha256": "d274cb4e6110e8078b408066b6e635ceeaa43fda68dfc68c975f4bf8336e871c"
         },
         "numerical_deferrals": 0,
         "native_correctness_established": false
@@ -127813,8 +127813,8 @@
         ]
       },
       "review": {
-        "path": "bench/review-checkpoints/2026-10-16/relu-finite-source-acceptance/relu-original-scope-review.json",
-        "sha256": "2c9802bf7589151bf1fb2b12ab3b94c22b4c1eb55d8ca4f4c7e1c4ca93b3b1dc"
+        "path": "bench/review-checkpoints/2026-10-16/softmax-source-host-grid/relu_triton_kernel-original-scope-review-rebound.json",
+        "sha256": "f7ca481cab64ce469546a037f55dab04e4987e1e6cc2e83834129bc6ec8e42d8"
       },
       "initial_structural_gaps": [
         {
@@ -128088,8 +128088,8 @@
       "accepted_scope_progress": {
         "status": "finite_source_scope_accepted_with_deferred_numerics",
         "scope_review": {
-          "path": "bench/review-checkpoints/2026-10-16/relu-finite-source-acceptance/relu-original-scope-review.json",
-          "sha256": "2c9802bf7589151bf1fb2b12ab3b94c22b4c1eb55d8ca4f4c7e1c4ca93b3b1dc"
+          "path": "bench/review-checkpoints/2026-10-16/softmax-source-host-grid/relu_triton_kernel-original-scope-review-rebound.json",
+          "sha256": "f7ca481cab64ce469546a037f55dab04e4987e1e6cc2e83834129bc6ec8e42d8"
         },
         "previous_partial_progress": {
           "status": "reviewed_fp64_source_grid_and_finite_host_dispatch_not_whole_program_acceptance",
@@ -134069,9 +134069,18 @@
         "lean": {
           "bench/tritonbench_g/softmax_flaggems/Correct.lean": "40414791f4766c26beb8363ff05d0d8a474e85f58ad235a9dec37624da08c00e",
           "bench/tritonbench_g/softmax_flaggems/FPEquiv.lean": "a3b2f39567b6b97a54991f31379ea6c1e5d11b9989df6bef7c68d3b5153b8a05",
+          "bench/tritonbench_g/softmax_flaggems/HostCorrect.lean": "091f444e1bf9c5c79e522c7b9a7eb6a0d3767947c7c786ac3cfdfb71597bad2f",
           "bench/tritonbench_g/softmax_flaggems/Kernels.lean": "ea4eb0bb3f526a674e5844fd9711b74282e4edb246e938ef708262fc2d1c24e1",
           "bench/tritonbench_g/softmax_flaggems/Proofs/Contracts.lean": "98083793c02d6c37a9a7ec266698ec44d2614ddf626f64bf322eb5cf628fc6ef",
           "bench/tritonbench_g/softmax_flaggems/Proofs/FP.lean": "2c6b5c5af06087f6001c5bd16b5ad7f1ad2ae81dd679dbd9f2691548ce38b35f",
+          "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridBackward.lean": "5219b60d90dd010cd9b492c78ff19df51b15ca634d6f46d5a5f9f364d1bb1d63",
+          "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridCore.lean": "d3976a8da8c143e4ba3b8e89a20f045cf2dcad0bf564fe4d60712edb2618c456",
+          "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridDispatch.lean": "78400604fdc390e4e445cd80f0c8a69bb9a0a08a3c0e6856806c733cb06c3d07",
+          "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridForward.lean": "b95969355b99e578bcf7981c671d2177f28ba6d3c4c16f6429d9a82b40006eb9",
+          "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridHost.lean": "a94529a69a9bf5150bd31f78417fc368b33f2cd616a8f4fa0665d8e8c07489f3",
+          "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridMetadata.lean": "ea67913b8a950a43b07b98af6f606e9f05b5c71ebdde993a122a0997b4510e1f",
+          "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridSafety.lean": "56e9baee53d038de602423b9c1b049abd7b79f048d78864cd6df493400661f10",
+          "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridTuning.lean": "1a1d8d1caea4c642f04cd5de00967cf134c8b305d6ef653aa96a901e95e73283",
           "bench/tritonbench_g/softmax_flaggems/Proofs/LegacyReal.lean": "1e63b4535f4543b4ff250f247472c6d0dca00eea1c24f4d3a0fc1c0b579d22f3",
           "bench/tritonbench_g/softmax_flaggems/Proofs/RealAddress.lean": "f99414985513375f2ca92131a002bb8c8cecdcfac80fbb61e3f73bad95e47a16",
           "bench/tritonbench_g/softmax_flaggems/Proofs/RealBackwardInner.lean": "8677da820743cfc2fc6d2bba6dde35f40ddc8dfe2d7c454a6319a44dd144e869",
@@ -134986,48 +134995,19 @@
       },
       "structural_gaps": [
         {
-          "id": "SOFTMAX_FLAGGEMS-S1",
-          "kind": "heuristics_full_grid_and_autograd_composition",
-          "finding": "The host normalizes dimension, makes contiguous tensors, derives M/N/K, selects inner/noninner grids and storage, then saves the produced output for a different backward grid.",
-          "why_blocks_full_original_scope": "The public per-program complete contracts are not yet composed with those concrete host transformations, heuristic-derived premises, whole-output coverage and forward-to-backward dependency.",
-          "can_defer_as_numeric_assumption": false,
-          "evidence": [
-            {
-              "line": 15,
-              "end_line": 53,
-              "path": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-              "sha256": "11f0c747af151465286ea9e8821932f80b71513fbb2d343a304ba54f4e8013f4",
-              "excerpt": "def heur_tile_k(args):\n    tile_k = 1\n    upper_bound = min(args[\"K\"], MAX_TILE_K)\n    while tile_k <= upper_bound:\n        num_blocks = args[\"M\"] * triton.cdiv(args[\"K\"], tile_k)\n        num_waves = num_blocks / NUM_SMS\n        if (num_waves > 1) and (tile_k * 2 <= upper_bound):\n            tile_k *= 2\n        else:\n            break\n    return tile_k\n\n\ndef heur_tile_n_non_inner(args):\n    return triton.cdiv(8192, args[\"TILE_K\"])\n\n\ndef heur_one_tile_per_cta(args):\n    return args[\"TILE_N\"] >= args[\"N\"]\n\n\ndef heur_num_warps_non_inner(args):\n    tile_size = args[\"TILE_N\"] * args[\"TILE_K\"]\n    if tile_size < 2048:\n        return 4\n    elif tile_size < 4096:\n        return 8\n    else:\n        return 16\n\n\n@triton.heuristics(\n    {\n        \"TILE_K\": heur_tile_k,\n        \"TILE_N\": heur_tile_n_non_inner,\n        \"ONE_TILE_PER_CTA\": heur_one_tile_per_cta,\n        \"num_warps\": heur_num_warps_non_inner,\n    }\n)"
-            },
-            {
-              "line": 124,
-              "end_line": 138,
-              "path": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-              "sha256": "11f0c747af151465286ea9e8821932f80b71513fbb2d343a304ba54f4e8013f4",
-              "excerpt": "def heur_tile_n_inner(args):\n    if args[\"N\"] <= (32 * 1024):\n        return triton.next_power_of_2(args[\"N\"])\n    else:\n        return 4096\n\n\ndef heur_num_warps_inner(args):\n    tile_size = args[\"TILE_N\"]\n    if tile_size < 2048:\n        return 4\n    elif tile_size < 4096:\n        return 8\n    else:\n        return 16"
-            },
-            {
-              "line": 371,
-              "end_line": 445,
-              "path": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
-              "sha256": "11f0c747af151465286ea9e8821932f80b71513fbb2d343a304ba54f4e8013f4",
-              "excerpt": "    def forward(ctx, x, dim, dtype):\n        logging.debug(\"GEMS SOFTMAX\")\n\n        assert dim >= -x.ndim and dim < x.ndim, \"Invalid dim\"\n        dim = dim % x.ndim\n        M = 1\n        N = x.shape[dim]\n        for i in range(dim):\n            M *= x.shape[i]  # pre_dim\n        inp = x.contiguous()\n        if dtype is None:\n            dtype = x.dtype\n        out = torch.empty_like(inp, dtype=dtype)\n        K = inp.numel() // M // N  # post_dim\n\n        with torch.cuda.device(inp.device):\n            if K > 1:\n                grid = lambda meta: (M, triton.cdiv(K, meta[\"TILE_K\"]), 1)\n                softmax_kernel_non_inner[grid](\n                    out,\n                    inp,\n                    M,\n                    N,\n                    K,\n                )\n            else:\n                grid = (M, 1, 1)\n                softmax_kernel_inner[grid](\n                    out,\n                    inp,\n                    M,\n                    N,\n                )\n        ctx.save_for_backward(out)\n        ctx.dim = dim\n        return out\n\n    @staticmethod\n    def backward(ctx, out_grad):\n        logging.debug(\"GEMS SOFTMAX VJP\")\n        dim = ctx.dim\n        (out,) = ctx.saved_tensors\n\n        assert dim >= -out.ndim and dim < out.ndim, \"Invalid dim\"\n        dim = dim % out.ndim\n        M = 1\n        N = out.shape[dim]\n        for i in range(dim):\n            M *= out.shape[i]\n\n        out_grad = out_grad.contiguous()\n        in_grad = torch.empty_like(out)\n        K = out.numel() // M // N\n\n        with torch.cuda.device(in_grad.device):\n            if K > 1:\n                grid = lambda meta: (M, triton.cdiv(K, meta[\"TILE_K\"]), 1)\n                softmax_backward_kernel_non_inner[grid](\n                    out,\n                    out_grad,\n                    in_grad,\n                    M,\n                    N,\n                    K,\n                )\n            else:\n                grid = lambda meta: (triton.cdiv(M, meta[\"TILE_M\"]), 1, 1)\n                softmax_backward_kernel_inner[grid](\n                    out,\n                    out_grad,\n                    in_grad,\n                    M,\n                    N,\n                )\n        return in_grad, None, None"
-            },
-            {
-              "line": 22,
-              "end_line": 33,
-              "path": "bench/tritonbench_g/softmax_flaggems/Correct.lean",
-              "sha256": "40414791f4766c26beb8363ff05d0d8a474e85f58ad235a9dec37624da08c00e",
-              "excerpt": "specification forward_non_inner_correctness (input output : Storage)\n    (A : FlatAlloc) (hd : A.Disjoint)\n    (hcov : ∀ r, r ∉ A.regions → A.extent r = 0)\n    (s : BlockState) (Y X : RegionName) (M N K B C : Nat) (one : Bool)\n    (_hprofile : SourceProfileSupported input one)\n    (_hforward : ForwardSourceDomain one N B)\n    (h : RealForwardNonInner.ExecutionDomain one X Y N B)\n    (hr : s.pids 0 < M) (hX : M * N * K ≤ A.extent X)\n    (hY : M * N * K ≤ A.extent Y)\n    (hYr : Y ∈ A.regions) :\n    SourceCorrect A s (softmax_kernel_non_inner input output Y X M N K B C one)\n      (RealForwardNonInner.IOResult s · Y X N K C) (RealForwardNonInner.FlatIOResult A s · Y X N K C) ∧"
-            },
-            {
-              "line": 93,
-              "end_line": 108,
-              "path": "bench/tritonbench_g/softmax_flaggems/Correct.lean",
-              "sha256": "40414791f4766c26beb8363ff05d0d8a474e85f58ad235a9dec37624da08c00e",
-              "excerpt": "\nspecification backward_inner_correctness (storage : Storage)\n    (A : FlatAlloc) (hd : A.Disjoint)\n    (hcov : ∀ r, r ∉ A.regions → A.extent r = 0)\n    (s : BlockState) (P G Y : RegionName) (M N B C : Nat) (one : Bool)\n    (_hprofile : SourceProfileSupported storage one)\n    (h : RealBackwardInner.ExecutionDomain one P G Y N B)\n    (hP : M * N ≤ A.extent P)\n    (hG : M * N ≤ A.extent G)\n    (hY : M * N ≤ A.extent Y)\n    (hYr : Y ∈ A.regions) :\n    SourceCorrect A s (softmax_backward_kernel_inner storage P G Y M N C B one)\n      (RealBackwardInner.IOResult s · P G Y M N B C one) (RealBackwardInner.FlatIOResult A s · P G Y M N B C one) ∧\n    SourceCorrect A s (softmax_backward_kernel_inner_candidate storage P G Y M N C B one)\n      (RealBackwardInner.IOResult s · P G Y M N B C one) (RealBackwardInner.FlatIOResult A s · P G Y M N B C one) := by\n  constructor"
-            }
-          ]
+          "kind": "remaining_original_program_scope",
+          "finding": "Faithful typed source execution/reference for actual promotions, rounded operations/reductions/casts and undefined/nonfinite inputs; exact numerical registrations cannot waive false real/floating equalities.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Concrete source-grounded finite CUDA API: source scalar widths, signed index/address bounds, byte widths/storage offsets/extents/permissions and ownership applicability, including actual failure/unsafe classes and production host errors.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Full schema2 stage/dtype/branch and source-profile bindings after those structural gaps close.",
+          "can_defer_as_numeric_assumption": false
         }
       ],
       "initial_assessment": "structural_gaps_confirmed",
@@ -135047,6 +135027,134 @@
         "sha256": "a99a259a06d9085ff8a41e0fedfa369bde8a5bbe342e02a4d62e5f7296fa091c",
         "task": "softmax_flaggems",
         "status": "reviewed_gaps_not_acceptance"
+      },
+      "partial_progress": {
+        "status": "reviewed_partial_real_host_grid_extension_not_whole_program_acceptance",
+        "review": {
+          "path": "2026-10-16/softmax-source-host-grid/root-review.json",
+          "sha256": "83ea2f081ce10a5a4aa141d0f498fb235701b1e83f3dfe8c659cd62d85c7636c",
+          "source_hashes_pointer": [
+            "reviewed_input_sha256"
+          ]
+        },
+        "new_declarations": [
+          {
+            "file": "bench/tritonbench_g/softmax_flaggems/Proofs/HostGridHost.lean",
+            "declaration": "softmax_autograd_host_grid_real",
+            "kind": "specification",
+            "statement_sha256": "bd094b0f402b8aa8d9453bf125177adf37486cd3aecbf8dccffb71e513a63342",
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage",
+            "source_variant": "original_source_translation",
+            "covers_stages": [
+              "original_real_host_grid_composition"
+            ],
+            "dtype_profile": "Original exact-real-erased forward/backward source execution, complete inner/noninner grids, source heuristics and six autotune configurations. The admitted contract preserves cold/cache-hit fp64 first frontend rejections; the helper is dtype-erased mathematical execution including frontend-rejected profiles. Rounded typed values and finite scalar/pointer/view domains remain open.",
+            "dtype_scope_relation": "selected_explicit_profiles_only",
+            "unclosed_numeric_callbacks": [],
+            "extra_numeric_law_ids": [],
+            "native_binding_status": "not_established",
+            "review_basis": "Root read the original full Python source, all nine final additive modules, all six probe scripts and compilation/staging/freeze scripts. The four concrete grid theorems discharge their generic execution step with actual original per-program execution on evolving memory, preserving input regions and arbitrary undefined padding. Full logical frames and row/column ownership follow actual grid coordinates. Host dimension normalization, source heuristics, positive shape domain, exact metadata primitive composition, produced-output saving and backward consumption are connected. Saved output/gradient aliasing is allowed without overwriting saved values. Every autotune trial executes on prior memory and preserves inputs/undef, so the final selected launch has the independently stated pre-trial reference. Cold and cache-hit admission keeps first fp64 fallback compiler rejection and cannot replace all trials by a runnable final choice. The unused tl.cidv helper rejects if directly invoked. M/N zero errors are represented abstractly and original AST probes retain allocation order; K=0 has an explicit unsafe source path. Metadata callbacks supply only actual Torch contiguous/empty_like stride lists, including noncanonical singleton strides, and no kernel value or launch success oracle. The two public statements explicitly use real dtype erasure; the wider helper includes frontend-rejected profiles, while the primary theorem requires actual profile admission. This does not close typed floating arithmetic or finite source scalar/pointer/view domains, and no false real=floating numerical assumption is registered. Root independently replayed all host/heuristic/frontend/autotune/alias/layout/helper probes; GPU execution and timing/resource behavior remain untested.",
+            "original_scope": {
+              "standard_accepted": false,
+              "covered": "original_real_host_grid_composition",
+              "remaining_structural_obligations": [
+                "Faithful typed source execution/reference for actual promotions, rounded operations/reductions/casts and undefined/nonfinite inputs; exact numerical registrations cannot waive false real/floating equalities.",
+                "Concrete source-grounded finite CUDA API: source scalar widths, signed index/address bounds, byte widths/storage offsets/extents/permissions and ownership applicability, including actual failure/unsafe classes and production host errors.",
+                "Full schema2 stage/dtype/branch and source-profile bindings after those structural gaps close."
+              ],
+              "numerical_registration": "No numerical registrations: real erasure is explicit; no false real=floating equality is deferred.",
+              "whole_program_completion_increment": 0
+            }
+          },
+          {
+            "file": "bench/tritonbench_g/softmax_flaggems/HostCorrect.lean",
+            "declaration": "softmax_autograd_source_admitted_real",
+            "kind": "specification",
+            "statement_sha256": "20ea7209ef844d49a29cb21d716156e35d4f8d866c146f972ca433a0b4bbec70",
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage",
+            "source_variant": "original_source_translation",
+            "covers_stages": [
+              "original_real_host_grid_admitted"
+            ],
+            "dtype_profile": "Original exact-real-erased forward/backward source execution, complete inner/noninner grids, source heuristics and six autotune configurations. The admitted contract preserves cold/cache-hit fp64 first frontend rejections; the helper is dtype-erased mathematical execution including frontend-rejected profiles. Rounded typed values and finite scalar/pointer/view domains remain open.",
+            "dtype_scope_relation": "selected_explicit_profiles_only",
+            "unclosed_numeric_callbacks": [],
+            "extra_numeric_law_ids": [],
+            "native_binding_status": "not_established",
+            "review_basis": "Root read the original full Python source, all nine final additive modules, all six probe scripts and compilation/staging/freeze scripts. The four concrete grid theorems discharge their generic execution step with actual original per-program execution on evolving memory, preserving input regions and arbitrary undefined padding. Full logical frames and row/column ownership follow actual grid coordinates. Host dimension normalization, source heuristics, positive shape domain, exact metadata primitive composition, produced-output saving and backward consumption are connected. Saved output/gradient aliasing is allowed without overwriting saved values. Every autotune trial executes on prior memory and preserves inputs/undef, so the final selected launch has the independently stated pre-trial reference. Cold and cache-hit admission keeps first fp64 fallback compiler rejection and cannot replace all trials by a runnable final choice. The unused tl.cidv helper rejects if directly invoked. M/N zero errors are represented abstractly and original AST probes retain allocation order; K=0 has an explicit unsafe source path. Metadata callbacks supply only actual Torch contiguous/empty_like stride lists, including noncanonical singleton strides, and no kernel value or launch success oracle. The two public statements explicitly use real dtype erasure; the wider helper includes frontend-rejected profiles, while the primary theorem requires actual profile admission. This does not close typed floating arithmetic or finite source scalar/pointer/view domains, and no false real=floating numerical assumption is registered. Root independently replayed all host/heuristic/frontend/autotune/alias/layout/helper probes; GPU execution and timing/resource behavior remain untested.",
+            "original_scope": {
+              "standard_accepted": false,
+              "covered": "original_real_host_grid_admitted",
+              "remaining_structural_obligations": [
+                "Faithful typed source execution/reference for actual promotions, rounded operations/reductions/casts and undefined/nonfinite inputs; exact numerical registrations cannot waive false real/floating equalities.",
+                "Concrete source-grounded finite CUDA API: source scalar widths, signed index/address bounds, byte widths/storage offsets/extents/permissions and ownership applicability, including actual failure/unsafe classes and production host errors.",
+                "Full schema2 stage/dtype/branch and source-profile bindings after those structural gaps close."
+              ],
+              "numerical_registration": "No numerical registrations: real erasure is explicit; no false real=floating equality is deferred.",
+              "whole_program_completion_increment": 0
+            }
+          }
+        ],
+        "previous_partial_progress": null,
+        "previous_structural_gaps": [
+          {
+            "id": "SOFTMAX_FLAGGEMS-S1",
+            "kind": "heuristics_full_grid_and_autograd_composition",
+            "finding": "The host normalizes dimension, makes contiguous tensors, derives M/N/K, selects inner/noninner grids and storage, then saves the produced output for a different backward grid.",
+            "why_blocks_full_original_scope": "The public per-program complete contracts are not yet composed with those concrete host transformations, heuristic-derived premises, whole-output coverage and forward-to-backward dependency.",
+            "can_defer_as_numeric_assumption": false,
+            "evidence": [
+              {
+                "line": 15,
+                "end_line": 53,
+                "path": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
+                "sha256": "11f0c747af151465286ea9e8821932f80b71513fbb2d343a304ba54f4e8013f4",
+                "excerpt": "def heur_tile_k(args):\n    tile_k = 1\n    upper_bound = min(args[\"K\"], MAX_TILE_K)\n    while tile_k <= upper_bound:\n        num_blocks = args[\"M\"] * triton.cdiv(args[\"K\"], tile_k)\n        num_waves = num_blocks / NUM_SMS\n        if (num_waves > 1) and (tile_k * 2 <= upper_bound):\n            tile_k *= 2\n        else:\n            break\n    return tile_k\n\n\ndef heur_tile_n_non_inner(args):\n    return triton.cdiv(8192, args[\"TILE_K\"])\n\n\ndef heur_one_tile_per_cta(args):\n    return args[\"TILE_N\"] >= args[\"N\"]\n\n\ndef heur_num_warps_non_inner(args):\n    tile_size = args[\"TILE_N\"] * args[\"TILE_K\"]\n    if tile_size < 2048:\n        return 4\n    elif tile_size < 4096:\n        return 8\n    else:\n        return 16\n\n\n@triton.heuristics(\n    {\n        \"TILE_K\": heur_tile_k,\n        \"TILE_N\": heur_tile_n_non_inner,\n        \"ONE_TILE_PER_CTA\": heur_one_tile_per_cta,\n        \"num_warps\": heur_num_warps_non_inner,\n    }\n)"
+              },
+              {
+                "line": 124,
+                "end_line": 138,
+                "path": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
+                "sha256": "11f0c747af151465286ea9e8821932f80b71513fbb2d343a304ba54f4e8013f4",
+                "excerpt": "def heur_tile_n_inner(args):\n    if args[\"N\"] <= (32 * 1024):\n        return triton.next_power_of_2(args[\"N\"])\n    else:\n        return 4096\n\n\ndef heur_num_warps_inner(args):\n    tile_size = args[\"TILE_N\"]\n    if tile_size < 2048:\n        return 4\n    elif tile_size < 4096:\n        return 8\n    else:\n        return 16"
+              },
+              {
+                "line": 371,
+                "end_line": 445,
+                "path": "bench/tritonbench_g/softmax_flaggems/softmax_flaggems.py",
+                "sha256": "11f0c747af151465286ea9e8821932f80b71513fbb2d343a304ba54f4e8013f4",
+                "excerpt": "    def forward(ctx, x, dim, dtype):\n        logging.debug(\"GEMS SOFTMAX\")\n\n        assert dim >= -x.ndim and dim < x.ndim, \"Invalid dim\"\n        dim = dim % x.ndim\n        M = 1\n        N = x.shape[dim]\n        for i in range(dim):\n            M *= x.shape[i]  # pre_dim\n        inp = x.contiguous()\n        if dtype is None:\n            dtype = x.dtype\n        out = torch.empty_like(inp, dtype=dtype)\n        K = inp.numel() // M // N  # post_dim\n\n        with torch.cuda.device(inp.device):\n            if K > 1:\n                grid = lambda meta: (M, triton.cdiv(K, meta[\"TILE_K\"]), 1)\n                softmax_kernel_non_inner[grid](\n                    out,\n                    inp,\n                    M,\n                    N,\n                    K,\n                )\n            else:\n                grid = (M, 1, 1)\n                softmax_kernel_inner[grid](\n                    out,\n                    inp,\n                    M,\n                    N,\n                )\n        ctx.save_for_backward(out)\n        ctx.dim = dim\n        return out\n\n    @staticmethod\n    def backward(ctx, out_grad):\n        logging.debug(\"GEMS SOFTMAX VJP\")\n        dim = ctx.dim\n        (out,) = ctx.saved_tensors\n\n        assert dim >= -out.ndim and dim < out.ndim, \"Invalid dim\"\n        dim = dim % out.ndim\n        M = 1\n        N = out.shape[dim]\n        for i in range(dim):\n            M *= out.shape[i]\n\n        out_grad = out_grad.contiguous()\n        in_grad = torch.empty_like(out)\n        K = out.numel() // M // N\n\n        with torch.cuda.device(in_grad.device):\n            if K > 1:\n                grid = lambda meta: (M, triton.cdiv(K, meta[\"TILE_K\"]), 1)\n                softmax_backward_kernel_non_inner[grid](\n                    out,\n                    out_grad,\n                    in_grad,\n                    M,\n                    N,\n                    K,\n                )\n            else:\n                grid = lambda meta: (triton.cdiv(M, meta[\"TILE_M\"]), 1, 1)\n                softmax_backward_kernel_inner[grid](\n                    out,\n                    out_grad,\n                    in_grad,\n                    M,\n                    N,\n                )\n        return in_grad, None, None"
+              },
+              {
+                "line": 22,
+                "end_line": 33,
+                "path": "bench/tritonbench_g/softmax_flaggems/Correct.lean",
+                "sha256": "40414791f4766c26beb8363ff05d0d8a474e85f58ad235a9dec37624da08c00e",
+                "excerpt": "specification forward_non_inner_correctness (input output : Storage)\n    (A : FlatAlloc) (hd : A.Disjoint)\n    (hcov : ∀ r, r ∉ A.regions → A.extent r = 0)\n    (s : BlockState) (Y X : RegionName) (M N K B C : Nat) (one : Bool)\n    (_hprofile : SourceProfileSupported input one)\n    (_hforward : ForwardSourceDomain one N B)\n    (h : RealForwardNonInner.ExecutionDomain one X Y N B)\n    (hr : s.pids 0 < M) (hX : M * N * K ≤ A.extent X)\n    (hY : M * N * K ≤ A.extent Y)\n    (hYr : Y ∈ A.regions) :\n    SourceCorrect A s (softmax_kernel_non_inner input output Y X M N K B C one)\n      (RealForwardNonInner.IOResult s · Y X N K C) (RealForwardNonInner.FlatIOResult A s · Y X N K C) ∧"
+              },
+              {
+                "line": 93,
+                "end_line": 108,
+                "path": "bench/tritonbench_g/softmax_flaggems/Correct.lean",
+                "sha256": "40414791f4766c26beb8363ff05d0d8a474e85f58ad235a9dec37624da08c00e",
+                "excerpt": "\nspecification backward_inner_correctness (storage : Storage)\n    (A : FlatAlloc) (hd : A.Disjoint)\n    (hcov : ∀ r, r ∉ A.regions → A.extent r = 0)\n    (s : BlockState) (P G Y : RegionName) (M N B C : Nat) (one : Bool)\n    (_hprofile : SourceProfileSupported storage one)\n    (h : RealBackwardInner.ExecutionDomain one P G Y N B)\n    (hP : M * N ≤ A.extent P)\n    (hG : M * N ≤ A.extent G)\n    (hY : M * N ≤ A.extent Y)\n    (hYr : Y ∈ A.regions) :\n    SourceCorrect A s (softmax_backward_kernel_inner storage P G Y M N C B one)\n      (RealBackwardInner.IOResult s · P G Y M N B C one) (RealBackwardInner.FlatIOResult A s · P G Y M N B C one) ∧\n    SourceCorrect A s (softmax_backward_kernel_inner_candidate storage P G Y M N C B one)\n      (RealBackwardInner.IOResult s · P G Y M N B C one) (RealBackwardInner.FlatIOResult A s · P G Y M N B C one) := by\n  constructor"
+              }
+            ]
+          }
+        ],
+        "completion_increment": 0,
+        "new_numerical_registrations": 0,
+        "native_execution": false,
+        "semantics": "exact_real_erasure_only",
+        "grid_paths": 4,
+        "autotune_configs": 6,
+        "host_ast_probes": 960,
+        "autotune_route_probes": 252,
+        "known_source_behavior": "Cold fp64 fallback CompilationError escapes before later selection; saved-output/gradient aliasing and noncanonical singleton strides retained; backward undefined padding arbitrary; K=0 unsafe inner source path not a new guard."
       }
     },
     {
@@ -142716,7 +142824,7 @@
       }
     }
   ],
-  "progress_checkpoint": "bench/review-checkpoints/2026-10-16/relu-finite-source-acceptance/README.md",
+  "progress_checkpoint": "bench/review-checkpoints/2026-10-16/softmax-source-host-grid/README.md",
   "scope_audit_checkpoint": "bench/review-checkpoints/2026-10-16/original-scope-review-final98/README.md",
   "acceptance_boundary_review": {
     "version": 1,

@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "scope_schema": 2,
+  "kind": "original_program_scope_review",
+  "task": "relu_triton_kernel",
+  "reviewer": "root",
+  "status": "reviewed",
+  "catalog_sha256": "32098aeda6088cedf4d6052ba6cd69ce3dac61e0a8a38f08d74f1cab01e66d3c",
+  "input_sha256": {
+    "lean": {
+      "bench/tritonbench_g/relu_triton_kernel/AccessGridCorrect.lean": "d4577753ca046e1186dbb2a6820602a049a18e510525d46a4e63d6c6ff945b8e",
+      "bench/tritonbench_g/relu_triton_kernel/AddressGridCorrect.lean": "1eacb114c677dc06ee97089476b07fe61ac371a960b36180e737c0c2dd8d54ab",
+      "bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.lean": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a",
+      "bench/tritonbench_g/relu_triton_kernel/Correct.lean": "4df862a1c8ee191e8acdc68abc9fdf19577163ff43d56381ffe2752c13c87ec2",
+      "bench/tritonbench_g/relu_triton_kernel/FP64Correct.lean": "968d7ad414e57a6366daf701f4f7691f1a9c3fc659ef14ce5202f853e5691d16",
+      "bench/tritonbench_g/relu_triton_kernel/FPEquiv.lean": "d94ae39d90194f69555af4102d9bd92fb3183e220bf367b70253eb76bb46800d",
+      "bench/tritonbench_g/relu_triton_kernel/FiniteCorrect.lean": "54562d54f27198929b17a6b08c788ade3b4ecb649a3c68ec0706588c5073c30d",
+      "bench/tritonbench_g/relu_triton_kernel/Kernels.lean": "b13e94ca9403a5d16dc95bf53713b7c96cb7d0b0f066f85f0c96753f01851cde",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/AccessGrid.lean": "d0dfbbc5d528ead38f1a356c76667b3b1a040bd24964d8959987f3f928881adc",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/AccessLoads.lean": "a9da9364455336a93d0450fc67003e7c47e12001396cbf02cf3183821b91a8ab",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean": "8441241c8d12668d19a9eddff6a89f1d791dfd01cd21519df126fa151c5c15e8",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteAddress.lean": "d06cfe355088475f09976e2dbfb2f2b277180da68c88c111ca388980ed10b481",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteView.lean": "090d4cb4a70b3e78cb90ccac714a464b5c447968b569bc666ea61dbefbb18f1b",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedBlock.lean": "6653affb9a648c6aa8ede196521b25c4b475ea8d5aa5e4c91f1c33d5788bfc17",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedSchedule.lean": "9b81dcd8e7e6f5b8856a4bbe81cef8f94e052da601a9186cbee559e4df2ef730",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/CheckedTileIO.lean": "b89a37c32624209cda593d570aa1cdc100ff94155831a0e0040706c93d3f35dd",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/FP.lean": "0629d3b7b9ee85bf65e4313ca14f076d4db0871bb19d7653f709daec9d71dfb9",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Grid.lean": "c9c67337cd341130233c686c8cccb1c270b273c34418921d7a4bb8f8ee0adb9a",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Host.lean": "25bc14854647bf05fe1996bb98cbdc7cbd7674bcaef03e95cf3488b40fa99053",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/FP64Source.lean": "9a6cfd93d87d58066562d4dd9dac35487d478138608db2cf97c43c4975952956",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/FiniteAddress.lean": "be5aaa873701f0e882cc2994fa7f361e51c48a58c8ec0d5ad662d3aec01ed881",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/FiniteBoundary.lean": "b66517c9058fbb8a4834ba7d9868ff7258c7cec9546fea97e180773d944401f4",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/FiniteHost.lean": "a49b9a2479cbb181ace429803a5929ba91cb7627172261e51b291473d9883c41",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/FiniteIndices.lean": "13cf73fe10ffe2b799df984cdfff7098ae379d468b17f352a9c4228aed85bb25",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/FiniteOutcomes.lean": "9f54cae1c277b9e260563ed0e138bfbac405589d566081b1f0310f895cb7126f",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/GatedGrid.lean": "ab72e796a93ce107f6f932d87ef968d9e36d4677ec77aac17f0c68a14634833f",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/HostWrapper.lean": "712f72fea6b4e28f256f3507a044a7c8575986ab83cecf285288cf48a8d2d6ef",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/IntegerWords.lean": "1bd893d8f7091d1334463167ecb36e59eceac9e0025fc52594de134f5a6dd274",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/Real.lean": "baff90ac64d860b82469734df7149bd1e6dbb22371fd3581e10914d1e69b07ef",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/SoftwareFP32.lean": "017f6d7cbc1f3e182d65beb4463edf925a6bde7024949058a60526454d65a297",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/SourceStages.lean": "b22520f9b866db8794df8375d36f2e770ee051da467667038188c56add048c57",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/TypedGrid.lean": "9762ea888384a68276c2eeb6ec7f21fc8cf193df4f932c706a43d48773edd1a6",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/TypedValue.lean": "b0f93f59b5e2131c456429003e3c875d8050d53f3d1f47e5151dc678d575ee4e",
+      "bench/tritonbench_g/relu_triton_kernel/Proofs/WordGrid.lean": "7713efc80df8facdcf1dc948ff040a86cc32b99cc9309806f6b2bee5a3f1bf5c",
+      "bench/tritonbench_g/relu_triton_kernel/SourceBlockCorrect.lean": "c81680c34f276e51e35923ff5d8c56f754174235781122f3e9b678403506e845",
+      "bench/tritonbench_g/relu_triton_kernel/SourceGridCorrect.lean": "30733b9622fc5a01773d1cf3cf3bc48dd49ac8354dec013f7f2a6b7f1ce2bbdf",
+      "bench/tritonbench_g/relu_triton_kernel/TypedGridCorrect.lean": "2fa9b6daa50f0da67d5f369fef69c4125a5f64fbefad541ecd6c67bdad0b5507",
+      "bench/tritonbench_g/relu_triton_kernel/WordGridCorrect.lean": "7b8a1995e52205dff86331907345b597da1d6680d1cd87abe901d7a4e679f86b"
+    },
+    "python": {
+      "bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py": "2dffef82d69f280104c25b798e23f59a1ba9d00325552b91149a1d3b50fcffb0"
+    }
+  },
+  "source_inventory_sha256": "9c002a071fe374d294c5eb4360da344877f2686976f78e5f3c35354c13148832",
+  "coverage_sha256": "338dd03837a98687ce03a277ce77f9785972a2841ed78456f5f61c31e9549fdf",
+  "deferred_numerical_sha256": "2bc3d1b0b11efd36c51381c3f8074798da8c88a645ab3bb26e3945eddf912a6e",
+  "callback_assumptions_sha256": "be6f2e2146fc8e28c65f8903b54e043575dc9b9c6fe3c818e4122ff4a9da4fb2",
+  "structural_gaps": [],
+  "semantic_review": "Root read the original host/kernel and all five final Lean modules, the inherited typed result materialization, producer scripts, exact source/frontend evidence, finite API review, schema2 coverage and numeric delta. The host composes read-only device/numel and fresh empty_like metadata/frames with actual existing typed and fp64 source-grid execution. All 17 canonical dtype profiles are retained, including four first-stage fp8 failures, all first primitive failures, empty launches and complete grids. The safe source-grounded CUDA sm90/Triton3.7.1 strided domain includes N=2^31: source i32 offsets remain nonnegative and mask comparison promotes to uint32; N=2^31+1 has an explicit overflow witness and is not mislabeled a frontend reject. Input storage offsets, byte extents, permissions, no-wrap and fresh physical separation derive source pointer applicability. Results are physical flat-prefix values; only pid0 stores and all other programs still execute pre-gate loads/selection. The arbitrary output tail remains unchanged for N>1024. Tensor metadata/allocation, frontend typing and memory/launch primitives are explicit trusted contracts; no final value or successful kernel launch is assumed. Non-JIT test initialization remains inventoried as a harness. The 12 source-selected numerical families bind 84 concrete ports over 39 nonempty successful cases; no float-to-integer UB or false real=floating equality is deferred. Independent original-AST frontend replay and ten CPU metadata cases reproduce evidence; these are not GPU correctness. Full acceptance requires the unchanged exact authority/queue, catalog, schema2 and integration checks after copying.",
+  "finite_acceptance_policy": {
+    "path": "bench/original_program_acceptance.md",
+    "sha256": "24d3d26972a22729d4f6f1d90aacdd2508f057468f54f8b0d9bf0508b873ae28"
+  },
+  "evidence": {
+    "producer_receipt": {
+      "path": "bench/review-checkpoints/2026-10-16/relu-finite-source-acceptance/evidence/producer/relu/evidence/receipt.json",
+      "sha256": "1b18f21b18b1347799969bd5a037074759ee50a7193de3139b33933e9e002e42"
+    },
+    "root_package_review": {
+      "path": "bench/review-checkpoints/2026-10-16/relu-finite-source-acceptance/evidence/root-validation/review.json",
+      "sha256": "30c9a722e03c76521da3daf7ec370c8151fb18dd3dbcd424ad185451bc99c909"
+    },
+    "root_value_review": {
+      "path": "bench/review-checkpoints/2026-10-16/relu-finite-source-acceptance/root-review.json",
+      "sha256": "c9e1a0f715133da59acc9009be91ea84ae48190018dab26bc0ba3853407e74e5"
+    }
+  },
+  "boundary": "Finite source-scope acceptance under explicit metadata/frontend/typed-memory primitives; numerical conformance is exactly deferred. Known pid0-only source behavior remains. Official comparator and GPU/native correctness are independent and not established.",
+  "catalog_only_rebind": {
+    "previous_review": {
+      "path": "bench/review-checkpoints/2026-10-16/relu-finite-source-acceptance/relu-original-scope-review.json",
+      "sha256": "2c9802bf7589151bf1fb2b12ab3b94c22b4c1eb55d8ca4f4c7e1c4ca93b3b1dc"
+    },
+    "reason": "Only softmax additive real source host/grid modules and supplementary contracts changed; this accepted task retains identical inputs, public statements, coverage, cases, numerical assumptions and substantive review.",
+    "task_catalog_row_sha256": "aa03ec4105dd33067ae814ac7be954243de37ec7f6ce1b8dde8a7cd3dffb618e"
+  }
+}

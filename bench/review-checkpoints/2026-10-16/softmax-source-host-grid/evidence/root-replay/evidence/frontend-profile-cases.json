@@ -1,0 +1,1556 @@
+[
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp16",
+    "output": "fp16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "1a305c692a7422ba28be615ba515bb97f6cdf5dbbf3f5b21830764e85de10234"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp16",
+    "output": "fp16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "7c06c2ac7de1401fab6d9e43f55f6c6f59cb5d12564815170091c5ee32766fab"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp16",
+    "output": "bf16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "67ba71038856181593833c2f1afdb5596fba3982b2e1456e5032854b30e3f598"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp16",
+    "output": "bf16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "ea55d970aa2ea46c974ebfade16954e51f3be1f6027ce3967f72b4186d04eb00"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp16",
+    "output": "fp32",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "230a54c3533baa75fda990e5bc9b4d6ece8aefe2d35a1bf74691786143a82be0"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp16",
+    "output": "fp32",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "994acdecbecb1cf451350330257c7b292310d2881c53bb17c2fc9898c838fe81"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp16",
+    "output": "fp64",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "116c44b88365a09a4ed231bcc83671374014d8bb16ec18cb70c953947d2119a0"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp16",
+    "output": "fp64",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "040376015d1461fcccf95ac03106bdaa741f5b0bd54eaad27fa6ba450af169aa"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "bf16",
+    "output": "fp16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "009039d1d3a2b02bc90ce6147fa667dd2fca057f0a0a2ce406b6a54e61108c9c"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "bf16",
+    "output": "fp16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "57f5bc8d5db5e22d4e7739d1a7fe198062323abe3da65ef0cdf18a2ca2fbc387"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "bf16",
+    "output": "bf16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "8b8a6cef1f4bc9491655292de6d354681f5f009cb08b304c51fc37c37bce2a95"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "bf16",
+    "output": "bf16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "0f3a5e5fae22b5a524f896d03443142e96b903226b60f0b7a91f95b55d5aadc5"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "bf16",
+    "output": "fp32",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "8e83248a7249e1a2a0516a06c10a7cb3ff4ddc535b25da89143897b6e1a83269"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "bf16",
+    "output": "fp32",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "b3b6df6dafaa5c80e19e93d3e250710ee9b227d00a30e5bae46ed0d6e92dfce7"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "bf16",
+    "output": "fp64",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "fbe0d606b3aed9b7813af133686223a234bfea7d31e57aad2abf2c9934117217"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "bf16",
+    "output": "fp64",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "7dae085a0b32b9643e9353893cdab8c5939ab4aa88cef08c0495cd393d3cfe7a"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp32",
+    "output": "fp16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "fd504b7f8f09db6421fcd65526db60c032d6b8932c13cec67e752fc2aad1add2"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp32",
+    "output": "fp16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "ae4397278ccbbea425fefad3145c1975ea777444d42b151679b5e5062b2c9ad6"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp32",
+    "output": "bf16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "e04d9357498853d49af162f78268cf35c0e9723f6c93d295620c465ee4257371"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp32",
+    "output": "bf16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "479ec256f28c35d536ad8a5a80e210de18e3731d32626e91d390a104e4ea3bda"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp32",
+    "output": "fp32",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "7d733f5c1a200985fb99f59086b32585b765a67f6ad5d9e14a36a066010193f0"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp32",
+    "output": "fp32",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "5f117a12abb84ab3a1644868335ff1e0d3ecd963448008410ed26da2611c4580"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp32",
+    "output": "fp64",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "a37c79e42cc0d6effe256ae68b749c9df104faeab3833e10ad60a02d365507ce"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp32",
+    "output": "fp64",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "d24cba30b5eb2245c58b558a84d51665ec885262154244637df3a0a5e682a260"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp64",
+    "output": "fp16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_error",
+    "exception_type": "CompilationError",
+    "message": "at 21:8:\n        e = tl.exp(inp - m)\n        z = tl.sum(e, 0)\n        out = e / z\n        output_ptrs = output_ptr + offset\n        tl.store(output_ptrs, out, mask=mask)\n    else:\n        m = tl.full([TILE_N], value=float('-inf'), dtype=tl.float32)\n        z = tl.full([TILE_N], value=0.0, dtype=tl.float32)\n        input_ptr += pid_m * N\n        output_ptr += pid_m * N\n        previous_multiple = prev_multiple_of(N, TILE_N)\n        for start_n in range(0, previous_multiple, TILE_N):\n        ^\nAssertionError(\"Loop-carried variable m has initial type <['32'], fp32> but is re-assigned to <['32'], fp64> in loop! Please make sure that the type stays consistent.\")"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp64",
+    "output": "fp16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "cce4e28b71d5f23571e0698675734c40fdefe28442340665e6e1c05aa297160f"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp64",
+    "output": "bf16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_error",
+    "exception_type": "CompilationError",
+    "message": "at 21:8:\n        e = tl.exp(inp - m)\n        z = tl.sum(e, 0)\n        out = e / z\n        output_ptrs = output_ptr + offset\n        tl.store(output_ptrs, out, mask=mask)\n    else:\n        m = tl.full([TILE_N], value=float('-inf'), dtype=tl.float32)\n        z = tl.full([TILE_N], value=0.0, dtype=tl.float32)\n        input_ptr += pid_m * N\n        output_ptr += pid_m * N\n        previous_multiple = prev_multiple_of(N, TILE_N)\n        for start_n in range(0, previous_multiple, TILE_N):\n        ^\nAssertionError(\"Loop-carried variable m has initial type <['32'], fp32> but is re-assigned to <['32'], fp64> in loop! Please make sure that the type stays consistent.\")"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp64",
+    "output": "bf16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "f3186bc007a295c52665e5cda5ab863e51ebfc301a02bbb7ace0e1d72517896d"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp64",
+    "output": "fp32",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_error",
+    "exception_type": "CompilationError",
+    "message": "at 21:8:\n        e = tl.exp(inp - m)\n        z = tl.sum(e, 0)\n        out = e / z\n        output_ptrs = output_ptr + offset\n        tl.store(output_ptrs, out, mask=mask)\n    else:\n        m = tl.full([TILE_N], value=float('-inf'), dtype=tl.float32)\n        z = tl.full([TILE_N], value=0.0, dtype=tl.float32)\n        input_ptr += pid_m * N\n        output_ptr += pid_m * N\n        previous_multiple = prev_multiple_of(N, TILE_N)\n        for start_n in range(0, previous_multiple, TILE_N):\n        ^\nAssertionError(\"Loop-carried variable m has initial type <['32'], fp32> but is re-assigned to <['32'], fp64> in loop! Please make sure that the type stays consistent.\")"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp64",
+    "output": "fp32",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "d6253d00e53d97bc25c80afbb301a2c7f9203c5a53ff31d3a38ef82fdeb879d9"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp64",
+    "output": "fp64",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false
+    },
+    "status": "frontend_error",
+    "exception_type": "CompilationError",
+    "message": "at 21:8:\n        e = tl.exp(inp - m)\n        z = tl.sum(e, 0)\n        out = e / z\n        output_ptrs = output_ptr + offset\n        tl.store(output_ptrs, out, mask=mask)\n    else:\n        m = tl.full([TILE_N], value=float('-inf'), dtype=tl.float32)\n        z = tl.full([TILE_N], value=0.0, dtype=tl.float32)\n        input_ptr += pid_m * N\n        output_ptr += pid_m * N\n        previous_multiple = prev_multiple_of(N, TILE_N)\n        for start_n in range(0, previous_multiple, TILE_N):\n        ^\nAssertionError(\"Loop-carried variable m has initial type <['32'], fp32> but is re-assigned to <['32'], fp64> in loop! Please make sure that the type stays consistent.\")"
+  },
+  {
+    "kernel": "softmax_kernel_inner",
+    "input": "fp64",
+    "output": "fp64",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "daa72b8e97601f6733bc2811a96bfc3f35993444bef2a5bc9510fec251164627"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp16",
+    "output": "fp16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "918beae9276422745343bf939b9671496cc34d2b67c304a6a525e53e64ee14ef"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp16",
+    "output": "fp16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "1ae6da06ebaf47e4240482dd27c0b76a3104354cb54002ad3dff68015f52c86f"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp16",
+    "output": "bf16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "753479ed2395ea47f3ec72457e5d85abe9721f6307556c5dbdb298c8497ac839"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp16",
+    "output": "bf16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "657193fa47b7598ac85227a01edcc5775287772c628b189a433a971715ed9360"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp16",
+    "output": "fp32",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "1cae64602038bc96919858ca08411eff2db036fbc0b4371c65df47f14fbdcfda"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp16",
+    "output": "fp32",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "b0e8ef34882a08026779780f9291e6fca48bd5b29c5acfc21730af0706098ca7"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp16",
+    "output": "fp64",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "461652e6c1429b37a3ae2bea2ea97020301ac125810cf886d97b71d0af2afd9a"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp16",
+    "output": "fp64",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "7b8643bc48ab7aa15aa4d9294d31a2cafcaff24f89a7c9ebe5d92f096b361329"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "bf16",
+    "output": "fp16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "4ced82f09d0b26cc47b7a04887f04475a4f16e6d56672d93e1f108c3f9cf6fa2"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "bf16",
+    "output": "fp16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "61fded10ebcc5e179236fac4a64c5ed8d83d1795fa5a5f9490ca672e329c0d3f"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "bf16",
+    "output": "bf16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "ee7325eb34a2e2918779f70c434cde39dd52b229c9c8805d267f503e5681382b"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "bf16",
+    "output": "bf16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "ff0186b7fb3f9a538a8febd62503ed5ea624f9479980d75791133e9e6b042f1a"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "bf16",
+    "output": "fp32",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "3e27dddc3d9f332fefcb18d5d885614d777da068ae89ce84cf17edf2d8508372"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "bf16",
+    "output": "fp32",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "088d77f3fafe7e1afead9035ff2d950e0d9aab9258238bc85171ef9bd4e46546"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "bf16",
+    "output": "fp64",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "cc658c43fd31eb50a1e786f3bf7bcb9782f258030dd6725c16bd57171df3ba42"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "bf16",
+    "output": "fp64",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "a4902027106a332ff97b5663b204059661e135289ef22d4a020ba805d740cc90"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp32",
+    "output": "fp16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "cdaa4490733ad03813de5450c1730781dc121bf3ddb4affa10987e4aa66fadd1"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp32",
+    "output": "fp16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "657d59c27b13b3f92c3f6ba97f5b0c131b353ab02fe443e7f1fe17ab61985996"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp32",
+    "output": "bf16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "7fec3131a0fb65629d8d3cd6c39d437081036a83b03d5f2407d08bbefe2fd589"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp32",
+    "output": "bf16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "283427081993bd7f139c51b2943e9c7f99afbe2102db36c086496cafd3a18081"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp32",
+    "output": "fp32",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "a89f19873479c7ac1fa5d210da04bad7d591b712459075355e8a67f878664d5d"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp32",
+    "output": "fp32",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "33931c21a06ac94720f8b16206d01ad46b7f6a0d771b15c0d38d9544cb76ce9a"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp32",
+    "output": "fp64",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "e4d12a8ac0a511b485f4bf1fb5711508e655c8962695c8bd2f760eeaabeb96a2"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp32",
+    "output": "fp64",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "9eddb5dfd144348f7408c5cb55bcd3b224d2acb91fdd21e690fcded790e521e0"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp64",
+    "output": "fp16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_error",
+    "exception_type": "CompilationError",
+    "message": "at 20:8:\n        input_ptrs = input_ptr + offset\n        inp = tl.load(input_ptrs, mask=mask, other=-float('inf'))\n        m = tl.max(inp, 0)\n        e = tl.exp(inp - m[None, :])\n        z = tl.sum(e, 0)\n        out = e / z\n        output_ptrs = output_ptr + offset\n        tl.store(output_ptrs, out, mask=mask)\n    else:\n        m = tl.full([TILE_N, TILE_K], value=float('-inf'), dtype=tl.float32)\n        z = tl.full([TILE_N, TILE_K], value=0.0, dtype=tl.float32)\n        for start_n in range(0, N, TILE_N):\n        ^\nAssertionError(\"Loop-carried variable m has initial type <['32', '32'], fp32> but is re-assigned to <['32', '32'], fp64> in loop! Please make sure that the type stays consistent.\")"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp64",
+    "output": "fp16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp16",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "a530b1723f0a3dca6f78ec34472ddf4947e33c246009eae5e9912c3883e31d5d"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp64",
+    "output": "bf16",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_error",
+    "exception_type": "CompilationError",
+    "message": "at 20:8:\n        input_ptrs = input_ptr + offset\n        inp = tl.load(input_ptrs, mask=mask, other=-float('inf'))\n        m = tl.max(inp, 0)\n        e = tl.exp(inp - m[None, :])\n        z = tl.sum(e, 0)\n        out = e / z\n        output_ptrs = output_ptr + offset\n        tl.store(output_ptrs, out, mask=mask)\n    else:\n        m = tl.full([TILE_N, TILE_K], value=float('-inf'), dtype=tl.float32)\n        z = tl.full([TILE_N, TILE_K], value=0.0, dtype=tl.float32)\n        for start_n in range(0, N, TILE_N):\n        ^\nAssertionError(\"Loop-carried variable m has initial type <['32', '32'], fp32> but is re-assigned to <['32', '32'], fp64> in loop! Please make sure that the type stays consistent.\")"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp64",
+    "output": "bf16",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*bf16",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "20b9602d9e864a9c6c745f60af45b33fa1c6ea6eb84d2ab8933ec4b6ec23cad6"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp64",
+    "output": "fp32",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_error",
+    "exception_type": "CompilationError",
+    "message": "at 20:8:\n        input_ptrs = input_ptr + offset\n        inp = tl.load(input_ptrs, mask=mask, other=-float('inf'))\n        m = tl.max(inp, 0)\n        e = tl.exp(inp - m[None, :])\n        z = tl.sum(e, 0)\n        out = e / z\n        output_ptrs = output_ptr + offset\n        tl.store(output_ptrs, out, mask=mask)\n    else:\n        m = tl.full([TILE_N, TILE_K], value=float('-inf'), dtype=tl.float32)\n        z = tl.full([TILE_N, TILE_K], value=0.0, dtype=tl.float32)\n        for start_n in range(0, N, TILE_N):\n        ^\nAssertionError(\"Loop-carried variable m has initial type <['32', '32'], fp32> but is re-assigned to <['32', '32'], fp64> in loop! Please make sure that the type stays consistent.\")"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp64",
+    "output": "fp32",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp32",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "61627d797e463661f72911068b38365091232dbf592d36f2278c92d9307ebab6"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp64",
+    "output": "fp64",
+    "one_tile": false,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_error",
+    "exception_type": "CompilationError",
+    "message": "at 20:8:\n        input_ptrs = input_ptr + offset\n        inp = tl.load(input_ptrs, mask=mask, other=-float('inf'))\n        m = tl.max(inp, 0)\n        e = tl.exp(inp - m[None, :])\n        z = tl.sum(e, 0)\n        out = e / z\n        output_ptrs = output_ptr + offset\n        tl.store(output_ptrs, out, mask=mask)\n    else:\n        m = tl.full([TILE_N, TILE_K], value=float('-inf'), dtype=tl.float32)\n        z = tl.full([TILE_N, TILE_K], value=0.0, dtype=tl.float32)\n        for start_n in range(0, N, TILE_N):\n        ^\nAssertionError(\"Loop-carried variable m has initial type <['32', '32'], fp32> but is re-assigned to <['32', '32'], fp64> in loop! Please make sure that the type stays consistent.\")"
+  },
+  {
+    "kernel": "softmax_kernel_non_inner",
+    "input": "fp64",
+    "output": "fp64",
+    "one_tile": true,
+    "signature": {
+      "output_ptr": "*fp64",
+      "input_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "e78bd98cdda2ceb24c69b2e912376dd72ccd49219133132e4d17b410105438fa"
+  },
+  {
+    "kernel": "softmax_backward_kernel_inner",
+    "input": "fp16",
+    "output": "fp16",
+    "one_tile": false,
+    "signature": {
+      "out_ptr": "*fp16",
+      "out_grad_ptr": "*fp16",
+      "in_grad_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_M": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "99e9b2bda64f1ac36cfecb10fcf4a597663b5152007501be1c65ce2b3c8b6923"
+  },
+  {
+    "kernel": "softmax_backward_kernel_inner",
+    "input": "fp16",
+    "output": "fp16",
+    "one_tile": true,
+    "signature": {
+      "out_ptr": "*fp16",
+      "out_grad_ptr": "*fp16",
+      "in_grad_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_M": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "ae2c17238ad9a6ea64adc6e277cbde27a4a8ac20418f473b747003e4073bd63e"
+  },
+  {
+    "kernel": "softmax_backward_kernel_inner",
+    "input": "bf16",
+    "output": "bf16",
+    "one_tile": false,
+    "signature": {
+      "out_ptr": "*bf16",
+      "out_grad_ptr": "*bf16",
+      "in_grad_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_M": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "9979d01601ded765d2dda4af3fe9f3c6afe3dfc5ebb72a919326bed45b276dbb"
+  },
+  {
+    "kernel": "softmax_backward_kernel_inner",
+    "input": "bf16",
+    "output": "bf16",
+    "one_tile": true,
+    "signature": {
+      "out_ptr": "*bf16",
+      "out_grad_ptr": "*bf16",
+      "in_grad_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_M": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "5e1fe76c994ab2701397da635befe199f6f94e78af71ae05ce6fb66f724217ac"
+  },
+  {
+    "kernel": "softmax_backward_kernel_inner",
+    "input": "fp32",
+    "output": "fp32",
+    "one_tile": false,
+    "signature": {
+      "out_ptr": "*fp32",
+      "out_grad_ptr": "*fp32",
+      "in_grad_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_M": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "4b27f0342cb8777cdf45b2d7de792090b957df5b8c96ada3eb37cc68711eefca"
+  },
+  {
+    "kernel": "softmax_backward_kernel_inner",
+    "input": "fp32",
+    "output": "fp32",
+    "one_tile": true,
+    "signature": {
+      "out_ptr": "*fp32",
+      "out_grad_ptr": "*fp32",
+      "in_grad_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_M": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "ef8525eb962d603261cb422cccd1064b9b90c3bc1271753bf9701fad7fc02723"
+  },
+  {
+    "kernel": "softmax_backward_kernel_inner",
+    "input": "fp64",
+    "output": "fp64",
+    "one_tile": false,
+    "signature": {
+      "out_ptr": "*fp64",
+      "out_grad_ptr": "*fp64",
+      "in_grad_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_M": 32
+    },
+    "status": "frontend_error",
+    "exception_type": "CompilationError",
+    "message": "at 17:8:\n        offsets = m_offsets[:, None] * N + n_offsets\n        mask = (m_offsets[:, None] < M) & (n_offsets < N)\n        out_tile = tl.load(out_ptr + offsets, mask=mask)\n        out_grad_tile = tl.load(out_grad_ptr + offsets, mask=mask)\n        scale = tl.sum(out_tile * out_grad_tile, 1)\n        in_grad_tile = out_tile * (out_grad_tile - scale[:, None])\n        tl.store(in_grad_ptr + offsets, in_grad_tile, mask=mask)\n    else:\n        scale = tl.zeros([TILE_M, TILE_N], dtype=tl.float32)\n        n_offsets = tl.arange(0, TILE_N)\n        offsets = m_offsets[:, None] * N + n_offsets\n        for _ in range(0, N, TILE_N):\n        ^\nAssertionError(\"Loop-carried variable scale has initial type <['32', '32'], fp32> but is re-assigned to <['32', '32'], fp64> in loop! Please make sure that the type stays consistent.\")"
+  },
+  {
+    "kernel": "softmax_backward_kernel_inner",
+    "input": "fp64",
+    "output": "fp64",
+    "one_tile": true,
+    "signature": {
+      "out_ptr": "*fp64",
+      "out_grad_ptr": "*fp64",
+      "in_grad_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_M": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "34223dfd7efc541042118612f3861cd253bbbe976faf43e28a21900eafbb1e45"
+  },
+  {
+    "kernel": "softmax_backward_kernel_non_inner",
+    "input": "fp16",
+    "output": "fp16",
+    "one_tile": false,
+    "signature": {
+      "out_ptr": "*fp16",
+      "out_grad_ptr": "*fp16",
+      "in_grad_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "b9303285e42c22beceb0602053b7bcad32efff4feecf041eb532f1b97156607b"
+  },
+  {
+    "kernel": "softmax_backward_kernel_non_inner",
+    "input": "fp16",
+    "output": "fp16",
+    "one_tile": true,
+    "signature": {
+      "out_ptr": "*fp16",
+      "out_grad_ptr": "*fp16",
+      "in_grad_ptr": "*fp16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "a964e3c5e1cc6e7d12abd7011cedb0f9f2919b5779763faa1bb1987873c6e128"
+  },
+  {
+    "kernel": "softmax_backward_kernel_non_inner",
+    "input": "bf16",
+    "output": "bf16",
+    "one_tile": false,
+    "signature": {
+      "out_ptr": "*bf16",
+      "out_grad_ptr": "*bf16",
+      "in_grad_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "4bd2edbc1d260a22775bc6389d33552410d5ddaa525b2ea28a11c5bdaf01aaf0"
+  },
+  {
+    "kernel": "softmax_backward_kernel_non_inner",
+    "input": "bf16",
+    "output": "bf16",
+    "one_tile": true,
+    "signature": {
+      "out_ptr": "*bf16",
+      "out_grad_ptr": "*bf16",
+      "in_grad_ptr": "*bf16",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "93538aa5050ba5a9dcd08e17b21d2ddb99feaf32a94238a5b4dc41642176eadd"
+  },
+  {
+    "kernel": "softmax_backward_kernel_non_inner",
+    "input": "fp32",
+    "output": "fp32",
+    "one_tile": false,
+    "signature": {
+      "out_ptr": "*fp32",
+      "out_grad_ptr": "*fp32",
+      "in_grad_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "038e007641e8f9ee2cee8459da9c512d8cc75fbd59277c4487e30f3fc08b7475"
+  },
+  {
+    "kernel": "softmax_backward_kernel_non_inner",
+    "input": "fp32",
+    "output": "fp32",
+    "one_tile": true,
+    "signature": {
+      "out_ptr": "*fp32",
+      "out_grad_ptr": "*fp32",
+      "in_grad_ptr": "*fp32",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "0daff232304af8c642f61710855f326daf9a1835bf3c8d4737d6041f0932e65b"
+  },
+  {
+    "kernel": "softmax_backward_kernel_non_inner",
+    "input": "fp64",
+    "output": "fp64",
+    "one_tile": false,
+    "signature": {
+      "out_ptr": "*fp64",
+      "out_grad_ptr": "*fp64",
+      "in_grad_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": false,
+      "TILE_K": 32
+    },
+    "status": "frontend_error",
+    "exception_type": "CompilationError",
+    "message": "at 18:8:\n        offsets = pid_m * N * K + offsets_n[:, None] * K + offsets_k\n        mask = (offsets_n < N)[:, None] & (offsets_k < K)\n        out_tile = tl.load(out_ptr + offsets, mask=mask)\n        out_grad_tile = tl.load(out_grad_ptr + offsets, mask=mask)\n        scale = tl.sum(out_tile * out_grad_tile, axis=0)\n        in_grad_tile = out_tile * (out_grad_tile - scale[None, :])\n        tl.store(in_grad_ptr + offsets, in_grad_tile, mask=mask)\n    else:\n        offsets_n = tl.arange(0, TILE_N)\n        offsets = pid_m * N * K + offsets_n[:, None] * K + offsets_k\n        scale = tl.zeros([TILE_N, TILE_K], dtype=tl.float32)\n        for _ in range(0, N, TILE_N):\n        ^\nAssertionError(\"Loop-carried variable scale has initial type <['32', '32'], fp32> but is re-assigned to <['32', '32'], fp64> in loop! Please make sure that the type stays consistent.\")"
+  },
+  {
+    "kernel": "softmax_backward_kernel_non_inner",
+    "input": "fp64",
+    "output": "fp64",
+    "one_tile": true,
+    "signature": {
+      "out_ptr": "*fp64",
+      "out_grad_ptr": "*fp64",
+      "in_grad_ptr": "*fp64",
+      "M": "i32",
+      "N": "i32",
+      "K": "i32"
+    },
+    "constexprs": {
+      "TILE_N": 32,
+      "ONE_TILE_PER_CTA": true,
+      "TILE_K": 32
+    },
+    "status": "frontend_generated",
+    "ttir_sha256": "0c61ab993516f494508edb3b072b60af004697e925d7ac6d495ddf71cc30e0a3"
+  }
+]

@@ -1,0 +1,8 @@
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Forward.lean:36:2: error: No goals to be solved
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Forward.lean:75:2: error: No goals to be solved
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Forward.lean:92:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forward_inner_grid: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Forward.lean:93:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forward_noninner_grid: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forwardInnerValue: definition does not reference [VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.run,
+ VeriTile.Triton.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forwardNonInnerValue: definition does not reference [VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.run,
+ VeriTile.Triton.exec] — non-circular ✓

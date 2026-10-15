@@ -1,0 +1,15 @@
+{
+  "module": "after/bench/tritonbench_g/softmax_flaggems/Proofs/HostGridTuning.lean",
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/after",
+    "/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/after/bench/tritonbench_g/softmax_flaggems/Proofs/HostGridTuning.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/build-overlay/bench/tritonbench_g/softmax_flaggems/Proofs/HostGridTuning.olean"
+  ],
+  "exit_code": 0,
+  "seconds": 8.865187756950036,
+  "source_sha256": "40ba9896dd59bc8e06f1b965e713dca8431d82fd78344243f898d1674dcec3b0",
+  "log_sha256": "d010d7ebeb8727f05b01e55dc63048436be82c999bf3002b8ee55997d84808e1",
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/build-overlay:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean"
+}

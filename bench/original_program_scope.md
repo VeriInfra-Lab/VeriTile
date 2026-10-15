@@ -113,7 +113,7 @@ the existing `fp16=true` contract uses fp32 storage and internal half casts.
 Its correction does not establish the separate `fp16=false` branch or host program.
 
 The workflow's catalog and supplement now point to the
-`relu-finite-source-acceptance` batch, with the unchanged
+`softmax-source-host-grid` batch, with the unchanged
 `original-scope-extensions/metadata-baseline` and preceding final-source manifest
 retained as its historical base. Neither global success nor scope
 success establishes corpus comparator replay, the integration build or native
@@ -122,9 +122,9 @@ GPU correctness; those remain independent checks.
 The full-scope review covers all 183 original programs, with no unreviewed
 programs. Matrix transpose has passed its schema2 source-scope check. ReLU has passed
 with exactly registered numerical deferrals; 181 scopes remain pending. This is not a claim that whole-corpus CI or official comparator
-replay has passed. The cumulative supplemental proof inventory contains 52
+replay has passed. The cumulative supplemental proof inventory contains 54
 execution contracts and
-six protocol contracts across 15 tasks; those counts are not completed programs.
+six protocol contracts across 16 tasks; those counts are not completed programs.
 
 The latest partial extensions compose vector addition's 189 existing typed
 routes through source-order host allocation/assertions and canonical rejection
@@ -139,3 +139,10 @@ families / 84 exact ports remain unvalidated. Source pointer/view permissions,
 fresh allocation metadata and pid0-only stores are explicit. For N>1024 this
 accepts the original physical prefix behavior, with arbitrary untouched output
 tail; it does not assert whole-tensor mathematical ReLU or native GPU correctness.
+
+Softmax now composes its original forward/backward real-erased execution across
+all four grids, host metadata and arbitrary finite autotune trials, preserving
+first compiler rejection and saved-output/gradient aliasing. Its two new public
+contracts remain partial progress: typed rounded arithmetic and finite scalar/
+pointer/view domains still prevent whole-source acceptance. No additional
+numerical registrations or completed programs are counted.

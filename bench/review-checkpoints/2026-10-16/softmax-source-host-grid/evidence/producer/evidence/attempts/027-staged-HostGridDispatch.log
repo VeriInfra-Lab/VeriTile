@@ -1,0 +1,15 @@
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.coordinate_noninner: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forward_dispatch: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backward_dispatch: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forwardValue: definition does not reference [VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forwardRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.run,
+ VeriTile.Triton.exec] — non-circular ✓
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardValue: definition does not reference [VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forwardRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.run,
+ VeriTile.Triton.exec] — non-circular ✓

@@ -1,0 +1,160 @@
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:34:33: error: unexpected token 'false'; expected '⟩'
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:43:11: error: Type mismatch: After simplification, term
+  he
+ has type
+  s = t
+but is expected to have type
+  checkedTrialRun storage P G Y d [] s = Except.ok t
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:51:17: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:56:56: error: unexpected token 'true'; expected '⟩'
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:78:80: error: unsolved goals
+case h
+s t : BlockState
+P G Y : RegionName
+d : Dimensions
+c : LaunchConfig
+hPY : P ≠ Y
+hGY : G ≠ Y
+hf : BlockState.WriteWithin (fullSlice Y (d.M * d.N * d.K)) s t
+hu : t.undef = s.undef
+hp : t.mem P = s.mem P
+hg : t.mem G = s.mem G
+a : MemCellAddr
+⊢ (if 1 < d.K then backwardNonInnerValue t P G d.N d.K c.B c.one else backwardInnerValue t P G d.M d.N c.B c.one) a =
+    (if 1 < d.K then backwardNonInnerValue s P G d.N d.K c.B c.one else backwardInnerValue s P G d.M d.N c.B c.one) a
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:82:27: warning: This simp argument is unused:
+  backwardInnerValue
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵a̵c̵k̵w̵a̵r̵d̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵M̵a̵t̵h̵.̵b̵a̵c̵k̵w̵a̵r̵d̵P̵a̵d̵d̵e̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵B̵l̵o̵c̵k̵S̵t̵a̵t̵e̵.̵r̵e̵a̵d̵M̵e̵m̵,̵h̵p̵,̵h̵g̵,̵h̵u̵]̵[̲b̲a̲c̲k̲w̲a̲r̲d̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲R̲e̲a̲l̲M̲a̲t̲h̲.̲b̲a̲c̲k̲w̲a̲r̲d̲P̲a̲d̲d̲e̲d̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲ ̲B̲l̲o̲c̲k̲S̲t̲a̲t̲e̲.̲r̲e̲a̲d̲M̲e̲m̲,̲ ̲h̲p̲,̲ ̲h̲g̲,̲ ̲h̲u̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:82:46: warning: This simp argument is unused:
+  backwardNonInnerValue
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵a̵c̵k̵w̵a̵r̵d̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵M̵a̵t̵h̵.̵b̵a̵c̵k̵w̵a̵r̵d̵P̵a̵d̵d̵e̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵B̵l̵o̵c̵k̵S̵t̵a̵t̵e̵.̵r̵e̵a̵d̵M̵e̵m̵,̵h̵p̵,̵h̵g̵,̵h̵u̵]̵[̲b̲a̲c̲k̲w̲a̲r̲d̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲R̲e̲a̲l̲M̲a̲t̲h̲.̲b̲a̲c̲k̲w̲a̲r̲d̲P̲a̲d̲d̲e̲d̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲ ̲B̲l̲o̲c̲k̲S̲t̲a̲t̲e̲.̲r̲e̲a̲d̲M̲e̲m̲,̲ ̲h̲p̲,̲ ̲h̲g̲,̲ ̲h̲u̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:83:4: warning: This simp argument is unused:
+  RealBackwardInner.expected
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵a̵c̵k̵w̵a̵r̵d̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵M̵a̵t̵h̵.̵b̵a̵c̵k̵w̵a̵r̵d̵P̵a̵d̵d̵e̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵B̵l̵o̵c̵k̵S̵t̵a̵t̵e̵.̵r̵e̵a̵d̵M̵e̵m̵,̵h̵p̵,̵h̵g̵,̵h̵u̵]̵[̲b̲a̲c̲k̲w̲a̲r̲d̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲R̲e̲a̲l̲M̲a̲t̲h̲.̲b̲a̲c̲k̲w̲a̲r̲d̲P̲a̲d̲d̲e̲d̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲ ̲B̲l̲o̲c̲k̲S̲t̲a̲t̲e̲.̲r̲e̲a̲d̲M̲e̲m̲,̲ ̲h̲p̲,̲ ̲h̲g̲,̲ ̲h̲u̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:83:31: warning: This simp argument is unused:
+  RealBackwardNonInner.expected
+
+Hint: Omit it from the simp argument list.
+  s̵i̵m̵p̵ ̵o̵n̵l̵y̵ ̵[̵b̵a̵c̵k̵w̵a̵r̵d̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵M̵a̵t̵h̵.̵b̵a̵c̵k̵w̵a̵r̵d̵P̵a̵d̵d̵e̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵B̵l̵o̵c̵k̵S̵t̵a̵t̵e̵.̵r̵e̵a̵d̵M̵e̵m̵,̵h̵p̵,̵h̵g̵,̵h̵u̵]̵s̲i̲m̲p̲ ̲o̲n̲l̲y̲ ̲[̲b̲a̲c̲k̲w̲a̲r̲d̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲M̲a̲t̲h̲.̲b̲a̲c̲k̲w̲a̲r̲d̲P̲a̲d̲d̲e̲d̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲B̲l̲o̲c̲k̲S̲t̲a̲t̲e̲.̲r̲e̲a̲d̲M̲e̲m̲,̲ ̲h̲p̲,̲ ̲h̲g̲,̲ ̲h̲u̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:83:61: warning: This simp argument is unused:
+  RealMath.backwardPadded
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵a̵c̵k̵w̵a̵r̵d̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵M̵a̵t̵h̵.̵b̵a̵c̵k̵w̵a̵r̵d̵P̵a̵d̵d̵e̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵B̵l̵o̵c̵k̵S̵t̵a̵t̵e̵.̵r̵e̵a̵d̵M̵e̵m̵,̵h̵p̵,̵h̵g̵,̵h̵u̵]̵[̲b̲a̲c̲k̲w̲a̲r̲d̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲B̲l̲o̲c̲k̲S̲t̲a̲t̲e̲.̲r̲e̲a̲d̲M̲e̲m̲,̲ ̲h̲p̲,̲ ̲h̲g̲,̲ ̲h̲u̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:84:4: warning: This simp argument is unused:
+  RealBackwardInner.sample
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵a̵c̵k̵w̵a̵r̵d̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵M̵a̵t̵h̵.̵b̵a̵c̵k̵w̵a̵r̵d̵P̵a̵d̵d̵e̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵B̵l̵o̵c̵k̵S̵t̵a̵t̵e̵.̵r̵e̵a̵d̵M̵e̵m̵,̵h̵p̵,̵h̵g̵,̵h̵u̵]̵[̲b̲a̲c̲k̲w̲a̲r̲d̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲R̲e̲a̲l̲M̲a̲t̲h̲.̲b̲a̲c̲k̲w̲a̲r̲d̲P̲a̲d̲d̲e̲d̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲B̲l̲o̲c̲k̲S̲t̲a̲t̲e̲.̲r̲e̲a̲d̲M̲e̲m̲,̲ ̲h̲p̲,̲ ̲h̲g̲,̲ ̲h̲u̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:84:29: warning: This simp argument is unused:
+  RealBackwardNonInner.sample
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵a̵c̵k̵w̵a̵r̵d̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵M̵a̵t̵h̵.̵b̵a̵c̵k̵w̵a̵r̵d̵P̵a̵d̵d̵e̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵B̵l̵o̵c̵k̵S̵t̵a̵t̵e̵.̵r̵e̵a̵d̵M̵e̵m̵,̵h̵p̵,̵h̵g̵,̵h̵u̵]̵[̲b̲a̲c̲k̲w̲a̲r̲d̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲R̲e̲a̲l̲M̲a̲t̲h̲.̲b̲a̲c̲k̲w̲a̲r̲d̲P̲a̲d̲d̲e̲d̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲B̲l̲o̲c̲k̲S̲t̲a̲t̲e̲.̲r̲e̲a̲d̲M̲e̲m̲,̲ ̲h̲p̲,̲ ̲h̲g̲,̲ ̲h̲u̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:84:57: warning: This simp argument is unused:
+  BlockState.readMem
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵a̵c̵k̵w̵a̵r̵d̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵M̵a̵t̵h̵.̵b̵a̵c̵k̵w̵a̵r̵d̵P̵a̵d̵d̵e̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵B̵l̵o̵c̵k̵S̵t̵a̵t̵e̵.̵r̵e̵a̵d̵M̵e̵m̵,̵h̵p̵,̵h̵g̵,̵h̵u̵]̵[̲b̲a̲c̲k̲w̲a̲r̲d̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲R̲e̲a̲l̲M̲a̲t̲h̲.̲b̲a̲c̲k̲w̲a̲r̲d̲P̲a̲d̲d̲e̲d̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲ ̲h̲p̲,̲ ̲h̲g̲,̲ ̲h̲u̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:84:76: warning: This simp argument is unused:
+  hp
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵a̵c̵k̵w̵a̵r̵d̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵M̵a̵t̵h̵.̵b̵a̵c̵k̵w̵a̵r̵d̵P̵a̵d̵d̵e̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵B̵l̵o̵c̵k̵S̵t̵a̵t̵e̵.̵r̵e̵a̵d̵M̵e̵m̵,̵h̵p̵,̵h̵g̵,̵h̵u̵]̵[̲b̲a̲c̲k̲w̲a̲r̲d̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲R̲e̲a̲l̲M̲a̲t̲h̲.̲b̲a̲c̲k̲w̲a̲r̲d̲P̲a̲d̲d̲e̲d̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲ ̲B̲l̲o̲c̲k̲S̲t̲a̲t̲e̲.̲r̲e̲a̲d̲M̲e̲m̲,̲ ̲h̲g̲,̲ ̲h̲u̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:84:79: warning: This simp argument is unused:
+  hg
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵a̵c̵k̵w̵a̵r̵d̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵M̵a̵t̵h̵.̵b̵a̵c̵k̵w̵a̵r̵d̵P̵a̵d̵d̵e̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵B̵l̵o̵c̵k̵S̵t̵a̵t̵e̵.̵r̵e̵a̵d̵M̵e̵m̵,̵h̵p̵,̵h̵g̵,̵h̵u̵]̵[̲b̲a̲c̲k̲w̲a̲r̲d̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲R̲e̲a̲l̲M̲a̲t̲h̲.̲b̲a̲c̲k̲w̲a̲r̲d̲P̲a̲d̲d̲e̲d̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲ ̲B̲l̲o̲c̲k̲S̲t̲a̲t̲e̲.̲r̲e̲a̲d̲M̲e̲m̲,̲ ̲h̲p̲,̲ ̲h̲u̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:84:82: warning: This simp argument is unused:
+  hu
+
+Hint: Omit it from the simp argument list.
+  simp only [̵b̵a̵c̵k̵w̵a̵r̵d̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵b̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵V̵a̵l̵u̵e̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵e̵x̵p̵e̵c̵t̵e̵d̵,̵R̵e̵a̵l̵M̵a̵t̵h̵.̵b̵a̵c̵k̵w̵a̵r̵d̵P̵a̵d̵d̵e̵d̵,̵
+  ̵ ̵ ̵ ̵ ̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵R̵e̵a̵l̵B̵a̵c̵k̵w̵a̵r̵d̵N̵o̵n̵I̵n̵n̵e̵r̵.̵s̵a̵m̵p̵l̵e̵,̵B̵l̵o̵c̵k̵S̵t̵a̵t̵e̵.̵r̵e̵a̵d̵M̵e̵m̵,̵h̵p̵,̵h̵g̵,̵h̵u̵]̵[̲b̲a̲c̲k̲w̲a̲r̲d̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲b̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲V̲a̲l̲u̲e̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲e̲x̲p̲e̲c̲t̲e̲d̲,̲ ̲R̲e̲a̲l̲M̲a̲t̲h̲.̲b̲a̲c̲k̲w̲a̲r̲d̲P̲a̲d̲d̲e̲d̲,̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲R̲e̲a̲l̲B̲a̲c̲k̲w̲a̲r̲d̲N̲o̲n̲I̲n̲n̲e̲r̲.̲s̲a̲m̲p̲l̲e̲,̲ ̲B̲l̲o̲c̲k̲S̲t̲a̲t̲e̲.̲r̲e̲a̲d̲M̲e̲m̲,̲ ̲h̲p̲,̲ ̲h̲g̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:114:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.checkedTrialRun_success: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:115:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.checkedTrialRun_reject_head: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.trialRun_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:117:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardValue_stable: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/softmax-flaggems-host-grid-wip/SoftmaxHost/Tuning.lean:118:0: error: VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.tuned_backward_dispatch: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.forward_source_domain: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardValue: definition does not reference [VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.trialRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.checkedTrialRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.tunedBackward,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.backwardRun,
+ VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.HostGrid.run,
+ VeriTile.Triton.exec] — non-circular ✓
