@@ -6,7 +6,7 @@ set_option maxHeartbeats 3000000
 set_option maxRecDepth 15000
 
 def storageType : Storage → TileDType
-  | .fp16 => .fp16 | .bf16 => .bf16 | .fp32 => .real
+  | .fp16 => .fp16 | .bf16 => .bf16 | .fp32 => .real | .fp64 => .real | .f8e4 => .f8e4 | .f8e5 => .f8e5
 
 def types (body : List ComputeStmt) (name : RegName) : List TileDType :=
   body.filterMap fun st => match st with

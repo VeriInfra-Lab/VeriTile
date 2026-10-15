@@ -3,6 +3,11 @@ import bench.tritonbench_g.mean_reduction.Kernels
 import bench.tritonbench_g.mean_reduction.Proofs.Candidate
 import VeriTile.Examples.Common
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 /-!
 # `mean_reduction` — strict per-kernel correctness
 
@@ -848,20 +853,6 @@ theorem mean_dim_kernel_compute_correct
     mean_dim_kernel_correct_target X Mean M N BLOCK_M BLOCK_N s :=
   mean_dim_kernel_compute_correct_of_algorithm X Mean M N BLOCK_M BLOCK_N s hStepNe
 
-/-- Per-kernel output summary for `mean_dim_kernel`: the DSL surface lowers to
-the algorithm layer, and the masked store to `Mean` is compute-correct — every
-active row lane holds the row mean `meanSpec`, out-of-bounds rows are preserved.
-The only side condition is `BLOCK_N ≠ 0`. -/
-specification mean_dim_kernel_output_summary
-    (X Mean : RegionName)
-    (M N BLOCK_M BLOCK_N : Nat) (s : BlockState)
-    (hStepNe : BLOCK_N ≠ 0) :
-    (∃ alg, (mean_dim_kernel X Mean M N BLOCK_M BLOCK_N).toAlgorithm? =
-        Except.ok alg) ∧
-    mean_dim_kernel_correct_target X Mean M N BLOCK_M BLOCK_N s := by
-  refine ⟨?_, ?_⟩
-  · simp [mean_dim_kernel, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
-  · exact mean_dim_kernel_compute_correct X Mean M N BLOCK_M BLOCK_N s hStepNe
 
 /-! ## The `⊨[R]` streaming headline (wave-5 S1 fold genre, single stream)
 

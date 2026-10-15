@@ -124,23 +124,18 @@ fi
 # proof_blockers.md. Stale markers and stale registry rows are failures too, so
 # the exemption list cannot silently outlive the debt it records.
 #
-# The surface tokens are searched in the CODE region only (after the first
-# `triton {`); the preamble is prose and naming a surface there — as the
-# blocker markers themselves do — must not count as having one.
+# Surface tokens are searched in comment/string-masked code in every file.
+# Split-port correctness declarations may precede the imported source body;
+# file order must not discard them. Prose never supplies surface evidence.
 if python3 - "${PORTS_ROOT}" "${PORTS_ROOT}/proof_blockers.md" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files
+from bench.audit_source import correctness_surface_evidence
 import re
 import sys
 
 root = Path(sys.argv[1])
 doc = Path(sys.argv[2]).read_text()
-
-surface_re = re.compile(
-    r"ComputeCorrect\.Realizes|ComputeRefine\.Realizes|ComputeCorrect\.General"
-    r"|correct_target|⊨"
-)
-marker_re = re.compile(r"^\s*(?:--\s*)?Correctness-surface blocker:(.*)$", re.M)
 
 section = ""
 m = re.search(r"^## Correctness-Surface Blockers$(.*?)(?=^## |\Z)", doc, re.M | re.S)
@@ -156,12 +151,9 @@ problems = []
 on_surface = 0
 exempt = set()
 for lean_file in source_files(root):
-    text = combined_text(lean_file)
     port = lean_file.parent.name
-    cut = text.find("triton {")
-    preamble, code = (text[:cut], text[cut:]) if cut != -1 else ("", text)
-    has_surface = bool(surface_re.search(code))
-    markers = marker_re.findall(preamble)
+    files, markers = correctness_surface_evidence(lean_file)
+    has_surface = bool(files)
     described = [body for body in markers if body.strip()]
 
     if has_surface:
@@ -373,6 +365,80 @@ else
   printf 'ok compiled-port README status scan\n'
 fi
 
+# A source view must be extractable before its call/statement inventory can be
+# compared. Subsequent lexical gates skip these already-failed views rather
+# than diagnosing an unexpanded $store as a missing source store. This gate is
+# mandatory for all modes and does not exempt unsupported macro profiles.
+if python3 - "${PORTS_ROOT}" <<'PY'
+from pathlib import Path
+import sys
+from bench.port_layout import source_files, source_text
+from bench.audit_source import (lean_first_triton_body, source_audit_metadata, source_parameter_map,
+                               python_source_with_constexpr_profile, python_source_with_runtime_scalar_profile)
+from bench.source_helpers import python_source_with_helpers
+from bench.source_extern import python_source_with_extern_orders
+from bench.source_pointer_dtypes import python_source_with_pointer_dtype_profile
+from bench.source_materializations import python_source_with_materializations
+from bench.source_dtype_constexpr import python_source_with_dtype_constexpr_profile
+
+failures = []
+extracted = 0
+for source in source_files(Path(sys.argv[1])):
+    try:
+        text = source_text(source)
+        lean_first_triton_body(text)
+        params = source_audit_metadata(text, 'params')
+        constexpr = source_audit_metadata(text, 'constexpr')
+        helpers = source_audit_metadata(text, 'helpers')
+        runtime = source_audit_metadata(text, 'runtime')
+        orders = source_audit_metadata(text, 'orders')
+        extern = source_audit_metadata(text, 'extern')
+        pointer_dtypes = source_audit_metadata(text, 'pointer-dtypes')
+        materializations = source_audit_metadata(text, 'materializations')
+        dtype_constexpr = source_audit_metadata(text, 'dtype-constexpr')
+        if any(value is not None for value in (params, constexpr, helpers, runtime, orders, extern, pointer_dtypes, materializations, dtype_constexpr)):
+            python_files = sorted(source.parent.glob('*.py'))
+            if len(python_files) != 1:
+                raise ValueError('Source-audit params requires one Python source file per port')
+            python_source_with_materializations(python_files[0].read_text(), text)
+            python_source_with_pointer_dtype_profile(python_files[0].read_text(), text)
+            python_source_with_dtype_constexpr_profile(python_files[0].read_text(), text)
+            python_source_with_runtime_scalar_profile(python_files[0].read_text(), text)
+            source_parameter_map(python_files[0].read_text(), text)
+            python_source_with_constexpr_profile(python_files[0].read_text(), text)
+            python_source_with_helpers(python_files[0].read_text(), text)
+            python_source_with_extern_orders(python_files[0].read_text(), text)
+        extracted += 1
+        selected = source_audit_metadata(source.read_text(), 'Lean')
+        args = source_audit_metadata(source.read_text(), 'args')
+        if selected is not None or args is not None:
+            print(f"  {source.parent.name}: selected source view {selected or '(first body)'}"
+                  + (f" [{args}]" if args else "")
+                  + (f"; validated parameter map [{params}]" if params is not None else "")
+                  + (f"; validated Python constexpr profile [{constexpr}]" if constexpr is not None else "")
+                  + (f"; validated Python helper expansion [{helpers}]" if helpers is not None else "")
+                  + (f"; validated Python runtime ABI profile [{runtime}]" if runtime is not None else "")
+                  + (f"; validated Python rank-1 order profile [{orders}]" if orders is not None else "")
+                  + (f"; validated recorded native extern profile [{extern}]" if extern is not None else "")
+                  + (f"; validated native pointer dtype profile [{pointer_dtypes}]" if pointer_dtypes is not None else "")
+                  + ("; validated identity materializations and complete computation AST" if materializations is not None else "")
+                  + (f"; validated native dtype constexpr profile [{dtype_constexpr}]" if dtype_constexpr is not None else "")
+                  + "; remaining source profiles are not certified by this view")
+    except ValueError as error:
+        failures.append(f"{source}: {error}")
+print(f"  {extracted} extractable source views, {len(failures)} unresolved source views; "
+      "extraction does not establish all-profile coverage")
+if failures:
+    print("\n".join(failures))
+    sys.exit(1)
+PY
+then
+  printf 'ok source-view extraction scan\n'
+else
+  printf 'FAIL source-view extraction scan (unresolved views are not source matches)\n'
+  failures=$((failures + 1))
+fi
+
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
 from bench.port_layout import source_files, source_file, combined_text
@@ -422,7 +488,8 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import ast
 import re
 import sys
@@ -430,12 +497,19 @@ import sys
 from bench.audit_source import (
     is_triton_jit,
     quoted_kernel_signature,
+    lean_first_preamble,
+    python_jit_names,
+    target_kernel_name,
+    source_audit_metadata,
+    python_source_parameter_names,
+    lean_source_parameter_names,
 )
 
 root = Path(sys.argv[1])
 blocker_marker = "translation-surface blocker:"
 
-def python_first_kernel_params(text: str) -> list[str]:
+def python_first_kernel_params(text: str, lean_text: str) -> list[str]:
+    target = target_kernel_name(lean_first_preamble(lean_text), python_jit_names(text))
     tree = ast.parse(text)
     lines = text.splitlines()
     preferred = None
@@ -443,6 +517,8 @@ def python_first_kernel_params(text: str) -> list[str]:
         if not isinstance(node, ast.FunctionDef):
             continue
         if not any(is_triton_jit(dec) for dec in node.decorator_list):
+            continue
+        if target is not None and node.name != target:
             continue
         body = "\n".join(lines[node.lineno - 1: node.end_lineno or node.lineno])
         if any(token in body for token in ("tl.program_id", "tl.load", "tl.store")):
@@ -458,16 +534,17 @@ def lean_first_kernel_signature(text: str) -> str:
     quoted = quoted_kernel_signature(text)
     if quoted:
         return quoted
-    lines = text.splitlines()
-    for i, line in enumerate(lines):
-        if not re.match(r"\s*(?:noncomputable\s+)?def\s+", line):
-            continue
-        acc = []
-        for j in range(i, min(len(lines), i + 60)):
-            acc.append(lines[j])
-            if "ComputeKernel := triton {" in lines[j]:
-                return "\n".join(acc)
-    return ""
+    from bench.audit_source import lean_code_mask
+    code = lean_code_mask(text)
+    index = code.find("triton {")
+    if index < 0:
+        return ""
+    definitions = list(re.finditer(r"^(?:(?:private|noncomputable)\s+)?def\s+", code[:index], re.M))
+    if not definitions:
+        return ""
+    signature = code[definitions[-1].start():index]
+    return signature if "ComputeKernel" in signature else ""
+
 
 def lean_binder_groups(signature: str) -> list[str]:
     groups = []
@@ -521,14 +598,19 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    lean_text = source_text(lean_file)
+    scope_text = lean_first_preamble(lean_text).lower()
     if blocker_marker in scope_text:
         continue
-    py_params = python_first_kernel_params(py_file.read_text())
-    lean_params = lean_first_kernel_params(lean_text)
-    lean_param_set = {normalize_param(param) for param in lean_params}
-    missing = [param for param in py_params if normalize_param(param) not in lean_param_set]
+    if any(source_audit_metadata(lean_text, field) is not None for field in ('params', 'constexpr', 'helpers', 'runtime', 'orders', 'extern', 'materializations', 'dtype-constexpr')):
+        py_params = python_source_parameter_names(py_file.read_text(), lean_text)
+        lean_params = lean_source_parameter_names(lean_text)
+        missing = [param for param in py_params if param not in set(lean_params)]
+    else:
+        py_params = python_first_kernel_params(py_file.read_text(), lean_text)
+        lean_params = lean_first_kernel_params(lean_text)
+        lean_param_set = {normalize_param(param) for param in lean_params}
+        missing = [param for param in py_params if normalize_param(param) not in lean_param_set]
     if missing:
         failures.append((py_file, lean_file, missing, py_params, lean_params))
 
@@ -552,15 +634,16 @@ if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
 import re
 import sys
-from bench.port_layout import source_file
-from bench.audit_source import lean_first_preamble, python_jit_names, python_named_jit_body, target_kernel_name
+from bench.port_layout import source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
+from bench.audit_source import lean_first_preamble, lean_first_triton_body, python_jit_names, python_named_jit_body, target_kernel_name
 
 failures = []
 for py in sorted(Path(sys.argv[1]).glob('*/*.py')):
     lean = source_file(py.parent)
     if lean is None:
         continue
-    text = lean.read_text()
+    text = source_text(lean)
     preamble = lean_first_preamble(text)
     python = py.read_text()
     target = target_kernel_name(preamble, python_jit_names(python))
@@ -569,7 +652,7 @@ for py in sorted(Path(sys.argv[1]).glob('*/*.py')):
         continue
     if not re.search(r"\.to\(tl\.float32\)", python_named_jit_body(python, target)):
         continue
-    if re.search(r"\.to\(tl\.float32\)", text):
+    if re.search(r"\.to\(tl\.float32\)", lean_first_triton_body(text)):
         continue
     if 'Translation-surface blocker:' in preamble:
         continue
@@ -589,13 +672,14 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
     lean_first_triton_body,
-    python_first_kernel_body,
+    python_audit_kernel_body,
     strip_comments,
 )
 
@@ -611,18 +695,18 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    lean_text = source_text(lean_file)
+    scope_text = lean_first_preamble(lean_text).lower()
     if blocker_marker in scope_text:
         continue
     from bench.audit_source import resolve_source_dtype_attributes
     lean_body = lean_first_triton_body(lean_text)
-    py_body = resolve_source_dtype_attributes(python_first_kernel_body(py_file.read_text()), lean_body)
+    py_body = resolve_source_dtype_attributes(python_audit_kernel_body(py_file.read_text(), lean_text), lean_body)
     for before, after in zip(tl_calls(py_body, 'store'),
                              store_calls_with_explicit_destination_casts(py_body, lean_body)):
         py_body = py_body.replace(before, after, 1)
     py_casts = cast_sequence(py_body)
-    lean_casts = cast_sequence(lean_body)
+    lean_casts = cast_sequence(resolve_source_dtype_attributes(lean_body, lean_body))
     if py_casts != lean_casts:
         failures.append((py_file, lean_file, py_casts, lean_casts))
 
@@ -642,13 +726,14 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
     lean_first_triton_body,
-    python_first_kernel_body,
+    python_audit_kernel_body,
     split_top_level_args,
     tl_calls,
 )
@@ -675,11 +760,11 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    lean_text = source_text(lean_file)
+    scope_text = lean_first_preamble(lean_text).lower()
     if blocker_marker in scope_text:
         continue
-    py_body = python_first_kernel_body(py_file.read_text())
+    py_body = python_audit_kernel_body(py_file.read_text(), lean_text)
     lean_body = lean_first_triton_body(lean_text)
     for fn in ("load", "store"):
         py_masks = mask_presence(py_body, fn)
@@ -703,28 +788,21 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
     lean_first_triton_body,
-    python_first_kernel_body,
+    python_audit_kernel_body,
+    normalize_shape_ctor_call,
+    resolve_source_dtype_attributes,
     tl_calls,
 )
 
 root = Path(sys.argv[1])
 blocker_marker = "translation-surface blocker:"
-
-def normalize_shape_ctor_call(call: str) -> str:
-    call = re.sub(r"\$\(([^()]+)\)", r"\1", call)
-    call = call.replace("(", "[").replace(")", "]")
-    call = call.replace("tl.float32", "float32").replace("tl.float64", "float64")
-    call = call.replace("dtype=", "")
-    call = re.sub(r"\s+", "", call)
-    call = call.replace("_", "").lower()
-    call = re.sub(r"\[([^\[\],]+),\]", r"[\1]", call)
-    return call
 
 failures = []
 for py_file in sorted(root.glob("*/*.py")):
@@ -733,15 +811,16 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    lean_text = source_text(lean_file)
+    scope_text = lean_first_preamble(lean_text).lower()
     if blocker_marker in scope_text:
         continue
-    py_body = python_first_kernel_body(py_file.read_text())
     lean_body = lean_first_triton_body(lean_text)
+    py_body = resolve_source_dtype_attributes(python_audit_kernel_body(py_file.read_text(), lean_text), lean_body)
+    resolved_lean = resolve_source_dtype_attributes(lean_body, lean_body)
     for fn in ("zeros", "full"):
         py_calls = [normalize_shape_ctor_call(call) for call in tl_calls(py_body, fn)]
-        lean_calls = [normalize_shape_ctor_call(call) for call in tl_calls(lean_body, fn)]
+        lean_calls = [normalize_shape_ctor_call(call) for call in tl_calls(resolved_lean, fn)]
         if py_calls != lean_calls:
             failures.append((py_file, lean_file, fn, py_calls, lean_calls))
 
@@ -761,13 +840,14 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
     lean_first_triton_body,
-    python_first_kernel_body,
+    python_audit_kernel_body,
     strip_comments,
 )
 
@@ -804,11 +884,11 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    lean_text = source_text(lean_file)
+    scope_text = lean_first_preamble(lean_text).lower()
     if blocker_marker in scope_text:
         continue
-    py_calls = tl_arange_calls(python_first_kernel_body(py_file.read_text()))
+    py_calls = tl_arange_calls(python_audit_kernel_body(py_file.read_text(), lean_text))
     lean_calls = tl_arange_calls(lean_first_triton_body(lean_text))
     if py_calls != lean_calls:
         failures.append((py_file, lean_file, py_calls, lean_calls))
@@ -829,13 +909,14 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
     lean_first_triton_body,
-    python_first_kernel_body,
+    python_audit_kernel_body,
     strip_comments,
 )
 
@@ -873,11 +954,11 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    lean_text = source_text(lean_file)
+    scope_text = lean_first_preamble(lean_text).lower()
     if blocker_marker in scope_text:
         continue
-    py_calls = program_id_calls(python_first_kernel_body(py_file.read_text()))
+    py_calls = program_id_calls(python_audit_kernel_body(py_file.read_text(), lean_text))
     lean_calls = program_id_calls(lean_first_triton_body(lean_text))
     if py_calls != lean_calls:
         failures.append((py_file, lean_file, py_calls, lean_calls))
@@ -898,13 +979,14 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
     lean_first_triton_body,
-    python_first_kernel_body,
+    python_audit_kernel_body,
     split_top_level_args,
     tl_calls,
 )
@@ -930,11 +1012,11 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    lean_text = source_text(lean_file)
+    scope_text = lean_first_preamble(lean_text).lower()
     if blocker_marker in scope_text:
         continue
-    py_body = python_first_kernel_body(py_file.read_text())
+    py_body = python_audit_kernel_body(py_file.read_text(), lean_text)
     lean_body = lean_first_triton_body(lean_text)
     for fn in ("load", "store"):
         py_kwargs = kwarg_sequence(py_body, fn)
@@ -958,12 +1040,13 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import sys
 
 from bench.audit_source import (
     lean_first_triton_body,
-    python_first_kernel_body,
+    python_audit_kernel_body,
     split_top_level_args,
     tl_calls,
 )
@@ -978,11 +1061,11 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    lean_text = source_text(lean_file)
+    scope_text = lean_first_preamble(lean_text).lower()
     if blocker_marker in scope_text:
         continue
-    py_body = python_first_kernel_body(py_file.read_text())
+    py_body = python_audit_kernel_body(py_file.read_text(), lean_text)
     lean_body = lean_first_triton_body(lean_text)
     for fn in ("load", "store"):
         py_arg_counts = [len(split_top_level_args(call)) for call in tl_calls(py_body, fn, arguments_only=True)]
@@ -1006,13 +1089,14 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
     lean_first_triton_body,
-    python_first_kernel_body,
+    python_audit_kernel_body,
     tl_calls,
 )
 
@@ -1058,20 +1142,23 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    lean_text = source_text(lean_file)
+    scope_text = lean_first_preamble(lean_text).lower()
     if blocker_marker in scope_text:
         continue
-    py_body = python_first_kernel_body(py_file.read_text())
+    py_body = python_audit_kernel_body(py_file.read_text(), lean_text)
     lean_body = lean_first_triton_body(lean_text)
     from bench.audit_source import resolve_source_dtype_attributes
     py_body = resolve_source_dtype_attributes(py_body, lean_body)
+    # The source may retain the same pointer-element spelling in both languages.
+    # Normalize the checked Lean provenance on both sides, as the cast gate does.
+    resolved_lean = resolve_source_dtype_attributes(lean_body, lean_body)
     for fn in ("load", "store"):
         from bench.audit_source import store_calls_with_explicit_destination_casts
         source_calls = (store_calls_with_explicit_destination_casts(py_body, lean_body)
                         if fn == "store" else tl_calls(py_body, fn))
         py_calls = [normalize_call(call) for call in source_calls]
-        lean_calls = [normalize_call(call) for call in tl_calls(lean_body, fn)]
+        lean_calls = [normalize_call(call) for call in tl_calls(resolved_lean, fn)]
         if py_calls != lean_calls:
             failures.append((py_file, lean_file, fn, py_calls, lean_calls))
 
@@ -1091,13 +1178,14 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
     lean_first_triton_body,
-    python_first_kernel_body,
+    python_audit_kernel_body,
     split_top_level_args,
     strip_comments,
 )
@@ -1152,11 +1240,11 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    lean_text = source_text(lean_file)
+    scope_text = lean_first_preamble(lean_text).lower()
     if blocker_marker in scope_text:
         continue
-    py_others = other_values(python_first_kernel_body(py_file.read_text()))
+    py_others = other_values(python_audit_kernel_body(py_file.read_text(), lean_text))
     lean_others = other_values(lean_first_triton_body(lean_text))
     if py_others != lean_others:
         failures.append((py_file, lean_file, py_others, lean_others))
@@ -1175,7 +1263,7 @@ else
   failures=$((failures + 1))
 fi
 
-if rg -n 'tl\.load\([^\n]*dtype\s*=' bench/tritonbench_g -g '*.lean'; then
+if rg -n 'tl\.load\([^\n]*dtype\s*=' "${PORTS_ROOT}" -g '*.lean'; then
   printf 'FAIL Lean tl.load dtype annotations found; review_criteria.md only permits them when present upstream\n'
   failures=$((failures + 1))
 else
@@ -1189,12 +1277,15 @@ fi
 # a whole-file grep reported them as violations.
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 def kernel_spans(text: str):
     """(start, end) offsets of every `triton { … }` body, by brace depth."""
+    from bench.audit_source import lean_code_mask
+    text = lean_code_mask(text)
     spans, i = [], 0
     while True:
         i = text.find("triton {", i)
@@ -1216,7 +1307,9 @@ def kernel_spans(text: str):
 pattern = re.compile(r"keep_dims\s*=\s*true|keepDims|keep_dims")
 hits = []
 for lean_file in source_files(Path(sys.argv[1])):
-    text = lean_file.read_text()
+    if source_file(lean_file.parent) is None:
+        continue
+    text = source_text(lean_file)
     spans = kernel_spans(text)
     for m in pattern.finditer(text):
         if any(a <= m.start() <= b for a, b in spans):
@@ -1235,15 +1328,18 @@ else
   failures=$((failures + 1))
 fi
 
-# Python `+=` coverage. Scoped to `@triton.jit` kernel bodies (host-wrapper
-# `+=` statements are not kernel surface), across ALL jit kernels of the file.
+# Python `+=` coverage uses the explicitly selected JIT and Lean source body,
+# consistently with the other source-view gates. Other JITs need their own
+# selected views; comments or sibling kernels cannot supply missing updates.
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import sys
 
 from bench.audit_source import (
-    python_jit_kernel_bodies,
+    python_audit_kernel_body,
+    lean_first_triton_body,
 )
 
 root = Path(sys.argv[1])
@@ -1256,17 +1352,16 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
+    lean_text = source_text(lean_file)
     has_iadd = any(
         "+=" in line.split("#", 1)[0]
-        for body in python_jit_kernel_bodies(py_file.read_text(), all_jit=True)
-        for line in body.splitlines()
+        for line in python_audit_kernel_body(py_file.read_text(), lean_text).splitlines()
     )
     if not has_iadd:
         continue
-    lean_text = lean_file.read_text()
-    if "+=" in lean_text:
+    if "+=" in lean_first_triton_body(lean_text):
         continue
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    scope_text = lean_first_preamble(lean_text).lower()
     if blocker_marker in scope_text:
         continue
     failures.append(f"{py_file} -> {lean_file}")
@@ -1285,13 +1380,14 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
     lean_first_triton_body,
-    python_first_kernel_body,
+    python_audit_kernel_body,
 )
 
 root = Path(sys.argv[1])
@@ -1311,21 +1407,22 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
+    lean_text = source_text(lean_file)
     py_lhs = {
         norm(match.group(1))
         for match in re.finditer(r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*\+=",
-            python_first_kernel_body(py_file.read_text(), include_block_pointers=True), re.M)
+            python_audit_kernel_body(py_file.read_text(), lean_text, include_block_pointers=True), re.M)
     }
     if not py_lhs:
         continue
-    lean_text = lean_file.read_text()
+    lean_text = source_text(lean_file)
     lean_lhs = {
         norm(match.group(1))
         for match in re.finditer(r"^\s*([A-Za-z_][A-Za-z0-9_]*)\s*\+=",
             lean_first_triton_body(lean_text), re.M)
     }
     missing = sorted(py_lhs - lean_lhs)
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    scope_text = lean_first_preamble(lean_text).lower()
     if missing and not blocker_marker in scope_text:
         failures.append((py_file, lean_file, missing))
 
@@ -1341,27 +1438,35 @@ else
   failures=$((failures + 1))
 fi
 
-rsqrt_gaps=()
-while IFS= read -r py_file; do
-  if ! rg -q 'tl(\.math)?\.rsqrt|rsqrt' "${py_file}"; then
-    continue
-  fi
-  dir="${py_file%/*}"
-  lean_file="$(python3 bench/port_layout.py source "${dir}")"
-  if [ -z "${lean_file}" ]; then
-    continue
-  fi
-  if ! rg -q 'tl(\.math)?\.rsqrt|rsqrt' "${lean_file}"; then
-    rsqrt_gaps+=("${py_file} -> ${lean_file}")
-  fi
-done < <(find "${PORTS_ROOT}" -mindepth 2 -maxdepth 2 -name '*.py' | sort)
+if python3 - "${PORTS_ROOT}" <<'PY'
+from pathlib import Path
+import re
+import sys
+from bench.port_layout import source_files, source_text
+from bench.audit_source import auditable_source_file, lean_first_triton_body, python_audit_kernel_body
 
-if [ "${#rsqrt_gaps[@]}" -gt 0 ]; then
-  printf 'FAIL Python rsqrt missing from Lean:\n'
-  printf '  %s\n' "${rsqrt_gaps[@]}"
-  failures=$((failures + 1))
-else
+failures = []
+for source in source_files(Path(sys.argv[1])):
+    if auditable_source_file(source.parent) is None:
+        continue
+    python_files = sorted(source.parent.glob('*.py'))
+    if not python_files:
+        continue
+    view = source_text(source)
+    python_body = python_audit_kernel_body(python_files[0].read_text(), view)
+    if not re.search(r'\brsqrt\b', python_body):
+        continue
+    if not re.search(r'\brsqrt\b', lean_first_triton_body(view)):
+        failures.append(f"{python_files[0]} -> {source}: missing rsqrt in selected source view")
+if failures:
+    print("\n".join(failures))
+    sys.exit(1)
+PY
+then
   printf 'ok rsqrt preservation scan\n'
+else
+  printf 'FAIL Python rsqrt missing from selected Lean source\n'
+  failures=$((failures + 1))
 fi
 
 # Lean-only tl.where scan. Operates on comment-stripped Lean code so prose
@@ -1372,7 +1477,8 @@ fi
 # not an unannotated extra statement).
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import sys
 
 from bench.audit_source import (
@@ -1385,7 +1491,9 @@ blocker_marker = "translation-surface blocker:"
 
 failures = []
 for lean_file in source_files(root):
-    lean_text = lean_file.read_text()
+    if source_file(lean_file.parent) is None:
+        continue
+    lean_text = source_text(lean_file)
     code = strip_lean_comments(lean_text)
     if "tl.where" not in code:
         continue
@@ -1395,7 +1503,7 @@ for lean_file in source_files(root):
     py_file = py_files[0]
     if "tl.where" in py_file.read_text():
         continue
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    scope_text = lean_first_preamble(lean_text).lower()
     if blocker_marker in scope_text:
         continue
     failures.append(f"{lean_file} -> {py_file}")
@@ -1414,13 +1522,14 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
     lean_first_triton_body,
-    python_first_kernel_body,
+    python_audit_kernel_body,
     strip_comments,
 )
 
@@ -1454,12 +1563,13 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    py_calls = calls(python_first_kernel_body(py_file.read_text(), include_block_pointers=True))
-    lean_text = lean_file.read_text()
+    lean_text = source_text(lean_file)
+    py_calls = calls(python_audit_kernel_body(py_file.read_text(), lean_text, include_block_pointers=True))
+    lean_text = source_text(lean_file)
     lean_calls = calls(lean_first_triton_body(lean_text))
     missing = sorted(py_calls - lean_calls)
     extra = sorted(lean_calls - py_calls)
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    scope_text = lean_first_preamble(lean_text).lower()
     if (missing or extra) and not blocker_marker in scope_text:
         failures.append((py_file, lean_file, missing, extra))
 
@@ -1480,12 +1590,15 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
     lean_first_preamble,
+    lean_first_triton_body,
+    python_audit_kernel_body,
     python_jit_names_text as python_jit_names,
     target_kernel_name,
 )
@@ -1493,75 +1606,11 @@ from bench.audit_source import (
 root = Path(sys.argv[1])
 blocker_marker = "translation-surface blocker:"
 
-def python_kernel_body(text: str, target) -> str:
-    lines = text.splitlines()
-    def_i = None
-    pending_jit = False
-    for i, line in enumerate(lines):
-        stripped = line.strip()
-        if stripped.startswith("@triton.jit"):
-            pending_jit = True
-            continue
-        if pending_jit and stripped.startswith("def "):
-            name = stripped[4:].split("(", 1)[0].strip()
-            if target is not None and name != target:
-                pending_jit = False
-                continue
-            def_i = i
-            break
-        if pending_jit and stripped and not stripped.startswith("@"):
-            pending_jit = False
-    if def_i is None:
-        for i, line in enumerate(lines):
-            if line.lstrip().startswith("def "):
-                def_i = i
-                break
-    if def_i is None:
-        return text
-
-    start = None
-    parens = 0
-    for i in range(def_i, len(lines)):
-        line = lines[i]
-        parens += line.count("(") - line.count(")")
-        if parens <= 0 and line.rstrip().endswith(":"):
-            start = i + 1
-            break
-    if start is None:
-        return text
-
-    body = []
-    for line in lines[start:]:
-        if line and not line.startswith((" ", "\t")):
-            break
-        body.append(line)
-    return "\n".join(body)
-
-def lean_triton_body(text: str) -> str:
-    idx = text.find("triton {")
-    if idx < 0:
-        return text
-    start = text.find("{", idx)
-    depth = 0
-    out = []
-    for ch in text[start:]:
-        if ch == "{":
-            depth += 1
-            if depth == 1:
-                continue
-        elif ch == "}":
-            depth -= 1
-            if depth == 0:
-                break
-        if depth >= 1:
-            out.append(ch)
-    return "".join(out)
-
 def strip_python_comments(text: str) -> str:
     return "\n".join(line.split("#", 1)[0] for line in text.splitlines())
 
-def python_control_counts(text: str, target) -> tuple[int, int, int]:
-    body = strip_python_comments(python_kernel_body(text, target))
+def python_control_counts(text: str, lean_text: str) -> tuple[int, int, int]:
+    body = strip_python_comments(python_audit_kernel_body(text, lean_text))
     return (
         len(re.findall(r"^\s*for\s+", body, re.M)),
         len(re.findall(r"^\s*while\s+", body, re.M)),
@@ -1569,7 +1618,7 @@ def python_control_counts(text: str, target) -> tuple[int, int, int]:
     )
 
 def lean_control_counts(text: str) -> tuple[int, int, int]:
-    body = lean_triton_body(text)
+    body = lean_first_triton_body(text)
     return (
         len(re.findall(r"^\s*(for\s+|tl\.for\s+)", body, re.M)),
         len(re.findall(r"^\s*while\s+", body, re.M)),
@@ -1583,12 +1632,12 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
+    lean_text = source_text(lean_file)
     py_text = py_file.read_text()
     target = target_kernel_name(lean_first_preamble(lean_text), python_jit_names(py_text))
-    py_counts = python_control_counts(py_text, target)
+    py_counts = python_control_counts(py_text, lean_text)
     lean_counts = lean_control_counts(lean_text)
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    scope_text = lean_first_preamble(lean_text).lower()
     if py_counts != lean_counts and not blocker_marker in scope_text:
         failures.append((py_file, lean_file, py_counts, lean_counts))
 
@@ -1609,12 +1658,14 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
-    lean_triton_bodies,
+    lean_first_triton_body,
+    python_audit_kernel_body,
     python_jit_kernel_bodies,
 )
 
@@ -1649,12 +1700,12 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
-    py_bodies = python_jit_kernel_bodies(py_file.read_text())
-    lean_bodies = lean_triton_bodies(lean_text)
+    lean_text = source_text(lean_file)
+    py_bodies = [python_audit_kernel_body(py_file.read_text(), lean_text)]
+    lean_bodies = [lean_first_triton_body(lean_text)]
     py_sequences = [tl_call_sequence(py_bodies[0])] if py_bodies else []
     lean_sequences = [tl_call_sequence(lean_bodies[0])] if lean_bodies else []
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    scope_text = lean_first_preamble(lean_text).lower()
     if py_sequences != lean_sequences and not blocker_marker in scope_text:
         failures.append((py_file, lean_file, py_sequences, lean_sequences))
 
@@ -1674,12 +1725,14 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
-    lean_triton_bodies,
+    lean_first_triton_body,
+    python_audit_kernel_body,
     python_jit_kernel_bodies,
 )
 
@@ -1754,14 +1807,14 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
-    py_bodies = python_jit_kernel_bodies(py_file.read_text())
-    lean_bodies = lean_triton_bodies(lean_text)
+    lean_text = source_text(lean_file)
+    py_bodies = [python_audit_kernel_body(py_file.read_text(), lean_text)]
+    lean_bodies = [lean_first_triton_body(lean_text)]
     port = py_file.parent.name
     py_sequences = [normalize_guard_lhs_sequence(port, lhs_sequence(py_bodies[0]))] if py_bodies else []
     from bench.audit_source import strip_region_declarations
     lean_sequences = [normalize_guard_lhs_sequence(port, lhs_sequence(strip_region_declarations(lean_bodies[0])))] if lean_bodies else []
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    scope_text = lean_first_preamble(lean_text).lower()
     if py_sequences != lean_sequences and not blocker_marker in scope_text:
         failures.append((py_file, lean_file, py_sequences, lean_sequences))
 
@@ -1781,12 +1834,14 @@ fi
 
 if python3 - "${PORTS_ROOT}" <<'PY'
 from pathlib import Path
-from bench.port_layout import source_files, source_file, combined_text
+from bench.port_layout import source_files, source_file, combined_text, source_text
+from bench.audit_source import auditable_source_file as source_file, lean_first_preamble
 import re
 import sys
 
 from bench.audit_source import (
-    lean_triton_bodies,
+    lean_first_triton_body,
+    python_audit_kernel_body,
     python_jit_kernel_bodies,
     split_top_level_args,
 )
@@ -1858,12 +1913,12 @@ for py_file in sorted(root.glob("*/*.py")):
     if not lean_files:
         continue
     lean_file = lean_files[0]
-    lean_text = lean_file.read_text()
-    scope_text = lean_text[:lean_text.find("triton {")].lower() if "triton {" in lean_text else lean_text.lower()
+    lean_text = source_text(lean_file)
+    scope_text = lean_first_preamble(lean_text).lower()
     if blocker_marker in scope_text:
         continue
-    py_bodies = python_jit_kernel_bodies(py_file.read_text())
-    lean_bodies = lean_triton_bodies(lean_text)
+    py_bodies = [python_audit_kernel_body(py_file.read_text(), lean_text)]
+    lean_bodies = [lean_first_triton_body(lean_text)]
     py_styles = reduce_axis_styles(py_bodies[0]) if py_bodies else []
     lean_styles = reduce_axis_styles(lean_bodies[0]) if lean_bodies else []
     if py_styles != lean_styles:

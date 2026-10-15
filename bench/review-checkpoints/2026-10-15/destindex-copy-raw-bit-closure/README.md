@@ -1,0 +1,9 @@
+# destindex_copy 完整软件位值证明
+
+**3 个新模块、28 条具名标准公理检查、1 条公开规格通过独立复编与语义审查。** 尚未安装至当前计数，后续由独立元数据版本接入；没有 GPU 正确性结论。
+
+完整原source；9个fp32/fp16/bf16组合；两路数据和元数据读取初态，有序NOPE→ROPE scatter。整内存与frame无单射或分离前提，逐点读回用旧地址条件。
+
+这是原始位型的完整成功执行、独立初态参考、逐点结果和完整内存保持证明。无新增 finite/noNaN 或数值规律前提；没有把任意回调包装成数值实现。输入输出中的别名和全部原尺寸域保留。Word-memory 的 Nat/Int 地址与真实整数宽度、byte ABI、分配和并发仍需独立对应。
+
+[新源码](after/bench/tritonbench_g/destindex_copy/)、[语义审查](semantic-review.json)、[编译与来源收据](receipt.json)、[根验收](root-review.json)。候选及独立审查材料完整留存；旧 README 和全部旧源码字节不改。软件位值证明与实际硬件验证分别统计。

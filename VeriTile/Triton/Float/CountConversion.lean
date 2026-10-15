@@ -43,8 +43,8 @@ def rhsCode : Atom → List ComputeStmt
   | .zero => fragment (.const 0)
   | .successor => fragment (bounded (plus (.natToReal index) (.const 1)))
 
-def lhs (a : Atom) : GuardedFragment := ⟨[], lhsCode a⟩
-def rhs (a : Atom) : GuardedFragment := ⟨[], rhsCode a⟩
+def lhs (a : Atom) : GuardedFragment := ⟨[], lhsCode a, .real, none⟩
+def rhs (a : Atom) : GuardedFragment := ⟨[], rhsCode a, .real, none⟩
 
 /-- Match the exact relation, precision and operand domain before selecting a row. -/
 def Atom.matches (a : Atom) (row : ReportedRule) : Bool :=

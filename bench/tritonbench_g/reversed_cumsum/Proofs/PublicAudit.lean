@@ -1,0 +1,16 @@
+import bench.tritonbench_g.reversed_cumsum.Correct
+import bench.tritonbench_g.reversed_cumsum.FPEquiv
+import bench.tritonbench_g.reversed_cumsum.Proofs.RealRegression
+import VeriTile.Meta.StatementAudit
+
+namespace VeriTile.Bench.TritonBenchG.ReversedCumsum
+#axiomsClean Correctness.source_implements
+#axiomsClean Correctness.reversed_cumsum_original_real
+#axiomsClean Correctness.reversed_cumsum_candidate_real
+#axiomsClean Equivalence.reversed_cumsum_compare_right_equiv
+#axiomsClean Equivalence.reversed_cumsum_typed_nonempty
+#axiomsClean Equivalence.reversed_cumsum_partial_tail_witness
+#axiomsClean RealRegression.nonzero_tail_run
+#axiomsClean RealRegression.empty_time
+#print_fp_assumptions Equivalence.reversed_cumsum_compare_right_equiv
+end VeriTile.Bench.TritonBenchG.ReversedCumsum

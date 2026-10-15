@@ -16,8 +16,7 @@ def code (BM BN BD blocks : Nat) : List Stmt :=
    .assign .real [BM] "l_ij"
      (.reduceSum ⟨1, by simp⟩ Bool.false (.ref .real [BM, BN] "p")),
    .assign .real [BM] "m_i_new"
-     (.where (.gt .real (.consSame .nil) (.ref .real [BM] "m_i") (.ref .real [BM] "m_ij"))
-       (.ref .real [BM] "m_i") (.ref .real [BM] "m_ij")),
+     (.max2 (.consSame .nil) (.ref .real [BM] "m_i") (.ref .real [BM] "m_ij")),
    .assign .real [BM] "alpha"
      (.exp (.sub .real (.consSame .nil) (.ref .real [BM] "m_i") (.ref .real [BM] "m_i_new"))),
    .assign .real [BM] "beta"

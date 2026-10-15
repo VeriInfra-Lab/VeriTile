@@ -1,0 +1,28 @@
+{
+  "root_exit_code": 0,
+  "jobs": 3368,
+  "new_axiom_gates": 8,
+  "scope": "Complete actual 23 source statements, all six storage erasures, successful region execution to independent four-stream Memory.storeBlock formula. Original seed/offset signed64 domain remains explicit. Finite flat IO and typed witness remain separate.",
+  "recorded_at_utc": "2026-10-13T19:27:20.537501+00:00",
+  "source_sha256": {
+    "bench/tritonbench_g/uniform_sampling/Kernels.lean": "8d423477df16d63a72834fb69970971081327b327655e774d58796917a9944e7",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Execution.lean": "815da97c7417b3521e69a6e07f160fdbd070f83fde59a5a66fdf147422101a7b",
+    "bench/tritonbench_g/uniform_sampling/Proofs/ValueExecution.lean": "3befc6927c04938afcd9974adbeebac6ebd70f25c10092c283865f8fe01e0392",
+    "bench/tritonbench_g/uniform_sampling/Proofs/OffsetExecution.lean": "165504bce3808fe25cb969f3f6255ada1a59d661a25e6dde1440e26ffa895940",
+    "bench/tritonbench_g/uniform_sampling/Proofs/StorePhase.lean": "375789eef1e2959bb4fce4b19937b3abc1b83d2236a83106ce0577be5d9bc9f4",
+    "bench/tritonbench_g/uniform_sampling/Proofs/StoreExecution.lean": "52301e727caf24afc79a44f27d7f6b877a0df45d207ccc437679c27022f17de5",
+    "bench/tritonbench_g/uniform_sampling/Proofs/IndexExecution.lean": "663fda43b3c1b5a9b0f21ed548f5d4bb34a2c9c2c72f792c680f62e1ba2f9552",
+    "bench/tritonbench_g/uniform_sampling/Proofs/TupleExecution.lean": "a3d97bb4f4c844bb0db17d143dc276d68309596323dde4838848d82174af4970",
+    "bench/tritonbench_g/uniform_sampling/Proofs/AffineExecution.lean": "7ae1a7c9d0b7117f6ee989122a20c7a6c30b02a5a822659920042fb1d6bf2b91",
+    "bench/tritonbench_g/uniform_sampling/Proofs/CounterExecution.lean": "22276343dd4a0c88f7eead7e1716c4cf537b9bfec8ce63a6035f33de4f8d4ad2",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Algorithm.lean": "7c2431d3b56a0d93f7b1f5a33df5b42e9dadd38e569dbba7ad3bd90d5972c50f",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Erasure.lean": "ff6173e5140bd7d1ec5fca3d9b635ee3fcb30d45e19028112a13dc2cacea3454",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Memory.lean": "3dc179c9d19c58801708cdbf12c79121403d5bc973f627b64a85ddb1f9dd37ca",
+    "bench/tritonbench_g/uniform_sampling/Proofs/Formula.lean": "dd7af1eccf3b32ea4a3fc96483cdfee050fb36f1aa9dd095850a4829d6a5e9fb",
+    "bench/tritonbench_g/uniform_sampling/Proofs/ScalarSpec.lean": "245a2ca83601b5165fdcca88f4c14fe7d45eb34a7970012e0869753d0f438496",
+    "bench/tritonbench_g/uniform_sampling/Proofs/SourceDomain.lean": "af632e51119b3d778eef8e847e800ffd01f9adb199f571b874c1bde7476cd2e3"
+  },
+  "log_raw_sha256": "b2ec3d3b4e64748c597dd15f9a0c5c66c3c3422252488b3c56720b1ca69a38b9",
+  "complete_task": false,
+  "hash_capture": "Successful module inputs captured after root completion; separate failed or newly edited modules are excluded."
+}

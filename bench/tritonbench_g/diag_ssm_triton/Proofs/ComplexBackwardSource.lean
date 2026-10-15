@@ -20,7 +20,15 @@ def postlude (gs gl : RegionName) (B : Nat) : List Stmt :=
 theorem source_body (s l y gs gx gl gy : RegionName) (length batch dim B : Nat) :
     (Erasure.complexBackward Bool.false s l y gs gx gl gy length batch dim B).toAlgKernel.body =
       prelude l batch dim B ++ [.forLoop "i" length (body s y gx gy length batch dim B)] ++
-        postlude gs gl B := rfl
+        postlude gs gl B := by
+  simp [prelude, body, postlude, Erasure.complexBackward,
+    ComputeKernel.eraseDType, ComputeKernel.surfaceBody,
+    ComputeKernel.toAlgorithm?, ComputeKernel.toAlgKernel, ComputeKernel.fromKernelBody,
+    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
+    ComputeDType.eraseDType, Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
+    Op.eraseDType.eq_def, MemAccess.eraseDType, MaskOpt.eraseDType, NumericDType.eraseDType,
+    ComparableDType.eraseDType, IntegralDType.eraseDType, FloatDType.toTileDType,
+    VeriTile.Triton.eraseDType, Except.bind, bind]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

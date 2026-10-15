@@ -44,7 +44,7 @@ def isWide (x y : Storage) : Bool := x == .fp64 || y == .fp64
 def expectedStore (wide : Bool) (output : Storage) (O : RegionName) (B : Nat) : ComputeStmt :=
   let value : Op .real [B] := if wide then
     .withPrecision .real .fp64 (.ref .real [B] "output")
-    else .ref .real [B] "output"
+    else .withPrecision .real .fp32 (.ref .real [B] "output")
   match output with
   | .fp32 => .store .real [B] (.region O (.ref .nat [B] "offsets"))
       (.compute (.alg .fp32 (if wide then .castFloat .real .real value

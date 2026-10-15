@@ -14,14 +14,27 @@ private def sourceLoop (scale : ℝ) (skn svk N SP BM BN BD : Nat)
     (causal candidate : Bool) : List Stmt :=
   alLoopPrefixG scale N BM BN BD ++
     .ifThen (.constBool causal) [alCausalWhereStmt SP BM BN] ::
-      alLoopTailG skn svk N BM BN BD candidate
+      FP8RealSource.sourceTail skn svk N BM BN BD candidate
+
+private theorem max_head_step {n : Nat} (x y : Op .real [n])
+    (name : RegName) (rest : List Stmt) (s : BlockState) :
+    stepStmts (.assign .real [n] name (.max2 (.consSame .nil) x y) :: rest) s =
+      stepStmts (.assign .real [n] name (.maximumFloat .real (.consSame .nil) x y) :: rest) s := by
+  simp only [stepStmts, stepStmt, FloatDType.toTileDType]
+  erw [evalOp_maximumFloat_real]
+
+private theorem source_tail_step (skn svk N BM BN BD : Nat) (candidate : Bool)
+    (s : BlockState) :
+    stepStmts (FP8RealSource.sourceTail skn svk N BM BN BD candidate) s =
+      stepStmts (alLoopTailG skn svk N BM BN BD candidate) s := by
+  exact max_head_step _ _ "m_curr" ((alLoopTailG skn svk N BM BN BD candidate).drop 1) s
 
 private theorem inline_loop (scale : ℝ) (skn svk N SP BM BN BD : Nat)
     (causal candidate : Bool) (s : BlockState) :
     stepStmts (sourceLoop scale skn svk N SP BM BN BD causal candidate) s =
       stepStmts (referenceLoop scale skn svk N SP BM BN BD causal candidate) s := by
-  simp only [sourceLoop, referenceLoop, ProgramRewrite.append, ProgramRewrite.constant_branch]
-  cases stepStmts (alLoopPrefixG scale N BM BN BD) s <;> rfl
+  simp only [sourceLoop, referenceLoop, ProgramRewrite.append, ProgramRewrite.constant_branch,
+    source_tail_step, Option.bind_assoc]
 
 section
 variable (Q K V Out : RegionName) (scale : ℝ)

@@ -19,6 +19,10 @@ structure OperandGuard where
 structure GuardedFragment where
   guards : List OperandGuard
   code : List ComputeStmt
+  /-- Operand and scalar output channel. Existing fragments explicitly retain `.real`. -/
+  dtype : FloatDType := .real
+  /-- Optional default for unannotated operations; explicit tags remain unchanged. -/
+  defaultPrecision : Option ComputeDType := none
 
 /-- A report row together with its machine-readable scalar domain. -/
 structure ReportedScalarRule where
@@ -27,7 +31,7 @@ structure ReportedScalarRule where
 
 def ReportedScalarRule.bind (row : ReportedScalarRule) (lhs rhs : List ComputeStmt) :
     Spec.RuleEntry GuardedFragment :=
-  row.report.bind [⟨row.guards, lhs⟩] [⟨row.guards, rhs⟩]
+  row.report.bind [⟨row.guards, lhs, .real, none⟩] [⟨row.guards, rhs, .real, none⟩]
 
 theorem ReportedScalarRule.admit (row : ReportedScalarRule) (lhs rhs : List ComputeStmt)
     (h : Spec.EvidenceValidated (row.bind lhs rhs).rule (row.bind lhs rhs).evidence) :

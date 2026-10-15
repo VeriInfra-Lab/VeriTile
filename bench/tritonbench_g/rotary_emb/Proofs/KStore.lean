@@ -13,11 +13,14 @@ noncomputable def kEvenState (p : Parameters) (s : BlockState)
     (p.activeK s) (kArithmeticState p s Q K Cos Sin)
 
 macro "solveRotaryKStore" : tactic => `(tactic|
-  simp [evalOp.eq_def, kEvenState, kArithmeticState, kLoadState, kIndexState,
+  (simp [evalOp.eq_def, kEvenState, kArithmeticState, kLoadState, kIndexState,
     qStoreState, qArithmeticState, qLoadState, qIndexState, prefixState,
     Parameters.dataOffsets, Parameters.resultValues, Parameters.kAddress,
     Parameters.expectedK, Parameters.activeK, address, trigAddress, sequence,
-    head, dimension, active, range, dims, tile_elementwise, Bool.and_eq_true])
+    head, dimension, active, range, dims, tile_elementwise, Bool.and_eq_true, Option.bind,
+    Tile.remap, TileShape.insertAxis, TileShape.dropInsertedIndex,
+    Broadcast.leftIndex, Broadcast.rightIndex, apply_ite]
+   <;> first | rfl | (funext i; split_ifs <;> rfl)))
 
 theorem k_even_store_run (p : Parameters) (Q K Cos Sin : RegionName) (s : BlockState) :
     stepStmt (mathKernel p Q K Cos Sin).body[32]! (kArithmeticState p s Q K Cos Sin) =
@@ -51,7 +54,8 @@ theorem k_store_run (p : Parameters) (Q K Cos Sin : RegionName) (s : BlockState)
   change stepStmts [(mathKernel p Q K Cos Sin).body[32]!,
     (mathKernel p Q K Cos Sin).body[33]!] (kArithmeticState p s Q K Cos Sin) = _
   rw [stepStmts.cons_some (k_even_store_run p Q K Cos Sin s),
-    stepStmts.cons_some (k_odd_store_run p Q K Cos Sin s)] <;> rfl
+    stepStmts.cons_some (k_odd_store_run p Q K Cos Sin s)]
+  exact stepStmts.nil
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

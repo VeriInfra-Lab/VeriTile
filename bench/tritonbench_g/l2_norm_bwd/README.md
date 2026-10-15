@@ -1,5 +1,7 @@
 # l2_norm_bwd
 
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+
 `Kernels.lean` contains the preserved historical transcription and a shared typed family for the complete Python backward kernel. X/DX share a storage dtype; DY independently selects fp16, bf16, fp32 or fp64, giving 16 storage pairs. Both masked loads convert to fp32. Runtime epsilon converts to fp32 at both source uses, and the output converts back to DX storage. X, DY and DX all use `stride_x_row`, exactly as the kernel does.
 
 The candidate commutes the three natural-number row-base products. It changes no floating operation, reduction order or mask, and no speedup is claimed. `FPEquiv.lean` uses the default fp32 profile and states equality of complete executions, including failure, registers and all memory, with no domain sites or numerical FP atoms.

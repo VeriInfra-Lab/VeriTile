@@ -37,7 +37,7 @@ theorem scale_eval (p : Layout) (swapped : Bool) (scale : ℝ) (v : Tile .real [
   cases swapped <;> simp [scaling,scaled,evalOp_mul,hv]
 
 theorem sentinel_eval (p : Layout) (u : BlockState) :
-    evalOp (Op.broadcast (.sub .real .nil (.const (0.0 : ℝ)) (.const (10e7 : ℝ))) [p.BM,p.BN]) u =
+    evalOp (Op.broadcast (.const (-10e7 : ℝ)) [p.BM,p.BN]) u =
       some (Tile.mat (dtype := .real) (fun _ _ => some (-100000000 : ℝ))) := by
   norm_num [evalOp.eq_def,Tile.bop,Tile.scalar,Tile.mat,NumericDType.sub,WithBot.realSub,
     Broadcast.leftIndex,Broadcast.rightIndex,Option.bind_eq_bind,Option.bind,-Tile.scalar_eta]
@@ -59,7 +59,7 @@ theorem executes (p : Layout) (swapped : Bool) (scale : ℝ)
     (by simp [s1,hr]) (by simp [s1,hn]) (by simp [s1,hp]) (by simp [s1,hs])
   have hscale := scale_eval p swapped scale (Tile.dot [] q k) s2 (by simp [s2,s1])
   have h3 : evalOp (.where (.ref .bool [p.BM,p.BN] "mask") (scaling p swapped scale)
-      (.broadcast (.sub .real .nil (.const (0.0 : ℝ)) (.const (10e7 : ℝ))) [p.BM,p.BN])) s2 =
+      (.broadcast (.const (-10e7 : ℝ)) [p.BM,p.BN])) s2 =
       some (result p swapped scale rows prompt sn q k) := by
     rw [evalOp_where,evalOp_ref,show s2.regs .bool [p.BM,p.BN] "mask" = some (mask p rows prompt sn) by simp [s2]]
     simp only [Option.bind_some,hscale,sentinel_eval]

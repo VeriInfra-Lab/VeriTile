@@ -1,0 +1,2947 @@
+{
+  "schema": 1,
+  "status": "model_contracts_reviewed_native_bindings_pending",
+  "original_math_only_tasks": 41,
+  "new_public_declarations": 118,
+  "native_execution_performed": false,
+  "interpretation": "The old mathematical declarations remain mathematical. New contracts cover the previously accepted stages under their explicit software or backend models. Fixed examples are not parametric or native proofs. Finite native tests can support a recorded profile or refute a proposed binding; they are not universal proofs.",
+  "tasks": [
+    {
+      "task": "fifth_order_sph_harmonics",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full eleven-channel source forward, original operation order and constants, independent initial-memory values and complete frame; FP32 inputs/output, stride > 10 and active-input cover.",
+      "remaining_scope": "Backward was outside the old accepted stage. Native separate rounding, coefficient lowering, FTZ/NaN and load/store binding remain pending.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/fifth_order_sph_harmonics/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "spherical_forward_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fifth_order_sph_harmonics/FPCorrect.lean",
+          "line": 9,
+          "statement_sha256": "9de5f4886efc7f7a72cb9c5340f6984a7e62f2a00bf7d28d1902b9ef42379953"
+        },
+        {
+          "name": "spherical_forward_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fifth_order_sph_harmonics/FPCorrect.lean",
+          "line": 21,
+          "statement_sha256": "e0c895bcf985dd46152417322861f47cb8303bef439647c486d00000d8d50d64"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "fused_layernorm_triton",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All previously accepted normalize stages and general Welford helper/update, complete one-block reduction through an explicit ordered tree, actual FP32 equality guards, mean/rstd stores and full frame.",
+      "remaining_scope": "Native helper version, concrete compiler reduction tree and rsqrt still need binding. Software arithmetic and helper bit examples do not discharge these bindings.",
+      "native_profile": "reduction_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/fused_layernorm_triton/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "normalize_source_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_layernorm_triton/FPCorrect.lean",
+          "line": 10,
+          "statement_sha256": "1a2864b8c96cabf943690a11e29365196882392325a5878ecf756edac89de2e0"
+        },
+        {
+          "name": "normalize_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_layernorm_triton/FPCorrect.lean",
+          "line": 18,
+          "statement_sha256": "f678b3b90c9b150336e1035d36d537a035d5a4b1581519d99647a2ed99341030"
+        },
+        {
+          "name": "normalize_nonempty_rounding",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness",
+          "file": "bench/tritonbench_g/fused_layernorm_triton/FPCorrect.lean",
+          "line": 28,
+          "statement_sha256": "305fbe2e9f61dc6de2394b30ef83a5a20bcac9c33356f5c1410ec1ce648f7fae"
+        },
+        {
+          "name": "welford_helper_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_layernorm_triton/FPCorrect.lean",
+          "line": 38,
+          "statement_sha256": "8bcd766904c990c758a84102a49bf5cbf663a9b74a5cae36d649b34c51ea3f5f"
+        },
+        {
+          "name": "welford_reduction_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_layernorm_triton/FPCorrect.lean",
+          "line": 46,
+          "statement_sha256": "fb88c7374bca6298e2f9a7d16d9233334cb1699e3de2fdb0939cecb58651cb92"
+        },
+        {
+          "name": "welford_software_with_rsqrt",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_layernorm_triton/FPCorrect.lean",
+          "line": 54,
+          "statement_sha256": "678fa5b4e76d431e669c5a7e94a3f6e4df41c9676f440071bb98099612734425"
+        },
+        {
+          "name": "welford_nonempty_rounding",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "fixed_nonempty_witness",
+          "file": "bench/tritonbench_g/fused_layernorm_triton/FPCorrect.lean",
+          "line": 66,
+          "statement_sha256": "04e8b02a8f679269270c24d738b20035e14f4601ef76cb57eae376052179bf7b"
+        },
+        {
+          "name": "welford_bit_examples",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness",
+          "file": "bench/tritonbench_g/fused_layernorm_triton/FPCorrect.lean",
+          "line": 76,
+          "statement_sha256": "8c50ee7bee8b54194fd10c7ad7a1d064c460f1bb2756e7d8b3236607f3b4851a"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "comparison",
+          "relation": "实际浮点eq/lt/le/gt/ge比较与合同一致；特别核对NaN、signed-zero、Inf和比较结果控制的分支。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "transcendental",
+          "relation": "exp/exp2/log/log2/pow/sin/cos/rsqrt的实际指令与精确回调绑定；按各合同实际使用的原语和输入域记录位输出，不能假设实数精确函数。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "fused_recurrent_delta",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All twelve previously accepted fp32 value stages: output/vnew/state, dk headwise/scalar/correction, dv headwise/scalar, dbeta headwise/scalar and dq headwise/scalar.",
+      "remaining_scope": "Full recurrent/reverse-loop and host composition remain outside the original stage scope. Concrete software reduction is sequential; native tree correspondence is unestablished. Software output scale=1; abstract per-operation output is parameterized by scale.",
+      "native_profile": "reduction_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "output_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 14,
+          "statement_sha256": "f444f0799c72f003b0cc6ec61379c9d51492460f1b601fe6990cf30d5e2feafe"
+        },
+        {
+          "name": "vnew_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 21,
+          "statement_sha256": "4540de9a2ec7b55be9879a3b1a778d8b2d05b9cf8bbad0b4fc51e545eaba97f4"
+        },
+        {
+          "name": "state_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 28,
+          "statement_sha256": "cd1a8e53beb953984c6a8b1de6715849fef18373d308a2f87c2fbfec81cec40a"
+        },
+        {
+          "name": "vnew_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 37,
+          "statement_sha256": "fd9a2ff95f2ba17c541c6971c34070bb2aa1e87a7dd20fedd4cad938e59bb8a9"
+        },
+        {
+          "name": "output_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 46,
+          "statement_sha256": "8c7fd094806350dad50e95c7e48c7e790fabe90f782567b532e07ddd86c16125"
+        },
+        {
+          "name": "state_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 55,
+          "statement_sha256": "e0de3e028fa465f4f4530e401afcdc5d1c397e329134a2bb230c07d7cb722020"
+        },
+        {
+          "name": "output_nonempty_rounding",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 64,
+          "statement_sha256": "0c5c3d2c8e0fbe912928f3a8ec4b34c7f70cf0596b0d52ceb79762f2ab88d4f5"
+        },
+        {
+          "name": "dkHeadwise_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 80,
+          "statement_sha256": "020daba102c1f743c0ef8a04a988d26def55139373234a5a7081ddadddd47d6a"
+        },
+        {
+          "name": "dkScalar_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 89,
+          "statement_sha256": "c40d4cf4a225f488094b04039a06e835fad13610799c0f9e2b9ac161b24f0570"
+        },
+        {
+          "name": "dkCorrection_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 98,
+          "statement_sha256": "3198aff3110ec13965175e362f46b379899fa0ac3b6e91a0c0cb92076dc1199b"
+        },
+        {
+          "name": "dvHeadwise_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 106,
+          "statement_sha256": "f4fd04b896682bf7c8c344c1f2a6162341b466f96b30000fb5461bca5b87df03"
+        },
+        {
+          "name": "dvScalar_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 115,
+          "statement_sha256": "a0842548dd447a604d60d628be31db340835fd38df56d7cb9a9ad4f29842c10c"
+        },
+        {
+          "name": "dbetaHeadwise_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 124,
+          "statement_sha256": "638867f9055c7881d256317f2b9da7ece86bd89a6fae50c0e99961e5e5631ec0"
+        },
+        {
+          "name": "dbetaScalar_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 133,
+          "statement_sha256": "5646290cb2be4831140a52c5438c435010bd71463056c99afb73888d34de42d2"
+        },
+        {
+          "name": "dqHeadwise_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 142,
+          "statement_sha256": "fae2cd90bf9e0e74469de79bbdc44f64d42cc2c6c462e3437ab509dbce50bdf4"
+        },
+        {
+          "name": "dqScalar_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 151,
+          "statement_sha256": "a8f8821b34065ec5ef62241ebd2f10c7ef9eff706a3e0d1cc1e4f51df8daacec"
+        },
+        {
+          "name": "dkHeadwise_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 160,
+          "statement_sha256": "e08b195cf99307885e82c8665e5c696e9ca1665b74b5f058d37e5db74abf7580"
+        },
+        {
+          "name": "dkScalar_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 169,
+          "statement_sha256": "2d7040e642a35920bf4a5dc31f7430b6fe1ad3412fe665baa6617ca0cbf518a7"
+        },
+        {
+          "name": "dkCorrection_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 178,
+          "statement_sha256": "c144894134822c82713073ffc5aa79913ceba9e77261358237324266e75cf08c"
+        },
+        {
+          "name": "dvHeadwise_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 186,
+          "statement_sha256": "c9318649b7907220c2b3bbfd527bb880481f30d356a2364cbefef5b2e9540e5e"
+        },
+        {
+          "name": "dvScalar_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 195,
+          "statement_sha256": "fa399db98cc5ff18aa3d5668018015b148ad719e0f64ff82c99523c9cfc13897"
+        },
+        {
+          "name": "dbetaHeadwise_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 204,
+          "statement_sha256": "365a5bcb07d71c48b7babe3e219c0494feeec2195f3d90a024440ee011621658"
+        },
+        {
+          "name": "dbetaScalar_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 213,
+          "statement_sha256": "9291ee34dc002dd642bd1e771c8731168c458feeffc8f9d0d9c95defaab1a617"
+        },
+        {
+          "name": "dqHeadwise_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 222,
+          "statement_sha256": "758673fb636507dd2218eb5fd0012927aed72020765a8acbe70094e26a043016"
+        },
+        {
+          "name": "dqScalar_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+          "line": 231,
+          "statement_sha256": "4ef832481820ee1a81338d585de3b0a89088ed50684eda4a70f341c3f847eb3f"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "fused_recurrent_hgrn",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All four previously accepted fp32 stages: forward carry, backward dx, dx-two-step and dg predecessor branches.",
+      "remaining_scope": "Complete recurrent/reverse loops and host composition were outside the accepted stages and remain outside.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/fused_recurrent_hgrn/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "forward_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_hgrn/FPCorrect.lean",
+          "line": 11,
+          "statement_sha256": "e4c3e7306ea4b1e795162333a4e11ae80f8696bab8d9911d6f5474c2127041b3"
+        },
+        {
+          "name": "dx_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_hgrn/FPCorrect.lean",
+          "line": 17,
+          "statement_sha256": "976bf892a65dc090c4a07a4e9c62009f465866e65ee56be6129c73a0df4ea483"
+        },
+        {
+          "name": "dx_two_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_hgrn/FPCorrect.lean",
+          "line": 23,
+          "statement_sha256": "afc6631b0aec973c5db7fe5d4a741307c523bd8b88361f07c30ccd670c2505ae"
+        },
+        {
+          "name": "dg_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_hgrn/FPCorrect.lean",
+          "line": 29,
+          "statement_sha256": "a524757f2f00126278d1a70f54dde44360d6138e218aa9e331bac84c0c63ffde"
+        },
+        {
+          "name": "forward_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_hgrn/FPCorrect.lean",
+          "line": 35,
+          "statement_sha256": "74b49f98e81e8126272ae2eec22cee164e7b2e7171e1c79e108022461f95147b"
+        },
+        {
+          "name": "dx_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_hgrn/FPCorrect.lean",
+          "line": 43,
+          "statement_sha256": "0ac2d46a4041323aeea2289fa39c4cda0fd58595c6ac5efe5860cfce8ed506ac"
+        },
+        {
+          "name": "dx_two_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_hgrn/FPCorrect.lean",
+          "line": 51,
+          "statement_sha256": "bf0e558462114595a0667683ca24a8b59533995537fedf58fb6bd6118fb442bc"
+        },
+        {
+          "name": "dg_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_recurrent_hgrn/FPCorrect.lean",
+          "line": 59,
+          "statement_sha256": "1c7d65947f15b5e5d50db3965777f45b95bbfbf292dc0a1485eb5b5a6f5ae6a7"
+        },
+        {
+          "name": "forward_nonempty_rounding",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness",
+          "file": "bench/tritonbench_g/fused_recurrent_hgrn/FPCorrect.lean",
+          "line": 67,
+          "statement_sha256": "3fe4b5e9924b3596f9febba375ff212729c5d4a5ca96a9e08e43a4aa25860f2f"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "fused_rotary_embedding",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete selected Q pair rotation and complete V leader guard/context-length/block-table/payload chain, with readback and frame.",
+      "remaining_scope": "Other Python paths remain outside the prior selected value stages; scalar fp32 lowering and raw copy binding remain unestablished.",
+      "native_profile": "unfused_fp32_and_raw_copy",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/fused_rotary_embedding/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "fused_rotary_q_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_rotary_embedding/FPCorrect.lean",
+          "line": 10,
+          "statement_sha256": "9a0e11262be58b30a358e477858c4f01df41acfab03f30ee9ff1e00e5bed4ba3"
+        },
+        {
+          "name": "fused_rotary_vcache_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_rotary_embedding/FPCorrect.lean",
+          "line": 19,
+          "statement_sha256": "c733933fa100992c11bdf2ea7d589274b4d752c18ff9f5f3c4932b46fa8d0a92"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "fused_rwkv6_kernel",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All three accepted state/output/conditional-final stages, including the actual conditional final-state store.",
+      "remaining_scope": "Concrete output profile has scale=1 and sequential software reduction; state and conditional-final retain an explicit native exp primitive and mixed conversion graph. Full recurrent loops remain outside the previous stage scope.",
+      "native_profile": "reduction_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/fused_rwkv6_kernel/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "state_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_rwkv6_kernel/FPCorrect.lean",
+          "line": 12,
+          "statement_sha256": "aa59831e9b4029c542e96bc2d8dac03ecd8a5d53f51a18c79a01526b7d9343d9"
+        },
+        {
+          "name": "output_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_rwkv6_kernel/FPCorrect.lean",
+          "line": 20,
+          "statement_sha256": "4fab9edff03aae577545fe15129977a03e06faf94514bc7f75b54ffff9d169d9"
+        },
+        {
+          "name": "conditional_final_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_rwkv6_kernel/FPCorrect.lean",
+          "line": 29,
+          "statement_sha256": "a7a1105907a24d194717cf940a7d5fe449ef2a242301069a048c904b174e3f23"
+        },
+        {
+          "name": "state_fp32_with_exp_primitive",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_rwkv6_kernel/FPCorrect.lean",
+          "line": 39,
+          "statement_sha256": "d04ed95c775716455cb31cfbd015f9a993aea99588d78aa3eb98387ba720f872"
+        },
+        {
+          "name": "conditional_final_fp32_with_exp_primitive",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_rwkv6_kernel/FPCorrect.lean",
+          "line": 50,
+          "statement_sha256": "24230dd83e8f0f1885f4c92eedde10c8ffe3cde5f8b7ae90749f3b6ad32fa2b6"
+        },
+        {
+          "name": "output_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/fused_rwkv6_kernel/FPCorrect.lean",
+          "line": 62,
+          "statement_sha256": "46210df240c226dbee20380ac6f8d63b25ec44972eec3d8b59bb7f901b5efff9"
+        },
+        {
+          "name": "output_nonempty_rounding",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness",
+          "file": "bench/tritonbench_g/fused_rwkv6_kernel/FPCorrect.lean",
+          "line": 73,
+          "statement_sha256": "560e24216f2c09179b25b10e6c7761088006168de860b66d856d6d8dccd0c279"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "transcendental",
+          "relation": "exp/exp2/log/log2/pow/sin/cos/rsqrt的实际指令与精确回调绑定；按各合同实际使用的原语和输入域记录位输出，不能假设实数精确函数。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "int4_matmul",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete accepted SPLIT_K=1 loop with arbitrary trip count under the full-block K profile; signed packed nibbles, direct half dequantization, fp32 accumulator, half output and frame.",
+      "remaining_scope": "Parametric GEMM retains explicit typed dot primitive. Software sequential dot witnesses are separate ordinary theorems, not universal native bit equality; compiler contraction and native dot/tree remain unbound. Accepted K = blockK * steps and pid1 = 0 remain required; arbitrary ragged K is not claimed.",
+      "native_profile": "packed_int4_binary16_typed_dot",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/int4_matmul/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "int4_matmul_fp16_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/int4_matmul/FPCorrect.lean",
+          "line": 10,
+          "statement_sha256": "83a8afda7a869b99b5ca39c9e094afa089930b8eb1c5c05bc89dfce69e2d314d"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "integer",
+          "relation": "packed解码、signedness、int8窄化、移位和int32点积累加符合固定宽解释器；核对wrap或饱和模式。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "dot",
+          "relation": "浮点dot的输入/累加精度、原始操作次序及allow_tf32等配置与显式dot回调对应；普通位例不证明任意dot回调正确。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "int8_dequant_matmul",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full original dynamic K loop and both bias branches, concrete signed8 dot/int32 wrap, fp32 integer conversion and ordered scale/divisor multiplies, half cast and optional half bias addition, active output/frame.",
+      "remaining_scope": "FP32 scales and supplied runtime divisor, fp16 output/bias and ordinary shape/address/input typing premises remain the declared profile. Original SPLIT_K=1, EVEN_K=true and K=blockK*steps and pid1=0 remain the accepted profile.",
+      "native_profile": "int8_dot_fp32_scale_fp16_store",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/int8_dequant_matmul/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "int8_dequant_matmul_fp_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/int8_dequant_matmul/FPCorrect.lean",
+          "line": 11,
+          "statement_sha256": "d03c42ec4451b319f80df3af4bd9ff7ff0fa04f14e3a582480db2380c02021f4"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "integer",
+          "relation": "packed解码、signedness、int8窄化、移位和int32点积累加符合固定宽解释器；核对wrap或饱和模式。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "int8_matmul_kernel",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full original four packed-field outer iterations and arbitrary complete K-loop, signed input narrowing, unsigned packed-byte extraction, concrete int8 dot and int32 wrap, initial-memory output and frame.",
+      "remaining_scope": "Positive block width, K = 4 * blockK * steps, physical int32 A/uint8 B and ordinary output injectivity remain the declared profile.",
+      "native_profile": "signed_int8_dot_int32_wrap",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/int8_matmul_kernel/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "int8_matmul_word_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/int8_matmul_kernel/FPCorrect.lean",
+          "line": 8,
+          "statement_sha256": "14fd6ad3149493bd47dfc2d41b18ec8028adcf17ac7c19b6e91d68c41a7bdb0c"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "integer",
+          "relation": "packed解码、signedness、int8窄化、移位和int32点积累加符合固定宽解释器；核对wrap或饱和模式。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "int8_matmul_quantization",
+      "file": "bench/tritonbench_g/int8_matmul_quantization/FPCorrect.lean",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete two-pass dynamic-K quantization producer and complete dynamic-K GEMM consumer, real signed8 conversion and int32 wrap, concrete fp32 scale arithmetic and fp16 storage, active outputs and frame.",
+      "remaining_scope": "Producer active float-to-int8 domain, fp32 source/B-scale, fp16 A-scale/output, ordinary address/shape premises remain; host composition and native/compiler binding are not claimed.",
+      "native_profile": "int8_quantizer_and_scaled_dot",
+      "native_binding_status": "not_established",
+      "declarations": [
+        {
+          "name": "int8_matmul_quantization_producer_machine_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/int8_matmul_quantization/FPCorrect.lean",
+          "line": 15,
+          "statement_sha256": "f14fe88a7a8487c79c88548193b3f157391cdfcc955979a27e5deeda25907a40"
+        },
+        {
+          "name": "int8_matmul_quantization_consumer_machine_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/int8_matmul_quantization/FPCorrect.lean",
+          "line": 32,
+          "statement_sha256": "ab172f25db35e2140bd6aabedae39448474b865d941bf4dd99ca830f6236b7e5"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "integer",
+          "relation": "packed解码、signedness、int8窄化、移位和int32点积累加符合固定宽解释器；核对wrap或饱和模式。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "order",
+          "relation": "maximum/argmax的比较、NaN策略、signed-zero与tie/index选择符合合同；不能用无条件compare+where替代maximum。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "float_to_int",
+          "relation": "实际源浮点到目标有符号/无符号位宽的转换，在active输出的有限可表示域上符合toward-zero合同；域外lane任意policy的独立性单列。llrint不在此规则内。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "int8_quantization",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Accepted supplied-scale pre-rounding Q/K stage: fp32 multiply/divide, two stores and complete frame. Concrete bit profile covers K preScale=1; Q retains supplied literal primitive.",
+      "remaining_scope": "Scale producer and final biased uint8/int8 result remain outside the previously accepted stage. Q coefficient lowering remains explicit.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/int8_quantization/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "per_block_scaled_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/int8_quantization/FPCorrect.lean",
+          "line": 7,
+          "statement_sha256": "e61042ba6a8eb6d88c400712aef779a11fd3daf7cac75f124a1ab55df8423631"
+        },
+        {
+          "name": "per_block_scaled_k_software",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/int8_quantization/FPCorrect.lean",
+          "line": 16,
+          "statement_sha256": "aca740c4e96e70d6ac02fc601610c0b0dd715a6519b8eb70e4ab4f27db457556"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "int_scaled_matmul",
+      "file": "bench/tritonbench_g/int_scaled_matmul/FPCorrect.lean",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Both original kernels: block-pointer raw K loop with genuine unspecified byte tails and int32 wrap; scaled dynamic K kernel with both EVEN_K branches, fp32 integer conversion/multiplication and actual toward-zero int32 destination, independent initial-state values/readback/frame.",
+      "remaining_scope": "Kernel1 positive blockK, physical signed-byte storage and active output injectivity; kernel2 original K coverage/EVEN_K premises and active defined FP-to-int32 conversion. Native/compiler binding remains open; arbitrary inactive conversion policy does not affect active output.",
+      "native_profile": "int8_dot_fp32_scale_int32_store",
+      "native_binding_status": "not_established",
+      "declarations": [
+        {
+          "name": "block_pointer_word_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/int_scaled_matmul/FPCorrect.lean",
+          "line": 10,
+          "statement_sha256": "38a5cb9da6ec8e4e436b62a283b63d8b09dde96a91c25cd9b1bfa048cef31c86"
+        },
+        {
+          "name": "scaled_word_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/int_scaled_matmul/FPCorrect.lean",
+          "line": 28,
+          "statement_sha256": "4feadca27d6cd92800aec594c74ea646b06ee3254eb005f6b6a5be2734e5a524"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "integer",
+          "relation": "packed解码、signedness、int8窄化、移位和int32点积累加符合固定宽解释器；核对wrap或饱和模式。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "float_to_int",
+          "relation": "实际源浮点到目标有符号/无符号位宽的转换，在active输出的有限可表示域上符合toward-zero合同；域外lane任意policy的独立性单列。llrint不在此规则内。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "kcache_copy_triton",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Sequence-length-one split-x copy, five named machine storage formats plus an abstract .real carrier (no native fp64 binding).",
+      "remaining_scope": "Multi-token launches remain outside the previously accepted stage.",
+      "native_profile": "raw_copy",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/kcache_copy_triton/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "kcache_copy_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/kcache_copy_triton/FPCorrect.lean",
+          "line": 11,
+          "statement_sha256": "f2ae9653520665fb108263268861ab6d5b8c799631e36265a3958664c16be584"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "kv_cache_copy",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Sequence-length-one K/V x-block, independent model storage channels: five named machine formats plus abstract .real, with no inferred native fp64 binding.",
+      "remaining_scope": "Supplied context/block-table metadata, active-address injectivity and distinct caches remain the input scope.",
+      "native_profile": "raw_copy",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/kv_cache_copy/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "kv_cache_copy_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/kv_cache_copy/FPCorrect.lean",
+          "line": 11,
+          "statement_sha256": "ba9a52a323aab6340dd9c54ac2570646f14a6104141fb39608e3e20719e81018"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "kv_cache_filling",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Accepted metadata writeback plus complete unquantized K/V tile copies using actual fp32-to-uint8 toward-zero conversion, active-only definedness and independent value/frame.",
+      "remaining_scope": "Quantizer producers and multi-token loop composition remain outside these supplied-metadata/tile stages.",
+      "native_profile": "fp32_uint8_conversion",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/kv_cache_filling/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "kv_metadata_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/kv_cache_filling/FPCorrect.lean",
+          "line": 13,
+          "statement_sha256": "1bc9afda19b6123c44d3ac100d5a134337dcf14fff243a836628ce974583b619"
+        },
+        {
+          "name": "kv_k_uint8_typed_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/kv_cache_filling/FPCorrect.lean",
+          "line": 37,
+          "statement_sha256": "302d23b1786335f76b2957faf22b5471d246281ab11cfc91bc59536747e2d9fc"
+        },
+        {
+          "name": "kv_v_uint8_typed_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/kv_cache_filling/FPCorrect.lean",
+          "line": 62,
+          "statement_sha256": "aa2a472c24ba276549fa1e553d3c0e14341666a0b9ecd71c211cb7f9377bda04"
+        }
+      ],
+      "scope_reconciliation": "Reviewed original coverage_review entries fill_kv_cache_output_summary_general and fill_quant_meta_store_io_correctness: accepted stages are K/V tile copy and supplied MetaPre stores; int8/int4 producer helpers are explicitly excluded.",
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "float_to_int",
+          "relation": "实际源浮点到目标有符号/无符号位宽的转换，在active输出的有限可表示域上符合toward-zero合同；域外lane任意policy的独立性单列。llrint不在此规则内。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "layer_norm_welfold",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Actual three-loop source for XBLOCK=1 and 0<rnumel<=RBLOCK, plus accepted arbitrary normalization chunk; original tails and alias-write order retained.",
+      "remaining_scope": "Full source retains rsqrt primitive; bit closure is currently for the normalization chunk. Multi-block loops and native reduction tree remain outside this profile.",
+      "native_profile": "reduction_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/layer_norm_welfold/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "normalize_chunk_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/layer_norm_welfold/FPCorrect.lean",
+          "line": 9,
+          "statement_sha256": "636de2812aa2d54da85dfbce90dd1f0d372afd37ae4c0ff85019d54e3648b314"
+        },
+        {
+          "name": "normalize_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/layer_norm_welfold/FPCorrect.lean",
+          "line": 17,
+          "statement_sha256": "2eea85fc85ac4d6984fa57d607a6961cf50f3e72460667c212542bc3de18bf5a"
+        },
+        {
+          "name": "normalize_nonempty_rounding",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness",
+          "file": "bench/tritonbench_g/layer_norm_welfold/FPCorrect.lean",
+          "line": 27,
+          "statement_sha256": "f965550feee4d4140b09b68f1140d3a6d4a77b8c212281bfb3774edfdad72848"
+        },
+        {
+          "name": "source_one_block_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/layer_norm_welfold/FPCorrect.lean",
+          "line": 36,
+          "statement_sha256": "4155de6c6acbb615df73cfa5e5a310c9e588da35a2c367c5f4a1e849a7851baa"
+        },
+        {
+          "name": "source_one_block_fp32_with_rsqrt",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/layer_norm_welfold/FPCorrect.lean",
+          "line": 43,
+          "statement_sha256": "6b74634026638da1c0146e25982cbacb2c6035af050c8cae284e7dbbe2d8a1a4"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "transcendental",
+          "relation": "exp/exp2/log/log2/pow/sin/cos/rsqrt的实际指令与精确回调绑定；按各合同实际使用的原语和输入域记录位输出，不能假设实数精确函数。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "logsumexp_fwd",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Accepted per-program row stage in both HAS_SCALE branches, including -inf padding, max/sub/exp/sum/log/add/store.",
+      "remaining_scope": "Native max/exp/log and reduction order remain explicit primitives; the concrete scalar adapter uses scale=1. Host second-stage logsumexp is outside scope.",
+      "native_profile": "mixed_transcendental",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "row_block_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean",
+          "line": 8,
+          "statement_sha256": "7875546624ac60c636efea51744439d3251165bec0146a1aefd7fc7af68e2213"
+        },
+        {
+          "name": "row_block_fp32_with_primitives",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean",
+          "line": 15,
+          "statement_sha256": "f419379cd470e3701ddb9e98c9d3cf2e6e4dbd3160b82a8af0de3e44250ee4f3"
+        },
+        {
+          "name": "row_block_nonempty",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "fixed_nonempty_witness",
+          "file": "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean",
+          "line": 24,
+          "statement_sha256": "5f7acb9c9210bb7432720f96ce741962ce38241c71a8ee7f4755cf740f7fc513"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "order",
+          "relation": "maximum/argmax的比较、NaN策略、signed-zero与tie/index选择符合合同；不能用无条件compare+where替代maximum。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "transcendental",
+          "relation": "exp/exp2/log/log2/pow/sin/cos/rsqrt的实际指令与精确回调绑定；按各合同实际使用的原语和输入域记录位输出，不能假设实数精确函数。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "masked_select",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Selection-copy consuming supplied mask/prefix metadata; five named machine floating formats plus abstract .real and signed int64 payload (native width binding remains explicit).",
+      "remaining_scope": "Prefix-sum producer remains outside the accepted stage; signed index widths and bounds need their normal native mapping.",
+      "native_profile": "raw_copy",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/masked_select/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "masked_select_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/masked_select/FPCorrect.lean",
+          "line": 11,
+          "statement_sha256": "ffa3af150bf1e5a09fc0ce0c1407115c13b1d6d374fc99612a7d495de49714e5"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "matmul_dequant_int4",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete accepted standalone tile: signed32 shifts and eight nibbles, exact integer difference, true binary16 conversion/multiplication, both source bridge and independent initial-memory value/frame.",
+      "remaining_scope": "Native integer shift/count/width and direct-half rounding lowering remain unbound; there is no additional model numerical law.",
+      "native_profile": "packed_int4_binary16",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/matmul_dequant_int4/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "matmul_dequant_int4_fp16_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/matmul_dequant_int4/FPCorrect.lean",
+          "line": 11,
+          "statement_sha256": "fa36f2c25fa6cc12c81d31141812337302399fddd8196be0c61e2fcb805f7ac2"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "integer",
+          "relation": "packed解码、signedness、int8窄化、移位和int32点积累加符合固定宽解释器；核对wrap或饱和模式。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "matmul_dequantize",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All three accepted stages: standalone binary16 dequantization, first full grouped-dequant GEMM with both NO_GROUPS branches, and second full GEMM.",
+      "remaining_scope": "Parametric GEMM retains explicit typed dot primitive. Software sequential dot witnesses are separate ordinary theorems, not universal native bit equality; compiler contraction and native dot/tree remain unbound. The second GEMM stage has K = blockK * steps and pid1 = 0; the first stage retains its own ceil/tail behavior.",
+      "native_profile": "packed_int4_binary16_typed_dot",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/matmul_dequantize/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "matmul_dequantize_standalone_fp16_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/matmul_dequantize/FPCorrect.lean",
+          "line": 13,
+          "statement_sha256": "0b5f5599d5f03fa3768c2d5e3b62c81a80d53cb0f8b292ff9d7437c32842fcb2"
+        },
+        {
+          "name": "matmul_dequantize_second_fp16_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/matmul_dequantize/FPCorrect.lean",
+          "line": 37,
+          "statement_sha256": "390e4ff5fab2a7f61ae0436f3fe4945ff7cce0130a387fc36bbde8bcdd2bd97b"
+        },
+        {
+          "name": "matmul_dequantize_first_fp16_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/matmul_dequantize/FPCorrect.lean",
+          "line": 64,
+          "statement_sha256": "b4dfd53f96bbca599ffe7b3fb0de9f6e3b04ac025e5263c4a30d9027510d8c66"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "integer",
+          "relation": "packed解码、signedness、int8窄化、移位和int32点积累加符合固定宽解释器；核对wrap或饱和模式。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "dot",
+          "relation": "浮点dot的输入/累加精度、原始操作次序及allow_tf32等配置与显式dot回调对应；普通位例不证明任意dot回调正确。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "matmul_dequantize_int4",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full arbitrary K loop in both NO_GROUPS branches; original two half products and half subtraction, typed dot, fp32 accumulation, store and frame.",
+      "remaining_scope": "Parametric GEMM retains explicit typed dot primitive. Software sequential dot witnesses are separate ordinary theorems, not universal native bit equality; compiler contraction and native dot/tree remain unbound.",
+      "native_profile": "packed_int4_binary16_typed_dot",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/matmul_dequantize_int4/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "matmul_dequantize_int4_fp16_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/matmul_dequantize_int4/FPCorrect.lean",
+          "line": 10,
+          "statement_sha256": "f5cc7cbea806363cd3c3d2e4dbe61ab77617d93da0928378eaa0754c70e74fd2"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "integer",
+          "relation": "packed解码、signedness、int8窄化、移位和int32点积累加符合固定宽解释器；核对wrap或饱和模式。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "dot",
+          "relation": "浮点dot的输入/累加精度、原始操作次序及allow_tf32等配置与显式dot回调对应；普通位例不证明任意dot回调正确。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "matrix_reduction",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete original single matrix tile, fp16/fp32, positive reduction width, non-NaN inputs. Actual half-to-single bit conversion, exact numerical maximum, selected input bit readback and full frame.",
+      "remaining_scope": "Native max tree/tie/NaN semantics and fp16-to-fp32 lowering still need binding; signed-zero tie selection is explicit in the software model.",
+      "native_profile": "ordered_max",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/matrix_reduction/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "matrix_reduction_machine_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/matrix_reduction/FPCorrect.lean",
+          "line": 12,
+          "statement_sha256": "7eaba6629c8171e70e69518252598d82d10c9ee9b046c0e80e160024adaf3199"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "order",
+          "relation": "maximum/argmax的比较、NaN策略、signed-zero与tie/index选择符合合同；不能用无条件compare+where替代maximum。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "matrix_vector_multip",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full original loop under the accepted one-block profile: 0 < BLOCK_M and M <= BLOCK_M, including M=0. Initial +0, load casts, output cast and frame retained.",
+      "remaining_scope": "The sequential software sum order is explicit; native reduction order and multi-block launches are not established.",
+      "native_profile": "reduction_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/matrix_vector_multip/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "mv_one_block_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/matrix_vector_multip/FPCorrect.lean",
+          "line": 8,
+          "statement_sha256": "d50cc519d09cfd278447fa4d72cf4481fc646ce4d56186174682db6ff47ddada"
+        },
+        {
+          "name": "mv_one_block_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/matrix_vector_multip/FPCorrect.lean",
+          "line": 28,
+          "statement_sha256": "4d2ecd1a75c14064c558e08d8d42e167f63e2ea8751a74e7ed757c445c5bbf3b"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "mixed_sparse_attention",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete previously accepted fp16 active-program source scope: all eight fixed block iterations, one column iteration under BLOCK_N >= 16, normalization division, fp16 cast and masked output stores, plus the separately materialized fp32 scratch epilogue. Independent initial-memory per-operation recurrence and complete output memory/frame; preserves inactive updates and masked metadata undef.",
+      "remaining_scope": "All used M and D callbacks require native binding, including fp16 load/casts, fp32 scalar operations/literals, exp2, maxnum, typed dot with default source options and reductions. The concrete fp32 division epilogue keeps toHalf as an explicit primitive; its rounding witness is not closed fp16 bit interpretation. Two maximum nodes have exact local source-graph restoration bridges tied to Triton core.py/semantic.py hashes. Scalar-cond shape normalization, address/domain bounds and native compilation/launch legality remain binding boundaries.",
+      "native_profile": "sparse_attention_fp16_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "forward_fp16",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+          "line": 10,
+          "statement_sha256": "218509bdf3183d9f9278228c8df87c26e10b71aa76c8329390cc5adc8ff5b777"
+        },
+        {
+          "name": "forward_nonempty",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "fixed_nonempty_witness",
+          "file": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+          "line": 16,
+          "statement_sha256": "c69b2680703616135e1928b00baa3a1ce0dc512c647b82bb4c5787d3432961e7"
+        },
+        {
+          "name": "epilogue_fp16",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+          "line": 24,
+          "statement_sha256": "ce7caa3f05d9abb3e553765267ea4b25711ba36c3928365082f014a2d5ad0f64"
+        },
+        {
+          "name": "epilogue_software_with_cast",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+          "line": 30,
+          "statement_sha256": "7aa5346e3b34cbc8c3bdb3fb96ec2b543df243e373766f8dc714e2d3149c7392"
+        },
+        {
+          "name": "epilogue_nonempty_rounding",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "fixed_nonempty_witness",
+          "file": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+          "line": 38,
+          "statement_sha256": "12e362d4fcea298898958b2cf961312b59c38dd64c4f56aeb3f63935431ff539"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "order",
+          "relation": "maximum/argmax的比较、NaN策略、signed-zero与tie/index选择符合合同；不能用无条件compare+where替代maximum。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "transcendental",
+          "relation": "exp/exp2/log/log2/pow/sin/cos/rsqrt的实际指令与精确回调绑定；按各合同实际使用的原语和输入域记录位输出，不能假设实数精确函数。"
+        },
+        {
+          "id": "dot",
+          "relation": "浮点dot的输入/累加精度、原始操作次序及allow_tf32等配置与显式dot回调对应；普通位例不证明任意dot回调正确。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "parallel_attention",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete previously accepted forward O/Z and backward DK/DV source stages at FP32 storage, both arbitrary loops, independent values and full frames.",
+      "remaining_scope": "Native dot/reduction/contraction and operation binding remain pending. Only expressly instantiated software paths count as bit closure. Host composition and stages outside prior accepted scope are not inferred.",
+      "native_profile": "fp32_typed_dot",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/parallel_attention/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "forward_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/parallel_attention/FPCorrect.lean",
+          "line": 10,
+          "statement_sha256": "9e0e38e1a3886e5beeccd76ad140fff7e3b3110bbd5cc522ea1d63b9d89ee552"
+        },
+        {
+          "name": "backward_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/parallel_attention/FPCorrect.lean",
+          "line": 17,
+          "statement_sha256": "e075f27230ad42ce1dae0793eb17b2c112677b3d1b34236172d25c55adfc0cbe"
+        },
+        {
+          "name": "forward_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/parallel_attention/FPCorrect.lean",
+          "line": 26,
+          "statement_sha256": "2259e4138bcd65dfba943ccdc2776bbf0c8c6bbdb529945f73f8dd9ba3d1ce6b"
+        },
+        {
+          "name": "forward_nonempty_rounding",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness",
+          "file": "bench/tritonbench_g/parallel_attention/FPCorrect.lean",
+          "line": 35,
+          "statement_sha256": "86efc2aa4673e569fb0b61d2d1f919925c30276f41f3653c8e08e44ca4d6379c"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "dot",
+          "relation": "浮点dot的输入/累加精度、原始操作次序及allow_tf32等配置与显式dot回调对应；普通位例不证明任意dot回调正确。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "parallel_retention_attention",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete previously accepted forward and backward source stages at FP32 storage, all recurrence loops, independent values and full memory frames.",
+      "remaining_scope": "Native dot/reduction/contraction and operation binding remain pending. Only expressly instantiated software paths count as bit closure. Host composition and stages outside prior accepted scope are not inferred.",
+      "native_profile": "mixed_transcendental",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/parallel_retention_attention/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "forward_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/parallel_retention_attention/FPCorrect.lean",
+          "line": 11,
+          "statement_sha256": "e702f517058e1e8cec7d5001701c5b4799844e4724113bec45bb513cad0d115b"
+        },
+        {
+          "name": "backward_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/parallel_retention_attention/FPCorrect.lean",
+          "line": 19,
+          "statement_sha256": "e075f27230ad42ce1dae0793eb17b2c112677b3d1b34236172d25c55adfc0cbe"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "transcendental",
+          "relation": "exp/exp2/log/log2/pow/sin/cos/rsqrt的实际指令与精确回调绑定；按各合同实际使用的原语和输入域记录位输出，不能假设实数精确函数。"
+        },
+        {
+          "id": "dot",
+          "relation": "浮点dot的输入/累加精度、原始操作次序及allow_tf32等配置与显式dot回调对应；普通位例不证明任意dot回调正确。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "quant_transpose_kernel",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Previously accepted scaled/pre-rounding stage: concrete fp32 multiplication by scale and by 127, then masked transposed writeback and frame.",
+      "remaining_scope": "Actual quantized integer conversion/output is outside the explicitly accepted pre-rounding stage and is not claimed.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/quant_transpose_kernel/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "quant_transpose_scaled_store_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/quant_transpose_kernel/FPCorrect.lean",
+          "line": 10,
+          "statement_sha256": "752461fed6d1b86c5fc5b7907849d9b970d4083c4d73af45e39cf282f5ee1840"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "quantize_global",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Accepted pre-llrint scaled-output stage: actual fp32 multiplication by supplied scale and 127, readback and frame.",
+      "remaining_scope": "llrint, final int8 cast and scale producer remain outside the previously accepted stage.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/quantize_global/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "quantize_global_scaled_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/quantize_global/FPCorrect.lean",
+          "line": 7,
+          "statement_sha256": "d10a863af842a78b38e41d20469b277d53413552f679957a0e69fb55ee1002fa"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "quantize_kv_copy",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete accepted grouped stage: actual fp32 load/abs/max/two divisions, signed int8 toward-zero conversion, fp32 scale store, active readback and frame.",
+      "remaining_scope": "Definedness requires only active integer conversions finite and in range; arbitrary inactive policy is proved irrelevant. Native max and division/cast lowering remain unbound.",
+      "native_profile": "fp32_int8_conversion",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/quantize_kv_copy/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "quantize_kv_group_fp32_int8_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/quantize_kv_copy/FPCorrect.lean",
+          "line": 14,
+          "statement_sha256": "485758960f96b73968b5279511187bde0a5cd3709f98bc1503ae47665bf728a6"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "order",
+          "relation": "maximum/argmax的比较、NaN策略、signed-zero与tie/index选择符合合同；不能用无条件compare+where替代maximum。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "float_to_int",
+          "relation": "实际源浮点到目标有符号/无符号位宽的转换，在active输出的有限可表示域上符合toward-zero合同；域外lane任意policy的独立性单列。llrint不在此规则内。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "quantize_kv_transform",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete accepted fp16/fp32 transform: true abs/max/division, binary16 scale store/reload, toward-zero int8 conversion, active values and full frame.",
+      "remaining_scope": "Active integer conversions require finite/in-range quotients; inactive policy independence is proved. Native scalar/cast/max bindings remain pending.",
+      "native_profile": "fp32_int8_conversion",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/quantize_kv_transform/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "quantize_kv_transform_machine_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/quantize_kv_transform/FPCorrect.lean",
+          "line": 14,
+          "statement_sha256": "04d12524cd72da0cbe3e0091cf9a67c105d8d5851cc3a03d33a50cf6e45d2de7"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "order",
+          "relation": "maximum/argmax的比较、NaN策略、signed-zero与tie/index选择符合合同；不能用无条件compare+where替代maximum。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "float_to_int",
+          "relation": "实际源浮点到目标有符号/无符号位宽的转换，在active输出的有限可表示域上符合toward-zero合同；域外lane任意policy的独立性单列。llrint不在此规则内。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "rbe_triton_transform",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Entire previously accepted rotary pair, both independently masked stores, fp16 storage and fp32 computation.",
+      "remaining_scope": "No closed bit model yet. Every reached M callback remains unbound: literal/fromNat, source and destination casts, pow/div/mul/add/sub and sin/cos. The independent initial-state formula retains these primitives and precision tags explicitly.",
+      "native_profile": "mixed_transcendental",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rbe_triton_transform/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rbe_triton_backend_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rbe_triton_transform/FPCorrect.lean",
+          "line": 11,
+          "statement_sha256": "22bb0fc5c72892802ccdb4d611564a6d00b533df48caa2831e9c5b47d2b022fd"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "transcendental",
+          "relation": "exp/exp2/log/log2/pow/sin/cos/rsqrt的实际指令与精确回调绑定；按各合同实际使用的原语和输入域记录位输出，不能假设实数精确函数。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "rope_backward_transform",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full original Q/K source including BACKWARD_PASS=true and all four masked stores, fp32 inputs and coefficients.",
+      "remaining_scope": "Same native/configuration and coefficient-producer boundary as rope_transform.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rope_backward_transform/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rope_backward_fp32_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rope_backward_transform/FPCorrect.lean",
+          "line": 8,
+          "statement_sha256": "65143004d1c5f20cf4b629b628d63a21c79df58f5d63988b5b9f706ea2820044"
+        },
+        {
+          "name": "rope_backward_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rope_backward_transform/FPCorrect.lean",
+          "line": 15,
+          "statement_sha256": "a58eacf9c5af9d0cdc16f3b0765960397478678dee3372eb0997ac38570b747a"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "rope_embedding",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All four accepted independent forward/backward half-store paths, actual register casts and backward fneg; concrete initial-memory fp32 value and frame.",
+      "remaining_scope": "Half-store means a vector half, not fp16 storage. Full in-place loop composition was outside the accepted independent half-store scope; native compiler/runtime binding remains open.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rope_embedding/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rope_embedding_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rope_embedding/FPCorrect.lean",
+          "line": 9,
+          "statement_sha256": "607e33c7f382bb9ca6a07631b6c3eb55bc68230d5cd10b4100c96c597f263c4a"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "rope_transform",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full original Q/K source, both branches and all four masked stores, fp32 inputs and coefficients, arbitrary dimensions/strides.",
+      "remaining_scope": "Precomputed coefficient producers and host grid/contiguity were outside the accepted scope; other format combinations are not covered by this fp32 contract.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rope_transform/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rope_fp32_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rope_transform/FPCorrect.lean",
+          "line": 11,
+          "statement_sha256": "df143c1e437596add72d5c76117e420d4c73cae7cca7c3a45ed6e51ab341ff40"
+        },
+        {
+          "name": "rope_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rope_transform/FPCorrect.lean",
+          "line": 23,
+          "statement_sha256": "4c820e6f4cb1f534f255163f975562484f1c689b6ca2f82055a07950cbdfa9cd"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "rotary_emb_nopad",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All four accepted Q, K, V2-Q and V2-cache paths; masks, both lanes, typed metadata and initial-memory value/frame.",
+      "remaining_scope": "Original V2 invalid-token cache addressing consumes undefined loaded metadata; this behavior is preserved and explicitly witnessed. Host/global composition remains outside accepted stage scope.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rotary_emb_nopad/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rotary_nopad_q_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rotary_emb_nopad/FPCorrect.lean",
+          "line": 6,
+          "statement_sha256": "efc74d7c21d56ae54f720f3154bb181ba297f65125813752b2a06043b74238dd"
+        },
+        {
+          "name": "rotary_nopad_k_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rotary_emb_nopad/FPCorrect.lean",
+          "line": 13,
+          "statement_sha256": "243b17110c6101b0dad12110af75103cf0e9698f7737b9ed324fe046fd072b35"
+        },
+        {
+          "name": "rotary_nopad_v2_q_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rotary_emb_nopad/FPCorrect.lean",
+          "line": 20,
+          "statement_sha256": "b973d4d487a713e28c6998dca1015d3f48c17b3fb8c7aeefb09cd9abe2ec7f10"
+        },
+        {
+          "name": "rotary_nopad_v2_cache_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rotary_emb_nopad/FPCorrect.lean",
+          "line": 27,
+          "statement_sha256": "77d297e7e154948cc24bdb2ed1cfc77dcd84218ace3805e940b196df34766f75"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "rotary_transform",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Selected paired-row full rotation, fixed/varlen metadata branches, fp32 per-operation software rounding.",
+      "remaining_scope": "Full 2D/interleaved/conjugate/offset-tensor paths were outside the prior value scope.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rotary_transform/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rotary_transform_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rotary_transform/FPCorrect.lean",
+          "line": 10,
+          "statement_sha256": "931605077faf1339672ac0a26776d4d77333df079d74beb800a1e2224cb0ad52"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "rotary_transform_ops",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Selected paired-row full rotation, fixed/varlen metadata branches, own source-shape correspondence and fp32 per-operation software rounding.",
+      "remaining_scope": "Full 2D/interleaved/conjugate/offset-tensor paths were outside the prior value scope.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rotary_transform_ops/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rotary_transform_ops_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rotary_transform_ops/FPCorrect.lean",
+          "line": 7,
+          "statement_sha256": "ad2e0535a651771173a69ee6ad492b2ea40f19aaff34f69322e2706aa44e5fb4"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "rowwise_quantization_triton",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete accepted pre-llrint row stage with true abs, masked maximum, FP32 div/mul, row output and actual binary16 maximum store; independent initial-memory values and full frame.",
+      "remaining_scope": "llrint and final int8 output remain outside the accepted stage. Native maximum NaN/tie policy, division, mixed casts, fusion and launch binding remain unverified.",
+      "native_profile": "fp32_binary16_max",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rowwise_quantization_triton/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rowwise_scaled_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rowwise_quantization_triton/FPCorrect.lean",
+          "line": 8,
+          "statement_sha256": "a619853a193f0f572b7bcfa9f7ff950e04d0fa5acd0b28b82149bd6abd56a764"
+        },
+        {
+          "name": "rowwise_scaled_software_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/rowwise_quantization_triton/FPCorrect.lean",
+          "line": 19,
+          "statement_sha256": "0acc41514f1432e8523a7c8badc52b15b0867c19b8d97f56ea7664dfefea959e"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "order",
+          "relation": "maximum/argmax的比较、NaN策略、signed-zero与tie/index选择符合合同；不能用无条件compare+where替代maximum。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "token_softmax_bloom",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete per-sequence row chain: typed load/padding, fp32 maximum/sub/exp/sum/div, target-format cast and masked output. Parametric storage; original fp16 profile included.",
+      "remaining_scope": "Native exp/max/reduction tree/cast semantics and compiler lowering remain unbound. Full token-logit producers and host composition stay external.",
+      "native_profile": "softmax_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/token_softmax_bloom/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "token_softmax_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/token_softmax_bloom/FPCorrect.lean",
+          "line": 9,
+          "statement_sha256": "f4c248ac30fe8581a9ac02f90e709265a3b4d62f9df783d7d82f1f224382a316"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "order",
+          "relation": "maximum/argmax的比较、NaN策略、signed-zero与tie/index选择符合合同；不能用无条件compare+where替代maximum。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "transcendental",
+          "relation": "exp/exp2/log/log2/pow/sin/cos/rsqrt的实际指令与精确回调绑定；按各合同实际使用的原语和输入域记录位输出，不能假设实数精确函数。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "token_softmax_llama",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete per-sequence row chain: typed load/padding, fp32 maximum/sub/exp/sum/div, target-format cast and masked output. Parametric storage; original fp32 profile included.",
+      "remaining_scope": "Native exp/max/reduction tree/cast semantics and compiler lowering remain unbound. Full token-logit producers and host composition stay external.",
+      "native_profile": "softmax_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/token_softmax_llama/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "token_softmax_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/token_softmax_llama/FPCorrect.lean",
+          "line": 9,
+          "statement_sha256": "f4c248ac30fe8581a9ac02f90e709265a3b4d62f9df783d7d82f1f224382a316"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "scalar",
+          "relation": "实际逐步add/sub/mul/div/neg/abs与合同的软件值或指定后端回调对应；保留舍入、FTZ/DAZ、NaN、signed-zero和融合配置。普通除法与div_rn分别绑定。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "order",
+          "relation": "maximum/argmax的比较、NaN策略、signed-zero与tie/index选择符合合同；不能用无条件compare+where替代maximum。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "transcendental",
+          "relation": "exp/exp2/log/log2/pow/sin/cos/rsqrt的实际指令与精确回调绑定；按各合同实际使用的原语和输入域记录位输出，不能假设实数精确函数。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    },
+    {
+      "task": "triton_argmax",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "First stage (both index-width branches), independent second stage, and dimension reduction in original single-block 0<N<=BN scope. fp16/fp32, non-NaN inputs, actual numeric order and lowest-lane ties including signed zero.",
+      "remaining_scope": "Multi-block dimension-loop and cross-stage host composition were not accepted; native primitive/index-width lowering needs binding.",
+      "native_profile": "ordered_max",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/triton_argmax/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "argmax_stage1_bit_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/triton_argmax/FPCorrect.lean",
+          "line": 8,
+          "statement_sha256": "26ed1c5672ec01bd2cd3928b724e454b40491dca75e53cf123bd49cf040d68ec"
+        },
+        {
+          "name": "argmax_stage2_bit_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/triton_argmax/FPCorrect.lean",
+          "line": 26,
+          "statement_sha256": "e5b9fbacdf35c0374856e81ba50762fb1871cc659e942c0e6694d64d3be97057"
+        },
+        {
+          "name": "argmax_dim_single_block_bit_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract",
+          "file": "bench/tritonbench_g/triton_argmax/FPCorrect.lean",
+          "line": 42,
+          "statement_sha256": "911b2a0052b2f0e6b05de4ec7b9b2733459f35733d5a8e58708414b864891e4b"
+        }
+      ],
+      "binding_relations": [
+        {
+          "id": "storage",
+          "relation": "原始load/store与mask/undef oracle保持指定存储位；数值cast单列。"
+        },
+        {
+          "id": "cast",
+          "relation": "实际源/目标格式转换与软件cast或指定回调对应；记录tie、overflow、subnormal及NaN payload规则。"
+        },
+        {
+          "id": "order",
+          "relation": "maximum/argmax的比较、NaN策略、signed-zero与tie/index选择符合合同；不能用无条件compare+where替代maximum。"
+        },
+        {
+          "id": "reduction",
+          "relation": "原核的每个归约站点使用合同指定的相同树/次序、初值、算术精度与mask；软件顺序fold不自动对应GPU树。"
+        },
+        {
+          "id": "constant_conversion",
+          "relation": "仅核对合同实际到达的浮点字面量、padding/初值、±Inf及fromNat/fromInt站点：固定源整数宽度、目标precision、常数折叠与实际位编码；不能从算术探针推定这些转换正确。"
+        },
+        {
+          "id": "composition",
+          "relation": "编译原核和合同对应的具体shape/stride/constexpr配置，逐站点核对上述绑定、地址宽度和写回；组件样本不代替原核对应。"
+        }
+      ],
+      "input_domain": "Exact ordinary input/configuration/domain premises in the bound declarations; no assumed final-output equality.",
+      "native_execution_performed": false,
+      "required_artifacts": [
+        "exact input/output words",
+        "actual compiler/GPU versions",
+        "dtype/shape/stride/constexpr/fusion/FTZ profile",
+        "source and compiled IR/PTX hashes",
+        "mismatches including NaN and signed zero"
+      ]
+    }
+  ]
+}

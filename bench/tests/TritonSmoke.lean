@@ -1816,7 +1816,7 @@ def scalarNoneKernel (outReg : RegionName) (N : Nat) : ComputeKernel := triton {
   z = tl.zeros([], dtype=tl.float32)
   offs = tl.arange(0, $(N))
   vals = z[None]
-  tl.store(outReg + pid * $(N) + offs, vals)
+  tl.store(outReg + pid * $(N) + offs, tl.broadcast_to(vals, [$(N)]))
 }
 
 /-! ### Rank-3 `None` dimension insertion -/
@@ -1916,7 +1916,7 @@ def powScalarTensorSmoke (xReg outReg : RegionName) (theta : ℝ) (N : Nat) :
   tl.store($(outReg) + offs, freqs)
 }
 
-/-- The literal-2 exponent keeps its historical `x * x` (`Op.mul`) lowering. -/
+/-- The literal-2 exponent retains the independent native integer-power operation. -/
 def powSquareSmoke (xReg outReg : RegionName) : ComputeKernel := triton {
   x := tl.load($(xReg))
   y := tl.extra.cuda.libdevice.pow(x, 2)

@@ -471,7 +471,7 @@ dtype `od` (`.fp16` / `.f8e4` — the two constexpr arms): `od` cast, the two
 `offs_c*` vectors, the `c_ptrs` chunk, the `c_mask`, and the masked store. -/
 def matmulStoreTail (od : FloatDType) (C : RegionName) (M N scm scn BM BN : Nat) : List Stmt :=
   [ Stmt.assign od.toTileDType [BM, BN] "c"
-      (Op.castFloat FloatDType.real od (Op.ref .real [BM, BN] "accumulator")),
+      (Op.castFloat FloatDType.real od (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))),
     Stmt.assign .nat [BM] "offs_cm"
       (Op.add .nat Broadcast.scalarL
         (Op.mul .nat Broadcast.nil (Op.ref .nat [] "pid_m") (Op.constNat BM))
@@ -1120,8 +1120,8 @@ theorem matmul_postLoop (od : FloatDType)
   unfold matmulStoreTail
   -- c = cast(accumulator, od)
   erw [stepStmts.cons_some (stepStmt_assign_eq_some
-        (show evalOp (Op.castFloat FloatDType.real od (Op.ref .real [BM, BN] "accumulator")) st
-          = some cT from by rw [evalOp_castFloat]; simp [evalOp_ref, hz, hcT, haccT]))]
+        (show evalOp (Op.castFloat FloatDType.real od (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))) st
+          = some cT from by rw [evalOp_castFloat, evalOp.eq_def]; simp [evalOp_ref, hz, hcT, haccT]))]
   -- offs_cm
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
         (offscm_eval _ BM BM (pidM (s0.pids 0) M N BM BN GM) "pid_m" (by simp [hpm])))]
@@ -1464,7 +1464,7 @@ unfolding (a `rw` through `evalOpR_castFloat` trips over the
 private theorem castAcc_evalR (R : RoundingModel) (od : FloatDType) (Mv Nv : Nat)
     (s : BlockState) (zT : Tile .real [Mv, Nv])
     (hz : s.regs .real [Mv, Nv] "accumulator" = some zT) :
-    evalOpR R (Op.castFloat FloatDType.real od (Op.ref .real [Mv, Nv] "accumulator")) s
+    evalOpR R (Op.castFloat FloatDType.real od (Op.withPrecision .real .fp32 (Op.ref .real [Mv, Nv] "accumulator"))) s
       = some ⟨fun idx => RoundingModel.cast R FloatDType.real od (zT.data idx)⟩ := by
   have hz' : s.regs FloatDType.real.toTileDType [Mv, Nv] "accumulator" = some zT := hz
   simp only [evalOpR.eq_def, hz']
@@ -1517,7 +1517,7 @@ private theorem matmul_postLoopR (R : RoundingModel) (od : FloatDType)
   -- c = cast(accumulator, od): rounding-event site 1 (`R.cast`)
   erw [stepStmtsR_cons_some (stepStmtR_assign_eq_some
         (show evalOpR R (Op.castFloat FloatDType.real od
-              (Op.ref .real [BM, BN] "accumulator")) st = some cT
+              (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))) st = some cT
           from castAcc_evalR R od BM BN st zT hz))]
   -- offs_cm / offs_cn (cast-free)
   rw [stepStmtsR_cons_some (stepStmtR_assign_eq_some

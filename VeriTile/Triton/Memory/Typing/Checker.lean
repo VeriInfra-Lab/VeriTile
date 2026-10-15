@@ -351,11 +351,20 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
       let _ ← ctx.checkRegRef name dtype shape
       .ok ()
   | .arange _ => .ok ()
+  | .philox4x32 _ _ _ seed c0 c1 c2 c3 =>
+      seed.check ctx *> c0.check ctx *> c1.check ctx *> c2.check ctx *> c3.check ctx
+  | .uniform32 word => word.check ctx
+  | .rand _ seed offsets => seed.check ctx *> offsets.check ctx
+  | .randTensor _ seed offsets => seed.check ctx *> offsets.check ctx
   | .broadcast e _ => e.check ctx
   | .full _ e => e.check ctx
   | .withPrecision _ _ e => e.check ctx
   | .castFloat _ _ e => e.check ctx
   | .castNatToInt e => e.check ctx
+  | .negFloat _ e => e.check ctx
+  | .absFloat _ e => e.check ctx
+  | .floatToInt _ _ _ e => e.check ctx
+  | .floatToNat _ _ _ e => e.check ctx
   | .castIntToNat e => e.check ctx
   | .castRealToInt8 e => e.check ctx
   | .decodeFloat8E5 _ e => e.check ctx
@@ -401,17 +410,21 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .boolOr _ a b => a.check ctx *> b.check ctx
   | .boolNot a => a.check ctx
   | .max2 _ a b => a.check ctx *> b.check ctx
+  | .maximumFloat _ _ a b => a.check ctx *> b.check ctx
   | .pow _ a b => a.check ctx *> b.check ctx
+  | .libdevicePowi _ a b => a.check ctx *> b.check ctx
   | .where c a b => c.check ctx *> a.check ctx *> b.check ctx
   | .ite c a b => c.check ctx *> a.check ctx *> b.check ctx
   | .reduceMax _ _ a => a.check ctx
   | .reduceMaxNat _ _ a => a.check ctx
   | .reduceMaxInt _ _ a => a.check ctx
   | .reduceSum _ _ a => a.check ctx
+  | .reduceSumBool _ _ a => a.check ctx
   | .reduceSumTyped _ _ _ a => a.check ctx
   | .reduceMaxTyped _ _ _ a => a.check ctx
   | .scan _ _ _ a => a.check ctx
   | .argMax _ a => a.check ctx
+  | .argMaxInt _ a => a.check ctx
   | .argMaxTyped _ _ a _ => a.check ctx
   | .indexedMaxValue _ _ a => a.check ctx
   | .argMin _ a => a.check ctx

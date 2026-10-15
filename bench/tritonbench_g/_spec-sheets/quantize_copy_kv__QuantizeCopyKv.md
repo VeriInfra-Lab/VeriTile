@@ -115,16 +115,6 @@ def scaleOutOffset1
 
 <details><summary><code>destindex_copy_quantize_kv_real_surface</code></summary>
 
-```
-/-- Real-valued surface of `quantize_copy_kv.py`'s
-`_fwd_kernel_destindex_copy_quantize_kv`.
-
-This preserves destination-indexed addressing, `tl.abs`, the per-head
-`tl.max(..., axis=1)` scale computation, value writeback, and scale writeback.
-The Python kernel casts the scale to fp16 before broadcasting it and casts the
-quotient to int8; both casts are preserved as surface dtype annotations and
-lower through the DSL's fixed-width cast surfaces. -/
-```
 ```lean
 def destindex_copy_quantize_kv_real_surface
     (K : RegionName) (DestLoc : Region .nat) (Out OutScale : RegionName)
@@ -132,7 +122,7 @@ def destindex_copy_quantize_kv_real_surface
       stride_o_bs stride_o_h stride_o_d
       stride_os_bs stride_os_h _stride_os_d
       head_num BLOCK_DMODEL BLOCK_HEAD : Nat) :
-    ComputeKernel := triton {
+    ComputeKernel := legacy_real_int8% triton {
   cur_index = tl.program_id(0)
   offs_h = tl.arange(0, $(BLOCK_HEAD))
   offs_d = tl.arange(0, $(BLOCK_DMODEL))
@@ -417,16 +407,6 @@ noncomputable def scaleRealXs (BLOCK_HEAD BLOCK_DMODEL head_num : Nat)
 
 <details><summary><code>destindex_copy_quantize_kv_real_surface</code></summary>
 
-```
-/-- Real-valued surface of `quantize_copy_kv.py`'s
-`_fwd_kernel_destindex_copy_quantize_kv`.
-
-This preserves destination-indexed addressing, `tl.abs`, the per-head
-`tl.max(..., axis=1)` scale computation, value writeback, and scale writeback.
-The Python kernel casts the scale to fp16 before broadcasting it and casts the
-quotient to int8; both casts are preserved as surface dtype annotations and
-lower through the DSL's fixed-width cast surfaces. -/
-```
 ```lean
 def destindex_copy_quantize_kv_real_surface
     (K : RegionName) (DestLoc : Region .nat) (Out OutScale : RegionName)
@@ -434,7 +414,7 @@ def destindex_copy_quantize_kv_real_surface
       stride_o_bs stride_o_h stride_o_d
       stride_os_bs stride_os_h _stride_os_d
       head_num BLOCK_DMODEL BLOCK_HEAD : Nat) :
-    ComputeKernel := triton {
+    ComputeKernel := legacy_real_int8% triton {
   cur_index = tl.program_id(0)
   offs_h = tl.arange(0, $(BLOCK_HEAD))
   offs_d = tl.arange(0, $(BLOCK_DMODEL))

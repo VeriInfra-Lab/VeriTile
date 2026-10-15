@@ -72,7 +72,7 @@ instance : Spec.ProgramSyntax Program where
   Statement := GuardedFragment
   Signature := (List RegionName × List RegionName) × List Site
   signature p := ((p.kernel.inputs, p.kernel.outputs), p.domain)
-  body p := [⟨[], p.kernel.surfaceBody⟩]
+  body p := [⟨[], p.kernel.surfaceBody, .real, none⟩]
   structural := some (fun _ _ => False)
   numerical := Equivalent
   sameContext := fun lhs rhs => lhs = rhs

@@ -1,3 +1,4 @@
+import VeriTile.Triton.Math.MaximumProjection
 import VeriTile.Triton
 import VeriTile.Examples.AttentionForwardClosedForm
 
@@ -1864,8 +1865,8 @@ private theorem attnIO_attn_stepW (K KScale V Out : RegionName) (s0 : BlockState
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (qk_op_eval _ BLOCK_M BLOCK_N BLOCK_DMODEL qT kloadT qsv ksv
       (by simp [hu0, hq]) (by simp [hkl]) (by simp [hu0, hqs]) (by simp [hksv])))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (mij_op_eval _ BLOCK_M BLOCK_N mT qkT rmaxT (by simp [hu0, hmi]) (by simp [hqk]) hrm))]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (evalOp_maximumFloat_real_of_where (mij_op_eval _ BLOCK_M BLOCK_N mT qkT rmaxT (by simp [hu0, hmi]) (by simp [hqk]) hrm)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (qk2_op_eval _ BLOCK_M BLOCK_N hax qkT mijT (by simp [hqk]) (by simp [hmij])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
@@ -1886,7 +1887,7 @@ private theorem attnIO_attn_stepW (K KScale V Out : RegionName) (s0 : BlockState
       (vmask_eval _ BLOCK_N BLOCK_DMODEL (BLOCK_N * numKVBlocks) c HEAD_ACTIVE
         (by simp [hu0, hoffsn]) (by simp [hu0]))))]
   rw [stepStmts.cons_some (@stepStmt_assign_eq_some TileDType.fp16 [BLOCK_M, BLOCK_N] "p"
-    (Op.castFloat .real .fp16 (Op.ref .real [BLOCK_M, BLOCK_N] "p")) _
+    (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, BLOCK_N] "p"))) _
     (⟨fun i => FloatDType.real.cast FloatDType.fp16 (pT.data i)⟩ : Tile .fp16 [BLOCK_M, BLOCK_N])
     (pfp16_op_eval _ BLOCK_M BLOCK_N pT (by simp [hpT])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some

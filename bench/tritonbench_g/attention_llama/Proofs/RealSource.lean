@@ -14,11 +14,49 @@ set_option maxRecDepth 16000
 set_option maxHeartbeats 500000
 set_option linter.unusedSimpArgs false
 
+/- Only the mathematical maximum node differs after dtype erasure. The bridge
+below proves both execution and intermediate access safety, not a floating law. -/
+private def sourceTail (skn svk N BM BN BD : Nat) (carryFirst : Bool) : List Stmt :=
+  Stmt.assign .real [BM] "m_curr"
+    (.max2 Broadcast.nil.consSame
+      (.reduceMax (⟨1, by simp⟩ : Fin [BM, BN].length) Bool.false (.ref .real [BM, BN] "qk"))
+      (.ref .real [BM] "m_prev")) ::
+    (alLoopTailG skn svk N BM BN BD carryFirst).drop 1
+
+private theorem max_head_step {n : Nat} (x y : Op .real [n])
+    (name : RegName) (rest : List Stmt) (s : BlockState) :
+    stepStmts (.assign .real [n] name (.max2 (.consSame .nil) x y) :: rest) s =
+      stepStmts (.assign .real [n] name (.maximumFloat .real (.consSame .nil) x y) :: rest) s := by
+  simp only [stepStmts, stepStmt, FloatDType.toTileDType]
+  erw [evalOp_maximumFloat_real]
+
+private theorem max_head_safe {n : Nat} (bounds : RegionBounds) (x y : Op .real [n])
+    (name : RegName) (rest : List Stmt) (s : BlockState) :
+    Stmt.TraceSafeList bounds (.assign .real [n] name (.max2 (.consSame .nil) x y) :: rest) s ↔
+      Stmt.TraceSafeList bounds (.assign .real [n] name (.maximumFloat .real (.consSame .nil) x y) :: rest) s := by
+  simp only [Stmt.TraceSafeList, Stmt.TraceSafe,
+    stepStmt, FloatDType.toTileDType]
+  erw [evalOp_maximumFloat_real]
+  conv_lhs => arg 1; rw [Op.SafeAt.eq_def]
+  conv_rhs => arg 1; rw [Op.SafeAt.eq_def]
+  rfl
+
+private theorem sourceTail_step (skn svk N BM BN BD : Nat) (carryFirst : Bool) (s : BlockState) :
+    stepStmts (sourceTail skn svk N BM BN BD carryFirst) s =
+      stepStmts (alLoopTailG skn svk N BM BN BD carryFirst) s := by
+  exact max_head_step _ _ "m_curr" ((alLoopTailG skn svk N BM BN BD carryFirst).drop 1) s
+
+private theorem sourceTail_safe (bounds : RegionBounds) (skn svk N BM BN BD : Nat)
+    (carryFirst : Bool) (s : BlockState) :
+    Stmt.TraceSafeList bounds (sourceTail skn svk N BM BN BD carryFirst) s ↔
+      Stmt.TraceSafeList bounds (alLoopTailG skn svk N BM BN BD carryFirst) s := by
+  exact max_head_safe bounds _ _ "m_curr" ((alLoopTailG skn svk N BM BN BD carryFirst).drop 1) s
+
 private def sourceLoop (sm_scale : ℝ) (skn svk N SP BM BN BD : Nat)
     (IS_CAUSAL : Bool) (carryFirst : Bool := Bool.false) : List Stmt :=
   alLoopPrefixG sm_scale N BM BN BD ++
     .ifThen (.constBool IS_CAUSAL) [alCausalWhereStmt SP BM BN] ::
-      alLoopTailG skn svk N BM BN BD carryFirst
+      sourceTail skn svk N BM BN BD carryFirst
 
 section
 variable (Q K V Out : RegionName) (sm_scale : ℝ)
@@ -88,14 +126,14 @@ private theorem loop_noncausal (sm_scale : ℝ) (skn svk N SP BM BN BD : Nat)
     stepStmts (sourceLoop sm_scale skn svk N SP BM BN BD Bool.false) s =
       stepStmts (alLoopBodyG sm_scale skn svk N BM BN BD) s := by
   simp only [sourceLoop, alLoopBodyG, ProgramRewrite.append,
-    ProgramRewrite.constant_branch, Bool.false_eq_true, ↓reduceIte, List.nil_append]
+    ProgramRewrite.constant_branch, Bool.false_eq_true, ↓reduceIte, List.nil_append, sourceTail_step]
 
 private theorem loop_causal (sm_scale : ℝ) (skn svk N SP BM BN BD : Nat)
     (s : BlockState) :
     stepStmts (sourceLoop sm_scale skn svk N SP BM BN BD Bool.true) s =
       stepStmts (alLoopBodyCausalG sm_scale skn svk N SP BM BN BD) s := by
   simp only [sourceLoop, alLoopBodyCausalG, ProgramRewrite.append,
-    ProgramRewrite.constant_branch, ↓reduceIte, List.singleton_append]
+    ProgramRewrite.constant_branch, ↓reduceIte, List.singleton_append, stepStmts, sourceTail_step]
 
 private theorem real_add_comm (a b : WithBot ℝ) :
     WithBot.realAdd a b = WithBot.realAdd b a := by
@@ -128,21 +166,21 @@ private theorem candidate_loop (sm_scale : ℝ) (skn svk N SP BM BN BD : Nat)
     (causal : Bool) (s : BlockState) :
     stepStmts (sourceLoop sm_scale skn svk N SP BM BN BD causal Bool.true) s =
       stepStmts (sourceLoop sm_scale skn svk N SP BM BN BD causal Bool.false) s := by
-  simp only [sourceLoop, ProgramRewrite.append, stepStmts, candidate_tail]
+  simp only [sourceLoop, ProgramRewrite.append, stepStmts, sourceTail_step, candidate_tail]
 
 private theorem loop_noncausal_safe (bounds : RegionBounds) (sm_scale : ℝ)
     (skn svk N SP BM BN BD : Nat) (s : BlockState) :
     Stmt.TraceSafeList bounds (sourceLoop sm_scale skn svk N SP BM BN BD Bool.false) s ↔
       Stmt.TraceSafeList bounds (alLoopBodyG sm_scale skn svk N BM BN BD) s := by
   simp only [sourceLoop, alLoopBodyG, TraceRewrite.append_iff,
-    TraceRewrite.constant_branch, Bool.false_eq_true, ↓reduceIte, List.nil_append]
+    TraceRewrite.constant_branch, Bool.false_eq_true, ↓reduceIte, List.nil_append, sourceTail_safe]
 
 private theorem loop_causal_safe (bounds : RegionBounds) (sm_scale : ℝ)
     (skn svk N SP BM BN BD : Nat) (s : BlockState) :
     Stmt.TraceSafeList bounds (sourceLoop sm_scale skn svk N SP BM BN BD Bool.true) s ↔
       Stmt.TraceSafeList bounds (alLoopBodyCausalG sm_scale skn svk N SP BM BN BD) s := by
   simp only [sourceLoop, alLoopBodyCausalG, TraceRewrite.append_iff,
-    TraceRewrite.constant_branch, ↓reduceIte, List.singleton_append]
+    TraceRewrite.constant_branch, ↓reduceIte, List.singleton_append, Stmt.TraceSafeList, sourceTail_safe]
 
 private theorem candidate_tail_safe (bounds : RegionBounds)
     (skn svk N BM BN BD : Nat) (s : BlockState) :
@@ -158,7 +196,7 @@ private theorem candidate_loop_safe (bounds : RegionBounds) (sm_scale : ℝ)
     (skn svk N SP BM BN BD : Nat) (causal : Bool) (s : BlockState) :
     Stmt.TraceSafeList bounds (sourceLoop sm_scale skn svk N SP BM BN BD causal Bool.true) s ↔
       Stmt.TraceSafeList bounds (sourceLoop sm_scale skn svk N SP BM BN BD causal Bool.false) s := by
-  simp only [sourceLoop, TraceRewrite.append_iff, Stmt.TraceSafeList, candidate_tail_safe]
+  simp only [sourceLoop, TraceRewrite.append_iff, Stmt.TraceSafeList, sourceTail_step, sourceTail_safe, candidate_tail_safe]
 
 section
 variable (Q K V Out : RegionName) (sm_scale : ℝ)
@@ -181,7 +219,7 @@ theorem original_noncausal_execution (s : BlockState) :
     exec (TypedSource.original Q K V Out sm_scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD Bool.false).eraseDType.toAlgKernel s =
       exec (RealKernel.noncausal Q K V Out sm_scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD).toAlgKernel s := by
   simp only [exec, original_body, al_body_split, ProgramRewrite.append,
-    ProgramRewrite.constant_branch, Bool.false_eq_true, ↓reduceIte, List.nil_append]
+    ProgramRewrite.constant_branch, Bool.false_eq_true, ↓reduceIte, List.nil_append, sourceTail_step]
   congr 1
   funext t
   simp only [stepStmts, ProgramRewrite.dynamic_range_congr _ _ _ _ _ _
@@ -192,7 +230,7 @@ theorem original_causal_execution (s : BlockState) :
     exec (TypedSource.original Q K V Out sm_scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD Bool.true).eraseDType.toAlgKernel s =
       exec (RealKernel.causal Q K V Out sm_scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD).toAlgKernel s := by
   simp only [exec, original_body, alc_body_split, ProgramRewrite.append,
-    ProgramRewrite.constant_branch, ↓reduceIte, List.singleton_append]
+    ProgramRewrite.constant_branch, ↓reduceIte, List.singleton_append, stepStmts, sourceTail_step]
   congr 1
   funext t
   simp only [stepStmts, ProgramRewrite.dynamic_range_congr _ _ _ _ _ _
@@ -239,7 +277,7 @@ theorem original_causal_safety (bounds : RegionBounds) (s : BlockState) :
 theorem original_flatten_supported (causal : Bool) :
     (TypedSource.original Q K V Out sm_scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal).eraseDType.toAlgKernel.FlattenOk := by
   simp [Kernel.FlattenOk, original_body, alPreLoopG, sourceLoop, alLoopPrefixG,
-    alLoopTailG, alCausalWhereStmt, alBnEndCausalStmt, alPostLoopG,
+    sourceTail, alLoopTailG, List.drop_succ_cons, List.drop_zero, alCausalWhereStmt, alBnEndCausalStmt, alPostLoopG,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
   simp only [Op.FlattenOk.eq_def, true_and, and_true]
 
@@ -247,7 +285,7 @@ theorem original_flatten_supported (causal : Bool) :
 theorem candidate_flatten_supported (causal : Bool) :
     (TypedSource.carryFirst Q K V Out sm_scale sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son NH H N SP BM BN BD causal).eraseDType.toAlgKernel.FlattenOk := by
   simp [Kernel.FlattenOk, candidate_body, alPreLoopG, sourceLoop, alLoopPrefixG,
-    alLoopTailG, alCausalWhereStmt, alBnEndCausalStmt, alPostLoopG,
+    sourceTail, alLoopTailG, List.drop_succ_cons, List.drop_zero, alCausalWhereStmt, alBnEndCausalStmt, alPostLoopG,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
   simp only [Op.FlattenOk.eq_def, true_and, and_true]
 

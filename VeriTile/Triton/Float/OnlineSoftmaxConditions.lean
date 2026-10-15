@@ -8,13 +8,13 @@ open WelfordConditions
 
 def initial {α : Type} (M : Algebra α) (x : α) : Requirements α :=
   let m := maximum M M.negInf x
-  let c := exp M (sub M M.negInf m)
+  let c := exp M (ScalarArithmetic.sub M M.negInf m)
   .all [.guard .finite x, .guard .finite m, .guard .finite (exp M x),
     .guard .finite (exp M m), .guard .nonzero (exp M m),
-    .guard .finite (div M (one M) (exp M m)), .guard .finite (zero M),
-    .guard .finite c, .guard .finite (mul M c (zero M)),
-    .guard .finite (sub M (zero M) (mul M c (zero M))),
-    .guard .finite (exp M (sub M x m))]
+    .guard .finite (ScalarArithmetic.div M (one M) (exp M m)), .guard .finite (zero M),
+    .guard .finite c, .guard .finite (ScalarArithmetic.mul M c (zero M)),
+    .guard .finite (ScalarArithmetic.sub M (zero M) (ScalarArithmetic.mul M c (zero M))),
+    .guard .finite (exp M (ScalarArithmetic.sub M x m))]
 
 @[simp] theorem initial_holds {α : Type} (M : Algebra α) (D : Domain α) (x : α) :
     (initial M x).Holds D ↔ InitDomain M D x := by
@@ -31,9 +31,9 @@ def step {α : Type} (M : Algebra α) (x m l : α) : Requirements α :=
   let n := maximum M m x
   .all [.guard .finite x, .guard .finite m, .guard .finite n,
     .guard .finite (exp M x), .guard .finite (exp M m), .guard .finite (exp M n),
-    .guard .nonzero (exp M n), .guard .finite (div M (one M) (exp M n)),
-    .guard .finite (exp M (sub M m n)), .guard .finite (exp M (sub M x n)),
-    .guard .finite l, .guard .finite (mul M (exp M (sub M m n)) l),
+    .guard .nonzero (exp M n), .guard .finite (ScalarArithmetic.div M (one M) (exp M n)),
+    .guard .finite (exp M (ScalarArithmetic.sub M m n)), .guard .finite (exp M (ScalarArithmetic.sub M x n)),
+    .guard .finite l, .guard .finite (ScalarArithmetic.mul M (exp M (ScalarArithmetic.sub M m n)) l),
     .guard .finite (update M x (m, l)).2]
 
 @[simp] theorem step_holds {α : Type} (M : Algebra α) (D : Domain α) (x m l : α) :

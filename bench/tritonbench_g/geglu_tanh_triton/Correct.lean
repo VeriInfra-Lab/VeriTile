@@ -4,6 +4,11 @@ import bench.tritonbench_g.geglu_tanh_triton.Proofs.Real
 import bench.tritonbench_g.geglu_tanh_triton.Proofs.Math
 import bench.tritonbench_g.geglu_tanh_triton.Proofs.Candidate
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.GegluTanhTriton
 open VeriTile.Triton
 open scoped VeriTile.Triton.MaskedKernelIO₂
@@ -16,7 +21,7 @@ the translated pointer kernel terminates, every active output-row lane `j`
 holds `TiledActivation.geluTanhFwd (as j) (bs j)`, and every other memory cell
 is unchanged. Proof: `MaskedKernelIO₂.Implements.intro` assembles the
 region-model masked triple with the flat-memory bridge side conditions. -/
-specification geglu_tanh_forward_kernel_correctness
+theorem geglu_tanh_forward_kernel_correctness
     (A B C : RegionName)
     (stride n_cols BLOCK_SIZE : Nat) :
     gegluTanhFwdIO A B C stride n_cols BLOCK_SIZE
@@ -44,7 +49,7 @@ cell is unchanged. Assumes the two output regions are distinct (`A ≠ B`) so
 the second store cannot clobber the first channel. Proof:
 `MaskedKernelIO₃ₓ₂.Implements.intro` assembles the region-model masked triple
 with the flat-memory bridge side conditions. -/
-specification geglu_tanh_backward_kernel_correctness
+theorem geglu_tanh_backward_kernel_correctness
     (DC A B : RegionName)
     (stride n_cols BLOCK_SIZE : Nat)
     (hAB : A ≠ B) :
@@ -65,7 +70,7 @@ specification geglu_tanh_backward_kernel_correctness
 
 /-- Complete forward flat IO against an independent scalar formula using the
 source decimal coefficient, with the existing active-lane bounds and full frame. -/
-specification forward_formula_correct (A B C : RegionName)
+theorem forward_formula_correct (A B C : RegionName)
     (stride n_cols BLOCK_SIZE : Nat) :
     gegluTanhFwdIO A B C stride n_cols BLOCK_SIZE
       ⊨ fun as bs i => Math.forward (as i) (bs i) := by
@@ -74,7 +79,7 @@ specification forward_formula_correct (A B C : RegionName)
 
 /-- Both in-place output formulas use the old input windows. The two output
 regions are distinct, so the second store preserves the first gradient. -/
-specification backward_formula_correct (DC A B : RegionName)
+theorem backward_formula_correct (DC A B : RegionName)
     (stride n_cols BLOCK_SIZE : Nat) (hAB : A ≠ B) :
     gegluTanhBwdIO DC A B stride n_cols BLOCK_SIZE ⊨ fun dcs as bs =>
       (fun i => (Math.backward (dcs i) (as i) (bs i)).1,

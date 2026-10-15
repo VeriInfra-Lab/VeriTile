@@ -1,5 +1,6 @@
 import VeriTile.Triton.DSL
 import VeriTile.Meta.StatementAudit
+import VeriTile.Triton.Float.ScalarBackend
 
 namespace VeriTile.Tests.FloatNegativeScalar
 open VeriTile.Triton
@@ -60,21 +61,56 @@ def halfRuntimeNegation (T : RegionName) : ComputeKernel := triton {
   res = -target
 }
 
-/-- Runtime tensor negation remains a subtraction in the tensor's own type. -/
+/-- Runtime tensor negation uses the dedicated sign operation in the tensor's own type.
+Unlike subtraction from +0, this preserves the IEEE sign-bit behavior at zero. -/
 example (T : RegionName) :
     (halfRuntimeNegation T).surfaceBody[1]? = some (.assign .fp16 [] "res"
-      (.alg (.sub .fp16 .nil (.constFloat .fp16 0.0) (.ref .fp16 [] "target")))) := rfl
+      (.alg (.negFloat .fp16 (.ref .fp16 [] "target")))) := rfl
 
 def legacyRealNegative (T : RegionName) : ComputeKernel := triton {
   target = tl.load(T)
   res = target * -1
 }
 
-/-- The untyped mathematical surface retains its historical expression tree. -/
+/-- Negative constexpr values are materialized directly in the untyped mathematical carrier too. -/
 example (T : RegionName) :
     (legacyRealNegative T).surfaceBody[1]? = some (.assign .real [] "res"
       (.alg (.mul .real .nil (.ref .real [] "target")
-        (.sub .real .nil (.const 0.0) (.const 1))))) := rfl
+        (.const (-1))))) := rfl
+
+
+def singleRuntimeNegation (T : RegionName) : ComputeKernel := triton {
+  tl.region T = tl.float32
+  target = tl.load(T)
+  res = -target
+}
+
+/-- The actual load/negate kernel reaches the fp32 sign-bit implementation for
+all stored bit patterns. The arbitrary remainder supplies no negation law. -/
+theorem single_runtime_negation
+    [Inhabited (FP.Value .fp32)] (rest : FP.Structural.Algebra (FP.Value .fp32))
+    (T : RegionName) (s : FP.Structural.State (FP.Value .fp32)) :
+    ∃ final, FP.Structural.exec (FP.Software.scalarFP32 rest)
+        (singleRuntimeNegation T) s = some final ∧
+      final.regs .real [] "res" = some (fun _ => ((s.mem T 0).read .real).neg) := by
+  simp [singleRuntimeNegation, FP.Structural.exec,
+    FP.Structural.run, FP.Structural.step, FP.Structural.evalExpr,
+    FP.Structural.evalComputeOp, FP.Structural.evalOp_unfold,
+    FP.Structural.State.setReg, FP.Structural.ofFloat, FP.Structural.toFloat,
+    FP.Software.scalarFP32, FP.Software.fp32Context,
+    Option.bind, ComputeDType.eraseDType]
+
+/-- In particular, fneg turns positive zero into negative zero. -/
+theorem negates_positive_zero :
+    (FP.Value.zero .fp32).neg = FP.Value.zero .fp32 Bool.true := by decide +kernel
+
+/-- Negative zero becomes positive zero, without arithmetic rounding. -/
+theorem negates_negative_zero :
+    (FP.Value.zero .fp32 Bool.true).neg = FP.Value.zero .fp32 := by decide +kernel
+
+#axiomsClean single_runtime_negation
+#axiomsClean negates_positive_zero
+#axiomsClean negates_negative_zero
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

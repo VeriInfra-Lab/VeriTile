@@ -15,7 +15,7 @@ theorem source_bodies_avoid (name : RegName)
   all_goals
     simp only [List.mem_cons, List.not_mem_nil, or_false] at hbody
     rcases hbody with rfl | rfl | rfl | rfl | rfl <;>
-      simp [inputFull, inputTail, outputFull, outputTail, indexPrefix,
+      simp [sourceMaximum, inputFull, inputTail, outputFull, outputTail, indexPrefix,
       maskStatement, outputPointer, loopAbody, loopBbody, loopApass2body,
       loopBpass2body, reductionStmts, AvoidsRegister]
 

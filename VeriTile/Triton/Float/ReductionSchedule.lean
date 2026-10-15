@@ -52,7 +52,7 @@ theorem sound {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
   | zeroLeft a =>
     exact zero_add R M D hM s _ (hd a (by simp [operands])) (hd .zero (by simp [operands]))
   | congr p q ihp ihq =>
-    exact congrArg₂ (add M)
+    exact congrArg₂ (ScalarArithmetic.add M)
       (ihp (fun t ht => hd t (List.mem_append_left _ ht)))
       (ihq (fun t ht => hd t (List.mem_append_right _ ht)))
   | symm p ih => exact (ih hd).symm

@@ -1,3 +1,13 @@
+/-
+Source-audit target: _swiglu_bwd_kernel
+Source-audit Lean: swigluBackward%
+Source-audit params: stride_x_row=sx, stride_y_row=sy, stride_dout_row=sd, stride_out_row=so, stride_dx_row=sdx, stride_dy_row=sdy, ncols=N, BLOCK_N=B, RECOMPUTE_OUTPUT=R
+Source-audit args: gradient=tl.float32, output=tl.float32, version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original backward quotation; input/upstream dtypes and recomputation flag R remain symbolic.
+Other dtype profiles and commuted candidates are unselected; no recompute branch is specialized.
+-/
+
 import VeriTile.Triton
 
 /-!
@@ -220,17 +230,17 @@ def typedStore (pointer name : RegName) (storage : Storage) (B N : Nat) : Comput
         (.withPrecision .real .fp32 (.ref .real [B] name)))))
       (.mask (.lt .nat .scalarR (.ref .nat [B] "cols") (.constNat N)))
   | .fp16 => .store .fp16 [B] (storeAddress pointer .fp16 B)
-      (.alg (.castFloat .real .fp16 (.ref .real [B] name)))
+      (.alg (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [B] name))))
       (.mask (.lt .nat .scalarR (.ref .nat [B] "cols") (.constNat N)))
   | .bf16 => .store .bf16 [B] (storeAddress pointer .bf16 B)
-      (.alg (.castFloat .real .bf16 (.ref .real [B] name)))
+      (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [B] name))))
       (.mask (.lt .nat .scalarR (.ref .nat [B] "cols") (.constNat N)))
 
   | .f8e4 => .store .f8e4 [B] (storeAddress pointer .f8e4 B)
-      (.alg (.castFloat .real .f8e4 (.ref .real [B] name)))
+      (.alg (.castFloat .real .f8e4 (.withPrecision .real .fp32 (.ref .real [B] name))))
       (.mask (.lt .nat .scalarR (.ref .nat [B] "cols") (.constNat N)))
   | .f8e5 => .store .f8e5 [B] (storeAddress pointer .f8e5 B)
-      (.alg (.castFloat .real .f8e5 (.ref .real [B] name)))
+      (.alg (.castFloat .real .f8e5 (.withPrecision .real .fp32 (.ref .real [B] name))))
       (.mask (.lt .nat .scalarR (.ref .nat [B] "cols") (.constNat N)))
 
 

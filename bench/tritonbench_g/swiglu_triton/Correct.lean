@@ -4,6 +4,11 @@ import bench.tritonbench_g.swiglu_triton.Proofs.Candidate
 import bench.tritonbench_g.swiglu_triton.Proofs.Precision
 import bench.tritonbench_g.swiglu_triton.Proofs.Real
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.SwigluTriton
 open VeriTile.Triton
 open scoped VeriTile.Triton.MaskedKernelIO₂
@@ -18,7 +23,7 @@ terminates, every active output-row lane `j` holds
 `TiledActivation.swiglu (as j) (bs j)`, and every other memory cell is
 unchanged. Proof: `MaskedKernelIO₂.Implements.intro` assembles the region-model
 masked triple with the flat-memory bridge side conditions. -/
-specification swiglu_forward_kernel_correctness
+theorem swiglu_forward_kernel_correctness
     (A B C : RegionName)
     (stride n_cols BLOCK_SIZE : Nat) :
     swigluFwdIO A B C stride n_cols BLOCK_SIZE
@@ -45,7 +50,7 @@ cell is untouched. The side condition `A ≠ B` rules out aliasing between the
 two output buffers (the second masked store would otherwise clobber the first
 output). Proof: `MaskedKernelIO₃ₓ₂.Implements.intro` assembles the
 region-model triple with the flat-memory bridge side conditions. -/
-specification swiglu_backward_kernel_correctness
+theorem swiglu_backward_kernel_correctness
     (DC A B : RegionName)
     (stride n_cols BLOCK_SIZE : Nat)
     (hAB : A ≠ B) :
@@ -65,7 +70,7 @@ specification swiglu_backward_kernel_correctness
 
 /-- Complete forward flat IO against an independent scalar formula using the
 source sigmoid expression, with the existing active-lane bounds and full frame. -/
-specification forward_formula_correct (A B C : RegionName)
+theorem forward_formula_correct (A B C : RegionName)
     (stride n_cols BLOCK_SIZE : Nat) :
     swigluFwdIO A B C stride n_cols BLOCK_SIZE
       ⊨ fun as bs i => Math.forward (as i) (bs i) := by
@@ -74,7 +79,7 @@ specification forward_formula_correct (A B C : RegionName)
 
 /-- Both in-place output formulas use the old input windows. The two output
 regions are distinct, so the second store preserves the first gradient. -/
-specification backward_formula_correct (DC A B : RegionName)
+theorem backward_formula_correct (DC A B : RegionName)
     (stride n_cols BLOCK_SIZE : Nat) (hAB : A ≠ B) :
     swigluBwdIO DC A B stride n_cols BLOCK_SIZE ⊨ fun dcs as bs =>
       (fun i => (Math.backward (dcs i) (as i) (bs i)).1,

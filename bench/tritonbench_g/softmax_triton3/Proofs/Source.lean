@@ -118,10 +118,10 @@ def expectedStore (storage : Storage) (n B : Nat) : ComputeStmt :=
   | .fp32 => .store .real [B] (.ptr (.ref .ptr [B] "output_ptrs"))
       (.compute (.alg .fp32 (.ref .real [B] "softmax_output"))) gate
   | .fp16 => .store .fp16 [B] (.ptr (.ref .ptr [B] "output_ptrs"))
-      (.alg (.castFloat .real .fp16 (.ref .real [B] "softmax_output")))
+      (.alg (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [B] "softmax_output"))))
       (.mask (.lt .nat .scalarR (.ref .nat [B] "col_offsets") (.constNat n)))
   | .bf16 => .store .bf16 [B] (.ptr (.ref .ptr [B] "output_ptrs"))
-      (.alg (.castFloat .real .bf16 (.ref .real [B] "softmax_output")))
+      (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [B] "softmax_output"))))
       (.mask (.lt .nat .scalarR (.ref .nat [B] "col_offsets") (.constNat n)))
 
 /-- Precision regression: all nine storage pairs, both source versions and both

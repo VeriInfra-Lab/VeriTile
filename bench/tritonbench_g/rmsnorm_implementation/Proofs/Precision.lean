@@ -91,7 +91,8 @@ def expectedMultiply (input weight : Storage) (B : Nat) : ComputeStmt :=
 def expectedStore (input weight output : Storage) (O : RegionName) (B : Nat) : ComputeStmt :=
   let wide := decide (input = .fp64) || decide (weight = .fp64)
   let raw : Op .real [B] := .ref .real [B] "out"
-  let wideScoped : Op .real [B] := if wide then .withPrecision .real .fp64 raw else raw
+  let wideScoped : Op .real [B] := if wide then .withPrecision .real .fp64 raw
+    else .withPrecision .real .fp32 raw
   match output with
   | .fp32 => .store .real [B] (.region O (.ref .nat [B] "out_offset"))
       (.compute (.alg .fp32 (if wide then .castFloat .real .real wideScoped else raw)))

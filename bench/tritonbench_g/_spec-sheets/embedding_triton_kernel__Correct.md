@@ -12,7 +12,7 @@ specification embedding_correctness (storage : Storage) (weight ids out : Region
       weight ids out first last sw so n h D N NN)
 ```
 
-**Closed-form spec defs (transitive):** `correct_target`, `original`, `row`, `expected`, `Outside`, `source`, `token`, `Written`, `indexCommuted`
+**Closed-form spec defs (transitive):** `correct_target`, `original`, `row`, `expected`, `Outside`, `source`, `token`, `Written`, `indexCommuted`, `loadedToken`
 
 <details><summary><code>correct_target</code></summary>
 
@@ -105,17 +105,18 @@ def Written (pid N NN D n hidden outStride : Nat) (o : Nat) : Prop :=
   ∃ t, t*NN<N ∧ ∃ r, r<NN ∧ ∃ d, d<D ∧
     row pid N NN t r<n ∧ d<hidden ∧ o=row pid N NN t r*outStride+d
 
-/-- Only source-active token, weight and output addresses require storage.
-Bounds are on initial inputs, independently of any execution result. -/
+/-- Only actual source accesses require storage. Weight reads use the int32
+converted default even when the row has no output store. Bounds are on initial
+inputs, independently of any execution result. -/
 structure Bounds (u : BlockState) (weight ids out : RegionName) (first last : Int)
     (sw so n h D N NN : Nat) (bounds : RegionBounds) : Prop where
   idAccess : ∀ t, t*NN<N → ∀ jr : Fin NN,
     row u.pid N NN t jr.val<n → row u.pid N NN t jr.val<bounds ids
   weightAccess : ∀ t, t*NN<N → ∀ jr : Fin NN, ∀ jd : Fin D,
-    row u.pid N NN t jr.val<n → jd.val<h →
-    first≤token u ids (row u.pid N NN t jr.val) →
-    token u ids (row u.pid N NN t jr.val)<last →
-    (token u ids (row u.pid N NN t jr.val)-first).toNat*sw+jd.val<bounds weight
+    jd.val<h →
+    first≤loadedToken u ids last n (row u.pid N NN t jr.val) →
+    loadedToken u ids last n (row u.pid N NN t jr.val)<last →
+    (loadedToken u ids last n (row u.pid N NN t jr.val)-first).toNat*sw+jd.val<bounds weight
   outputAccess : ∀ t, t*NN<N → ∀ jr : Fin NN, ∀ jd : Fin D,
     row u.pid N NN t jr.val<n → jd.val<h →
     row u.pid N NN t jr.val*so+jd.val<bounds out
@@ -128,6 +129,18 @@ structure Bounds (u : BlockState) (weight ids out : RegionName) (first last : In
 def indexCommuted (storage : Storage) (weight ids out : RegionName) (first last : Int)
     (sw so n h D N NN : Nat) : ComputeKernel :=
   (source storage Bool.true weight ids out first last sw so n h D N NN).eraseDType
+```
+</details>
+
+<details><summary><code>loadedToken</code></summary>
+
+```
+/-- Token supplied by the source load, including its implicit int32 default conversion.
+A masked row can still enable a weight read when the default wraps. -/
+```
+```lean
+def loadedToken (u : BlockState) (ids : RegionName) (last : Int) (n r : Nat) : Int :=
+  if r<n then token u ids r else (BitVec.ofInt 32 last).toInt
 ```
 </details>
 
@@ -141,7 +154,7 @@ specification index_commuted_correctness (storage : Storage) (weight ids out : R
       weight ids out first last sw so n h D N NN)
 ```
 
-**Closed-form spec defs (transitive):** `correct_target`, `indexCommuted`, `row`, `expected`, `Outside`, `source`, `token`, `Written`, `original`
+**Closed-form spec defs (transitive):** `correct_target`, `indexCommuted`, `row`, `expected`, `Outside`, `source`, `token`, `Written`, `original`, `loadedToken`
 
 <details><summary><code>correct_target</code></summary>
 
@@ -234,17 +247,18 @@ def Written (pid N NN D n hidden outStride : Nat) (o : Nat) : Prop :=
   ∃ t, t*NN<N ∧ ∃ r, r<NN ∧ ∃ d, d<D ∧
     row pid N NN t r<n ∧ d<hidden ∧ o=row pid N NN t r*outStride+d
 
-/-- Only source-active token, weight and output addresses require storage.
-Bounds are on initial inputs, independently of any execution result. -/
+/-- Only actual source accesses require storage. Weight reads use the int32
+converted default even when the row has no output store. Bounds are on initial
+inputs, independently of any execution result. -/
 structure Bounds (u : BlockState) (weight ids out : RegionName) (first last : Int)
     (sw so n h D N NN : Nat) (bounds : RegionBounds) : Prop where
   idAccess : ∀ t, t*NN<N → ∀ jr : Fin NN,
     row u.pid N NN t jr.val<n → row u.pid N NN t jr.val<bounds ids
   weightAccess : ∀ t, t*NN<N → ∀ jr : Fin NN, ∀ jd : Fin D,
-    row u.pid N NN t jr.val<n → jd.val<h →
-    first≤token u ids (row u.pid N NN t jr.val) →
-    token u ids (row u.pid N NN t jr.val)<last →
-    (token u ids (row u.pid N NN t jr.val)-first).toNat*sw+jd.val<bounds weight
+    jd.val<h →
+    first≤loadedToken u ids last n (row u.pid N NN t jr.val) →
+    loadedToken u ids last n (row u.pid N NN t jr.val)<last →
+    (loadedToken u ids last n (row u.pid N NN t jr.val)-first).toNat*sw+jd.val<bounds weight
   outputAccess : ∀ t, t*NN<N → ∀ jr : Fin NN, ∀ jd : Fin D,
     row u.pid N NN t jr.val<n → jd.val<h →
     row u.pid N NN t jr.val*so+jd.val<bounds out
@@ -257,5 +271,17 @@ structure Bounds (u : BlockState) (weight ids out : RegionName) (first last : In
 def original (storage : Storage) (weight ids out : RegionName) (first last : Int)
     (sw so n h D N NN : Nat) : ComputeKernel :=
   (source storage Bool.false weight ids out first last sw so n h D N NN).eraseDType
+```
+</details>
+
+<details><summary><code>loadedToken</code></summary>
+
+```
+/-- Token supplied by the source load, including its implicit int32 default conversion.
+A masked row can still enable a weight read when the default wraps. -/
+```
+```lean
+def loadedToken (u : BlockState) (ids : RegionName) (last : Int) (n r : Nat) : Int :=
+  if r<n then token u ids r else (BitVec.ofInt 32 last).toInt
 ```
 </details>

@@ -57,10 +57,11 @@ def store (output : Storage) (B : Nat) : ComputeStmt :=
   match output with
   | .fp32 => .store .real [B] (.ptr p) (.compute (.alg .fp32 (.castFloat .fp16 .real half))) (.mask (.ref .bool [B] "mask"))
   | .fp64 => .store .real [B] (.ptr p) (.compute (.alg .fp64 (.castFloat .fp16 .real (.withPrecision .fp16 .fp32 half)))) (.mask (.ref .bool [B] "mask"))
-  | .fp16 => .store .fp16 [B] (.ptr p) (.alg half) (.mask (.ref .bool [B] "mask"))
-  | .bf16 => .store .bf16 [B] (.ptr p) (.alg (.castFloat .fp16 .bf16 half)) (.mask (.ref .bool [B] "mask"))
-  | .f8e4 => .store .f8e4 [B] (.ptr p) (.alg (.castFloat .fp16 .f8e4 half)) (.mask (.ref .bool [B] "mask"))
-  | .f8e5 => .store .f8e5 [B] (.ptr p) (.alg (.castFloat .fp16 .f8e5 half)) (.mask (.ref .bool [B] "mask"))
+  | .fp16 => .store .fp16 [B] (.ptr p) (.alg
+      (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [B] "y")))) (.mask (.ref .bool [B] "mask"))
+  | .bf16 => .store .bf16 [B] (.ptr p) (.alg (.castFloat .fp16 .bf16 (.withPrecision .fp16 .fp32 half))) (.mask (.ref .bool [B] "mask"))
+  | .f8e4 => .store .f8e4 [B] (.ptr p) (.alg (.castFloat .fp16 .f8e4 (.withPrecision .fp16 .fp32 half))) (.mask (.ref .bool [B] "mask"))
+  | .f8e5 => .store .f8e5 [B] (.ptr p) (.alg (.castFloat .fp16 .f8e5 (.withPrecision .fp16 .fp32 half))) (.mask (.ref .bool [B] "mask"))
 
 /-- Exact load and store carriers and casts for all 216 floating combinations. -/
 theorem memory_profiles (input weight output : Storage) (v : Bool)

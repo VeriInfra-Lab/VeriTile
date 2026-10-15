@@ -1,3 +1,4 @@
+import VeriTile.Triton.Math.MaximumProjection
 import bench.tritonbench_g.attention_forward_triton.Proofs.LegacyRounding
 import bench.tritonbench_g.attention_forward_triton.Proofs.RealExecution
 
@@ -112,8 +113,8 @@ theorem step (K KScale V Out : RegionName) (s0 : BlockState)
   erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (RealLoop.qk_op_eval _ BLOCK_M BLOCK_N BLOCK_DMODEL qT kloadT qsv ksv
       (by simp [hu0, hq]) (by simp [hkl]) (by simp [hu0, hqs]) (by simp [hksv])))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (mij_op_eval _ BLOCK_M BLOCK_N mT qkT rmaxT (by simp [hu0, hmi]) (by simp [hqk]) hrm))]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (evalOp_max2_of_where (mij_op_eval _ BLOCK_M BLOCK_N mT qkT rmaxT (by simp [hu0, hmi]) (by simp [hqk]) hrm)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (qk2_op_eval _ BLOCK_M BLOCK_N hax qkT mijT (by simp [hqk]) (by simp [hmij])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some

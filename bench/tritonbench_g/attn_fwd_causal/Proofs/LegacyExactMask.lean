@@ -1,5 +1,8 @@
 import VeriTile.Triton
 
+/- The explicitly historical exact-mask model retains its original comparison/select
+maximum AST. This is not a source migration or an IEEE maximum identity. -/
+
 /-!
 # `attn_fwd_causal` — historical exact-mask model
 
@@ -91,7 +94,7 @@ def attn_fwd_causal_surface
     qk = (tl.dot(q, k)).to(tl.float32) * q_scale * k_scale
     mask = offs_m[:, None] >= (start_n + offs_n[None, :])
     qk = tl.where(mask, qk, -1000000.0)
-    m_ij = tl.maximum(m_i, tl.max(qk, 1))
+    m_ij = tl.where(m_i > tl.max(qk, 1), m_i, tl.max(qk, 1))
     qk = qk - m_ij[:, None]
     p = tl.math.exp2(qk)
     p = tl.where(mask, p, 0.0)
@@ -1115,7 +1118,7 @@ def afcLoopBodyG (N_CTX HEAD_DIM BLOCK_M BLOCK_N BLOCK_DMODEL HEAD_ACTIVE : Nat)
     Stmt.assign .real [BLOCK_M, BLOCK_N] "qk"
       (Op.where (Op.ref .bool [BLOCK_M, BLOCK_N] "mask")
         (Op.ref .real [BLOCK_M, BLOCK_N] "qk")
-        (Op.broadcast (Op.sub .real Broadcast.nil (Op.const 0.0) (Op.const 1000000.0)) [BLOCK_M, BLOCK_N])),
+        (Op.broadcast (Op.const (-1000000.0)) [BLOCK_M, BLOCK_N])),
     -- 7: m_ij = maximum(m_i, max(qk,1))
     Stmt.assign .real [BLOCK_M] "m_ij"
       (Op.where
@@ -1164,7 +1167,7 @@ def afcLoopBodyG (N_CTX HEAD_DIM BLOCK_M BLOCK_N BLOCK_DMODEL HEAD_ACTIVE : Nat)
             (Op.lt ComparableDType.nat Broadcast.scalarR (Op.arange BLOCK_DMODEL) (Op.constNat HEAD_ACTIVE)))))),
     -- 16: p = p.to(fp16)
     Stmt.assign .fp16 [BLOCK_M, BLOCK_N] "p"
-      (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BLOCK_M, BLOCK_N] "p")),
+      (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, BLOCK_N] "p"))),
     -- 17: acc += dot(p.to(real), v)
     Stmt.assign .real [BLOCK_M, BLOCK_DMODEL] "acc"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
@@ -2070,9 +2073,9 @@ set_option maxHeartbeats 1600000 in
 /-- General `p = p.to(fp16)` recipe. -/
 theorem afc_p_fp16_evalG (s : BlockState) (BLOCK_M BLOCK_N : Nat) (ptile : Tile .real [BLOCK_M, BLOCK_N])
     (hp : s.regs .real [BLOCK_M, BLOCK_N] "p" = some ptile) :
-    evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [BLOCK_M, BLOCK_N] "p")) s
+    evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BLOCK_M, BLOCK_N] "p"))) s
       = some ⟨fun i => FloatDType.real.cast FloatDType.fp16 (ptile.data i)⟩ := by
-  simp only [evalOp_castFloat, FloatDType.toTileDType_real, evalOp_ref, hp,
+  simp only [evalOp.eq_def, FloatDType.toTileDType_real, hp,
     Option.bind_eq_bind, Option.bind_some]
 
 set_option maxHeartbeats 1600000 in
@@ -3448,16 +3451,19 @@ theorem afcLoopBodyHeadG_steps
         (by simp [BlockState.setReg_ne_name, hoffsm]) (by simp [BlockState.setReg_ne_name, hoffsn])
         (by simp [BlockState.setReg_ne_name, hsn])]))]
   have hbcast6 : ∀ t : BlockState, @evalOp TileDType.real [BLOCK_M, BLOCK_N]
-      (Op.broadcast (Op.sub .real Broadcast.nil (Op.const 0.0) (Op.const 1000000.0)) [BLOCK_M, BLOCK_N]) t
+      (Op.broadcast (Op.const (-1000000.0)) [BLOCK_M, BLOCK_N]) t
       = some (⟨fun _ : TileIndex [BLOCK_M, BLOCK_N] =>
           WithBot.realSub (some (0.0 : ℝ)) (some (1000000.0 : ℝ))⟩ : Tile .real [BLOCK_M, BLOCK_N]) := by
     intro t
     simp only [evalOp, evalOp_sub, evalOp_const, Option.bind_eq_bind, Option.bind_some]
-    rfl
+    congr 1
+    ext i
+    change (some (-1000000.0 : ℝ) : WithBot ℝ) = some ((0.0 : ℝ) - 1000000.0)
+    norm_num
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (show evalOp (Op.where (Op.ref .bool [BLOCK_M, BLOCK_N] "mask")
         (Op.ref .real [BLOCK_M, BLOCK_N] "qk")
-        (Op.broadcast (Op.sub .real Broadcast.nil (Op.const 0.0) (Op.const 1000000.0)) [BLOCK_M, BLOCK_N])) _
+        (Op.broadcast (Op.const (-1000000.0)) [BLOCK_M, BLOCK_N])) _
         = some qkSentT from by
       rw [evalOp_where]
       simp only [evalOp_ref, BlockState.setReg_same,

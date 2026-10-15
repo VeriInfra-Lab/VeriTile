@@ -15,7 +15,9 @@ macro "solveRotaryAccess" "using" h:term : tactic => `(tactic|
     kIndexState, qStoreState, qArithmeticState, qLoadState, qIndexState, prefixState,
     Parameters.dataOffsets, Parameters.trigOffsets, Parameters.qAddress,
     Parameters.kAddress, Parameters.activeQ, Parameters.activeK, address, trigAddress,
-    sequence, head, dimension, active, range, dims, tile_elementwise, Bool.and_eq_true]
+    sequence, head, dimension, active, range, dims, tile_elementwise, Bool.and_eq_true,
+    Option.bind, Tile.remap, TileShape.insertAxis, TileShape.dropInsertedIndex,
+    Broadcast.leftIndex, Broadcast.rightIndex]
     using $h)
 
 /-- The four trigonometric loads use the sequence mask alone; their bounds

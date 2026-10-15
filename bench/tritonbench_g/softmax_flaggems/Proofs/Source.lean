@@ -16,9 +16,7 @@ theorem mixedMaximum_expansion (x : RegionName) (B : Nat) :
       [.assign .real [B] "m" (.compute (.full [B] (.alg .fp32 .negInf))),
        .assign .bf16 [B] "inp" (.alg (.load .bf16 (.region x (.arange B)) .none)),
        .assign .real [B] "m_new" (.compute (.alg .fp32
-         (.where (.gt .real (.consSame .nil) (.ref .real [B] "m")
-           (.castFloat .bf16 .real (.ref .bf16 [B] "inp")))
-           (.ref .real [B] "m")
+         (.maximumFloat .real (.consSame .nil) (.ref .real [B] "m")
            (.castFloat .bf16 .real (.ref .bf16 [B] "inp")))))] := rfl
 
 /-- Collect actual assignment channels through both branches and every loop body. -/

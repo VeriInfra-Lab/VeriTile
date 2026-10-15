@@ -1,3 +1,13 @@
+/-
+Source-audit target: rms_norm_kernel
+Source-audit Lean: rmsTyped%
+Source-audit runtime: {"python":{"eps":{"object":"float","abi":"fp32"}},"lean":{"source":"rmsTyped%","args":{"dtype":"tl.float32","weight":"tl.float32","version":"original"}},"native":{"profile":"rms_norm_triton","sha256":"d99fd03ca551aa505bfb992f98450696fbf195946214e6dec5db8a9c7f57bf19"}}
+Source-audit args: dtype=tl.float32, weight=tl.float32, version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original fp32 input/weight/output quotation, retaining the pre-weight destination cast.
+Runtime epsilon lowering, other dtypes and candidate transformations remain separate checks.
+-/
+
 import VeriTile.Triton.DSL
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.RmsNormTriton

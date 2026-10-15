@@ -92,6 +92,14 @@ private partial def exprRegions (assigned : List String) :
             | `(tritonMemKwarg| $_:ident = $val:tritonExpr) => acc ++ exprRegions assigned val
             | _ => acc) []
       exprRegions assigned cmp ++ exprRegions assigned v ++ kwargRegions ++ staticPtrRegions assigned p
+  | `(tritonExpr| tl.rand($seed:tritonExpr, $offsets:tritonExpr)) =>
+      exprRegions assigned seed ++ exprRegions assigned offsets
+  | `(tritonExpr| tl.rand($seed:tritonExpr, $offsets:tritonExpr, $rounds:tritonExpr))
+  | `(tritonExpr| tl.rand($seed:tritonExpr, $offsets:tritonExpr, n_rounds=$rounds:tritonExpr)) =>
+      exprRegions assigned seed ++ exprRegions assigned offsets ++ exprRegions assigned rounds
+  | `(tritonExpr| tl.__rand_profiled($_cfg:term, $seed:tritonExpr, $offsets:tritonExpr)) =>
+      exprRegions assigned seed ++ exprRegions assigned offsets
+  | `(tritonExpr| $_helper:ident($argument:tritonExpr)) => exprRegions assigned argument
   | `(tritonExpr| tl.exp($e:tritonExpr))         => exprRegions assigned e
   | `(tritonExpr| libdevice.exp($e:tritonExpr))  => exprRegions assigned e
   | `(tritonExpr| tl.extra.cuda.libdevice.exp($e:tritonExpr)) => exprRegions assigned e
@@ -211,7 +219,11 @@ private partial def exprRegions (assigned : List String) :
       exprRegions assigned e ++ kwargRegions
   | `(tritonExpr| tl.toReal($e:tritonExpr))      => exprRegions assigned e
   | `(tritonExpr| tl.cast($e:tritonExpr, $_:tritonDType)) => exprRegions assigned e
-  | `(tritonExpr| tl.extra.cuda.libdevice.llrint($e:tritonExpr)) =>
+  | `(tritonExpr| tl.extra.cuda.libdevice.llrint($e:tritonExpr))
+  | `(tritonExpr| tl.extra.cuda.libdevice.finitef($e:tritonExpr))
+  | `(tritonExpr| tl.extra.cuda.libdevice.isfinited($e:tritonExpr))
+  | `(tritonExpr| libdevice.finitef($e:tritonExpr))
+  | `(tritonExpr| libdevice.isfinited($e:tritonExpr)) =>
       exprRegions assigned e
   | `(tritonExpr| tl.multiple_of($e:tritonExpr, $align:tritonExpr)) =>
       exprRegions assigned e ++ exprRegions assigned align
@@ -362,6 +374,11 @@ private partial def stmtRegionsWith (assigned : List String)
     (stx : TSyntax `tritonStmt) :
     List (TSyntax `term) × List (TSyntax `term) × List String :=
  match stx with
+  | `(tritonStmt| $r0:ident, $r1:ident, $r2:ident, $r3:ident =
+      tl.philox($seed:tritonExpr, $c0:tritonExpr, $c1:tritonExpr, $c2:tritonExpr, $c3:tritonExpr)) =>
+      let ins := [seed, c0, c1, c2, c3].flatMap (exprRegions assigned)
+      let nextAssigned := [r0, r1, r2, r3].map (fun i => i.getId.toString) ++ assigned
+      (ins, [], nextAssigned)
   | `(tritonStmt| $lhs0:ident, $lhs1:ident = tl.max($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) =>
       let kwargRegions : List (TSyntax `term) :=
         kwargs.foldl
@@ -484,14 +501,20 @@ private partial def stmtRegionsWith (assigned : List String)
   | `(tritonStmt| tl.static_range $idx:ident in $_:num { $stmts:tritonStmt* }) =>
       let (i, o, _) := blockRegionsWith (idx.getId.toString :: assigned) stmts.toList
       (i, o, assigned)
-  | `(tritonStmt| tl.if $cond:tritonExpr { $thenStmts:tritonStmt* } else { $elseStmts:tritonStmt* }) =>
+  | `(tritonStmt| tl.if $cond:tritonExpr { $thenStmts:tritonStmt* } else { $elseStmts:tritonStmt* })
+  | `(tritonStmt| if $cond:tritonExpr { $thenStmts:tritonStmt* } else { $elseStmts:tritonStmt* }) =>
       let (thenIns, thenOuts, thenAssigned) := blockRegionsWith assigned thenStmts.toList
       let (elseIns, elseOuts, elseAssigned) := blockRegionsWith assigned elseStmts.toList
+      -- Metadata inventories all possible branch sources. A name assigned in
+      -- either arm is a program register, not a new external region parameter.
+      -- This may-assigned union does not make the register definitely bound:
+      -- the unchanged interpreter still fails on an unbound runtime path.
       (exprRegions assigned cond ++ thenIns ++ elseIns, thenOuts ++ elseOuts,
-        commonAssigned assigned thenAssigned elseAssigned ++ assigned)
-  | `(tritonStmt| tl.if $cond:tritonExpr { $stmts:tritonStmt* }) =>
-      let (ins, outs, _) := blockRegionsWith assigned stmts.toList
-      (exprRegions assigned cond ++ ins, outs, assigned)
+        thenAssigned ++ elseAssigned ++ assigned)
+  | `(tritonStmt| tl.if $cond:tritonExpr { $stmts:tritonStmt* })
+  | `(tritonStmt| if $cond:tritonExpr { $stmts:tritonStmt* }) =>
+      let (ins, outs, bodyAssigned) := blockRegionsWith assigned stmts.toList
+      (exprRegions assigned cond ++ ins, outs, bodyAssigned ++ assigned)
   | _ => ([], [], assigned)
 
 end

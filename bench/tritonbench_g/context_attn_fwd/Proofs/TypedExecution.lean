@@ -3,7 +3,7 @@ import VeriTile.Triton.Float.ProfiledSoundness
 
 namespace VeriTile.Bench.TritonBenchG.ContextAttnFwd.TypedExecution
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite
-open FPModel (model domain model_satisfies_rules)
+open FPModel (model domain model_satisfies_typed_rules)
 noncomputable section
 set_option maxHeartbeats 8000000
 set_option maxRecDepth 20000
@@ -88,11 +88,11 @@ theorem domain_holds : ∀ site ∈ original.domain, site.Holds model domain ini
   simp [original,FPProof.original,VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,ComputeKernel.surfaceBody,
     FPProof.sites,FPProof.scoreOperand,Source.intRange?,Source.prefixBefore,Site.Holds,domain]
 
-theorem candidate_execution (R : FP.ScalarArithmetic.Rules) :
+theorem candidate_execution (R : FP.TypedScalarArithmetic.Rules) :
     FP.Structural.exec (engine model) candidate.kernel initial = some postloop.val := by
   have he := FP.ProfiledRewrite.sound (FPProof.equivalent .fp16 "q" "k" "v" 2 "out" "start" "sequence" "prompt"
     8 2 1 64 8 2 1 64 8 2 1 8 2 1 2 4 2 2 4 R)
-  exact (he ℝ model domain (model_satisfies_rules R) initial domain_holds).symm.trans executes
+  exact (he ℝ model domain (model_satisfies_typed_rules R) initial domain_holds).symm.trans executes
 
 
 /-- The one reached block writes both channels of its active row and preserves the

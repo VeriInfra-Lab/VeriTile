@@ -51,25 +51,23 @@ host launch (the 3-D grid `(NK, NT, B*H)`, the host-computed `BT/BK/BV/NT`, and
 the `dg` pre-fill with `-1e9`) are the *trusted boundary*. The `.to(...)` dtype
 round-trips erase to the identity at the algorithm layer.
 
-Two spelling notes, per `bench/MAIN_THEOREM_CONVENTIONS.md`. Both are surface
+Source spelling notes, per `bench/MAIN_THEOREM_CONVENTIONS.md`. Both are surface
 syntax, not semantics - the statement structure and every shape match the source:
 
 * Integer literals inside index arithmetic are written `$(1)` rather than `1`.
   A bare literal is inferred `.real` by the DSL's expression typing, so
   `min(...) - 1` does not elaborate while `min(...) - $(1)` is the intended
   `.nat` reading.
-* This older transcription spells the source's `tl.exp(-b_g + b_g_last)`
-  as `tl.exp(0.0 - b_g + b_g_last)`. The current DSL also accepts unary minus.
+* The decay expression preserves the source's actual unary minus in
+  `tl.exp(-b_g + b_g_last)`; the real-value proof evaluates that operation.
 
 ## Correctness-surface status
 
-Correctness-surface blocker: the `*_exec_genuine` headline(s) in this file
-state correctness as an inline exec-existential
-(`∃ sF, exec … = some sF ∧ <output readback>`) rather than through a named
-`⊨` (`KernelIO`) or `ComputeCorrect.Realizes` surface. Termination and every
-stored output cell are proved; the **frame** — nothing outside the write set
-changes — is not part of the statement. Lifting this to `⊨` therefore needs
-the frame proof, not a rename. Registered in `proof_blockers.md`.
+The legacy `*_exec_genuine` statements below prove successful execution and
+output readback without a frame. The current public `Correct.lean` separately
+proves named `⊨` contracts for both complete sources, including finite flat
+execution and preservation outside active outputs. Their zero unspecified-load
+premise and mathematical-address boundary remain explicit in that file.
 -/
 
 namespace VeriTile.Bench.TritonBenchG.ChunkBwdDqkg
@@ -80,13 +78,16 @@ open VeriTile.Triton
 
 section Correct_without_Rounding
 
-/-! ## Kernel surface (faithful transcription)
+/-! ## Mathematical reference (precision conversions removed)
 
 The source's `do` parameter is spelled `do_` (`do` is Lean syntax). The
 `(V, NT*K)` logical shape of the `h` / `dh` block pointers is antiquoted as a
 single `$(NT * K)`: the DSL requires each `tl.make_block_ptr` shape entry to be a
 literal or one antiquote, and `NT`/`K` are both `tl.constexpr`, so the product is
 a compile-time constant either way. -/
+-- Mathematical reference only: dynamic dtype identity conversions are removed
+-- here. Kernels.lean retains the typed source conversions; RealSource.lean
+-- proves the complete typed-source precision-erasure bridge to this reference.
 def chunk_bwd_dqkg_surface
     (q k v h g do_ dh dq dk dg : RegionName)
     (s_k_h s_k_t s_v_h s_v_t s_h_h s_h_t : Nat)
@@ -128,8 +129,8 @@ def chunk_bwd_dqkg_surface
     b_dh = tl.load(p_dh, boundary_check=([0, 1] : List Nat))
     b_dg_last += tl.sum(b_h * b_dh)
     b_ds += tl.dot(b_do, tl.trans(b_v))
-    b_dq += tl.dot(b_do, (b_h).to(b_do.dtype))
-    b_dk += tl.dot(b_v, (b_dh).to(b_v.dtype))
+    b_dq += tl.dot(b_do, b_h)
+    b_dk += tl.dot(b_v, b_dh)
   }
   p_q = tl.make_block_ptr(base=q + i_bh * $(s_k_h),
     shape=($(T), $(K)), strides=($(s_k_t), $(1)),
@@ -141,11 +142,11 @@ def chunk_bwd_dqkg_surface
   b_q = tl.load(p_q, boundary_check=([0, 1] : List Nat))
   b_dg_last = b_dg_last * tl.exp(b_g_last)
   b_dq = b_dq * tl.exp(b_g)[:, None] * $(scale)
-  b_dk = b_dk * tl.exp(0.0 - b_g + b_g_last)[:, None]
+  b_dk = b_dk * tl.exp(-b_g + b_g_last)[:, None]
   b_dg_last += tl.sum(b_dk * b_k)
   b_ds = tl.where(o_i[:, None] >= o_i[None, :],
     b_ds * $(scale) * tl.exp(b_g[:, None] - b_g[None, :]), 0.0)
-  b_ds = (b_ds).to(b_k.dtype)
+  b_ds = b_ds
   b_dq += tl.dot(b_ds, b_k)
   b_dk += tl.dot(tl.trans(b_ds), b_q)
   b_dg += tl.sum(b_q * b_dq - b_k * b_dk, axis=1)
@@ -158,9 +159,9 @@ def chunk_bwd_dqkg_surface
     offsets=(i_t * $(BT), i_k * $(BK)), block_shape=($(BT), $(BK)), order=(1, 0))
   p_dg = tl.make_block_ptr(base=dg + (i_k * n_bh + i_bh) * $(T), shape=($(T)),
     strides=($(1)), offsets=(i_t * $(BT)), block_shape=($(BT)), order=(0))
-  tl.store(p_dq, (b_dq).to(p_dq.dtype.element_ty), boundary_check=([0, 1] : List Nat))
-  tl.store(p_dk, (b_dk).to(p_dk.dtype.element_ty), boundary_check=([0, 1] : List Nat))
-  tl.store(p_dg, (b_dg).to(p_dg.dtype.element_ty), boundary_check=([0] : List Nat))
+  tl.store(p_dq, b_dq, boundary_check=([0, 1] : List Nat))
+  tl.store(p_dk, b_dk, boundary_check=([0, 1] : List Nat))
+  tl.store(p_dg, b_dg, boundary_check=([0] : List Nat))
 }
 
 theorem chunk_bwd_dqkg_surface_toAlgorithm_supported
@@ -478,7 +479,7 @@ def cbdPostLoop (q k dq dk dg : RegionName)
         (Op.ref .real [BT, BK] "b_dk")
         (Op.expandDim ⟨1, by simp⟩
           (Op.exp (Op.add .real Broadcast.scalarR
-            (Op.sub .real Broadcast.scalarL (Op.const 0.0) (Op.ref .real [BT] "b_g"))
+            (Op.negFloat .real (Op.ref .real [BT] "b_g"))
             (Op.ref .real [] "b_g_last"))))),
     Stmt.assign .real [1] "b_dg_last"
       (Op.add .real Broadcast.scalarR (Op.ref .real [1] "b_dg_last")
@@ -1410,7 +1411,7 @@ private theorem cbd_dqGated_eval (s t : BlockState) (g h do_ : RegionName)
   rw [cbdBgTile_data]
   rfl
 
-/-- `b_dk = b_dk * tl.exp(0.0 - b_g + b_g_last)[:, None]`. -/
+/-- `b_dk = b_dk * tl.exp(-b_g + b_g_last)[:, None]`. -/
 private theorem cbd_dkGated_eval (s t : BlockState) (g v dh : RegionName)
     (s_v_h s_v_t s_h_h s_h_t T K V BT BK BV NT : Nat)
     (hdk : t.regs .real [BT, BK] "b_dk"
@@ -1421,11 +1422,16 @@ private theorem cbd_dkGated_eval (s t : BlockState) (g v dh : RegionName)
       (Op.ref .real [BT, BK] "b_dk")
       (Op.expandDim ⟨1, by simp⟩
         (Op.exp (Op.add .real Broadcast.scalarR
-          (Op.sub .real Broadcast.scalarL (Op.const 0.0) (Op.ref .real [BT] "b_g"))
+          (Op.negFloat .real (Op.ref .real [BT] "b_g"))
           (Op.ref .real [] "b_g_last"))))) t
       = some (cbdDkGatedTile s g v dh s_v_h s_v_t s_h_h s_h_t T K V BT BK BV NT) := by
+  have hneg : evalOp (Op.negFloat .real (Op.ref .real [BT] "b_g")) t =
+      some (Tile.uop (WithBot.map (fun x : ℝ => -x)) (cbdBgTile s g T BT)) := by
+    simp only [evalOp.eq_def, FloatDType.toTileDType, FloatDType.ofWithBot,
+      FloatDType.toWithBot, hg, Option.bind_some]
+    rfl
   erw [evalOp_mul, evalOp_ref, hdk, evalOp_expandDim, evalOp_exp, evalOp_add,
-    evalOp_sub, evalOp_const, evalOp_ref, hg, evalOp_ref, hgl]
+    hneg, evalOp_ref, hgl]
   refine congrArg some ?_
   apply Tile.ext
   intro idx
@@ -1433,8 +1439,7 @@ private theorem cbd_dkGated_eval (s t : BlockState) (g v dh : RegionName)
   simp [cbdDkGatedTile, cbdDkTile, dkGated, Tile.expandDim,
     TileShape.dropInsertedIndex]
   rw [cbdBgTile_data, cbdBgLastTile_data]
-  simp [NumericDType.mul, NumericDType.add, NumericDType.sub]
-  norm_num
+  simp [NumericDType.mul, NumericDType.add, NumericDType.sub, Tile.uop, WithBot.map]
 
 /-- `b_dg_last += tl.sum(b_dk * b_k)`, at the *gated* `b_dk`. -/
 private theorem cbd_dgLastFinal_eval (s t : BlockState) (g k v h dh : RegionName)

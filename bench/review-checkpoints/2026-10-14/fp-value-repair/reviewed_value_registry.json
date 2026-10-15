@@ -1,0 +1,1167 @@
+{
+  "schema": 1,
+  "status": "work_in_progress_not_a_completed_acceptance",
+  "basis": "Actual typed source execution against independent initial-memory value/address specifications. Ordinary input/configuration/stage restrictions remain accepted. No native correctness claim is inferred from model or build presence.",
+  "tasks": [
+    {
+      "task": "kcache_copy_triton",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Sequence-length-one split-x copy, five named machine storage formats plus an abstract .real carrier (no native fp64 binding).",
+      "remaining_scope": "Multi-token launches remain outside the previously accepted stage.",
+      "native_profile": "raw_copy",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/kcache_copy_triton/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "kcache_copy_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "kv_cache_copy",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Sequence-length-one K/V x-block, independent model storage channels: five named machine formats plus abstract .real, with no inferred native fp64 binding.",
+      "remaining_scope": "Supplied context/block-table metadata, active-address injectivity and distinct caches remain the input scope.",
+      "native_profile": "raw_copy",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/kv_cache_copy/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "kv_cache_copy_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "masked_select",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Selection-copy consuming supplied mask/prefix metadata; five named machine floating formats plus abstract .real and signed int64 payload (native width binding remains explicit).",
+      "remaining_scope": "Prefix-sum producer remains outside the accepted stage; signed index widths and bounds need their normal native mapping.",
+      "native_profile": "raw_copy",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/masked_select/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "masked_select_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "kv_cache_filling",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Accepted metadata writeback plus complete unquantized K/V tile copies using actual fp32-to-uint8 toward-zero conversion, active-only definedness and independent value/frame.",
+      "remaining_scope": "Quantizer producers and multi-token loop composition remain outside these supplied-metadata/tile stages.",
+      "native_profile": "fp32_uint8_conversion",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/kv_cache_filling/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "kv_metadata_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "kv_k_uint8_typed_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "kv_v_uint8_typed_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ],
+      "scope_reconciliation": "Reviewed original coverage_review entries fill_kv_cache_output_summary_general and fill_quant_meta_store_io_correctness: accepted stages are K/V tile copy and supplied MetaPre stores; int8/int4 producer helpers are explicitly excluded."
+    },
+    {
+      "task": "fused_recurrent_hgrn",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All four previously accepted fp32 stages: forward carry, backward dx, dx-two-step and dg predecessor branches.",
+      "remaining_scope": "Complete recurrent/reverse loops and host composition were outside the accepted stages and remain outside.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/fused_recurrent_hgrn/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "forward_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dx_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dx_two_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dg_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "forward_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dx_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dx_two_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dg_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "forward_nonempty_rounding",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness"
+        }
+      ]
+    },
+    {
+      "task": "fused_recurrent_delta",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All twelve previously accepted fp32 value stages: output/vnew/state, dk headwise/scalar/correction, dv headwise/scalar, dbeta headwise/scalar and dq headwise/scalar.",
+      "remaining_scope": "Full recurrent/reverse-loop and host composition remain outside the original stage scope. Concrete software reduction is sequential; native tree correspondence is unestablished. Software output scale=1; abstract per-operation output is parameterized by scale.",
+      "native_profile": "reduction_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/fused_recurrent_delta/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "output_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "vnew_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "state_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "vnew_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "output_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "state_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "output_nonempty_rounding",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness"
+        },
+        {
+          "name": "dkHeadwise_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dkScalar_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dkCorrection_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dvHeadwise_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dvScalar_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dbetaHeadwise_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dbetaScalar_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dqHeadwise_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dqScalar_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dkHeadwise_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dkScalar_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dkCorrection_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dvHeadwise_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dvScalar_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dbetaHeadwise_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dbetaScalar_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dqHeadwise_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "dqScalar_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "rope_transform",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full original Q/K source, both branches and all four masked stores, fp32 inputs and coefficients, arbitrary dimensions/strides.",
+      "remaining_scope": "Precomputed coefficient producers and host grid/contiguity were outside the accepted scope; other format combinations are not covered by this fp32 contract.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rope_transform/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rope_fp32_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "rope_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "rope_backward_transform",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full original Q/K source including BACKWARD_PASS=true and all four masked stores, fp32 inputs and coefficients.",
+      "remaining_scope": "Same native/configuration and coefficient-producer boundary as rope_transform.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rope_backward_transform/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rope_backward_fp32_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "rope_backward_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "triton_argmax",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "First stage (both index-width branches), independent second stage, and dimension reduction in original single-block 0<N<=BN scope. fp16/fp32, non-NaN inputs, actual numeric order and lowest-lane ties including signed zero.",
+      "remaining_scope": "Multi-block dimension-loop and cross-stage host composition were not accepted; native primitive/index-width lowering needs binding.",
+      "native_profile": "ordered_max",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/triton_argmax/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "argmax_stage1_bit_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "argmax_stage2_bit_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "argmax_dim_single_block_bit_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "matrix_reduction",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete original single matrix tile, fp16/fp32, positive reduction width, non-NaN inputs. Actual half-to-single bit conversion, exact numerical maximum, selected input bit readback and full frame.",
+      "remaining_scope": "Native max tree/tie/NaN semantics and fp16-to-fp32 lowering still need binding; signed-zero tie selection is explicit in the software model.",
+      "native_profile": "ordered_max",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/matrix_reduction/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "matrix_reduction_machine_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "rotary_transform",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Selected paired-row full rotation, fixed/varlen metadata branches, fp32 per-operation software rounding.",
+      "remaining_scope": "Full 2D/interleaved/conjugate/offset-tensor paths were outside the prior value scope.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rotary_transform/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rotary_transform_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "rotary_transform_ops",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Selected paired-row full rotation, fixed/varlen metadata branches, own source-shape correspondence and fp32 per-operation software rounding.",
+      "remaining_scope": "Full 2D/interleaved/conjugate/offset-tensor paths were outside the prior value scope.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rotary_transform_ops/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rotary_transform_ops_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "fused_rotary_embedding",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete selected Q pair rotation and complete V leader guard/context-length/block-table/payload chain, with readback and frame.",
+      "remaining_scope": "Other Python paths remain outside the prior selected value stages; scalar fp32 lowering and raw copy binding remain unestablished.",
+      "native_profile": "unfused_fp32_and_raw_copy",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/fused_rotary_embedding/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "fused_rotary_q_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "fused_rotary_vcache_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "token_softmax_bloom",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete per-sequence row chain: typed load/padding, fp32 maximum/sub/exp/sum/div, target-format cast and masked output. Parametric storage; original fp16 profile included.",
+      "remaining_scope": "Native exp/max/reduction tree/cast semantics and compiler lowering remain unbound. Full token-logit producers and host composition stay external.",
+      "native_profile": "softmax_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/token_softmax_bloom/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "token_softmax_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "token_softmax_llama",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete per-sequence row chain: typed load/padding, fp32 maximum/sub/exp/sum/div, target-format cast and masked output. Parametric storage; original fp32 profile included.",
+      "remaining_scope": "Native exp/max/reduction tree/cast semantics and compiler lowering remain unbound. Full token-logit producers and host composition stay external.",
+      "native_profile": "softmax_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/token_softmax_llama/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "token_softmax_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "quant_transpose_kernel",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Previously accepted scaled/pre-rounding stage: concrete fp32 multiplication by scale and by 127, then masked transposed writeback and frame.",
+      "remaining_scope": "Actual quantized integer conversion/output is outside the explicitly accepted pre-rounding stage and is not claimed.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/quant_transpose_kernel/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "quant_transpose_scaled_store_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "fused_rwkv6_kernel",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All three accepted state/output/conditional-final stages, including the actual conditional final-state store.",
+      "remaining_scope": "Concrete output profile has scale=1 and sequential software reduction; state and conditional-final retain an explicit native exp primitive and mixed conversion graph. Full recurrent loops remain outside the previous stage scope.",
+      "native_profile": "reduction_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/fused_rwkv6_kernel/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "state_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "output_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "conditional_final_fp32_stage",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "state_fp32_with_exp_primitive",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "conditional_final_fp32_with_exp_primitive",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "output_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "output_nonempty_rounding",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness"
+        }
+      ]
+    },
+    {
+      "task": "rotary_emb_nopad",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All four accepted Q, K, V2-Q and V2-cache paths; masks, both lanes, typed metadata and initial-memory value/frame.",
+      "remaining_scope": "Original V2 invalid-token cache addressing consumes undefined loaded metadata; this behavior is preserved and explicitly witnessed. Host/global composition remains outside accepted stage scope.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rotary_emb_nopad/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rotary_nopad_q_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "rotary_nopad_k_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "rotary_nopad_v2_q_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "rotary_nopad_v2_cache_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "rbe_triton_transform",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Entire previously accepted rotary pair, both independently masked stores, fp16 storage and fp32 computation.",
+      "remaining_scope": "No closed bit model yet. Every reached M callback remains unbound: literal/fromNat, source and destination casts, pow/div/mul/add/sub and sin/cos. The independent initial-state formula retains these primitives and precision tags explicitly.",
+      "native_profile": "mixed_transcendental",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rbe_triton_transform/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rbe_triton_backend_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "rope_embedding",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All four accepted independent forward/backward half-store paths, actual register casts and backward fneg; concrete initial-memory fp32 value and frame.",
+      "remaining_scope": "Half-store means a vector half, not fp16 storage. Full in-place loop composition was outside the accepted independent half-store scope; native compiler/runtime binding remains open.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rope_embedding/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rope_embedding_fp32_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "matrix_vector_multip",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full original loop under the accepted one-block profile: 0 < BLOCK_M and M <= BLOCK_M, including M=0. Initial +0, load casts, output cast and frame retained.",
+      "remaining_scope": "The sequential software sum order is explicit; native reduction order and multi-block launches are not established.",
+      "native_profile": "reduction_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/matrix_vector_multip/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "mv_one_block_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "mv_one_block_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "quantize_global",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Accepted pre-llrint scaled-output stage: actual fp32 multiplication by supplied scale and 127, readback and frame.",
+      "remaining_scope": "llrint, final int8 cast and scale producer remain outside the previously accepted stage.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/quantize_global/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "quantize_global_scaled_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "int8_quantization",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Accepted supplied-scale pre-rounding Q/K stage: fp32 multiply/divide, two stores and complete frame. Concrete bit profile covers K preScale=1; Q retains supplied literal primitive.",
+      "remaining_scope": "Scale producer and final biased uint8/int8 result remain outside the previously accepted stage. Q coefficient lowering remains explicit.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/int8_quantization/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "per_block_scaled_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "per_block_scaled_k_software",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "logsumexp_fwd",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Accepted per-program row stage in both HAS_SCALE branches, including -inf padding, max/sub/exp/sum/log/add/store.",
+      "remaining_scope": "Native max/exp/log and reduction order remain explicit primitives; the concrete scalar adapter uses scale=1. Host second-stage logsumexp is outside scope.",
+      "native_profile": "mixed_transcendental",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "row_block_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "row_block_fp32_with_primitives",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "row_block_nonempty",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "fixed_nonempty_witness"
+        }
+      ]
+    },
+    {
+      "task": "layer_norm_welfold",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Actual three-loop source for XBLOCK=1 and 0<rnumel<=RBLOCK, plus accepted arbitrary normalization chunk; original tails and alias-write order retained.",
+      "remaining_scope": "Full source retains rsqrt primitive; bit closure is currently for the normalization chunk. Multi-block loops and native reduction tree remain outside this profile.",
+      "native_profile": "reduction_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/layer_norm_welfold/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "normalize_chunk_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "normalize_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "normalize_nonempty_rounding",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness"
+        },
+        {
+          "name": "source_one_block_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "source_one_block_fp32_with_rsqrt",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "fused_layernorm_triton",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All previously accepted normalize stages and general Welford helper/update, complete one-block reduction through an explicit ordered tree, actual FP32 equality guards, mean/rstd stores and full frame.",
+      "remaining_scope": "Native helper version, concrete compiler reduction tree and rsqrt still need binding. Software arithmetic and helper bit examples do not discharge these bindings.",
+      "native_profile": "reduction_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/fused_layernorm_triton/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "normalize_source_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "normalize_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "normalize_nonempty_rounding",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness"
+        },
+        {
+          "name": "welford_helper_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "welford_reduction_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "welford_software_with_rsqrt",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "welford_nonempty_rounding",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "fixed_nonempty_witness"
+        },
+        {
+          "name": "welford_bit_examples",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness"
+        }
+      ]
+    },
+    {
+      "task": "quantize_kv_copy",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete accepted grouped stage: actual fp32 load/abs/max/two divisions, signed int8 toward-zero conversion, fp32 scale store, active readback and frame.",
+      "remaining_scope": "Definedness requires only active integer conversions finite and in range; arbitrary inactive policy is proved irrelevant. Native max and division/cast lowering remain unbound.",
+      "native_profile": "fp32_int8_conversion",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/quantize_kv_copy/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "quantize_kv_group_fp32_int8_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "matmul_dequant_int4",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete accepted standalone tile: signed32 shifts and eight nibbles, exact integer difference, true binary16 conversion/multiplication, both source bridge and independent initial-memory value/frame.",
+      "remaining_scope": "Native integer shift/count/width and direct-half rounding lowering remain unbound; there is no additional model numerical law.",
+      "native_profile": "packed_int4_binary16",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/matmul_dequant_int4/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "matmul_dequant_int4_fp16_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "matmul_dequantize",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "All three accepted stages: standalone binary16 dequantization, first full grouped-dequant GEMM with both NO_GROUPS branches, and second full GEMM.",
+      "remaining_scope": "Parametric GEMM retains explicit typed dot primitive. Software sequential dot witnesses are separate ordinary theorems, not universal native bit equality; compiler contraction and native dot/tree remain unbound. The second GEMM stage has K = blockK * steps and pid1 = 0; the first stage retains its own ceil/tail behavior.",
+      "native_profile": "packed_int4_binary16_typed_dot",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/matmul_dequantize/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "matmul_dequantize_standalone_fp16_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "matmul_dequantize_second_fp16_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "matmul_dequantize_first_fp16_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "rowwise_quantization_triton",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete accepted pre-llrint row stage with true abs, masked maximum, FP32 div/mul, row output and actual binary16 maximum store; independent initial-memory values and full frame.",
+      "remaining_scope": "llrint and final int8 output remain outside the accepted stage. Native maximum NaN/tie policy, division, mixed casts, fusion and launch binding remain unverified.",
+      "native_profile": "fp32_binary16_max",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/rowwise_quantization_triton/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "rowwise_scaled_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "rowwise_scaled_software_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "quantize_kv_transform",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete accepted fp16/fp32 transform: true abs/max/division, binary16 scale store/reload, toward-zero int8 conversion, active values and full frame.",
+      "remaining_scope": "Active integer conversions require finite/in-range quotients; inactive policy independence is proved. Native scalar/cast/max bindings remain pending.",
+      "native_profile": "fp32_int8_conversion",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/quantize_kv_transform/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "quantize_kv_transform_machine_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "fifth_order_sph_harmonics",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full eleven-channel source forward, original operation order and constants, independent initial-memory values and complete frame; FP32 inputs/output, stride > 10 and active-input cover.",
+      "remaining_scope": "Backward was outside the old accepted stage. Native separate rounding, coefficient lowering, FTZ/NaN and load/store binding remain pending.",
+      "native_profile": "unfused_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/fifth_order_sph_harmonics/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "spherical_forward_typed_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "spherical_forward_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "int4_matmul",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete accepted SPLIT_K=1 loop with arbitrary trip count under the full-block K profile; signed packed nibbles, direct half dequantization, fp32 accumulator, half output and frame.",
+      "remaining_scope": "Parametric GEMM retains explicit typed dot primitive. Software sequential dot witnesses are separate ordinary theorems, not universal native bit equality; compiler contraction and native dot/tree remain unbound. Accepted K = blockK * steps and pid1 = 0 remain required; arbitrary ragged K is not claimed.",
+      "native_profile": "packed_int4_binary16_typed_dot",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/int4_matmul/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "int4_matmul_fp16_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "matmul_dequantize_int4",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full arbitrary K loop in both NO_GROUPS branches; original two half products and half subtraction, typed dot, fp32 accumulation, store and frame.",
+      "remaining_scope": "Parametric GEMM retains explicit typed dot primitive. Software sequential dot witnesses are separate ordinary theorems, not universal native bit equality; compiler contraction and native dot/tree remain unbound.",
+      "native_profile": "packed_int4_binary16_typed_dot",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/matmul_dequantize_int4/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "matmul_dequantize_int4_fp16_correctness",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "parallel_attention",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete previously accepted forward O/Z and backward DK/DV source stages at FP32 storage, both arbitrary loops, independent values and full frames.",
+      "remaining_scope": "Native dot/reduction/contraction and operation binding remain pending. Only expressly instantiated software paths count as bit closure. Host composition and stages outside prior accepted scope are not inferred.",
+      "native_profile": "fp32_typed_dot",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/parallel_attention/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "forward_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "backward_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "forward_software_fp32",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "forward_nonempty_rounding",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "fixed_nonempty_witness"
+        }
+      ]
+    },
+    {
+      "task": "parallel_retention_attention",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete previously accepted forward and backward source stages at FP32 storage, all recurrence loops, independent values and full memory frames.",
+      "remaining_scope": "Native dot/reduction/contraction and operation binding remain pending. Only expressly instantiated software paths count as bit closure. Host composition and stages outside prior accepted scope are not inferred.",
+      "native_profile": "mixed_transcendental",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/parallel_retention_attention/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "forward_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "backward_fp32",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "int8_matmul_kernel",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full original four packed-field outer iterations and arbitrary complete K-loop, signed input narrowing, unsigned packed-byte extraction, concrete int8 dot and int32 wrap, initial-memory output and frame.",
+      "remaining_scope": "Positive block width, K = 4 * blockK * steps, physical int32 A/uint8 B and ordinary output injectivity remain the declared profile.",
+      "native_profile": "signed_int8_dot_int32_wrap",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/int8_matmul_kernel/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "int8_matmul_word_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "int8_dequant_matmul",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Full original dynamic K loop and both bias branches, concrete signed8 dot/int32 wrap, fp32 integer conversion and ordered scale/divisor multiplies, half cast and optional half bias addition, active output/frame.",
+      "remaining_scope": "FP32 scales and supplied runtime divisor, fp16 output/bias and ordinary shape/address/input typing premises remain the declared profile. Original SPLIT_K=1, EVEN_K=true and K=blockK*steps and pid1=0 remain the accepted profile.",
+      "native_profile": "int8_dot_fp32_scale_fp16_store",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/int8_dequant_matmul/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "int8_dequant_matmul_fp_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "int8_matmul_quantization",
+      "file": "bench/tritonbench_g/int8_matmul_quantization/FPCorrect.lean",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete two-pass dynamic-K quantization producer and complete dynamic-K GEMM consumer, real signed8 conversion and int32 wrap, concrete fp32 scale arithmetic and fp16 storage, active outputs and frame.",
+      "remaining_scope": "Producer active float-to-int8 domain, fp32 source/B-scale, fp16 A-scale/output, ordinary address/shape premises remain; host composition and native/compiler binding are not claimed.",
+      "native_profile": "int8_quantizer_and_scaled_dot",
+      "native_binding_status": "not_established",
+      "declarations": [
+        {
+          "name": "int8_matmul_quantization_producer_machine_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "int8_matmul_quantization_consumer_machine_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "int_scaled_matmul",
+      "file": "bench/tritonbench_g/int_scaled_matmul/FPCorrect.lean",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Both original kernels: block-pointer raw K loop with genuine unspecified byte tails and int32 wrap; scaled dynamic K kernel with both EVEN_K branches, fp32 integer conversion/multiplication and actual toward-zero int32 destination, independent initial-state values/readback/frame.",
+      "remaining_scope": "Kernel1 positive blockK, physical signed-byte storage and active output injectivity; kernel2 original K coverage/EVEN_K premises and active defined FP-to-int32 conversion. Native/compiler binding remains open; arbitrary inactive conversion policy does not affect active output.",
+      "native_profile": "int8_dot_fp32_scale_int32_store",
+      "native_binding_status": "not_established",
+      "declarations": [
+        {
+          "name": "block_pointer_word_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "scaled_word_correctness",
+          "model_kind": "bit_interpreter_contract",
+          "numeric_model": "bit_interpreter",
+          "role": "parametric_value_contract"
+        }
+      ]
+    },
+    {
+      "task": "mixed_sparse_attention",
+      "accepted_scope_fp_coverage": "complete_in_declared_profile",
+      "covered_scope": "Complete previously accepted fp16 active-program source scope: all eight fixed block iterations, one column iteration under BLOCK_N >= 16, normalization division, fp16 cast and masked output stores, plus the separately materialized fp32 scratch epilogue. Independent initial-memory per-operation recurrence and complete output memory/frame; preserves inactive updates and masked metadata undef.",
+      "remaining_scope": "All used M and D callbacks require native binding, including fp16 load/casts, fp32 scalar operations/literals, exp2, maxnum, typed dot with default source options and reductions. The concrete fp32 division epilogue keeps toHalf as an explicit primitive; its rounding witness is not closed fp16 bit interpretation. Two maximum nodes have exact local source-graph restoration bridges tied to Triton core.py/semantic.py hashes. Scalar-cond shape normalization, address/domain bounds and native compilation/launch legality remain binding boundaries.",
+      "native_profile": "sparse_attention_fp16_fp32",
+      "native_binding_status": "not_established",
+      "file": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+      "declarations": [
+        {
+          "name": "forward_fp16",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "forward_nonempty",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "fixed_nonempty_witness"
+        },
+        {
+          "name": "epilogue_fp16",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "epilogue_software_with_cast",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "parametric_value_contract"
+        },
+        {
+          "name": "epilogue_nonempty_rounding",
+          "model_kind": "backend_value_contract",
+          "numeric_model": "backend_fp",
+          "role": "fixed_nonempty_witness"
+        }
+      ]
+    }
+  ]
+}

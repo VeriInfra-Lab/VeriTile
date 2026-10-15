@@ -1,5 +1,5 @@
 # Lake build artifacts and downloaded packages
-/.lake/
+/.lake
 
 # macOS
 .DS_Store
@@ -33,3 +33,6 @@ __pycache__/
 
 # Returned FP experiment bundles contain large measurements and compiler output.
 /experiments/floating_point/results/
+
+# Local historical review snapshots moved out of the published checkpoint set.
+/.local-review-archive/

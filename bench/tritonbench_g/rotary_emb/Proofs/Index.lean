@@ -39,7 +39,7 @@ theorem q_index_run (p : Parameters) (Q K Cos Sin : RegionName) (s : BlockState)
     simp only [evalOp.eq_def, prefixState, BlockState.setReg_ne_name, BlockState.setReg_same,
       String.reduceEq, not_false_eq_true, ne_eq, Option.bind_some, Option.bind_eq_bind]
     rfl))]
-  rfl
+  exact stepStmts.nil
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

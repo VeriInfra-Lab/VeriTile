@@ -1,3 +1,4 @@
+import bench.tritonbench_g.chunk_retention.Proofs.IntegerErasure
 import bench.tritonbench_g.chunk_retention.Kernels
 import VeriTile.Triton.Float.Erasure
 import VeriTile.Meta.StatementAudit
@@ -28,8 +29,9 @@ theorem storage_erasure :
       s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t H T K V BT BK BV NT hasSeed storeFinal).eraseDType.toAlgKernel.body =
     (source swapped .fp32 .real .real k v h h0 ht
       s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t H T K V BT BK BV NT hasSeed storeFinal).eraseDType.toAlgKernel.body := by
+  simp only [ComputeKernel.eraseDType, projects, ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType]
   cases swapped <;> cases dot
-  all_goals simp only [source, Bool.false_eq_true, ↓reduceIte, forwardH,
+  all_goals simp only [↓signed32_lane_erasure, source, Bool.false_eq_true, ↓reduceIte, forwardH,
     forwardHDotLeft, forwardHSource, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
@@ -38,7 +40,7 @@ theorem storage_erasure :
     NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType,
     Except.bind, bind, List.map_cons, List.map_nil, eraseDType_float]
   all_goals simp only [VeriTile.Triton.eraseDType]
-  all_goals simp [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
+  all_goals simp [↓signed32_lane_erasure, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
     MaskOpt.eraseDType.eq_def, eraseDType_float]
   all_goals cases dtype <;> cases out_dtype <;>
     simp [VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType]
@@ -71,8 +73,9 @@ theorem storage_erasure :
       s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t scale H T K V BT NT).eraseDType.toAlgKernel.body =
     (source swapped .fp32 .real q do_ dh v
       s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t scale H T K V BT NT).eraseDType.toAlgKernel.body := by
+  simp only [ComputeKernel.eraseDType, projects, ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType]
   cases swapped <;> cases dot
-  all_goals simp only [source, Bool.false_eq_true, ↓reduceIte, backwardH,
+  all_goals simp only [↓signed32_lane_erasure, source, Bool.false_eq_true, ↓reduceIte, backwardH,
     backwardHDotLeft, backwardHSource, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
@@ -81,7 +84,7 @@ theorem storage_erasure :
     NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType,
     Except.bind, bind, List.map_cons, List.map_nil, eraseDType_float]
   all_goals simp only [VeriTile.Triton.eraseDType]
-  all_goals simp [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
+  all_goals simp [↓signed32_lane_erasure, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
     MaskOpt.eraseDType.eq_def, eraseDType_float]
   all_goals cases out_dtype <;>
     simp [VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType]
@@ -114,8 +117,9 @@ theorem storage_erasure :
       s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t scale H T K V BT BK BV NT).eraseDType.toAlgKernel.body =
     (source swapped .fp32 q k v h do_ dh dq dk dv
       s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t scale H T K V BT BK BV NT).eraseDType.toAlgKernel.body := by
+  simp only [ComputeKernel.eraseDType, projects, ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType]
   cases swapped <;> cases dot
-  all_goals simp only [source, Bool.false_eq_true, ↓reduceIte, backwardQKV,
+  all_goals simp only [↓signed32_lane_erasure, source, Bool.false_eq_true, ↓reduceIte, backwardQKV,
     backwardQKVDotLeft, backwardQKVSource, ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
@@ -124,7 +128,7 @@ theorem storage_erasure :
     NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType,
     Except.bind, bind, List.map_cons, List.map_nil, eraseDType_float]
   all_goals simp only [VeriTile.Triton.eraseDType]
-  all_goals simp [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
+  all_goals simp [↓signed32_lane_erasure, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
     MaskOpt.eraseDType.eq_def, eraseDType_float]
   all_goals simp [VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType]
 
@@ -153,8 +157,9 @@ theorem storage_erasure :
       s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t scale H T K V BT BK BV).eraseDType.toAlgKernel.body =
     (forwardOSource .fp32 .fp32 swapped .real q k v h o
       s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d s_h_h s_h_t scale H T K V BT BK BV).eraseDType.toAlgKernel.body := by
+  simp only [ComputeKernel.eraseDType, projects, ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType]
   cases swapped <;> cases query <;> cases value
-  all_goals simp only [forwardOSource, Bool.false_eq_true, ↓reduceIte,
+  all_goals simp only [↓signed32_lane_erasure, forwardOSource, Bool.false_eq_true, ↓reduceIte,
     ComputeKernel.surfaceBody, ComputeKernel.eraseDType,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
@@ -163,7 +168,7 @@ theorem storage_erasure :
     NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType,
     Except.bind, bind, List.map_cons, List.map_nil, eraseDType_float]
   all_goals simp only [VeriTile.Triton.eraseDType]
-  all_goals simp [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
+  all_goals simp [↓signed32_lane_erasure, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def,
     MaskOpt.eraseDType.eq_def, eraseDType_float]
   all_goals cases out_dtype <;>
     simp [VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType]

@@ -19,6 +19,7 @@ theorem example_bounds (s : BlockState) (h0 : s.pids 0=0) (h1 : s.pids 1=0) :
     have hs := i.1.isLt
     have hh := i.2.1.isLt
     have hd := dimension_lt odd i
+    dsimp only [exampleParameters] at hs hh hd
     simp only [exampleParameters, Parameters.qAddress, address, sequence, head,
       h0, h1, Nat.zero_mul, Nat.zero_add, Nat.mul_one]
     omega
@@ -27,12 +28,14 @@ theorem example_bounds (s : BlockState) (h0 : s.pids 0=0) (h1 : s.pids 1=0) :
     have hs := i.1.isLt
     have hh := i.2.1.isLt
     have hd := dimension_lt odd i
+    dsimp only [exampleParameters] at hs hh hd
     simp only [exampleParameters, Parameters.kAddress, address, sequence, head,
       h0, h1, Nat.zero_mul, Nat.zero_add, Nat.mul_one]
     omega
   · intro odd i _
     have hs := i.1.isLt
     have hd := dimension_lt odd i
+    dsimp only [exampleParameters] at hs hd
     simp only [exampleParameters, trigAddress, sequence, h1, Nat.zero_mul,
       Nat.zero_add, Nat.mul_one]
     constructor <;> omega

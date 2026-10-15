@@ -6,7 +6,7 @@ import VeriTile.Meta.StatementAudit
 Every input/weight/cast choice retains its actual product and reduction dtype;
 only the final addition is promoted to fp32 by the fp32 output operand.
 The domain checks the actual promoted operands in each reached accumulation arm.
-This does not certify the pending arbitrary-output-dtype theorem in FP.lean. -/
+This does not supply the extra native premises of the arbitrary-output theorem in FP.lean. -/
 namespace VeriTile.Bench.TritonBenchG.BgmvExpandSlice.FP32Proofs
 open VeriTile Triton FP FP.Structural FP.ProfiledRewrite FP.Guarded
 open _root_.VeriTile.Triton.FP.GuardedRewrite (sameShape sameShape_left sameShape_right)

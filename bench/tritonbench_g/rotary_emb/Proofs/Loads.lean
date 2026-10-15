@@ -6,6 +6,8 @@ set_option maxHeartbeats 5000000
 set_option maxRecDepth 12000
 set_option linter.unusedSimpArgs false
 
+@[simp] theorem real_zero_literal : (0.0 : ℝ) = 0 := by norm_num
+
 def qLoadBody (p : Parameters) (Q K Cos Sin : RegionName) : List Stmt :=
   ((mathKernel p Q K Cos Sin).body.drop 10).take 6
 
@@ -21,9 +23,12 @@ noncomputable def qLoadState (p : Parameters) (s : BlockState)
     "sin1" .real [p.blockSeq,1,p.dimension/2] (p.trigValues s Sin Bool.true)
 
 macro "solveRotaryLoad" : tactic => `(tactic|
-  simp [evalOp.eq_def, qIndexState, prefixState, Parameters.dataOffsets, Parameters.trigOffsets,
+  (simp [evalOp.eq_def, qIndexState, prefixState, Parameters.dataOffsets, Parameters.trigOffsets,
     Parameters.dataValues, Parameters.trigValues, address, trigAddress, sequence, head,
-    dimension, active, range, dims, tile_elementwise, Bool.and_eq_true])
+    dimension, active, range, dims, tile_elementwise, Bool.and_eq_true, Option.bind,
+    Tile.remap, TileShape.insertAxis, TileShape.dropInsertedIndex,
+    Broadcast.leftIndex, Broadcast.rightIndex, apply_ite]
+   <;> (funext i; split_ifs <;> rfl)))
 
 theorem q_load_run (p : Parameters) (Q K Cos Sin : RegionName) (s : BlockState) :
     stepStmts (qLoadBody p Q K Cos Sin) (qIndexState p s) =
@@ -41,7 +46,7 @@ theorem q_load_run (p : Parameters) (Q K Cos Sin : RegionName) (s : BlockState) 
     (v := p.trigValues s Cos Bool.true) (by solveRotaryLoad))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (v := p.trigValues s Sin Bool.true) (by solveRotaryLoad))]
-  rfl
+  exact stepStmts.nil
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

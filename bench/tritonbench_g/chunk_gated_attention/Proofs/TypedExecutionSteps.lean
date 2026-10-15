@@ -127,7 +127,7 @@ theorem domain_holds (gateK hasSeed storeFinal : Bool) :
     ∀ site ∈ (recurrent gateK hasSeed storeFinal).domain, site.Holds model domain initial := by
   simp [recurrent, FPEquivProofs.recurrent, FPEquivProofs.requirements,
     TypedSource.hOriginal, TypedSource.hSource, ComputeKernel.surfaceBody,
-    Source.dynamicRange?, Source.prefixBefore, Site.Holds, domain]
+    Source.dynamicRange?, Source.conditional?, Source.prefixBefore, Site.Holds, domain]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

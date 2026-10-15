@@ -20,19 +20,19 @@ def model : Algebra (WithBot ℝ) where
     | .mul => WithBot.realMul a b
     | .div => WithBot.realDiv a b
     | .max => max a b
-    | .pow => some 0
+    | .pow => WithBot.realPow a b
   atomicAdd := fun _ => some WithBot.realAdd
   unary := fun _ op a => match op with
     | .exp2 => WithBot.realExp2 a
     | .log2 => WithBot.realLog2 a
-    | _ => some 0
+    | _ => none
   compareLe := fun _ _ => some (fun a b => decide (a ≤ b))
   compareLt := fun _ _ => some (fun a b => decide (a < b))
   compareEq := fun _ _ => some (fun a b => decide (a = b))
   cast := fun _ _ _ x => x
   fromNat := fun _ n => some n
   fromInt := fun _ n => some n
-  fp32Bits := fun _ => some 0
+  fp32Bits := fun _ => none
   fp32Load := id
   reduceMax := fun _ {_} ax keep v => ((Tile.reduceMax ax keep ⟨v⟩).getD ⟨fun _ => none⟩).data
   reduceSum := fun _ {_} ax keep v => (Tile.reduceSum ax keep ⟨v⟩).data
@@ -46,7 +46,7 @@ def model : Algebra (WithBot ℝ) where
       ⟨fun j => toFloat r (b j)⟩).data i))
 
 def storageType : Storage → FloatDType
-  | .fp16 => .fp16 | .bf16 => .bf16 | .fp32 => .real
+  | .fp16 => .fp16 | .bf16 => .bf16 | .fp32 => .real | .fp64 => .real | .f8e4 => .f8e4 | .f8e5 => .f8e5
 
 def initial (input output : Storage) : State (WithBot ℝ) where
   mem := fun r o => if r="Q" then .mk (storageType input).toTileDType (ofFloat (storageType input) (some 0))

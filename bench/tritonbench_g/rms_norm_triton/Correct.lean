@@ -1,6 +1,11 @@
 import bench.tritonbench_g.rms_norm_triton.Proofs.Real
 import bench.tritonbench_g.rms_norm_triton.Proofs.Candidate
 import bench.tritonbench_g.rms_norm_triton.Proofs.Math
+
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
 namespace VeriTile.Bench.TritonBenchG.RmsNormTriton
 open VeriTile.Triton
 open scoped VeriTile.Triton.Masked2DKernelIO₂
@@ -54,7 +59,7 @@ row). No `0 < BLOCK_SIZE` side condition: the kernel's only reduction is a
 `sum`, total on empty tiles. Proof: `Masked2DKernelIO₂.Implements.intro`
 assembles the region-model masked triple with the flat-memory bridge side
 conditions. -/
-specification rms_norm_kernel_correctness
+theorem rms_norm_kernel_correctness
     (Y X W : RegionName)
     (y_stride_r y_stride_c x_stride_r x_stride_c N BLOCK_SIZE : Nat)
     (eps : ℝ) (hyc : 0 < y_stride_c) :

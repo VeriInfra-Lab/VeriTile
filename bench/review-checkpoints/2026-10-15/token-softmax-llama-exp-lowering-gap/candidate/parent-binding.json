@@ -1,0 +1,5 @@
+{
+  "package": "/tmp/veritile-token-softmax-bloom-word-20261015",
+  "receipt_sha256": "5a44de64505a9d9dd2df9def1d9484ca63de11e4c2df9a533696cffb1d73d08e",
+  "reused_theorems": "All scalar Real.exp cells/multiply collision and both existing 32-lane reachability constructions. No duplicate new numerical evidence claim."
+}

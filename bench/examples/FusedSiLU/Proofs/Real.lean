@@ -47,11 +47,9 @@ def unfusedMathKernel (xReg gateReg residualReg zReg siluReg outReg : RegionName
      residualMathKernel siluReg residualReg outReg B]
 
 private theorem erase_output_cast (B : Nat) :
-    (Op.castFloat .real .bf16 (Op.ref .real [B] "y")).eraseDType =
+    (Op.castFloat .real .bf16 (Op.withPrecision .real .fp32 (Op.ref .real [B] "y"))).eraseDType =
       Op.ref .real [B] "y" := by
-  rw [Op.eraseDType_castFloat .real .bf16 (Op.ref .real [B] "y")]
-  change (Op.ref .real [B] "y").eraseDType = Op.ref .real [B] "y"
-  rw [Op.eraseDType_ref]
+  simp only [Op.eraseDType_castFloat, Op.eraseDType.eq_def]
   rfl
 
 theorem fused_projection (xReg gateReg residualReg outReg : RegionName) (B : Nat) :

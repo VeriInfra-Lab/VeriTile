@@ -168,10 +168,52 @@ remains the build step; use these gates for proof acceptance.
 
 The structural rules in `bench/audit_tritonbench_g.sh` share source extraction
 through `bench/audit_source.py`. Kernel selection and call formatting are explicit
-options: checks covering every JIT helper must not silently switch to the
-primary-kernel policy. These text scans complement the Lean/comparator gates;
+options. The source-view gates, including augmented assignments, compare the
+explicitly selected JIT with its selected Lean body; other JITs require their
+own views. These text scans complement the Lean/comparator gates;
 they do not discover proof obligations. Run their parser and failure regressions
-with `python3 -m unittest discover -s scripts -p 'test_audit_source.py'`.
+with `python3 -m unittest scripts.test_audit_source scripts.test_correctness_surface_audit scripts.test_source_shape_audit scripts.test_source_dtype_audit scripts.test_source_constexpr_profile scripts.test_source_runtime_scalar_profile scripts.test_source_helpers scripts.test_source_extern_orders scripts.test_source_pointer_dtype_profile scripts.test_source_materializations scripts.test_source_control_materializations scripts.test_source_uniform_materializations`.
+The allocation regressions run the production zeros/full gate and check that
+dtype attributes resolve consistently while changed shapes, fill values,
+precisions and reassigned pointers still fail.
+The dtype regressions retain declared pointer types through self-advances and
+reject unknown rebindings and arithmetic expressions that are not direct loads.
+The helper regressions validate explicit same-file single-return arithmetic
+JIT expansion. The helper list is bound to the exact Lean selector and argument
+map; every macro argument must be fixed or explicitly listed as a symbolic
+dtype (branch selectors cannot be symbolic). The expanded expression must
+match its Lean assignment as an AST. Unknown
+calls, side effects, rebinding, namespace aliases and ambiguous assignments
+remain unresolved. This comparison neither exempts a port nor certifies its
+unselected source profiles or numerical semantics.
+
+`Source-audit materializations:` records a runtime integer binding followed by
+a symbolic arange-size identity adapter. It pins the complete original Python
+file, exact Lean selector and every macro argument, explicit region storage,
+the integer metadata, and reviewed adapter source bytes. It preserves the
+original parameter list and every original statement: the comparison Python
+body gains the same two identity assignments. Mandatory extraction then compares
+the complete straight-line statement/expression AST, including every `tl.rand`
+argument, strict comparison, eager division, mask and store. Computed seeds or
+sizes, unrecorded metadata, unsupported control flow, changed adapter sources,
+and implicit profile composition are rejected. Its adapter dependency is
+`VeriTile/Triton/DSL/RandomProfile.lean`; changed library bytes require renewed
+review. The tests retain the actual compiled source as text fixtures and use an
+explicit source-only harness, without fabricated correctness entries. All 24
+original storage/seed configurations are checked by production source gates.
+These comparisons do not certify native ABI admission, GPU execution or a port.
+
+`Source-audit pointer-dtypes:` binds a direct Python pointer storage comparison
+to the exact Lean selector and complete macro arguments. The reviewed registry
+`bench/tritonbench_g/source_pointer_dtype_profiles.json` retains the original
+full-source hash, both persistent-matmul native compile records, and their TTIR.
+The profile verifies every native pointer against selected Lean region types,
+and checks the actual TTIR signature and hashes. It checks all original branches
+for rebinding, indirect uses and unsupported dtype guards before selecting only
+an exact `pointer.dtype.element_ty == tl.<dtype>` if arm. Runtime guards remain.
+No metadata means no dtype-branch selection. These profiles currently reject
+composition with other Python source rewrites; they do not create boolean
+constexprs, add exemptions, or certify native integer/IEEE semantics or launches.
 
 In the same checkout, run `test_audit_gates.py` and a full corpus audit
 sequentially. The regression suite creates deliberately invalid temporary ports
@@ -180,3 +222,35 @@ under `bench/tritonbench_g/`, which a concurrent full scan would also select.
 Logs under `Logs/comparator-check-*` record source hashes, selected targets,
 generated source, comparator configuration, diagnostics, binary hash, and exit
 status. Temporary build-cache copies are removed when a batch finishes.
+
+Explicit boolean source profiles use a `Source-audit constexpr:` JSON object with
+`python` parameter values and the exact selected `lean.source`/`lean.args`. Every
+key must be an original `tl.constexpr` parameter used only as an `if`/`if not`
+guard. Metadata never derives a profile from defaults or dtype names. Unselected
+branches remain outside that comparison view; runtime parameters and precision
+differences remain checked. The profile regressions exercise production gates,
+malformed metadata, mutated branches and non-guard uses.
+
+The runtime scalar regressions cover explicit Python-float/fp32 ABI views.
+Each view pins the original Python source, selected Lean macro arguments, and
+reviewed Triton 3.7.1 sm90 compilation evidence in
+`bench/tritonbench_g/source_runtime_abi_profiles.json`. Only supported scalar
+Name loads receive the ABI conversion in the comparison view; tensor casts
+remain visible. Integer objects, stale evidence, rebindings, and unsupported
+uses fail extraction. The recorded offline compilations do not launch kernels
+or certify other values, shapes, runtime types, or Lean numeric contracts.
+
+The recorded extern regressions cover Pow's explicit rank-one order parameters
+and its same-file helper, separately from the pure arithmetic helper whitelist.
+The view binds the complete original Python source, conditional import chain,
+exact Lean macro arguments and reviewed native record in
+`bench/tritonbench_g/source_extern_profiles.json`. The two integer-zero order
+parameters must come from the original wrapper's `(0,)` launch arguments.
+Validation retains all twelve original parameters, checks both original
+branches and compares the complete selected body as an AST. The helper's
+existing fp32 cast remains explicit; no extra runtime ABI conversion is added.
+This profile records fp32 `__nv_powf` dispatch for Triton 3.7.1/sm90 with block
+size 32. It does not certify other imports, dtypes, native numerical results,
+or a complete Pow contract. Invalid metadata, changed casts, pointer fields,
+bindings or evidence fail the mandatory extraction gate, even for a port with
+an existing translation marker.

@@ -3,7 +3,6 @@ import bench.tritonbench_g.rmsnorm_fused_llama.FPEquiv
 import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.Precision
 import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.Execution
 
-#print axioms VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.rms_norm_fwd_fused_llama_output_summary
 #print axioms VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.rms_norm_fwd_fused_llama_io_correctness
 #print axioms VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.original_real_correct
 #print axioms VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.candidate_real_correct
@@ -16,6 +15,9 @@ import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.Execution
 #print axioms VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.Precision.computation_profiles
 #print axioms VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.Precision.variance_precision
 #print axioms VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.Precision.io_roles
+#axiomsClean VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.FiniteWitness.contract
+#axiomsClean VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.FiniteWitness.cells
+#specNonCircular VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.General.rowSpec avoiding [VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.originalTyped, VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.typedKernel, VeriTile.Triton.exec, VeriTile.Triton.execR]
 
 #print_fp_assumptions VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.FPEquiv.source_equivalence
 

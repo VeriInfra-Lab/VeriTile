@@ -1,0 +1,1527 @@
+{
+  "schema": 1,
+  "status": "accepted_final_source_bindings",
+  "files": {
+    "bench/tritonbench_g/attention_forward_triton/Proofs/LegacyRounding.lean": {
+      "sha256": "8f594d086dfc6f1a99c2d6112c9c17d7f9c46f95256d9b6a94556a677dbc35f7",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        147,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "3cd286e6685f3a25e92e6e0daa1ce3608b3277223dd39f32983b1b037e380a39"
+    },
+    "bench/tritonbench_g/attention_forward_triton/Proofs/RealLoop.lean": {
+      "sha256": "2aa5cfcd1577f59ee5aee98e3d024bd501c7a71c793638a11f5cd3f7e2e2b549",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        148,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "430836ae78bf1895959a515dfd15c68100b7a093c49340ee8f84a680464de3e0"
+    },
+    "bench/tritonbench_g/attention_forward_triton/Proofs/RealSafety.lean": {
+      "sha256": "db040897e590ffbdf0a25cfbdf049eb9827a36ebc9595073aecb7d2905bd76ad",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        155,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "b6f5dc969f1fe3d22d9f4def0494ecf9e3f05cb4764d01522e8e320dca1130af"
+    },
+    "bench/tritonbench_g/attention_fwd_triton2/Proofs/LegacyRounding.lean": {
+      "sha256": "1db1ccb55b3a4d1b9fca6cbc4f15baf5e13f6c46418d27f88779adf96a72222c",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        196,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "fd6fb81b5d33f42fe649568fe1bb40e440fe11411733107007386bbc2da6a9f9"
+    },
+    "bench/tritonbench_g/attention_fwd_triton3/Proofs/LegacySource.lean": {
+      "sha256": "f606a2daa9e329b223941008b67af215c90f0a8443bb5daa25d53d1dce286cc8",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        252,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "53d75ee6f0745989d0049a1ec250810a7e4f262ecae99fc8bd8711858fa38903"
+    },
+    "bench/tritonbench_g/attention_fwd_triton3/Proofs/RealBody.lean": {
+      "sha256": "d269e9b4396f9495c0b69b8953b9450c70bfeeb3cadcb5a95057f8f7ff8ee39a",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        205,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "c0be031fa6d2772aeeb88186e7627e83b64077258eb7a5406d3e94c10c42deb8"
+    },
+    "bench/tritonbench_g/attention_fwd_triton3/Proofs/RealProbabilities.lean": {
+      "sha256": "0dc374e6922e5be406c018be2c60b4a3b0bb8c95208eab500df74a407d6de3e7",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        209,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "f1cf249869e095b2f8ce91895c3c439420376cb962a4b15bf52b6ee58838b42f"
+    },
+    "bench/tritonbench_g/attention_kernel/Proofs/Legacy.lean": {
+      "sha256": "0644c945f8fe9bd371aad1664caa8c479cbaa5b8d101eb58bd51049760859525",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        263,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "eb50292fcae4c2af3011d33843b3f4d85696e8e24a593bf88c618de2802edc93"
+    },
+    "bench/tritonbench_g/attention_kernel/Proofs/RealKernel.lean": {
+      "sha256": "8c6d85d49fc2dd0334cb593260ab96590c1b3f3759d79913f3d586ea3c686eb6",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        256,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "d0b74f7831373912013b65013ac150f7dbf5c595acdbf540ab5cf18082535a19"
+    },
+    "bench/tritonbench_g/attention_kernel/Proofs/RealSource.lean": {
+      "sha256": "3d5d6f6b18c71f6d0117bd5130bc6575d1f9fae1b6b4bd01bae9b3b83570baed",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        257,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "0071e4b5e18d42e2167bde94b08f9595f963c398149cc4686831e9863dac3ebb"
+    },
+    "bench/tritonbench_g/attention_llama/Proofs/FP8RealIteration.lean": {
+      "sha256": "e274b40a0784cb212e2246187fe4ea1b5a509688e2bf302032eed16033bfce36",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        313,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "ffb559e55b0852cb9323ac07ed9376aa55c7ee4830ed6c2bedb50801be1d12c2"
+    },
+    "bench/tritonbench_g/attention_llama/Proofs/FP8RealReference.lean": {
+      "sha256": "581d27798619dfed86915f6c7fc7770475d4795e10a76af42360c7000f7a9ef8",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        318,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "78e6edd270fc0c302d8011010d15e83e4dcde09371df4eb6e3ae26fed59d2790"
+    },
+    "bench/tritonbench_g/attention_llama/Proofs/FP8RealSafetyLoop.lean": {
+      "sha256": "266c8966d02770d50c9d80b3feacbbcb5a46bb967fa72f2724f96a2913939d42",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        321,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "4d4619cd3c2be2f930a7f2eea8d95fb121ef8fb68cb70bee4b05fe479c07e73b"
+    },
+    "bench/tritonbench_g/attention_llama/Proofs/FP8RealSource.lean": {
+      "sha256": "43ef6fae40eb94e4383265d4eae061042cb3800d464cadf71b414d50ea416f03",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        310,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "55277a29b88649ba8bb6760066bf760d13c07c9232ae34f11b0e9791fb8cba53"
+    },
+    "bench/tritonbench_g/attention_llama/Proofs/RealKernel.lean": {
+      "sha256": "725199dd00118dbc2ef062b546e500ecdcb1c68ade7b2cebdc18a9e225de136c",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        298,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "b6fadd7f7d06d3410e976abf4a36b6420f265235eb6dfcfe05072211842345b4"
+    },
+    "bench/tritonbench_g/attention_llama/Proofs/RealSource.lean": {
+      "sha256": "5497602c8d851f22824cc2960c33cf6ea0d3a9316e593ef993fde79202a27b50",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        301,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "713f6ebc18ac5f26afc8e6156164f0185911befb08ac1dca90ec7c57cd69f382"
+    },
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/LegacyExactMask.lean": {
+      "sha256": "0d9d7085b0455371802cc4e117991b2f735c402cb9dcd6c168950ed183013b1e",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        376,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "5fcdec1c1186f7604bfc80aeb0869281be3ee80c4bcf17ca2776a23074057c69"
+    },
+    "bench/tritonbench_g/attn_fwd_causal/Proofs/RealBody.lean": {
+      "sha256": "d7725ab89ab3dd1bfba7911b86761f7196a73d3dd78c575c4d2a9a443e5acd97",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        336,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "2723f8440a6be405f08d5cd3e6c65d7c28413149b720e49ff144fef5db4c08bd"
+    },
+    "bench/tritonbench_g/attn_fwd_triton/Proofs/LegacyExactMask.lean": {
+      "sha256": "7907897e22f8dd18e33113024aeff62c392403530a914aa444c8d2d89d25e6df",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        387,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "f928c121c2fae01c4e581d6f2f623ba1291047dad41fc41e287b6998eafc0dcd"
+    },
+    "bench/tritonbench_g/block_sparse_attn/Proofs/LegacySummary.lean": {
+      "sha256": "01934c7aec2402304d4b6f091c2698ddf0c16393c2aa11866dc7b11d6cd1e1c7",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        434,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "fa1d3aa792c5504e2d6a963bf1314e84ab2dba1ef372cdbb14ebed091e5210d9"
+    },
+    "bench/tritonbench_g/block_sparse_attn/Proofs/RealNormalization.lean": {
+      "sha256": "4f078954d26cc8613d6b911e63a5642c778fa283bc63c6531e1898e970dc95fa",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        404,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "434cb210c334e4609c9c47308493564804fdf8d0bbebe094d700c46eb23e01a1"
+    },
+    "bench/tritonbench_g/block_sparse_attn/Proofs/RealNormalizationSource.lean": {
+      "sha256": "4961bfbb4b4992f06590120f04de9ac316a00847ed3ebe8acf60beeead0bce37",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        403,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "cbe5338adc9dce7cd0908dce0196a000e817daf55d5582afb4e8ed4454799f25"
+    },
+    "bench/tritonbench_g/chunk_retention/Proofs/BackwardGradientsProgram.lean": {
+      "sha256": "1d0b1c5e37b440098caedb2fc880ea24ce49409c81e3d31b30175c5eb1db65d2",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/receipt.json",
+        "sha256": "f64901e85502d53707eaf14eb8f80a922b8e41db55eabb8644ed7c6f5f74fb03"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/root-review.json",
+        "sha256": "d4a539d218559c1fa55efbf834a010a488fade6b2327792ba3b04242d49a2c0b"
+      },
+      "review_status": "signed32_reference_semantics_revalidated_full_original_scope_pending_integration",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        26,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "1d0b1c5e37b440098caedb2fc880ea24ce49409c81e3d31b30175c5eb1db65d2"
+    },
+    "bench/tritonbench_g/chunk_retention/Proofs/BackwardStateProgram.lean": {
+      "sha256": "e9c9ada9a51bdd070625d2d475e7e00c26fa84f02a1d95113d95634025e7869f",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/receipt.json",
+        "sha256": "f64901e85502d53707eaf14eb8f80a922b8e41db55eabb8644ed7c6f5f74fb03"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/root-review.json",
+        "sha256": "d4a539d218559c1fa55efbf834a010a488fade6b2327792ba3b04242d49a2c0b"
+      },
+      "review_status": "signed32_reference_semantics_revalidated_full_original_scope_pending_integration",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        23,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "e9c9ada9a51bdd070625d2d475e7e00c26fa84f02a1d95113d95634025e7869f"
+    },
+    "bench/tritonbench_g/chunk_retention/Proofs/ForwardOutputExecution.lean": {
+      "sha256": "95844dc7f4d4770a6303a50ea18fb7c8e45ade96ab648c94d7dac00faad735f2",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/receipt.json",
+        "sha256": "f64901e85502d53707eaf14eb8f80a922b8e41db55eabb8644ed7c6f5f74fb03"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/root-review.json",
+        "sha256": "d4a539d218559c1fa55efbf834a010a488fade6b2327792ba3b04242d49a2c0b"
+      },
+      "review_status": "signed32_reference_semantics_revalidated_full_original_scope_pending_integration",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        21,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "95844dc7f4d4770a6303a50ea18fb7c8e45ade96ab648c94d7dac00faad735f2"
+    },
+    "bench/tritonbench_g/chunk_retention/Proofs/ForwardOutputProgram.lean": {
+      "sha256": "e25bd679803b79523a3cf9ea0322f0ab59f5cb571680ecce717436e4c2ade87d",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/receipt.json",
+        "sha256": "f64901e85502d53707eaf14eb8f80a922b8e41db55eabb8644ed7c6f5f74fb03"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/root-review.json",
+        "sha256": "d4a539d218559c1fa55efbf834a010a488fade6b2327792ba3b04242d49a2c0b"
+      },
+      "review_status": "signed32_reference_semantics_revalidated_full_original_scope_pending_integration",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        20,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "e25bd679803b79523a3cf9ea0322f0ab59f5cb571680ecce717436e4c2ade87d"
+    },
+    "bench/tritonbench_g/chunk_retention/Proofs/ForwardStateProgram.lean": {
+      "sha256": "9f842e7408617a9f7e1aa219b0901185d3325e2782e81ffd447140f3fa732675",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/receipt.json",
+        "sha256": "f64901e85502d53707eaf14eb8f80a922b8e41db55eabb8644ed7c6f5f74fb03"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/root-review.json",
+        "sha256": "d4a539d218559c1fa55efbf834a010a488fade6b2327792ba3b04242d49a2c0b"
+      },
+      "review_status": "signed32_reference_semantics_revalidated_full_original_scope_pending_integration",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        16,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "9f842e7408617a9f7e1aa219b0901185d3325e2782e81ffd447140f3fa732675"
+    },
+    "bench/tritonbench_g/chunk_retention/Proofs/Source.lean": {
+      "sha256": "7d8453a0141013cdac959409a237354b96a26b76bd5fbd5e2eefdafa3cbc067a",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/receipt.json",
+        "sha256": "f64901e85502d53707eaf14eb8f80a922b8e41db55eabb8644ed7c6f5f74fb03"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/root-review.json",
+        "sha256": "d4a539d218559c1fa55efbf834a010a488fade6b2327792ba3b04242d49a2c0b"
+      },
+      "review_status": "signed32_reference_semantics_revalidated_full_original_scope_pending_integration",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        15,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "7d8453a0141013cdac959409a237354b96a26b76bd5fbd5e2eefdafa3cbc067a"
+    },
+    "bench/tritonbench_g/chunk_retention_ops/Proofs/BackwardStateProgram.lean": {
+      "sha256": "0e3f027187ad1571347f375d8392e9d81339b8764bea7fc683d445b6ed58e591",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/receipt.json",
+        "sha256": "f64901e85502d53707eaf14eb8f80a922b8e41db55eabb8644ed7c6f5f74fb03"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/retention-wrapped-indices/root-review.json",
+        "sha256": "d4a539d218559c1fa55efbf834a010a488fade6b2327792ba3b04242d49a2c0b"
+      },
+      "review_status": "signed32_reference_semantics_revalidated_full_original_scope_pending_integration",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        34,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "0e3f027187ad1571347f375d8392e9d81339b8764bea7fc683d445b6ed58e591"
+    },
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/Program.lean": {
+      "sha256": "16e408fd69eb84598079f2aa8e57477788184ef03c60b912467981f4018dc889",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        439,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "da66295d3a2e1cf0d2e79105f4b155076de4dc33473f73c968da46cb3f40613e"
+    },
+    "bench/tritonbench_g/chunked_cumsum_fwd/Proofs/Tiles.lean": {
+      "sha256": "8e3abd71ec6d11e1afda560dda09b5e1983a61175e6c510f7411018dfc343d8e",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        441,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "8a5d3ae1329b467e76682d42e79a72f578229a59f63ea090ba05c210e936f355"
+    },
+    "bench/tritonbench_g/context_attn_bloom/Proofs/NormalizerExecution.lean": {
+      "sha256": "655c5fb494a3a2264e99bb1dabdcd90aefe1d3b5895e3719cc250bb55be030be",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        483,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "5dcae0f2f5e8c56e4315d55ee61214b23af8345047e275d72557eed0084cc824"
+    },
+    "bench/tritonbench_g/context_attn_bloom/Proofs/UpdateProgram.lean": {
+      "sha256": "8839c4695683605bea49959ab32e83aff2cec1aeffa370b47750aa4d70b0289a",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        481,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "d7ca2127b81d310341e90fab41380f213fd986b5d457c52f1b22dba51a551a32"
+    },
+    "bench/tritonbench_g/context_attn_fwd/Proofs/LoopProgram.lean": {
+      "sha256": "8b80d7d15f0fb256db9d75f46472d7c227c147fb52ae584a2c50e70f7492110b",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        530,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "4ef28eea4e84532e6c4be50af605fabdcd8663db133aa832f621f5ca3174fb46"
+    },
+    "bench/tritonbench_g/context_attn_fwd/Proofs/StatsExecution.lean": {
+      "sha256": "b2ddc51b29229d6de960fc23bb049078601ef5fad073bd0c2a7c3b75db60a48e",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        538,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "37d62e3e5fc7db09c81b2c45869fbda01f9747d16781e6789507f0cb90f74095"
+    },
+    "bench/tritonbench_g/context_attn_llama/Proofs/LoopProgram.lean": {
+      "sha256": "8a89400ec8670cfea5cfb10b43e105a173d5387c2ce8791919c30a783e9a6c5a",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        579,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "f6bfaa775dbcc1b9f846d52195f0d556709c92827f53955e762ccec2cc8c36af"
+    },
+    "bench/tritonbench_g/context_attn_llama/Proofs/StatsExecution.lean": {
+      "sha256": "586e6654e006950d1bcfc183d3ec051eee7fc5a291ff12dd8518adfeb1d6160d",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        587,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "6084c453625e9778ffc770c3f794aee39ab9fa17704714fb35af7365436a3dd1"
+    },
+    "bench/tritonbench_g/context_attn_mistral/Proofs/LoopProgram.lean": {
+      "sha256": "529b55a96f6230980c1d8d7d7378532b837a6ed5e32f61c5010a33af7b799737",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        627,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "44a8c647bef930d9f9dbf9559ec3234a1ba39ff958643e91b84fd0550246ce83"
+    },
+    "bench/tritonbench_g/context_attn_mistral/Proofs/NormalizerExecution.lean": {
+      "sha256": "ed54491cecfb7df021849f5a62f89ad5b2a5ca9fa2bfc2cf206f9a65edc751c1",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        631,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "e68277d507185b20223fcad14cb3290fa00afec0bd7f7a28b1bc7eb3c57fe277"
+    },
+    "bench/tritonbench_g/context_attn_nopad/Proofs/LoopProgram.lean": {
+      "sha256": "4595337ee2c659cee720e06d8e13802a8af8eb099287cf8361546f4a8b6b50b6",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        677,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "d94557e2ef3f3bc839af4572ce6085540d45bd4832795bae4c9524043024830a"
+    },
+    "bench/tritonbench_g/context_attn_nopad/Proofs/NormalizerExecution.lean": {
+      "sha256": "253c6eedc0cc294a5fdf0bcb3bf3f1b840a1019915fe30ff94b278c700f94cac",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        681,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "8ec65d1228de956ca084360cc4274950359848027d641dc85b855c0b4f1f8fa2"
+    },
+    "bench/tritonbench_g/flash_attn/Proofs/LegacyReal.lean": {
+      "sha256": "51212e5d190a4d431a31b113655842eb59cecf5bdd5a6b989d7c3bfce4f88018",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        752,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "043b26866a929a5e4cfc4b01c531f530491949c651829bc081cec8c11fc91293"
+    },
+    "bench/tritonbench_g/fused_activation/Proofs/Real.lean": {
+      "sha256": "7975c5ae5e1258b6612ce39859e24e3474e34c89d386da5a6df0f4df44bf17b8",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        787,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "9b237d903bb50b04368c15cbf681967436ef46c1260761cee2aa4a92783a19f8"
+    },
+    "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeDomainCompat.lean": {
+      "sha256": "da77b23157a0c281911cff1a0b0fc9c66c6d1aa174d25097d247ffbd02a46e83",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        805,
+        "source_sha256"
+      ],
+      "before_expected_sha256": null
+    },
+    "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeShape.lean": {
+      "sha256": "aade215ecc0b874aae0e0ba942966a79b68a3334bb4a7eec026ab02f0f0d05af",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        806,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "c7a14c4b9d6dfeae8a5a46a9d631bec0dac8ba1f72a9bd69c65622100209ad93"
+    },
+    "bench/tritonbench_g/int8_matmul_quantization/Proofs/QuantizeSource.lean": {
+      "sha256": "6795e0727ec69f49cbc47655554222347a804b38d67e0a9b1a32cead1983b407",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        804,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "2ae9c11b2262b04e1c861d5bc2e9eb611b5ed2315bd86934e39c74fcd8c39d79"
+    },
+    "bench/tritonbench_g/kldiv_ops/Proofs/Algorithm.lean": {
+      "sha256": "7884770e25cb8f1afe784be4ed7405bb45a864bcbf41fb88fe67380255adeb24",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        827,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "99e20b9bde42dbc5bff884cf9d1a61ebd543ebfbe26d3691706125c10412dc02"
+    },
+    "bench/tritonbench_g/kldiv_ops/Proofs/Finish.lean": {
+      "sha256": "e31965746e5ceccdb88026878d7b6ba71a5bec9e729c2694bca83250e216dcf8",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        840,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "2ce007af3455173bed97f8510fa3880f1e1261162f714bf78c2389b922b70a32"
+    },
+    "bench/tritonbench_g/kldiv_ops/Proofs/FlatIO.lean": {
+      "sha256": "859f882fcca454165a086aad27c31721e31592f93293902a9fa806623658b0da",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        853,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "6a2b72b9fc7ee6f469693e311fbb866372bd7ad4e1485a09ad3dbd043abbb52d"
+    },
+    "bench/tritonbench_g/kldiv_ops/Proofs/ForwardElementExecution.lean": {
+      "sha256": "611b1670ac1f0c825384fde9dc2eec39d7ed3c286affb8e62ff3395f2ce16015",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        845,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "f360655ef917f4ff9776906e5f1141c9ba03127fc8b9ee1caa0b81f8175e7cbe"
+    },
+    "bench/tritonbench_g/kldiv_ops/Proofs/ForwardFinish.lean": {
+      "sha256": "92b3bf7b404fe42832fe9962abaaaa78c4cd973d37d6b4f3389a686466df3092",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        833,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "0604d4518cb2785aa599368f3e3f5f623b1584b986b60781cbabd848dc765aba"
+    },
+    "bench/tritonbench_g/kldiv_ops/Proofs/ForwardPrecision.lean": {
+      "sha256": "5f90bc6b23685a5dbf7a81dd73c5ea7a75aa1e5e63ba4541f2de525fcbc1dd0a",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        857,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "eec3617db688b4914c03c066716f8aefbe73b3278863cc926cf6eef758aad2db"
+    },
+    "bench/tritonbench_g/kldiv_ops/Proofs/ForwardReductionExecution.lean": {
+      "sha256": "8c808809d5b1d132f85a628369be2769a69a2f8e56f26dbd624467c79c7b0fcc",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        841,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "a5c83dd96cac05c1c9a3d052c9a1fa3db72835880b76db34a1c83c6d4e7a9eb5"
+    },
+    "bench/tritonbench_g/kldiv_ops/Proofs/ForwardSafetyBlock.lean": {
+      "sha256": "c730456e13a77e2954d978849a954c63d1b6807cf3d95e330270bd92204707b8",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        846,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "5a707677a83574d263f9777ab38be2cd5704d861a2e8f0e41722f3bf3eacb283"
+    },
+    "bench/tritonbench_g/kldiv_ops/Proofs/ForwardStep.lean": {
+      "sha256": "7e1d50d0a6cbc81be6eedaf918da644ca5246170dc0ce909fdf4c5bef5880ca2",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        832,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "45fcca99ac2c9568518aa83dc61b801f6a7d8947972d3542a4bc07ad26aac336"
+    },
+    "bench/tritonbench_g/kldiv_ops/Proofs/Initialize.lean": {
+      "sha256": "fc9147c2683b566e21d0cf7bc3d4b210ed4db4a7aafd2e539e528bd35bfefadc",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        839,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "b086568b62fc4a0502428961a320cb19f8f027ae27384981ad76f1d7a88fd74e"
+    },
+    "bench/tritonbench_g/kldiv_ops/Proofs/LegacyReal.lean": {
+      "sha256": "ca488ce7a4196946d7c22ae9251d4604dbf90d5e532ffabeee3a51ebaf5ce48d",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        861,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "d19f0baaa6941832e379049aca325b25cd47e1e4bd961b1c9cfdefc84e88fc0e"
+    },
+    "bench/tritonbench_g/kldiv_ops/Proofs/SourceExecution.lean": {
+      "sha256": "62c23deae0a8dfdc429222b4266c09cfd1a118f3744644d64e8b3934b0f6d78d",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        829,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "a89e2c3e6944450e91a45a70a5df000d0f47c80e043fbe7b976e0f22323246d9"
+    },
+    "bench/tritonbench_g/kldiv_ops/Proofs/SourceProjection.lean": {
+      "sha256": "42444c49f90630569b9b959957ddb72f05130b4ba93c151f4cbfe0e0315a0f8e",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        828,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "e1fccd5224ca711b0881c8ab940dda1a817c8772a1e6b5679f8b3542146c626a"
+    },
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPConfig.lean": {
+      "sha256": "33bc1cc8d58bda8def251753874a33a8a3cedf43474d5eaa3f152177b171e9ae",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        880,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "31d943546a68738d3a70dc7512456e07574e2d701388d3327ebccacf4008eda7"
+    },
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPLoops.lean": {
+      "sha256": "2e53705c584c43d7498a66cefe54fbe48a74f574cc60ab34d58ffd4e16754ac0",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        885,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "64b29610ac83265af8268a02079a7f087d44e18e5ebd62c26914f265032eabb5"
+    },
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPShape.lean": {
+      "sha256": "1be001cead8c530ab30626551552c387734fc69b4657bb317e401060b5cdce37",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        890,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "29286fe6f53ccbd7faf77c0e6191fa30654750722cd601db69dc0e80981b9a55"
+    },
+    "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPWhole.lean": {
+      "sha256": "ecdaaa70409944de7fd7f9d439aedd6d6d2d377eae85de894f369577557aa3b7",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        886,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "2b7b143eaa8954b6cdfa5c4f740915a1ce79229fb55aa317ed40ce2c61e32ae3"
+    },
+    "bench/tritonbench_g/rowwise_quantization_triton/Proofs/MaxnumWitness.lean": {
+      "sha256": "967987dc5b8298ddfff189cde2447d74adfa0053470d15832078ba776e0af3a9",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/rowwise-maxnum/receipt.json",
+        "sha256": "7fc52c581aa91ab66c633835023db307b830654699d5094ff010258724dd4eba"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/rowwise-maxnum/root-review.json",
+        "sha256": "9ecc692d6f07beb49081e2f23c93fcd0d0ab2e377b85be520fbb4c26954a3465"
+      },
+      "review_status": "pass_scope_and_value_review",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "changed_files",
+        1,
+        "after_sha256"
+      ],
+      "before_expected_sha256": null
+    },
+    "bench/tritonbench_g/rowwise_quantization_triton/Proofs/TypedSoftware.lean": {
+      "sha256": "b5f90668040e7c59835dd44092a08ee6486d1ae1bb14e5349521bd60c5a828e9",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/rowwise-maxnum/receipt.json",
+        "sha256": "7fc52c581aa91ab66c633835023db307b830654699d5094ff010258724dd4eba"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/rowwise-maxnum/root-review.json",
+        "sha256": "9ecc692d6f07beb49081e2f23c93fcd0d0ab2e377b85be520fbb4c26954a3465"
+      },
+      "review_status": "pass_scope_and_value_review",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "changed_files",
+        2,
+        "after_sha256"
+      ],
+      "before_expected_sha256": "98c5335fd2b554395e0014be72de08cf63f6859ea3caea24bcb6f0319f17f5f2"
+    },
+    "bench/tritonbench_g/softmax_flaggems/Proofs/RealExecution.lean": {
+      "sha256": "7b4730c56265218ee7dd6e938e833f3bca1beba6680d7354ddb60962e2935c24",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        995,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "1f9cf2d1e23dcd4e1438ac3ca2c974bcacb38e9d2d9be126dd05251980205d20"
+    },
+    "bench/tritonbench_g/softmax_flaggems/Proofs/RealForwardInner.lean": {
+      "sha256": "bbbcc5c52f5167ff6731bb261a5345cb8ad70310f060e66e747d7dbb3e92880f",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        927,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "7bc9372c6f6d7a5debf38511823d24ebc6bb898e5d1a52087bdd465e6539b8f0"
+    },
+    "bench/tritonbench_g/softmax_flaggems/Proofs/RealForwardInnerFullStep.lean": {
+      "sha256": "473a5fa8313a8b7f99a4b35a52fb1dacde9002b8acffe5e58d02b5d882d302f2",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        928,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "6a00ca2fa2cd473b4ec266aaed0829d718dfcf87e1262a1c487a435147e74dbb"
+    },
+    "bench/tritonbench_g/softmax_flaggems/Proofs/RealForwardNonInner.lean": {
+      "sha256": "78e15cdf3882219c22c7079f83d1c84b30a43302c7c541689b15a5deaab25830",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        897,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "c68abe628759db552370065527c4eb9173e7c1e27145a9adf7d0af2c023caf33"
+    },
+    "bench/tritonbench_g/softmax_flaggems/Proofs/Source.lean": {
+      "sha256": "df451d1f6f416131ed432a1fe428b0c588a0a4eb519af35ab670f874a5de9d34",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        996,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "7c25441dc971931bf83fecc8d2de6e113ded47184c244dbcee8145baf257b306"
+    },
+    "bench/tritonbench_g/softmax_optimize/Proofs/FlatIO.lean": {
+      "sha256": "1e51ac6ec2723b3716080ac5929fee125905b32c43f253c4becf083f4611d614",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        1041,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "62d1e8e0bc93af7caab4e41b74c30d0a98f173fbcf741dc5a18fa16960912fb8"
+    },
+    "bench/tritonbench_g/softmax_optimize/Proofs/LegacyReal.lean": {
+      "sha256": "24715d0ffb1b58d919aa4a80caf83b6417d88da8b1300b72c9d2a678902bcec1",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        1001,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "6f1fa43b8233c41d3c40c967c513bd3aa0840847706b019d81f05a13ad5d92ee"
+    },
+    "bench/tritonbench_g/softmax_optimize/Proofs/SafetyBodyState.lean": {
+      "sha256": "c176bdaeac33b25458d73926ef37c890104cfbc803f92bab4d750b06bd6d2481",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        1028,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "6a0e884b660c5192250b1142ab2d3900bb99c37ce79e0b5f90bc5ae780933a9f"
+    },
+    "bench/tritonbench_g/softmax_optimize/Proofs/SafetyCandidate.lean": {
+      "sha256": "6dd50bd9be803ba7f64f6c4e81b76ee85193c02da7226de26a87d8a9507f5034",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        1040,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "34dab0391254d26007a4f8f9c6041a66fd2b2028062614ccebc3560c559ed1b5"
+    },
+    "bench/tritonbench_g/softmax_optimize/Proofs/SafetyInput.lean": {
+      "sha256": "8265fe35539db78a2638887673a7fa96a6daaf76beb8da6f77b18e3421e5c108",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        1033,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "40cd3aab041b67886efd0f584bc67777fd21612d0a6f2028a6354e376f44fe4b"
+    },
+    "bench/tritonbench_g/softmax_optimize/Proofs/SignedBodies.lean": {
+      "sha256": "9d22154371e1708e8ec06500091febd9b66a77898b02d016c279eb6b57545145",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        1002,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "0e1713ab9eba48f79bc9be5a1b32ddf4faa5e1d7578fd255efbbcf58de8aa57f"
+    },
+    "bench/tritonbench_g/softmax_optimize/Proofs/SignedBodyRelation.lean": {
+      "sha256": "d17fcd73bb5128d1ec253f9c77aef7aa57ed3594ae262a50858000591bf6c3e8",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        1014,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "cf5644a05a3769c79c33ad2269b2c45182ccda8cad41353e2c8b5b4b969c3354"
+    },
+    "bench/tritonbench_g/softmax_optimize/Proofs/SignedCandidate.lean": {
+      "sha256": "fcdb9f3e0ca7704fa72c469f57edb56f166c1d29ad898b7ddfbbdecdfa759c6b",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        1023,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "4d845c1dfb3f35fad18e4a53988ca31609a13817b8faa366299f089cc760259e"
+    },
+    "bench/tritonbench_g/softmax_optimize/Proofs/SignedInput.lean": {
+      "sha256": "04e53461b791127206ab43fda5334a3031881602abffc65188309d13c0c9b7bf",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/receipt.json",
+        "sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/maximum-all-consumers/root-review.json",
+        "sha256": "f145e4070a8a4d1d9d6358105edf1db01ab90476ccab7de6a9aa5c574f18af0f"
+      },
+      "review_status": "exact_source_object_dependency_closure_review_pass",
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "compiled",
+        1010,
+        "source_sha256"
+      ],
+      "before_expected_sha256": "5505ccd3c93a41fc533628212ef8ae42a5d256bfe0eadf8e49d7083b27ef3815"
+    },
+    "bench/tritonbench_g/isfinite_kernel/Proofs/TypedFlatExpr.lean": {
+      "sha256": "65ad497d6645af58cd7abbd77a7d7a0563d9f94d1aa4a1647e404f1ff2b2443d",
+      "before_expected_sha256": "b2020e03bef0b4e79d8975e290539f2068962d2051ea87561bd598933fc2792c",
+      "receipt": {
+        "path": "2026-10-14/next-value-repair/isfinite-bitcast-compat/receipt.json",
+        "sha256": "369a3d93d0dc27b20f3ec28480eae035ea491d2d059017bd965f8978b14ffd59"
+      },
+      "review": {
+        "path": "2026-10-14/next-value-repair/isfinite-bitcast-compat/root-review.json",
+        "sha256": "be1dc3b981601e4ec6389e5cf4eb2118a8020fa2107c1f99583d97c924a440f2"
+      },
+      "hash_document": "receipt",
+      "hash_pointer": [
+        "changed_sources",
+        0,
+        "after_sha256"
+      ]
+    }
+  },
+  "activation": "Exact final reviewed source SHA only; intermediate phase1 Retention hashes are not accepted.",
+  "approval_receipt_sha256": "5d96e97dc97a7530737db34e0b32c9ec625f6fb2da56ea726383cb3445e7d7d5"
+}

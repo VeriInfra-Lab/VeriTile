@@ -1,5 +1,7 @@
 # l2_norm_triton1
 
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+
 `Kernels.lean` retains the historical transcription and defines a shared typed source family for fp16, bf16, fp32 and fp64 storage. X and Y have the same dtype, as in the Python wrapper's `empty_like`. The source loads with a zero mask, converts to fp32, sums the squared masked values, computes `1 / sqrt(var + eps)`, multiplies the loaded row and converts back to the output storage. Runtime epsilon explicitly converts to fp32. Both pointers use `stride_x_row`.
 
 The candidate commutes the natural-number multiplication in the two row-base addresses. It changes no floating operation or reduction order; no speedup is claimed. `FPEquiv.lean` uses the default fp32 profile and states equality of complete typed executions, including failures and every register/memory cell, with no domain sites or numerical FP atoms.

@@ -32,7 +32,7 @@ theorem body_safe (bounds : RegionBounds) (x y : RegionName) (batch dim B t : Na
     Stmt.TraceSafeList bounds (ComplexForwardSource.body x y batch dim B) u := by
   simp only [ComplexForwardSource.body,Erasure.complexForward,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Except.bind,bind,Bool.false_eq_true,↓reduceIte,List.drop]
   simp only [Stmt.TraceSafeList,Stmt.TraceSafe,Op.SafeAt.eq_def,
     MemAccess.SafeAt,MaskOpt.SafeAt,MemAccess.ActiveAddressSafe,memAccessActiveAddressSafe,MaskOpt.Active,
@@ -111,7 +111,7 @@ theorem flatten_ok (p : Layout) (length : Nat) :
     (Erasure.complexForward Bool.false p.s p.x p.y p.l length p.batch p.dim p.B).toAlgKernel.FlattenOk := by
   simp only [Kernel.FlattenOk,Erasure.complexForward,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Except.bind,bind,Bool.false_eq_true,↓reduceIte]
   simp [StmtList.FlattenOk,Stmt.FlattenOk,Op.FlattenOk.eq_def]
 

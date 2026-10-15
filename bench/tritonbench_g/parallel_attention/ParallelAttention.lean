@@ -57,8 +57,10 @@ Arithmetic is over `ℝ` (not bit-accurate IEEE float; the `.to(b_q.dtype)` /
 `.to(p_o.dtype.element_ty)` casts are identities at `tl.float32`);
 `num_warps`/`num_stages` and `tl.debug_barrier()` (an intra-program no-op
 fence, transcribed verbatim) are not modeled at the scheduling level.
-`boundary_check=(0, 1)` block-pointer loads zero-pad out-of-window lanes;
-the specs bake that window directly into the guarded value functions, so
+`boundary_check=(0, 1)` block-pointer loads without `padding_option` use
+the initial state's address-indexed `undef` value outside the checked window.
+The masked `dz` load also retains its initial `undef` value. These independent
+inputs enter the guarded mathematical functions and loop invariants, so
 the headlines hold for **arbitrary ragged tails** with no divisibility
 hypothesis on `T`. The only trip-count hypothesis is the host's own
 `assert BTL % BTS == 0`.
@@ -79,6 +81,14 @@ the frame proof, not a rename. Registered in `proof_blockers.md`.
 namespace VeriTile.Bench.TritonBenchG.ParallelAttention
 
 open VeriTile.Triton
+
+private theorem pa_eval_cast_real {shape : TileShape} (a : Op .real shape) (s : BlockState) :
+    evalOp (.castFloat .real .real a) s = evalOp a s := by
+  rw [evalOp_castFloat]
+  cases h : evalOp a s with
+  | none => simp [h]
+  | some x => simp [h, FloatDType.cast, FloatDType.toWithBot, FloatDType.ofWithBot]
+attribute [local simp] pa_eval_cast_real
 
 set_option linter.unusedSimpArgs false
 
@@ -272,12 +282,12 @@ squared score, both accumulators, and the two `tl.advance`s. -/
 def paFwdLoop1Body (BTL BTS BK BV : Nat) : List Stmt :=
   [ Stmt.assign .real [BK, BTS] "b_k"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BK, BTS] "p_k") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .real [BTS, BV] "b_v"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BTS, BV] "p_v") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .real [BTL, BTS] "b_s"
-      (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_q") (Op.ref .real [BK, BTS] "b_k")),
+      (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BK] "b_q") (Op.ref .real [BK, BTS] "b_k")),
     Stmt.assign .real [BTL, BTS] "b_s"
       (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BTS] "b_s") (Op.ref .real [BTL, BTS] "b_s")),
@@ -287,7 +297,7 @@ def paFwdLoop1Body (BTL BTS BK BV : Nat) : List Stmt :=
     Stmt.assign .real [BTL, BV] "b_o"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BV] "b_o")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s") (Op.ref .real [BTS, BV] "b_v"))),
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s")) (Op.ref .real [BTS, BV] "b_v"))),
     Stmt.assign .blockPtr [BK, BTS] "p_k"
       (Op.advanceBlockPtr (Op.ref .blockPtr [BK, BTS] "p_k") [(0 : Nat), BTS]),
     Stmt.assign .blockPtr [BTS, BV] "p_v"
@@ -298,16 +308,16 @@ def paFwdLoop1Body (BTL BTS BK BV : Nat) : List Stmt :=
 def paFwdLoop2Body (BTL BTS BK BV : Nat) : List Stmt :=
   [ Stmt.assign .real [BK, BTS] "b_k"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BK, BTS] "p_k") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .real [BTS, BV] "b_v"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BTS, BV] "p_v") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .bool [BTL, BTS] "m_s"
       (Op.ge ComparableDType.nat (Broadcast.consR (Broadcast.consL Broadcast.nil))
         (Op.expandDim ⟨1, by simp⟩ (Op.ref .nat [BTL] "o_q"))
         (Op.expandDim ⟨0, by simp⟩ (Op.ref .nat [BTS] "o_k"))),
     Stmt.assign .real [BTL, BTS] "b_s"
-      (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_q") (Op.ref .real [BK, BTS] "b_k")),
+      (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BK] "b_q") (Op.ref .real [BK, BTS] "b_k")),
     Stmt.assign .real [BTL, BTS] "b_s"
       (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BTS] "b_s") (Op.ref .real [BTL, BTS] "b_s")),
@@ -320,7 +330,7 @@ def paFwdLoop2Body (BTL BTS BK BV : Nat) : List Stmt :=
     Stmt.assign .real [BTL, BV] "b_o"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BV] "b_o")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s") (Op.ref .real [BTS, BV] "b_v"))),
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s")) (Op.ref .real [BTS, BV] "b_v"))),
     Stmt.assign .blockPtr [BK, BTS] "p_k"
       (Op.advanceBlockPtr (Op.ref .blockPtr [BK, BTS] "p_k") [(0 : Nat), BTS]),
     Stmt.assign .blockPtr [BTS, BV] "p_v"
@@ -345,7 +355,7 @@ theorem pa_fwd_body_eq (q k v o z : RegionName)
                 (Op.constNat 1))
               (Op.constNat BV)),
           Stmt.assign .nat [] "i_k"
-            (Op.floorDiv IntegralDType.nat Broadcast.nil (Op.ref .nat [] "i_kv")
+            (Op.tritonDiv .nat Broadcast.nil (Op.ref .nat [] "i_kv")
               (Op.ref .nat [] "NV")),
           Stmt.assign .nat [] "i_v"
             (Op.mod IntegralDType.nat Broadcast.nil (Op.ref .nat [] "i_kv")
@@ -371,10 +381,10 @@ theorem pa_fwd_body_eq (q k v o z : RegionName)
           Stmt.assign .real [BTL, BK] "b_q"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_q") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_q"
-            (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
-              (Op.const scale)),
+            (Op.castFloat .real .real (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
+              (Op.const scale))),
           Stmt.assign .real [BTL, BV] "b_o" (Op.full [BTL, BV] (Op.const 0)),
           Stmt.assign .real [BTL] "b_z" (Op.full [BTL] (Op.const 0)),
           Stmt.forRangeDyn "_i" (Op.constNat 0)
@@ -476,10 +486,10 @@ def paBwdDescBody (q do_ dz : RegionName)
           (Op.arange BTS))),
     Stmt.assign .real [BK, BTS] "b_q"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BK, BTS] "p_q") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .real [BV, BTS] "b_do"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BV, BTS] "p_do") [0, 1])
-        MaskOpt.none),
+      (Op.castFloat .real .real (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BV, BTS] "p_do") [0, 1])
+        MaskOpt.none .unspecified)),
     Stmt.assign .real [BTS] "b_dz"
       (Op.load .real (MemAccess.ptr (Op.ref .ptr [BTS] "p_dz"))
         (MaskOpt.mask
@@ -488,7 +498,7 @@ def paBwdDescBody (q do_ dz : RegionName)
             (Op.constNat T)))),
     Stmt.assign .real [BTL, BTS] "b_s"
       (Op.mul .real Broadcast.scalarR
-        (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_k")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BK] "b_k"))
           (Op.ref .real [BK, BTS] "b_q"))
         (Op.const scale)),
     Stmt.assign .real [BTL, BTS] "b_s2"
@@ -497,11 +507,11 @@ def paBwdDescBody (q do_ dz : RegionName)
     Stmt.assign .real [BTL, BV] "b_dv"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BV] "b_dv")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s2")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s2"))
           (Op.transpose (batch := []) (Op.ref .real [BV, BTS] "b_do")))),
     Stmt.assign .real [BTL, BTS] "b_ds"
       (Op.mul .real Broadcast.scalarR
-        (Op.dot (batch := []) (Op.ref .real [BTL, BV] "b_v")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BV] "b_v")
           (Op.ref .real [BV, BTS] "b_do"))
         (Op.const scale)),
     Stmt.ifThenElse
@@ -516,11 +526,11 @@ def paBwdDescBody (q do_ dz : RegionName)
     Stmt.assign .real [BTL, BK] "b_dk"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BK] "b_dk")
-        (Op.dot (batch := [])
-          (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := [])
+          (Op.castFloat .real .real (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
             (Op.mul .real Broadcast.scalarL (Op.const 2.0)
               (Op.ref .real [BTL, BTS] "b_ds"))
-            (Op.ref .real [BTL, BTS] "b_s"))
+            (Op.ref .real [BTL, BTS] "b_s")))
           (Op.transpose (batch := []) (Op.ref .real [BK, BTS] "b_q")))) ]
 
 /-- The backward diagonal body: the same step with the `o_k[:, None] <=
@@ -550,10 +560,10 @@ def paBwdDiagBody (q do_ dz : RegionName)
           (Op.arange BTS))),
     Stmt.assign .real [BK, BTS] "b_q"
       (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BK, BTS] "p_q") [0, 1])
-        MaskOpt.none),
+        MaskOpt.none .unspecified),
     Stmt.assign .real [BV, BTS] "b_do"
-      (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BV, BTS] "p_do") [0, 1])
-        MaskOpt.none),
+      (Op.castFloat .real .real (Op.load .real (MemAccess.blockPtr (Op.ref .blockPtr [BV, BTS] "p_do") [0, 1])
+        MaskOpt.none .unspecified)),
     Stmt.assign .real [BTS] "b_dz"
       (Op.load .real (MemAccess.ptr (Op.ref .ptr [BTS] "p_dz"))
         (MaskOpt.mask
@@ -566,7 +576,7 @@ def paBwdDiagBody (q do_ dz : RegionName)
         (Op.expandDim ⟨0, by simp⟩ (Op.ref .nat [BTS] "o_q"))),
     Stmt.assign .real [BTL, BTS] "b_s"
       (Op.mul .real Broadcast.scalarR
-        (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_k")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BK] "b_k")
           (Op.ref .real [BK, BTS] "b_q"))
         (Op.const scale)),
     Stmt.assign .real [BTL, BTS] "b_s2"
@@ -579,7 +589,7 @@ def paBwdDiagBody (q do_ dz : RegionName)
       (Op.where (Op.ref .bool [BTL, BTS] "m_s") (Op.ref .real [BTL, BTS] "b_s2")
         (Op.broadcast (Op.const 0.0) [BTL, BTS])),
     Stmt.assign .real [BTL, BTS] "b_ds"
-      (Op.dot (batch := []) (Op.ref .real [BTL, BV] "b_v")
+      (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BV] "b_v")
         (Op.ref .real [BV, BTS] "b_do")),
     Stmt.ifThenElse
       (Op.eq ComparableDType.nat Broadcast.nil (Op.constNat i_v) (Op.constNat 0))
@@ -596,16 +606,16 @@ def paBwdDiagBody (q do_ dz : RegionName)
     Stmt.assign .real [BTL, BV] "b_dv"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BV] "b_dv")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s2")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s2"))
           (Op.transpose (batch := []) (Op.ref .real [BV, BTS] "b_do")))),
     Stmt.assign .real [BTL, BK] "b_dk"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BK] "b_dk")
-        (Op.dot (batch := [])
-          (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := [])
+          (Op.castFloat .real .real (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
             (Op.mul .real Broadcast.scalarL (Op.const 2.0)
               (Op.ref .real [BTL, BTS] "b_ds"))
-            (Op.ref .real [BTL, BTS] "b_s"))
+            (Op.ref .real [BTL, BTS] "b_s")))
           (Op.transpose (batch := []) (Op.ref .real [BK, BTS] "b_q")))),
     Stmt.assign .nat [BTS] "o_q"
       (Op.add .nat Broadcast.scalarR (Op.ref .nat [BTS] "o_q") (Op.constNat BTS)) ]
@@ -634,11 +644,11 @@ theorem pa_bwd_body_eq (q k v do_ dz dk dv : RegionName)
           Stmt.assign .real [BTL, BK] "b_k"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_k") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BV] "b_v"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BV] "p_v") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_dk" (Op.full [BTL, BK] (Op.const 0)),
           Stmt.assign .real [BTL, BV] "b_dv" (Op.full [BTL, BV] (Op.const 0)),
           Stmt.forRangeDyn "j" (Op.constNat 0)
@@ -711,7 +721,8 @@ noncomputable def paQGuarded (s : BlockState) (q : RegionName)
   if s.pids 1 * BTL + a < T ∧ paIk s V BV * BK + e < K then
     s.readMem q (s.pids 2 * s_qk_h + (s.pids 1 * BTL + a) * s_qk_t
       + (paIk s V BV * BK + e) * s_qk_d) * scale
-  else 0
+  else s.undef q (s.pids 2 * s_qk_h + (s.pids 1 * BTL + a) * s_qk_t
+      + (paIk s V BV * BK + e) * s_qk_d) * scale
 
 /-- The guarded transposed `k` lane `(e, t)` at absolute key `t` (the `(K, T)`
 parent read with strides `(s_qk_d, s_qk_t)`). -/
@@ -720,7 +731,8 @@ noncomputable def paKGuarded (s : BlockState) (k : RegionName)
   if paIk s V BV * BK + e < K ∧ t < T then
     s.readMem k (s.pids 2 * s_qk_h + (paIk s V BV * BK + e) * s_qk_d
       + t * s_qk_t)
-  else 0
+  else s.undef k (s.pids 2 * s_qk_h + (paIk s V BV * BK + e) * s_qk_d
+      + t * s_qk_t)
 
 /-- The guarded `v` lane `(t, p)` at absolute key `t`. -/
 noncomputable def paVGuarded (s : BlockState) (v : RegionName)
@@ -728,7 +740,8 @@ noncomputable def paVGuarded (s : BlockState) (v : RegionName)
   if t < T ∧ paIv s V BV * BV + p < V then
     s.readMem v (s.pids 2 * s_vo_h + t * s_vo_t
       + (paIv s V BV * BV + p) * s_vo_d)
-  else 0
+  else s.undef v (s.pids 2 * s_vo_h + t * s_vo_t
+      + (paIv s V BV * BV + p) * s_vo_d)
 
 /-- The rebased score at `(row a, key t)`: `(scale·q) · k` over the `BK`
 head window. -/
@@ -836,7 +849,8 @@ noncomputable def pbKGuarded (s : BlockState) (k : RegionName)
   if i_c * BTL + l < T ∧ i_k * BK + e < K then
     s.readMem k (i_bh * s_k_h + (i_c * BTL + l) * s_k_t
       + (i_k * BK + e) * s_k_d)
-  else 0
+  else s.undef k (i_bh * s_k_h + (i_c * BTL + l) * s_k_t
+      + (i_k * BK + e) * s_k_d)
 
 /-- The guarded `b_v` lane `(l, p)` of the fixed chunk block. -/
 noncomputable def pbVGuarded (s : BlockState) (v : RegionName)
@@ -845,7 +859,8 @@ noncomputable def pbVGuarded (s : BlockState) (v : RegionName)
   if i_c * BTL + l < T ∧ i_v * BV + p < V then
     s.readMem v (i_bh * s_v_h + (i_c * BTL + l) * s_v_t
       + (i_v * BV + p) * s_v_d)
-  else 0
+  else s.undef v (i_bh * s_v_h + (i_c * BTL + l) * s_v_t
+      + (i_v * BV + p) * s_v_d)
 
 /-- The guarded transposed `q` lane `(e, t)` at absolute key `t`. -/
 noncomputable def pbQGuarded (s : BlockState) (q : RegionName)
@@ -853,7 +868,7 @@ noncomputable def pbQGuarded (s : BlockState) (q : RegionName)
     (e t : Nat) : ℝ :=
   if i_k * BK + e < K ∧ t < T then
     s.readMem q (i_bh * s_k_h + (i_k * BK + e) * s_k_d + t * s_k_t)
-  else 0
+  else s.undef q (i_bh * s_k_h + (i_k * BK + e) * s_k_d + t * s_k_t)
 
 /-- The guarded transposed `do` lane `(p, t)` at absolute key `t`. -/
 noncomputable def pbDoGuarded (s : BlockState) (do_ : RegionName)
@@ -861,13 +876,13 @@ noncomputable def pbDoGuarded (s : BlockState) (do_ : RegionName)
     (p t : Nat) : ℝ :=
   if i_v * BV + p < V ∧ t < T then
     s.readMem do_ (i_bh * s_v_h + (i_v * BV + p) * s_v_d + t * s_v_t)
-  else 0
+  else s.undef do_ (i_bh * s_v_h + (i_v * BV + p) * s_v_d + t * s_v_t)
 
 /-- The mask-guarded `dz` lane at absolute key `t` (masked-off lanes read the
-clean-input `undef ≡ 0` oracle). -/
+initial state's address-indexed `undef` value). -/
 noncomputable def pbDzGuarded (s : BlockState) (dz : RegionName)
     (i_bh T : Nat) (t : Nat) : ℝ :=
-  if t < T then s.readMem dz (i_bh * T + t) else 0
+  if t < T then s.readMem dz (i_bh * T + t) else s.undef dz (i_bh * T + t)
 
 /-- The scaled backward score `b_s[l, t] = (b_k · b_q)·scale`. -/
 noncomputable def pbSVal (s : BlockState) (q k : RegionName)
@@ -911,7 +926,7 @@ noncomputable def pbDkPart (s : BlockState) (q k v do_ dz : RegionName)
 
 /-- **The stored `dv` lane**: the key sweep from `i_c·BTL` up to the larger of
 the streamed top `cdiv(T,BTS)·BTS` and the diagonal end `(i_c+1)·BTL` (the
-kernel loads beyond `T` read as zero, so the tail summands vanish). -/
+kernel loads beyond `T` retain their source-unspecified values). -/
 noncomputable def pbDvOut (s : BlockState) (q k do_ : RegionName)
     (s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d : Nat) (i_bh i_c i_k i_v : Nat)
     (scale : ℝ) (T K V BTL BTS BK BV : Nat) (l p : Nat) : ℝ :=
@@ -919,7 +934,7 @@ noncomputable def pbDvOut (s : BlockState) (q k do_ : RegionName)
     scale T K V BTL BTS BK BV (i_c * BTL) (max (pbNB T BTS) ((i_c + 1) * BTL)) l p
 
 /-- **The stored `dk` lane**: the same key sweep (up to the larger of the
-streamed top and the diagonal end; the kernel loads beyond `T` read as zero)
+streamed top and the diagonal end; the guarded inputs retain all source padding)
 with the gate term. -/
 noncomputable def pbDkOut (s : BlockState) (q k v do_ dz : RegionName)
     (s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d : Nat) (i_bh i_c i_k i_v : Nat)
@@ -953,12 +968,13 @@ private theorem pa_load_bp_2d (rg : RegionName) (s : BlockState) (name : RegName
       ⟨fun _ => BlockPtr.mk rg base [rows, cols] [BR, BS] [strideT, strideS]
         [rowOff, colOff]⟩) :
     evalOp (Op.load .real
-      (MemAccess.blockPtr (Op.ref .blockPtr [BR, BS] name) [0, 1]) MaskOpt.none) s
+      (MemAccess.blockPtr (Op.ref .blockPtr [BR, BS] name) [0, 1]) MaskOpt.none .unspecified) s
     = some ⟨fun idx : TileIndex [BR, BS] =>
         if (rowOff + idx.1.val < rows ∧ colOff + idx.2.1.val < cols) then
           some (s.readMem rg (base + (rowOff + idx.1.val) * strideT
             + (colOff + idx.2.1.val) * strideS))
-        else some 0⟩ := by
+        else some (s.undef rg (base + (rowOff + idx.1.val) * strideT
+            + (colOff + idx.2.1.val) * strideS))⟩ := by
   simp only [evalOp, evalOp_ref, hreg, bind, Option.bind]
   refine congrArg some ?_
   ext idx
@@ -967,7 +983,7 @@ private theorem pa_load_bp_2d (rg : RegionName) (s : BlockState) (name : RegName
     BlockPtr.inBounds_2d_offsets, BlockState.readMemValue_real]
   by_cases h : rowOff + i.val < rows ∧ colOff + j.val < cols
   · simp only [h, and_self, decide_true, if_true]
-  · simp only [h, decide_false, if_false, BlockState.defaultCarrier]
+  · simp only [h, decide_false, if_false, BlockState.paddingValue, BlockState.unspecifiedValue]
     rfl
 
 private theorem pa_mulConst_eval (s : BlockState) (name : RegName) (val c : Nat)
@@ -994,7 +1010,7 @@ private theorem pa_floorDiv_refs_eval (s : BlockState) (na nb : RegName)
     (va vb : Nat)
     (ha : s.regs .nat [] na = some (Tile.scalar va))
     (hb : s.regs .nat [] nb = some (Tile.scalar vb)) :
-    evalOp (Op.floorDiv IntegralDType.nat Broadcast.nil (Op.ref .nat [] na)
+    evalOp (Op.tritonDiv .nat Broadcast.nil (Op.ref .nat [] na)
         (Op.ref .nat [] nb)) s
       = some (Tile.scalar (va / vb)) := by
   rw [evalOp_floorDiv]
@@ -1021,7 +1037,7 @@ private theorem pa_zeros_eval (sh : TileShape) (t : BlockState) :
 private theorem pa_dot_eval {M K N : Nat} (x : Op .real [M, K]) (y : Op .real [K, N])
     (t : BlockState) (vx : Tile .real [M, K]) (vy : Tile .real [K, N])
     (hx : evalOp x t = some vx) (hy : evalOp y t = some vy) :
-    evalOp (Op.dot (batch := []) x y) t = some (Tile.dot [] vx vy) := by
+    evalOp (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) x y) t = some (Tile.dot [] vx vy) := by
   erw [evalOp_dot, hx, hy]
   rfl
 
@@ -1252,13 +1268,13 @@ noncomputable def paVTile (s : BlockState) (v : RegionName)
 /-- Loading `p_k` at offsets `[i_k·BK, i]` lands on `paKTile … i`. -/
 private theorem pa_kLoad_eq (s sin : BlockState) (k : RegionName) (name : RegName)
     (s_qk_h s_qk_t s_qk_d : Nat) (T K V BK BV BTS : Nat) (i : Nat)
-    (hmem : sin.mem = s.mem) (hpids : sin.pids = s.pids)
+    (hmem : sin.mem = s.mem ∧ sin.undef = s.undef) (hpids : sin.pids = s.pids)
     (hreg : sin.regs .blockPtr [BK, BTS] name = some
       ⟨fun _ => BlockPtr.mk k (s.pids 2 * s_qk_h) [K, T] [BK, BTS]
         [s_qk_d, s_qk_t] [paIk s V BV * BK, i]⟩) :
     evalOp (Op.load .real
         (MemAccess.blockPtr (Op.ref .blockPtr [BK, BTS] name) [0, 1])
-        MaskOpt.none) sin
+        MaskOpt.none .unspecified) sin
       = some (paKTile s k s_qk_h s_qk_t s_qk_d T K V BK BV BTS i) := by
   rw [pa_load_bp_2d k sin name (s.pids 2 * s_qk_h) K T BK BTS s_qk_d s_qk_t
     (paIk s V BV * BK) i hreg]
@@ -1266,19 +1282,19 @@ private theorem pa_kLoad_eq (s sin : BlockState) (k : RegionName) (name : RegNam
   obtain ⟨e, c, u⟩ := idx
   simp only [paKTile, paKGuarded]
   by_cases h : paIk s V BV * BK + e.val < K ∧ i + c.val < T
-  · rw [if_pos h, if_pos h, pa_readMem_congr sin s hmem]
-  · rw [if_neg h, if_neg h]
+  · rw [if_pos h, if_pos h, pa_readMem_congr sin s hmem.1]
+  · rw [if_neg h, if_neg h, hmem.2]
 
 /-- Loading `p_v` at offsets `[i, i_v·BV]` lands on `paVTile … i`. -/
 private theorem pa_vLoad_eq (s sin : BlockState) (v : RegionName) (name : RegName)
     (s_vo_h s_vo_t s_vo_d : Nat) (T V BV BTS : Nat) (i : Nat)
-    (hmem : sin.mem = s.mem)
+    (hmem : sin.mem = s.mem ∧ sin.undef = s.undef)
     (hreg : sin.regs .blockPtr [BTS, BV] name = some
       ⟨fun _ => BlockPtr.mk v (s.pids 2 * s_vo_h) [T, V] [BTS, BV]
         [s_vo_t, s_vo_d] [i, paIv s V BV * BV]⟩) :
     evalOp (Op.load .real
         (MemAccess.blockPtr (Op.ref .blockPtr [BTS, BV] name) [0, 1])
-        MaskOpt.none) sin
+        MaskOpt.none .unspecified) sin
       = some (paVTile s v s_vo_h s_vo_t s_vo_d T V BV BTS i) := by
   rw [pa_load_bp_2d v sin name (s.pids 2 * s_vo_h) T V BTS BV s_vo_t s_vo_d
     i (paIv s V BV * BV) hreg]
@@ -1286,8 +1302,8 @@ private theorem pa_vLoad_eq (s sin : BlockState) (v : RegionName) (name : RegNam
   obtain ⟨c, p, u⟩ := idx
   simp only [paVTile, paVGuarded]
   by_cases h : i + c.val < T ∧ paIv s V BV * BV + p.val < V
-  · rw [if_pos h, if_pos h, pa_readMem_congr sin s hmem]
-  · rw [if_neg h, if_neg h]
+  · rw [if_pos h, if_pos h, pa_readMem_congr sin s hmem.1]
+  · rw [if_neg h, if_neg h, hmem.2]
 
 /-! ## Forward per-statement recipes -/
 
@@ -1299,7 +1315,7 @@ private theorem pa_score_eval (s sin : BlockState) (q k : RegionName)
       = some (paQTile s q s_qk_h s_qk_t s_qk_d scale T K V BTL BK BV))
     (hk : sin.regs .real [BK, BTS] "b_k"
       = some (paKTile s k s_qk_h s_qk_t s_qk_d T K V BK BV BTS i)) :
-    evalOp (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_q")
+    evalOp (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BK] "b_q")
         (Op.ref .real [BK, BTS] "b_k")) sin
       = some ⟨fun idx : TileIndex [BTL, BTS] =>
           some (paScore s q k s_qk_h s_qk_t s_qk_d scale T K V BTL BK BV
@@ -1365,16 +1381,16 @@ private theorem pa_oAdd_eval (sin : BlockState) (BTL BTS BV : Nat)
       = some ⟨fun idx => some (w idx.1.val idx.2.1.val)⟩) :
     evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BV] "b_o")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s"))
           (Op.ref .real [BTS, BV] "b_v"))) sin
       = some ⟨fun idx : TileIndex [BTL, BV] =>
           some (g idx.1.val idx.2.1.val
             + ∑ c : Fin BTS, f idx.1.val c.val * w c.val idx.2.1.val)⟩ := by
-  have hdot : evalOp (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s")
+  have hdot : evalOp (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s"))
       (Op.ref .real [BTS, BV] "b_v")) sin
       = some (Tile.dot [] (⟨fun idx => some (f idx.1.val idx.2.1.val)⟩ : Tile .real [BTL, BTS])
           (⟨fun idx => some (w idx.1.val idx.2.1.val)⟩ : Tile .real [BTS, BV])) :=
-    pa_dot_eval _ _ sin _ _ (by rw [evalOp_ref]; exact hs)
+    pa_dot_eval _ _ sin _ _ (by erw [pa_eval_cast_real, evalOp_ref]; exact hs)
       (by rw [evalOp_ref]; exact hv)
   erw [pa_addTile_eval _ _ _ sin _ _ (by rw [evalOp_ref]; exact ho) hdot]
   refine congrArg some (Tile.ext fun idx => ?_)
@@ -1568,11 +1584,13 @@ private theorem pa_qScale_eval (s sin : BlockState) (q : RegionName)
         if (s.pids 1 * BTL + idx.1.val < T ∧ paIk s V BV * BK + idx.2.1.val < K) then
           some (s.readMem q (s.pids 2 * s_qk_h + (s.pids 1 * BTL + idx.1.val) * s_qk_t
             + (paIk s V BV * BK + idx.2.1.val) * s_qk_d))
-        else some 0⟩) :
-    evalOp (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
-        (Op.const scale)) sin
+        else some (s.undef q (s.pids 2 * s_qk_h + (s.pids 1 * BTL + idx.1.val) * s_qk_t
+            + (paIk s V BV * BK + idx.2.1.val) * s_qk_d))⟩) :
+    evalOp (Op.castFloat .real .real (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
+        (Op.const scale))) sin
       = some (paQTile s q s_qk_h s_qk_t s_qk_d scale T K V BTL BK BV) := by
-  rw [pa_mulTile_eval Broadcast.scalarR _ _ sin _ _
+  rw [pa_eval_cast_real]
+  erw [pa_mulTile_eval Broadcast.scalarR _ _ sin _ _
     (by rw [evalOp_ref]; exact hq) (evalOp_const scale sin)]
   refine congrArg some (Tile.ext fun idx => ?_)
   obtain ⟨a, e, u⟩ := idx
@@ -1582,9 +1600,7 @@ private theorem pa_qScale_eval (s sin : BlockState) (q : RegionName)
   · rw [if_pos h, if_pos h]
     rfl
   · rw [if_neg h, if_neg h]
-    show Option.map₂ _ (some (0 : ℝ)) (some scale) = some 0
-    show some ((0 : ℝ) * scale) = some 0
-    rw [zero_mul]
+    rfl
 
 /-! ## The forward non-diagonal loop -/
 
@@ -1592,7 +1608,7 @@ private theorem pa_qScale_eval (s sin : BlockState) (q : RegionName)
 def paInv1 (s0 : BlockState) (q k v : RegionName)
     (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d : Nat) (scale : ℝ)
     (T K V BTL BTS BK BV : Nat) (i : Nat) (s : BlockState) : Prop :=
-  s.pids = s0.pids ∧ s.mem = s0.mem ∧
+  s.pids = s0.pids ∧ (s.mem = s0.mem ∧ s.undef = s0.undef) ∧
   BTS ∣ i ∧ i ≤ s0.pids 1 * BTL ∧
   s.regs .nat [] "i_c" = some (Tile.scalar (s0.pids 1)) ∧
   s.regs .nat [] "i_bh" = some (Tile.scalar (s0.pids 2)) ∧
@@ -1650,7 +1666,7 @@ theorem paFwdLoop1_step (s0 sin : BlockState) (q k v : RegionName)
           a (i + c)
         * paScore s0 q k s_qk_h s_qk_t s_qk_d scale T K V BTL BK BV a (i + c))
       (by simpa using hbz) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pa_oAdd_eval _ BTL BTS BV
       (fun a p => paOAcc s0 q k v s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d
         scale T K V BTL BK BV i a p)
@@ -1745,7 +1761,7 @@ the diagonal chunk). -/
 def paInv2 (s0 : BlockState) (q k v : RegionName)
     (s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d : Nat) (scale : ℝ)
     (T K V BTL BTS BK BV : Nat) (i : Nat) (s : BlockState) : Prop :=
-  s.pids = s0.pids ∧ s.mem = s0.mem ∧
+  s.pids = s0.pids ∧ (s.mem = s0.mem ∧ s.undef = s0.undef) ∧
   s0.pids 1 * BTL ≤ i ∧ BTS ∣ (i - s0.pids 1 * BTL) ∧
   i ≤ (s0.pids 1 + 1) * BTL ∧
   s.regs .nat [] "i_c" = some (Tile.scalar (s0.pids 1)) ∧
@@ -1869,7 +1885,7 @@ theorem paFwdLoop2_step (s0 sin : BlockState) (q k v : RegionName)
             * paScore s0 q k s_qk_h s_qk_t s_qk_d scale T K V BTL BK BV a (i + c)
         else 0)
       (by simpa using hbz) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pa_oAdd_eval _ BTL BTS BV
       (fun a p => paOAcc s0 q k v s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d
           scale T K V BTL BK BV (s0.pids 1 * BTL) a p
@@ -2110,7 +2126,7 @@ theorem paFwdPrologue_run (s : BlockState) (q k v : RegionName)
                 (Op.constNat 1))
               (Op.constNat BV)),
           Stmt.assign .nat [] "i_k"
-            (Op.floorDiv IntegralDType.nat Broadcast.nil (Op.ref .nat [] "i_kv")
+            (Op.tritonDiv .nat Broadcast.nil (Op.ref .nat [] "i_kv")
               (Op.ref .nat [] "NV")),
           Stmt.assign .nat [] "i_v"
             (Op.mod IntegralDType.nat Broadcast.nil (Op.ref .nat [] "i_kv")
@@ -2136,10 +2152,10 @@ theorem paFwdPrologue_run (s : BlockState) (q k v : RegionName)
           Stmt.assign .real [BTL, BK] "b_q"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_q") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_q"
-            (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
-              (Op.const scale)),
+            (Op.castFloat .real .real (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
+              (Op.const scale))),
           Stmt.assign .real [BTL, BV] "b_o" (Op.full [BTL, BV] (Op.const 0)),
           Stmt.assign .real [BTL] "b_z" (Op.full [BTL] (Op.const 0)) ] s = some sP
       ∧ paInv1 s q k v s_qk_h s_qk_t s_qk_d s_vo_h s_vo_t s_vo_d scale
@@ -2175,7 +2191,7 @@ theorem paFwdPrologue_run (s : BlockState) (q k v : RegionName)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pa_load_bp_2d q _ "p_q" (s.pids 2 * s_qk_h) T K BTL BK s_qk_t s_qk_d
       (s.pids 1 * BTL) (s.pids 0 / paNV V BV * BK) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pa_qScale_eval s _ q s_qk_h s_qk_t s_qk_d scale T K V BTL BK BV
       (by
         have h : (⟨fun idx : TileIndex [BTL, BK] =>
@@ -2184,14 +2200,18 @@ theorem paFwdPrologue_run (s : BlockState) (q k v : RegionName)
               some (s.readMem q (s.pids 2 * s_qk_h
                 + (s.pids 1 * BTL + idx.1.val) * s_qk_t
                 + (s.pids 0 / paNV V BV * BK + idx.2.1.val) * s_qk_d))
-            else some 0⟩ : Tile .real [BTL, BK])
+            else some (s.undef q (s.pids 2 * s_qk_h
+                + (s.pids 1 * BTL + idx.1.val) * s_qk_t
+                + (s.pids 0 / paNV V BV * BK + idx.2.1.val) * s_qk_d))⟩ : Tile .real [BTL, BK])
             = ⟨fun idx : TileIndex [BTL, BK] =>
             if (s.pids 1 * BTL + idx.1.val < T
                 ∧ paIk s V BV * BK + idx.2.1.val < K) then
               some (s.readMem q (s.pids 2 * s_qk_h
                 + (s.pids 1 * BTL + idx.1.val) * s_qk_t
                 + (paIk s V BV * BK + idx.2.1.val) * s_qk_d))
-            else some 0⟩ := rfl
+            else some (s.undef q (s.pids 2 * s_qk_h
+                + (s.pids 1 * BTL + idx.1.val) * s_qk_t
+                + (paIk s V BV * BK + idx.2.1.val) * s_qk_d))⟩ := rfl
         rw [← h]
         simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
@@ -2202,7 +2222,7 @@ theorem paFwdPrologue_run (s : BlockState) (q k v : RegionName)
   refine ⟨_, rfl, ?_, ?_, dvd_zero BTS, Nat.zero_le _, ?_, ?_, ?_, ?_, ?_,
     ?_, ?_, ?_, ?_⟩
   · rfl
-  · rfl
+  · constructor <;> (funext rg off; simp)
   · simp
   · simp
   · simp [paIk]
@@ -2535,7 +2555,7 @@ specification pa_fwd_o_exec_genuine
             (Op.constNat 1))
           (Op.constNat BV)),
       Stmt.assign .nat [] "i_k"
-        (Op.floorDiv IntegralDType.nat Broadcast.nil (Op.ref .nat [] "i_kv")
+        (Op.tritonDiv .nat Broadcast.nil (Op.ref .nat [] "i_kv")
           (Op.ref .nat [] "NV")),
       Stmt.assign .nat [] "i_v"
         (Op.mod IntegralDType.nat Broadcast.nil (Op.ref .nat [] "i_kv")
@@ -2561,10 +2581,10 @@ specification pa_fwd_o_exec_genuine
       Stmt.assign .real [BTL, BK] "b_q"
         (Op.load .real
           (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_q") [0, 1])
-          MaskOpt.none),
+          MaskOpt.none .unspecified),
       Stmt.assign .real [BTL, BK] "b_q"
-        (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
-          (Op.const scale)),
+        (Op.castFloat .real .real (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
+          (Op.const scale))),
       Stmt.assign .real [BTL, BV] "b_o" (Op.full [BTL, BV] (Op.const 0)),
       Stmt.assign .real [BTL] "b_z" (Op.full [BTL] (Op.const 0)),
       Stmt.forRangeDyn "_i" (Op.constNat 0)
@@ -2635,7 +2655,7 @@ specification pa_fwd_o_exec_genuine
                 (Op.constNat 1))
               (Op.constNat BV)),
           Stmt.assign .nat [] "i_k"
-            (Op.floorDiv IntegralDType.nat Broadcast.nil (Op.ref .nat [] "i_kv")
+            (Op.tritonDiv .nat Broadcast.nil (Op.ref .nat [] "i_kv")
               (Op.ref .nat [] "NV")),
           Stmt.assign .nat [] "i_v"
             (Op.mod IntegralDType.nat Broadcast.nil (Op.ref .nat [] "i_kv")
@@ -2661,10 +2681,10 @@ specification pa_fwd_o_exec_genuine
           Stmt.assign .real [BTL, BK] "b_q"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_q") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_q"
-            (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
-              (Op.const scale)),
+            (Op.castFloat .real .real (Op.mul .real Broadcast.scalarR (Op.ref .real [BTL, BK] "b_q")
+              (Op.const scale))),
           Stmt.assign .real [BTL, BV] "b_o" (Op.full [BTL, BV] (Op.const 0)),
           Stmt.assign .real [BTL] "b_z" (Op.full [BTL] (Op.const 0)) ]
         ++ (Stmt.forRangeDyn "_i" (Op.constNat 0)
@@ -2781,13 +2801,13 @@ private theorem pb_constMul_eval (s : BlockState) (a b : Nat) :
 /-- Loading `p_k` at offsets `[i_c·BTL, i_k·BK]` lands on `pbKTile`. -/
 private theorem pb_kLoad_eq (s sin : BlockState) (k : RegionName) (name : RegName)
     (s_k_h s_k_t s_k_d : Nat) (i_bh i_c i_k T K BTL BK : Nat)
-    (hmem : sin.mem = s.mem)
+    (hmem : sin.mem = s.mem ∧ sin.undef = s.undef)
     (hreg : sin.regs .blockPtr [BTL, BK] name = some
       ⟨fun _ => BlockPtr.mk k (i_bh * s_k_h) [T, K] [BTL, BK]
         [s_k_t, s_k_d] [i_c * BTL, i_k * BK]⟩) :
     evalOp (Op.load .real
         (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] name) [0, 1])
-        MaskOpt.none) sin
+        MaskOpt.none .unspecified) sin
       = some (pbKTile s k s_k_h s_k_t s_k_d i_bh i_c i_k T K BTL BK) := by
   rw [pa_load_bp_2d k sin name (i_bh * s_k_h) T K BTL BK s_k_t s_k_d
     (i_c * BTL) (i_k * BK) hreg]
@@ -2795,19 +2815,19 @@ private theorem pb_kLoad_eq (s sin : BlockState) (k : RegionName) (name : RegNam
   obtain ⟨l, e, u⟩ := idx
   simp only [pbKTile, pbKGuarded]
   by_cases h : i_c * BTL + l.val < T ∧ i_k * BK + e.val < K
-  · rw [if_pos h, if_pos h, pa_readMem_congr sin s hmem]
-  · rw [if_neg h, if_neg h]
+  · rw [if_pos h, if_pos h, pa_readMem_congr sin s hmem.1]
+  · rw [if_neg h, if_neg h, hmem.2]
 
 /-- Loading `p_v` at offsets `[i_c·BTL, i_v·BV]` lands on `pbVTile`. -/
 private theorem pb_vLoad_eq (s sin : BlockState) (v : RegionName) (name : RegName)
     (s_v_h s_v_t s_v_d : Nat) (i_bh i_c i_v T V BTL BV : Nat)
-    (hmem : sin.mem = s.mem)
+    (hmem : sin.mem = s.mem ∧ sin.undef = s.undef)
     (hreg : sin.regs .blockPtr [BTL, BV] name = some
       ⟨fun _ => BlockPtr.mk v (i_bh * s_v_h) [T, V] [BTL, BV]
         [s_v_t, s_v_d] [i_c * BTL, i_v * BV]⟩) :
     evalOp (Op.load .real
         (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BV] name) [0, 1])
-        MaskOpt.none) sin
+        MaskOpt.none .unspecified) sin
       = some (pbVTile s v s_v_h s_v_t s_v_d i_bh i_c i_v T V BTL BV) := by
   rw [pa_load_bp_2d v sin name (i_bh * s_v_h) T V BTL BV s_v_t s_v_d
     (i_c * BTL) (i_v * BV) hreg]
@@ -2815,20 +2835,20 @@ private theorem pb_vLoad_eq (s sin : BlockState) (v : RegionName) (name : RegNam
   obtain ⟨l, p, u⟩ := idx
   simp only [pbVTile, pbVGuarded]
   by_cases h : i_c * BTL + l.val < T ∧ i_v * BV + p.val < V
-  · rw [if_pos h, if_pos h, pa_readMem_congr sin s hmem]
-  · rw [if_neg h, if_neg h]
+  · rw [if_pos h, if_pos h, pa_readMem_congr sin s hmem.1]
+  · rw [if_neg h, if_neg h, hmem.2]
 
 /-- Loading `p_q` at offsets `[i_k·BK, i]` (the `(K, T)` parent) lands on
 `pbQTile … i`. -/
 private theorem pb_qLoad_eq (s sin : BlockState) (q : RegionName) (name : RegName)
     (s_k_h s_k_t s_k_d : Nat) (i_bh i_k T K BK BTS : Nat) (i : Nat)
-    (hmem : sin.mem = s.mem)
+    (hmem : sin.mem = s.mem ∧ sin.undef = s.undef)
     (hreg : sin.regs .blockPtr [BK, BTS] name = some
       ⟨fun _ => BlockPtr.mk q (i_bh * s_k_h) [K, T] [BK, BTS]
         [s_k_d, s_k_t] [i_k * BK, i]⟩) :
     evalOp (Op.load .real
         (MemAccess.blockPtr (Op.ref .blockPtr [BK, BTS] name) [0, 1])
-        MaskOpt.none) sin
+        MaskOpt.none .unspecified) sin
       = some (pbQTile s q s_k_h s_k_t s_k_d i_bh i_k T K BK BTS i) := by
   rw [pa_load_bp_2d q sin name (i_bh * s_k_h) K T BK BTS s_k_d s_k_t
     (i_k * BK) i hreg]
@@ -2836,29 +2856,30 @@ private theorem pb_qLoad_eq (s sin : BlockState) (q : RegionName) (name : RegNam
   obtain ⟨e, c, u⟩ := idx
   simp only [pbQTile, pbQGuarded]
   by_cases h : i_k * BK + e.val < K ∧ i + c.val < T
-  · rw [if_pos h, if_pos h, pa_readMem_congr sin s hmem]
-  · rw [if_neg h, if_neg h]
+  · rw [if_pos h, if_pos h, pa_readMem_congr sin s hmem.1]
+  · rw [if_neg h, if_neg h, hmem.2]
 
 /-- Loading `p_do` at offsets `[i_v·BV, i]` (the `(V, T)` parent) lands on
 `pbDoTile … i`. -/
 private theorem pb_doLoad_eq (s sin : BlockState) (do_ : RegionName) (name : RegName)
     (s_v_h s_v_t s_v_d : Nat) (i_bh i_v T V BV BTS : Nat) (i : Nat)
-    (hmem : sin.mem = s.mem)
+    (hmem : sin.mem = s.mem ∧ sin.undef = s.undef)
     (hreg : sin.regs .blockPtr [BV, BTS] name = some
       ⟨fun _ => BlockPtr.mk do_ (i_bh * s_v_h) [V, T] [BV, BTS]
         [s_v_d, s_v_t] [i_v * BV, i]⟩) :
-    evalOp (Op.load .real
+    evalOp (Op.castFloat .real .real (Op.load .real
         (MemAccess.blockPtr (Op.ref .blockPtr [BV, BTS] name) [0, 1])
-        MaskOpt.none) sin
+        MaskOpt.none .unspecified)) sin
       = some (pbDoTile s do_ s_v_h s_v_t s_v_d i_bh i_v T V BV BTS i) := by
-  rw [pa_load_bp_2d do_ sin name (i_bh * s_v_h) V T BV BTS s_v_d s_v_t
+  rw [pa_eval_cast_real]
+  erw [pa_load_bp_2d do_ sin name (i_bh * s_v_h) V T BV BTS s_v_d s_v_t
     (i_v * BV) i hreg]
   refine congrArg some (Tile.ext fun idx => ?_)
   obtain ⟨p, c, u⟩ := idx
   simp only [pbDoTile, pbDoGuarded]
   by_cases h : i_v * BV + p.val < V ∧ i + c.val < T
-  · rw [if_pos h, if_pos h, pa_readMem_congr sin s hmem]
-  · rw [if_neg h, if_neg h]
+  · rw [if_pos h, if_pos h, pa_readMem_congr sin s hmem.1]
+  · rw [if_neg h, if_neg h, hmem.2]
 
 /-! ## Backward per-statement eval recipes -/
 
@@ -2929,11 +2950,10 @@ private theorem pb_dzPtr_eval (sin : BlockState) (dz : RegionName)
   rw [Nat.zero_add]
 
 /-- The masked `b_dz` load: in-range lanes read the region, masked-off lanes
-read the clean-input `undef ≡ 0` oracle. -/
+read the initial state's address-indexed `undef` value. -/
 private theorem pb_dzLoad_eq (s sin : BlockState) (dz : RegionName)
     (i_bh T BTS i : Nat)
     (hmem : sin.mem = s.mem) (hund : sin.undef = s.undef)
-    (hundef : ∀ rg off, s.undef rg off = 0)
     (hp : sin.regs .ptr [BTS] "p_dz"
       = some (⟨fun c => (dz, i_bh * T + i + c.1.val)⟩ : Tile .ptr [BTS]))
     (hi : sin.regs .nat [] "i" = some (Tile.scalar i)) :
@@ -2957,7 +2977,7 @@ private theorem pb_dzLoad_eq (s sin : BlockState) (dz : RegionName)
   · rw [if_neg h]
     simp only [Tile.scalar, Tile.vec, NumericDType.add, ComparableDType.lt,
       h, decide_false, Bool.false_eq_true, if_false, if_true]
-    rw [hund, hundef]
+    rw [hund, Nat.add_assoc]
 
 /-- `b_s = tl.dot(b_k, b_q) * scale` lands lanewise on `pbSVal · (i + c)`. -/
 private theorem pb_sScaled_eval (s sin : BlockState) (q k : RegionName)
@@ -2968,7 +2988,7 @@ private theorem pb_sScaled_eval (s sin : BlockState) (q k : RegionName)
     (hq : sin.regs .real [BK, BTS] "b_q"
       = some (pbQTile s q s_k_h s_k_t s_k_d i_bh i_k T K BK BTS i)) :
     evalOp (Op.mul .real Broadcast.scalarR
-        (Op.dot (batch := []) (Op.ref .real [BTL, BK] "b_k")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BK] "b_k")
           (Op.ref .real [BK, BTS] "b_q"))
         (Op.const scale)) sin
       = some ⟨fun idx : TileIndex [BTL, BTS] =>
@@ -2977,6 +2997,36 @@ private theorem pb_sScaled_eval (s sin : BlockState) (q k : RegionName)
   have hdot := pa_dot_eval (Op.ref .real [BTL, BK] "b_k")
     (Op.ref .real [BK, BTS] "b_q") sin _ _
     (by rw [evalOp_ref]; exact hk) (by rw [evalOp_ref]; exact hq)
+  erw [pa_mulTile_eval Broadcast.scalarR _ _ sin _ _ hdot (evalOp_const scale sin)]
+  refine congrArg some (Tile.ext fun idx => ?_)
+  obtain ⟨l, c, u⟩ := idx
+  simp only [Tile.bop_data, Broadcast.leftIndex, Broadcast.rightIndex]
+  rw [pa_dot2d_elem _ _ l c
+    (fun e => pbKGuarded s k s_k_h s_k_t s_k_d i_bh i_c i_k T K BTL BK
+      l.val e.val)
+    (fun e => pbQGuarded s q s_k_h s_k_t s_k_d i_bh i_k T K BK
+      e.val (i + c.val))
+    (fun e => rfl) (fun e => rfl)]
+  rfl
+
+
+private theorem pb_sScaled_cast_eval (s sin : BlockState) (q k : RegionName)
+    (s_k_h s_k_t s_k_d : Nat) (i_bh i_c i_k : Nat) (scale : ℝ)
+    (T K BTL BK BTS : Nat) (i : Nat)
+    (hk : sin.regs .real [BTL, BK] "b_k"
+      = some (pbKTile s k s_k_h s_k_t s_k_d i_bh i_c i_k T K BTL BK))
+    (hq : sin.regs .real [BK, BTS] "b_q"
+      = some (pbQTile s q s_k_h s_k_t s_k_d i_bh i_k T K BK BTS i)) :
+    evalOp (Op.mul .real Broadcast.scalarR
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BK] "b_k"))
+          (Op.ref .real [BK, BTS] "b_q"))
+        (Op.const scale)) sin
+      = some ⟨fun idx : TileIndex [BTL, BTS] =>
+          some (pbSVal s q k s_k_h s_k_t s_k_d i_bh i_c i_k scale T K BTL BK
+            idx.1.val (i + idx.2.1.val))⟩ := by
+  have hdot := pa_dot_eval (Op.castFloat .real .real (Op.ref .real [BTL, BK] "b_k"))
+    (Op.ref .real [BK, BTS] "b_q") sin _ _
+    (by erw [pa_eval_cast_real, evalOp_ref]; exact hk) (by rw [evalOp_ref]; exact hq)
   erw [pa_mulTile_eval Broadcast.scalarR _ _ sin _ _ hdot (evalOp_const scale sin)]
   refine congrArg some (Tile.ext fun idx => ?_)
   obtain ⟨l, c, u⟩ := idx
@@ -2999,7 +3049,7 @@ private theorem pb_dsScaled_eval (s sin : BlockState) (v do_ : RegionName)
     (hdo : sin.regs .real [BV, BTS] "b_do"
       = some (pbDoTile s do_ s_v_h s_v_t s_v_d i_bh i_v T V BV BTS i)) :
     evalOp (Op.mul .real Broadcast.scalarR
-        (Op.dot (batch := []) (Op.ref .real [BTL, BV] "b_v")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BV] "b_v")
           (Op.ref .real [BV, BTS] "b_do"))
         (Op.const scale)) sin
       = some ⟨fun idx : TileIndex [BTL, BTS] =>
@@ -3031,7 +3081,7 @@ private theorem pb_dsDot_eval (s sin : BlockState) (v do_ : RegionName)
       = some (pbVTile s v s_v_h s_v_t s_v_d i_bh i_c i_v T V BTL BV))
     (hdo : sin.regs .real [BV, BTS] "b_do"
       = some (pbDoTile s do_ s_v_h s_v_t s_v_d i_bh i_v T V BV BTS i)) :
-    evalOp (Op.dot (batch := []) (Op.ref .real [BTL, BV] "b_v")
+    evalOp (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.ref .real [BTL, BV] "b_v")
         (Op.ref .real [BV, BTS] "b_do")) sin
       = some ⟨fun idx : TileIndex [BTL, BTS] =>
           some (∑ p : Fin BV,
@@ -3062,7 +3112,7 @@ private theorem pb_dvAdd_eval (sin : BlockState) (BTL BTS BV : Nat)
       = some ⟨fun idx => some (w idx.1.val idx.2.1.val)⟩) :
     evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BV] "b_dv")
-        (Op.dot (batch := []) (Op.ref .real [BTL, BTS] "b_s2")
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := []) (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s2"))
           (Op.transpose (batch := []) (Op.ref .real [BV, BTS] "b_do")))) sin
       = some ⟨fun idx : TileIndex [BTL, BV] =>
           some (g idx.1.val idx.2.1.val
@@ -3072,9 +3122,9 @@ private theorem pb_dvAdd_eval (sin : BlockState) (BTL BTS BV : Nat)
           (⟨fun idx => some (w idx.1.val idx.2.1.val)⟩ : Tile .real [BV, BTS])) := by
     erw [evalOp_transpose, evalOp_ref, hdo]
     rfl
-  have hdot := pa_dot_eval (Op.ref .real [BTL, BTS] "b_s2")
+  have hdot := pa_dot_eval (Op.castFloat .real .real (Op.ref .real [BTL, BTS] "b_s2"))
     (Op.transpose (batch := []) (Op.ref .real [BV, BTS] "b_do")) sin _ _
-    (by rw [evalOp_ref]; exact hs2) htr
+    (by erw [pa_eval_cast_real, evalOp_ref]; exact hs2) htr
   erw [pa_addTile_eval (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
     _ _ sin _ _ (by rw [evalOp_ref]; exact hdv) hdot]
   refine congrArg some (Tile.ext fun idx => ?_)
@@ -3098,11 +3148,11 @@ private theorem pb_dkAdd_eval (sin : BlockState) (BTL BTS BK : Nat)
       = some ⟨fun idx => some (qF idx.1.val idx.2.1.val)⟩) :
     evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BTL, BK] "b_dk")
-        (Op.dot (batch := [])
-          (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
+        (Op.dot (options := {allowTF32 := some Bool.false}) (batch := [])
+          (Op.castFloat .real .real (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
             (Op.mul .real Broadcast.scalarL (Op.const 2.0)
               (Op.ref .real [BTL, BTS] "b_ds"))
-            (Op.ref .real [BTL, BTS] "b_s"))
+            (Op.ref .real [BTL, BTS] "b_s")))
           (Op.transpose (batch := []) (Op.ref .real [BK, BTS] "b_q")))) sin
       = some ⟨fun idx : TileIndex [BTL, BK] =>
           some (g idx.1.val idx.2.1.val
@@ -3120,7 +3170,7 @@ private theorem pb_dkAdd_eval (sin : BlockState) (BTL BTS BK : Nat)
           (⟨fun idx => some (qF idx.1.val idx.2.1.val)⟩ : Tile .real [BK, BTS])) := by
     erw [evalOp_transpose, evalOp_ref, hq]
     rfl
-  have hdot := pa_dot_eval _ _ sin _ _ hmulO htr
+  have hdot := pa_dot_eval (Op.castFloat .real .real _) _ sin _ _ (by erw [pa_eval_cast_real]; exact hmulO) htr
   erw [pa_addTile_eval (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
     _ _ sin _ _ (by rw [evalOp_ref]; exact hdk) hdot]
   refine congrArg some (Tile.ext fun idx => ?_)
@@ -3641,11 +3691,11 @@ theorem paBwdPrologue_run (s : BlockState) (q k v do_ dz : RegionName)
           Stmt.assign .real [BTL, BK] "b_k"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_k") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BV] "b_v"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BV] "p_v") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_dk" (Op.full [BTL, BK] (Op.const 0)),
           Stmt.assign .real [BTL, BV] "b_dv" (Op.full [BTL, BV] (Op.const 0)) ] s
         = some sP
@@ -3665,10 +3715,10 @@ theorem paBwdPrologue_run (s : BlockState) (q k v do_ dz : RegionName)
       (pb_constMul_eval _ i_v BV)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pb_kLoad_eq s _ k "p_k" s_k_h s_k_t s_k_d i_bh i_c i_k T K BTL BK
-      (by rfl) (by simp)))]
+      (by constructor <;> (funext rg off; simp)) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pb_vLoad_eq s _ v "p_v" s_v_h s_v_t s_v_d i_bh i_c i_v T V BTL BV
-      (by rfl) (by simp)))]
+      (by constructor <;> (funext rg off; simp)) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (pa_zeros_eval [BTL, BK] _))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (pa_zeros_eval [BTL, BV] _))]
   rw [stepStmts.nil]
@@ -3694,7 +3744,6 @@ set_option maxRecDepth 8000 in
 theorem paBwdDesc_step (s0 sin : BlockState) (q k v do_ dz : RegionName)
     (i_bh i_c i_k i_v : Nat) (s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d : Nat)
     (scale : ℝ) (T K V BTL BTS BK BV : Nat) (j : Nat)
-    (hundef : ∀ rg off, s0.undef rg off = 0)
     (hBTS : BTL % BTS = 0) (hBTSpos : 0 < BTS)
     (hlt : j < pbTrip T BTS i_c BTL)
     (hInv : pbInvD s0 q k v do_ dz i_bh i_c i_k i_v s_k_h s_k_t s_k_d s_v_h
@@ -3733,22 +3782,22 @@ theorem paBwdDesc_step (s0 sin : BlockState) (q k v do_ dz : RegionName)
     (pb_dzPtr_eval _ dz i_bh T BTS (pbNB T BTS - BTS - j * BTS) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pb_qLoad_eq s0 _ q "p_q" s_k_h s_k_t s_k_d i_bh i_k T K BK BTS
-      (pbNB T BTS - BTS - j * BTS) (by simpa using hmem) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+      (pbNB T BTS - BTS - j * BTS) (by constructor; simpa using hmem; simpa using hund) (by simp)))]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pb_doLoad_eq s0 _ do_ "p_do" s_v_h s_v_t s_v_d i_bh i_v T V BV BTS
-      (pbNB T BTS - BTS - j * BTS) (by simpa using hmem) (by simp)))]
+      (pbNB T BTS - BTS - j * BTS) (by constructor; simpa using hmem; simpa using hund) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pb_dzLoad_eq s0 _ dz i_bh T BTS (pbNB T BTS - BTS - j * BTS)
-      (by simpa using hmem) (by simpa using hund) hundef (by simp) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (pb_sScaled_eval s0 _ q k s_k_h s_k_t s_k_d i_bh i_c i_k scale T K BTL BK
+      (by simpa using hmem) (by simpa using hund) (by simp) (by simp)))]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
+    (pb_sScaled_cast_eval s0 _ q k s_k_h s_k_t s_k_d i_bh i_c i_k scale T K BTL BK
       BTS (pbNB T BTS - BTS - j * BTS) (by simpa using hbk) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pa_square_eval _ BTL BTS
       (fun l c => pbSVal s0 q k s_k_h s_k_t s_k_d i_bh i_c i_k scale T K BTL BK
         l (pbNB T BTS - BTS - j * BTS + c))
       (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pb_dvAdd_eval _ BTL BTS BV
       (fun l p => pbDvPart s0 q k do_ s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d
         i_bh i_c i_k i_v scale T K V BTL BTS BK BV
@@ -3772,7 +3821,7 @@ theorem paBwdDesc_step (s0 sin : BlockState) (q k v do_ dz : RegionName)
                 p.val (pbNB T BTS - BTS - j * BTS + c)) * scale)
       (fun c => pbDzGuarded s0 dz i_bh T (pbNB T BTS - BTS - j * BTS + c))
       (by simp) (by simp [pbDzTile]))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pb_dkAdd_eval _ BTL BTS BK
       (fun l e => pbDkPart s0 q k v do_ dz s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d
         i_bh i_c i_k i_v scale T K V BTL BTS BK BV
@@ -3850,7 +3899,6 @@ set_option maxHeartbeats 4000000 in
 theorem paBwdDesc_run (s0 sPre : BlockState) (q k v do_ dz : RegionName)
     (i_bh i_c i_k i_v : Nat) (s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d : Nat)
     (scale : ℝ) (T K V BTL BTS BK BV : Nat)
-    (hundef : ∀ rg off, s0.undef rg off = 0)
     (hBTS : BTL % BTS = 0) (hBTSpos : 0 < BTS)
     (hInv : pbInvD s0 q k v do_ dz i_bh i_c i_k i_v s_k_h s_k_t s_k_d s_v_h
       s_v_t s_v_d scale T K V BTL BTS BK BV 0 sPre) :
@@ -3887,7 +3935,7 @@ theorem paBwdDesc_run (s0 sPre : BlockState) (q k v do_ dz : RegionName)
       hInv
       (fun j s hj hPj =>
         paBwdDesc_step s0 s q k v do_ dz i_bh i_c i_k i_v s_k_h s_k_t s_k_d
-          s_v_h s_v_t s_v_d scale T K V BTL BTS BK BV j hundef hBTS hBTSpos
+          s_v_h s_v_t s_v_d scale T K V BTL BTS BK BV j hBTS hBTSpos
           hj hPj)
   have hfin : final = pbTrip T BTS i_c BTL := le_antisymm hP.2.2.1 hge
   exact ⟨sL, hrun, hfin ▸ hP⟩
@@ -4003,7 +4051,6 @@ set_option maxRecDepth 8000 in
 theorem paBwdDiag_step (s0 sin : BlockState) (q k v do_ dz : RegionName)
     (i_bh i_c i_k i_v : Nat) (s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d : Nat)
     (scale : ℝ) (T K V BTL BTS BK BV : Nat) (i : Nat)
-    (hundef : ∀ rg off, s0.undef rg off = 0)
     (hBTS : BTL % BTS = 0)
     (hlt : i < (i_c + 1) * BTL)
     (hInv : pbInvG s0 q k v do_ dz i_bh i_c i_k i_v s_k_h s_k_t s_k_d s_v_h
@@ -4031,13 +4078,13 @@ theorem paBwdDiag_step (s0 sin : BlockState) (q k v do_ dz : RegionName)
     (pb_dzPtr_eval _ dz i_bh T BTS i (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pb_qLoad_eq s0 _ q "p_q" s_k_h s_k_t s_k_d i_bh i_k T K BK BTS i
-      (by simpa using hmem) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+      (by constructor; simpa using hmem; simpa using hund) (by simp)))]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pb_doLoad_eq s0 _ do_ "p_do" s_v_h s_v_t s_v_d i_bh i_v T V BV BTS i
-      (by simpa using hmem) (by simp)))]
+      (by constructor; simpa using hmem; simpa using hund) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pb_dzLoad_eq s0 _ dz i_bh T BTS i
-      (by simpa using hmem) (by simpa using hund) hundef (by simp) (by simp)))]
+      (by simpa using hmem) (by simpa using hund) (by simp) (by simp)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pb_msLe_eval _ BTL BTS (i - i_c * BTL)
       (by simpa using hok) (by simpa using hoq)))]
@@ -4080,7 +4127,7 @@ theorem paBwdDiag_step (s0 sin : BlockState) (q k v do_ dz : RegionName)
                 p.val (i + c))
         + (if i_v = 0 then pbDzGuarded s0 dz i_bh T (i + c) else 0))
       (by simp) (by simp)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pb_dvAdd_eval _ BTL BTS BV
       (fun l p => pbDvPart s0 q k do_ s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d
           i_bh i_c i_k i_v scale T K V BTL BTS BK BV (i_c * BTL) i l p
@@ -4096,7 +4143,7 @@ theorem paBwdDiag_step (s0 sin : BlockState) (q k v do_ dz : RegionName)
       (fun p c => pbDoGuarded s0 do_ s_v_h s_v_t s_v_d i_bh i_v T V BV
         p (i + c))
       (by simpa using hbdv) (by simp) (by simp [pbDoTile])))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
     (pb_dkAdd_eval _ BTL BTS BK
       (fun l e => pbDkPart s0 q k v do_ dz s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d
           i_bh i_c i_k i_v scale T K V BTL BTS BK BV (i_c * BTL) i l e
@@ -4220,7 +4267,6 @@ set_option maxHeartbeats 4000000 in
 theorem paBwdDiag_run (s0 sPre : BlockState) (q k v do_ dz : RegionName)
     (i_bh i_c i_k i_v : Nat) (s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d : Nat)
     (scale : ℝ) (T K V BTL BTS BK BV : Nat)
-    (hundef : ∀ rg off, s0.undef rg off = 0)
     (hBTS : BTL % BTS = 0) (hBTSpos : 0 < BTS)
     (hInv : pbInvG s0 q k v do_ dz i_bh i_c i_k i_v s_k_h s_k_t s_k_d s_v_h
       s_v_t s_v_d scale T K V BTL BTS BK BV (i_c * BTL) sPre) :
@@ -4242,7 +4288,7 @@ theorem paBwdDiag_run (s0 sPre : BlockState) (q k v do_ dz : RegionName)
       hInv
       (fun i s hi hPi =>
         paBwdDiag_step s0 s q k v do_ dz i_bh i_c i_k i_v s_k_h s_k_t s_k_d
-          s_v_h s_v_t s_v_d scale T K V BTL BTS BK BV i hundef hBTS hi hPi)
+          s_v_h s_v_t s_v_d scale T K V BTL BTS BK BV i hBTS hi hPi)
   have hfin : final = (i_c + 1) * BTL := le_antisymm hP.2.2.2.2.1 hge
   exact ⟨sL, hrun, hfin ▸ hP⟩
 
@@ -4402,14 +4448,15 @@ executing the full backward dk/dv surface succeeds, the `dk` block store
 holds `Σ_{t ≥ i_c·BTL + l} 2·ds(l,t)·score(l,t)·q[e,t]` and the `dv` block
 store holds `Σ_{t ≥ i_c·BTL + l} score(l,t)²·do[p,t]` at every in-window
 lane — the causal key sweep from the diagonal row to the streamed top
-`cdiv(T,BTS)·BTS` (loads beyond `T` read as zero, so ragged tails are
-exact), with the `i_v = 0` gate folding the normalizer gradient `dz` into
+`cdiv(T,BTS)·BTS` (all source-unspecified lanes are independent initial
+`undef` inputs, including ragged tails), with the `i_v = 0` gate folding the normalizer gradient `dz` into
 `ds`.
 
 Side conditions: `dk ≠ dv` (distinct output buffers), the host's contiguous
 last-dim strides `s_k_d = 1` / `s_v_d = 1` with `BK ≤ s_k_t` / `BV ≤ s_v_t`
-(store-lane injectivity), the host's own `assert BTL % BTS == 0`, and a
-clean-input state (`undef ≡ 0`, the masked `dz` load's off-lanes). -/
+(store-lane injectivity), the host's own `assert BTL % BTS == 0`, and
+`0 < BTS`. No zero-undef premise remains: the `dz` guarded reference reads
+its initial unspecified address value when its source load mask is false. -/
 specification pa_bwd_dkv_exec_genuine
     (s : BlockState) (q k v do_ dz dk dv : RegionName)
     (i_bh i_c i_k i_v i_h : Nat)
@@ -4418,8 +4465,7 @@ specification pa_bwd_dkv_exec_genuine
     (hDkDv : dk ≠ dv)
     (hSkd : s_k_d = 1) (hSvd : s_v_d = 1)
     (hσk : BK ≤ s_k_t) (hσv : BV ≤ s_v_t)
-    (hBTS : BTL % BTS = 0) (hBTSpos : 0 < BTS)
-    (hundef : ∀ rg off, s.undef rg off = 0) :
+    (hBTS : BTL % BTS = 0) (hBTSpos : 0 < BTS) :
     ∃ sF, exec (pa_bwd_dkv_surface q k v do_ dz dk dv i_bh i_c i_k i_v i_h
         s_k_h s_k_t s_k_d s_v_h s_v_t s_v_d scale
         B H T K V BTL BTS BK BV).toAlgKernel s = some sF
@@ -4438,12 +4484,12 @@ specification pa_bwd_dkv_exec_genuine
   obtain ⟨sP, hPro, hInvP⟩ := paBwdPrologue_run s q k v do_ dz i_bh i_c i_k i_v
     s_k_h s_k_t 1 s_v_h s_v_t 1 scale T K V BTL BTS BK BV
   obtain ⟨sL1, hL1, hInvDF⟩ := paBwdDesc_run s sP q k v do_ dz i_bh i_c i_k i_v
-    s_k_h s_k_t 1 s_v_h s_v_t 1 scale T K V BTL BTS BK BV hundef hBTS hBTSpos
+    s_k_h s_k_t 1 s_v_h s_v_t 1 scale T K V BTL BTS BK BV hBTS hBTSpos
     hInvP
   obtain ⟨sM, hMid, hInvG0⟩ := paBwdMid_run s sL1 q k v do_ dz i_bh i_c i_k i_v
     s_k_h s_k_t 1 s_v_h s_v_t 1 scale T K V BTL BTS BK BV hInvDF
   obtain ⟨sL2, hL2, hInvGF⟩ := paBwdDiag_run s sM q k v do_ dz i_bh i_c i_k i_v
-    s_k_h s_k_t 1 s_v_h s_v_t 1 scale T K V BTL BTS BK BV hundef hBTS hBTSpos
+    s_k_h s_k_t 1 s_v_h s_v_t 1 scale T K V BTL BTS BK BV hBTS hBTSpos
     hInvG0
   rw [exec, pa_bwd_body_eq]
   rw [show ([ Stmt.assign .blockPtr [BTL, BK] "p_k"
@@ -4461,11 +4507,11 @@ specification pa_bwd_dkv_exec_genuine
           Stmt.assign .real [BTL, BK] "b_k"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_k") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BV] "b_v"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BV] "p_v") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_dk" (Op.full [BTL, BK] (Op.const 0)),
           Stmt.assign .real [BTL, BV] "b_dv" (Op.full [BTL, BV] (Op.const 0)),
           Stmt.forRangeDyn "j" (Op.constNat 0)
@@ -4529,11 +4575,11 @@ specification pa_bwd_dkv_exec_genuine
           Stmt.assign .real [BTL, BK] "b_k"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BK] "p_k") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BV] "b_v"
             (Op.load .real
               (MemAccess.blockPtr (Op.ref .blockPtr [BTL, BV] "p_v") [0, 1])
-              MaskOpt.none),
+              MaskOpt.none .unspecified),
           Stmt.assign .real [BTL, BK] "b_dk" (Op.full [BTL, BK] (Op.const 0)),
           Stmt.assign .real [BTL, BV] "b_dv" (Op.full [BTL, BV] (Op.const 0)) ]
         ++ (Stmt.forRangeDyn "j" (Op.constNat 0)
@@ -4597,5 +4643,46 @@ specification pa_bwd_dkv_exec_genuine
   exact ⟨sF, hSt, hR1, hR2⟩
 
 end Correct_without_Rounding
+
+
+/-- Independent ragged input fixture: in-bounds Q/K are zero, V is one,
+while each source-unspecified address supplies the real input `u`. -/
+private noncomputable def paPaddingRegressionState (u : ℝ) : BlockState :=
+  { mem := fun rg _ => .real (if rg = "v" then 1 else 0)
+    regs := fun _ _ _ => none
+    pids := fun _ => 0
+    undef := fun _ _ => u }
+
+/-- A complete forward execution observes arbitrary nonzero padding. With
+`BK=2` and a one-element head, both actual stores equal `u⁴`. In particular,
+`u=1` stores one whereas zero padding stores zero. The result is derived from
+the complete source execution; no desired output equality is an input. -/
+theorem pa_unspecified_padding_correct (u : ℝ) :
+    ∃ sF, exec (pa_fwd_surface "q" "k" "v" "o" "z" 1 1 1 1 1 1 1
+        1 1 1 1 1 1 1 2 1).toAlgKernel (paPaddingRegressionState u) = some sF
+      ∧ sF.readMem "o" 0 = (u * u) * (u * u)
+      ∧ sF.readMem "z" 0 = (u * u) * (u * u) := by
+  obtain ⟨sF, hExec, hOut, hZ⟩ := pa_fwd_o_exec_genuine
+    (paPaddingRegressionState u) "q" "k" "v" "o" "z" 1 1 1 1 1 1 1
+    1 1 1 1 1 1 1 2 1 (by decide) rfl (by norm_num) (by norm_num) (by norm_num)
+  refine ⟨sF, hExec, ?_, ?_⟩
+  · have hLane := hOut (⟨0, by decide⟩, ⟨0, by decide⟩, PUnit.unit)
+      (by norm_num [paOActive, paIv, paNV, paPaddingRegressionState])
+    have hOffset : paOOffset (paPaddingRegressionState u) 1 1 1 1 1 1 1 1
+        (⟨0, by decide⟩, ⟨0, by decide⟩, PUnit.unit) = 0 := by
+      norm_num [paOOffset, paOBase, paPaddingRegressionState, paIk, paIv, paNV]
+    rw [hOffset] at hLane
+    rw [hLane]
+    simp [paOOut, paOAcc, paODiag, paPaddingRegressionState,
+      paScore, paQGuarded, paKGuarded, paVGuarded, paIk, paIv, paNV,
+      Fin.sum_univ_two, BlockState.readMem, MemCell.readAs, MemCell.real, MemCell.of]
+  · have hLane := hZ ⟨0, by decide⟩ (by norm_num [paPaddingRegressionState])
+    have hOffset : paZOffset (paPaddingRegressionState u) 1 1 1 1 1 1 ⟨0, by decide⟩ = 0 := by
+      norm_num [paZOffset, paPaddingRegressionState, paIk, paNV]
+    rw [hOffset] at hLane
+    rw [hLane]
+    simp [paZOut, paZAcc, paZDiag, paPaddingRegressionState,
+      paScore, paQGuarded, paKGuarded, paIk, paNV,
+      Fin.sum_univ_two, BlockState.readMem, MemCell.readAs, MemCell.real, MemCell.of]
 
 end VeriTile.Bench.TritonBenchG.ParallelAttention

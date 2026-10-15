@@ -4,6 +4,11 @@ import bench.tritonbench_g.l2_norm_triton2.Proofs.Math
 import bench.tritonbench_g.l2_norm_triton2.Proofs.SourceChecks
 import VeriTile.Meta.StatementAudit
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.L2NormTriton2
 open VeriTile.Triton
 open scoped VeriTile.Triton.MaskedKernelIO₁ VeriTile.Triton.MaskedKernelIO₂
@@ -17,7 +22,7 @@ translated pointer kernel terminates, every active output-row lane `j` holds
 `l2FwdSpec N BLOCK_N eps xs j`, and every other memory cell is unchanged.
 Proof: `Implements.intro` assembles the region-model masked triple with the
 bridge side conditions. -/
-specification l2_norm_fwd_1pass_kernel_correctness
+theorem l2_norm_fwd_1pass_kernel_correctness
     (X Y : RegionName)
     (stride_x_row N : Nat) (eps : ℝ) (BLOCK_N : Nat) :
     l2FwdIO X Y stride_x_row N eps BLOCK_N ⊨
@@ -42,7 +47,7 @@ hold `xs`/`dys`, the translated pointer kernel terminates, every active
 output-row lane `j` holds `l2BwdSpec N BLOCK_N eps xs dys j`, and every other
 memory cell is unchanged. Proof: `Implements.intro` assembles the
 region-model masked triple with the bridge side conditions. -/
-specification l2_norm_bwd_kernel_correctness
+theorem l2_norm_bwd_kernel_correctness
     (X DY DX : RegionName)
     (stride_x_row N : Nat) (eps : ℝ) (BLOCK_N : Nat) :
     l2BwdIO X DY DX stride_x_row N eps BLOCK_N ⊨

@@ -1,3 +1,12 @@
+/-
+Source-audit target: mean_dim_kernel
+Source-audit Lean: meanSource%
+Source-audit args: output=tl.float32, version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original complete accumulation loop; input dtype symbolic, fp32 output resolves its store branch.
+Other dtype profiles and the index-commuted candidate need separate source views.
+-/
+
 import VeriTile.Triton.DSL
 
 namespace VeriTile.Bench.TritonBenchG.MeanReduction

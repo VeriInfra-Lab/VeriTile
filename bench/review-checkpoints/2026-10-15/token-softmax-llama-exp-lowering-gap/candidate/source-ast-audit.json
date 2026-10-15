@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "bloom_parent_receipt_sha256": "5a44de64505a9d9dd2df9def1d9484ca63de11e4c2df9a533696cffb1d73d08e",
+  "bloom_original_sha256": "043577948fab74005f05d1824b68df2d65c5b26d4a4f47097676f7ac48118e84",
+  "llama_original_sha256": "0fa02ee678899b4524478c77876bd07c331494faf2320e76f5f7669d458a1f41",
+  "functions": [
+    {
+      "function": "_fwd_kernel_token_softmax",
+      "AST_equal": true,
+      "full_decorated_segment_bytes_equal": true,
+      "canonical_AST_sha256": "047443883f27c2841f90b15750142e465e2fd16e57e0257a12916eebea9efee6",
+      "bloom_lines": [
+        7,
+        32
+      ],
+      "llama_lines": [
+        7,
+        32
+      ],
+      "bloom_segment_sha256": "6ca6e0e54a0c2dd1b8fd48f1ce4cfdd668fe71d789b7d733ec964864512f1dbb",
+      "llama_segment_sha256": "6ca6e0e54a0c2dd1b8fd48f1ce4cfdd668fe71d789b7d733ec964864512f1dbb"
+    },
+    {
+      "function": "token_softmax_fwd",
+      "AST_equal": true,
+      "full_decorated_segment_bytes_equal": true,
+      "canonical_AST_sha256": "f5d83d21d75fd86119dfa2066faf18dca9e6f9e2fa9c0fb6ab03f41ba966cba5",
+      "bloom_lines": [
+        35,
+        54
+      ],
+      "llama_lines": [
+        35,
+        54
+      ],
+      "bloom_segment_sha256": "6588f3a278227225f20f73dd43f50dc249f635d672d2cbb498a8bcdfacbe402a",
+      "llama_segment_sha256": "6588f3a278227225f20f73dd43f50dc249f635d672d2cbb498a8bcdfacbe402a"
+    }
+  ],
+  "unchanged_shared_contracts": {
+    "llama_FPCorrect_sha256": "59d3b113eab85bf25bba634314738d9f41152bf0b462a1e5161a3dd867cfe35d",
+    "llama_TypedShape_sha256": "cb9f8897e547db3e55e0d86073179dd6e0de3543971419d5a3eb1f5d454feac6",
+    "shared_TypedContract_sha256": "af1cd2e47c3cdc5ba08dbf8e8d97266e46c0d9f8fdbe0a0e0b7c54372bc668cf"
+  },
+  "not_claimed": "Equality of whole Python modules (their test data and dtype differ); equality of source and GPU outputs; a new numerical proof. The exact kernel and host bodies are equal; Llama default test dtype is fp32."
+}

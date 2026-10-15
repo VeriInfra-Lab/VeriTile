@@ -1,3 +1,12 @@
+/-
+Source-audit target: _swiglu_forward_kernel
+Source-audit Lean: swigluForward%
+Source-audit args: aType=tl.float32, bType=tl.float32, version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original fp32 forward quotation retaining the source silu helper call.
+The backward JIT, helper expansion, other dtypes and commuted candidates require separate checks.
+-/
+
 import VeriTile.Meta.StatementAudit
 import VeriTile.Triton
 

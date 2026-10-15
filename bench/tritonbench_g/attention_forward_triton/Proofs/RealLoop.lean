@@ -1,3 +1,4 @@
+import VeriTile.Triton.Math.MaximumProjection
 import VeriTile.Examples.AttentionForwardClosedForm
 import bench.tritonbench_g.attention_forward_triton.Kernels
 import VeriTile.Meta.StatementAudit
@@ -132,7 +133,7 @@ theorem attn_loopBody_steps (BM BN BD NC HA HD : Nat) (hBN : 0 < BN)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_ptr_mask_real (Op.ref .ptr [BD, BN] "K_ptrs") _ _ Kptr kmaskT (by rw [evalOp_ref]; simp [hKp]) (by rw [evalOp_ref]; simp [hkm]) (by intro rg o; simp [hundef])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (load_ptr_none_real (Op.ref .ptr [] "K_scale_ptr") _ Ksptr (by rw [evalOp_ref]; simp [hKs])))]
   erw [stepStmts.cons_some (stepStmt_assign_eq_some (qk_op_eval _ BM BN BD qtile kloadT qsv ksv (by simp [hq]) (by simp [hkl]) (by simp [hqs]) (by simp [hksv]; ext z; rfl)))]
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (mij_op_eval _ BM BN mtile qkT rmaxT (by simp [hmi]) (by simp [hqk]) hrm))]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_max2_of_where (mij_op_eval _ BM BN mtile qkT rmaxT (by simp [hmi]) (by simp [hqk]) hrm)))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (qk2_op_eval _ BM BN hax qkT mijT (by simp [hqk]) (by simp [hmij])))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (p_op_eval _ BM BN qk2T (by simp [hqk2])))]
   rw [stepStmts.cons_some (@stepStmt_assign_eq_some .real [BM] "l_ij" (Op.reduceSum (⟨1, by simp⟩ : Fin [BM,BN].length) Bool.false (Op.ref .real [BM,BN] "p")) _ lijT (lij_op_eval _ BM BN pT (by simp [hpT])))]

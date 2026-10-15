@@ -12,14 +12,19 @@ theorem accumulate (s : BlockState) (Y T O : RegionName)
     (hLoss : s.regs .real [B] "loss" = some ⟨fun j ↦ some (f j.1)⟩) :
     stepStmts ((body Y T O sy st so N B eps logTarget reduction).drop 5) s =
       some (s.setReg "loss_sum" .real [] (Tile.scalar (some (acc + ∑ j : Fin B, f j)))) := by
-  simp [body, forward, forwardSurface, ComputeKernel.surfaceBody,
+  cases logTarget <;> simp [body, forward, forwardSurface, ComputeKernel.eraseDType, ComputeKernel.fromKernelBody,
+      ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType,
+      Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
+      NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+      VeriTile.Triton.eraseDType, ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     stepStmts, stepStmt, evalOp_add, evalOp.eq_def, hR, hAcc, hLoss,
     Tile.cop, Tile.bop, ComparableDType.eq, NumericDType.add,
     Tile.scalar, -Tile.scalar_eta, Region.cast, Except.bind, bind,
     Option.bind_eq_bind, Option.bind]
-  rfl
+  all_goals rfl
 
 /-- Elementwise mode scatters the cached loss values under the actual source mask. -/
 theorem elementwise_store (s : BlockState) (Y T O : RegionName)
@@ -31,7 +36,12 @@ theorem elementwise_store (s : BlockState) (Y T O : RegionName)
     (hLoss : s.regs .real [B] "loss" = some ⟨fun j ↦ some (values j)⟩) :
     stepStmts ((body Y T O sy st so N B eps logTarget 0).drop 5) s =
       some (scatter s O outputBase N current values) := by
-  simp [body, forward, forwardSurface, ComputeKernel.surfaceBody,
+  cases logTarget <;> simp [body, forward, forwardSurface, ComputeKernel.eraseDType, ComputeKernel.fromKernelBody,
+      ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType,
+      Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
+      NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+      VeriTile.Triton.eraseDType, ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     stepStmts, stepStmt, evalOp.eq_def, hO, hOffsets, hMask, hLoss,

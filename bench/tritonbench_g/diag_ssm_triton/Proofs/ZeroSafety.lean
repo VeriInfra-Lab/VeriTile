@@ -20,7 +20,13 @@ theorem forward_safe (bounds : RegionBounds) (u : BlockState)
     (hb : forwardBounds bounds u s l batch dim block) :
     (Erasure.forward Bool.false s x l y 0 batch dim block).toAlgKernel.TraceSafe bounds u := by
   simp only [Erasure.forward,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
+        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Op.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
   simp only [Kernel.TraceSafe,Stmt.TraceSafeList,Stmt.TraceSafe,Stmt.forLoopTraceSafe,
     Op.SafeAt.eq_def,MemAccess.SafeAt,MaskOpt.SafeAt,MemAccess.ActiveAddressSafe,
     memAccessActiveAddressSafe,MaskOpt.Active,
@@ -57,7 +63,13 @@ theorem complex_forward_safe (bounds : RegionBounds) (u : BlockState)
     (hb : complexForwardBounds bounds u s l batch dim block) :
     (Erasure.complexForward Bool.false s x y l 0 batch dim block).toAlgKernel.TraceSafe bounds u := by
   simp only [Erasure.complexForward,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
+        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Op.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
   simp only [Kernel.TraceSafe,Stmt.TraceSafeList,Stmt.TraceSafe,Stmt.forLoopTraceSafe,
     Op.SafeAt.eq_def,MemAccess.SafeAt,MaskOpt.SafeAt,MemAccess.ActiveAddressSafe,
     memAccessActiveAddressSafe,MaskOpt.Active,
@@ -105,7 +117,13 @@ theorem backward_safe (bounds : RegionBounds) (u : BlockState)
     (hb : backwardBounds bounds u l gs gl batch dim block) :
     (Erasure.backward Bool.false s l y gs gx gl gy 0 batch dim block).toAlgKernel.TraceSafe bounds u := by
   simp only [Erasure.backward,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
+        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Op.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
   simp only [Kernel.TraceSafe,Stmt.TraceSafeList,Stmt.TraceSafe,Stmt.forLoopTraceSafe,
     Op.SafeAt.eq_def,MemAccess.SafeAt,MaskOpt.SafeAt,MemAccess.ActiveAddressSafe,
     memAccessActiveAddressSafe,MaskOpt.Active,
@@ -148,11 +166,19 @@ theorem complex_backward_safe (bounds : RegionBounds) (u : BlockState)
     (hb : complexBackwardBounds bounds u l gs gl batch dim block) :
     (Erasure.complexBackward Bool.false s l y gs gx gl gy 0 batch dim block).toAlgKernel.TraceSafe bounds u := by
   simp only [Erasure.complexBackward,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
+        ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Op.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,Except.bind,bind,ite_false,Bool.false_eq_true,↓reduceIte]
+  simp only [eq_mp_eq_cast, eq_mpr_eq_cast, cast_eq, id_eq]
   simp only [Kernel.TraceSafe,Stmt.TraceSafeList,Stmt.TraceSafe,Stmt.forLoopTraceSafe,
     Op.SafeAt.eq_def,MemAccess.SafeAt,MaskOpt.SafeAt,MemAccess.ActiveAddressSafe,
     memAccessActiveAddressSafe,MaskOpt.Active,
     stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,bind,pure,
+    FloatDType.toTileDType,FloatDType.ofWithBot,FloatDType.toWithBot,WithBot.map,
     Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,
     String.reduceEq,FlatAlloc.shiftBroadcast,
     Tile.bop,Tile.cop,Tile.scalar,NumericDType.mul,NumericDType.add,

@@ -60,7 +60,8 @@ def weighted (weight : Storage) (B : Nat) : ComputeStmt :=
 def store (weight output : Storage) (B : Nat) : ComputeStmt :=
   let wide := decide (weight = .fp64)
   let raw : Op .real [B] := .ref .real [B] "y"
-  let storeOperand : Op .real [B] := if wide then .withPrecision .real .fp64 raw else raw
+  let storeOperand : Op .real [B] := if wide then .withPrecision .real .fp64 raw
+    else .withPrecision .real .fp32 raw
   let p : Op .ptr [B] := .ptrAdd .scalarL (.ref .ptr [] "Y") (.ref .nat [B] "cols")
   match output with
   | .fp32 => .store .real [B] (.ptr p) (.compute (.alg .fp32 (if wide then .castFloat .real .real storeOperand else raw))) (.mask (.ref .bool [B] "mask"))
@@ -83,8 +84,8 @@ theorem memory_profiles (input weight output : Storage) (v : Bool)
 theorem computation_profiles (input weight output : Storage) (v : Bool)
     (X Y W : RegionName) (stride N B : Nat) (eps : ℝ) :
     (loopBody (body input weight output v X Y W stride N B eps)[4]!)[2]! =
-      .assign .real [B] "x" (.alg
-        (.where (active Bool.true N B) (.ref .real [B] "x") ((Op.const 0.0).broadcast [B]))) ∧
+      .assign .real [B] "x" (.compute (.alg .fp32
+        (.where (active Bool.true N B) (.ref .real [B] "x") ((Op.const 0.0).broadcast [B])))) ∧
     (body input weight output v X Y W stride N B eps)[6]! =
       .assign .real [] "rstd" (.compute (.alg .fp32
         (.div .real .nil (.const 1) (.sqrt (.add .real .nil (.ref .real [] "var") (.const eps)))))) ∧

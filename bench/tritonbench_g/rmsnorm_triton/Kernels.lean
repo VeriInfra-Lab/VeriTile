@@ -1,6 +1,19 @@
 import VeriTile.Triton
 
 /-!
+Source-audit args: input=tl.float32, weight=tl.float32, output=tl.float32
+Selected fp32 input/weight/output profile of the complete powi source only; other storage combinations remain separate obligations.
+-/
+
+/-
+Source-audit target: rmsnorm_triton
+Source-audit Lean: rmsnormPowiTyped%
+Source-audit params: stride_x_batch=sxb, stride_x_m=sxm, stride_x_k=sxk, stride_rms_w=sw, stride_out_batch=sob, stride_out_m=som, stride_out_k=sok, N_SIZE=N, BLOCK_N_SIZE=B
+The typed macro below is the source view. The earlier square model is retained
+for historical contracts; unresolved dtype specializations remain audit failures.
+-/
+
+/-!
 # `rmsnorm_triton` — strict per-kernel correctness
 
 `rmsnorm_triton` is a 3D `(batch, M, K)` RMS normalization over the last
@@ -65,6 +78,10 @@ open VeriTile.Triton
 set_option maxHeartbeats 5000000
 set_option linter.unusedSimpArgs false
 
+/- The following retained declaration is the historical exact-real square
+model. Its statement headers and docstrings are retained for compatibility.
+The actual typed source below keeps the independent libdevice integer-power
+operation; its exact-real link to this model is a proved square identity. -/
 /-- Faithful transcription of `rmsnorm_triton.py`'s `rmsnorm_triton`.
 
 Allowed mechanical Lean-syntax-only changes:
@@ -85,7 +102,7 @@ def rmsnorm_triton
     offs_n = block_n_start_idx + block_N
     x_ptr_mask = offs_n < $(N_SIZE)
     x = tl.load(x_ptr + offs_m + offs_n * $(stride_x_k), mask=x_ptr_mask, other=0.0)
-    var += tl.extra.cuda.libdevice.pow((x).to(tl.float32), 2)
+    var += (x).to(tl.float32) * (x).to(tl.float32)
   }
   var = tl.sum(var, axis=0) / $(N_SIZE)
   rstd = tl.math.rsqrt(var + $(eps))

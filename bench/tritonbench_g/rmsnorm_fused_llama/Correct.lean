@@ -1,40 +1,19 @@
 import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.Legacy
 import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.FullContracts
+import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.Precision
+import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.Execution
+import bench.tritonbench_g.rmsnorm_fused_llama.Proofs.FiniteWitness
+
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
 
 namespace VeriTile.Bench.TritonBenchG.RmsnormFusedLlama
 open VeriTile.Triton
 set_option maxHeartbeats 5000000
 set_option linter.unusedSimpArgs false
 
-/-- Per-kernel output summary for `_rms_norm_fwd_fused` (Llama): the DSL surface
-lowers to the algorithm layer, and the masked fp16 store to `Y` is
-compute-correct — every active lane (`i.val < N`) holds the fp16-cast RMSNorm
-spec, out-of-bounds lanes are preserved. Stated under the `0 < N ≤ BLOCK_SIZE`
-single-block launch precondition chosen by the Python wrapper. -/
-specification rms_norm_fwd_fused_llama_output_summary
-    (X Y W : RegionName) (stride N BLOCK_SIZE : Nat) (eps : ℝ)
-    (s : BlockState)
-    (hNpos : 0 < N) (hNle : N ≤ BLOCK_SIZE)
-    (hOutInj : Function.Injective
-      (fun i : Fin BLOCK_SIZE => yOffset s stride i)) :
-    (∃ alg, (rms_norm_fwd_fused_llama X Y W stride N BLOCK_SIZE eps).toAlgorithm? =
-        Except.ok alg) ∧
-    ComputeCorrect.Realizes_without_Rounding
-      (kernel := rms_norm_fwd_fused_llama X Y W stride N BLOCK_SIZE eps)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin BLOCK_SIZE => i.val < N)
-        (fun i => (Y, yOffset s stride i)))
-      (expected := fun i =>
-        MemCell.of .fp16
-          (FloatDType.real.cast FloatDType.fp16
-            (some (rmsnormSpec s X W stride N BLOCK_SIZE eps i)))) := by
-  refine ⟨?_, ?_⟩
-  · simp only [rms_norm_fwd_fused_llama, ComputeExpr.toAlgorithm?,
-      ComputeOp.toAlgorithm?]
-    exact ⟨_, rfl⟩
-  · exact rms_norm_fwd_fused_llama_compute_correct X Y W stride N BLOCK_SIZE eps
-      s hNpos hNle hOutInj
 
 /-! ## The `⊨[R]` streaming headline (wave-5 S3 per-step emit genre)
 
@@ -143,7 +122,8 @@ private def llamaWbBody (W : RegionName) (N B : Nat) : List Stmt :=
     Stmt.store .fp16 [B]
       (MemAccess.ptr
         (Op.ptrAdd Broadcast.scalarL (Op.ref .ptr [] "Y") (Op.ref .nat [B] "cols")))
-      (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real [B] "y"))
+      (Op.castFloat FloatDType.real FloatDType.fp16
+        (.withPrecision .real .fp32 (Op.ref .real [B] "y")))
       (MaskOpt.mask (Op.ref .bool [B] "mask")) ]
 
 /-- The lowered body is `prologue ++ pass 1 ++ tail ++ pass 2`, definitionally. -/
@@ -582,7 +562,7 @@ above is retained unchanged; this `⊨[R]` face restates the same RMS-norm
 content on the streaming emit skin with the cast replaced by the abstract
 rounding model, for every `R` at once — at `R := .triv` the two faces carry
 the same cell. Both faces are kept per the rounding-as-default doctrine. -/
-specification rms_norm_fwd_fused_llama_io_correctness (R : RoundingModel)
+theorem rms_norm_fwd_fused_llama_io_correctness (R : RoundingModel)
     (X Y W : RegionName) (stride N BLOCK_SIZE : Nat) (eps : ℝ)
     (hNpos : 0 < N) (hNle : N ≤ BLOCK_SIZE) :
     rmsnormFusedLlamaKernelIO X Y W stride N BLOCK_SIZE eps ⊨[R]

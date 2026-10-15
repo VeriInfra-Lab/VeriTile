@@ -59,7 +59,7 @@ theorem scale_eval (p : Layout) (swapped : Bool) (scale : ℝ) (v : Tile .real [
   cases swapped <;> simp [scaling,scaled,evalOp_mul,hv]
 
 theorem sentinel_eval (p : Layout) (u : BlockState) :
-    evalOp (Op.broadcast (.sub .real .nil (.const (0.0 : ℝ)) (.const (1e9 : ℝ))) [p.BM,p.BN]) u =
+    evalOp (Op.broadcast (.const (-1e9 : ℝ)) [p.BM,p.BN]) u =
       some (Tile.mat (dtype := .real) (fun _ _ => some (-1000000000 : ℝ))) := by
   norm_num [evalOp.eq_def,Tile.bop,Tile.scalar,Tile.mat,NumericDType.sub,WithBot.realSub,
     Broadcast.leftIndex,Broadcast.rightIndex,Option.bind_eq_bind,Option.bind,-Tile.scalar_eta]

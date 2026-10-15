@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "passed_reduction_refinement_internal_gaps_and_experiment_handoff_only",
+  "candidate_receipt_sha256": "fc386694ad74a67ee359b23e9600d60d46be92c5d9675e2e8e31cb35e2b041b0",
+  "read_Lean_source_sha256": {
+    "bench/tritonbench_g/logsumexp_fwd/Proofs/WordGraph.lean": "eeaec951746385f9e8705a473d3d9decc0957b3c47562562970b69a98191140b",
+    "bench/tritonbench_g/logsumexp_fwd/Proofs/ExpGapReachable.lean": "ce407a2280ba814024bc612fc15ec61a12bf251636ecca459a30ef14917e31f7",
+    "bench/tritonbench_g/logsumexp_fwd/Proofs/ScaleFusionGap.lean": "2632c8045261a25d05ce15e80324547b465da1e72fb8a42f69d874ef3b2825fd"
+  },
+  "new_ordinary_modules": 3,
+  "named_standard_axiom_checks": 15,
+  "public_specifications_added": 0,
+  "classification_upgrade": false,
+  "original_scope_preserved": true,
+  "independent_CPU_tool_tests": 26,
+  "additional_independent_CPU_mock_tests": 8,
+  "independent_runner_offline_compiles": 6,
+  "original_profiles_reanalyzed": 48,
+  "native_status": "NOT_RUN",
+  "native_launches": 0,
+  "native_execution": false,
+  "limits": [
+    "Exp/log/arbitraryReal scalar conversion remain named unresolved parameters, not a closed software-value theorem.",
+    "Explicit max/sum trees are not assumed to be the native lane schedule.",
+    "Bloom exp rounding proof is reused, not counted as new numeric evidence.",
+    "Internal exp collision and finite scale FMA counterexample do not prove unequal final LSE outputs.",
+    "CPU mocks validate actual frozen capture wiring of11launches (1diagnostic+10original), both fusion choices, argument order, scalars, nonzero origins and full raw buffers; these are not GPU receipts.",
+    "Diagnostic lacks full physical allocation address/dtype metadata; original capture records pointer values and fixed origin but not allocation base. No physical byte-ABI acceptance is asserted.",
+    "There is no whole-output numerical oracle; all native value captures remain characterization."
+  ],
+  "terminal_exit_codes": {
+    "Lean_replay": 0,
+    "CPU26tests": 0,
+    "CPU8runtime_mock_tests": 0,
+    "offline6": 0,
+    "native_attempt": 2
+  }
+}

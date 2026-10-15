@@ -1,0 +1,19 @@
+{
+  "source_sha256": {
+    "VeriTile/Triton/Float/ScalarOps.lean": "26bd46b941918c3a617cb6e15b2ddb2003a85c40cd69fca3a3905ba181bc6072",
+    "VeriTile/Triton/Float/ScalarBackend.lean": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a",
+    "VeriTile/Triton/Float/BitValue.lean": "92f8bf41aac7a1268815a58fea6e68475c134903893b8e075599c5427be6a1eb",
+    "VeriTile/Triton/Float/IntegerConversionTotal.lean": "3f36ef1b3ff8dfb3fd3a2f4a4456ac7072190853d402ea256470b6e7960d282d",
+    "VeriTile/Triton/Float/Structural.lean": "3760dd66ad0e0eab77f42a866eecef47240833e6ca2929a60674b6fd70599928",
+    "VeriTile/Triton/Float/EvalOpR.lean": "18a04fa08f022f68150ab1dcc6ff81436d72dcdf1d9e502eb7b138424c610099"
+  },
+  "used_as_compiled_dependencies": false,
+  "assessment": "Scalar bit add/sub/mul/div/FMA and format conversion can be reused. Structural sin/cos/pow remain callbacks, and EvalOpR uses real functions. This audit found no complete bit model of this captured __nv_powf/__nv_sinf/__nv_cosf graph; no new Lean software closure is claimed.",
+  "next_complete_proof_required": [
+    "Model captured total pow/trig/div graph including exceptional values and its instructions.",
+    "Separate original source operation sequence and fused native graph.",
+    "Use wrapped i32 indexing/token semantics where actual source needs it.",
+    "Prove full initial-state value/readback/frame with both masks for each complete graph.",
+    "Keep hardware instruction/library binding distinct from software graph proof."
+  ]
+}

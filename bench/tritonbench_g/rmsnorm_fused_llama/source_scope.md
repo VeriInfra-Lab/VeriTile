@@ -1,7 +1,8 @@
 # Source and proof boundary
 
-All source/precision, real IO/frame/safety, FP and numerical leaf gates passed.
-Dependency-aware integration and independent replay remain pending.
+The dependency-aware public build and exhaustive theorem audit passed, including
+source/precision, real IO/frame/safety, FP and numerical execution checks.
+Coverage registry integration and independent replay remain separate gates.
 
 The certified source family is the complete `_rms_norm_fwd_fused` body, including
 both `range(0,N,B)` loops and all masked accesses. There is no extra `where` in
@@ -42,3 +43,18 @@ Numeric executions instantiate an exact-real, nonempty WithBot-real backend with
 actual sum and square root, identity casts and distinct floating storage tags.
 They demonstrate successful multiblock execution and unchanged tail sentinels,
 not a bit-accurate IEEE implementation.
+
+`FiniteWitness.contract` supplies a separate finite erased-real instantiation:
+X, W and Y have extents 9, 4 and 10; row=1, stride=5, N=3, B=2 and eps=5.
+Both loops execute twice. Every active input is 2 and weight is 3, so the
+independent initial-input formula yields 2 at all three output addresses.
+The same successful flattened run preserves every other raw cell, including
+the adjacent Y cells and masked W cell containing integer 37. All bounds,
+allocation separation/closure, distinct-region and zero-undef premises are
+discharged for all 216 storage profiles and both variants. This erased-real
+contract is distinct from the typed exact-real witnesses with sentinel 7.
+
+The audit explicitly checks that `General.rowSpec` does not depend on
+`originalTyped`, `typedKernel`, `exec` or `execR`. Numerical backend operations
+use actual real arithmetic, or return unavailable `none` when unsupported;
+they do not substitute arbitrary values for unimplemented operations.

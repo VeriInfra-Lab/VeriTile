@@ -29,6 +29,9 @@ private def assignment (code : List ComputeStmt) (name : RegName) :=
 private def loadDType? : ComputeStmt → Option TileDType
   | .assign _ _ _ (.alg (.load dtype _ _)) => some dtype
   | .assign _ _ _ (.compute (.load .fp32 _ _)) => some .fp32
+  -- Declared fp64 storage is an actual real-channel load under fp64 compute.
+  -- Inspect the load itself: a cast, reference or other expression is not a load.
+  | .assign _ _ _ (.compute (.alg .fp64 (.load .real _ _))) => some .real
   | _ => none
 
 private def assignedLoad (code : List ComputeStmt) (name : RegName) :=

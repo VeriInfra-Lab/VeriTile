@@ -13,16 +13,22 @@ def forward (swapped : Bool) : forwardSource :=
   else diagSsmForwardSource%[tl.float64, original]
 
 def backward (swapped : Bool) : backwardSource :=
-  if swapped then diagSsmBackwardSource%[tl.float64, indexCommuted]
-  else diagSsmBackwardSource%[tl.float64, original]
+  fun s lam y gs gx glam gy length batch dim B =>
+    let reference : backwardSource :=
+    if swapped then diagSsmBackwardSource%[tl.float64, indexCommuted]
+    else diagSsmBackwardSource%[tl.float64, original]
+    (reference s lam y gs gx glam gy length batch dim B).eraseDType
 
 def complexForward (swapped : Bool) : complexForwardSource :=
   if swapped then diagSsmComplexForwardSource%[tl.float64, indexCommuted]
   else diagSsmComplexForwardSource%[tl.float64, original]
 
 def complexBackward (swapped : Bool) : complexBackwardSource :=
-  if swapped then diagSsmComplexBackwardSource%[tl.float64, indexCommuted]
-  else diagSsmComplexBackwardSource%[tl.float64, original]
+  fun s lam y gs gx glam gy length batch dim B =>
+    let reference : complexBackwardSource :=
+    if swapped then diagSsmComplexBackwardSource%[tl.float64, indexCommuted]
+    else diagSsmComplexBackwardSource%[tl.float64, original]
+    (reference s lam y gs gx glam gy length batch dim B).eraseDType
 
 theorem forward_body (storage : Storage) (swapped : Bool) (s_ptr x_ptr lambda_ptr y_ptr : RegionName) (length batch_size dim BLOCK_SIZE : Nat) :
     (TypedSource.forward storage swapped s_ptr x_ptr lambda_ptr y_ptr length batch_size dim BLOCK_SIZE).eraseDType.toAlgKernel.body =
@@ -65,8 +71,8 @@ theorem complexForward_body (swapped : Bool) (s_ptr x_ptr y_ptr lambda_ptr : Reg
     ComputeDType.eraseDType,List.map_cons,List.map_nil,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
     Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,Except.bind,bind]
-  all_goals simp only [
-    VeriTile.Triton.eraseDType]
+  all_goals simp only [Op.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType, FloatDType.toTileDType]
   all_goals rfl
 
 theorem complexBackward_body (swapped : Bool) (s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr : RegionName) (length batch_size dim BLOCK_SIZE : Nat) :
@@ -80,8 +86,8 @@ theorem complexBackward_body (swapped : Bool) (s_ptr lambda_ptr y_ptr grad_s_ptr
     ComputeDType.eraseDType,List.map_cons,List.map_nil,Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
     Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,ComparableDType.eraseDType,
     IntegralDType.eraseDType,Except.bind,bind]
-  all_goals simp only [
-    VeriTile.Triton.eraseDType]
+  all_goals simp only [Op.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType, FloatDType.toTileDType]
   all_goals rfl
 
 #guard_msgs (drop info) in

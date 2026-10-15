@@ -166,7 +166,7 @@ def add64 (B : Nat) : List ComputeStmt :=
 open FP.ScalarArithmetic in
 theorem fp_precision_and_admission (R : Rules) : True := by
   fail_if_success
-    have : Spec.Derivation R.assumptions [lhs .addCommute] [⟨guards .addCommute, add64 1⟩] := by
+    have : Spec.Derivation R.assumptions [lhs .addCommute] [⟨guards .addCommute, add64 1, .real, none⟩] := by
       fp_prove [admitted R .addCommute (by decide)]
   fail_if_success
     have : Spec.Derivation ([] : Spec.Assumptions FP.GuardedFragment)

@@ -70,6 +70,10 @@ def prepare_qg_kg_surface
   }
 }
 
+/-- Internal Nat-indexed proof adapter. The counter explicitly enumerates the
+historical reference's `BT-1,...,0` traversal; `BackwardLoop` relates it to the
+faithful signed source for the already required positive `BT`. At `BT=0` this
+Nat adapter has one iteration and must not be identified with the empty source. -/
 def bwd_decay_global_cumsum_surface
     (DQInner DQInter DKInner DKInter Q K G DG : RegionName)
     (s_qk_h DK BT BK : Nat) :
@@ -89,7 +93,8 @@ def bwd_decay_global_cumsum_surface
   cum_grad_dg = tl.zeros([$(BK)], dtype=tl.float32)
   mask = (i_k * $(BK) + offs) < $(DK)
   last_g = tl.zeros([$(BK)], dtype=tl.float32)
-  for j in range($(BT) - $(1), -$(1), -$(1)) {
+  for __rev_j in range($(0), ($(BT) - $(1)) / $(1) + $(1), $(1)) {
+    j = $(BT) - $(1) - __rev_j * $(1)
     _g = tl.load(p_g, mask=mask, other=0).to(tl.float32)
     if j == $(BT) - $(1) {
       last_g = _g
@@ -1566,7 +1571,7 @@ theorem prepare_qg_kg_loop_drive
         hQ_QG hQ_KG hK_QG hK_KG hG_QG hG_KG hQG_KG hBK hBT j hj st hPj)
   refine ⟨final, sfinal, ?_, hfinal, hPfinal⟩
   simp only [prepBody] at hLoop
-  rw [hLoop]
+  exact hLoop
 
 set_option maxHeartbeats 4000000 in
 

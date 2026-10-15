@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "passed_installed_masked_select_raw_bit_metadata_and_composed_build",
+  "receipt_sha256": "01e57789bfc09d119542494876b626954d4c14501dc8ccb71db9fa0b5eaa4f0c",
+  "catalog_sha256": "6040138b7ed85e3579f357d74f168043d8c1914a2119ccc2f9a7796e7e8c7bed",
+  "root_installed_delta_review_sha256": "e4ab846d7fc63036dd95f3202ef69ec6a1cf2c190b7ed497f28b904656b94a39",
+  "checked_current_inputs": 4136,
+  "changed_inputs": [],
+  "native_execution": false,
+  "full_corpus_comparator_passed": false
+}

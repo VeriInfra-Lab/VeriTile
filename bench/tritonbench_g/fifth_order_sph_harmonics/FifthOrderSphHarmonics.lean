@@ -1199,6 +1199,7 @@ theorem fifth_order_fwd_surface_y02_correct
                  NumericDType.mul, NumericDType.add, NumericDType.sub,
                  WithBot.realSub, WithBot.realAdd, WithBot.realMul,
                  Option.map₂, Option.map, WithBot.unbotD,
+                 WithBot.map, WithBot.some_eq_coe, WithBot.map_coe,
                  Option.bind, Option.bind_some, WithBot.recBotCoe]
       split_ifs
       all_goals (simp only [id]; first | (norm_num; ring) | norm_num)

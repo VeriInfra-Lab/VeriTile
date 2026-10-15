@@ -5,6 +5,8 @@ Expression evaluation for the typed Triton AST.
 -/
 
 import VeriTile.Triton.Semantics.Float8
+import VeriTile.Triton.Random.Values
+import VeriTile.Triton.Random.UniformValues
 import Batteries.Data.Nat.Bitwise
 
 namespace VeriTile.Triton
@@ -28,6 +30,35 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
   | .numPrograms axis, s => some (Tile.scalar (s.numPids axis))
   | .ref dtype shape name, s => s.regs dtype shape name
   | .arange n, _ => some (Tile.vec (fun i => i.val))
+  | .philox4x32 cfg plan field seed c0 c1 c2 c3, s => do
+      let vs ← evalOp seed s
+      let v0 ← evalOp c0 s
+      let v1 ← evalOp c1 s
+      let v2 ← evalOp c2 s
+      let v3 ← evalOp c3 s
+      let result ← Random.Direct.evalField cfg plan field (vs.data PUnit.unit)
+        ⟨v0.data, v1.data, v2.data, v3.data⟩
+      return ⟨result⟩
+  | .uniform32 word, s => do
+      let v ← evalOp word s
+      if Random.Direct.uniformInputsValid v.data then
+        some ⟨fun i => some (Random.uniformReal (BitVec.ofNat 32 (v.data i)))⟩
+      else none
+  | .rand cfg seed offsets, s => do
+      let vs ← evalOp seed s
+      let vo ← evalOp offsets s
+      let seedValue := vs.data PUnit.unit
+      if cfg.inputsValid seedValue vo.data then
+        some ⟨fun i => some (Random.randReal seedValue (vo.data i)
+          cfg.offsetType.offsetWidth cfg.nRounds)⟩
+      else none
+  | .randTensor cfg seed offsets, s => do
+      let vs ← evalOp seed s
+      let vo ← evalOp offsets s
+      if cfg.tensorInputsValid vs.data vo.data then
+        some ⟨fun i => some (Random.randReal (vs.data i) (vo.data i)
+          cfg.offsetType.offsetWidth cfg.nRounds)⟩
+      else none
   | .broadcast e shape, s => do
       let v ← evalOp e s
       some ⟨fun _ => v.data PUnit.unit⟩
@@ -38,6 +69,14 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
   | .castFloat src dst a, s => do
       let va ← evalOp a s
       some ⟨fun i => src.cast dst (va.data i)⟩
+  | .negFloat dtype a, s => do
+      let va ← evalOp a s
+      some ⟨fun i => dtype.ofWithBot ((dtype.toWithBot (va.data i)).map (fun x => -x))⟩
+  | .absFloat dtype a, s => do
+      let va ← evalOp a s
+      some ⟨fun i => dtype.ofWithBot ((dtype.toWithBot (va.data i)).map (fun x => |x|))⟩
+  | .floatToInt .., _ => none
+  | .floatToNat .., _ => none
   | .castNatToInt a, s => do
       let va ← evalOp a s
       some ⟨fun i => Int.ofNat (va.data i)⟩
@@ -120,10 +159,19 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
       let va ← evalOp a s
       let vb ← evalOp b s
       some (Tile.bop max bc va vb)
+  | .maximumFloat dtype bc a b, s => do
+      let va ← evalOp a s
+      let vb ← evalOp b s
+      some (Tile.bop (fun x y => dtype.ofWithBot
+        (max (dtype.toWithBot x) (dtype.toWithBot y))) bc va vb)
   | .pow bc a b, s => do
       let va ← evalOp a s
       let vb ← evalOp b s
       some (Tile.bop WithBot.realPow bc va vb)
+  | .libdevicePowi bc a b, s => do
+      let va ← evalOp a s
+      let vb ← evalOp b s
+      if Int32Bits.valuesValid vb.data then some (Tile.libdevicePowi bc va vb) else none
   | .reduceMax axis keepDims a, s => do
       let va ← evalOp a s
       Tile.reduceMax axis keepDims va
@@ -134,12 +182,18 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
       let va ← evalOp a s
       Tile.reduceMaxInt axis keepDims va
   | .reduceSum axis keepDims a, s => return Tile.reduceSum axis keepDims (← evalOp a s)
+  | .reduceSumBool axis keepDims a, s => do
+      let v ← evalOp a s
+      return ⟨TileShape.discreteBoolSum axis keepDims v.data⟩
   | .reduceSumTyped dtype axis keepDims a, s =>
       return Tile.reduceSumTyped dtype axis keepDims (← evalOp a s)
   | .reduceMaxTyped dtype axis keepDims a, s => do
       Tile.reduceMaxTyped dtype axis keepDims (← evalOp a s)
   | .scan op axis dir a, s => return Tile.scan op axis dir (← evalOp a s)
   | .argMax axis a, s => return Tile.argMaxDrop axis (← evalOp a s)
+  | .argMaxInt axis a, s => do
+      let v ← evalOp a s
+      return ⟨TileShape.discreteIntArgMax axis v.data⟩
   | .argMaxTyped dtype axis a _, s => return Tile.argMaxTyped dtype axis (← evalOp a s)
   | .indexedMaxValue dtype axis a, s => do
       Tile.reduceMaxTyped dtype axis Bool.false (← evalOp a s)
@@ -451,6 +505,15 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
       let vx ← evalOp x s
       let vy ← evalOp y s
       some (Tile.bop WithBot.realPow bc vx vy)) := by
+  simp [evalOp]
+
+@[simp] theorem evalOp_libdevicePowi
+    (bc : Broadcast a b shape) (x : Op .real a) (n : Op .int b)
+    (s : BlockState) :
+    evalOp (.libdevicePowi bc x n) s = (do
+      let vx ← evalOp x s
+      let vn ← evalOp n s
+      if Int32Bits.valuesValid vn.data then some (Tile.libdevicePowi bc vx vn) else none) := by
   simp [evalOp]
 
 @[simp] theorem evalOp_reduceMax

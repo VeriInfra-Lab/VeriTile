@@ -2151,6 +2151,21 @@ theorem rmsnorm_full_io_correctness_bridge (R : RoundingModel)
           ⟨k.val % B, Nat.mod_lt _ hB⟩ (by simp [hdm, k.isLt])
         simpa [hdm, outOff] using h
 
+
+/-- Expose the retained full-row access-safety proof for typed-source transport. -/
+theorem legacy_trace_safe (R : RoundingModel) (bounds : RegionBounds)
+    (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ)
+    (hB : 0 < B) (hOX : O ≠ X) (hOW : O ≠ W) (hsok : 0 < sok) (s : BlockState)
+    (hX : ∀ (t : Fin (rmsNumSteps N B)) (j : Fin B), t.val * B + j.val < N →
+      s.pids 0 * sxb + s.pids 1 * sxm + (t.val * B + j.val) * sxk < bounds X)
+    (hW : ∀ (t : Fin (rmsNumSteps N B)) (j : Fin B), t.val * B + j.val < N →
+      (t.val * B + j.val) * sw < bounds W)
+    (hO : ∀ (t : Fin (rmsNumSteps N B)) (j : Fin B), t.val * B + j.val < N →
+      s.pids 0 * sob + s.pids 1 * som + (t.val * B + j.val) * sok < bounds O) :
+    (rmsnorm_triton X W O sxb sxm sxk sw sob som sok N B eps).toAlgKernel.TraceSafeR R bounds s :=
+  rmsnorm_traceSafeR R bounds X W O sxb sxm sxk sw sob som sok N B eps
+    hB hOX hOW hsok s hX hW hO
+
 end IOFace
 
 end VeriTile.Bench.TritonBenchG.RmsnormTriton

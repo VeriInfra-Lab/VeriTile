@@ -6,32 +6,44 @@
 
 **Statement:**
 ```lean
-specification bgmv_output_first_equiv (R : FP.ScalarArithmetic.Rules) :
-    original input weight cast out_dtype x w out N K indices
-      sx sk sw0 swn swk sy syn slice BN BK splits even add ≡[R]
-    outputFirst input weight cast out_dtype x w out N K indices
-      sx sk sw0 swn swk sy syn slice BN BK splits even add
+specification bgmv_output_first_equiv {α : Type} [Inhabited α]
+    (M : Algebra α) (D : FP.Guarded.Domain α)
+    (native_add : NativeFP.NativeAdditionCommutes M D
+      (original input weight cast out_dtype x w out N K indices
+        sx sk sw0 swn swk sy syn slice BN BK splits even add).kernel)
+    (s : State α)
+    (finite_operands : ∀ site ∈ (original input weight cast out_dtype x w out N K indices
+      sx sk sw0 swn swk sy syn slice BN BK splits even add).domain, site.Holds M D s) :
+    FP.Structural.exec (FP.ProfiledRewrite.engine M)
+      (original input weight cast out_dtype x w out N K indices
+        sx sk sw0 swn swk sy syn slice BN BK splits even add).kernel s =
+    FP.Structural.exec (FP.ProfiledRewrite.engine M)
+      (outputFirst input weight cast out_dtype x w out N K indices
+        sx sk sw0 swn swk sy syn slice BN BK splits even add).kernel s
 ```
+
+**Assumptions / layout contracts:**
+- `finite_operands : ∀ site ∈ (original input weight cast out_dtype x w out N K indices
+      sx sk sw0 swn swk sy syn slice BN BK splits even add).domain, site.Holds M D s`
 
 **Closed-form spec defs (transitive):** `original`, `outputFirst`
 
 <details><summary><code>original</code></summary>
 
 ```lean
-def original : Program where
-  kernel := TypedSource.original input weight cast out_dtype x w out N K indices
-    sx sk sw0 swn swk sy syn slice BN BK splits even add
-  domain := FPEquivProofs.requirementsFor (TypedSource.original input weight cast out_dtype x w out N K indices
-    sx sk sw0 swn swk sy syn slice BN BK splits even add)
+abbrev original := FPEquivProofs.original
 ```
 </details>
 
 <details><summary><code>outputFirst</code></summary>
 
 ```lean
-def outputFirst : Program :=
-  { original input weight cast out_dtype x w out N K indices sx sk sw0 swn swk sy syn slice BN BK splits even add with
-    kernel := TypedSource.outputFirst input weight cast out_dtype x w out N K indices
-      sx sk sw0 swn swk sy syn slice BN BK splits even add }
+abbrev outputFirst := FPEquivProofs.outputFirst
+
+section
+variable (input : TypedSource.InputStorage) (weight : TypedSource.WeightStorage)
+    (cast : Bool) (out_dtype : FloatDType)
+    (x w out : RegionName) (N K : Nat) (indices : Region .int)
+    (sx sk sw0 swn swk sy syn slice BN BK splits : Nat) (even add : Bool)
 ```
 </details>

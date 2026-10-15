@@ -1,5 +1,5 @@
 import bench.tritonbench_g.kldiv_triton.Proofs.LegacyReal
-import bench.tritonbench_g.kldiv_triton.Proofs.Contracts
+import bench.tritonbench_g.kldiv_triton.Proofs.Witness
 import bench.tritonbench_g.kldiv_triton.Proofs.Precision
 
 namespace VeriTile.Bench.TritonBenchG.KldivTriton

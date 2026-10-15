@@ -72,15 +72,15 @@ theorem value_empty (xs : Fin 0 → α) (tree : ReductionTree 0) (hz : D .finite
 /-- Transforming both inputs and padding uses distribution alone. -/
 theorem factor_with_seed (c : α) (hc : D .finite c) (xs : Fin n → α) (seed : α)
     (tree : ReductionTree n) (hf : FiniteTree M D xs seed tree) :
-    value M (fun i => mul M c (xs i)) (mul M c seed) tree =
-      mul M c (value M xs seed tree) := by
+    value M (fun i => ScalarArithmetic.mul M c (xs i)) (ScalarArithmetic.mul M c seed) tree =
+      ScalarArithmetic.mul M c (value M xs seed tree) := by
   induction tree with
   | input => rfl
   | zero => rfl
   | add a b ih₁ ih₂ =>
     change ScalarArithmetic.add M
-      (value M (fun i => mul M c (xs i)) (mul M c seed) a)
-      (value M (fun i => mul M c (xs i)) (mul M c seed) b) = _
+      (value M (fun i => ScalarArithmetic.mul M c (xs i)) (ScalarArithmetic.mul M c seed) a)
+      (value M (fun i => ScalarArithmetic.mul M c (xs i)) (ScalarArithmetic.mul M c seed) b) = _
     rw [ih₁ hf.1, ih₂ hf.2.1]
     exact (mul_distrib R M D hM s c _ _ hc
       (value_finite M D xs seed a hf.1) (value_finite M D xs seed b hf.2.1)).symm
@@ -88,27 +88,27 @@ theorem factor_with_seed (c : α) (hc : D .finite c) (xs : Fin n → α) (seed :
 /-- Actual sum padding stays literal zero. Its scaling law is derived from
 distribution, cancellation and the accepted addition identities. -/
 theorem factor_left (c : α) (hc : D .finite c) (hz : D .finite (zero M))
-    (hp : D .finite (mul M c (zero M)))
-    (hn : D .finite (sub M (zero M) (mul M c (zero M))))
+    (hp : D .finite (ScalarArithmetic.mul M c (zero M)))
+    (hn : D .finite (ScalarArithmetic.sub M (zero M) (ScalarArithmetic.mul M c (zero M))))
     (xs : Fin n → α) (tree : ReductionTree n)
     (hf : FiniteTree M D xs (zero M) tree) :
-    value M (fun i => mul M c (xs i)) (zero M) tree =
-      mul M c (value M xs (zero M) tree) := by
+    value M (fun i => ScalarArithmetic.mul M c (xs i)) (zero M) tree =
+      ScalarArithmetic.mul M c (value M xs (zero M) tree) := by
   have h := factor_with_seed R M D hM s c hc xs (zero M) tree hf
   rw [mul_zero R M D hM s c hc hz hp hn] at h
   exact h
 
 theorem factor_right (c : α) (hc : D .finite c) (hz : D .finite (zero M))
-    (hp : D .finite (mul M c (zero M)))
-    (hn : D .finite (sub M (zero M) (mul M c (zero M))))
+    (hp : D .finite (ScalarArithmetic.mul M c (zero M)))
+    (hn : D .finite (ScalarArithmetic.sub M (zero M) (ScalarArithmetic.mul M c (zero M))))
     (xs : Fin n → α) (hxs : ∀ i, D .finite (xs i)) (tree : ReductionTree n)
     (hf : FiniteTree M D xs (zero M) tree) :
-    value M (fun i => mul M (xs i) c) (zero M) tree =
-      mul M (value M xs (zero M) tree) c := by
+    value M (fun i => ScalarArithmetic.mul M (xs i) c) (zero M) tree =
+      ScalarArithmetic.mul M (value M xs (zero M) tree) c := by
   calc
-    _ = value M (fun i => mul M c (xs i)) (zero M) tree :=
+    _ = value M (fun i => ScalarArithmetic.mul M c (xs i)) (zero M) tree :=
       value_congr M _ _ _ _ (fun i => mul_comm R M D hM s _ c (hxs i) hc) rfl tree
-    _ = mul M c (value M xs (zero M) tree) :=
+    _ = ScalarArithmetic.mul M c (value M xs (zero M) tree) :=
       factor_left R M D hM s c hc hz hp hn xs tree hf
     _ = _ := mul_comm R M D hM s c _ hc (value_finite M D xs (zero M) tree hf)
 
@@ -151,13 +151,13 @@ theorem value_add (xs ys : Fin n → α) (tree : ReductionTree n)
 /-- A constant row factors into its value times an explicit tree of ones.
 This does not identify the floating tree count with conversion of an integer. -/
 theorem constant_value (c : α) (hc : D .finite c) (hz : D .finite (zero M))
-    (hp : D .finite (mul M c (zero M)))
-    (hn : D .finite (sub M (zero M) (mul M c (zero M))))
+    (hp : D .finite (ScalarArithmetic.mul M c (zero M)))
+    (hn : D .finite (ScalarArithmetic.sub M (zero M) (ScalarArithmetic.mul M c (zero M))))
     (tree : ReductionTree n) (hf : FiniteTree M D (fun _ => one M) (zero M) tree) :
     value M (fun _ => c) (zero M) tree =
-      mul M c (value M (fun _ => one M) (zero M) tree) := by
+      ScalarArithmetic.mul M c (value M (fun _ => one M) (zero M) tree) := by
   calc
-    _ = value M (fun _ => mul M c (one M)) (zero M) tree :=
+    _ = value M (fun _ => ScalarArithmetic.mul M c (one M)) (zero M) tree :=
       value_congr M _ _ _ _ (fun _ => (mul_one R M D hM s c hc).symm) rfl tree
     _ = _ := factor_left R M D hM s c hc hz hp hn _ tree hf
 
@@ -166,11 +166,11 @@ original sum. Scalar CANCEL is lifted through the tree, with no reduction atom. 
 theorem deviations_add_center (xs : Fin n → α) (c : α) (tree : ReductionTree n)
     (hxs : ∀ i, D .finite (xs i)) (hc : D .finite c) (hz : D .finite (zero M))
     (hx : FiniteTree M D xs (zero M) tree)
-    (hd : FiniteTree M D (fun i => sub M (xs i) c) (zero M) tree)
+    (hd : FiniteTree M D (fun i => ScalarArithmetic.sub M (xs i) c) (zero M) tree)
     (hm : FiniteTree M D (fun _ => c) (zero M) tree) :
-    ScalarArithmetic.add M (value M (fun i => sub M (xs i) c) (zero M) tree)
+    ScalarArithmetic.add M (value M (fun i => ScalarArithmetic.sub M (xs i) c) (zero M) tree)
       (value M (fun _ => c) (zero M) tree) = value M xs (zero M) tree := by
-  have hp (i : Fin n) : ScalarArithmetic.add M (sub M (xs i) c) c = xs i :=
+  have hp (i : Fin n) : ScalarArithmetic.add M (ScalarArithmetic.sub M (xs i) c) c = xs i :=
     sub_add_cancel R M D hM s (xs i) c (hxs i) hc
   have hf := (finiteTree_congr M D _ _ (zero M) (zero M) hp rfl tree).mpr hx
   exact (value_add R M D hM s _ _ tree hz hd hm hf).symm.trans
@@ -186,21 +186,21 @@ structure NormalizationDomain {α : Type} (M : Algebra α) (D : Domain α)
   scale : D .finite c
   scaleNonzero : D .nonzero c
   zeroFinite : D .finite (zero M)
-  scaledZero : D .finite (mul M c (zero M))
-  negScaledZero : D .finite (sub M (zero M) (mul M c (zero M)))
+  scaledZero : D .finite (ScalarArithmetic.mul M c (zero M))
+  negScaledZero : D .finite (ScalarArithmetic.sub M (zero M) (ScalarArithmetic.mul M c (zero M)))
   partialSums : FiniteTree M D xs (zero M) tree
   sumNonzero : D .nonzero (value M xs (zero M) tree)
-  scaledInputs : ∀ i, D .finite (mul M (xs i) c)
-  scaledSum : D .finite (mul M (value M xs (zero M) tree) c)
-  scaledSumNonzero : D .nonzero (mul M (value M xs (zero M) tree) c)
-  inverseSum : D .finite (div M (one M) (value M xs (zero M) tree))
-  inverseScale : D .finite (div M (one M) c)
-  inverseScaledSum : D .finite (div M (one M) (mul M (value M xs (zero M) tree) c))
-  quotient : ∀ i, D .finite (div M (xs i) (value M xs (zero M) tree))
+  scaledInputs : ∀ i, D .finite (ScalarArithmetic.mul M (xs i) c)
+  scaledSum : D .finite (ScalarArithmetic.mul M (value M xs (zero M) tree) c)
+  scaledSumNonzero : D .nonzero (ScalarArithmetic.mul M (value M xs (zero M) tree) c)
+  inverseSum : D .finite (ScalarArithmetic.div M (one M) (value M xs (zero M) tree))
+  inverseScale : D .finite (ScalarArithmetic.div M (one M) c)
+  inverseScaledSum : D .finite (ScalarArithmetic.div M (one M) (ScalarArithmetic.mul M (value M xs (zero M) tree) c))
+  quotient : ∀ i, D .finite (ScalarArithmetic.div M (xs i) (value M xs (zero M) tree))
   scaledQuotient : ∀ i, D .finite
-    (div M (mul M (xs i) c) (mul M (value M xs (zero M) tree) c))
+    (ScalarArithmetic.div M (ScalarArithmetic.mul M (xs i) c) (ScalarArithmetic.mul M (value M xs (zero M) tree) c))
   recoveredNumerator : ∀ i, D .finite
-    (mul M (div M (mul M (xs i) c) (mul M (value M xs (zero M) tree) c))
+    (ScalarArithmetic.mul M (ScalarArithmetic.div M (ScalarArithmetic.mul M (xs i) c) (ScalarArithmetic.mul M (value M xs (zero M) tree) c))
       (value M xs (zero M) tree))
 
 /-- Shared-scale normalization follows from the scalar theory and explicit
@@ -209,8 +209,8 @@ theorem normalize_reduction {α : Type} [Inhabited α] (R : Rules) (M : Algebra 
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α)
     (xs : Fin n → α) (c : α) (tree : ReductionTree n)
     (hd : NormalizationDomain M D xs c tree) (i : Fin n) :
-    div M (mul M (xs i) c) (value M (fun j => mul M (xs j) c) (zero M) tree) =
-      div M (xs i) (value M xs (zero M) tree) := by
+    ScalarArithmetic.div M (ScalarArithmetic.mul M (xs i) c) (value M (fun j => ScalarArithmetic.mul M (xs j) c) (zero M) tree) =
+      ScalarArithmetic.div M (xs i) (value M xs (zero M) tree) := by
   rw [factor_right R M D hM s c hd.scale hd.zeroFinite hd.scaledZero hd.negScaledZero
     xs hd.inputs tree hd.partialSums]
   exact normalize_scale R M D hM s _ _ c (hd.inputs i)
@@ -250,13 +250,13 @@ theorem reduce_scale {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     (shape : TileShape) (axis : Fin shape.length) (keepDims : Bool)
     (xs : Values α .real shape) (i : TileIndex (TileShape.reduceShape shape axis keepDims))
     (c : α) (hc : D .finite c) (hz : D .finite (zero M))
-    (hp : D .finite (mul M c (zero M)))
-    (hn : D .finite (sub M (zero M) (mul M c (zero M))))
+    (hp : D .finite (ScalarArithmetic.mul M c (zero M)))
+    (hn : D .finite (ScalarArithmetic.sub M (zero M) (ScalarArithmetic.mul M c (zero M))))
     (hxs : ∀ j, D .finite (xs j))
     (hf : FiniteTree M D (inputs shape axis keepDims xs i) (zero M)
       (plans (some .fp32) shape axis keepDims i).tree) :
-    (algebra M plans).reduceSum (some .fp32) axis keepDims (fun j => mul M (xs j) c) i =
-      mul M ((algebra M plans).reduceSum (some .fp32) axis keepDims xs i) c := by
+    (algebra M plans).reduceSum (some .fp32) axis keepDims (fun j => ScalarArithmetic.mul M (xs j) c) i =
+      ScalarArithmetic.mul M ((algebra M plans).reduceSum (some .fp32) axis keepDims xs i) c := by
   cases keepDims <;>
     exact factor_right R M D hM s c hc hz hp hn _ (fun j => hxs _) _ hf
 

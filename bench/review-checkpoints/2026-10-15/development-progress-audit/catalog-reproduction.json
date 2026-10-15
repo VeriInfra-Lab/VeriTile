@@ -1,0 +1,31 @@
+{
+  "label": "catalog-reproduction",
+  "command": [
+    "python3",
+    "-B",
+    "/tmp/veritile-progress-audit-20261015/trace_reads.py",
+    "catalog",
+    "bench/current_source_catalog.py",
+    "--root",
+    ".",
+    "--baseline",
+    "/tmp/veritile-progress-audit-20261015/catalog-baseline",
+    "--source-map",
+    "bench/current_source_selections.json",
+    "--legacy-inventory",
+    "bench/tritonbench_g/current_completion_inventory.json",
+    "--evidence-root",
+    "bench/review-checkpoints",
+    "--review-manifest",
+    "bench/review-checkpoints/2026-10-15/raw-copy-software-metadata/catalog-review-rebased.json",
+    "--supplement",
+    "bench/review-checkpoints/2026-10-15/retention-query-source-proof/catalog-supplement.json",
+    "--check",
+    "bench/review-checkpoints/2026-10-15/retention-query-source-proof/current-source-catalog.json"
+  ],
+  "started_at_utc": "2026-10-15T06:52:46.059103+00:00",
+  "exit_code": -15,
+  "elapsed_seconds": 444.353,
+  "log": "catalog-reproduction.log",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

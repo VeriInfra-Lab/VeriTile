@@ -1,3 +1,4 @@
+import VeriTile.Triton.Math.MaximumProjection
 import VeriTile.Triton
 import VeriTile.Examples.AttentionForwardClosedForm
 
@@ -1315,7 +1316,7 @@ private theorem aft2IO_loopBody_stepsW (BM BN BD nB HA HD : Nat) (hBN : 0 < BN)
     ⟨fun idx => (decide (idx.1.val < BN * nB - SN) && decide (idx.2.1.val < HA))⟩ with hvm
   set vloadT : Tile .real [BN, BD] := aft2LoadVal sin Vptr vmaskT with hvl
   unfold attnLoopBody
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some
       (show evalOp (Op.ref .nat [] "start_n") sin = some (Tile.scalar SN) from by
         rw [evalOp_ref]; exact hsn)),
     stepStmts.cons_some (stepStmt_assign_eq_some
@@ -1325,12 +1326,12 @@ private theorem aft2IO_loopBody_stepsW (BM BN BD nB HA HD : Nat) (hBN : 0 < BN)
         (by rw [evalOp_ref]; simp [hKp]) (by rw [evalOp_ref]; simp [hkm])
         (by rfl) (by rfl))),
     stepStmts.cons_some (stepStmt_assign_eq_some
-      (load_ptr_none_real (Op.ref .ptr [] "K_scale_ptr") _ Ksptr (by rw [evalOp_ref]; simp [hKs]))),
+      (load_ptr_none_real (Op.ref .ptr [] "K_scale_ptr") _ Ksptr (by erw [evalOp_ref]; simp [hKs]))),
     stepStmts.cons_some (stepStmt_assign_eq_some
       (qk_op_eval _ BM BN BD qtile kloadT qsv ksv (by simp [hq]) (by simp [hkl]) (by simp [hqs])
         (by simp [hksv]; ext z; rfl))),
     stepStmts.cons_some (stepStmt_assign_eq_some
-      (mij_op_eval _ BM BN mtile qkT rmaxT (by simp [hmi]) (by simp [hqk]) hrm)),
+      (evalOp_maximumFloat_real_of_where (mij_op_eval _ BM BN mtile qkT rmaxT (by simp [hmi]) (by simp [hqk]) hrm))),
     stepStmts.cons_some (stepStmt_assign_eq_some
       (qk2_op_eval _ BM BN hax qkT mijT (by simp [hqk]) (by simp [hmij]))),
     stepStmts.cons_some (stepStmt_assign_eq_some (p_op_eval _ BM BN qk2T (by simp [hqk2]))),
@@ -1349,7 +1350,7 @@ private theorem aft2IO_loopBody_stepsW (BM BN BD nB HA HD : Nat) (hBN : 0 < BN)
         (by exact vmask_eval _ BN BD (BN * nB) SN HA (by simp [hoffs]) (by simp))
         (by rfl) (by rfl))),
     stepStmts.cons_some (@stepStmt_assign_eq_some TileDType.fp16 [BM, BN] "p"
-      (Op.castFloat .real .fp16 (Op.ref .real [BM, BN] "p")) _
+      (Op.castFloat .real .fp16 (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "p"))) _
       (⟨fun i => FloatDType.real.cast FloatDType.fp16 (pT.data i)⟩ : Tile .fp16 [BM, BN])
       (pfp16_op_eval _ BM BN pT (by simp [hpT]))),
     stepStmts.cons_some (stepStmt_assign_eq_some

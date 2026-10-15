@@ -1,0 +1,28 @@
+{
+  "combined_root_exit_code": 1,
+  "io_axiom_gates": 40,
+  "scope": "Both full-source finite flat IO contracts and all safety/frame support passed. Explicit row/extents/read-write separation/coverage/zero-undef conditions; no public TraceSafe assumption. The combined run failed only in the separate typed witness, excluded here.",
+  "recorded_at_utc": "2026-10-13T19:27:20.724889+00:00",
+  "source_sha256": {
+    "bench/tritonbench_g/layer_norm_fwd/Kernels.lean": "c3f373e8a960e79d23a7efe66c89ab22c19a9e5000bd8a8487a34d00e9b5a5a1",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/IOAudit.lean": "1c29e61a3b9a89d07eb902f4308f6a6dcd637d4a1eba1c7c8e7a574e367ded68",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/RealIO.lean": "5fb181797dbb8e12146be88fb244a757859c274fa2b4fd058ea8a1778fe60969",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/FlatContract.lean": "6cea6aa79ca1114be46ee3b86936f0f270a76d89993342749298de71e81b12f4",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/FlatDomain.lean": "6f7bc6f86f5c36730d573fb39ddf82fee369ad80cc4b7d9eee8081d738067132",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/Safety.lean": "1de6e96d8eb32d4f97b51fc22ed968fac0a84f108ba1af1581994e6e683c55cd",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/SafetyPrefix.lean": "be22c095b4fcbb04d33ce7b42667fb44465af6cf18f665d803ca59405291915b",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/SafetyStreams.lean": "f0f4e176df080a188346925648825f3207204a757dabb59e2816b9fd703afcfc",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/SafetyFirstStream.lean": "a552473d39657664df34074b6da4d4a4be7c71ccd6e87cc188dadfd3a89abf26",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/SafetyInput.lean": "7d039b5fb486f89956fe5066f5f3bbd745c696134ac8b1cb04bc7fb83eda974c",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/SafetyNormalization.lean": "0532e6187ecedd162ad1520e7971401724ab748fcd3d979ecfb0747b5a8f8b7d",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/SafetyAffine.lean": "60e251364feea78410473e0fa55499e21f2c2226bb0b9b9884b922245af2bb25",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/SafetyPrimitives.lean": "0c37483168318ad614040084f204a939f0eff4ff5be22c1b1c1d22d43bd2d04e",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/FlattenSyntax.lean": "cc9ef3aa78725cd7b1b37cc49d0f38a4aa228fd383fa203fe335bd874a8e311a",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/Candidate.lean": "9bb67e505c9dcaf7d80c57a7410d8ee68b702c3e774fb79efa3de3459d022a97",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/Real.lean": "f8ae812e181708b6478024c5c38f5f948efecdb74a9e87a36fe62d2dba38c3a4",
+    "bench/tritonbench_g/layer_norm_fwd/Proofs/Contracts.lean": "302eecc1a191ac80a9f9cc489a51bec8c0c6c88bebf8d5190e57f8b4f16ca287"
+  },
+  "log_raw_sha256": "149937281faa319fa9267592979c0ece872ff495f827cf88e109e47fe1c597be",
+  "complete_task": false,
+  "hash_capture": "Successful module inputs captured after root completion; separate failed or newly edited modules are excluded."
+}

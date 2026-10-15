@@ -60,16 +60,15 @@ def scores (p : Layout) (swapped : Bool) (scale : ℝ) : List Stmt :=
      (.ref .real [p.BM,p.D] "q") (.ref .real [p.D,p.BN] "k")),
    .assign .bool [p.BM,p.BN] "mask" (causalMask p),
    .assign .real [p.BM,p.BN] "qk" (.where (.ref .bool [p.BM,p.BN] "mask")
-     (scaling p swapped scale) (.broadcast (.sub .real .nil (.const (0.0 : ℝ)) (.const (10e7 : ℝ))) [p.BM,p.BN]))]
+     (scaling p swapped scale) (.broadcast (.const (-10e7 : ℝ)) [p.BM,p.BN]))]
 
 def vec (p : Layout) (name : RegName) : Op .real [p.BM] := .ref .real [p.BM] name
 def mat (p : Layout) (name : RegName) : Op .real [p.BM,p.BN] := .ref .real [p.BM,p.BN] name
 def column (p : Layout) (name : RegName) := Op.expandDim ⟨1,by simp⟩ (vec p name)
 
 def stats (p : Layout) : List Stmt :=
-  [.assign .real [p.BM] "m_ij" (.where
-     (.gt .real Broadcast.nil.consSame (vec p "m_i") (.reduceMax ⟨1,by simp⟩ Bool.false (mat p "qk")))
-     (vec p "m_i") (.reduceMax ⟨1,by simp⟩ Bool.false (mat p "qk"))),
+  [.assign .real [p.BM] "m_ij" (.max2 Broadcast.nil.consSame (vec p "m_i")
+    (.reduceMax ⟨1,by simp⟩ Bool.false (mat p "qk"))),
    .assign .real [p.BM,p.BN] "qk" (.sub .real Broadcast.nil.consR.consSame (mat p "qk") (column p "m_ij")),
    .assign .real [p.BM,p.BN] "p" (.exp2 (mat p "qk")),
    .assign .real [p.BM] "l_ij" (.reduceSum ⟨1,by simp⟩ Bool.false (mat p "p")),

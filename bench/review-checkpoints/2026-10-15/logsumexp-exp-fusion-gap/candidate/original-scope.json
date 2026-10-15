@@ -1,0 +1,56 @@
+{
+  "input_sha256": {
+    "bench/tritonbench_g/logsumexp_fwd/logsumexp_fwd.py": "8d5d3a23a334d4718b4d43373ae234f694a8813b50734dde79b9d878cf303550",
+    "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean": "4ee5ae3969b378efb53537afc681b86bf232df3c57a2fe81fb7968804e50f487",
+    "bench/tritonbench_g/logsumexp_fwd/LogsumexpFwd.lean": "e76cdc50e2fe361c31faa1ea3d5ff6b0110141576f7b342b44f3d450497a1d57",
+    "bench/tritonbench_g/logsumexp_fwd/FP_CORRECTNESS.md": "8da902ba4e74dc638e6f628143fdcb3b5846f655a9b47dcf5b4f865f113f3788",
+    "bench/tritonbench_g/logsumexp_fwd/Proofs/FPStages.lean": "4861c20122430d4d4f601905a72f709fad29b1fbdf6875358cb305eb9aaf30e7",
+    "bench/tritonbench_g/logsumexp_fwd/Proofs/FPPrimitives.lean": "ec1f5cffe281fe58eeec47a20eceed14a3ba3502987b6620eb9050b8c8d281c8",
+    "bench/tritonbench_g/logsumexp_fwd/Proofs/FPShape.lean": "77a92be067ae2f2d73d828eb01a59a20e893b24df4129cc2827cc5f4ca77e2cd"
+  },
+  "public_declarations": [
+    {
+      "file": "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean",
+      "declaration": "row_block_fp32",
+      "line": 8,
+      "statement_sha256": "7875546624ac60c636efea51744439d3251165bec0146a1aefd7fc7af68e2213"
+    },
+    {
+      "file": "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean",
+      "declaration": "row_block_fp32_with_primitives",
+      "line": 15,
+      "statement_sha256": "f419379cd470e3701ddb9e98c9d3cf2e6e4dbd3160b82a8af0de3e44250ee4f3"
+    },
+    {
+      "file": "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean",
+      "declaration": "row_block_nonempty",
+      "line": 24,
+      "statement_sha256": "5f7acb9c9210bb7432720f96ce741962ce38241c71a8ee7f4755cf740f7fc513"
+    }
+  ],
+  "unchanged": true,
+  "accepted_scope": "完整已接受每 program row-block，HAS_SCALE 两分支、所有 D/B/pid/tail，scale 为旧任意 ℝ 参数，B>0；host 第二阶段不在 scope。",
+  "preserved_domain": [
+    "all original D and positive B",
+    "both HAS_SCALE branches",
+    "arbitrary Real scale",
+    "all initial memory/register/undef values",
+    "both arbitrary Nat pids",
+    "tails and completely masked out-of-grid blocks",
+    "input/output alias via initial-memory reference",
+    "all binary32 payloads, including NaNs/infinities/signed zero/subnormals"
+  ],
+  "native_boundaries": [
+    "original typed profile uses explicit fp32 precision but erased .real carrier; this does not prove native fp64 or byte-memory ABI",
+    "native integer/pointer representability and launch bounds are independent of old unbounded Nat metadata domain",
+    "source Real scale does not encode runtime NaN/infinity; physical scalar ABI and finite-real conversion remain explicit representation boundaries"
+  ],
+  "not_added": [
+    "positive scale",
+    "finite row",
+    "nonzero sum",
+    "nonempty active lanes",
+    "particular B/warp/profile restriction"
+  ],
+  "classification": "backend_value_contract remains; max and sum whole callbacks replaced by explicit software reduction trees only in the new refinement. exp/log/scale conversion are not closed."
+}

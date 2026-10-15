@@ -2,30 +2,49 @@ import VeriTile.Meta.StatementAudit
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Source
 /-! Source: flash_attn.py, _fwd_kernel.
-The full source and candidate differ only in the natural-number head-base
-product. Q and O storage are independently fp16, bf16 or fp32. K and V are
-fp16 because both dot left operands are explicitly converted to fp16. L is
-fp32, as allocated by the host. Source stride choices, unchecked block loads
-and stores, the literal 1.44269504 and denom * 0 + alpha are retained.
-No host-layout correction or replacement with ordinary softmax is made. -/
+`actualKernel` retains every source expression, including both final stores,
+without extra floating casts. Its Q input ranges over six floating labels;
+K/V and O are fp16, and L is fp32. The pinned native frontend requires equal
+dot operand types and equal block-store pointer/value types. The wrapper's
+empty_like(Q) consequently admits only fp16 Q/O in this floating family.
+`kernel` retains the earlier formal family with two extra destination casts;
+its non-fp16 output profiles are not executions of the unchanged Python source.
+All source-used strides, unchecked accesses, decimal 1.44269504 and the
+expression denom * 0 + alpha remain present in both families.
+
+Source-audit target: _fwd_kernel
+Source-audit Lean: flashAttnSource%
+Source-audit args: version=actualOriginal, outputTy=tl.float16
+The selected source view is the actual original family with fp16 output and
+symbolic Q storage. This selects the unchanged final stores; it does not
+certify every storage profile or the separate formal family.
+-/
 namespace VeriTile.Bench.TritonBenchG.FlashAttn.TypedSource
 open Lean VeriTile.Triton
 noncomputable section
 set_option maxHeartbeats 8000000
 set_option maxRecDepth 30000
 inductive Storage where
-  | fp16 | bf16 | fp32
+  | fp16 | bf16 | fp32 | fp64 | f8e4 | f8e5
   deriving DecidableEq
 syntax "flashAttnSource%" "[" tritonDType "," tritonDType "," ident "]" : term
 set_option hygiene false in
 macro_rules
   | `(flashAttnSource%[$inputTy:tritonDType,$outputTy:tritonDType,$version:ident]) => do
-    unless version.getId == `original || version.getId == `indexCommuted do
-      Macro.throwError "expected original or indexCommuted"
+    unless version.getId == `original || version.getId == `indexCommuted ||
+        version.getId == `actualOriginal || version.getId == `actualIndexCommuted do
+      Macro.throwError "expected original, indexCommuted, actualOriginal or actualIndexCommuted"
+    let actual := version.getId == `actualOriginal || version.getId == `actualIndexCommuted
     let baseOffset : TSyntax `tritonStmt ←
-      if version.getId == `indexCommuted then
+      if version.getId == `indexCommuted || version.getId == `actualIndexCommuted then
         `(tritonStmt| qkv_base_offset = $(stride_q_head) * off_bs_head)
       else `(tritonStmt| qkv_base_offset = off_bs_head * $(stride_q_head))
+    let finalL : TSyntax `tritonStmt ← if actual then
+      `(tritonStmt| tl.store(l_ptr, max + tl.math.log2(denom)))
+      else `(tritonStmt| tl.store(l_ptr, (max + tl.math.log2(denom)).to(tl.float32)))
+    let finalO : TSyntax `tritonStmt ← if actual then
+      `(tritonStmt| tl.store(O_block_ptr, (out_buffer).to(tl.float16)))
+      else `(tritonStmt| tl.store(O_block_ptr, ((out_buffer).to(tl.float16)).to($outputTy:tritonDType)))
     `(fun (Q K V L O : RegionName) (sm_scale : ℝ)
       (stride_q_bs stride_q_head stride_q_seqlen stride_q_dim
         stride_k_bs stride_k_head stride_k_seqlen stride_k_dim
@@ -91,14 +110,14 @@ macro_rules
 
   out_buffer = out_buffer / denom[:, None]
   l_ptr = L + off_bs_head * $(SEQLEN) + off_m
-  tl.store(l_ptr, (max + tl.math.log2(denom)).to(tl.float32))
+  $finalL
   O_block_ptr = tl.make_block_ptr(base=O + qkv_base_offset,
     shape=($(SEQLEN), $(DIM)),
     strides=($(stride_o_seqlen), $(stride_o_dim)),
     offsets=(start_m * $(BLOCK_M), 0),
     block_shape=($(BLOCK_M), $(DIM)),
     order=(1, 0))
-  tl.store(O_block_ptr, ((out_buffer).to(tl.float16)).to($outputTy:tritonDType))
+  $finalO
 
 }).surfaceBody)
 
@@ -112,6 +131,34 @@ abbrev kernel_fp32_fp16 (swapped : Bool) := if swapped then flashAttnSource%[tl.
 abbrev kernel_fp32_bf16 (swapped : Bool) := if swapped then flashAttnSource%[tl.float32,tl.bfloat16,indexCommuted] else flashAttnSource%[tl.float32,tl.bfloat16,original]
 abbrev kernel_fp32_fp32 (swapped : Bool) := if swapped then flashAttnSource%[tl.float32,tl.float32,indexCommuted] else flashAttnSource%[tl.float32,tl.float32,original]
 
+abbrev kernel_fp16_fp64 (swapped : Bool) := if swapped then flashAttnSource%[tl.float16,tl.float64,indexCommuted] else flashAttnSource%[tl.float16,tl.float64,original]
+abbrev kernel_fp16_f8e4 (swapped : Bool) := if swapped then flashAttnSource%[tl.float16,tl.float8e4nv,indexCommuted] else flashAttnSource%[tl.float16,tl.float8e4nv,original]
+abbrev kernel_fp16_f8e5 (swapped : Bool) := if swapped then flashAttnSource%[tl.float16,tl.float8e5,indexCommuted] else flashAttnSource%[tl.float16,tl.float8e5,original]
+abbrev kernel_bf16_fp64 (swapped : Bool) := if swapped then flashAttnSource%[tl.bfloat16,tl.float64,indexCommuted] else flashAttnSource%[tl.bfloat16,tl.float64,original]
+abbrev kernel_bf16_f8e4 (swapped : Bool) := if swapped then flashAttnSource%[tl.bfloat16,tl.float8e4nv,indexCommuted] else flashAttnSource%[tl.bfloat16,tl.float8e4nv,original]
+abbrev kernel_bf16_f8e5 (swapped : Bool) := if swapped then flashAttnSource%[tl.bfloat16,tl.float8e5,indexCommuted] else flashAttnSource%[tl.bfloat16,tl.float8e5,original]
+abbrev kernel_fp32_fp64 (swapped : Bool) := if swapped then flashAttnSource%[tl.float32,tl.float64,indexCommuted] else flashAttnSource%[tl.float32,tl.float64,original]
+abbrev kernel_fp32_f8e4 (swapped : Bool) := if swapped then flashAttnSource%[tl.float32,tl.float8e4nv,indexCommuted] else flashAttnSource%[tl.float32,tl.float8e4nv,original]
+abbrev kernel_fp32_f8e5 (swapped : Bool) := if swapped then flashAttnSource%[tl.float32,tl.float8e5,indexCommuted] else flashAttnSource%[tl.float32,tl.float8e5,original]
+abbrev kernel_fp64_fp16 (swapped : Bool) := if swapped then flashAttnSource%[tl.float64,tl.float16,indexCommuted] else flashAttnSource%[tl.float64,tl.float16,original]
+abbrev kernel_fp64_bf16 (swapped : Bool) := if swapped then flashAttnSource%[tl.float64,tl.bfloat16,indexCommuted] else flashAttnSource%[tl.float64,tl.bfloat16,original]
+abbrev kernel_fp64_fp32 (swapped : Bool) := if swapped then flashAttnSource%[tl.float64,tl.float32,indexCommuted] else flashAttnSource%[tl.float64,tl.float32,original]
+abbrev kernel_fp64_fp64 (swapped : Bool) := if swapped then flashAttnSource%[tl.float64,tl.float64,indexCommuted] else flashAttnSource%[tl.float64,tl.float64,original]
+abbrev kernel_fp64_f8e4 (swapped : Bool) := if swapped then flashAttnSource%[tl.float64,tl.float8e4nv,indexCommuted] else flashAttnSource%[tl.float64,tl.float8e4nv,original]
+abbrev kernel_fp64_f8e5 (swapped : Bool) := if swapped then flashAttnSource%[tl.float64,tl.float8e5,indexCommuted] else flashAttnSource%[tl.float64,tl.float8e5,original]
+abbrev kernel_f8e4_fp16 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e4nv,tl.float16,indexCommuted] else flashAttnSource%[tl.float8e4nv,tl.float16,original]
+abbrev kernel_f8e4_bf16 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e4nv,tl.bfloat16,indexCommuted] else flashAttnSource%[tl.float8e4nv,tl.bfloat16,original]
+abbrev kernel_f8e4_fp32 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e4nv,tl.float32,indexCommuted] else flashAttnSource%[tl.float8e4nv,tl.float32,original]
+abbrev kernel_f8e4_fp64 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e4nv,tl.float64,indexCommuted] else flashAttnSource%[tl.float8e4nv,tl.float64,original]
+abbrev kernel_f8e4_f8e4 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e4nv,tl.float8e4nv,indexCommuted] else flashAttnSource%[tl.float8e4nv,tl.float8e4nv,original]
+abbrev kernel_f8e4_f8e5 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e4nv,tl.float8e5,indexCommuted] else flashAttnSource%[tl.float8e4nv,tl.float8e5,original]
+abbrev kernel_f8e5_fp16 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e5,tl.float16,indexCommuted] else flashAttnSource%[tl.float8e5,tl.float16,original]
+abbrev kernel_f8e5_bf16 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e5,tl.bfloat16,indexCommuted] else flashAttnSource%[tl.float8e5,tl.bfloat16,original]
+abbrev kernel_f8e5_fp32 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e5,tl.float32,indexCommuted] else flashAttnSource%[tl.float8e5,tl.float32,original]
+abbrev kernel_f8e5_fp64 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e5,tl.float64,indexCommuted] else flashAttnSource%[tl.float8e5,tl.float64,original]
+abbrev kernel_f8e5_f8e4 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e5,tl.float8e4nv,indexCommuted] else flashAttnSource%[tl.float8e5,tl.float8e4nv,original]
+abbrev kernel_f8e5_f8e5 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e5,tl.float8e5,indexCommuted] else flashAttnSource%[tl.float8e5,tl.float8e5,original]
+
 def kernel (input output : Storage) (swapped : Bool) := match input,output with
   | .fp16,.fp16 => kernel_fp16_fp16 swapped
   | .fp16,.bf16 => kernel_fp16_bf16 swapped
@@ -122,6 +169,52 @@ def kernel (input output : Storage) (swapped : Bool) := match input,output with
   | .fp32,.fp16 => kernel_fp32_fp16 swapped
   | .fp32,.bf16 => kernel_fp32_bf16 swapped
   | .fp32,.fp32 => kernel_fp32_fp32 swapped
+  | .fp16,.fp64 => kernel_fp16_fp64 swapped
+  | .fp16,.f8e4 => kernel_fp16_f8e4 swapped
+  | .fp16,.f8e5 => kernel_fp16_f8e5 swapped
+  | .bf16,.fp64 => kernel_bf16_fp64 swapped
+  | .bf16,.f8e4 => kernel_bf16_f8e4 swapped
+  | .bf16,.f8e5 => kernel_bf16_f8e5 swapped
+  | .fp32,.fp64 => kernel_fp32_fp64 swapped
+  | .fp32,.f8e4 => kernel_fp32_f8e4 swapped
+  | .fp32,.f8e5 => kernel_fp32_f8e5 swapped
+  | .fp64,.fp16 => kernel_fp64_fp16 swapped
+  | .fp64,.bf16 => kernel_fp64_bf16 swapped
+  | .fp64,.fp32 => kernel_fp64_fp32 swapped
+  | .fp64,.fp64 => kernel_fp64_fp64 swapped
+  | .fp64,.f8e4 => kernel_fp64_f8e4 swapped
+  | .fp64,.f8e5 => kernel_fp64_f8e5 swapped
+  | .f8e4,.fp16 => kernel_f8e4_fp16 swapped
+  | .f8e4,.bf16 => kernel_f8e4_bf16 swapped
+  | .f8e4,.fp32 => kernel_f8e4_fp32 swapped
+  | .f8e4,.fp64 => kernel_f8e4_fp64 swapped
+  | .f8e4,.f8e4 => kernel_f8e4_f8e4 swapped
+  | .f8e4,.f8e5 => kernel_f8e4_f8e5 swapped
+  | .f8e5,.fp16 => kernel_f8e5_fp16 swapped
+  | .f8e5,.bf16 => kernel_f8e5_bf16 swapped
+  | .f8e5,.fp32 => kernel_f8e5_fp32 swapped
+  | .f8e5,.fp64 => kernel_f8e5_fp64 swapped
+  | .f8e5,.f8e4 => kernel_f8e5_f8e4 swapped
+  | .f8e5,.f8e5 => kernel_f8e5_f8e5 swapped
+
+abbrev actual_fp16 (swapped : Bool) := if swapped then flashAttnSource%[tl.float16,tl.float16,actualIndexCommuted] else flashAttnSource%[tl.float16,tl.float16,actualOriginal]
+abbrev actual_bf16 (swapped : Bool) := if swapped then flashAttnSource%[tl.bfloat16,tl.float16,actualIndexCommuted] else flashAttnSource%[tl.bfloat16,tl.float16,actualOriginal]
+abbrev actual_fp32 (swapped : Bool) := if swapped then flashAttnSource%[tl.float32,tl.float16,actualIndexCommuted] else flashAttnSource%[tl.float32,tl.float16,actualOriginal]
+abbrev actual_fp64 (swapped : Bool) := if swapped then flashAttnSource%[tl.float64,tl.float16,actualIndexCommuted] else flashAttnSource%[tl.float64,tl.float16,actualOriginal]
+abbrev actual_f8e4 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e4nv,tl.float16,actualIndexCommuted] else flashAttnSource%[tl.float8e4nv,tl.float16,actualOriginal]
+abbrev actual_f8e5 (swapped : Bool) := if swapped then flashAttnSource%[tl.float8e5,tl.float16,actualIndexCommuted] else flashAttnSource%[tl.float8e5,tl.float16,actualOriginal]
+
+/-- The complete unmodified source and its natural head-offset normalization.
+The explicit output cast in Python requires an fp16 block-pointer destination.
+Q's fp64 scaling is retained before its explicit fp16 conversion. -/
+def actualKernel (input : Storage) (swapped : Bool) := match input with
+  | .fp16 => actual_fp16 swapped
+  | .bf16 => actual_bf16 swapped
+  | .fp32 => actual_fp32 swapped
+  | .fp64 => actual_fp64 swapped
+  | .f8e4 => actual_f8e4 swapped
+  | .f8e5 => actual_f8e5 swapped
+
 end
 #guard_msgs (drop info) in
 #auditModuleAxioms

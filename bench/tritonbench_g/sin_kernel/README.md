@@ -1,5 +1,7 @@
 # `sin_kernel`
 
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+
 `Kernels.lean` retains the legacy `kernel_function` declaration and adds a full typed original/candidate family. `Correct.lean` retains the legacy headline and proves an independent lane formula `Real.sin (xs i)` for both complete typed variants, with successful flat execution, active-address bounds, and a frame for every other cell. `FPEquiv.lean` proves equality of the complete floating execution, including registers, memory and failure.
 
 The supported family has two correlated input/output profiles (fp32 and fp64), each with original and candidate; the wrapper allocates output with `empty_like`. The wrapper-correlated output formats are fp32 and fp64. There is no input cast and no `other` value on the masked load. The source sine preserves its fp32/fp64 precision. The same-dtype store preserves the selected source precision, checked by exact AST regression.

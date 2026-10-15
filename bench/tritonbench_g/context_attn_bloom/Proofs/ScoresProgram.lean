@@ -30,7 +30,7 @@ def code (p : Layout) (swapped : Bool) (scale : ℝ) : List Stmt :=
        (.dot (batch := []) (.ref .real [p.BM,p.D] "q") (.ref .real [p.D,p.BN] "k"))),
    .assign .real [p.BM,p.BN] "qk" (scaling p swapped scale),
    .assign .real [p.BM,p.BN] "qk" (.where (causalMask p) (.ref .real [p.BM,p.BN] "qk")
-     (.broadcast (.sub .real .nil (.const (0.0 : ℝ)) (.const (100000000.0 : ℝ))) [p.BM,p.BN]))]
+     (.broadcast (.const (-100000000.0 : ℝ)) [p.BM,p.BN]))]
 
 theorem source (p : Layout) (r : Regions) (swapped : Bool) (scale : ℝ) :
     scores p r swapped scale = code p swapped scale := by

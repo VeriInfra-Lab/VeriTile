@@ -2,6 +2,13 @@ import VeriTile.Triton.DSL
 import VeriTile.Triton.Source
 import VeriTile.Meta.StatementAudit
 
+/-!
+Source-audit target: bmm_kernel
+Source-audit Lean: bmmOptimizedSource%
+Source-audit args: dtype=tl.float32, dm=no, dn=no, dk=no, version=original
+Selected fp32 original profile with all three dimensions masked only; the seven other mask profiles and other storage types remain separate obligations.
+-/
+
 /-! Complete source of `bmm_optimized.py`'s `bmm_kernel`, with all eight divisible-dimension mask choices and
 both CTA-ordering branches. The candidate reverses only each fp32 addition.
 The source omits `other` on masked loads; no zero fill is inserted here.

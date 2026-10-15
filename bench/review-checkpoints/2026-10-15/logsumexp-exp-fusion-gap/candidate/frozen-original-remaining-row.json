@@ -1,0 +1,66 @@
+{
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/review-checkpoints/2026-10-15/original41-remaining-analysis/analysis/analysis.json",
+  "sha256": "db195b8b6872262819d8d69225fdbba0d9a32f9e80361bba0c08a3ee13e0d08e",
+  "row": {
+    "task": "logsumexp_fwd",
+    "group": "transcendental_and_scale",
+    "selection_rank": null,
+    "accepted_scope": "完整已接受每 program row-block，HAS_SCALE 两分支、所有 D/B/pid/tail，scale 为旧任意 ℝ 参数，B>0；host 第二阶段不在 scope。",
+    "actual_operation_graph": "fp32 masked load(-inf) → optional mul(scale) → max → sub → exp → sum → log → add(max) → one scalar store/full frame。",
+    "remaining_parameters_or_primitives": [
+      "exp32 与 log32 无具体位实现",
+      "Primitives.maxReduction 是整个 reduce callback",
+      "通用 scale : ℝ 的运行时 fp32 值表示；现有 fp32WithPrimitives 只给 scale=1"
+    ],
+    "minimal_missing_work": [
+      "同时补 exp/log；以显式 max/sum tree 实现替换 whole-reduction callback。",
+      "补 scale 输入编码/源类型桥：不能将原任意 scale 直接缩到1，也不能用任意 Real→bits callback 掩盖。"
+    ],
+    "reusable_modules": [
+      "VeriTile/Triton/Float/ScalarOps.lean",
+      "VeriTile/Triton/Float/ScalarBackend.lean",
+      "bench/tritonbench_g/softmax_reducev/Proofs/FPSoftware.lean",
+      "bench/tritonbench_g/quantize_kv_transform/Proofs/MixedBits.lean",
+      "bench/tritonbench_g/flash_decode2_llama/Proofs/FPSoftware.lean",
+      "bench/tritonbench_g/logsumexp_fwd/Proofs/FPStages.lean",
+      "bench/tritonbench_g/logsumexp_fwd/Proofs/FPPrimitives.lean",
+      "bench/tritonbench_g/layer_norm_ops/Proofs/FPClosed.lean"
+    ],
+    "concrete_next_steps": [
+      "先核 Python scale:tl.float32 与旧 ℝ literal 模型的对应，给明确运行时 bit 输入表示和不收窄原来源的桥。",
+      "实现实际 exp/log 软件算法与合法树，然后把 HAS_SCALE=true/false 两支全部合成；保留 -inf*(-scale)、-inf-(-inf) 等。"
+    ],
+    "limits": [
+      "LayerNorm dimensionLiteral 只解决 Nat→fp32，不解决任意 ℝ scale。",
+      "全 masked row 产生的 NaN 不可通过新 finite/positive denominator 条件排除。"
+    ],
+    "public_declarations": [
+      {
+        "file": "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean",
+        "declaration": "row_block_fp32",
+        "line": 8,
+        "statement_sha256": "7875546624ac60c636efea51744439d3251165bec0146a1aefd7fc7af68e2213"
+      },
+      {
+        "file": "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean",
+        "declaration": "row_block_fp32_with_primitives",
+        "line": 15,
+        "statement_sha256": "f419379cd470e3701ddb9e98c9d3cf2e6e4dbd3160b82a8af0de3e44250ee4f3"
+      },
+      {
+        "file": "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean",
+        "declaration": "row_block_nonempty",
+        "line": 24,
+        "statement_sha256": "5f7acb9c9210bb7432720f96ce741962ce38241c71a8ee7f4755cf740f7fc513"
+      }
+    ],
+    "evidence": [
+      "bench/tritonbench_g/logsumexp_fwd/FPCorrect.lean",
+      "bench/tritonbench_g/logsumexp_fwd/Proofs/FPStages.lean",
+      "bench/tritonbench_g/logsumexp_fwd/Proofs/FPPrimitives.lean",
+      "bench/tritonbench_g/logsumexp_fwd/logsumexp_fwd.py"
+    ],
+    "current_classification_changed": false,
+    "native_correctness_established": false
+  }
+}

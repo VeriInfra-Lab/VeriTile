@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Triton.Float.MaximumPrimitive
 
 /-!
 # `triton_linear_activation` — closed-form fused linear+activation correctness
@@ -351,8 +352,7 @@ noncomputable def actStmts (BM BN : Nat) (ACTIVATION : String) : List Stmt :=
                     (Op.ref .real [BM, BN] "acc"))))))) ],
     Stmt.ifThen (Op.constBool (ACTIVATION == "relu"))
       [ Stmt.assign .real [BM, BN] "acc"
-          ((Op.gt ComparableDType.real Broadcast.scalarL (Op.const 0) (Op.ref .real [BM, BN] "acc")).where
-            ((Op.const 0).broadcast [BM, BN]) (Op.ref .real [BM, BN] "acc")) ] ]
+          (Op.maximumFloat .real Broadcast.scalarL (Op.const 0) (Op.ref .real [BM, BN] "acc")) ] ]
 
 /-- The 3-statement store tail (statements 23–25): the `C` pointer chunk, the
 `(m_offs < M) & (n_offs < N)` mask, and the masked store. -/
@@ -1100,6 +1100,17 @@ theorem relu_op_eval (st : BlockState) (BM BN : Nat) (v : TileIndex [BM, BN] →
     exact h (WithBot.coe_lt_coe.mp
       ((ComparableDType.real_gt_eq_true (some 0) (some (v idx))).mp hc))
 
+private theorem relu_maximum_op_eval (st : BlockState) (BM BN : Nat) (v : TileIndex [BM, BN] → ℝ)
+    (hacc : st.regs .real [BM, BN] "acc" = some ⟨fun idx => some (v idx)⟩) :
+    evalOp (Op.maximumFloat .real Broadcast.scalarL (Op.const 0) (Op.ref .real [BM, BN] "acc")) st
+      = some ⟨fun idx => some (max 0 (v idx))⟩ := by
+  rw [evalOp_maximumFloat_real, evalOp_max2]
+  simp only [evalOp_const, evalOp_ref, hacc, Option.bind_some]
+  refine congrArg some ?_
+  ext idx
+  simp only [Tile.bop_data, Tile.scalar_data, Broadcast.leftIndex, Broadcast.rightIndex]
+  rfl
+
 set_option maxHeartbeats 1000000 in
 /-- **Activation-tail stepping**: the four sequential `ACTIVATION == "…"` gates
 map `acc` through `applyActivation ACTIVATION`; everything else untouched. -/
@@ -1191,8 +1202,7 @@ theorem actTail_steps (st : BlockState) (BM BN : Nat) (ACTIVATION : String)
   obtain ⟨s4, h4, hacc4, hpres4, hmem4, hpids4⟩ :
       ∃ s4, stepStmt (Stmt.ifThen (Op.constBool (ACTIVATION == "relu"))
           [Stmt.assign .real [BM, BN] "acc"
-            ((Op.gt ComparableDType.real Broadcast.scalarL (Op.const 0) (Op.ref .real [BM, BN] "acc")).where
-              ((Op.const 0).broadcast [BM, BN]) (Op.ref .real [BM, BN] "acc"))]) s3 = some s4
+            (Op.maximumFloat .real Broadcast.scalarL (Op.const 0) (Op.ref .real [BM, BN] "acc"))]) s3 = some s4
         ∧ s4.regs .real [BM, BN] "acc" = some ⟨fun idx =>
             some (applyActivation ACTIVATION (v idx))⟩
         ∧ (∀ {dt} {sh} (nm : RegName), nm ≠ "acc" → s4.regs dt sh nm = s3.regs dt sh nm)
@@ -1204,7 +1214,8 @@ theorem actTail_steps (st : BlockState) (BM BN : Nat) (ACTIVATION : String)
       refine congrArg some ?_
       ext idx
       simp only [applyActivation, hb, Bool.false_eq_true, if_false]
-    · rw [stepStmts.cons_some (stepStmt_assign_eq_some (relu_op_eval s3 BM BN _ hacc3)),
+    · simp only [if_true, FloatDType.toTileDType]
+      rw [stepStmts.cons_some (stepStmt_assign_eq_some (dtype := .real) (relu_maximum_op_eval s3 BM BN _ hacc3)),
         stepStmts.nil]
       refine ⟨_, rfl, ?_, fun nm h => by simp [BlockState.setReg_ne_name, h], rfl, rfl⟩
       simp only [BlockState.setReg_same]

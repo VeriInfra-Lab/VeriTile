@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "purpose": "CHARACTERIZATION_ONLY",
+  "source": "native/original_jit.py",
+  "source_sha256": "9568f97b3443c35ada4a106b6f9b92a0051cd234789b510a1c7ae9e84ea9c5ba",
+  "source_program_unchanged": true,
+  "matrix": {
+    "arch": [
+      80,
+      90
+    ],
+    "dtype": [
+      "fp32"
+    ],
+    "D": [
+      17
+    ],
+    "B": [
+      32
+    ],
+    "num_warps": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32
+    ],
+    "HAS_SCALE": [
+      false,
+      true
+    ],
+    "enable_fp_fusion": [
+      false,
+      true
+    ],
+    "num_stages": [
+      3
+    ],
+    "compiled_profiles": 48,
+    "scope_relation": "All original autotune warp choices at one legitimate D/B specialization; not all original dimensions/profile combinations."
+  },
+  "complete_original_capture": {
+    "grid": [
+      3,
+      1,
+      1
+    ],
+    "allocations": {
+      "input_words": 67,
+      "output_words": 19
+    },
+    "pointer_origin_elements": 8,
+    "active_output_indices": [
+      8,
+      9,
+      10
+    ],
+    "source_row2_input_x_physical_index": 43,
+    "padding": "D=17/B=32: 15 lanes loaded with -Inf before optional scale; never treated as zero or removed.",
+    "special_extra_launch": "grid[1,2,1] captures one valid and one all-masked program, no output-address collision; this second program is outside the normal host grid, within old theorem scope."
+  },
+  "reference_words": {
+    "exp_cases": {
+      "source_exp_inputs": [
+        3208642566,
+        3208642567
+      ],
+      "log2e": 1069066811,
+      "multiply_result_both": 3213524913,
+      "distinct_direct_RN_exp_targets": [
+        1056037378,
+        1056037377
+      ]
+    },
+    "fusion_case": {
+      "input": 1065353217,
+      "scale": 1065353214,
+      "rounded_maximum": 1065353216,
+      "separate_prefix": 0,
+      "fused_prefix": 2826960896
+    }
+  },
+  "required_experiment_relations": [
+    {
+      "id": "E-exp",
+      "equation": "nativeExp(x) = nativeEx2(RN32(x * 0x3fb8aa3b)) at captured actual operands",
+      "expected": "Raw diagnostic captures same multiply argument for both fixtures. Universal equality to directly correctly-rounded Real.exp is already refuted, not an assumption to validate."
+    },
+    {
+      "id": "E-scale",
+      "equation": "runtime scalar fp32 argument equals proposed scalar conversion of original Real scale, when a Real representation exists",
+      "expected": "Record argument word, host conversion and compiled scalar ABI. Arbitrary Real conversion remains unimplemented; nonfinite runtime scale has no finite Real representative."
+    },
+    {
+      "id": "E-prefix",
+      "equation": "HAS_SCALE/fusion choice selects source separate mul/sub or native FMA prefix exactly as captured PTX",
+      "expected": "For the finite fusion fixture the two software prefix words are proved different. Do not treat universal contraction equality as a pending true law."
+    },
+    {
+      "id": "E-reduce",
+      "equation": "native max/sum reduction equals the specified maxnum policy and named ReductionPlan over every padded lane",
+      "expected": "Native plan/lane/NaN/zero behavior not established. Runner records whole output; no full output expected evaluator."
+    },
+    {
+      "id": "E-log",
+      "equation": "nativeLog(sumWord) equals an explicit implementation of the archived libdevice polynomial, its per-FMA FTZ policy and exceptional branches",
+      "expected": "No software log evaluator implemented; current exp/log callbacks remain unresolved. Record compiler/PTX/cubin and output words; cannot mark numerical PASS."
+    },
+    {
+      "id": "E-whole",
+      "equation": "complete original output and entire allocation frame under exact compiled profile",
+      "expected": "Capture raw words and all buffers; check frame/input preservation, but full numerical comparison unavailable. Do not infer final-output inequality from internal differences."
+    }
+  ],
+  "cases": "capture.py cases() exposes 10 cases: A/B with both flags, fusion fixture, zero/negative/Inf/NaN scale, all-masked extra program.",
+  "commands": [
+    "/opt/conda/bin/python -B capture.py compile --output /tmp/new-lse-offline --arch 80 --arch 90 --num-warps 4 --fusion 0",
+    "/opt/conda/bin/python -B capture.py run --output /tmp/new-lse-capture --device cuda:0 --num-warps 4 --fusion 0",
+    "/opt/conda/bin/python -B capture.py run --output /tmp/new-lse-fused --device cuda:0 --num-warps 4 --fusion 1"
+  ],
+  "required_receipt_fields": [
+    "loaded tool/source SHA before/after",
+    "exact compiler signature/constants/options",
+    "actual GPU UUID/name/capability and matching driver query",
+    "compiler package/Python/ptxas/libdevice SHA before/after",
+    "metadata and TTIR/TTGIR/LLVMIR/PTX/cubin SHA",
+    "raw little-endian full allocations before/after and actual pointer origins",
+    "frame/input preservation separately from numerical status",
+    "native_execution/launch_attempted and NOT_RUN reason"
+  ],
+  "numeric_acceptance": false,
+  "native_execution": false
+}

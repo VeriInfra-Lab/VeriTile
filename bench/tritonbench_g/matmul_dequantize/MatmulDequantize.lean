@@ -1,4 +1,6 @@
 import VeriTile.Triton
+import VeriTile.Triton.Float.SignedCast
+import VeriTile.Meta.StatementAudit
 
 /-!
 # `matmul_dequantize` — strict per-kernel correctness, all three launched JIT kernels
@@ -32,7 +34,7 @@ only in dropping that source's `.to(a.dtype)` on the `tl.dot` operand and in
 spelling the dead `c`-cast as a direct `tl.float16`; `matmul_kernel` differs
 from the `int4_matmul` port's twin only in its docstring, in spelling its
 three working casts as direct `tl.float16` (where the twin's source wrote
-`.to(a.dtype)` / `.to(c_ptr.dtype.element_ty)`, which the DSL erases); and
+`.to(a.dtype)` / `.to(c_ptr.dtype.element_ty)`); and
 `dequantize_kernel` is **byte-identical** to the kernel modeled in the
 `matmul_dequant_int4` port. Each section below mirrors its template's spec
 accessors, invariants and proof architecture, renamed into this one namespace.
@@ -73,8 +75,10 @@ carried value is `accSpec` itself). The in-loop
 `b = ((int_b - int_bzp) * bs).to(tl.float16)` and the dot's
 `(a).to(tl.float16)` / `(b).to(tl.float16)` survive **faithfully** as
 `Op.castFloat` events (the `attention_fwd_triton2` `p.to(tl.float16)`
-precedent); the DSL's `tl.dot` re-widens both fp16 operands to the ℝ carrier,
-and the round-trips collapse by cast identity.
+precedent). The DSL preserves a typed fp16 × fp16 → fp32 `Op.dotTyped`,
+then widens that result to the `.real` accumulator. The legacy algorithm
+evaluator erases those widths, so the value reduces to the real dot; this
+is not an IEEE rounding claim.
 
 Translation-surface blocker: (`matmul_kernel`) three disclosed surface
 deviations, none semantic — the `int4_matmul` disclosures (1)–(3) verbatim.
@@ -144,7 +148,7 @@ matmul_dequantize_matmul4_exec_genuine          headline 1  (matmul4_kernel)
 └─ mdqPostLoop_run ── mdq_store_props          (cAddr_injective discharges hInj)
 matmul_dequantize_matmul_exec_genuine           headline 2  (matmul_kernel)
 ├─ i4_body_eq / i4PreLoopScalars_run / i4PreLoopTiles_run
-├─ i4Loop_collapse ── i4LoopBody_run (fp16 cast + double-cast dot recipes)
+├─ i4Loop_collapse ── i4LoopBody_run (fp16 casts + typed dot evaluation)
 └─ i4PostLoop_run ── i4_store_props            (fp16 MemCell readback)
 matmul_dequantize_dequantize_exec_genuine       headline 3  (dequantize_kernel)
 ├─ dq_exec_isSome                               one big simp, 18 statements
@@ -178,6 +182,22 @@ the frame proof, not a rename. Registered in `proof_blockers.md`.
 namespace VeriTile.Bench.TritonBenchG.MatmulDequantize
 
 open VeriTile.Triton
+
+/-- The source nibble mask itself supplies the machine-cast range; no
+new premise is imposed on input words, dimensions or the public contract. -/
+@[local simp] private theorem nibble_int_mod32 (n : Nat) :
+    ((n &&& 15 : Nat) : Int) % 4294967296 = ((n &&& 15 : Nat) : Int) := by
+  have h : n &&& 15 ≤ 15 := Nat.and_le_right
+  apply Int.emod_eq_of_lt <;> omega
+@[local simp] private theorem nibble_nat_mod32 (n : Nat) :
+    (n &&& 15) % 4294967296 = n &&& 15 := by
+  have h : n &&& 15 ≤ 15 := Nat.and_le_right
+  apply Nat.mod_eq_of_lt
+  omega
+@[local simp] private theorem nibble_sign32 (n : Nat) :
+    2 * (n &&& 15) < 4294967296 := by
+  have h : n &&& 15 ≤ 15 := Nat.and_le_right
+  omega
 
 /-! # ══════════ CORRECT — genuine / dimension-general (review this) ══════════ -/
 
@@ -678,7 +698,7 @@ def mdqPostLoop (c_ptr : RegionName) (M N stride_cm stride_cn BM BN : Nat) :
     List Stmt :=
   [ Stmt.assign .fp16 [BM, BN] "c"
       (Op.castFloat FloatDType.real FloatDType.fp16
-        (Op.ref .real [BM, BN] "accumulator")),
+        (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))),
     Stmt.assign .nat [BM] "offs_cm"
       (Op.add .nat Broadcast.scalarL
         (Op.mul .nat Broadcast.nil (Op.ref .nat [] "pid_m") (Op.constNat BM))
@@ -2808,10 +2828,10 @@ pointwise `FloatDType.cast` (the `attention_fwd_triton2` `p.to(tl.float16)`
 recipe). The value is never stored, but the statement is walked faithfully. -/
 private theorem mdq_castFp16_eval {sh : TileShape} (nm : RegName) (t : BlockState)
     (vt : Tile .real sh) (h : t.regs .real sh nm = some vt) :
-    evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real sh nm)) t
+    evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref .real sh nm))) t
       = some (⟨fun ix => FloatDType.real.cast FloatDType.fp16 (vt.data ix)⟩
           : Tile .fp16 sh) := by
-  rw [evalOp_castFloat]
+  rw [evalOp_castFloat, evalOp.eq_def]
   simp [evalOp_ref, h]
 
 /-! ### The tail
@@ -2847,7 +2867,7 @@ theorem mdqPostLoop_run (s0 : BlockState) (c a scales : RegionName)
   -- downcast, but of a value the store never reads (it stores `accumulator`)
   rw [stepStmts.cons_some (@stepStmt_assign_eq_some TileDType.fp16 [BM, BN] "c"
     (Op.castFloat FloatDType.real FloatDType.fp16
-      (Op.ref .real [BM, BN] "accumulator")) _
+      (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))) _
     (⟨fun ix => FloatDType.real.cast FloatDType.fp16
         ((mdqAccTile s0 a scales b zeros NO_GROUPS M groupsize stride_am
           stride_ak stride_bk stride_bn stride_scales_g stride_scales_n
@@ -3122,9 +3142,9 @@ text:
   the two agree exactly because `8 ∣ BK` (the headline's `hBK8`);
 * every `.to(tl.float16)` lowers to a genuine `Op.castFloat` quantization
   event: the dequant statement assigns `b` on the **`.fp16` register channel**,
-  the dot's `(a).to(tl.float16)` / `(b).to(tl.float16)` are wrapped by the
-  DSL's `expandDot` in a re-widening `Op.castFloat fp16 → real` (algorithm-layer
-  `tl.dot` is real-valued), and `c = (accumulator).to(tl.float16)` makes the
+  the dot's `(a).to(tl.float16)` / `(b).to(tl.float16)` feed an
+  `Op.dotTyped fp16 fp16 fp32`, whose result is cast to `.real` for the
+  accumulator; `c = (accumulator).to(tl.float16)` makes the
   terminal store **`.fp16`-typed** — the `matmul_tma` f16 lowering, on `.ptr`
   stores. -/
 
@@ -3286,9 +3306,9 @@ def i4LoopLoads (BM BN BK : Nat) : List Stmt :=
 /-- The K-loop body's compute tail: the two nibble extractions, the signed
 dequant **downcast to the `.fp16` channel** (`.to(tl.float16)` compiles to a
 genuine `Op.castFloat`), the `tl.dot` accumulation — whose operands carry the
-source's `(a).to(tl.float16)` / `(b).to(tl.float16)` casts, each re-widened
-`fp16 → real` by the DSL's real-valued `tl.dot` — and the two pointer
-advances. -/
+source's `(a).to(tl.float16)` / `(b).to(tl.float16)` casts and a
+`fp16 × fp16 → fp32` dot followed by the accumulator's `.real` cast — and
+the two pointer advances. -/
 def i4LoopCompute (stride_ak stride_bk BM BN BK : Nat) : List Stmt :=
   [ Stmt.assign .nat [BK, BN] "int_b"
           (Op.bitAnd Broadcast.scalarR
@@ -3304,22 +3324,19 @@ def i4LoopCompute (stride_ak stride_bk BM BN BK : Nat) : List Stmt :=
             (Op.constNat 15)),
         Stmt.assign .fp16 [BK, BN] "b"
           (Op.castFloat FloatDType.real FloatDType.fp16
-            (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
+            (Op.withPrecision .real .fp32 (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
               (Op.intToReal
                 (Op.sub .int (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-                  (Op.castNatToInt (Op.ref .nat [BK, BN] "int_b"))
-                  (Op.castNatToInt (Op.ref .nat [BK, BN] "int_bzp"))))
-              (Op.ref .real [BK, BN] "bs"))),
+                  (Op.intToSigned 32 (Op.castNatToInt (Op.ref .nat [BK, BN] "int_b")))
+                  (Op.intToSigned 32 (Op.castNatToInt (Op.ref .nat [BK, BN] "int_bzp")))))
+              (Op.ref .real [BK, BN] "bs")))),
         Stmt.assign .real [BM, BN] "accumulator"
           (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
             (Op.ref .real [BM, BN] "accumulator")
-            (Op.dot (batch := [])
-              (Op.castFloat FloatDType.fp16 FloatDType.real
-                (Op.castFloat FloatDType.real FloatDType.fp16
-                  (Op.ref .real [BM, BK] "a")))
-              (Op.castFloat FloatDType.fp16 FloatDType.real
-                (Op.castFloat FloatDType.fp16 FloatDType.fp16
-                  (Op.ref .fp16 [BK, BN] "b"))))),
+            (Op.castFloat .fp32 .real
+              (Op.dotTyped .fp16 .fp16 .fp32 (batch := [])
+                (Op.castFloat .real .fp16 (Op.ref .real [BM, BK] "a"))
+                (Op.castFloat .fp16 .fp16 (Op.ref .fp16 [BK, BN] "b"))))),
         Stmt.assign .ptr [BM, BK] "a_ptrs"
           (Op.ptrAdd Broadcast.scalarR (Op.ref .ptr [BM, BK] "a_ptrs")
             (Op.mul .nat Broadcast.nil (Op.constNat BK) (Op.constNat stride_ak))),
@@ -3346,7 +3363,7 @@ def i4PostLoop (c_ptr : RegionName) (M N stride_cm stride_cn BM BN : Nat) :
     List Stmt :=
   [ Stmt.assign .fp16 [BM, BN] "c"
       (Op.castFloat FloatDType.real FloatDType.fp16
-        (Op.ref .real [BM, BN] "accumulator")),
+        (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))),
     Stmt.assign .nat [BM] "offs_cm"
       (Op.add .nat Broadcast.scalarL
         (Op.mul .nat Broadcast.nil (Op.ref .nat [] "pid_m") (Op.constNat BM))
@@ -3753,6 +3770,21 @@ private theorem i4_castNatToInt_eval {sh : TileShape} (x : Op .nat sh)
   simp only [evalOp, hx]
   rfl
 
+
+/-- Exact signed int32 conversion for the source's already extracted nibble. -/
+private theorem i4_castInt32_eval {sh : TileShape} (x : Op .nat sh)
+    (t : BlockState) (vx : Tile .nat sh) (hx : evalOp x t = some vx)
+    (hn : ∀ i, vx.data i ≤ 15) :
+    evalOp (Op.intToSigned 32 (Op.castNatToInt x)) t = some (i4NatToInt vx) := by
+  rw [eval_intToSigned, i4_castNatToInt_eval x t vx hx]
+  simp only [bind, pure, Option.bind_some]
+  congr 1
+  ext i
+  change (BitVec.ofInt 32 (vx.data i : Int)).toInt = (vx.data i : Int)
+  apply BitVec.toInt_ofInt_eq_self (by decide)
+  · exact le_trans (by norm_num) (Int.natCast_nonneg _)
+  · exact_mod_cast (lt_of_le_of_lt (hn i) (by decide : (15 : Nat) < 2 ^ (32 - 1)))
+
 /-- `Op.intToReal` — the signed ℝ embedding. -/
 private theorem i4_intToReal_eval {sh : TileShape} (x : Op .int sh)
     (t : BlockState) (vx : Tile .int sh) (hx : evalOp x t = some vx) :
@@ -3764,42 +3796,11 @@ private theorem i4_intToReal_eval {sh : TileShape} (x : Op .int sh)
 `FloatDType.cast` (the `attention_fwd_triton2` `p.to(tl.float16)` recipe). -/
 private theorem i4_castFp16_eval {sh : TileShape} (x : Op .real sh) (t : BlockState)
     (vx : Tile .real sh) (hx : evalOp x t = some vx) :
-    evalOp (Op.castFloat FloatDType.real FloatDType.fp16 x) t
+    evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 x)) t
       = some (⟨fun ix => FloatDType.real.cast FloatDType.fp16 (vx.data ix)⟩
           : Tile .fp16 sh) := by
-  rw [evalOp_castFloat]
+  rw [evalOp_castFloat, evalOp.eq_def]
   simp [hx]
-
-/-- The `expandDot` re-widening of `(a).to(tl.float16)`: the
-`fp16 → real` cast of the `real → fp16` cast collapses back to the original
-`.real` register value (the placeholder `FloatDType.cast` is the identity on
-the shared `WithBot ℝ` carrier — the `attention_fwd_triton2` `acc2_op_eval`
-round-trip). -/
-private theorem i4_castRTReal_eval {sh : TileShape} (nm : RegName) (t : BlockState)
-    (vt : Tile .real sh) (h : t.regs .real sh nm = some vt) :
-    evalOp (Op.castFloat FloatDType.fp16 FloatDType.real
-        (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref .real sh nm))) t
-      = some vt := by
-  rw [evalOp_castFloat, evalOp_castFloat]
-  simp [evalOp_ref, h]
-  ext ix
-  simp [FloatDType.cast]
-
-/-- The `expandDot` re-widening of `(b).to(tl.float16)` where `b` is already
-the fp16 register holding the downcast dequant tile: the
-`fp16 → fp16 → real` chain lands back on the underlying `.real` tile. -/
-private theorem i4_castRTFp16_eval {sh : TileShape} (nm : RegName) (t : BlockState)
-    (vt : Tile .real sh)
-    (h : t.regs .fp16 sh nm
-      = some (⟨fun ix => FloatDType.real.cast FloatDType.fp16 (vt.data ix)⟩
-          : Tile .fp16 sh)) :
-    evalOp (Op.castFloat FloatDType.fp16 FloatDType.real
-        (Op.castFloat FloatDType.fp16 FloatDType.fp16 (Op.ref .fp16 sh nm))) t
-      = some vt := by
-  rw [evalOp_castFloat, evalOp_castFloat]
-  simp [evalOp_ref, h]
-  ext ix
-  simp [FloatDType.cast]
 
 /-- `//` on the `nat` channel — there is no `evalOp_floorDiv` in the library. -/
 private theorem i4_floorDiv_eval {a b out : TileShape} (bc : Broadcast a b out)
@@ -3907,14 +3908,21 @@ private theorem i4_expandDim_eval {dtype : TileDType} {sh : TileShape}
   rw [evalOp_expandDim, hv]
   rfl
 
-/-- `tl.dot` at rank 2. `erw`, not `rw`: the operand shapes are `[] ++ [M, K]`,
-which does not unfold at reducible transparency, so `evalOp_dot` silently
-fails to fire under `rw` / `simp only`. -/
-private theorem i4_dot_eval {M K N : Nat} (x : Op .real [M, K]) (y : Op .real [K, N])
-    (t : BlockState) (vx : Tile .real [M, K]) (vy : Tile .real [K, N])
-    (hx : evalOp x t = some vx) (hy : evalOp y t = some vy) :
-    evalOp (Op.dot (batch := []) x y) t = some (Tile.dot [] vx vy) := by
-  erw [evalOp_dot, hx, hy]
+/-- The source's fp16 operands, fp32 dot result, and final widening to the
+algorithm accumulator. The width-erased evaluator preserves the real dot value. -/
+private theorem i4_dot_eval {M K N : Nat} (t : BlockState)
+    (vx : Tile .real [M, K]) (vy : Tile .real [K, N])
+    (hx : t.regs .real [M, K] "a" = some vx)
+    (hy : t.regs .fp16 [K, N] "b" = some
+      (⟨fun ix => FloatDType.real.cast FloatDType.fp16 (vy.data ix)⟩ : Tile .fp16 [K, N])) :
+    evalOp (Op.castFloat .fp32 .real
+      (Op.dotTyped .fp16 .fp16 .fp32 (batch := [])
+        (Op.castFloat .real .fp16 (Op.ref .real [M, K] "a"))
+        (Op.castFloat .fp16 .fp16 (Op.ref .fp16 [K, N] "b")))) t
+      = some (Tile.dot [] vx vy) := by
+  rw [evalOp_castFloat]
+  erw [evalOp_dotTyped]
+  erw [evalOp_castFloat, evalOp_castFloat, evalOp_ref, evalOp_ref, hx, hy]
   rfl
 
 /-- `&` on the bool channel. -/
@@ -4789,8 +4797,8 @@ theorem i4LoopBody_run (s0 : BlockState) (a bs : RegionName)
         (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.intToReal
           (Op.sub .int (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-            (Op.castNatToInt (Op.ref .nat [BK, BN] "int_b"))
-            (Op.castNatToInt (Op.ref .nat [BK, BN] "int_bzp"))))
+            (Op.intToSigned 32 (Op.castNatToInt (Op.ref .nat [BK, BN] "int_b")))
+            (Op.intToSigned 32 (Op.castNatToInt (Op.ref .nat [BK, BN] "int_bzp")))))
         (Op.ref .real [BK, BN] "bs"))
         ((t2.setReg "int_b" .nat [BK, BN]
             (i4IntB s0 b N stride_bk stride_bn BN BK pn i)).setReg
@@ -4802,35 +4810,32 @@ theorem i4LoopBody_run (s0 : BlockState) (a bs : RegionName)
     exact i4_mulTile_eval NumericDType.real _ _ _ _ _ _
       (i4_intToReal_eval _ _ _
         (i4_subTile_eval NumericDType.int _ _ _ _ _ _
-          (i4_castNatToInt_eval _ _ _ (by rw [evalOp_ref]; simp))
-          (i4_castNatToInt_eval _ _ _ (by rw [evalOp_ref]; simp))))
+          (i4_castInt32_eval _ _ _ (by rw [evalOp_ref]; simp) (by intro j; exact Nat.and_le_right))
+          (i4_castInt32_eval _ _ _ (by rw [evalOp_ref]; simp) (by intro j; exact Nat.and_le_right))))
       (by rw [evalOp_ref]; simpa using h2bs)
   rw [stepStmts.cons_some (@stepStmt_assign_eq_some TileDType.fp16 [BK, BN] "b"
     (Op.castFloat FloatDType.real FloatDType.fp16
-      (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
+      (Op.withPrecision .real .fp32 (Op.mul .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.intToReal
           (Op.sub .int (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
-            (Op.castNatToInt (Op.ref .nat [BK, BN] "int_b"))
-            (Op.castNatToInt (Op.ref .nat [BK, BN] "int_bzp"))))
-        (Op.ref .real [BK, BN] "bs"))) _
+            (Op.intToSigned 32 (Op.castNatToInt (Op.ref .nat [BK, BN] "int_b")))
+            (Op.intToSigned 32 (Op.castNatToInt (Op.ref .nat [BK, BN] "int_bzp")))))
+        (Op.ref .real [BK, BN] "bs")))) _
     (⟨fun ix => FloatDType.real.cast FloatDType.fp16
         ((i4BDequantTile s0 bs b bzp N group_size stride_bk stride_bn
           stride_bsk stride_bsn stride_bzpk stride_bzpn BN BK pn i).data ix)⟩
       : Tile .fp16 [BK, BN])
     (i4_castFp16_eval _ _ _ h11r))]
   -- 12. `accumulator += tl.dot((a).to(tl.float16), (b).to(tl.float16))` — the
-  -- fp16 round-trips collapse by cast identity, so the accumulation is the
-  -- plain real dot of the loaded `a` tile and the dequantized `b` tile.
+  -- typed fp16 dot produces fp32 before the accumulator cast; the legacy
+  -- evaluator erases widths and yields the real dot of `a` and dequantized `b`.
   have h12 : evalOp (Op.add .real
         (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [BM, BN] "accumulator")
-        (Op.dot (batch := [])
-          (Op.castFloat FloatDType.fp16 FloatDType.real
-            (Op.castFloat FloatDType.real FloatDType.fp16
-              (Op.ref .real [BM, BK] "a")))
-          (Op.castFloat FloatDType.fp16 FloatDType.real
-            (Op.castFloat FloatDType.fp16 FloatDType.fp16
-              (Op.ref .fp16 [BK, BN] "b")))))
+        (Op.castFloat .fp32 .real
+          (Op.dotTyped .fp16 .fp16 .fp32 (batch := [])
+            (Op.castFloat .real .fp16 (Op.ref .real [BM, BK] "a"))
+            (Op.castFloat .fp16 .fp16 (Op.ref .fp16 [BK, BN] "b")))))
         (((t2.setReg "int_b" .nat [BK, BN]
               (i4IntB s0 b N stride_bk stride_bn BN BK pn i)).setReg
             "int_bzp" .nat [BK, BN]
@@ -4847,9 +4852,7 @@ theorem i4LoopBody_run (s0 : BlockState) (a bs : RegionName)
     rw [← i4AccTile_dot_succ]
     exact i4_addTile_eval NumericDType.real _ _ _ _ _ _
       (by rw [evalOp_ref]; simpa using h2acc)
-      (i4_dot_eval _ _ _ _ _
-        (i4_castRTReal_eval "a" _ _ (by simpa using h2a))
-        (i4_castRTFp16_eval "b" _ _ (by simp)))
+      (i4_dot_eval _ _ _ (by simpa using h2a) (by simp))
   rw [stepStmts.cons_some (stepStmt_assign_eq_some h12)]
   -- 13. `a_ptrs += BLOCK_SIZE_K * stride_ak`
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
@@ -5194,7 +5197,7 @@ theorem i4PostLoop_run (s0 : BlockState) (c a bs : RegionName)
   -- register the store reads
   rw [stepStmts.cons_some (@stepStmt_assign_eq_some TileDType.fp16 [BM, BN] "c"
     (Op.castFloat FloatDType.real FloatDType.fp16
-      (Op.ref .real [BM, BN] "accumulator")) _
+      (Op.withPrecision .real .fp32 (Op.ref .real [BM, BN] "accumulator"))) _
     (⟨fun ix => FloatDType.real.cast FloatDType.fp16
         ((i4AccTile s0 a bs b bzp M N group_size stride_am stride_ak stride_bk
           stride_bn stride_bsk stride_bsn stride_bzpk stride_bzpn BM BN BK
@@ -5600,3 +5603,6 @@ specification matmul_dequantize_dequantize_exec_genuine
 end Correct_without_Rounding
 
 end VeriTile.Bench.TritonBenchG.MatmulDequantize
+
+#guard_msgs (drop info) in
+#auditModuleAxioms

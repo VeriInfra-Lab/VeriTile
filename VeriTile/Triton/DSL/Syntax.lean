@@ -34,6 +34,19 @@ syntax "tl.num_programs(" tritonExpr ")" : tritonExpr
 syntax "tl.num_programs(axis=" tritonExpr ")" : tritonExpr
 syntax "tl.arange(" tritonExpr ")" : tritonExpr
 syntax "tl.arange(" tritonExpr ", " tritonExpr ")" : tritonExpr
+-- Random source calls retain their original arguments and constexpr round count.
+syntax (name := tritonRand) "tl.rand(" tritonExpr ", " tritonExpr ")" : tritonExpr
+syntax (name := tritonRandRounds) "tl.rand(" tritonExpr ", " tritonExpr ", " tritonExpr ")" : tritonExpr
+syntax (name := tritonRandRoundsKw) "tl.rand(" tritonExpr ", " tritonExpr "," "n_rounds=" tritonExpr ")" : tritonExpr
+-- Generated only by the source-profile prepass; a direct surface use is rejected.
+syntax (name := tritonRandProfiled) "tl.__rand_profiled(" term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
+-- Only explicitly bound source helpers are admitted by the random prepass.
+syntax (name := tritonSourceHelperCall) (priority := low) ident "(" tritonExpr ")" : tritonExpr
+syntax (name := tritonUniform32Profiled) "tl.__uniform32_profiled(" tritonExpr ")" : tritonExpr
+syntax (name := tritonUnsignedAddProfiled) "tl.__unsigned_add_profiled(" num ", " term ", " term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
+syntax (name := tritonUnsignedMulProfiled) "tl.__unsigned_mul_profiled(" num ", " term ", " term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
+syntax (name := tritonSignedAnd64Profiled) "tl.__signed_and64_profiled(" term ", " tritonExpr ", " tritonExpr ")" : tritonExpr
+syntax (name := tritonSignedShift64Profiled) "tl.__signed_shift64_profiled(" tritonExpr ", " num ")" : tritonExpr
 syntax "tl.exp(" tritonExpr ")" : tritonExpr
 syntax "libdevice.exp(" tritonExpr ")" : tritonExpr
 syntax "tl.extra.cuda.libdevice.exp(" tritonExpr ")" : tritonExpr
@@ -91,6 +104,12 @@ syntax (name := tritonIdentMethodBitcastSpaced) ident "." "to" "(" tritonDType "
 syntax:max (name := tritonDottedIdentMethodBitcast) ident noWs "(" tritonDType "," "bitcast=True" ")" : tritonExpr
 
 syntax "tl.extra.cuda.libdevice.llrint(" tritonExpr ")" : tritonExpr
+-- Compute-only classifiers are initially supported as direct assignment RHSs.
+-- Nested use is rejected until Bool compute-expression composition is modeled.
+syntax "tl.extra.cuda.libdevice.finitef(" tritonExpr ")" : tritonExpr
+syntax "tl.extra.cuda.libdevice.isfinited(" tritonExpr ")" : tritonExpr
+syntax "libdevice.finitef(" tritonExpr ")" : tritonExpr
+syntax "libdevice.isfinited(" tritonExpr ")" : tritonExpr
 syntax:max (name := tritonMethodCastDTypeIdent) tritonExpr:max noWs "." "to" "(" ident "." ident ")" : tritonExpr
 syntax:max (name := tritonIdentMethodCastDTypeIdent) ident noWs "." "to" "(" ident "." ident ")" : tritonExpr
 syntax (name := tritonIdentMethodCastDTypeIdentSpaced) ident "." "to" "(" ident "." ident ")" : tritonExpr
@@ -115,6 +134,10 @@ syntax "tl.max_contiguous" "(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "-inf" : tritonExpr
 syntax "-" "float" "(" term ")" : tritonExpr
 syntax "float" "(" term ")" : tritonExpr
+-- Keep the builtin literal distinct from an explicitly bound source helper.
+-- Only exact zero is admitted by the expander; arbitrary Python conversion
+-- and large integer-to-host-float rounding are separate semantics.
+syntax (name := tritonFloatNatLiteral) (priority := high) "float" "(" num ")" : tritonExpr
 
 syntax "tl.float64" : tritonDType
 syntax "tl.float32" : tritonDType
@@ -152,6 +175,7 @@ syntax "boundary_check=(" num,* ")" : tritonMemKwarg
 syntax "padding_option=" str : tritonMemKwarg
 syntax "eviction_policy=\"evict_last\"" : tritonMemKwarg
 syntax "eviction_policy=\"evict_first\"" : tritonMemKwarg
+syntax "eviction_policy=" str : tritonMemKwarg
 
 syntax "axis" "=" num : tritonReduceKwarg
 syntax "axis" "=" "None" : tritonReduceKwarg
@@ -220,6 +244,7 @@ syntax "tl.ravel(" tritonExpr ")" : tritonExpr
 syntax "tl.flip(" tritonExpr ", " num ")" : tritonExpr
 syntax "tl.flip(" tritonExpr ("," tritonReduceKwarg)* ")" : tritonExpr
 syntax "tl.join(" tritonExpr ", " tritonExpr ")" : tritonExpr
+syntax "tl.interleave(" tritonExpr ", " tritonExpr ")" : tritonExpr
 syntax "tl.split(" tritonExpr ", " num ")" : tritonExpr
 syntax "tl.broadcast(" tritonExpr ", " tritonExpr ")" : tritonExpr
 -- `tl.broadcast_to(e, [dims*])` — broadcast `e` to an explicit target shape
@@ -280,6 +305,31 @@ declarations may be combined with `,`:
   tl.region mid_index = tl.int64, out = tl.int64
 -/
 syntax "tl.region " ident " = " tritonDType ("," ident " = " tritonDType)* : tritonStmt
+
+/-- Source ABI metadata for a preceding direct external Int/Nat scalar binding.
+It supplies no value and emits no execution statement. RandomProfile rejects
+annotations on arbitrary computed values and invalidates them on reassignment. -/
+syntax (name := tritonSourceInteger) "tl.source_integer " ident " = " tritonDType : tritonStmt
+syntax (name := tritonSourceUniformHelper) "tl.source_helper " ident " = "
+  "tl.uint_to_uniform_float" : tritonStmt
+
+/-- Checked finite-helper source metadata. The helper keeps its exact return
+expression; the prepass verifies every alias and parameter occurrence. -/
+syntax (name := tritonSourceFiniteAlias) "tl.source_alias " ident " = " ident : tritonStmt
+syntax (name := tritonSourceFiniteHelper) "tl.source_helper " ident "(" ident ")" " {"
+  "return " tritonExpr "}" : tritonStmt
+-- Parse x.dtype.is_fp64 as one dotted identifier without reserving dtype
+-- globally. Only the checked helper consumes this form and validates its suffix.
+syntax:max (name := tritonSourceIsFP64Dotted) ident noWs "(" ")" : tritonExpr
+-- Generated only after the complete helper declaration has been checked.
+syntax (name := tritonFiniteHelperResolved) "tl.__finite_helper_resolved(" tritonExpr ")" : tritonExpr
+
+-- Direct Philox retains all five inputs and simultaneously assigns four words.
+syntax (name := tritonPhiloxTuple) ident ", " ident ", " ident ", " ident " = "
+  "tl.philox(" tritonExpr ", " tritonExpr ", " tritonExpr ", " tritonExpr ", " tritonExpr ")" : tritonStmt
+-- Only the profile prepass may construct this form.
+syntax (name := tritonPhiloxTupleProfiled) ident ", " ident ", " ident ", " ident " = "
+  "tl.__philox_profiled(" term ", " tritonExpr ", " tritonExpr ", " tritonExpr ", " tritonExpr ", " tritonExpr ")" : tritonStmt
 
 syntax ident ", " ident " = " "tl.broadcast(" tritonExpr ", " tritonExpr ")" : tritonStmt
 syntax ident ", " ident " := " "tl.broadcast(" tritonExpr ", " tritonExpr ")" : tritonStmt

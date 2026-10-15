@@ -3,6 +3,11 @@ import bench.tritonbench_g.kldiv_compute.Proofs.Safety
 import bench.tritonbench_g.kldiv_compute.Proofs.Execution
 import bench.tritonbench_g.kldiv_compute.Proofs.Precision
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.KldivCompute
 
 open VeriTile.Triton VeriTile.Examples
@@ -17,7 +22,7 @@ at the active lanes, the translated pointer kernel terminates, every active
 output lane holds `klDivSpec (xs i) (ys i)`, and every other memory cell is
 unchanged. Proof: `MaskedKernelIO₂.Implements.intro` assembles the
 region-model masked triple with the flat-memory bridge side conditions. -/
-specification kldivergence_kernel_correctness
+theorem kldivergence_kernel_correctness
     (x_ptr y_ptr output_ptr : RegionName)
     (n_elements BLOCK_SIZE : Nat) :
     kldivIO x_ptr y_ptr output_ptr n_elements BLOCK_SIZE

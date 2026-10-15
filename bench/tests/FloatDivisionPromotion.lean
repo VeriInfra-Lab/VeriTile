@@ -26,12 +26,14 @@ example (X Y : RegionName) (B : Nat) :
           (.castFloat .bf16 .real (.ref .bf16 [B] "y"))
           (.castFloat .fp16 .real (.ref .fp16 [B] "x")))))) := ⟨rfl, rfl⟩
 
-/-- Multiplication still uses the fp16 common type selected by Triton. -/
+/-- Multiplication keeps the fp16 common storage type and both operand compute
+contexts, including the bf16-to-fp16 cast's fp32 child context. -/
 example (X Y : RegionName) (B : Nat) :
     (mixedHalf X Y B).surfaceBody[4]? = some
       (.assign .fp16 [B] "product" (.alg
-        (.mul .fp16 (.consSame .nil) (.ref .fp16 [B] "x")
-          (.castFloat .bf16 .fp16 (.ref .bf16 [B] "y"))))) := rfl
+        (.mul .fp16 (.consSame .nil)
+          (.withPrecision .fp16 .fp32 (.ref .fp16 [B] "x"))
+          (.withPrecision .fp16 .fp32 (.castFloat .bf16 .fp16 (.ref .bf16 [B] "y")))))) := rfl
 
 def wideDivision (X Y : RegionName) (B : Nat) : ComputeKernel := triton {
   tl.region X = tl.float16, Y = tl.float64

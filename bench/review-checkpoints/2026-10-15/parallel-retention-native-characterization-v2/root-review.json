@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "passed_original_retention_characterization_v2_after_protocol_repair",
+  "candidate_receipt_sha256": "adb3d6b349c279df16c4a0a0502d53281da3a762797071fd681dc9e8d80ab09a",
+  "protocol_patch_sha256": "140bb375a151c955eb60600e8c6dd6fa7f0ae899bec51a31b2ca625e8c0bba40",
+  "root_process_records_sha256": "4d21ffebfa992520858d5542ec9cb797027d64c8b19b7a7425a526cf2c747dc2",
+  "root_tests": 42,
+  "root_offline_profiles": 24,
+  "root_reference_files_equal": 18,
+  "native_status": "NOT_RUN",
+  "native_launches": 0,
+  "new_Lean_modules": 0,
+  "new_public_specifications": 0,
+  "classification_upgrade": false,
+  "numeric_acceptance": false,
+  "reviewed_boundaries": [
+    "Original full forward O and standalone backward DK/DV helper; shell and DQ captures remain extra observations.",
+    "Exact original four JIT AST bodies and signatures. Five finite full-buffer cases do not narrow old theorem scope.",
+    "Original scalar/pointer arguments, origin 8, before/after raw uint32 allocations, every helper call, all partial output stores and full frame; no host reduction.",
+    "Missing requested architectures and false offline/NOT_RUN environment claims now rejected.",
+    "Source 16 two-argument allow_tf32=False dot sites; captured contribution dots have live carry even fusion-off.",
+    "All 24 reviewed fp32 PTX use scalar FMA, ex2.approx.ftz, inlined libdevice log2; no MMA/WGMMA or lg2.approx.",
+    "Masked block loads omit other. Global buffer capture cannot measure inactive register undef or prove address-stable nondeterminism.",
+    "No complete total bit model for primitives/compiled graphs, no native integer/ABI/composition refinement, no GPU numerical acceptance."
+  ],
+  "obligations": 7
+}

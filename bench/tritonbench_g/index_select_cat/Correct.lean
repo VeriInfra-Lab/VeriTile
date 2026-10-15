@@ -1,6 +1,11 @@
 import bench.tritonbench_g.index_select_cat.Proofs.IO
 import bench.tritonbench_g.index_select_cat.Proofs.Real
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.IndexSelectCat
 open VeriTile.Triton
 open scoped VeriTile.Triton.GatherMasked2DKernelIO₁
@@ -30,7 +35,7 @@ carries no in-bounds witness for it.
 
 Proof: `GatherMasked2DKernelIO₁.Implements.intro` assembles the region-model
 gather triple with the flat-memory bridge side conditions. -/
-specification index_select_cat_fwd_kernel_correctness
+theorem index_select_cat_fwd_kernel_correctness
     (output_ptr source_ptr index_ptr : RegionName)
     (num_indices num_cols stride0 stride1
       BLOCK_SIZE_INDEX BLOCK_SIZE_COL : Nat)

@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 
 /-!
 # `matmul_tma` — closed-form GEMM correctness
@@ -67,6 +68,23 @@ compare against. The textual py↔lean scans in
 namespace VeriTile.Bench.TritonBenchG.MatmulTma
 
 open VeriTile.Triton
+
+private theorem scopedCast_eval {shape : TileShape} {dst : FloatDType}
+    {e : Op .real shape} {s : BlockState} {v : Tile dst.toTileDType shape}
+    (h : evalOp (.castFloat .real dst e) s = some v) :
+    evalOp (.castFloat .real dst (.withPrecision .real .fp32 e)) s = some v := by
+  rw [evalOp_castFloat] at h ⊢
+  rw [evalOp.eq_def]
+  exact h
+
+private theorem scopedCast_evalR {shape : TileShape} {dst : FloatDType}
+    {R : RoundingModel} {e : Op .real shape} {s : BlockState} {v : Tile dst.toTileDType shape}
+    (h : evalOpR R (.castFloat .real dst e) s = some v) :
+    evalOpR R (.castFloat .real dst (.withPrecision .real .fp32 e)) s = some v := by
+  rw [evalOpR_castFloat] at h ⊢
+  rw [evalOpR.eq_def]
+  exact h
+
 open scoped VeriTile.Triton.MaskedTileShapedKernelIO₂
 
 set_option linter.unusedSimpArgs false
@@ -210,7 +228,7 @@ theorem load_blockPtr_eval {BR BC : Nat} (s : BlockState) (R : RegionName)
           { region := R, baseOffset := 0, parentShape := [parentR, parentC],
             blockShape := [BR, BC], strides := [strideR, strideC],
             offsets := [0, 0] }⟩ : Tile .blockPtr [BR, BC])) :
-    evalOp (.load .real (.blockPtr (Op.ref .blockPtr [BR, BC] bpName) []) .none) s
+    evalOp (.load .real (.blockPtr (Op.ref .blockPtr [BR, BC] bpName) []) .none .unspecified) s
       = some (⟨fun idx : TileIndex [BR, BC] =>
           some (s.readMem R (idx.1.val * strideR + idx.2.1.val * strideC))⟩
           : Tile .real [BR, BC]) := by
@@ -393,9 +411,9 @@ theorem matmul_tma_f32_exec_closed_form
           Stmt.assign .blockPtr [BLOCK_M, BLOCK_N] "c_block_ptr"
             (Op.makeBlockPtrDyn C (Op.constNat 0) [M, N] [BLOCK_M, BLOCK_N] [stride_cm, stride_cn] [0, 0]),
           Stmt.assign .real [BLOCK_M, BLOCK_K] "a"
-            (Op.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_M, BLOCK_K] "a_block_ptr") []) .none),
+            (Op.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_M, BLOCK_K] "a_block_ptr") []) .none .unspecified),
           Stmt.assign .real [BLOCK_K, BLOCK_N] "b"
-            (Op.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_K, BLOCK_N] "b_block_ptr") []) .none),
+            (Op.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_K, BLOCK_N] "b_block_ptr") []) .none .unspecified),
           Stmt.assign .real ([] ++ [BLOCK_M, BLOCK_N]) "c"
             (Op.dot (batch := []) (Op.ref .real [BLOCK_M, BLOCK_K] "a") (Op.ref .real [BLOCK_K, BLOCK_N] "b")),
           Stmt.store .real [BLOCK_M, BLOCK_N]
@@ -542,12 +560,12 @@ theorem matmul_tma_f16_exec_closed_form
           Stmt.assign .blockPtr [BLOCK_M, BLOCK_N] "c_block_ptr"
             (Op.makeBlockPtrDyn C (Op.constNat 0) [M, N] [BLOCK_M, BLOCK_N] [stride_cm, stride_cn] [0, 0]),
           Stmt.assign .real [BLOCK_M, BLOCK_K] "a"
-            (Op.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_M, BLOCK_K] "a_block_ptr") []) .none),
+            (Op.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_M, BLOCK_K] "a_block_ptr") []) .none .unspecified),
           Stmt.assign .real [BLOCK_K, BLOCK_N] "b"
-            (Op.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_K, BLOCK_N] "b_block_ptr") []) .none),
+            (Op.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_K, BLOCK_N] "b_block_ptr") []) .none .unspecified),
           Stmt.assign FloatDType.fp16.toTileDType ([] ++ [BLOCK_M, BLOCK_N]) "c"
             (Op.castFloat FloatDType.real FloatDType.fp16
-              (Op.dot (batch := []) (Op.ref .real [BLOCK_M, BLOCK_K] "a") (Op.ref .real [BLOCK_K, BLOCK_N] "b"))),
+              (Op.withPrecision .real .fp32 (Op.dot (batch := []) (Op.ref .real [BLOCK_M, BLOCK_K] "a") (Op.ref .real [BLOCK_K, BLOCK_N] "b")))),
           Stmt.store .fp16 [BLOCK_M, BLOCK_N]
             (.blockPtr (Op.ref .blockPtr [BLOCK_M, BLOCK_N] "c_block_ptr") [])
             (Op.ref .fp16 [BLOCK_M, BLOCK_N] "c") .none ] from rfl]
@@ -571,7 +589,7 @@ theorem matmul_tma_f16_exec_closed_form
   have hcp5 : s5.regs .blockPtr [BLOCK_M, BLOCK_N] "c_block_ptr" = some cpT := by
     rw [hs5]; simp [hcpT]
   -- the cast(dot, fp16) step
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some (castdot_eval s5 aT bT ha5 hb5))]
+  rw [stepStmts.cons_some (stepStmt_assign_eq_some (scopedCast_eval (castdot_eval s5 aT bT ha5 hb5)))]
   -- characterise the cast-dot tile, lane `(i,j)`, as fp16(GEMM spec value)
   set cTile : Tile .fp16 [BLOCK_M, BLOCK_N] :=
     ⟨fun idx => FloatDType.real.cast FloatDType.fp16 ((Tile.dot [] aT bT).data idx)⟩ with hcTile
@@ -965,7 +983,7 @@ private theorem load_blockPtr_evalR {BR BC : Nat} (Rm : RoundingModel)
           { region := Reg, baseOffset := 0, parentShape := [parentR, parentC],
             blockShape := [BR, BC], strides := [strideR, strideC],
             offsets := [0, 0] }⟩ : Tile .blockPtr [BR, BC])) :
-    evalOpR Rm (.load .real (.blockPtr (Op.ref .blockPtr [BR, BC] bpName) []) .none) s
+    evalOpR Rm (.load .real (.blockPtr (Op.ref .blockPtr [BR, BC] bpName) []) .none .unspecified) s
       = some (⟨fun idx : TileIndex [BR, BC] =>
           some (s.readMem Reg (idx.1.val * strideR + idx.2.1.val * strideC))⟩
           : Tile .real [BR, BC]) := by
@@ -1118,12 +1136,12 @@ theorem matmul_tma_f16_region_runR (Rm : RoundingModel) (A B C : RegionName)
           Stmt.assign .blockPtr [BLOCK_M, BLOCK_N] "c_block_ptr"
             (Op.makeBlockPtrDyn C (Op.constNat 0) [M, N] [BLOCK_M, BLOCK_N] [stride_cm, stride_cn] [0, 0]),
           Stmt.assign .real [BLOCK_M, BLOCK_K] "a"
-            (Op.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_M, BLOCK_K] "a_block_ptr") []) .none),
+            (Op.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_M, BLOCK_K] "a_block_ptr") []) .none .unspecified),
           Stmt.assign .real [BLOCK_K, BLOCK_N] "b"
-            (Op.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_K, BLOCK_N] "b_block_ptr") []) .none),
+            (Op.load .real (.blockPtr (Op.ref .blockPtr [BLOCK_K, BLOCK_N] "b_block_ptr") []) .none .unspecified),
           Stmt.assign FloatDType.fp16.toTileDType ([] ++ [BLOCK_M, BLOCK_N]) "c"
             (Op.castFloat FloatDType.real FloatDType.fp16
-              (Op.dot (batch := []) (Op.ref .real [BLOCK_M, BLOCK_K] "a") (Op.ref .real [BLOCK_K, BLOCK_N] "b"))),
+              (Op.withPrecision .real .fp32 (Op.dot (batch := []) (Op.ref .real [BLOCK_M, BLOCK_K] "a") (Op.ref .real [BLOCK_K, BLOCK_N] "b")))),
           Stmt.store .fp16 [BLOCK_M, BLOCK_N]
             (.blockPtr (Op.ref .blockPtr [BLOCK_M, BLOCK_N] "c_block_ptr") [])
             (Op.ref .fp16 [BLOCK_M, BLOCK_N] "c") .none ] from rfl]
@@ -1149,7 +1167,7 @@ theorem matmul_tma_f16_region_runR (Rm : RoundingModel) (A B C : RegionName)
   have hb5 : s5.regs .real [BLOCK_K, BLOCK_N] "b" = some bT := by rw [hs5]; simp
   have hcp5 : s5.regs .blockPtr [BLOCK_M, BLOCK_N] "c_block_ptr" = some cpT := by
     rw [hs5]; simp [hcpT]
-  rw [stepStmtsR_cons_some (stepStmtR_assign_eq_some (castdot_evalR Rm s5 aT bT ha5 hb5))]
+  rw [stepStmtsR_cons_some (stepStmtR_assign_eq_some (scopedCast_evalR (castdot_evalR Rm s5 aT bT ha5 hb5)))]
   set cTile : Tile .fp16 [BLOCK_M, BLOCK_N] :=
     ⟨fun idx => Rm.cast FloatDType.real FloatDType.fp16 ((Tile.dot [] aT bT).data idx)⟩
     with hcTile
@@ -1312,3 +1330,5 @@ specification matmul_tma_f16_io_correctnessR (Rm : RoundingModel)
 end IOFace
 
 end VeriTile.Bench.TritonBenchG.MatmulTma
+
+#auditModuleAxioms

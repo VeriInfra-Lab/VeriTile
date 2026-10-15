@@ -2,69 +2,71 @@
 
 - Source file: `int8_matmul_quantization.py` (upstream `data/TritonBench_G_v1/int8_matmul_quantization.py`)
 - Corpus: TritonBench-G v1
-- Size: 267 lines, 2 `@triton.jit` kernels — **both launched, both modeled**
-- Status: **PORTED** — `Int8MatmulQuantization.lean`, main theorems
-  `int8_matmul_quantization_quantize_exec_genuine` and
-  `int8_matmul_quantization_matmul_exec_genuine` (`exec`-level,
-  dimension-general, 0 `sorry`).
+- Size: 267 lines, 2 `@triton.jit` kernels
+- Machine value contracts: `FPCorrect.lean`, both original accepted stages.
+- Historical mathematical contracts: `Int8MatmulQuantization.lean`.
 
-Kernel 1 = `quantize_int8_perrow_kernel` (the audit anchor; launcher
-`quantize_int8_perrow`), kernel 2 = `matmul_kernel` (launcher `matmul_int8`);
-the test drives both through `matmul_quantize_int8`. Together they form a
-dynamic-quantization pipeline: kernel 1 streams each row of the float matrix
-`fpa` over K blocks **twice** — pass 1 accumulates the per-row running
-abs-max over K-masked (`other=0.0`) tiles, then `a_scale = a_max / 127.`;
-pass 2 reloads, quantizes `(fpa / a_scale[:, None]).to(tl.int8)` and
-K-mask-stores the `.int` tile, and finally stores the per-row scale into an
-fp16 vector. Kernel 2 is the consuming int8×int8→int32 GEMM: group-swizzled
-pids, `% M` / `% N` wrapped offsets, remainder-masked `.int` K loads feeding
-the exact ℤ `tl.dot` (`Op.dotInt`), and the epilogue
-`(acc.to(tl.float32) * a_scale[:, None] * b_scale[None, :]).to(tl.float16)`
-under a two-axis-masked fp16 store.
+`int8_matmul_quantization_producer_machine_correctness` proves the complete
+original two-pass quantization producer. The first loop computes the fp32
+absolute maximum of each row; the second reloads every covered K column,
+divides by the separately rounded fp32 scale, converts to signed int8 by
+checked truncation toward zero, and stores the values. The scale store
+performs a real binary32-to-binary16 encoding conversion. Both loops have
+symbolic trip counts and block widths, including ragged and extra fully
+masked blocks. The source's unstrided scale offset is retained.
 
-Disclosed surface decisions (the module's two `Translation-surface
-blocker:` markers, one per kernel):
+The producer assumes positive block width, sufficient K coverage, active
+output address injectivity, and the region distinctions required by the
+read-after-write loop and final scale store. Its numeric domain is exactly
+that each **active** fp32 quotient has a defined finite signed-int8
+conversion. Inactive conversion results are arbitrary: no padding-value
+restriction is added, and the stored memory is proved independent of that
+arbitrary policy. All-zero rows, NaN or overflowing active quotients fall
+outside that defined conversion domain; no saturation behavior is invented.
 
-- **Ceil-form `numKBlocks`** (both kernels) — the `tl.cdiv` trip counts are
-  antiquoted binders with the *covering-half* side condition
-  `K ≤ numKBlocks · BLOCK_SIZE_K` only: the K loads/stores are
-  remainder-masked with `other=0.0`, so extra all-masked blocks contribute
-  `0` and store nothing — honest at ragged `K` (unlike the exact-multiple
-  presentations of the unmasked-loop matmul ports).
-- **`SPLIT_K` fixed to `1`** (kernel 2, the `tl.store` arm): the autotune
-  table sweeps `SPLIT_K ∈ {1, 2}`; the `tl.atomic_add` arm (into the
-  host-zeroed `C` of `reset_to_zero=['c_ptr']`) drops with the constexpr;
-  the headline carries `s.pids 1 = 0`.
-- **`accumulator.to(tl.float32)` via the implicit promotion** (kernel 2):
-  the explicit spelling is int-typed-ident-blocked in the DSL, so the
-  epilogue product is spelled bare and the lowered term carries
-  `Op.intToReal` at exactly the Python cast's site.
-- **Implicit fp16 scale-store cast** (kernel 1): the host allocates
-  `a_scale` as `torch.float16`, so the bare `tl.store(as_ptr + as_offs,
-  a_scale)` is spelled `(a_scale).to(tl.float16)` and the scale cells read
-  back as fp16-typed `MemCell`s. The quirky **unstrided** `as_offs` arange
-  (`pid_m * BLOCK_SIZE_M * stride_asm + tl.arange(0, BLOCK_SIZE_M)`) is
-  spelled faithfully.
-- **`.to(tl.int8)`** (kernel 1) lowers to `Op.castRealToInt8` —
-  truncation toward zero into the unbounded `.int` carrier; hardware
-  saturation at `±127` is the unmodeled `#154`-family boundary.
+`int8_matmul_quantization_consumer_machine_correctness` proves the complete
+original grouped GEMM consumer for the already accepted `SPLIT_K=1` store
+arm. Both int8 operands retain their signed eight-bit interpretation. Every
+block dot and accumulator update uses a 32-bit modular word. A separate
+lemma equates the accumulator to the low 32 bits of an independent integer
+product sum, so overflow is modeled without a no-overflow assumption.
+The epilogue rounds the signed32 accumulator into binary32, widens the
+binary16 A scale, performs two separate binary32 products using the
+binary32 B scale, and rounds the result into binary16 for the masked store.
 
-Kernel 1's row window is wrapped (`% M`) but its stores are row-unmasked;
-the headline carries the host's exact-tiling launch fact
-`hFit : pid·BM + BM ≤ M` (grid = `M // BLOCK_SIZE_M` programs of
-`BLOCK_SIZE_M = 1` rows), under which the wrap is the identity. Its single
-`exec` statement carries **both** store channels: every `(row, kg)` int8
-cell holds the truncated quotient against the kernel-computed streaming
-abs-max scale, and every scale cell holds the fp16 image of that scale.
-Kernel 2's headline reads
-`((Σ_{j<K} A[row,j]·B[j,col] : ℤ) : ℝ) · a_scale[row] · b_scale[col]` — the
-masked double sum collapses to the clean `∑ j : Fin K` under the ceil-form
-hypothesis. Both headlines take store-map injectivity hypotheses (`hInj`,
-row-major discharge lemma provided for kernel 2) and kernel 1 additionally
-the region-distinctness facts its read-after-write loop and two-region tail
-force.
+The consumer covers arbitrary accepted K trip counts and remainder masks,
+grouped program IDs, symbolic strides, and both output edge masks. Positive
+K-block width, `K <= steps * blockInner`, and `pid[1] = 0` establish that
+every original K position occurs in an active block lane. Store-map
+injectivity gives exact value readback; the frame theorem preserves all
+other cells. The source's `SPLIT_K=2` atomic-add arm is outside the original
+accepted scope and is not claimed here.
 
-One mechanical library rider shipped with this port: the DSL's `other=`
-elaboration table gained the `.int` arm for the literal `0.0`
-(`Op.constInt 0`), mirroring the existing `.nat` arm — kernel 2's masked
-`.int` loads are its first consumer.
+The typed source keeps the original indexing and control flow. Mechanical
+projection lemmas bind the grouped address prefix, all five original K-loop
+statements, and the final store addresses/masks. The two signed load widths
+and the accumulator width are explicit local AST annotations. The original
+`accumulator.to(float32)` event uses `Op.intToReal` in an explicit fp32
+context; half-scale widening selects that context without an extra
+arithmetic operation. These changes are documented in `MatmulSource.lean`.
+
+Kernel-checked, nonempty examples exercise three K iterations (full,
+ragged, and entirely masked). The producer maps `127, -63.5, 31.75` to
+`127, -63, 31` and stores half scale `0x3c00`. The consumer uses signed
+products and mixed half/fp32 scales to write half `7` (`0x4700`) at a partial
+M/N boundary. Both examples prove padding cells unchanged. All new proof
+modules run `#axiomsClean`; no native decision axiom is used.
+
+These are concrete software bit-model contracts. They do not establish
+GPU/compiler refinement. The remaining native bindings include reduction
+and scalar-max NaN/tie/signed-zero selection, scalar rounding/flush policy,
+half NaN encoding, integer dot/update overflow lowering, and cast behavior.
+No new reassociation or approximate numerical identity is assumed.
+
+The older root module remains an explicitly historical mathematical model:
+its producer uses `LegacyRealInt8`, and its consumer uses an unbounded
+integer sum and real scaling. Those statements are preserved for source
+bridging; they are not presented as machine-value evidence. Its retained
+precision scopes are erased only inside the local mathematical evaluator
+proofs. The new FP source never imports the legacy cast as its execution
+semantics.

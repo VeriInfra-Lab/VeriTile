@@ -14,15 +14,15 @@ def exponentials {α : Type} (M : Algebra α) (xs : Fin N → α) : Fin N → α
   fun i => exp M (xs i)
 
 def shifted {α : Type} (M : Algebra α) (xs : Fin N → α) (m : α) : Fin N → α :=
-  fun i => exp M (sub M (xs i) m)
+  fun i => exp M (ScalarArithmetic.sub M (xs i) m)
 
-def scale {α : Type} (M : Algebra α) (m : α) : α := div M (one M) (exp M m)
+def scale {α : Type} (M : Algebra α) (m : α) : α := ScalarArithmetic.div M (one M) (exp M m)
 
 /-- Scalar libdevice law, supplied from the admitted fragment by Exponential.
 Its two operands retain their finite-value guards. -/
 structure LibdeviceExpSub {α : Type} (M : Algebra α) (D : Domain α) : Prop where
   apply : ∀ a b, D .finite a → D .finite b →
-    exp M (sub M a b) = div M (exp M a) (exp M b)
+    exp M (ScalarArithmetic.sub M a b) = ScalarArithmetic.div M (exp M a) (exp M b)
 
 /-- All other requirements are domain predicates. The common shift may be
 any opaque finite value; no algebraic property of reduceMax is assumed. -/
@@ -38,7 +38,7 @@ theorem shifted_lane {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α)
     (hExp : LibdeviceExpSub M D) (xs : Fin N → α) (m : α) (tree : ReductionTree N)
     (hd : ShiftDomain M D xs m tree) (i : Fin N) :
-    shifted M xs m i = mul M (exponentials M xs i) (scale M m) := by
+    shifted M xs m i = ScalarArithmetic.mul M (exponentials M xs i) (scale M m) := by
   unfold shifted scale exponentials
   rw [hExp.apply _ _ (hd.inputs i) hd.center]
   exact div_mul_rcp R M D hM s _ _ (hd.normalization.inputs i) hd.centerExp hd.centerExpNonzero
@@ -49,8 +49,8 @@ theorem normalized {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α)
     (hExp : LibdeviceExpSub M D) (xs : Fin N → α) (m : α) (tree : ReductionTree N)
     (hd : ShiftDomain M D xs m tree) (i : Fin N) :
-    div M (shifted M xs m i) (value M (shifted M xs m) (zero M) tree) =
-      div M (exponentials M xs i) (value M (exponentials M xs) (zero M) tree) := by
+    ScalarArithmetic.div M (shifted M xs m i) (value M (shifted M xs m) (zero M) tree) =
+      ScalarArithmetic.div M (exponentials M xs i) (value M (exponentials M xs) (zero M) tree) := by
   have hrow := shifted_lane R M D hM s hExp xs m tree hd
   rw [value_congr M _ _ (zero M) (zero M) hrow rfl tree, hrow i]
   exact normalize_reduction R M D hM s _ _ tree hd.normalization i
@@ -64,21 +64,21 @@ def normalizationChecks {α : Type} (M : Algebra α) (xs : Fin N → α) (c : α
     .guard .finite c,
     .guard .nonzero c,
     .guard .finite (zero M),
-    .guard .finite (mul M c (zero M)),
-    .guard .finite (sub M (zero M) (mul M c (zero M))),
+    .guard .finite (ScalarArithmetic.mul M c (zero M)),
+    .guard .finite (ScalarArithmetic.sub M (zero M) (ScalarArithmetic.mul M c (zero M))),
     finiteTree M xs (zero M) tree,
     .guard .nonzero (value M xs (zero M) tree),
-    .each N (fun i => .guard .finite (mul M (xs i) c)),
-    .guard .finite (mul M (value M xs (zero M) tree) c),
-    .guard .nonzero (mul M (value M xs (zero M) tree) c),
-    .guard .finite (div M (one M) (value M xs (zero M) tree)),
-    .guard .finite (div M (one M) c),
-    .guard .finite (div M (one M) (mul M (value M xs (zero M) tree) c)),
-    .each N (fun i => .guard .finite (div M (xs i) (value M xs (zero M) tree))),
+    .each N (fun i => .guard .finite (ScalarArithmetic.mul M (xs i) c)),
+    .guard .finite (ScalarArithmetic.mul M (value M xs (zero M) tree) c),
+    .guard .nonzero (ScalarArithmetic.mul M (value M xs (zero M) tree) c),
+    .guard .finite (ScalarArithmetic.div M (one M) (value M xs (zero M) tree)),
+    .guard .finite (ScalarArithmetic.div M (one M) c),
+    .guard .finite (ScalarArithmetic.div M (one M) (ScalarArithmetic.mul M (value M xs (zero M) tree) c)),
+    .each N (fun i => .guard .finite (ScalarArithmetic.div M (xs i) (value M xs (zero M) tree))),
     .each N (fun i => .guard .finite
-      (div M (mul M (xs i) c) (mul M (value M xs (zero M) tree) c))),
+      (ScalarArithmetic.div M (ScalarArithmetic.mul M (xs i) c) (ScalarArithmetic.mul M (value M xs (zero M) tree) c))),
     .each N (fun i => .guard .finite
-      (mul M (div M (mul M (xs i) c) (mul M (value M xs (zero M) tree) c))
+      (ScalarArithmetic.mul M (ScalarArithmetic.div M (ScalarArithmetic.mul M (xs i) c) (ScalarArithmetic.mul M (value M xs (zero M) tree) c))
         (value M xs (zero M) tree)))]
 
 @[simp] theorem normalizationChecks_holds {α : Type} (M : Algebra α) (D : Domain α)

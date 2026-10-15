@@ -3,7 +3,17 @@ import VeriTile.Triton.DSL
 /-! Complete forward/backward FlagGems source family, retaining both constexpr
 branches and all loops. The legacy one-tile definitions remain untouched.
 Typed output conversion spells the source store's implicit conversion explicitly.
-Host launch composition and IEEE behavior are not claimed by source elaboration. -/
+Host launch composition and IEEE behavior are not claimed by source elaboration.
+
+Source-audit target: softmax_kernel_non_inner
+Source-audit Lean: flaggems0%
+Source-audit args: version=original
+Source-audit helpers: {"python":["prev_multiple_of"],"lean":{"source":"flaggems0%","args":{"version":"original"},"symbolic":["inputType","outputType"]}}
+This view retains both ONE_TILE_PER_CTA branches with symbolic storage. The
+same-file prev_multiple_of arithmetic helper is explicitly expanded and its
+complete RHS is compared. Other forward and backward JITs and runtime storage
+profiles require their own source comparisons.
+-/
 namespace VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.FullSource
 open Lean VeriTile.Triton
 

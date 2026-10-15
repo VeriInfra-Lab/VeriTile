@@ -1,0 +1,30 @@
+{
+  "scope": "Known floating tensor.dtype conversion across six types; where floating branch promotion and fp64 precision preservation. Three semantic gates plus 15 affected regression modules. Macro tests use the project source-quotation hygiene convention. No claim of general dynamic branch or comparison precision support.",
+  "dsl_exit_code": 0,
+  "dsl_jobs": 800,
+  "test_exit_code": 0,
+  "semantic_gates": 3,
+  "regressions": 15,
+  "regression_receipt": "regressions/receipt.json",
+  "independent_comparator": "not run; required systemd user manager unavailable",
+  "recorded_at_utc": "2026-10-13T19:11:11.550955+00:00",
+  "source_sha256": {
+    "VeriTile/Triton/DSL/Expansion/Main.lean": "ffcc36da8e01c711cd565891506cc80db92cf80b4314c506471599b9d8e92f10",
+    "VeriTile/Triton/DSL/Expansion/DType.lean": "e30c5ef703d8c77a3310714d74e8ce54dd75594f4a1abc25ea1476536f983239",
+    "VeriTile/Triton/DSL/Syntax.lean": "9a179dc7be97d18408cf62fb114395e1d3728cccdce50abaaa89218e5aeb57fd",
+    "VeriTile/Triton/DSL/RandomProfile.lean": "37e7fadbcdfe41dc76c68638ab3ed4215c187752b097f38958d03f1255054467",
+    "bench/tests/RegisterDTypeWhere.lean": "a8c7270db5e099d950c05db3230000624976e0c2cfc0d62d064e57dea6ac8615"
+  },
+  "logs": {
+    "dsl": {
+      "path": "dsl.log.gz",
+      "raw_sha256": "3182767f2783b711649b381a783922de7fc98b7c722ade2dd36d192ef63dc6f5",
+      "gzip_sha256": "f625c0d6eb196ba83373e62aa70a56e1813f41ca31895a23bb877a7b761e42c1"
+    },
+    "semantic-test": {
+      "path": "semantic-test.log.gz",
+      "raw_sha256": "9c3ae734cbe09957ebef11a524f2ce5635e07b4d3cdc9167904f88cb3f53e37f",
+      "gzip_sha256": "68c9f04090482bc08783243626c02c938e3b23dc1155b826a5ca86a95a37632f"
+    }
+  }
+}

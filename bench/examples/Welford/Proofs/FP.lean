@@ -44,10 +44,11 @@ def initialCode : List ComputeStmt :=
 
 def outputCode (meanReg varReg : RegionName) (N : Nat) : List ComputeStmt :=
   [.store .bf16 [] (.region ⟨meanReg.name⟩ (.constNat 0))
-      (.alg (.castFloat .real .bf16 (realRef "M"))) .none,
+      (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (realRef "M")))) .none,
    .store .bf16 [] (.region ⟨varReg.name⟩ (.constNat 0))
       (.alg (.castFloat .real .bf16
-        (.div .real .nil (realRef "S") (.natToReal (.constNat N))))) .none]
+        (.withPrecision .real .fp32
+          (.div .real .nil (realRef "S") (.natToReal (.constNat N)))))) .none]
 
 theorem kernel_body (x m v : RegionName) (N stride : Nat) :
     (onlineWelfordKernel x m v N stride).surfaceBody =
@@ -180,7 +181,8 @@ def meanValue {α : Type} (M : Algebra α) (xs : Fin N → α) : α :=
   M.cast none .real .bf16 (recurrence M xs N).1
 
 def varianceValue {α : Type} (M : Algebra α) (xs : Fin N → α) : α :=
-  M.cast none .real .bf16 (M.binary none .real .div (recurrence M xs N).2 (M.fromNat none N))
+  M.cast none .real .bf16
+    (M.binary (some .fp32) .real .div (recurrence M xs N).2 (M.fromNat (some .fp32) N))
 
 /-- Both original bf16 output cells and every untouched cell are accounted
 for. Output regions must differ; the input may alias either output because all

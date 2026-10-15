@@ -31,7 +31,7 @@ theorem prefix_step (u : BlockState) (s l : RegionName) (batch dim B : Nat) :
     stepStmts (ComplexForwardSource.prelude s l batch dim B) u = some (result u s l batch dim B) := by
   simp only [ComplexForwardSource.prelude,Erasure.complexForward,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
     Except.bind,bind,Bool.false_eq_true,↓reduceIte,List.take]
   simp only [stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,bind,pure,
     Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,

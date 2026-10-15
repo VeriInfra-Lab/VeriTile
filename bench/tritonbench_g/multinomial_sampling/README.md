@@ -1,13 +1,9 @@
 # multinomial_sampling
 
-- Source file: `multinomial_sampling.py` (upstream `data/TritonBench_G_v1/multinomial_sampling.py`)
-- Corpus: TritonBench-G v1
-- Size: 136 lines, 1 `@triton.jit` kernel(s)
-- Status: BLOCKED — not imported. Every other `tl.*` form it uses is in the DSL
-  surface, but it needs: `tl.rand`.
-  See [`../tritonbench_coverage.md`](../tritonbench_coverage.md) for the
-  ranked unlock levers.
+The original full token loop is now imported through the shared Triton DSL, with backend and software bit-semantics theorems. The declared profile covers fp16/bf16/fp32 and explicitly bound fp64 storage, signed64 seeds, and power-of-two blocks at most 1048576. A real-valued storage tag alone does not establish fp64 correspondence.
 
-This directory is the per-kernel workspace for the TritonBench-G
-full-formalization roadmap. It is currently a placeholder: the upstream
-Python source has **not** been imported.
+Public proof entries: [FPCorrect.lean](FPCorrect.lean).
+
+Native GPU correspondence remains unestablished. Offline compilation and Lean proofs have separate meanings; current scope and experimental obligations are recorded in the [184-task review](../../review-checkpoints/2026-10-14/next-value-repair/final-acceptance/tasks-184.tsv) and [experiment handoff](../../review-checkpoints/2026-10-14/next-value-repair/native-experiment-handoff/EXPERIMENT-HANDOFF.md).
+
+The previous import-status note is preserved in the [documentation history](../../review-checkpoints/2026-10-14/next-value-repair/documentation-update/before/bench/tritonbench_g/multinomial_sampling/README.md).

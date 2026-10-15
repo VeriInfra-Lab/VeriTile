@@ -1,3 +1,12 @@
+/-
+Source-audit target: kernel
+Source-audit Lean: transposeSource%
+Source-audit args: storage=tl.float16, version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original fp16 quotation used by typedKernel and the Python wrapper.
+Other Python dtypes and the index-commuted candidate are not certified by this view.
+-/
+
 import VeriTile.Triton.DSL
 
 namespace VeriTile.Bench.TritonBenchG.MatrixTranspose

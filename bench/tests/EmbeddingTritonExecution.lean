@@ -36,10 +36,13 @@ theorem bounds : Bounds initial "weight" "ids" "out" (-2) 1 2 2 4 2 4 3 2 alloca
   constructor
   · intro t ht jr hn
     exact hn
-  · intro t ht jr jd hn hd hlo hhi
-    simp only [token,BlockState.readMemValue,BlockState.readMemTyped,initial] at hlo hhi ⊢
-    simp only [↓reduceIte,MemCell.of,MemCell.readAs] at hlo hhi ⊢
-    split_ifs at hlo hhi ⊢ <;> norm_num at hlo hhi ⊢ <;> change _<6 <;> omega
+  · intro t ht jr jd hd hlo hhi
+    by_cases hn : row initial.pid 3 2 t jr.val<4
+    · simp only [loadedToken,hn,if_true] at hlo hhi ⊢
+      simp only [token,BlockState.readMemValue,BlockState.readMemTyped,initial] at hlo hhi ⊢
+      simp only [↓reduceIte,MemCell.of,MemCell.readAs] at hlo hhi ⊢
+      split_ifs at hlo hhi ⊢ <;> norm_num at hlo hhi ⊢ <;> change _<6 <;> omega
+    · norm_num [loadedToken,hn,BitVec.toInt,BitVec.ofInt] at hhi
   · intro t ht jr jd hn hd
     change row initial.pid 3 2 t jr.val*2+jd.val<9
     omega
@@ -86,7 +89,7 @@ theorem candidate_executes (storage : Storage) :
 
 def emptyAllocation : FlatAlloc := { allocation with extent := fun _ => 0 }
 
-/-- All-masked rows require no allocations, even though the full source
+/-- With the representable default 1, all-masked rows require no allocations, even though the full source
 still executes both chunks and initializes all its registers. -/
 theorem inactive_executes (storage : Storage) (swapped : Bool) :
     ∃ v, exec (emptyAllocation.flattenKernel
@@ -100,7 +103,8 @@ theorem inactive_executes (storage : Storage) (swapped : Bool) :
   have hb : Bounds initial "weight" "ids" "out" (-2) 1 2 2 0 2 4 3 2 emptyAllocation.extent := by
     constructor
     · intro t ht jr hn; exact False.elim (Nat.not_lt_zero _ hn)
-    · intro t ht jr jd hn; exact False.elim (Nat.not_lt_zero _ hn)
+    · intro t ht jr jd hd hlo hhi
+      norm_num [loadedToken,BitVec.toInt,BitVec.ofInt] at hhi
     · intro t ht jr jd hn; exact False.elim (Nat.not_lt_zero _ hn)
   obtain ⟨v,he,_,hf⟩ := embedding_correctness storage "weight" "ids" "out" (-2) 1 2 2 0 2 4 3 2
     (by decide) (by decide) (by decide) emptyAllocation hd (by intro r hr; rfl) initial rfl hb
@@ -112,6 +116,59 @@ theorem inactive_executes (storage : Storage) (swapped : Bool) :
     exact hf r o (Or.inr (by
       rintro z ⟨t,ht,jr,hjr,jd,hjd,hn,hd,heq⟩
       exact False.elim (Nat.not_lt_zero _ hn)))
+
+/-- Even with no output rows, the complete source reads weight[0] after
+2^32 is implicitly converted to the int32 default zero. -/
+theorem actual_source_needs_weight (storage : Storage) (swapped : Bool) :
+    ¬ Stmt.TraceSafeList (fun _ => 0)
+      (source storage swapped "weight" "ids" "out" 0 4294967296 1 1 0 1 1 1 1).eraseDType.toAlgKernel.body initial := by
+  rw [Erasure.body]
+  cases swapped <;> simp [Erasure.source,ComputeKernel.surfaceBody,ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,Except.bind,bind,Option.bind,
+    Stmt.TraceSafeList,Stmt.TraceSafe,Stmt.forRangeTraceSafe,Op.SafeAt.eq_def,MaskOpt.SafeAt,
+    MemAccess.ActiveAddressSafe,memAccessActiveAddressSafe,MemAccess.SafeAt,MaskOpt.Active,
+    stepStmt,stepStmts,evalOp.eq_def,Tile.bop,Tile.cop,Tile.expandDim,TileShape.dropInsertedIndex,
+    NumericDType.add,NumericDType.mul,NumericDType.sub,ComparableDType.lt,ComparableDType.ge,
+    initial]
+
+def wrappedAllocation : FlatAlloc where
+  flat := "flat"
+  regions := ["weight"]
+  base := fun _ => 0
+  extent := fun r => if r="weight" then 1 else 0
+
+/-- The same complete source executes with exactly the weight allocation
+it actually reads and no ID/output allocations. All memory is preserved. -/
+theorem wrapped_default_executes (storage : Storage) (swapped : Bool) :
+    ∃ v, exec (wrappedAllocation.flattenKernel
+      (source storage swapped "weight" "ids" "out" 0 4294967296 1 1 0 1 1 1 1).eraseDType.toAlgKernel)
+      (wrappedAllocation.flattenState initial)=some v ∧
+      v.mem=(wrappedAllocation.flattenState initial).mem := by
+  have hd : wrappedAllocation.Disjoint := by
+    intro r hr s hs hn
+    simp only [wrappedAllocation,List.mem_cons,List.not_mem_nil,or_false] at hr hs
+    exact False.elim (hn (hr.trans hs.symm))
+  have hc : ∀ r, r ∉ wrappedAllocation.regions → wrappedAllocation.extent r=0 := by
+    intro r hr
+    simpa [wrappedAllocation] using hr
+  have hb : Bounds initial "weight" "ids" "out" 0 4294967296 1 1 0 1 1 1 1 wrappedAllocation.extent := by
+    constructor
+    · intro t ht jr hn; exact False.elim (Nat.not_lt_zero _ hn)
+    · intro t ht jr jd hd hlo hhi
+      have hj : jd.val=0 := by omega
+      norm_num [loadedToken,wrappedAllocation,hj] <;> decide
+    · intro t ht jr jd hn; exact False.elim (Nat.not_lt_zero _ hn)
+  obtain ⟨v,he,_,hf⟩ := embedding_correctness storage "weight" "ids" "out" 0 4294967296 1 1 0 1 1 1 1
+    (by decide) (by decide) (by decide) wrappedAllocation hd hc initial rfl hb
+  refine ⟨v,?_,?_⟩
+  · cases swapped
+    · exact he
+    · rw [← Candidate.flat_exec]; exact he
+  · funext r o
+    exact hf r o (Or.inr (by
+      rintro z ⟨t,ht,jr,hjr,jd,hjd,hn,hd,heq⟩
+      exact False.elim (Nat.not_lt_zero _ hn)))
+
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

@@ -4,6 +4,11 @@ import bench.tritonbench_g.log_softmax.Proofs.Contracts
 import bench.tritonbench_g.log_softmax.Proofs.Region
 import bench.tritonbench_g.log_softmax.Proofs.Precision
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.LogSoftmax
 
 open VeriTile.Triton
@@ -33,7 +38,7 @@ program's tile must not alias the same output cell — otherwise only the last
 store survives). Unlike the forward headline, **no** `0 < BLOCK_N` is needed:
 the backward kernel's only reduction is `tl.sum`, which is total on an empty
 axis (`= 0`), so termination never fails. -/
-specification log_softmax_backward_kernel_correctness
+theorem log_softmax_backward_kernel_correctness
     (out_ptr out_grad_ptr in_grad_ptr : RegionName)
     (M N K BLOCK_M BLOCK_N : Nat)
     (hOutInj : ∀ p₀ p₁ : Nat, Function.Injective
@@ -75,7 +80,7 @@ Two honest, **truth-required** side hypotheses: `hOutInj` (distinct lanes of a
 program's tile must not alias the same output cell — otherwise only the last
 store survives) and `hBN : 0 < BLOCK_N` (`tl.max` over a zero-length reduction
 axis has no value and `exec` returns `none`, so termination genuinely fails). -/
-specification log_softmax_kernel_correctness
+theorem log_softmax_kernel_correctness
     (output_ptr input_ptr : RegionName)
     (M N K BLOCK_M BLOCK_N : Nat) (hBN : 0 < BLOCK_N)
     (hOutInj : ∀ p₀ p₁ : Nat, Function.Injective

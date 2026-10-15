@@ -8,6 +8,11 @@ def row (pid N NN t lane : Nat) : Nat := pid*N+t*NN+lane
 
 def token (u : BlockState) (ids : RegionName) (r : Nat) : Int := u.readMemValue .int ids r
 
+/-- Token supplied by the source load, including its implicit int32 default conversion.
+A masked row can still enable a weight read when the default wraps. -/
+def loadedToken (u : BlockState) (ids : RegionName) (last : Int) (n r : Nat) : Int :=
+  if r<n then token u ids r else (BitVec.ofInt 32 last).toInt
+
 /-- Independent mathematical lookup, before any output stores. Negative IDs
 are valid exactly when they lie in the declared signed vocabulary interval. -/
 def value (u : BlockState) (weight ids : RegionName) (first last : Int)

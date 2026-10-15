@@ -13,6 +13,10 @@ set_option maxHeartbeats 3000000
 set_option maxRecDepth 12000
 set_option linter.unusedSimpArgs false
 
+private theorem maximum_bop_row {BM : Nat} (a b : Fin BM → WithBot ℝ) :
+    Tile.bop max (.consSame .nil) (extendedRow a) (extendedRow b) =
+      extendedRow (fun r => max (a r) (b r)) := rfl
+
 /-- The register state produced by the actual assignment order. -/
 def result {BM BN BD : Nat} (s : BlockState) (x : Inputs BM BN BD) (blocks : Nat) : BlockState :=
   let s := s.setReg "m_ij" .real [BM] (extendedRow x.blockMax)
@@ -47,13 +51,15 @@ theorem executes {BM BN BD : Nat} (hN : 0 < BN) (s : BlockState)
   all_goals
     simp [RealNormalizationSource.code, stepStmts, stepStmt, evalOp.eq_def, bind, Option.bind,
       hq, hm, hl, ha, ha2, hb, hmax, hprob, reduce_max hN, reduce_sum, shifted_matrix,
-      shifted_row, maximum_row, row_add, row_mul, row_div, matrix_scale, result,
+      shifted_row, maximum_row, maximum_bop_row, row_add, row_mul, row_div, matrix_scale, result,
       Inputs.blockMax, Inputs.probability, Inputs.blockNormalizer, Inputs.nextMax,
       Inputs.alpha, Inputs.beta, Inputs.nextNormalizer, Inputs.probabilityScale,
       Inputs.scaledProbability, Inputs.accumulatorScale, Inputs.scaledAccumulator,
       Inputs.scaledSecond]
   all_goals
     repeat' first
+      | erw [maximum_bop_row]
+      | erw [shifted_row]
       | erw [hprob]
       | erw [reduce_sum]
       | erw [matrix_scale]

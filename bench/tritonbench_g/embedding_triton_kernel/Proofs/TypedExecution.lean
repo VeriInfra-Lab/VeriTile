@@ -1,13 +1,29 @@
 import bench.tritonbench_g.embedding_triton_kernel.Proofs.FP
-import bench.tritonbench_g.context_attn_fwd.Proofs.FPModel
 import VeriTile.Triton.Float.ProfiledSoundness
 import VeriTile.Triton.Float.Control
+import VeriTile.Triton.Float.Countermodel
 namespace VeriTile.Bench.TritonBenchG.EmbeddingTritonKernel.TypedExecution
 open VeriTile.Triton FP.Structural FP.ProfiledRewrite TypedSource
-open VeriTile.Bench.TritonBenchG.ContextAttnFwd.FPModel (model)
 noncomputable section
 set_option maxHeartbeats 2000000
 set_option maxRecDepth 25000
+
+/-- A local execution witness needs only loads, casts and integer indexing.
+Its floating interpretation witnesses inhabitation, not GPU rounding. -/
+def model : Algebra ℝ where
+  literal := fun _ _ x => x
+  negInf := 0
+  binary := fun _ _ op a b => match op with
+    | .add => a + b | .sub => a - b | .mul => a * b | .div => a / b
+    | .max => max a b | .pow => 0
+  unary := fun _ _ _ => 1
+  cast := fun _ _ _ x => x
+  fromNat := fun _ n => n
+  fromInt := fun _ n => n
+  fp32Bits := fun _ => 0
+  fp32Load := id
+  reduceMax := fun _ {_} _ _ _ _ => 0
+  reduceSum := fun _ {_} _ _ _ _ => 1
 
 def stored (storage : Storage) (value : ℝ) : Cell ℝ :=
   match storage with

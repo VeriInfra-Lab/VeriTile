@@ -1,6 +1,11 @@
 import bench.tritonbench_g.index_select_bwd.Proofs.Real
 import bench.tritonbench_g.index_select_bwd.Proofs.IO
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.IndexSelectBwd
 
 open VeriTile.Triton
@@ -33,7 +38,7 @@ witness for it.
 
 Proof: `GatherMasked2DKernelIO₁.Implements.intro` assembles the region-model
 scatter triple with the flat-memory bridge side conditions. -/
-specification index_select_cat_bwd_kernel_correctness
+theorem index_select_cat_bwd_kernel_correctness
     (grad_source_ptr index_ptr grad_output_ptr : RegionName)
     (num_rows num_indices num_cols stride0 stride1
       BLOCK_SIZE_INDEX BLOCK_SIZE_COL : Nat)

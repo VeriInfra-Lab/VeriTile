@@ -35,6 +35,13 @@ import bench.tritonbench_g.rotary_emb.Proofs.SourceProfiles_f8e5_bf16
 import bench.tritonbench_g.rotary_emb.Proofs.SourceProfiles_f8e5_f8e4
 import bench.tritonbench_g.rotary_emb.Proofs.SourceProfiles_f8e5_f8e5
 
+/-!
+Source-audit target: _rotary_kernel
+Source-audit Lean: rotaryFull%
+Source-audit args: data=tl.float32, cos=tl.float32, sin=tl.float32
+Selected uniform fp32 Q/K/cosine/sine template only; independently composed Q/K types and all other storage combinations remain separate obligations.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.RotaryEmb.FullSource
 open Lean VeriTile.Triton
 

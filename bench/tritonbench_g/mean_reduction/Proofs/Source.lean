@@ -95,17 +95,17 @@ theorem load_precision (input output : Storage) (v : Bool) (X Mean : RegionName)
 def expectedStore (output : Storage) (BM : Nat) : ComputeStmt :=
   match output with
   | .fp32 => .store .real [BM, 1] (.ptr (.ref .ptr [BM, 1] "Mean"))
-      (.alg (.ref .real [BM, 1] "mean"))
+      (.compute (.alg .fp32 (.ref .real [BM, 1] "mean")))
       (.mask (.ref .bool [BM, 1] "row_mask"))
   | .fp64 => .store .real [BM, 1] (.ptr (.ref .ptr [BM, 1] "Mean"))
       (.compute (.alg .fp64 (.castFloat .real .real
         (.withPrecision .real .fp32 (.ref .real [BM, 1] "mean")))))
       (.mask (.ref .bool [BM, 1] "row_mask"))
   | .fp16 => .store .fp16 [BM, 1] (.ptr (.ref .ptr [BM, 1] "Mean"))
-      (.alg (.castFloat .real .fp16 (.ref .real [BM, 1] "mean")))
+      (.alg (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [BM, 1] "mean"))))
       (.mask (.ref .bool [BM, 1] "row_mask"))
   | .bf16 => .store .bf16 [BM, 1] (.ptr (.ref .ptr [BM, 1] "Mean"))
-      (.alg (.castFloat .real .bf16 (.ref .real [BM, 1] "mean")))
+      (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [BM, 1] "mean"))))
       (.mask (.ref .bool [BM, 1] "row_mask"))
 
 /-- Stores use the requested output carrier and precisely one explicit

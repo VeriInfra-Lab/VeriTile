@@ -39,16 +39,16 @@ def expectedStore (pointer name : RegName) (storage : Storage) (R C : Nat) : Com
   | .fp32 => .store .real [R,C] (.ptr (.ref .ptr [R,C] pointer))
       (.compute (.alg .fp32 (.ref .real [R,C] name))) (.mask (.ref .bool [R,C] "mask"))
   | .fp16 => .store .fp16 [R,C] (.ptr (.ref .ptr [R,C] pointer))
-      (.alg (.castFloat .real .fp16 (.ref .real [R,C] name))) (.mask (.ref .bool [R,C] "mask"))
+      (.alg (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [R,C] name)))) (.mask (.ref .bool [R,C] "mask"))
   | .bf16 => .store .bf16 [R,C] (.ptr (.ref .ptr [R,C] pointer))
-      (.alg (.castFloat .real .bf16 (.ref .real [R,C] name))) (.mask (.ref .bool [R,C] "mask"))
+      (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [R,C] name)))) (.mask (.ref .bool [R,C] "mask"))
   | .fp64 => .store .real [R,C] (.ptr (.ref .ptr [R,C] pointer))
       (.compute (.alg .fp64 (.castFloat .real .real
         (.withPrecision .real .fp32 (.ref .real [R,C] name))))) (.mask (.ref .bool [R,C] "mask"))
   | .f8e4 => .store .f8e4 [R,C] (.ptr (.ref .ptr [R,C] pointer))
-      (.alg (.castFloat .real .f8e4 (.ref .real [R,C] name))) (.mask (.ref .bool [R,C] "mask"))
+      (.alg (.castFloat .real .f8e4 (.withPrecision .real .fp32 (.ref .real [R,C] name)))) (.mask (.ref .bool [R,C] "mask"))
   | .f8e5 => .store .f8e5 [R,C] (.ptr (.ref .ptr [R,C] pointer))
-      (.alg (.castFloat .real .f8e5 (.ref .real [R,C] name))) (.mask (.ref .bool [R,C] "mask"))
+      (.alg (.castFloat .real .f8e5 (.withPrecision .real .fp32 (.ref .real [R,C] name)))) (.mask (.ref .bool [R,C] "mask"))
 
 theorem forward_load (input output : Storage) (v : Bool)
     (OUT X : RegionName) (M N K R C : Nat) :

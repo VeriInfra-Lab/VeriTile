@@ -2,6 +2,11 @@ import bench.tritonbench_g.square_matrix.Proofs.Real
 import bench.tritonbench_g.square_matrix.Proofs.Candidate
 import VeriTile.Meta.StatementAudit
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.SquareMatrix
 open VeriTile.Triton VeriTile.Examples
 open scoped VeriTile.Triton.MaskedKernelIO₁
@@ -43,7 +48,7 @@ pointer kernel terminates, every active output-row lane holds `xs i * xs i`,
 and every other memory cell is unchanged. Proof:
 `MaskedKernelIO₁.Implements.intro` assembles the region-model masked triple
 with the flat-memory bridge side conditions. -/
-specification square_kernel_correctness
+theorem square_kernel_correctness
     (output_ptr input_ptr : RegionName)
     (input_row_stride output_row_stride n_cols BLOCK_SIZE : Nat) :
     squareIO output_ptr input_ptr input_row_stride output_row_stride

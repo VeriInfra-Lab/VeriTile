@@ -29,21 +29,23 @@ def Atom.guards : Atom → List OperandGuard
   | .max_assoc => [⟨"a", .finite⟩, ⟨"b", .finite⟩, ⟨"c", .finite⟩]
   | .max_idem | .max_neg_inf => [⟨"a", .finite⟩]
 
-/-- The DSL lowers tl.maximum to a comparison and selection. Retain that
-exact syntax so admission can be used on translated Triton fragments. -/
+/-- Retain the default floating maximum primitive used by tl.maximum.
+The enclosing fragment supplies fp32 precision. The operand guards and
+report validation requirements below remain necessary; no max law follows
+from a floating comparison or from the real projection. -/
 def maximum (a b : Op .real []) : Op .real [] :=
-  .where (.gt .real .nil a b) a b
+  .maximumFloat .real .nil a b
 
 def lhs (a : Atom) : GuardedFragment := ⟨a.guards, fragment (match a with
   | .max_commute => maximum (ref "a") (ref "b")
   | .max_assoc => maximum (maximum (ref "a") (ref "b")) (ref "c")
   | .max_idem => maximum (ref "a") (ref "a")
-  | .max_neg_inf => maximum .negInf (ref "a"))⟩
+  | .max_neg_inf => maximum .negInf (ref "a")), .real, none⟩
 
 def rhs (a : Atom) : GuardedFragment := ⟨a.guards, fragment (match a with
   | .max_commute => maximum (ref "b") (ref "a")
   | .max_assoc => maximum (ref "a") (maximum (ref "b") (ref "c"))
-  | .max_idem | .max_neg_inf => ref "a")⟩
+  | .max_idem | .max_neg_inf => ref "a"), .real, none⟩
 
 /-- Match the exact relation, precision and operand domain before selecting a row. -/
 def Atom.matches (a : Atom) (row : ReportedScalarRule) : Bool :=

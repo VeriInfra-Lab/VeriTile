@@ -26,7 +26,7 @@ theorem statistics_schedule (xs : Fin n → α) (a b : ReductionPlan n)
     WelfordInduction.statistics M xs a.tree = WelfordInduction.statistics M xs b.tree := by
   have hsum := plans_value R M D hM s xs a b hd.inputs
   have hcount := plans_value R M D hM s (fun _ => one M) a b hd.counts
-  have hmean : mean M xs a.tree = mean M xs b.tree := congrArg₂ (div M) hsum hcount
+  have hmean : mean M xs a.tree = mean M xs b.tree := congrArg₂ (ScalarArithmetic.div M) hsum hcount
   apply Prod.ext hmean
   change value M (Welford.deviationSquares M xs (mean M xs a.tree)) (zero M) a.tree =
     value M (Welford.deviationSquares M xs (mean M xs b.tree)) (zero M) b.tree
@@ -62,9 +62,9 @@ theorem state_batch_normalized (xs : Nat → α) (empty : ReductionPlan 0)
     (hs : StatisticsDomain M D (WelfordInduction.rowPrefix xs N)
       (WelfordInduction.plan empty N) batch) :
     ((WelfordInduction.state M xs N).1,
-      div M (WelfordInduction.state M xs N).2 (M.fromNat (some .fp32) N)) =
+      ScalarArithmetic.div M (WelfordInduction.state M xs N).2 (M.fromNat (some .fp32) N)) =
     (mean M (WelfordInduction.rowPrefix xs N) batch.tree,
-      div M (WelfordInduction.statistics M (WelfordInduction.rowPrefix xs N) batch.tree).2
+      ScalarArithmetic.div M (WelfordInduction.statistics M (WelfordInduction.rowPrefix xs N) batch.tree).2
         (count M batch.tree)) := by
   rw [state_batch_statistics R M D hM s xs empty batch hN hc hi hs,
     converted_batch_count R M D hM s empty batch hc hi.initial.zero hs.counts]

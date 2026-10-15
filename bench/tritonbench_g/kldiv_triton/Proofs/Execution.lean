@@ -26,6 +26,7 @@ def model : Algebra (WithBot ℝ) where
   unary := fun _ op a ↦ match op with
     | .log => WithBot.realLog a
     | .exp => WithBot.realExp a
+    | .neg _ => WithBot.map Neg.neg a
     | _ => some 0
   cast := fun _ _ _ x ↦ x
   fromNat := fun _ n ↦ some n
@@ -47,6 +48,21 @@ def initial (flag : Bool) : State (WithBot ℝ) where
   numPids := fun _ ↦ 2
   undef := fun d _ _ ↦ defaultValue d
 
+/-- Normalize the finite loop before expanding either body. Keeping this
+composition explicit avoids recursively simplifying the interpreter's
+well-founded loop equations under a symbolic continuation. -/
+private theorem range_three_two {α : Type} [Inhabited α] (M : Algebra α)
+    (body : List ComputeStmt) (s : State α) :
+    rangeInt M "i" 0 3 2 body s =
+      (run M body (s.setReg "i" .int [] (fun _ ↦ 0))).bind (fun t ↦
+        run M body (t.setReg "i" .int [] (fun _ ↦ 2))) := by
+  simp [rangeInt]
+
+private theorem range_empty {α : Type} [Inhabited α] (M : Algebra α)
+    (body : List ComputeStmt) (s : State α) :
+    rangeInt M "i" 0 0 2 body s = some s := by
+  simp [rangeInt]
+
 /-- Three columns and block size two execute two actual reduced stores. -/
 def reduced_run (v flag : Bool) :
     {t : State (WithBot ℝ) // run (engine model)
@@ -58,11 +74,11 @@ def reduced_run (v flag : Bool) :
     swap
     simp (maxSteps := 500000) [forward, forwardOriginal, commuteOutput,
       ComputeKernel.surfaceBody, ComputeKernel.inputs, ComputeKernel.outputs,
-      run, step, FP.Structural.rangeInt, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas,
+      run, step, range_three_two, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas,
       Option.bind, engine, Algebra.withDefaultPrecision, resolvePrecision, model,
       ComputeDType.eraseDType, numeric, numericLt, numericEq, bop, natLt, initial, Cell.read,
-      ofFloat, toFloat, TileShape.axisDim, Region.cast, State.setReg,
-      FP.Structural.store, State.write, TileShape.allIndices, List.finRange_succ]
+      ofFloat, toFloat, TileShape.axisDim, Region.cast,
+      FP.Structural.store, Tile.select, Tile.ptrAdd, TileShape.allIndices, List.finRange_succ]
     try rfl
 
 private theorem sum_fin2 {α : Type*} [AddCommMonoid α]
@@ -101,11 +117,11 @@ def empty_run (v flag : Bool) :
     swap
     simp (maxSteps := 500000) [forward, forwardOriginal, commuteOutput,
       ComputeKernel.surfaceBody, ComputeKernel.inputs, ComputeKernel.outputs,
-      run, step, FP.Structural.rangeInt, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas,
+      run, step, range_empty, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas,
       Option.bind, engine, Algebra.withDefaultPrecision, resolvePrecision, model,
       ComputeDType.eraseDType, numeric, numericLt, numericEq, bop, natLt, initial, Cell.read,
-      ofFloat, toFloat, TileShape.axisDim, Region.cast, State.setReg,
-      FP.Structural.store, State.write, TileShape.allIndices, List.finRange_succ]
+      ofFloat, toFloat, TileShape.axisDim, Region.cast,
+      FP.Structural.store, Tile.select, Tile.ptrAdd, TileShape.allIndices, List.finRange_succ]
     try rfl
 
 theorem empty_frame (v flag : Bool) : (empty_run v flag).val.mem = (initial flag).mem := by
@@ -122,11 +138,11 @@ def element_run (v flag : Bool) :
     swap
     simp (maxSteps := 500000) [forward, forwardOriginal, commuteOutput,
       ComputeKernel.surfaceBody, ComputeKernel.inputs, ComputeKernel.outputs,
-      run, step, FP.Structural.rangeInt, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas,
+      run, step, range_three_two, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, evalOffsets, evalDeltas,
       Option.bind, engine, Algebra.withDefaultPrecision, resolvePrecision, model,
       ComputeDType.eraseDType, numeric, numericLt, numericEq, bop, natLt, initial, Cell.read,
-      ofFloat, toFloat, TileShape.axisDim, Region.cast, State.setReg,
-      FP.Structural.store, State.write, TileShape.allIndices, List.finRange_succ]
+      ofFloat, toFloat, TileShape.axisDim, Region.cast,
+      FP.Structural.store, Tile.select, Tile.ptrAdd, TileShape.allIndices, List.finRange_succ]
     try rfl
 
 theorem element_cells (v flag : Bool) :
@@ -135,10 +151,13 @@ theorem element_cells (v flag : Bool) :
     (element_run v flag).val.mem "O" 7 = Cell.mk .bf16 (some (-2)) ∧
     (element_run v flag).val.mem "O" 8 = Cell.mk .bf16 (some 7) := by
   cases v <;> cases flag
-  all_goals norm_num [element_run, initial, model, Region.cast,
-    FP.Structural.store, State.write, TileShape.allIndices, List.finRange_succ, bop,
+  all_goals simp [element_run, initial, model, Region.cast,
+    FP.Structural.store, State.write, State.setReg, Cell.read,
+    TileShape.allIndices, List.finRange_succ, bop,
     Broadcast.leftIndex, Broadcast.rightIndex, ofFloat, toFloat,
     WithBot.realAdd, WithBot.realSub, WithBot.realLog, WithBot.realExp, WithBot.realMul]
+  all_goals norm_num
+  all_goals exact ⟨rfl, rfl⟩
 
 /-- Backward witnesses use distinct row strides and preserve the inactive fourth lane. -/
 def backwardInitial (flag : Bool) : State (WithBot ℝ) where
@@ -161,12 +180,12 @@ def backward_run (v flag : Bool) :
     simp (maxSteps := 500000) [backwardLog, backwardLogOriginal,
       backwardDefault, backwardDefaultOriginal, commuteOutput,
       ComputeKernel.surfaceBody, ComputeKernel.inputs, ComputeKernel.outputs,
-      run, step, FP.Structural.rangeInt, FP.Structural.evalExpr, evalComputeOp,
+      run, step, range_three_two, FP.Structural.evalExpr, evalComputeOp,
       evalOp_unfold, evalOffsets, evalDeltas, Option.bind, engine,
       Algebra.withDefaultPrecision, resolvePrecision, model, ComputeDType.eraseDType,
       numeric, numericLt, numericEq, bop, natLt, backwardInitial, Cell.read,
-      ofFloat, toFloat, TileShape.axisDim, Region.cast, State.setReg,
-      FP.Structural.store, State.write, TileShape.allIndices, List.finRange_succ]
+      ofFloat, toFloat, TileShape.axisDim, Region.cast,
+      FP.Structural.store, Tile.select, Tile.ptrAdd, TileShape.allIndices, List.finRange_succ]
     try rfl
 
 theorem backward_cells (v flag : Bool) :
@@ -175,10 +194,13 @@ theorem backward_cells (v flag : Bool) :
     (backward_run v flag).val.mem "O" 7 = Cell.mk .fp16 (some (if flag then -1 else -2)) ∧
     (backward_run v flag).val.mem "O" 8 = Cell.mk .fp16 (some 7) := by
   cases v <;> cases flag
-  all_goals norm_num [backward_run, backwardInitial, model, Region.cast,
-    FP.Structural.store, State.write, TileShape.allIndices, List.finRange_succ, bop,
+  all_goals simp [backward_run, backwardInitial, model, Region.cast,
+    FP.Structural.store, State.write, State.setReg, Cell.read,
+    TileShape.allIndices, List.finRange_succ, bop,
     Broadcast.leftIndex, Broadcast.rightIndex, ofFloat, toFloat,
-    WithBot.realAdd, WithBot.realSub, WithBot.realExp, WithBot.realMul]
+    WithBot.realAdd, WithBot.realSub, WithBot.realExp, WithBot.realMul, WithBot.map]
+  all_goals norm_num
+  all_goals exact ⟨rfl, rfl⟩
 
 /-- A nonempty half-precision multiplication/store witness exercises the literal repair. -/
 def halfInitial : State (WithBot ℝ) where
@@ -197,12 +219,12 @@ def half_run (v : Bool) :
     swap
     simp (maxSteps := 500000) [backwardDefault, backwardDefaultOriginal, commuteOutput,
       ComputeKernel.surfaceBody, ComputeKernel.inputs, ComputeKernel.outputs,
-      run, step, FP.Structural.rangeInt, FP.Structural.evalExpr, evalComputeOp,
+      run, step, range_three_two, FP.Structural.evalExpr, evalComputeOp,
       evalOp_unfold, evalOffsets, evalDeltas, Option.bind, engine,
       Algebra.withDefaultPrecision, resolvePrecision, model, ComputeDType.eraseDType,
       numeric, numericLt, numericEq, bop, natLt, halfInitial, Cell.read,
-      ofFloat, toFloat, TileShape.axisDim, Region.cast, State.setReg,
-      FP.Structural.store, State.write, TileShape.allIndices, List.finRange_succ]
+      ofFloat, toFloat, TileShape.axisDim, Region.cast,
+      FP.Structural.store, Tile.select, Tile.ptrAdd, TileShape.allIndices, List.finRange_succ]
     try rfl
 
 theorem half_cells (v : Bool) :
@@ -211,10 +233,13 @@ theorem half_cells (v : Bool) :
     (half_run v).val.mem "O" 7 = Cell.mk .fp16 (some (-2)) ∧
     (half_run v).val.mem "O" 8 = Cell.mk .fp16 (some 7) := by
   cases v
-  all_goals norm_num [half_run, halfInitial, model, Region.cast,
-    FP.Structural.store, State.write, TileShape.allIndices, List.finRange_succ, bop,
+  all_goals simp [half_run, halfInitial, model, Region.cast,
+    FP.Structural.store, State.write, State.setReg, Cell.read,
+    TileShape.allIndices, List.finRange_succ, bop,
     Broadcast.leftIndex, Broadcast.rightIndex, ofFloat, toFloat,
     WithBot.realAdd, WithBot.realSub, WithBot.realMul]
+  all_goals norm_num
+  all_goals exact ⟨rfl, rfl⟩
 
 end
 #guard_msgs (drop info) in

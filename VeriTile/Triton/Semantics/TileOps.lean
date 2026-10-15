@@ -226,6 +226,33 @@ matching the uniform `Option.map₂` propagation of `WithBot.realSub` /
 noncomputable def WithBot.realPow : WithBot ℝ → WithBot ℝ → WithBot ℝ :=
   Option.map₂ Real.rpow
 
+/-- The mathematical interpretation of native integer power. Integer exponents
+stay exact; bottom bases propagate. This definition imposes no FP backend law. -/
+noncomputable def WithBot.realPowi (x : WithBot ℝ) (n : Int) : WithBot ℝ :=
+  x.map (fun a => a ^ n)
+
+@[simp] theorem WithBot.realPowi_some (x : ℝ) (n : Int) :
+    WithBot.realPowi (some x) n = some (x ^ n) := rfl
+
+/-- Exponent two is a square only on the mathematical channel. -/
+theorem WithBot.realPowi_two (x : WithBot ℝ) :
+    WithBot.realPowi x 2 = WithBot.realMul x x := by
+  cases x using Option.rec with
+  | none => rfl
+  | some x =>
+      change some (x ^ (2 : Int)) = some (x * x)
+      simp [zpow_ofNat, pow_two]
+
+/-- Broadcasting for mixed real-base/integer-exponent tiles. -/
+noncomputable def Tile.libdevicePowi (bc : Broadcast a b out)
+    (x : Tile .real a) (n : Tile .int b) : Tile .real out :=
+  ⟨fun i => WithBot.realPowi (x.data (bc.leftIndex i)) (n.data (bc.rightIndex i))⟩
+
+@[simp] theorem Tile.libdevicePowi_data (bc : Broadcast a b out)
+    (x : Tile .real a) (n : Tile .int b) (i : TileIndex out) :
+    (Tile.libdevicePowi bc x n).data i =
+      WithBot.realPowi (x.data (bc.leftIndex i)) (n.data (bc.rightIndex i)) := rfl
+
 noncomputable def ScanOp.eval : ScanOp → List (WithBot ℝ) → WithBot ℝ
   | .sum, xs => xs.foldl WithBot.realAdd ((0 : ℝ) : WithBot ℝ)
   | .prod, xs => xs.foldl WithBot.realMul ((1 : ℝ) : WithBot ℝ)

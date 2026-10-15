@@ -116,11 +116,23 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .numPrograms _ => True
   | .ref _ _ _ => True
   | .arange _ => True
+  | .philox4x32 _ _ _ seed c0 c1 c2 c3 =>
+      seed.RespectsRegionTyping Γ ∧ c0.RespectsRegionTyping Γ ∧
+      c1.RespectsRegionTyping Γ ∧ c2.RespectsRegionTyping Γ ∧ c3.RespectsRegionTyping Γ
+  | .uniform32 word => word.RespectsRegionTyping Γ
+  | .rand _ seed offsets =>
+      seed.RespectsRegionTyping Γ ∧ offsets.RespectsRegionTyping Γ
+  | .randTensor _ seed offsets =>
+      seed.RespectsRegionTyping Γ ∧ offsets.RespectsRegionTyping Γ
   | .broadcast e _ => e.RespectsRegionTyping Γ
   | .full _ e => e.RespectsRegionTyping Γ
   | .withPrecision _ _ e => e.RespectsRegionTyping Γ
   | .castFloat _ _ e => e.RespectsRegionTyping Γ
   | .castNatToInt e => e.RespectsRegionTyping Γ
+  | .negFloat _ e => e.RespectsRegionTyping Γ
+  | .absFloat _ e => e.RespectsRegionTyping Γ
+  | .floatToInt _ _ _ e => e.RespectsRegionTyping Γ
+  | .floatToNat _ _ _ e => e.RespectsRegionTyping Γ
   | .castIntToNat e => e.RespectsRegionTyping Γ
   | .castRealToInt8 e => e.RespectsRegionTyping Γ
   | .decodeFloat8E5 _ e => e.RespectsRegionTyping Γ
@@ -166,7 +178,9 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .boolOr _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .boolNot a => a.RespectsRegionTyping Γ
   | .max2 _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
+  | .maximumFloat _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .pow _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
+  | .libdevicePowi _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .where c a b =>
       c.RespectsRegionTyping Γ ∧ a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .ite c a b =>
@@ -175,10 +189,12 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .reduceMaxNat _ _ a => a.RespectsRegionTyping Γ
   | .reduceMaxInt _ _ a => a.RespectsRegionTyping Γ
   | .reduceSum _ _ a => a.RespectsRegionTyping Γ
+  | .reduceSumBool _ _ a => a.RespectsRegionTyping Γ
   | .reduceSumTyped _ _ _ a => a.RespectsRegionTyping Γ
   | .reduceMaxTyped _ _ _ a => a.RespectsRegionTyping Γ
   | .scan _ _ _ a => a.RespectsRegionTyping Γ
   | .argMax _ a => a.RespectsRegionTyping Γ
+  | .argMaxInt _ a => a.RespectsRegionTyping Γ
   | .argMaxTyped _ _ a _ => a.RespectsRegionTyping Γ
   | .indexedMaxValue _ _ a => a.RespectsRegionTyping Γ
   | .argMin _ a => a.RespectsRegionTyping Γ

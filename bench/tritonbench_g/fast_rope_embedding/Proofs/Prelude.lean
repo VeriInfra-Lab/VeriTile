@@ -29,7 +29,7 @@ theorem executes (Q C S : RegionName) (QR CR SR seq H heads B : Nat) (backwards 
   all_goals
     refine ⟨?_,?_,?_⟩
     · constructor <;> simp [BlockState.setReg,Reference.coefficient,Reference.coefficientAddress,Reference.signedSine]
-      all_goals first | rfl | (funext j; split_ifs <;> norm_num at *)
+      all_goals first | rfl | (funext j; split_ifs <;> norm_num [WithBot.map, Option.map] at *)
     · simp [Reference.start,BlockState.setReg]
     · simp [Reference.stop,Reference.start,BlockState.setReg,Tile.ext_iff,min_def_lt]
 

@@ -19,16 +19,11 @@ open scoped VeriTile.Triton.Masked3DTileKernelIO₁
 
 set_option linter.unusedSimpArgs false
 
-/-- Faithful transcription of `block_sparse_attn.py`'s
-`block_sparse_attention_kernel`.
-
-Allowed mechanical Lean-syntax-only changes:
-- Python `tl.constexpr` parameters become Lean parameters with `$(...)` at use
-  sites.
-- The Python `tl.static_print(f"...")` f-string payload is represented by a
-  fixed debug string; `tl.static_print` is a compile-time/no-op DSL marker.
-- `if NUM_D_BLOCKS >= 2:` is represented as the equivalent Bool antiquote
-  `if $((NUM_D_BLOCKS >= 2 : Bool))`. -/
+/-- Frozen historical natural-metadata model used only by the detached
+summaries below. Its three metadata loads deliberately retain the old Nat
+interpretation without a signed32 cast; its maximum is the old comparison/select
+node. It is not a transcription of the current Python source. The typed signed
+source and its complete proofs are in Kernels/Correct/FPEquiv. -/
 def block_sparse_attention_kernel
     (out Q K V : RegionName)
     (layout_csr_row_indices layout_csr_col_indices : Region .nat)
@@ -79,11 +74,11 @@ def block_sparse_attention_kernel
   }
   layout_h = off_h % $(num_layout)
   layout_ptr = layout_csr_row_indices + layout_h * $(layout_csr_row_stride_h) + start_m
-  start_l = (tl.load(layout_ptr)).to(tl.int32)
-  end_l = (tl.load(layout_ptr + $(1))).to(tl.int32)
+  start_l = tl.load(layout_ptr)
+  end_l = tl.load(layout_ptr + $(1))
   for col_idx_idx in range(start_l, end_l) {
     col_idx = (tl.load(layout_csr_col_indices +
-      layout_h * $(layout_csr_col_stride_h) + col_idx_idx)).to(tl.int32)
+      layout_h * $(layout_csr_col_stride_h) + col_idx_idx))
     start_n = col_idx * $(BLOCK_N)
     if EVEN_N {
       k = tl.load(k_ptrs + start_n * $(stride_kn))
@@ -107,7 +102,7 @@ def block_sparse_attention_kernel
     m_ij = tl.max(qk, 1)
     p = tl.exp(qk - m_ij[:, None])
     l_ij = tl.sum(p, 1)
-    m_i_new = tl.maximum(m_i, m_ij)
+    m_i_new = tl.where(m_i > m_ij, m_i, m_ij)
     alpha = tl.exp(m_i - m_i_new)
     beta = tl.exp(m_ij - m_i_new)
     l_i_new = alpha * l_i + beta * l_ij
@@ -1344,7 +1339,7 @@ theorem stepStmt_ifThen_false {cond : Op .bool []}
 
 set_option maxHeartbeats 1600000 in
 set_option maxRecDepth 8000 in
-/-- **`start_l = tl.load(layout_ptr).to(tl.int32)` statement eval** (CSR loop
+/-- **Historical Nat `start_l = tl.load(layout_ptr)` statement eval** (CSR loop
 bound, pre-loop L_start): the data-dependent lower loop bound, an unmasked `.nat`
 ptr-load of the precomputed `layout_ptr` scalar (= CSR row-pointer base). With
 `layout_ptr` holding the pointer `(lpReg, lpOff)`, `start_l` reads
@@ -1359,7 +1354,7 @@ theorem bsa_startl_eval (s : BlockState) (lpReg : RegionName) (lpOff : Nat)
 
 set_option maxHeartbeats 1600000 in
 set_option maxRecDepth 8000 in
-/-- **`end_l = tl.load(layout_ptr + 1).to(tl.int32)` statement eval** (CSR loop
+/-- **Historical Nat `end_l = tl.load(layout_ptr + 1)` statement eval** (CSR loop
 bound, pre-loop L_end): the data-dependent upper loop bound, an unmasked `.nat`
 ptr-load of `layout_ptr + 1` (the next CSR row-pointer). With `layout_ptr` holding
 `(lpReg, lpOff)`, `end_l` reads `layout_ptr_region[lpOff + 1]`. The `forRangeDyn`'s

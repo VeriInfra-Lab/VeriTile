@@ -12,7 +12,13 @@ theorem online_update_related (X : RegionName) (N B : Nat) :
   have hi := ref "inp" (by simp [Shared, Scratch])
   have hz := ref "z" (by simp [Shared, Scratch])
   have hn := ref "new_m" (by simp [Shared, Scratch])
-  have hmax := where_related (gt_related .real (Broadcast.nil.consSame) hm hi) hm hi
+  have hselect := where_related (gt_related .real (Broadcast.nil.consSame) hm hi) hm hi
+  have hmax : ExprRelated B
+      (.maximumFloat .real (.consSame .nil) (.ref .real [B] "m") (.ref .real [B] "inp"))
+      (.maximumFloat .real (.consSame .nil) (.ref .real [B] "m") (.ref .real [B] "inp")) := by
+    intro s t h
+    rw [evalOp_maximumFloat_real_vec, evalOp_maximumFloat_real_vec]
+    exact hselect s t h
   have hsum := add_related .real (Broadcast.nil.consSame)
     (mul_related .real (Broadcast.nil.consSame)
       (exp_related (sub_related .real (Broadcast.nil.consSame) hm hn)) hz)

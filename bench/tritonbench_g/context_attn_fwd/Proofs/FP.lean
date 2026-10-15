@@ -1,4 +1,6 @@
+import bench.tritonbench_g.context_attn_llama.Proofs.ScopedWhere
 import bench.tritonbench_g.context_attn_fwd.Kernels
+import VeriTile.Triton.Float.TypedWhereRewrite
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.ContextAttnFwd.FPProof
@@ -16,8 +18,11 @@ def sites (storage : Storage) (code : List ComputeStmt) (BM BN : Nat) (scale : â
   match Source.intRange? code "start_n" with
   | none => []
   | some loop => [.intRange loop.before "start_n" loop.start loop.stop loop.stride loop.body
-      (.mulScalar (Source.prefixBefore loop.body "qk" 1) BM [BN]
-        (scoreOperand storage BM BN) (.const scale))]
+      (match storage with
+       | .fp16 | .bf16 => .mulScalarTypedFP32 (Source.prefixBefore loop.body "qk" 1) BM [BN]
+           (.ref .fp32 [BM,BN] "qk") (.constFloat .fp32 scale)
+       | .fp32 => .mulScalar (Source.prefixBefore loop.body "qk" 1) BM [BN]
+           (.ref .real [BM,BN] "qk") (.const scale))]
 
 section
 variable (storage : Storage)
@@ -46,7 +51,7 @@ def scaleFirst : Program :=
       stride_qbs stride_qh stride_qd stride_kb stride_kh stride_ks stride_kd
       stride_vb stride_vh stride_vs stride_vd stride_obs stride_oh stride_od kv_group_num H BLOCK_DMODEL BLOCK_M BLOCK_N }
 
-theorem equivalent (R : FP.ScalarArithmetic.Rules) :
+theorem equivalent (R : FP.TypedScalarArithmetic.Rules) :
     original storage Q K V sm_scale Out B_Start_Loc B_Seqlen b_prompt_cache_len
       stride_qbs stride_qh stride_qd stride_kb stride_kh stride_ks stride_kd
       stride_vb stride_vh stride_vs stride_vd stride_obs stride_oh stride_od kv_group_num H BLOCK_DMODEL BLOCK_M BLOCK_N â‰¡[R]

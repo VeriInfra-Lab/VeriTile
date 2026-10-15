@@ -1,5 +1,7 @@
 # mean_reduction
 
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+
 `Kernels.lean` retains the complete row-chunk accumulation loop, zero padding,
 fp32 accumulator, final column reduction/division and masked row store. Its
 typed family covers all sixteen fp32/fp16/bf16/fp64 input/output storage pairs.

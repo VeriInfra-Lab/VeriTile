@@ -21,7 +21,7 @@ set_option maxHeartbeats 1600000 in
 theorem successor {α : Type} [Inhabited α] (R : Rules)
     (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D) (s : State α)
     (i : Nat) (hi : i < limit) :
-    M.fromNat (some .fp32) (i + 1) = add M (M.fromNat (some .fp32) i) (one M) := by
+    M.fromNat (some .fp32) (i + 1) = ScalarArithmetic.add M (M.fromNat (some .fp32) i) (one M) := by
   let t := s.setReg "i" .nat [] (fun _ => i)
   have h := hM (lhs .successor) (rhs .successor) (admitted R .successor (by decide)) t
     (by simp [ScalarDomain, lhs]) (by simp [ScalarDomain, rhs])

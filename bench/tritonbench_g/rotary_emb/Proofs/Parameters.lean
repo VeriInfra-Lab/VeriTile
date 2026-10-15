@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rotary_emb.RotaryEmb
+import bench.tritonbench_g.rotary_emb.Proofs.LegacyReal
 import bench.tritonbench_g.rotary_emb.Proofs.Math
 import bench.tritonbench_g.rotary_emb.Proofs.Scatter
 
@@ -24,8 +24,8 @@ structure Parameters where
   blockSeq : Nat
   dimension : Nat
 
-abbrev Parameters.Lane (p : Parameters) := Lane p.blockSeq p.blockHead p.dimension
-abbrev Parameters.TrigLane (p : Parameters) := Lane p.blockSeq 1 p.dimension
+abbrev Parameters.Lane (p : Parameters) := FullMath.Lane p.blockSeq p.blockHead p.dimension
+abbrev Parameters.TrigLane (p : Parameters) := FullMath.Lane p.blockSeq 1 p.dimension
 
 def mathKernel (p : Parameters) (Q K Cos Sin : RegionName) : Kernel :=
   (rotary_kernel_surface Q K Cos Sin p.qBatch p.qHead p.qDim p.kBatch p.kHead p.kDim

@@ -1,0 +1,21 @@
+{
+  "installed": false,
+  "declarations": [
+    {
+      "file": "bench/tritonbench_g/int4_matmul/DotAccCorrect.lean",
+      "declaration": "int4_matmul_dotacc_plan_correctness",
+      "statement": "specification int4_matmul_dotacc_plan_correctness\n    (plan : FPDotAcc.FMAPlan) (p : Parameters) (s : State Word)\n    (hTrip : p.inner = p.blockInner * p.steps) (hSplit : s.pids 1 = 0)\n    (hInputs : PackedInputs p s)\n    (hw : ∀ i j, active p s i → active p s j →\n      outputOffset p s i = outputOffset p s j → i = j) :\n    ∃ final,\n      FP.Structural.exec\n        (FPDotAcc.backend (FPSoftware.scalar FPClosed.unused) (FPDotAcc.plannedDotAcc plan))\n        (FPDotAcc.source p) s = some final ∧\n      final.mem = (FPDotAcc.plannedReference plan p s).mem ∧\n      FPDotAcc.Post p s final (FPDotAcc.plannedOutput plan p s) ∧\n      ∀ step, step < p.steps → ∀ i : BIndex p, ∃ word zero : BitVec 32,\n        s.mem p.weight (bOffset p s step i) = .mk .int word.toInt ∧\n        s.mem p.zero (zeroOffset p s step i) = .mk .int zero.toInt ∧\n        difference p s step i = packedDifference p s i word zero",
+      "statement_sha256": "6d7c96cbe3053da124020c47b16c09329e5e251181d722d3a8707471b60cf846",
+      "source_sha256": "36f3947d59dd50c81cce6237e4376c3f1d67fdb644f1925c7f6b0883fd1dc041",
+      "source_variant": "observed_compiled_graph",
+      "model_kind": "bit_interpreter_contract",
+      "role": "parametric_value_contract",
+      "scope_relation": "full_declared_stage",
+      "native_binding_status": "not_established",
+      "unclosed_numeric_callbacks": [],
+      "numeric_profile": "valid K permutation with concrete IEEE fp32 FMA, half dequant and casts",
+      "original_source_equivalence": false
+    }
+  ],
+  "extractor_sha256": "70e65de2801f1f1cb76f5cfebf3e97020d7b0f63cc0510229ebaf56282e1dcf3"
+}

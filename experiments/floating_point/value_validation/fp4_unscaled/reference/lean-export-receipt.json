@@ -1,0 +1,33 @@
+{
+  "status": "lean_reference_exported",
+  "command": [
+    "/tmp/lean-4.29.0-linux/bin/lean",
+    "--run",
+    "/tmp/veritile-fp4-unscaled-experiment-20261015/src/ModelExport.lean"
+  ],
+  "lean_binary_sha256": "3e0d0d3d801675359f2d4cf9815bfdb417b20b92fdd9d48b3b14c95bbae28bbf",
+  "source": "bench/tritonbench_g/fp4_to_bf16/Proofs/FP4Bits.lean",
+  "source_sha256": "6876d841a7f76a9ca8a636468147a6caaff5a4bb01d7d91e36f56af69b978545",
+  "object_sha256": "8ae178a85694e8f1c405b5c2becf9e2978b38d6e7d036d74bac889cd7415bc36",
+  "compiled_producer_results_sha256": "410254d3bddaef21414bd0277e9234d5696286bcbddc977316d7c5538a85dffa",
+  "integration_receipt_sha256": "4de8a50448b1d508a107f0ea2a1ce9de65706ddc59ec50525794fb43061b5119",
+  "ordered_lean_path": [
+    "/tmp/veritile-next-value-integration-20261014/.lake/build/lib/lean",
+    "/tmp/veritile-int16-frontend-20261014/.lake/build/lib/lean",
+    "/tmp/veritile-combined-frontend-20261014/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+    "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+    "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean",
+    "/tmp/lean-4.29.0-linux/lib/lean"
+  ],
+  "exporter_sha256": "736d1a5ed94323836e6dbc1937365f690264c0d7379865c0d6fbefc733dd5827",
+  "table_sha256": "da7e3c8adff0c900e196599e7854502f3cbfd7ecb1b688a52843a68fa6b3d436",
+  "native_execution": false
+}

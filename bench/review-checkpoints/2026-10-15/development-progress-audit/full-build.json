@@ -1,0 +1,21 @@
+{
+  "label": "full-build",
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lake",
+    "--rehash",
+    "build",
+    "VeriTile",
+    "VeriTileMath",
+    "VeriTileFull",
+    "TritonBenchGVerified",
+    "TritonBenchGInProgress",
+    "TritonBenchGLegacy",
+    "TritonBenchSpecExamples",
+    "FPFrontendRegressions"
+  ],
+  "started_at_utc": "2026-10-15T06:45:45.970849+00:00",
+  "exit_code": 1,
+  "elapsed_seconds": 0.087,
+  "log": "full-build.log",
+  "log_sha256": "dfce1e7d6849bcb01696e698fae3345a66f15495d7e36f99ac1293476a5bd045"
+}

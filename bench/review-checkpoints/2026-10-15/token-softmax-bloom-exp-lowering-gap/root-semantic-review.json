@@ -1,0 +1,43 @@
+{
+  "reviewer": "root",
+  "status": "passed_diagnostic_and_refuted_binding_scope",
+  "read_sources": {
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/ExpLoweringGap.lean": "8de1e64196007f40c4a7ad1080bf173a1bde883a546a1222cc60cd8a100e7e4a",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/ExpGapReachable.lean": "51762f7f956e52917627e143e5e505288a0ecca5035df4cc88b12459babd111a",
+    "bench/tritonbench_g/token_softmax_bloom/Proofs/HalfExpGapReachable.lean": "89586bc63fa21a44268ec8280ee0bb4beff24ccb91d6cb01de5bfb28ebd812ac"
+  },
+  "new_modules": 3,
+  "named_standard_axiom_checks": 21,
+  "public_specifications_added": 0,
+  "classification_upgrade": false,
+  "original_scope_sha256": "966184022ac235069da07fcc77d8d2aa9f785ee103f2e0282fdd369b2f8b2ea6",
+  "original_scope_current_inputs_unchanged": true,
+  "findings": [
+    "Two exact finite fp32 words collapse under RN multiply by the observed log2e constant.",
+    "Exact Real.exp inequalities and adjacent word decoding locate distinct nearest rounding cells.",
+    "Full width32 typed reference rows reach the two exponent arguments with fp32 normal inputs and original fp16 storage inputs.",
+    "Half subnormal widening is concrete software behavior; hardware FTZ remains unbound.",
+    "The selected seeded max tree is a legal software tree; native shuffle/smem schedule is not proved.",
+    "Known-false universal direct RN(exp) binding is removed from admissible completion plans.",
+    "No theorem or test claims distinct final softmax outputs.",
+    "The original complete row contract remains backend-dependent."
+  ],
+  "tool_tests": 22,
+  "independent_offline_diagnostic_profiles": 2,
+  "independent_original_ptx_reanalysis_profiles": 36,
+  "checked_scalar_chains": 204,
+  "limits": [
+    "PTX inspection is finite lexical evidence, not CFG/compiler/device refinement.",
+    "No complete softmax expected evaluator or numerical acceptance.",
+    "Original capture runtime path has not executed because CUDA is unavailable.",
+    "Device ex2.approx/div.full algorithms, reduction layouts, storage/NaN/FTZ and physical ABI remain open."
+  ],
+  "commands_terminal_exit_codes": {
+    "root_Lean_replay": 0,
+    "CPU_tool_tests": 0,
+    "offline_capture": 0,
+    "native_attempt": 2
+  },
+  "native_status": "NOT_RUN",
+  "native_execution": false
+}

@@ -81,8 +81,8 @@ def rhsCode : Atom → List ComputeStmt
   | .divMulRcp => (Reciprocal.rhs .fp32).code
   | .mulRcpCancel => fragment (.const 1)
 
-def lhs (a : Atom) : GuardedFragment := ⟨guards a, lhsCode a⟩
-def rhs (a : Atom) : GuardedFragment := ⟨guards a, rhsCode a⟩
+def lhs (a : Atom) : GuardedFragment := ⟨guards a, lhsCode a, .real, none⟩
+def rhs (a : Atom) : GuardedFragment := ⟨guards a, rhsCode a, .real, none⟩
 
 /-- Match the exact relation, precision and operand domain before selecting a row. -/
 def Atom.matches (a : Atom) (row : ReportedScalarRule) : Bool :=

@@ -1,0 +1,121 @@
+{
+  "bench/tritonbench_g/fifth_order_sph_harmonics/FifthOrderSphHarmonics.lean": {
+    "before_sha256": "cfcebdf1658102c07148b7659e8051825d17d44cb082f66a59cc42ded4ed32c5",
+    "after_sha256": "b4c44fb7ef589f9d81f9f0c34f10d0dfef54eceef57b4735f6846c860444f258",
+    "review_basis": "Inspected exact diff: mathematical proof simplification for genuine neg/abs and recursive Op equations. No contract change or FP credit; public statement digests must match."
+  },
+  "bench/tritonbench_g/int8_matmul_quantization/Int8MatmulQuantization.lean": {
+    "before_sha256": "4279b933cca00532e644a0591b467e0342224ed62abca579622af987a9003ea5",
+    "after_sha256": "b98eb9f581126fb0497ab1f0b2ecd69b3eff0dd212f633674a4e243292ea19cc",
+    "review_basis": "Inspected exact diff: explicit legacy real-int8 projection and precision wrappers in quotient, scale-store and consumer fp16 epilogue; mathematical evaluator erases precision as before. Local proof adaptation only; public statement digests must match."
+  },
+  "bench/tritonbench_g/quantize_copy_kv/QuantizeCopyKv.lean": {
+    "before_sha256": "196db1122b085e70437a9a9958c3344611a0b42d3cbb5c4910865f3ddab8e59f",
+    "after_sha256": "384c6e52fc131521633902ce0f598d971bce17810efdaf5b7f615138ca53cde2",
+    "review_basis": "Inspected exact diff: explicit legacy_real_int8 wrapper retains the historical unbounded-real truncation projection after frontend fixed-width conversion repair. No new FP credit. Existing public statement digests must match frozen audit."
+  },
+  "bench/tritonbench_g/quantize_kv_copy/QuantizeKvCopy.lean": {
+    "before_sha256": "a313d53c6f8dea125f0276ebe5bd0602a66b2a88a0accd85d01891758be04919",
+    "after_sha256": "c2a614e0411636f6760168b6be1494acfbe6aa01bf5e1099df8b17dd5d40a277",
+    "review_basis": "Inspected exact diff: explicit legacy_real_int8 wrapper retains the historical unbounded-real truncation projection after frontend fixed-width conversion repair. No new FP credit. Existing public statement digests must match frozen audit."
+  },
+  "bench/tritonbench_g/quantize_kv_transform/QuantizeKvTransform.lean": {
+    "before_sha256": "38eb6b875e0ff25d47acc6eaaf0d30b63bb5fb82401d8438f112404ced4769a9",
+    "after_sha256": "10a4b6b5d7b82e035792302a90107e454f95f9af42bce08b86cff5c9ade940d1",
+    "review_basis": "Inspected exact diff: explicit legacy_real_int8 wrapper retains the historical unbounded-real truncation projection after frontend fixed-width conversion repair. No new FP credit. Existing public statement digests must match frozen audit."
+  },
+  "bench/tritonbench_g/rope_embedding/RopeEmbedding.lean": {
+    "before_sha256": "a9fae13f3dd06fd11c0fc3eef56f93d21f87875ae1e1fb158d45cdfabbd48471",
+    "after_sha256": "05d63b993c79819965d6dbbe441df07eaafe3670346bdf1635306ed35618594f",
+    "review_basis": "Inspected exact diff: mathematical proof simplification for genuine neg/abs and recursive Op equations. No contract change or FP credit; public statement digests must match."
+  },
+  "bench/tritonbench_g/rowwise_quantization_triton/RowwiseQuantizationTriton.lean": {
+    "before_sha256": "f3d31084ccb7c70c50c475215cfe23267d944fe6db241ca42c6c28cd540fc780",
+    "after_sha256": "771ca1d7a70299dd919f82f3b1567ccf319f51a565e6d996219ad6eb5b8a1e7d",
+    "review_basis": "Inspected exact diff: mathematical proof simplification for genuine neg/abs and recursive Op equations. No contract change or FP credit; public statement digests must match."
+  },
+  "bench/tritonbench_g/triton_matmul/TritonMatmul.lean": {
+    "before_sha256": "c906fda776128ebc31a12e9034d53c2fe6030a2f519ec46a960eb5836567534f",
+    "after_sha256": "9f4522e44ae9b68a02277bc0a3d63f66e2055a7173e16198d3ba5f868c5e8c78",
+    "review_basis": "Inspected complete compatibility diff: retained actual fp32 child precision before casts, updated independent source templates and local mathematical/rounding eval proofs. Public specification text unchanged. Existing mathematical/cast-store/refuted-model label and assumptions retained; no new FP credit.",
+    "receipt": "gemm-scope-compat/receipt.json"
+  },
+  "bench/tritonbench_g/triton_conv2d_fwd/TritonConv2dFwd.lean": {
+    "before_sha256": "389d35d70a927fac8a118518b770aeb90402dafc3a5e140c0ba5ae7083c48c3a",
+    "after_sha256": "160856935e5072b41a50a9d54fab90eb7211731441e514207645503065452eba",
+    "review_basis": "Inspected complete compatibility diff: retained actual fp32 child precision before casts, updated independent source templates and local mathematical/rounding eval proofs. Public specification text unchanged. Existing mathematical/cast-store/refuted-model label and assumptions retained; no new FP credit.",
+    "receipt": "gemm-scope-compat/receipt.json"
+  },
+  "bench/tritonbench_g/matmul_triton_autotune/MatmulTritonAutotune.lean": {
+    "before_sha256": "ee440a31141f669cf356e5ef552364c4234d1a9022fc7b9a6097ea25e05fea84",
+    "after_sha256": "f688daf7409409884730a0e6499b54f053588a0b12b5868b7c022802ccfdd218",
+    "review_basis": "Inspected complete compatibility diff: retained actual fp32 child precision before casts, updated independent source templates and local mathematical/rounding eval proofs. Public specification text unchanged. Existing mathematical/cast-store/refuted-model label and assumptions retained; no new FP credit.",
+    "receipt": "gemm-scope-compat/receipt.json"
+  },
+  "bench/tritonbench_g/matmul_tma/MatmulTma.lean": {
+    "before_sha256": "caa858dde56ae6d4501f82fab9da42485bb7d4e52635828a3d6fdf630434f6e4",
+    "after_sha256": "08680556e9ca83a4344ef4bc2afa2d65d6df474ab0638633717961fe57212d11",
+    "review_basis": "Inspected complete compatibility diff: retained actual fp32 child precision before casts, updated independent source templates and local mathematical/rounding eval proofs. Public specification text unchanged. Existing mathematical/cast-store/refuted-model label and assumptions retained; no new FP credit.",
+    "receipt": "gemm-scope-compat/receipt.json"
+  },
+  "bench/tritonbench_g/matmul_leakyrelu_fp8/MatmulLeakyreluFp8.lean": {
+    "before_sha256": "5c276b7ace9e2bfb5c6c05187c549e4a175bf86473691b4c6d7c96619142866a",
+    "after_sha256": "87fc4a2dd100c6ac962f5fd7e5498658539090082958842f63b7f7e8d54450f4",
+    "review_basis": "Inspected complete compatibility diff: retained actual fp32 child precision before casts, updated independent source templates and local mathematical/rounding eval proofs. Public specification text unchanged. Existing mathematical/cast-store/refuted-model label and assumptions retained; no new FP credit.",
+    "receipt": "gemm-scope-compat/receipt.json"
+  },
+  "bench/tritonbench_g/matmul_leakyrelu/MatmulLeakyrelu.lean": {
+    "before_sha256": "85eb1ba1792b233c208694a7b437e1b782d0adbe30758805bc0c5271af280356",
+    "after_sha256": "95c355b42a1c34d9cb14c2ecc9938eb3d326ca5a52e4a5d09f60af4efb1298cd",
+    "review_basis": "Inspected complete compatibility diff: retained actual fp32 child precision before casts, updated independent source templates and local mathematical/rounding eval proofs. Public specification text unchanged. Existing mathematical/cast-store/refuted-model label and assumptions retained; no new FP credit.",
+    "receipt": "gemm-scope-compat/receipt.json"
+  },
+  "bench/tritonbench_g/matmul_kernel/MatmulKernel.lean": {
+    "before_sha256": "4b765bb581c6e01be3ad66e866a1c857c36c5ae5555865b69f829cf05c80aae3",
+    "after_sha256": "835cd29d4561936ef9b15b635c8a1fe59fae7a969681ff9f3580286558a3b08d",
+    "review_basis": "Inspected complete compatibility diff: retained actual fp32 child precision before casts, updated independent source templates and local mathematical/rounding eval proofs. Public specification text unchanged. Existing mathematical/cast-store/refuted-model label and assumptions retained; no new FP credit.",
+    "receipt": "gemm-scope-compat/receipt.json"
+  },
+  "bench/tritonbench_g/matmul_dequantize/MatmulDequantize.lean": {
+    "before_sha256": "e456a34de714ff99b7d6345fcf3728e68161077cccf9999e0b0e863ab9b1c7bf",
+    "after_sha256": "38834ec35f31078ba4564e389631bed2d8ea13e95ecb37176812e26d77fd92bd",
+    "review_basis": "Inspected complete compatibility diff: retained actual fp32 child precision before casts, updated independent source templates and local mathematical/rounding eval proofs. Public specification text unchanged. Existing mathematical/cast-store/refuted-model label and assumptions retained; no new FP credit.",
+    "receipt": "gemm-scope-compat/receipt.json"
+  },
+  "bench/tritonbench_g/iv_dependent_matmul/IvDependentMatmul.lean": {
+    "before_sha256": "69de2d942f8f67b01ad05f251389de5df0944b572f604e6757134e8bdbfb46b6",
+    "after_sha256": "9680c3e46830f67231b1cabd5b2a20e35a4af255615932a56332bc6099efed02",
+    "review_basis": "Inspected complete compatibility diff: retained actual fp32 child precision before casts, updated independent source templates and local mathematical/rounding eval proofs. Public specification text unchanged. Existing mathematical/cast-store/refuted-model label and assumptions retained; no new FP credit.",
+    "receipt": "gemm-scope-compat/receipt.json"
+  },
+  "bench/tritonbench_g/int8_dequant_matmul/Int8DequantMatmul.lean": {
+    "before_sha256": "d7ca4274c2f013ad3ff65ce793cda3b5e369f9253f0d0f970710fc387113718f",
+    "after_sha256": "a665973a3e3c20a2c383798b77422e4d5b9f08ada0a224b4f1bcfd8d62639e65",
+    "review_basis": "Inspected complete compatibility diff: retained actual fp32 child precision before casts, updated independent source templates and local mathematical/rounding eval proofs. Public specification text unchanged. Existing mathematical/cast-store/refuted-model label and assumptions retained; no new FP credit.",
+    "receipt": "gemm-scope-compat/receipt.json"
+  },
+  "bench/tritonbench_g/attention_kernel_aligned/AttentionKernelAligned.lean": {
+    "before_sha256": "8b633b402de4eed007c2e29f30122d051638930bbdae32e16bd6fca3d2de91e5",
+    "after_sha256": "ff104007b5c9182009300c77b590ae0d3fcf430d4832c4da28dc015fc8760493",
+    "review_basis": "Inspected complete diff against archived original: source-accurate precision scopes at bias addition, query scaling and output cast; local mathematical eval adapters only. All original theorem/specification signatures and the refuted global fp16 identity premise retained. No FP-model promotion.",
+    "receipt": "legacy-compat-first5/receipt.json"
+  },
+  "bench/tritonbench_g/rmsnorm_fused_llama/Correct.lean": {
+    "before_sha256": "c7fbc45cc9f04fe1b5b689e14ccf9bb2b555d3d308f9e83649d9062450c85ebe",
+    "after_sha256": "2c1685b3b7e727eef8cd5cf51a7ffddf20306541422976b9c7471cb9697c7193",
+    "review_basis": "Inspected single private store-expression change: preserve actual fp32 child scope before the fp16 cast. All 24 local declaration headers and both public statement digests are unchanged; existing numerical model and premises receive no new credit.",
+    "receipt": "rmsnorm-correct-compat/receipt.json"
+  },
+  "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean": {
+    "before_sha256": "73d06624c87982e4412aae81ce2b66e103c3754cbcf557f46bf87d11e8f8b46b",
+    "after_sha256": "0d0fc077eae64f55b50b0628ce2465d926659e5113df95293239d8faf81be8bb",
+    "review_basis": "Inspected exact compatibility diff: retained actual fp32 child precision in q cast and final output cast, matched in independent source templates. Added private mathematical evaluator definitional helper only. All 135 declaration headers and 2 public statement hashes unchanged; old numeric label preserved, no additional FP credit.",
+    "receipt": "mixed-legacy-final-compatibility/receipt.json"
+  },
+  "bench/tritonbench_g/triton_attention/TritonAttention.lean": {
+    "before_sha256": "94eefa35d847dc2bcb0e9d431e289061763525ebe39077f3c47744e54f130ab1",
+    "after_sha256": "d17e9a2b9f554ad4708e55ebe74cbb1a74e32a63c2084c94c6a25173a8ab012c",
+    "review_basis": "Inspected exact compatibility diff: seven hand-written AST templates retain actual fp32 child scopes; five private lemmas reduce only the existing mathematical evaluator. All 209 old theorem/specification/lemma headers unchanged. Original FP16=id premises and refuted classification retained; no FP credit.",
+    "receipt": "triton-attention-final-compatibility/receipt.json"
+  }
+}

@@ -16,7 +16,9 @@ def BackwardSourceSupported (target : Storage) : Prop :=
   | .fp32 | .fp64 | .fp16 | .bf16 => True
   | .f8e4 | .f8e5 => False
 
-example : BackwardSourceSupported .fp16 := trivial
+example : BackwardSourceSupported .fp16 := by
+  change True
+  decide
 example : ¬ BackwardSourceSupported .f8e4 := id
 example : ¬ BackwardSourceSupported .f8e5 := id
 

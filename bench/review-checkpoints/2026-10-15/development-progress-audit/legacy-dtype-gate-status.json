@@ -1,0 +1,17 @@
+{
+  "pipeline": ".github/workflows/bench-audit.yml",
+  "gate": "bench/audit_tritonbench_g.sh dtype scan",
+  "full_tree_matches": [
+    "bench/tritonbench_g/matmul_leakyrelu/Proofs/FPTypedSource.lean",
+    "bench/tritonbench_g/matmul_leakyrelu/Proofs/FPFusedSource.lean",
+    "bench/tritonbench_g/matmul_leakyrelu_fp8/Proofs/FPTypedSource.lean",
+    "bench/tritonbench_g/matmul_leakyrelu_fp8/Proofs/FPFusedSource.lean",
+    "bench/tritonbench_g/triton_matmul/Proofs/FPTypedSource.lean",
+    "bench/tritonbench_g/matmul_tma/Proofs/FPSource.lean",
+    "bench/tritonbench_g/matmul_kernel/Proofs/FPTypedSource.lean",
+    "bench/tritonbench_g/triton_conv2d_fwd/Proofs/FPTypedSource.lean",
+    "bench/tritonbench_g/matmul_triton_autotune/Proofs/FPTypedSource.lean"
+  ],
+  "current_legacy_adapter_scope": "178 selected-source views plus separate current source/value registry; these auxiliary typed graphs are not included in the frozen historical view",
+  "full_ci_pass_claimed": false
+}

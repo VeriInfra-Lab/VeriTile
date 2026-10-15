@@ -1,0 +1,393 @@
+{
+  "task": "streamk_matmul",
+  "status": "targeted_lean_and_axioms_pass_complete_source_SC_model_only",
+  "overlay": "/tmp/next-value-streamk-20261014",
+  "source_sha256": "794c7aa68254a0cc1caf974b5ed806ce8c884e9f7c9c2c36d68c67d5b654a4f3",
+  "upstream_revision": "603e28a",
+  "public": [
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/SourceCorrect.lean",
+      "name": "VeriTile.Bench.TritonBenchG.StreamK.SourceCorrect.first_wave_source_backend",
+      "statement": "specification first_wave_source_backend (c : Config) (b : Backend V)\n (schedule : List Nat) (mem : Memory V) :\n ValueContract originalSource.first c.firstGrid c b schedule mem",
+      "statement_sha256": "bd99eac4a9e595b79cf5718465fe4b7da72ee6d7f551e97aababc4142ba912ee",
+      "kind": "parametric_SC_source_backend_value_contract",
+      "role": "parametric_value_contract"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/SourceCorrect.lean",
+      "name": "VeriTile.Bench.TritonBenchG.StreamK.SourceCorrect.full_tiles_source_backend",
+      "statement": "specification full_tiles_source_backend (c : Config) (b : Backend V)\n (schedule : List Nat) (mem : Memory V) :\n ValueContract originalSource.fullWave c.fullGrid c b schedule mem",
+      "statement_sha256": "093c9a6b4c57773c6b61cc353a7b75bab3cbcdeb6b309df545d750bf2dea2aad",
+      "kind": "parametric_SC_source_backend_value_contract",
+      "role": "parametric_value_contract"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/SourceCorrect.lean",
+      "name": "VeriTile.Bench.TritonBenchG.StreamK.SourceCorrect.first_wave_source_fp32",
+      "statement": "specification first_wave_source_fp32 (c : Config) (dot : Dot32)\n (schedule : List Nat) (mem : Memory Word) :\n ValueContract originalSource.first c.firstGrid c (fp32 dot) schedule mem",
+      "statement_sha256": "a2f677b48d6526f227c6945a3242cfb16a53a724ca16c0e99f7dc49625332c7e",
+      "kind": "parametric_SC_source_fp32_dot_callback_contract",
+      "role": "parametric_value_contract"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/SourceCorrect.lean",
+      "name": "VeriTile.Bench.TritonBenchG.StreamK.SourceCorrect.full_tiles_source_fp32",
+      "statement": "specification full_tiles_source_fp32 (c : Config) (dot : Dot32)\n (schedule : List Nat) (mem : Memory Word) :\n ValueContract originalSource.fullWave c.fullGrid c (fp32 dot) schedule mem",
+      "statement_sha256": "81677af4af07e11e281b9209a43bc8c155d829adfce566b1e643ea136a882d6c",
+      "kind": "parametric_SC_source_fp32_dot_callback_contract",
+      "role": "parametric_value_contract"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/SourceCorrect.lean",
+      "name": "VeriTile.Bench.TritonBenchG.StreamK.SourceCorrect.ordered_launches_source_backend",
+      "statement": "specification ordered_launches_source_backend (c : Config) (b : Backend V)\n (first second : List Nat) (mem : Memory V) :\n LaunchContract c b first second mem",
+      "statement_sha256": "168bbe2b42af32a94257a8286f614e6f955da594682c86fab8e2d1c2ccffc814",
+      "kind": "parametric_SC_source_backend_value_contract",
+      "role": "parametric_value_contract"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/SourceCorrect.lean",
+      "name": "VeriTile.Bench.TritonBenchG.StreamK.SourceCorrect.ordered_launches_source_software",
+      "statement": "specification ordered_launches_source_software (h : HostInput) (bases : Region\u2192Address)\n (first second : List Nat) (mem : Memory Word) :\n LaunchContract (hostConfig h bases) software first second mem",
+      "statement_sha256": "e591490f03187e5052eca3b4f53fef3ddf9a6eb57a963d4d39ca461d0854790d",
+      "kind": "parametric_SC_source_fp32_software_value_contract",
+      "role": "parametric_value_contract"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/SourceCorrect.lean",
+      "name": "VeriTile.Bench.TritonBenchG.StreamK.SourceCorrect.host_allocated_locks_source_software",
+      "statement": "specification host_allocated_locks_source_software (h : HostInput) (bases : Region\u2192Address)\n (first second : List Nat) (mem : Memory Word) :\n LaunchContract (hostConfig h bases) software first second (allocateLocks h bases mem)",
+      "statement_sha256": "8858cb4ffba7deac2676e6799a640509cec33ef7b9d57ea6350c2f49b60ae874",
+      "kind": "parametric_SC_source_fp32_software_value_contract",
+      "role": "parametric_value_contract"
+    }
+  ],
+  "task_module_count": 9,
+  "axiom_check_count": 30,
+  "noncircular_check_count": 3,
+  "compile": [
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/Proofs/Types.lean",
+      "command": [
+        "/tmp/lean-4.29.0-linux/bin/lean",
+        "-o",
+        "/tmp/next-value-streamk-20261014/.lake/build/lib/lean/bench/tritonbench_g/streamk_matmul/Proofs/Types.olean",
+        "bench/tritonbench_g/streamk_matmul/Proofs/Types.lean"
+      ],
+      "exit_code": 0,
+      "source_sha256": "e4099cc0eb56d34c29ed7d17d942547a66228889ee722117cf20b408fb58050d",
+      "source_unchanged": true,
+      "elapsed_seconds": 2.7784678939933656,
+      "log": "/tmp/next-value-streamk-20261014/final/Types.log",
+      "log_sha256": "065eb8a2daccbe299ae61a92c9c6d592bf3e0fed0f02e3d7e6162fc1d0eaf0e4",
+      "axiom_checks": 0,
+      "noncircular_checks": 0,
+      "olean_sha256": "dad548de12a6ec6f3823964c6660a9a3bde97fcb09488eb47c6ed29bd98e1ab7"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/Proofs/Control.lean",
+      "command": [
+        "/tmp/lean-4.29.0-linux/bin/lean",
+        "-o",
+        "/tmp/next-value-streamk-20261014/.lake/build/lib/lean/bench/tritonbench_g/streamk_matmul/Proofs/Control.olean",
+        "bench/tritonbench_g/streamk_matmul/Proofs/Control.lean"
+      ],
+      "exit_code": 0,
+      "source_sha256": "28c87130c550da942dc3dc9ad39f0db29d994dbcaf643ee815573ca15556cf75",
+      "source_unchanged": true,
+      "elapsed_seconds": 1.3783616770087974,
+      "log": "/tmp/next-value-streamk-20261014/final/Control.log",
+      "log_sha256": "445fc57262a7b10398795532da515a66b9a6993da26cb736e5b08b9102343190",
+      "axiom_checks": 2,
+      "noncircular_checks": 0,
+      "olean_sha256": "d1eb809bfe816f558b10debf87837c784e8928200345ff698059a9bef359c5a8"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/Proofs/GeneratedSource.lean",
+      "command": [
+        "/tmp/lean-4.29.0-linux/bin/lean",
+        "-o",
+        "/tmp/next-value-streamk-20261014/.lake/build/lib/lean/bench/tritonbench_g/streamk_matmul/Proofs/GeneratedSource.olean",
+        "bench/tritonbench_g/streamk_matmul/Proofs/GeneratedSource.lean"
+      ],
+      "exit_code": 0,
+      "source_sha256": "6276e5c2e66bbc85b3057779aae2ab5dce9df0084cae909636191e7a0bc9becd",
+      "source_unchanged": true,
+      "elapsed_seconds": 1.0471973130042898,
+      "log": "/tmp/next-value-streamk-20261014/final/GeneratedSource.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "axiom_checks": 0,
+      "noncircular_checks": 0,
+      "olean_sha256": "a0c87ba1840e98941c17b0346ab0d8969913b1bbe24e738f8eaebf477f66879b"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/Proofs/Reference.lean",
+      "command": [
+        "/tmp/lean-4.29.0-linux/bin/lean",
+        "-o",
+        "/tmp/next-value-streamk-20261014/.lake/build/lib/lean/bench/tritonbench_g/streamk_matmul/Proofs/Reference.olean",
+        "bench/tritonbench_g/streamk_matmul/Proofs/Reference.lean"
+      ],
+      "exit_code": 0,
+      "source_sha256": "10d6e1e74e5947f1e1a3cfca20d6b969c64121c00744aff6ec42dc48f4e964ab",
+      "source_unchanged": true,
+      "elapsed_seconds": 3.711951206001686,
+      "log": "/tmp/next-value-streamk-20261014/final/Reference.log",
+      "log_sha256": "3df8b3a961934140b245b7e5ccafc87ab484f3b1462b3e97bfc3dd5c82577a20",
+      "axiom_checks": 4,
+      "noncircular_checks": 1,
+      "olean_sha256": "f74a487bd23722d0b404e0bec10600d8ca86264192f6c8d3537b6c9fb2483a68"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/Proofs/Host.lean",
+      "command": [
+        "/tmp/lean-4.29.0-linux/bin/lean",
+        "-o",
+        "/tmp/next-value-streamk-20261014/.lake/build/lib/lean/bench/tritonbench_g/streamk_matmul/Proofs/Host.olean",
+        "bench/tritonbench_g/streamk_matmul/Proofs/Host.lean"
+      ],
+      "exit_code": 0,
+      "source_sha256": "3df34282b0ed206ef02e63ed92109793bff9d985b8adefca95fd97ff4710d9b7",
+      "source_unchanged": true,
+      "elapsed_seconds": 1.2861831749905832,
+      "log": "/tmp/next-value-streamk-20261014/final/Host.log",
+      "log_sha256": "df878bc893fb1d0dcad7174c46b1263416fe174baf0d535346b35923311d5332",
+      "axiom_checks": 4,
+      "noncircular_checks": 1,
+      "olean_sha256": "3c4dbc525bdf2c80f0e3401b87c966e3ef6db83b6a7321bc5efcf7d1eb42339e"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/Proofs/Software.lean",
+      "command": [
+        "/tmp/lean-4.29.0-linux/bin/lean",
+        "-o",
+        "/tmp/next-value-streamk-20261014/.lake/build/lib/lean/bench/tritonbench_g/streamk_matmul/Proofs/Software.olean",
+        "bench/tritonbench_g/streamk_matmul/Proofs/Software.lean"
+      ],
+      "exit_code": 0,
+      "source_sha256": "fa5932b812c919d25c36ffae659c77274622cf91bb015c6919f05116e4f3c8f8",
+      "source_unchanged": true,
+      "elapsed_seconds": 2.191623320002691,
+      "log": "/tmp/next-value-streamk-20261014/final/Software.log",
+      "log_sha256": "d7ef68d84b6a4c5e7fd878d755109d6f2072c40f54b1b22466d9a08be5ae4508",
+      "axiom_checks": 2,
+      "noncircular_checks": 0,
+      "olean_sha256": "6a4247be17d3d04ed0b734e9dc99e1905d9fd559b07187d1ff5f115dcf858eb1"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/Proofs/SourceChecks.lean",
+      "command": [
+        "/tmp/lean-4.29.0-linux/bin/lean",
+        "-o",
+        "/tmp/next-value-streamk-20261014/.lake/build/lib/lean/bench/tritonbench_g/streamk_matmul/Proofs/SourceChecks.olean",
+        "bench/tritonbench_g/streamk_matmul/Proofs/SourceChecks.lean"
+      ],
+      "exit_code": 0,
+      "source_sha256": "67e8e9920b051d980ad3e87fe3a515efe78a46d76f8c1cbee1f95dce06e274ee",
+      "source_unchanged": true,
+      "elapsed_seconds": 1.5266335760097718,
+      "log": "/tmp/next-value-streamk-20261014/final/SourceChecks.log",
+      "log_sha256": "3c5dfa9c0346c0c1d6278c0c41708a0c2ffa1855c33cd48668dc01c9d773b3cc",
+      "axiom_checks": 5,
+      "noncircular_checks": 0,
+      "olean_sha256": "990af1e335a733ff1e56c2362deac9d980f0cb017acb150a8939e30c802895b0"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/SourceCorrect.lean",
+      "command": [
+        "/tmp/lean-4.29.0-linux/bin/lean",
+        "-o",
+        "/tmp/next-value-streamk-20261014/.lake/build/lib/lean/bench/tritonbench_g/streamk_matmul/SourceCorrect.olean",
+        "bench/tritonbench_g/streamk_matmul/SourceCorrect.lean"
+      ],
+      "exit_code": 0,
+      "source_sha256": "4cd49de3ed4e2431f6fec18b55936a77a8384fbb0d3f30d37a155f5fd879d80a",
+      "source_unchanged": true,
+      "elapsed_seconds": 1.9796449749992462,
+      "log": "/tmp/next-value-streamk-20261014/final/SourceCorrect.log",
+      "log_sha256": "010a91db963b4b80bc74b18a291a29fa03afbc286fcfe9d0687e0de77d40e6f1",
+      "axiom_checks": 8,
+      "noncircular_checks": 1,
+      "olean_sha256": "6cb2668858d7afff9635dec2f8b2e920ff9a71f21d6bf805fcbf839f2faa8941"
+    },
+    {
+      "file": "bench/tritonbench_g/streamk_matmul/Proofs/Witness.lean",
+      "command": [
+        "/tmp/lean-4.29.0-linux/bin/lean",
+        "-o",
+        "/tmp/next-value-streamk-20261014/.lake/build/lib/lean/bench/tritonbench_g/streamk_matmul/Proofs/Witness.olean",
+        "bench/tritonbench_g/streamk_matmul/Proofs/Witness.lean"
+      ],
+      "exit_code": 0,
+      "source_sha256": "fcd739d1b65d5ac6170b046eca967a8a125d0ed1049b6c1fd5c217bb6d43bcb6",
+      "source_unchanged": true,
+      "elapsed_seconds": 19.929959676999715,
+      "log": "/tmp/next-value-streamk-20261014/final/Witness.log",
+      "log_sha256": "50872cc927cb26711be227357400e2aa5cd493ec42520abe9f75b95e33c05810",
+      "axiom_checks": 5,
+      "noncircular_checks": 0,
+      "olean_sha256": "64c90ae727048b1e73918fc7c654b71103c2588093b1e1fa44efb9830b74a5f8"
+    }
+  ],
+  "input_count": 15,
+  "inputs_unchanged": true,
+  "source_import": {
+    "functions": [
+      "swizzle_tile",
+      "linear_tile",
+      "mac_loop",
+      "first_wave",
+      "full_tiles"
+    ],
+    "original_JIT_statement_count": 64,
+    "expanded_statement_ledger_count": 75,
+    "all_JIT_statements_lowered": true,
+    "Python_AST_frontend_verified_in_Lean": false
+  },
+  "scope": {
+    "complete_original_control_graph": true,
+    "dynamic_whiles": true,
+    "complete_K_range": true,
+    "both_GROUP_M_branches": true,
+    "host_two_tiles_partition": true,
+    "host_zero_lock_allocation": true,
+    "all_finite_program_schedules": true,
+    "all_initial_values": true,
+    "all_data_aliases": true,
+    "both_launches_must_finish_for_completed_host_result": true,
+    "no_unconditional_termination_claim": true,
+    "no_added_numeric_input_conditions": true
+  },
+  "guarantees": [
+    "entire source interpreter memory and registers refine independent initial-memory recipe expressions",
+    "data frame and lock frame",
+    "source CAS old-word polling and atomics preserve schedule order",
+    "fp32 software primitive instance and genuine fp16 roundtrip",
+    "kernel-checked complete nonzero multi-program and two-wave executions plus original defects"
+  ],
+  "witness_roles": "supporting_execution_witness_or_counterexample; never substitutes for parameterized contracts",
+  "known_source_defects": [
+    "unmasked tile reads/writes outside host allocation for tails",
+    "full_tiles unconditional half rounding even for fp32 output",
+    "int8 first_wave native compile failure: atomic_add unsupported",
+    "FP atomic contribution order changes result",
+    "unfair scheduling can leave polls blocked"
+  ],
+  "remaining": [
+    "Python-to-task-IR parser/type/shape/inlining refinement",
+    "source SC row-major lane serialization to GPU memory/scheduling refinement",
+    "arbitrary scheduler termination/fairness/occupancy progress",
+    "allocation and legal native configuration checks; source counterexample means universal allocation safety is false",
+    "default TF32 input precision and compiler fused dotAcc graph have no source-equality assumption",
+    "native fp16/bf16/integer concrete backend bindings remain pending; concrete profile is fp32 storage",
+    "native floating atomic FTZ/NaN/dot schedule binding",
+    "i64 scalar/native address specializations"
+  ],
+  "native": {
+    "gpu_executed": false,
+    "offline_compile_pass": 7,
+    "offline_compile_fail": 1,
+    "artifacts_rechecked": 47,
+    "all_five_original_JIT_ASTs_equal": true,
+    "compiled_graph_value_proved": false,
+    "source_dot_add_equal_dotAcc_assumed": false,
+    "status": "pending_with_known_graph_and_source_defects"
+  },
+  "independent_original_Python_CPU_cases": 7,
+  "workspace_modified": false,
+  "shared_core_modified": false,
+  "global_metadata_modified": false,
+  "other_frozen_packages_modified": false,
+  "full_library_build": false,
+  "dependencies_sha256": "0b49dbdce6c583ee7050eb329787e84eafd6e391b8602529b8d4aa05d129f3b6",
+  "inputs_zip_sha256": "2341c6908dbe1cfac5abfa3917a704e0fa41487687f885d8d8b6158b64b48369",
+  "artifacts_sha256": {
+    "source_execution_check.py": "3de9dc72302557af6d4877a57f6c53a3a32daf896faa0ce25bd1372a5c8a1d07",
+    "Witness.log": "50872cc927cb26711be227357400e2aa5cd493ec42520abe9f75b95e33c05810",
+    "SourceChecks.log": "3c5dfa9c0346c0c1d6278c0c41708a0c2ffa1855c33cd48668dc01c9d773b3cc",
+    "Software.log": "d7ef68d84b6a4c5e7fd878d755109d6f2072c40f54b1b22466d9a08be5ae4508",
+    "source-ast.json": "916b6fc30c9cf17d1a4afff4a4aea5cdae6c34adcaadf8bad7c63d1456910b01",
+    "finalize.py": "ab8a7f89830f4575c0f00b49208c62eb106ec4723273d15ba070f9aa0e36ae22",
+    "native_audit.py": "3f84cfd2a33903a383b00b0a264b5930b6bb665efe6a3fedd8eb9fdfaa0b3c29",
+    "dependencies.json": "0b49dbdce6c583ee7050eb329787e84eafd6e391b8602529b8d4aa05d129f3b6",
+    "scope-audit.json": "204bc949bfc76867e28b5347121f0edf4f6141e9de78ce8b98b0b262fe455063",
+    "Reference.log": "3df8b3a961934140b245b7e5ccafc87ab484f3b1462b3e97bfc3dd5c82577a20",
+    "GeneratedSource.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "prepare.py": "14ff4c53251a0758022699795167e4320797108bccad270211f61553b0883879",
+    "compile.py": "f8b05cae6931cd9edba8af1557c127f575e999268e3d746ea011e661fbf7ef2f",
+    "native-audit.json": "dbb7502c296e1c65a71aaf298eaee6ab89ea83d2c41008bd27f58432c5f56326",
+    "SourceCorrect.log": "010a91db963b4b80bc74b18a291a29fa03afbc286fcfe9d0687e0de77d40e6f1",
+    "lean-path.txt": "9cade90fd230b442b502160181fa4d8eabc6988bbad2b459f7b4a561e7f0185f",
+    "Control.log": "445fc57262a7b10398795532da515a66b9a6993da26cb736e5b08b9102343190",
+    "Types.log": "065eb8a2daccbe299ae61a92c9c6d592bf3e0fed0f02e3d7e6162fc1d0eaf0e4",
+    "build.py": "a66afaf9bbbd75cf51b36ae1590b8978aa2e0ea942812a8f123ed7b8a0d76a44",
+    "instrumented-source.py": "41c0a0aaa89e41219d0de99a864aafd5d1978afa0bd0e9c5e0f547013878d459",
+    "inputs.zip": "2341c6908dbe1cfac5abfa3917a704e0fa41487687f885d8d8b6158b64b48369",
+    "Host.log": "df878bc893fb1d0dcad7174c46b1263416fe174baf0d535346b35923311d5332",
+    "host_source_check.py": "241e2b84db2900eaeea65c8df4a2d733cb765f20b2f8ce5f01ee3ec1e544d932",
+    "source-execution.json": "752af29bfcc2a87f37afcc44cddfafc57597e69a7fc4ac04c0a23cd68eddad9d",
+    "translate_source.py": "8878635148020a21052fdd0dfaea4204dd7955b365900b93c3775d76f244f95c",
+    "host-source-check.json": "34d53dbfd6a015763eb68d958175a9fe02d945969b479fa234e7e5fcdd7acb7e",
+    "final-driver.log": "2e68f9c22ca33578b3e37367fb6dbd712ae6d8e8d3f603ee0d646e687cc66a45",
+    "native/bf16-full_tiles.ttir": "28e36e09cc8959363dcbf8f949819fddb6f16ebdd3bd5ea7716799ae28cdc02f",
+    "native/i8-full_tiles.cubin": "1a35025ad1ee4c17a1444911b57b6acb1dd64e964e18fce7f67f02aa0a2cfb64",
+    "native/fp16-first_wave.ptx": "d4cd3af60b7ee62ae1f4765e6ce415e2c5b0603b991cbda37cd801fd5fe71333",
+    "native/fp32-full_tiles.llir": "928bc62bcd76248e9fac2e1555d09efc5306558aea10ae13ed6c170e39e87e6e",
+    "native/fp16-full_tiles.cubin": "833f7fc900f38c8fd5bba5c8a733349659579387408fc39976dbb66f78eb93ed",
+    "native/fp16-first_wave.ttir": "3df417b78fdd98eba069cc5109f274e51dfee870b1e81f719056d843d0282fed",
+    "native/fp16-first_wave.llir": "3c94f620f520b6bcbe20ca30f93a1506e7321d17be52c5245137f6329d131877",
+    "native/bf16-first_wave.cubin": "0d584c60e5e47a28887d51f67ebdc87612334eb5fb69b6bd6080ae20db95174c",
+    "native/fp32-first_wave.cubin": "1b172c4533dfad5b0c88cfda1341e052f12c5723b70f192d5844f04020163a8f",
+    "native/fp16-full_tiles.ttgir": "24d3fd3c70765c379893c24dc732799316e3f564d574025174f1f13db82ea4ed",
+    "native/fp16-full_tiles.source": "64949f0c85024d90dd177d0c175c41cc6702c6f17b06b9f6602525e0c335c3c4",
+    "native/fp32-first_wave.llir": "fc7eb37ca2554ea15626171f85dc889f474095741cc5773b3f7d3700e3c218e3",
+    "native/i8-full_tiles.ptx": "da1b1da56dd714dd2a5e1955b851939d0778e5c923ced5573750c2281f4cc159",
+    "native/bf16-full_tiles.source": "732cd8460730656354e58c9e024a484c4b982e8b26bbbafe7847aee9deef4845",
+    "native/original.py": "a9935cc30272ce20dc8b665a650041c891d02cae8d3af6aafce1bc299fdf9eb1",
+    "native/driver.log": "08c50bb57344099407d253984cd7512f6b945e176347910a4180f0566b4800d0",
+    "native/fp16-full_tiles.llir": "59c6e542b0116c361b10e62842a340557b60e39d2f017010434e55fa38c110ed",
+    "native/bf16-first_wave.ttir": "c55142a36eee5df80afa67af4a8617838b8aac874378e906b9ef9f2bc1e35e90",
+    "native/fp16-first_wave.source": "04eb06f2503c572261c98b3560cfb7a2678106083ff0536a7e3ce0cc99ee7dc1",
+    "native/bf16-full_tiles.ttgir": "fb5d90f99eac644a660b6c2218f80ad8cc07449dc86cd5c4a69cf805fa4541ee",
+    "native/bf16-full_tiles.ptx": "a84e3ed3e8ca9c9d4e91490154c2f704553662b39437bf03fe0e7d23022dc8df",
+    "native/fp16-full_tiles.ptx": "ed8c1c57ee7758830fae9685e6234369b33a44a73a388d9257b7fef9a746194a",
+    "native/fp32-first_wave.source": "c715385bbf47f655995af20b3eb8348be3f77cdc39d49d65b60f8c634bf1991b",
+    "native/fp32-full_tiles.ptx": "702837cf1b223e4cec6a26cd254758efff2a5165542eb2be29ebc0501e4402a6",
+    "native/bf16-first_wave.llir": "f61506f169a01d10b9b3adbc0c086e0478002dd6fb100ca977f34092a9667dcc",
+    "native/probe.py": "25294104063ba0b30371d0e64d2290819796ab6df4b75bd80a401f6c0811380b",
+    "native/bf16-first_wave.source": "e541fd039b449cea7e7c684673b3701ab29066fe3cd98c41671adf8c8c4c44bd",
+    "native/fp32-first_wave.ttgir": "d40c77b079f0bc54afcf9b3ddecdf18ea258091edd0e4a7e4246ec7ca965fb18",
+    "native/fp32-full_tiles.ttir": "9caa1b638deaea59bfaa364cc4fe8eecb32004cc1660843dddb832adc1bb8035",
+    "native/fp32-first_wave.ttir": "b237483956ced45ad1adae4e41a3e9130d91fd1fd8b1e2e0d93f2581e6b5d56e",
+    "native/fp16-full_tiles.ttir": "ed9beef7c58c9c0436e721bccaf795da619cb024e26e7f4d3b79315485fd3500",
+    "native/fp32-full_tiles.cubin": "272bb3e3511d37cdfaa839387ccfa878460c2bf17857250b6a20ecd8fb0c71a8",
+    "native/fp16-first_wave.ttgir": "7355b9a78e4bcaeace801b6d6b5bcc609280c4f4cfa75d711110d17755b4794a",
+    "native/i8-first_wave.log": "e8850d9aa099c50b7b33154d93757463b9b1a0da24cd17c6f33381f533f6eb9c",
+    "native/fp16-first_wave.cubin": "5173c25bbc4290a880d4d602acd8ff69d7974b6281a9a88f122203cc5b59055c",
+    "native/i8-full_tiles.source": "c3fefd5721928d7dde7d5849928c449cfb4761d4439510abcdec4eaeb29e3efe",
+    "native/bf16-full_tiles.llir": "38eb7e6405aad008194d5494a5872eef1b75f8e7b98fff3482abeb879b5dcb28",
+    "native/bf16-first_wave.ptx": "289a27002e8d536716f54b8248e3743b939382515e1e764c66d1bde1431c012c",
+    "native/fp32-first_wave.ptx": "e883ddc7aee81176c64597d54bd6bdcc175392c4f1a6a63405408026090c0b4b",
+    "native/i8-full_tiles.ttir": "e4d6ce0d668d6e18eb725b54ecc97de675921225bf7fa2f5f4afbb0cb393d344",
+    "native/bf16-first_wave.ttgir": "cce48169e4553f38d1b1479ad5e4c75e7a15dd5b92de749caa2e976dbf66a88b",
+    "native/fp32-full_tiles.source": "98813478ec1b10f46f73d9b8e6cc416f2e239d4521ab13490795c9a46ccf9907",
+    "native/fp32-full_tiles.ttgir": "2f040fd4f22191e3add51f684d599e9518c919112154d610f7f50cb719f1e6fb",
+    "native/i8-full_tiles.llir": "f722273117cdd7c2d64ec667c8f66f0fb4fe134afdf5a0c8908e1052415d6a9c",
+    "native/i8-full_tiles.ttgir": "9521ea7f21aff0659410e062070ed90900cfb271bec4035cb96c3c9c90d9798f",
+    "native/bf16-full_tiles.cubin": "19369754f5f6f5f8956e5f85b23dcc4575366b3bce42f70c55115533800887c1",
+    "native/__pycache__/original.cpython-311.pyc": "0402d4b35ddee05129993f61bd670ad06fdbf8e84f7912e28389607988c17aa8"
+  },
+  "reproducibility": {
+    "lean_path": "/tmp/next-value-streamk-20261014/.lake/build/lib/lean:/tmp/veritile-maximum-remaining-20261014/.lake/build/lib/lean:/tmp/veritile-combined-frontend-20261014/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/tmp/veritile-fp-full-precheck/.lake/build/lib/lean:/tmp/lean-4.29.0-linux/lib/lean",
+    "lean_binary_sha256": "3e0d0d3d801675359f2d4cf9815bfdb417b20b92fdd9d48b3b14c95bbae28bbf",
+    "compiler": "Lean (version 4.29.0, x86_64-unknown-linux-gnu, commit 98dc76e3c0a9b856c9b98726b713fb04fab16740, Release)",
+    "commands": [
+      "python translate_source.py",
+      "python source_execution_check.py",
+      "python native_audit.py",
+      "python prepare.py",
+      "python build.py",
+      "python finalize.py"
+    ]
+  }
+}

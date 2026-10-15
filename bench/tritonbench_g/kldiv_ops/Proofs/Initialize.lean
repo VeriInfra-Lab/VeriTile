@@ -17,14 +17,20 @@ theorem forward_initialize (s : BlockState) (Y T O : RegionName)
     (sy st so N B : Nat) (eps : ℝ) (logTarget : Bool) (reduction : Nat) :
     stepStmts ((forward Y T O sy st so N B eps logTarget reduction).body.take 6) s =
       some (forwardInitial s Y T O sy st so B) := by
-  simp [forward, forwardSurface, forwardInitial, ComputeKernel.surfaceBody,
+  cases logTarget <;>
+    simp [forward, forwardSurface, ComputeKernel.eraseDType, ComputeKernel.fromKernelBody,
+      ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType,
+      Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
+      NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+      VeriTile.Triton.eraseDType,  forwardInitial, ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     stepStmts, stepStmt, evalOp.eq_def, Tile.ptrAdd, Tile.bop, Tile.uop,
     NumericDType.mul, Tile.scalar, Tile.vec, -Tile.scalar_eta, Function.comp_def,
     Region.cast, Except.bind, bind]
-  simp only [← Int.natCast_mul, Int.toNat_natCast]
-  norm_num
+  all_goals simp only [← Int.natCast_mul, Int.toNat_natCast]
+  all_goals norm_num
 
 /-- Initialization preserves all memory and program identifiers. -/
 theorem forward_initialize_frame (s : BlockState) (Y T O : RegionName) (sy st so B : Nat) :
@@ -45,13 +51,14 @@ theorem backward_initialize (s : BlockState) (T O : RegionName)
     (st so N B : Nat) (logTarget : Bool) :
     stepStmts ((backward T O st so N B logTarget).body.take 5) s =
       some (backwardInitial s T O st so N B) := by
-  simp [backward, backwardSurface, backwardInitial, ComputeKernel.surfaceBody,
+  cases logTarget <;>
+    simp [backward, backwardSurface, backwardInitial, ComputeKernel.surfaceBody,
     ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
     stepStmts, stepStmt, evalOp.eq_def, Tile.ptrAdd, Tile.bop, Tile.uop, Tile.cop,
     NumericDType.mul, ComparableDType.lt, Tile.scalar, Tile.vec, -Tile.scalar_eta,
     Function.comp_def, Region.cast, Except.bind, bind]
-  simp only [← Int.natCast_mul, Int.toNat_natCast]
+  all_goals simp only [← Int.natCast_mul, Int.toNat_natCast]
 
 theorem backward_initialize_frame (s : BlockState) (T O : RegionName) (st so N B : Nat) :
     (backwardInitial s T O st so N B).mem = s.mem ∧

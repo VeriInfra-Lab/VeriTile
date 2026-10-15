@@ -101,7 +101,7 @@ def intraRequirements (kernel : ComputeKernel) (BC : Nat) (scale : ℝ) : List S
     let loop ← Source.dynamicRange? active.yes "j"
     return Site.branch active.before active.condition Bool.true
       (.range loop.before "j" loop.start loop.stop loop.stride loop.body
-        (.mulScalar (Source.prefixBefore loop.body "b_A" 1) BC []
+        (.mulScalarFP32 (Source.prefixBefore loop.body "b_A" 1) BC []
           (.ref .real [BC] "b_A") (.const scale)))).toList
 section
 variable (qs ks gs : TypedIntra.Storage) (q k g A : RegionName)
@@ -129,7 +129,7 @@ def splitRequirements (kernel : ComputeKernel) (BC : Nat) (scale : ℝ) : List S
     let loop ← Source.dynamicRange? active.yes "j"
     return Site.branch active.before active.condition Bool.true
       (.range loop.before "j" loop.start loop.stop loop.stride loop.body
-        (.mulScalar (Source.prefixBefore loop.body "b_A" 2) BC []
+        (.mulScalarFP32 (Source.prefixBefore loop.body "b_A" 2) BC []
           (.ref .real [BC] "b_A") (.const scale)))).toList
 section
 variable (qs ks gs : TypedSplit.Storage) (q k g A : RegionName)

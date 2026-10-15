@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
 
 /-!
 # `rotary_transform_ops` — strict per-kernel correctness
@@ -1743,3 +1744,5 @@ specification rotary_transform_ops_meta_implements
             rw [← hc.2])
 
 end VeriTile.Bench.TritonBenchG.RotaryTransformOps
+
+#auditModuleAxioms

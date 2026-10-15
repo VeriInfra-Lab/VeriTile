@@ -19,7 +19,7 @@ def finiteTree (M : Algebra α) (xs : Fin N → α) (seed : α) :
   | .input i => .guard .finite (xs i)
   | .zero => .guard .finite seed
   | .add a b => .all [finiteTree M xs seed a, finiteTree M xs seed b,
-      .guard .finite (add M (value M xs seed a) (value M xs seed b))]
+      .guard .finite (ScalarArithmetic.add M (value M xs seed a) (value M xs seed b))]
 
 @[simp] theorem finiteTree_holds (M : Algebra α) (D : Domain α)
     (xs : Fin N → α) (seed : α) (t : ReductionTree N) :
@@ -34,17 +34,17 @@ def finiteTree (M : Algebra α) (xs : Fin N → α) (seed : α) :
 @[simp] theorem eval_one (M : Algebra α) (read : Input → α) :
     (one (GuardExpression.algebra Input)).eval M read = one M := rfl
 @[simp] theorem eval_add (M : Algebra α) (read : Input → α) (a b : Expr Input) :
-    (add (GuardExpression.algebra Input) a b).eval M read =
-      add M (a.eval M read) (b.eval M read) := rfl
+    (ScalarArithmetic.add (GuardExpression.algebra Input) a b).eval M read =
+      ScalarArithmetic.add M (a.eval M read) (b.eval M read) := rfl
 @[simp] theorem eval_sub (M : Algebra α) (read : Input → α) (a b : Expr Input) :
-    (sub (GuardExpression.algebra Input) a b).eval M read =
-      sub M (a.eval M read) (b.eval M read) := rfl
+    (ScalarArithmetic.sub (GuardExpression.algebra Input) a b).eval M read =
+      ScalarArithmetic.sub M (a.eval M read) (b.eval M read) := rfl
 @[simp] theorem eval_mul (M : Algebra α) (read : Input → α) (a b : Expr Input) :
-    (mul (GuardExpression.algebra Input) a b).eval M read =
-      mul M (a.eval M read) (b.eval M read) := rfl
+    (ScalarArithmetic.mul (GuardExpression.algebra Input) a b).eval M read =
+      ScalarArithmetic.mul M (a.eval M read) (b.eval M read) := rfl
 @[simp] theorem eval_div (M : Algebra α) (read : Input → α) (a b : Expr Input) :
-    (div (GuardExpression.algebra Input) a b).eval M read =
-      div M (a.eval M read) (b.eval M read) := rfl
+    (ScalarArithmetic.div (GuardExpression.algebra Input) a b).eval M read =
+      ScalarArithmetic.div M (a.eval M read) (b.eval M read) := rfl
 
 @[simp] theorem eval_value (M : Algebra α) (read : Input → α)
     (xs : Fin N → Expr Input) (seed : Expr Input) (t : ReductionTree N) :
@@ -78,13 +78,13 @@ def initial (M : Algebra α) (x : α) : Requirements α :=
     .guard .finite x,
     .guard .finite (ScalarArithmetic.zero M),
     .guard .finite (ScalarArithmetic.one M),
-    .guard .finite (sub M x (ScalarArithmetic.zero M)),
-    .guard .finite (sub M x x),
-    .guard .finite (sub M (ScalarArithmetic.zero M) x),
-    .guard .finite (mul M x (ScalarArithmetic.zero M)),
-    .guard .finite (sub M (ScalarArithmetic.zero M) (mul M x (ScalarArithmetic.zero M))),
+    .guard .finite (ScalarArithmetic.sub M x (ScalarArithmetic.zero M)),
+    .guard .finite (ScalarArithmetic.sub M x x),
+    .guard .finite (ScalarArithmetic.sub M (ScalarArithmetic.zero M) x),
+    .guard .finite (ScalarArithmetic.mul M x (ScalarArithmetic.zero M)),
+    .guard .finite (ScalarArithmetic.sub M (ScalarArithmetic.zero M) (ScalarArithmetic.mul M x (ScalarArithmetic.zero M))),
     .guard .finite (Welford.square M (ScalarArithmetic.zero M)),
-    .guard .finite (sub M (ScalarArithmetic.zero M) (Welford.square M (ScalarArithmetic.zero M)))]
+    .guard .finite (ScalarArithmetic.sub M (ScalarArithmetic.zero M) (Welford.square M (ScalarArithmetic.zero M)))]
 
 @[simp] theorem initial_holds (M : Algebra α) (D : Domain α) (x : α) :
     (initial M x).Holds D ↔ WelfordInit.InitDomain M D x := by
@@ -111,10 +111,10 @@ def meanStep (M : Algebra α) (x m n : α) : Requirements α :=
     .guard .finite (Welford.difference M x m),
     .guard .finite (Welford.nextCount M n),
     .guard .nonzero (Welford.nextCount M n),
-    .guard .finite (div M (ScalarArithmetic.one M) (Welford.nextCount M n)),
+    .guard .finite (ScalarArithmetic.div M (ScalarArithmetic.one M) (Welford.nextCount M n)),
     .guard .finite (Welford.correction M x m n),
     .guard .finite (Welford.nextMean M x m n),
-    .guard .finite (mul M m n)]
+    .guard .finite (ScalarArithmetic.mul M m n)]
 
 @[simp] theorem meanStep_holds (M : Algebra α) (D : Domain α) (x m n : α) :
     (meanStep M x m n).Holds D ↔ Welford.MeanStepDomain M D x m n := by
@@ -136,9 +136,9 @@ def varianceStep (M : Algebra α) (x m n : α) : Requirements α :=
   .all [
     meanStep M x m n,
     .guard .finite (Welford.residual M x m n),
-    .guard .finite (mul M n (Welford.correction M x m n)),
+    .guard .finite (ScalarArithmetic.mul M n (Welford.correction M x m n)),
     .guard .finite (ScalarArithmetic.zero M),
-    .guard .finite (sub M (ScalarArithmetic.zero M) (Welford.nextMean M x m n))]
+    .guard .finite (ScalarArithmetic.sub M (ScalarArithmetic.zero M) (Welford.nextMean M x m n))]
 
 @[simp] theorem varianceStep_holds (M : Algebra α) (D : Domain α) (x m n : α) :
     (varianceStep M x m n).Holds D ↔ Welford.VarianceStepDomain M D x m n := by
@@ -162,12 +162,12 @@ def centerShift (M : Algebra α) (x m m' : α) : Requirements α :=
     .guard .finite x,
     .guard .finite m,
     .guard .finite m',
-    .guard .finite (sub M x m),
-    .guard .finite (sub M m m'),
-    .guard .finite (add M (sub M x m) (sub M m m')),
-    .guard .finite (sub M x m'),
+    .guard .finite (ScalarArithmetic.sub M x m),
+    .guard .finite (ScalarArithmetic.sub M m m'),
+    .guard .finite (ScalarArithmetic.add M (ScalarArithmetic.sub M x m) (ScalarArithmetic.sub M m m')),
+    .guard .finite (ScalarArithmetic.sub M x m'),
     .guard .finite (ScalarArithmetic.zero M),
-    .guard .finite (sub M (ScalarArithmetic.zero M) m')]
+    .guard .finite (ScalarArithmetic.sub M (ScalarArithmetic.zero M) m')]
 
 @[simp] theorem centerShift_holds (M : Algebra α) (D : Domain α) (x m m' : α) :
     (centerShift M x m m').Holds D ↔ Welford.CenterShiftDomain M D x m m' := by
@@ -191,7 +191,7 @@ def centerTree (M : Algebra α) (xs : Fin N → α) (m m' : α) (tree : Reductio
     .guard .finite (ScalarArithmetic.zero M),
     finiteTree M (deviationSquares M xs m) (ScalarArithmetic.zero M) tree,
     finiteTree M (crossTerms M xs m m') (ScalarArithmetic.zero M) tree,
-    finiteTree M (fun _ => square M (sub M m m')) (ScalarArithmetic.zero M) tree,
+    finiteTree M (fun _ => square M (ScalarArithmetic.sub M m m')) (ScalarArithmetic.zero M) tree,
     finiteTree M (oldPlusCross M xs m m') (ScalarArithmetic.zero M) tree,
     finiteTree M (crossPlusShift M xs m m') (ScalarArithmetic.zero M) tree,
     finiteTree M (deviationSquares M xs m') (ScalarArithmetic.zero M) tree]
@@ -222,13 +222,13 @@ def meanDomain (M : Algebra α) (xs : Fin N → α) (tree : ReductionTree N) : R
     finiteTree M xs (ScalarArithmetic.zero M) tree,
     finiteTree M (fun _ => one M) (ScalarArithmetic.zero M) tree,
     .guard .nonzero (count M tree),
-    .guard .finite (div M (one M) (count M tree)),
+    .guard .finite (ScalarArithmetic.div M (one M) (count M tree)),
     .guard .finite (WelfordReduction.mean M xs tree),
-    .guard .finite (mul M (WelfordReduction.mean M xs tree) (ScalarArithmetic.zero M)),
-    .guard .finite (sub M (ScalarArithmetic.zero M) (mul M (WelfordReduction.mean M xs tree) (ScalarArithmetic.zero M))),
-    finiteTree M (fun i => sub M (xs i) (WelfordReduction.mean M xs tree)) (ScalarArithmetic.zero M) tree,
+    .guard .finite (ScalarArithmetic.mul M (WelfordReduction.mean M xs tree) (ScalarArithmetic.zero M)),
+    .guard .finite (ScalarArithmetic.sub M (ScalarArithmetic.zero M) (ScalarArithmetic.mul M (WelfordReduction.mean M xs tree) (ScalarArithmetic.zero M))),
+    finiteTree M (fun i => ScalarArithmetic.sub M (xs i) (WelfordReduction.mean M xs tree)) (ScalarArithmetic.zero M) tree,
     finiteTree M (fun _ => WelfordReduction.mean M xs tree) (ScalarArithmetic.zero M) tree,
-    .guard .finite (sub M (ScalarArithmetic.zero M) (value M (fun _ => WelfordReduction.mean M xs tree) (ScalarArithmetic.zero M) tree))]
+    .guard .finite (ScalarArithmetic.sub M (ScalarArithmetic.zero M) (value M (fun _ => WelfordReduction.mean M xs tree) (ScalarArithmetic.zero M) tree))]
 
 @[simp] theorem meanDomain_holds (M : Algebra α) (D : Domain α) (xs : Fin N → α) (tree : ReductionTree N) :
     (meanDomain M xs tree).Holds D ↔ WelfordReduction.MeanDomain M D xs tree := by
@@ -251,9 +251,9 @@ def recenter (M : Algebra α) (xs : Fin N → α) (tree : ReductionTree N) (m' :
   .all [
     meanDomain M xs tree,
     centerTree M xs (mean M xs tree) m' tree,
-    .guard .finite (sub M (mean M xs tree) m'),
-    .guard .finite (mul M (sub M (mean M xs tree) m') (zero M)),
-    .guard .finite (sub M (zero M) (mul M (sub M (mean M xs tree) m') (zero M)))]
+    .guard .finite (ScalarArithmetic.sub M (mean M xs tree) m'),
+    .guard .finite (ScalarArithmetic.mul M (ScalarArithmetic.sub M (mean M xs tree) m') (zero M)),
+    .guard .finite (ScalarArithmetic.sub M (zero M) (ScalarArithmetic.mul M (ScalarArithmetic.sub M (mean M xs tree) m') (zero M)))]
 
 @[simp] theorem recenter_holds (M : Algebra α) (D : Domain α) (xs : Fin N → α) (tree : ReductionTree N) (m' : α) :
     (recenter M xs tree m').Holds D ↔ WelfordReduction.RecenterDomain M D xs tree m' := by
@@ -275,16 +275,16 @@ def shiftSquare (M : Algebra α) (x m n : α) : Requirements α :=
   .all [
     .guard .finite (ScalarArithmetic.zero M),
     .guard .finite (WelfordAppend.shift M x m n),
-    .guard .finite (add M (WelfordAppend.shift M x m n) (Welford.correction M x m n)),
-    .guard .finite (sub M (ScalarArithmetic.zero M) m),
+    .guard .finite (ScalarArithmetic.add M (WelfordAppend.shift M x m n) (Welford.correction M x m n)),
+    .guard .finite (ScalarArithmetic.sub M (ScalarArithmetic.zero M) m),
     .guard .finite (Welford.square M (WelfordAppend.shift M x m n)),
     .guard .finite (Welford.square M (Welford.correction M x m n)),
-    .guard .finite (mul M (WelfordAppend.shift M x m n) (Welford.correction M x m n)),
-    .guard .finite (sub M (ScalarArithmetic.zero M) (mul M (WelfordAppend.shift M x m n) (Welford.correction M x m n))),
-    .guard .finite (mul M (WelfordAppend.shift M x m n) (ScalarArithmetic.zero M)),
-    .guard .finite (sub M (ScalarArithmetic.zero M) (mul M (WelfordAppend.shift M x m n) (ScalarArithmetic.zero M))),
-    .guard .finite (mul M (Welford.correction M x m n) (ScalarArithmetic.zero M)),
-    .guard .finite (sub M (ScalarArithmetic.zero M) (mul M (Welford.correction M x m n) (ScalarArithmetic.zero M)))]
+    .guard .finite (ScalarArithmetic.mul M (WelfordAppend.shift M x m n) (Welford.correction M x m n)),
+    .guard .finite (ScalarArithmetic.sub M (ScalarArithmetic.zero M) (ScalarArithmetic.mul M (WelfordAppend.shift M x m n) (Welford.correction M x m n))),
+    .guard .finite (ScalarArithmetic.mul M (WelfordAppend.shift M x m n) (ScalarArithmetic.zero M)),
+    .guard .finite (ScalarArithmetic.sub M (ScalarArithmetic.zero M) (ScalarArithmetic.mul M (WelfordAppend.shift M x m n) (ScalarArithmetic.zero M))),
+    .guard .finite (ScalarArithmetic.mul M (Welford.correction M x m n) (ScalarArithmetic.zero M)),
+    .guard .finite (ScalarArithmetic.sub M (ScalarArithmetic.zero M) (ScalarArithmetic.mul M (Welford.correction M x m n) (ScalarArithmetic.zero M)))]
 
 @[simp] theorem shiftSquare_holds (M : Algebra α) (D : Domain α) (x m n : α) :
     (shiftSquare M x m n).Holds D ↔ WelfordAppend.ShiftSquareDomain M D x m n := by
@@ -308,11 +308,11 @@ def varianceAppend (M : Algebra α) (xs : Fin N → α) (tree : ReductionTree N)
     varianceStep M x (mean M xs tree) (count M tree),
     recenter M xs tree (Welford.nextMean M x (mean M xs tree) (count M tree)),
     shiftSquare M x (mean M xs tree) (count M tree),
-    .guard .finite (add M (value M xs (zero M) tree) x),
+    .guard .finite (ScalarArithmetic.add M (value M xs (zero M) tree) x),
     .guard .finite (mean M (Fin.snoc xs x) (appendTree tree)),
     .guard .finite (Welford.square M (Welford.residual M x (mean M xs tree) (count M tree))),
-    .guard .finite (mul M (Welford.square M (WelfordAppend.shift M x (mean M xs tree) (count M tree))) (zero M)),
-    .guard .finite (sub M (zero M) (mul M (Welford.square M (WelfordAppend.shift M x (mean M xs tree) (count M tree))) (zero M)))]
+    .guard .finite (ScalarArithmetic.mul M (Welford.square M (WelfordAppend.shift M x (mean M xs tree) (count M tree))) (zero M)),
+    .guard .finite (ScalarArithmetic.sub M (zero M) (ScalarArithmetic.mul M (Welford.square M (WelfordAppend.shift M x (mean M xs tree) (count M tree))) (zero M)))]
 
 @[simp] theorem varianceAppend_holds (M : Algebra α) (D : Domain α) (xs : Fin N → α) (tree : ReductionTree N) (x : α) :
     (varianceAppend M xs tree x).Holds D ↔ WelfordAppend.VarianceAppendDomain M D xs tree x := by

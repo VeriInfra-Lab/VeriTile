@@ -1,0 +1,47 @@
+[
+  {
+    "module": "bench.tritonbench_g.token_softmax_bloom.Proofs.ExpLoweringGap",
+    "command": [
+      "/tmp/lean-4.29.0-linux/bin/lean",
+      "--root=/tmp/veritile-token-softmax-bloom-word-20261015",
+      "-o",
+      "/tmp/veritile-token-softmax-bloom-word-20261015/.lake/build/lib/lean/bench/tritonbench_g/token_softmax_bloom/Proofs/ExpLoweringGap.olean",
+      "/tmp/veritile-token-softmax-bloom-word-20261015/bench/tritonbench_g/token_softmax_bloom/Proofs/ExpLoweringGap.lean"
+    ],
+    "source_sha256": "8de1e64196007f40c4a7ad1080bf173a1bde883a546a1222cc60cd8a100e7e4a",
+    "object_sha256": "84a021113e815fda9637a097de578bbc2682e5b4195566c0f5d070d1e8309707",
+    "log_sha256": "ca1896a2bac77b6446ac033e7017f7949d22dbbae61c72ed27b0766ca13d3387",
+    "exit_code": 0,
+    "elapsed": 4.2266459465026855
+  },
+  {
+    "module": "bench.tritonbench_g.token_softmax_bloom.Proofs.ExpGapReachable",
+    "command": [
+      "/tmp/lean-4.29.0-linux/bin/lean",
+      "--root=/tmp/veritile-token-softmax-bloom-word-20261015",
+      "-o",
+      "/tmp/veritile-token-softmax-bloom-word-20261015/.lake/build/lib/lean/bench/tritonbench_g/token_softmax_bloom/Proofs/ExpGapReachable.olean",
+      "/tmp/veritile-token-softmax-bloom-word-20261015/bench/tritonbench_g/token_softmax_bloom/Proofs/ExpGapReachable.lean"
+    ],
+    "source_sha256": "51762f7f956e52917627e143e5e505288a0ecca5035df4cc88b12459babd111a",
+    "object_sha256": "7bbe138bebf29a13efa898a608edd7b9a1ea4a2d8090f80267f51217d34842d9",
+    "log_sha256": "ecce8bd48369dd33674ab20980d51356c2c1fa4793b600229c32e96ea31b48fa",
+    "exit_code": 0,
+    "elapsed": 4.578328609466553
+  },
+  {
+    "module": "bench.tritonbench_g.token_softmax_bloom.Proofs.HalfExpGapReachable",
+    "command": [
+      "/tmp/lean-4.29.0-linux/bin/lean",
+      "--root=/tmp/veritile-token-softmax-bloom-word-20261015",
+      "-o",
+      "/tmp/veritile-token-softmax-bloom-word-20261015/.lake/build/lib/lean/bench/tritonbench_g/token_softmax_bloom/Proofs/HalfExpGapReachable.olean",
+      "/tmp/veritile-token-softmax-bloom-word-20261015/bench/tritonbench_g/token_softmax_bloom/Proofs/HalfExpGapReachable.lean"
+    ],
+    "source_sha256": "89586bc63fa21a44268ec8280ee0bb4beff24ccb91d6cb01de5bfb28ebd812ac",
+    "object_sha256": "e39f1f2d4e3a7a2d26ee255eed2af4286ded9fddb6f0efd446f3912c49fd3a5e",
+    "log_sha256": "29aba6055ab1386d35a0bffe1338e6e53fd33116afff6df4a21291071a10490f",
+    "exit_code": 0,
+    "elapsed": 4.622885465621948
+  }
+]

@@ -44,7 +44,15 @@ theorem forward_flat_exec (A : FlatAlloc) (storage : Storage) (s_ptr x_ptr lambd
 theorem backward_body (swapped : Bool) (s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr : RegionName) (length batch_size dim BLOCK_SIZE : Nat) :
     (Erasure.backward swapped s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE).toAlgKernel.body =
       [index swapped BLOCK_SIZE] ++ (Erasure.backward Bool.false s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE).toAlgKernel.body.drop 1 := by
-  cases swapped <;> rfl
+  cases swapped <;>
+    simp [Erasure.backward, ComputeKernel.eraseDType,
+      ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
+      ComputeKernel.surfaceBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
+      ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
+      Stmt.eraseDTypeList, Stmt.eraseDType, Kernel.eraseDType, Op.eraseDType.eq_def,
+      VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
+      ComparableDType.eraseDType, IntegralDType.eraseDType, MemAccess.eraseDType,
+      MaskOpt.eraseDType, index, Except.bind, bind]
 
 theorem backward_flat_exec (A : FlatAlloc) (storage : Storage) (s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr : RegionName) (length batch_size dim BLOCK_SIZE : Nat) (u : BlockState) :
     exec (A.flattenKernel (TypedSource.backward storage Bool.false s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE).eraseDType.toAlgKernel) u =
@@ -70,7 +78,15 @@ theorem complexForward_flat_exec (A : FlatAlloc) (s_ptr x_ptr y_ptr lambda_ptr :
 theorem complexBackward_body (swapped : Bool) (s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr : RegionName) (length batch_size dim BLOCK_SIZE : Nat) :
     (Erasure.complexBackward swapped s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE).toAlgKernel.body =
       [index swapped BLOCK_SIZE] ++ (Erasure.complexBackward Bool.false s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE).toAlgKernel.body.drop 1 := by
-  cases swapped <;> rfl
+  cases swapped <;>
+    simp [Erasure.complexBackward, ComputeKernel.eraseDType,
+      ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody,
+      ComputeKernel.surfaceBody, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
+      ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
+      Stmt.eraseDTypeList, Stmt.eraseDType, Kernel.eraseDType, Op.eraseDType.eq_def,
+      VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
+      ComparableDType.eraseDType, IntegralDType.eraseDType, MemAccess.eraseDType,
+      MaskOpt.eraseDType, index, Except.bind, bind]
 
 theorem complexBackward_flat_exec (A : FlatAlloc) (s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr : RegionName) (length batch_size dim BLOCK_SIZE : Nat) (u : BlockState) :
     exec (A.flattenKernel (TypedSource.complexBackward Bool.false s_ptr lambda_ptr y_ptr grad_s_ptr grad_x_ptr grad_lambda_ptr grad_y_ptr length batch_size dim BLOCK_SIZE).eraseDType.toAlgKernel) u =

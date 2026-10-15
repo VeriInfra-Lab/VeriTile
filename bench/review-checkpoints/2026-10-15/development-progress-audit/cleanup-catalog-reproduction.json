@@ -1,0 +1,30 @@
+{
+  "label": "cleanup-catalog-reproduction",
+  "command": [
+    "python3",
+    "-B",
+    "bench/current_source_catalog.py",
+    "--root",
+    ".",
+    "--baseline",
+    "/tmp/veritile-cleanup-20261015/baseline",
+    "--source-map",
+    "bench/current_source_selections.json",
+    "--legacy-inventory",
+    "bench/tritonbench_g/current_completion_inventory.json",
+    "--evidence-root",
+    "bench/review-checkpoints",
+    "--review-manifest",
+    "bench/review-checkpoints/2026-10-15/raw-copy-software-metadata/catalog-review-rebased.json",
+    "--supplement",
+    "bench/review-checkpoints/2026-10-15/retention-query-source-proof/catalog-supplement.json",
+    "--check",
+    "bench/review-checkpoints/2026-10-15/retention-query-source-proof/current-source-catalog.json"
+  ],
+  "cwd": "/tmp/veritile-cleanup-20261015/export",
+  "started_at_utc": "2026-10-15T08:47:03.870587+00:00",
+  "exit_code": 0,
+  "elapsed_seconds": 40.843,
+  "log": "cleanup-catalog-reproduction.log",
+  "log_sha256": "61d568ca132b5ea933a6c72d3b7200ccf96906cdd305b3e48a69e8b225ee09fb"
+}

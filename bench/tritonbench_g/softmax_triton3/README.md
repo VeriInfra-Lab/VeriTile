@@ -1,5 +1,7 @@
 # softmax_triton3
 
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+
 `Kernels.lean` contains both complete typed sources. Input and output share a
 storage dtype; the optional additive-mask storage is independent. All nine
 fp32/fp16/bf16 storage pairs and both mask branches are covered. Explicit fp32

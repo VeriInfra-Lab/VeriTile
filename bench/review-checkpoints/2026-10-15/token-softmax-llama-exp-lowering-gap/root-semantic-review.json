@@ -1,0 +1,40 @@
+{
+  "reviewer": "root",
+  "status": "passed_exact_source_reuse_and_diagnostic_scope",
+  "read_sources": {
+    "bench/tritonbench_g/token_softmax_llama/Proofs/ActualSource.lean": "c2509d9af3430cf2e323a6dd543243f83088f1adcac023ce39f90cab0f6eb665",
+    "bench/tritonbench_g/token_softmax_llama/Proofs/ExpBindingGap.lean": "0298b19b8c3ac65b2960ce9c42706a7ea9ba0a2be570c489159a3c21ade0f2d2"
+  },
+  "new_ordinary_modules": 2,
+  "named_standard_axiom_checks": 7,
+  "reused_Bloom_numeric_modules_not_recounted": 3,
+  "public_specifications_added": 0,
+  "classification_upgrade": false,
+  "parent_root_receipt_sha256": "2b025dce423dfb8c1147630febdace89bb1f0b2004e8dc11d5ecaccd69c1545a",
+  "original_scope_sha256": "eee40f6e50b59ffbfa86e159a61bbc3521f3abad87beda8631654e6a5636dc66",
+  "original_scope_current_inputs_unchanged": true,
+  "findings": [
+    "Separate parser invocation proves equality to the already shared complete Bloom typed row.",
+    "Original Llama and Bloom JIT and host decorated function bodies match byte-for-byte and by AST; complete Python modules differ.",
+    "The old complete initial-memory value/readback/frame contract is reused without adding restrictions.",
+    "Two source reachability and two impossibility results reuse the existing Bloom proofs; no new exponent implementation is supplied.",
+    "Twenty actual original-kernel PTX profiles were independently reanalyzed; seventy-six scalar straight chains checked.",
+    "Twelve shared profiles match instruction text after independently checking removed labels are not control targets and ignored tails have no executable instructions.",
+    "Llama runtime capture selects its default fp32 input profile; half remains explicitly reused theorem evidence."
+  ],
+  "tool_tests": 22,
+  "independent_diagnostic_offline_profiles": 2,
+  "commands_terminal_exit_codes": {
+    "root_Lean_replay": 0,
+    "CPU_tool_tests": 0,
+    "offline_capture": 0,
+    "native_attempt": 2
+  },
+  "limits": [
+    "Internal exp-stage refutation is not a final softmax output counterexample.",
+    "Software max trees, actual GPU reduction schedule, ex2/div.full implementation and storage conversions remain separate.",
+    "No full softmax numerical evaluator, task upgrade, public specification or actual GPU execution is claimed."
+  ],
+  "native_status": "NOT_RUN",
+  "native_execution": false
+}

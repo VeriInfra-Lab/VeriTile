@@ -186,10 +186,10 @@ theorem zdot_op_eval (M K N : Nat) (st : BlockState)
     (hy : st.regs .real [K, N] "y_sub" = some yt) :
     evalOp (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [M, N] "z")
-        (Op.dot (batch := []) (Op.ref .real [M, K] "x_sub") (Op.ref .real [K, N] "y_sub"))) st
+        (Op.dot (batch := []) (options := { allowTF32 := some Bool.false }) (Op.ref .real [M, K] "x_sub") (Op.ref .real [K, N] "y_sub"))) st
       = some (Tile.bop NumericDType.real.add (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
           zt (Tile.dot [] xt yt)) := by
-  have hd : evalOp (Op.dot (batch := []) (Op.ref .real [M, K] "x_sub")
+  have hd : evalOp (Op.dot (batch := []) (options := { allowTF32 := some Bool.false }) (Op.ref .real [M, K] "x_sub")
         (Op.ref .real [K, N] "y_sub")) st = some (Tile.dot [] xt yt) := by
     rw [evalOp_dot]; simp [hx, hy]
   rw [evalOp_add]
@@ -262,7 +262,7 @@ def matmulLoopBody (M _K N _KS NS BLOCK_K : Nat) : List Stmt :=
     Stmt.assign .real [M, N] "z"
       (Op.add .real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref .real [M, N] "z")
-        (Op.dot (batch := []) (Op.ref .real [M, BLOCK_K] "x_sub") (Op.ref .real [BLOCK_K, N] "y_sub"))),
+        (Op.dot (batch := []) (options := { allowTF32 := some Bool.false }) (Op.ref .real [M, BLOCK_K] "x_sub") (Op.ref .real [BLOCK_K, N] "y_sub"))),
     Stmt.assign .ptr [M, BLOCK_K] "x_ptrs"
       (Op.ptrAdd Broadcast.scalarR (Op.ref .ptr [M, BLOCK_K] "x_ptrs") (Op.constNat BLOCK_K)),
     Stmt.assign .ptr [BLOCK_K, N] "y_ptrs"

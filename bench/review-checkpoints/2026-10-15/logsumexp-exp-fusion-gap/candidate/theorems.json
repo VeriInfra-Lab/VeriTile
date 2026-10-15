@@ -1,0 +1,97 @@
+{
+  "count": 15,
+  "theorems": [
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.reference_graph",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.WordGraph",
+      "source_sha256": "eeaec951746385f9e8705a473d3d9decc0957b3c47562562970b69a98191140b",
+      "log_sha256": "dbb8535b830cfdeafab7d1016044b6446ab8cdf9fb81c16b3e08f8be7140293d"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.complete_row",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.WordGraph",
+      "source_sha256": "eeaec951746385f9e8705a473d3d9decc0957b3c47562562970b69a98191140b",
+      "log_sha256": "dbb8535b830cfdeafab7d1016044b6446ab8cdf9fb81c16b3e08f8be7140293d"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.complete_row_readback_frame",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.WordGraph",
+      "source_sha256": "eeaec951746385f9e8705a473d3d9decc0957b3c47562562970b69a98191140b",
+      "log_sha256": "dbb8535b830cfdeafab7d1016044b6446ab8cdf9fb81c16b3e08f8be7140293d"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.loaded_probe",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.ExpGapReachable",
+      "source_sha256": "ce407a2280ba814024bc612fc15ec61a12bf251636ecca459a30ef14917e31f7",
+      "log_sha256": "df0f46a5690e724ed8a8ce38d0fb60a63a870ddd86b4bda9f32e780539541db5"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.finite_and_padding_mul_one",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.ExpGapReachable",
+      "source_sha256": "ce407a2280ba814024bc612fc15ec61a12bf251636ecca459a30ef14917e31f7",
+      "log_sha256": "df0f46a5690e724ed8a8ce38d0fb60a63a870ddd86b4bda9f32e780539541db5"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.scaled_probe",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.ExpGapReachable",
+      "source_sha256": "ce407a2280ba814024bc612fc15ec61a12bf251636ecca459a30ef14917e31f7",
+      "log_sha256": "df0f46a5690e724ed8a8ce38d0fb60a63a870ddd86b4bda9f32e780539541db5"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.probe_maximums",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.ExpGapReachable",
+      "source_sha256": "ce407a2280ba814024bc612fc15ec61a12bf251636ecca459a30ef14917e31f7",
+      "log_sha256": "df0f46a5690e724ed8a8ce38d0fb60a63a870ddd86b4bda9f32e780539541db5"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.source_reaches_both_inputs",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.ExpGapReachable",
+      "source_sha256": "ce407a2280ba814024bc612fc15ec61a12bf251636ecca459a30ef14917e31f7",
+      "log_sha256": "df0f46a5690e724ed8a8ce38d0fb60a63a870ddd86b4bda9f32e780539541db5"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.fixture_fused_prefix_reaches_inputs",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.ExpGapReachable",
+      "source_sha256": "ce407a2280ba814024bc612fc15ec61a12bf251636ecca459a30ef14917e31f7",
+      "log_sha256": "df0f46a5690e724ed8a8ce38d0fb60a63a870ddd86b4bda9f32e780539541db5"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.reachable_exp_binding_impossible",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.ExpGapReachable",
+      "source_sha256": "ce407a2280ba814024bc612fc15ec61a12bf251636ecca459a30ef14917e31f7",
+      "log_sha256": "df0f46a5690e724ed8a8ce38d0fb60a63a870ddd86b4bda9f32e780539541db5"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.fused_fixture_exp_binding_impossible",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.ExpGapReachable",
+      "source_sha256": "ce407a2280ba814024bc612fc15ec61a12bf251636ecca459a30ef14917e31f7",
+      "log_sha256": "df0f46a5690e724ed8a8ce38d0fb60a63a870ddd86b4bda9f32e780539541db5"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.fusion_operands_decoded",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.ScaleFusionGap",
+      "source_sha256": "2632c8045261a25d05ce15e80324547b465da1e72fb8a42f69d874ef3b2825fd",
+      "log_sha256": "f3af87fcc1d7e331a70714711eb03c5dc57fb7e090011cd7523a255655b5c31b"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.scaled_fusion_row",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.ScaleFusionGap",
+      "source_sha256": "2632c8045261a25d05ce15e80324547b465da1e72fb8a42f69d874ef3b2825fd",
+      "log_sha256": "f3af87fcc1d7e331a70714711eb03c5dc57fb7e090011cd7523a255655b5c31b"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.fusion_row_maximum",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.ScaleFusionGap",
+      "source_sha256": "2632c8045261a25d05ce15e80324547b465da1e72fb8a42f69d874ef3b2825fd",
+      "log_sha256": "f3af87fcc1d7e331a70714711eb03c5dc57fb7e090011cd7523a255655b5c31b"
+    },
+    {
+      "name": "VeriTile.Bench.TritonBenchG.LogsumexpFwd.WordGraph.source_and_fused_prefix_differ",
+      "module": "bench.tritonbench_g.logsumexp_fwd.Proofs.ScaleFusionGap",
+      "source_sha256": "2632c8045261a25d05ce15e80324547b465da1e72fb8a42f69d874ef3b2825fd",
+      "log_sha256": "f3af87fcc1d7e331a70714711eb03c5dc57fb7e090011cd7523a255655b5c31b"
+    }
+  ],
+  "public_specifications_added": 0,
+  "classification_upgrade": false
+}

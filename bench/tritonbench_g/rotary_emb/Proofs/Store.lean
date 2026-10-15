@@ -17,6 +17,9 @@ theorem real_store_scatter {shape : TileShape} (X : RegionName)
   classical
   simp [stepStmt, hOffset, hValue, hMask, Scatter.one,
     FloatDType.storeValue]
+  congr 1
+  funext st i
+  split_ifs <;> rfl
 
 theorem real_ptr_store_scatter {shape : TileShape} (X : RegionName)
     (ptrExpr : Op .ptr shape) (valueExpr : Op .real shape) (maskExpr : Op .bool shape)
@@ -30,6 +33,9 @@ theorem real_ptr_store_scatter {shape : TileShape} (X : RegionName)
   classical
   simp [stepStmt, hPtr, hValue, hMask, Scatter.one,
     FloatDType.storeValue]
+  congr 1
+  funext st i
+  split_ifs <;> rfl
 
 theorem real_masked_store_scatter {shape : TileShape} (X : RegionName)
     (offsetExpr : Op .nat shape) (valueExpr : Op .real shape) (maskExpr : Op .bool shape)
@@ -77,10 +83,13 @@ noncomputable def qStoreState (p : Parameters) (s : BlockState)
     (qArithmeticState p s Q Cos Sin)
 
 macro "solveRotaryQStore" : tactic => `(tactic|
-  simp [evalOp.eq_def, qEvenState, qArithmeticState, qLoadState, qIndexState,
+  (simp [evalOp.eq_def, qEvenState, qArithmeticState, qLoadState, qIndexState,
     prefixState, Parameters.dataOffsets, Parameters.resultValues, Parameters.qAddress,
     Parameters.expectedQ, Parameters.activeQ, address, trigAddress, sequence,
-    head, dimension, active, range, dims, tile_elementwise, Bool.and_eq_true])
+    head, dimension, active, range, dims, tile_elementwise, Bool.and_eq_true, Option.bind,
+    Tile.remap, TileShape.insertAxis, TileShape.dropInsertedIndex,
+    Broadcast.leftIndex, Broadcast.rightIndex, apply_ite]
+   <;> first | rfl | (funext i; split_ifs <;> rfl)))
 
 theorem q_even_store_run (p : Parameters) (Q K Cos Sin : RegionName) (s : BlockState) :
     stepStmt (mathKernel p Q K Cos Sin).body[18]! (qArithmeticState p s Q Cos Sin) =
@@ -110,7 +119,8 @@ theorem q_store_run (p : Parameters) (Q K Cos Sin : RegionName) (s : BlockState)
   change stepStmts [(mathKernel p Q K Cos Sin).body[18]!,
     (mathKernel p Q K Cos Sin).body[19]!] (qArithmeticState p s Q Cos Sin) = _
   rw [stepStmts.cons_some (q_even_store_run p Q K Cos Sin s),
-    stepStmts.cons_some (q_odd_store_run p Q K Cos Sin s)] <;> rfl
+    stepStmts.cons_some (q_odd_store_run p Q K Cos Sin s)]
+  exact stepStmts.nil
 
 theorem q_store_state_mem (p : Parameters) (s : BlockState)
     (Q Cos Sin : RegionName) :
@@ -128,7 +138,7 @@ theorem q_store_state_read_other (p : Parameters) (s : BlockState)
   rw [show (qStoreState p s Q Cos Sin).readMem R o =
     (qArithmeticState p s Q Cos Sin).readMem R o from
     Scatter.pair_read_other Q R hRQ _ _ _ _ o]
-  rfl
+  simp only [BlockState.readMem, q_arithmetic_mem]
 
 theorem q_store_state_readback (p : Parameters) (s : BlockState)
     (Q Cos Sin : RegionName) (hGeometry : p.Geometry s)

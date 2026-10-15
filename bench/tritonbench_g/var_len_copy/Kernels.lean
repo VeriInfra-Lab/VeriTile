@@ -1,6 +1,14 @@
 import VeriTile.Triton
 import VeriTile.Meta.StatementAudit
 
+/-!
+Source-audit target: var_len_copy_kernel_triton
+Source-audit Lean: varLenCopy%
+Source-audit params: old_a_start=os, old_a_len=ol, old_a_location=src, new_a_start=ns, new_a_location=dst, BLOCK_SIZE=B
+Source-audit args: input=tl.float32, output=tl.float32, version=original
+Selected fp32 input/output original profile only; other storage pairs remain separate obligations.
+-/
+
 /-! Complete variable-length copy source. Signed metadata uses mathematical Int;
 int32/int64 widths do not impose machine-overflow semantics here. The original
 mask is lane < length, so partial final chunks of long segments are overcopied.

@@ -27,7 +27,9 @@ theorem candidate_input_full_trace (bounds : RegionBounds) (X : RegionName) (N B
     (s : BlockState) :
     Stmt.TraceSafeList bounds (inputFullCandidate X N B) s ↔
       Stmt.TraceSafeList bounds (inputFull X N B) s := by
-  exact candidate_prefix_trace bounds X N B _ s
+  simpa only [inputFullCandidate, inputFull, List.append_assoc] using
+    candidate_prefix_trace bounds X N B
+      (((loopAbody X N B).drop 3).take 1 ++ [sourceMaximum B] ++ (loopAbody X N B).drop 5) s
 
 theorem candidate_input_tail_trace (bounds : RegionBounds) (X : RegionName) (N B : Nat)
     (s : BlockState) :
@@ -35,7 +37,8 @@ theorem candidate_input_tail_trace (bounds : RegionBounds) (X : RegionName) (N B
       Stmt.TraceSafeList bounds (inputTail X N B) s := by
   simpa only [inputTailCandidate, inputTail, List.append_assoc] using
     candidate_prefix_trace bounds X N B
-      ([maskStatement N B] ++ (loopBbody X N B).drop 4) s
+      ([maskStatement N B] ++ ((loopBbody X N B).drop 4).take 1 ++
+        [sourceMaximum B] ++ (loopBbody X N B).drop 6) s
 
 theorem candidate_output_full_trace (bounds : RegionBounds) (Y X : RegionName) (N B : Nat)
     (s : BlockState) :

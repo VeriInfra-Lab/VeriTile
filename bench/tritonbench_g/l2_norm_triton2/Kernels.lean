@@ -1,3 +1,13 @@
+/-
+Source-audit target: _l2_norm_fwd_1pass_kernel
+Source-audit Lean: l2TwoFwd%
+Source-audit runtime: {"python":{"eps":{"object":"float","abi":"fp32"}},"lean":{"source":"l2TwoFwd%","args":{"dtype":"tl.float32","version":"original"}},"native":{"profile":"l2_norm_triton2","sha256":"ea8721081f178042f7f8056f66e8e9dc4f21313219690170983b90a019234cd1"}}
+Source-audit args: dtype=tl.float32, version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original fp32 forward quotation; source dimensions and epsilon remain symbolic.
+The backward JIT, explicit epsilon lowering and other profiles need separate checks.
+-/
+
 import VeriTile.Triton.DSL
 import VeriTile.Meta.StatementAudit
 

@@ -34,8 +34,10 @@ theorem q_stores_safe (bounds : RegionBounds) (p : Parameters)
   rw [TraceProofs.cons_of_run_iff (q_even_store_run p Q K Cos Sin s),
     TraceProofs.cons_of_run_iff (q_odd_store_run p Q K Cos Sin s)]
   refine ⟨?_, ?_, Stmt.TraceSafeList.nil_intro⟩
-  · solveRotaryAccess using hb.1 Bool.false
-  · solveRotaryAccess using hb.1 Bool.true
+  · change Stmt.TraceSafe bounds (.store _ _ _ _ _) _
+    solveRotaryAccess using hb.1 Bool.false
+  · change Stmt.TraceSafe bounds (.store _ _ _ _ _) _
+    solveRotaryAccess using hb.1 Bool.true
 
 theorem k_stores_safe (bounds : RegionBounds) (p : Parameters)
     (Q K Cos Sin : RegionName) (s : BlockState) (hb : p.Bounds s bounds Q K Cos Sin) :
@@ -45,8 +47,10 @@ theorem k_stores_safe (bounds : RegionBounds) (p : Parameters)
   rw [TraceProofs.cons_of_run_iff (k_even_store_run p Q K Cos Sin s),
     TraceProofs.cons_of_run_iff (k_odd_store_run p Q K Cos Sin s)]
   refine ⟨?_, ?_, Stmt.TraceSafeList.nil_intro⟩
-  · solveRotaryAccess using hb.2.1 Bool.false
-  · solveRotaryAccess using hb.2.1 Bool.true
+  · change Stmt.TraceSafe bounds (.store _ _ _ _ _) _
+    solveRotaryAccess using hb.2.1 Bool.false
+  · change Stmt.TraceSafe bounds (.store _ _ _ _ _) _
+    solveRotaryAccess using hb.2.1 Bool.true
 
 /-- Every actual source access is safe under its own mask-specific bound.
 No collision-freedom, alias-separation, or numerical-output premise is needed. -/

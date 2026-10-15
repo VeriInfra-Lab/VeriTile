@@ -8,13 +8,32 @@ open VeriTile.Triton RealKernel FP8RealIteration FP8RealLoop FP8RealLoopFrame
 set_option maxRecDepth 16000
 set_option maxHeartbeats 1000000
 
+private theorem max_head_safe {n : Nat} (bounds : RegionBounds) (x y : Op .real [n])
+    (name : RegName) (rest : List Stmt) (s : BlockState) :
+    Stmt.TraceSafeList bounds (.assign .real [n] name (.max2 (.consSame .nil) x y) :: rest) s ↔
+      Stmt.TraceSafeList bounds (.assign .real [n] name (.maximumFloat .real (.consSame .nil) x y) :: rest) s := by
+  simp only [Stmt.TraceSafeList, Stmt.TraceSafe, stepStmt, FloatDType.toTileDType]
+  erw [evalOp_maximumFloat_real]
+  conv_lhs => arg 1; rw [Op.SafeAt.eq_def]
+  conv_rhs => arg 1; rw [Op.SafeAt.eq_def]
+  rfl
+
+private theorem source_tail_safe (bounds : RegionBounds) (skn svk N BM BN BD : Nat)
+    (candidate : Bool) (s : BlockState) :
+    Stmt.TraceSafeList bounds
+      ((FP8RealSource.sourceTail skn svk N BM BN BD candidate).flatMap (FP8RealSource.lowerLoad Bool.true)) s ↔
+    Stmt.TraceSafeList bounds
+      ((alLoopTailG skn svk N BM BN BD candidate).flatMap (FP8RealSource.lowerLoad Bool.true)) s := by
+  exact max_head_safe bounds _ _ "m_curr"
+    (((alLoopTailG skn svk N BM BN BD candidate).drop 1).flatMap (FP8RealSource.lowerLoad Bool.true)) s
+
 private theorem inline_safe (bounds : RegionBounds) (scale : ℝ)
     (skn svk N SP BM BN BD : Nat) (causal candidate : Bool) (s : BlockState) :
     Stmt.TraceSafeList bounds
       (FP8RealSource.loopBody Bool.true scale skn svk N SP BM BN BD causal candidate) s ↔
     Stmt.TraceSafeList bounds (inlineLoop scale skn svk N SP BM BN BD causal candidate) s := by
   simp only [FP8RealSource.loopBody, inlineLoop, List.append_assoc, TraceRewrite.append_iff,
-    TraceRewrite.constant_branch]
+    TraceRewrite.constant_branch, source_tail_safe]
 
 private theorem load_safe (bounds : RegionBounds) (R : RegionName) (s : BlockState)
     (name : RegName) (base sr sc SN N BN BD : Nat)

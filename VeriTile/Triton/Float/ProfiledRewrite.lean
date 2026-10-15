@@ -26,6 +26,9 @@ inductive Site where
   /-- Scalar multiplication whose operands retain their explicit fp32 context. -/
   | mulScalarFP32 (before : List ComputeStmt) (n : Nat) (rest : TileShape)
       (tile : Op .real (n :: rest)) (scalar : Op .real [])
+  /-- Actual typed fp32 operands evaluated under the source default profile. -/
+  | mulScalarTypedFP32 (before : List ComputeStmt) (n : Nat) (rest : TileShape)
+      (tile : Op .fp32 (n :: rest)) (scalar : Op .fp32 [])
   /-- Broadcast multiplication under the source's default fp32 profile. -/
   | mulBroadcast (before : List ComputeStmt) (sa sb : TileShape)
       (left : Op .real sa) (right : Op .real sb)
@@ -67,6 +70,11 @@ def Site.Holds {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
         Structural.evalOp (engine M) (some .fp32) right t = some b →
         (∀ i, D .finite (a i)) ∧ (∀ i, D .finite (b i))
   | .addScalar before _ _ tile scalar | .mulScalar before _ _ tile scalar =>
+    ∀ t, run (engine M) before s = some t →
+      ∀ a b, Structural.evalOp (engine M) none tile t = some a →
+        Structural.evalOp (engine M) none scalar t = some b →
+        (∀ i, D .finite (a i)) ∧ D .finite (b PUnit.unit)
+  | .mulScalarTypedFP32 before _ _ tile scalar =>
     ∀ t, run (engine M) before s = some t →
       ∀ a b, Structural.evalOp (engine M) none tile t = some a →
         Structural.evalOp (engine M) none scalar t = some b →
@@ -136,7 +144,7 @@ instance : Spec.ProgramSyntax Program where
   Statement := GuardedFragment
   Signature := (List RegionName × List RegionName) × List Site
   signature p := ((p.kernel.inputs, p.kernel.outputs), p.domain)
-  body p := [⟨[], p.kernel.surfaceBody⟩]
+  body p := [⟨[], p.kernel.surfaceBody, .real, none⟩]
   structural := some (fun _ _ => False)
   numerical := Equivalent
   sameContext := fun lhs rhs => lhs = rhs

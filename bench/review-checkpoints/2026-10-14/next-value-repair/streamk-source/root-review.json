@@ -1,0 +1,33 @@
+{
+  "reviewer": "root",
+  "status": "complete_two_wave_original_source_SC_value_review_pass_pending_integration",
+  "receipt_sha256": "da51875127232cfa38168b12959ea1ca81101a1a20f74041fa1ab6b9b1a529b0",
+  "artifact_hashes_verified": 74,
+  "project_source_inputs_verified": 15,
+  "compiled_modules_verified": 9,
+  "public_statements_verified": 7,
+  "native_artifacts_verified": 47,
+  "original_JIT_ASTs_verified": 5,
+  "independent_source_AST_tests": 7,
+  "independent_host_assignment_checks": 12,
+  "typed_source_regenerated_byte_identically": true,
+  "reference_audit": {
+    "source": "StreamKSourceReferenceAudit.lean",
+    "source_sha256": "720f6860c1d414faa944fff509ed02525eabf369cb1b8a21f84d38eb1793cc13",
+    "log": "root-reference-audit.log",
+    "log_sha256": "028fd026ddf33c93d2c676dbb55898da42f65077b0e0642a9604f04442af4ac0",
+    "noncircular_checks": 7
+  },
+  "findings": [
+    "All5 original JITs/64 statements and75 inlined ledger rows are retained, including both dynamic whiles, complete K traversal, both GROUP_M branches, host two_tiles partition and zero lock allocation. No ready-lock, finite-value, divisibility or single-block premise is added.",
+    "Control traces depend only on configuration, initial locks and finite program schedules. Independent initial-memory symbolic recipes determine every register and data/lock memory cell, preserving arbitrary data aliases and write order. Root audits exclude source execution from7 reference/control definitions.",
+    "Both launches must pass computed allDone gates before hostRun returns a completed result. Incomplete/faulted schedules return None, and the per-wave contracts still describe their complete observed prefixes. This does not establish universal progress.",
+    "The closed software profile is fp32 storage with explicit sequential full-fp32 dot and actual binary16 narrowing/widening. Five backend/dot-callback contracts and2 closed software host contracts are separate; fp16/bf16/integer storage is not closed by the fp32 instance.",
+    "The exact original5 JIT ASTs match the offline probe. Seven SM90 configurations compile; int8 first_wave fails because atomic_add is unsupported. TF32 and fused dotAcc in native TTIR are not identified with source dot plus add.",
+    "Kernel-checked and independently replayed Python cases retain original tail OOB reads, fp32-to-half precision loss, atomic-order1-versus0, and blocked CAS. They are supporting cases, not universal allocation safety, GPU race freedom or scheduler termination proofs.",
+    "External Python parser/type/shape/helper inlining and host formula lowering remain explicit trust boundaries; this is task-local SC source semantics, not ordinary shared DSL admission or native GPU acceptance."
+  ],
+  "native_execution": false,
+  "shared_DSL_admission": false,
+  "canonical_acceptance_updated": false
+}

@@ -203,7 +203,7 @@ def initialization (p : Layout) (r : Regions) (scale : ℝ) : List Stmt :=
    .assign .nat [] "i_h" (.mod .nat .nil (.ref .nat [] "i_bh") (.constNat p.H)),
    .assign .nat [] "n_bh" (.numPrograms 2),
    .assign .real [] "b_b" RealHProgram.baseOp,
-   .assign .int [p.BT] "o_i" (.castNatToInt (.arange p.BT)),
+   .assign .int [p.BT] "o_i" (.intToSigned 32 (.castNatToInt (.arange p.BT))),
    .assign .real [p.BT] "d_q" (RealDecayTiles.queryOp p.BT),
    .assign .real [p.BT] "d_k" (RealHProgram.decayLane p.BT (.constNat p.BT)),
    .assign .real [p.BT] "d_q" (.mul .real .scalarR (.ref .real [p.BT] "d_q") (.const scale)),
@@ -242,6 +242,7 @@ theorem source_body (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ)
     (source p r storage scale swapped).eraseDType.toAlgKernel.body = body p r scale swapped := by
   unfold source
   rw [RealQKVSource.storage_erasure]
+  simp only [ComputeKernel.eraseDType, RealQKVSource.projects, ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType]
   cases swapped
   all_goals simp only [RealQKVSource.source,Bool.false_eq_true,↓reduceIte,
     backwardQKV,backwardQKVDotLeft,backwardQKVSource,
@@ -764,7 +765,7 @@ def prologue (p : Layout) (scale : ℝ) : List Stmt :=
    .assign .nat [] "i_h" (.mod .nat .nil (.ref .nat [] "i_bh") (.constNat p.H)),
    .assign .nat [] "n_bh" (.numPrograms 2),
    .assign .real [] "b_b" RealHProgram.baseOp,
-   .assign .int [p.BT] "o_i" (.castNatToInt (.arange p.BT)),
+   .assign .int [p.BT] "o_i" (.intToSigned 32 (.castNatToInt (.arange p.BT))),
    .assign .real [p.BT] "d_q" (RealDecayTiles.queryOp p.BT),
    .assign .real [p.BT] "d_k" (RealHProgram.decayLane p.BT (.constNat p.BT)),
    .assign .real [p.BT] "d_q" (.mul .real .scalarR (.ref .real [p.BT] "d_q") (.const scale)),

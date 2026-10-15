@@ -1,5 +1,13 @@
 import VeriTile.Triton
 
+/-!
+Source-audit target: _rms_norm_fwd_fused
+Source-audit Lean: rmsLlamaTyped%
+Source-audit params: BLOCK_SIZE=B
+Source-audit args: input=tl.float32, weight=tl.float32, output=tl.float16
+Selected fp32 input/weight and fp16 output profile only; other storage combinations remain separate obligations.
+-/
+
 namespace VeriTile.Bench.TritonBenchG.RmsnormFusedLlama
 open VeriTile.Triton
 

@@ -1,0 +1,2669 @@
+[
+  {
+    "file": "bench/tritonbench_g/adam_update_triton/FPEquiv.lean",
+    "declaration": "update_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "update_fn_kernel",
+        "line": 13
+      }
+    ],
+    "scope": "Complete fp32 program equivalence using admitted add_commute at the final momentum assignment. Checks finite actual diff * beta2 and loaded grad after the common prefix, including evaluated masked lanes; preserves comparisons, both in-place stores, complete state and failure. Symbolic dimensions and region parameters, including aliasing; no IEEE or performance claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.AdamUpdateTriton.FPEquiv.update_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/add_example/FPEquiv.lean",
+    "declaration": "add_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "add_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Complete fp32 program equivalence of the original and operand-commuted source under admitted add_commute, with finite actual loaded operands at the addition site (including evaluated masked lanes). Arbitrary element count and block size; preserves final state and execution failure. No bitwise IEEE, host launch or performance claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.AddExample.FPEquiv.add_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/add_value/FPEquiv.lean",
+    "declaration": "add_value_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "puzzle1_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Complete fp32 program equivalence of original vector-plus-scalar and scalar-plus-vector under admitted add_commute. Actual tile lanes and the fp32 scalar must be finite at the addition site, including evaluated masked lanes; negative and zero values are allowed. Preserves final state and failure for symbolic sizes and value, without an IEEE or performance guarantee.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.AddValue.FPEquiv.add_value_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/apply_penalty/FPEquiv.lean",
+    "declaration": "apply_penalty_reciprocal_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel_apply_penalty",
+        "line": 7
+      }
+    ],
+    "scope": "Complete fp32 program equivalence under admitted div_mul_rcp inside the positive tl.where arm. Actual gathered logit lanes must be finite and the loaded repetition scalar finite and nonzero at the rewrite prefix, including evaluated masked lanes. Negative inputs are allowed; comparison, eager arm evaluation, count promotion, gather/scatter order, mask, full state and failure are preserved. Does not require distinct ids for contextual equality; no IEEE or performance claim.",
+    "printed_atoms": [
+      "div_mul_rcp"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ApplyPenalty.FPEquiv.apply_penalty_reciprocal_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/attention_forward_triton/FPEquiv.lean",
+    "declaration": "attention_reciprocal_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_attn_fwd_inner",
+        "line": 7
+      },
+      {
+        "name": "_attn_fwd",
+        "line": 38
+      }
+    ],
+    "scope": "Complete fp16-storage/fp32-accumulation program equivalence using admitted div_mul_rcp only at final fp32 row normalization. Checks actual finite accumulator lanes and finite nonzero row denominators after the complete loop. Symbolic dimensions and source strides, retaining exp2, reduction order, both typed dots (including explicit fp16 output), casts, masks, store, full state and execution failure. The rule model and domain have successful nonempty execution witnesses. No whole-attention atom, bitwise IEEE, end-to-end error bound or performance claim.",
+    "printed_atoms": [
+      "div_mul_rcp"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.AttentionForwardTriton.FPEquivalence.attention_reciprocal_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/attention_fwd_triton1/FPEquiv.lean",
+    "declaration": "linear_attention_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "attention_fwd_kernel",
+        "line": 6
+      }
+    ],
+    "scope": "Complete fp32 program equivalence using admitted mul_commute at query scaling in every reachable loop iteration. Checks actual finite loaded Q lanes and interpreted scalar after the local prefix, including any preceding H store. Both flags, all source dimensions/strides, explicit casts, allow_tf32=False dots, block pointers, both stores, full state and execution failures are retained. The rule model and domain have successful two-iteration witnesses for all flag combinations. No dot/carry/reassociation assumption, bitwise IEEE, end-to-end error bound or performance claim.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.AttentionFwdTriton1.FPEquivalence.linear_attention_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/attention_fwd_triton2/FPEquiv.lean",
+    "declaration": "attention_reciprocal_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_attn_fwd_inner",
+        "line": 8
+      },
+      {
+        "name": "_attn_fwd",
+        "line": 40
+      }
+    ],
+    "scope": "Complete fp16-input, fp32-accumulation, bf16-output program equivalence using admitted div_mul_rcp at the final row normalization. Actual post-loop accumulators must be finite and denominators finite/nonzero. Retains the explicit V-to-fp16 cast, fp16 dot result, bf16 terminal cast/store, exp2, reductions, masks, all symbolic source dimensions/strides, full state and failures. The rule model and normalization domain have successful nonempty executions for both sources. No whole-attention or cast-identity atom, bitwise IEEE, end-to-end error bound or performance claim.",
+    "printed_atoms": [
+      "div_mul_rcp"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.AttentionFwdTriton2.FPEquivalence.attention_reciprocal_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/attention_fwd_triton3/FPEquiv.lean",
+    "declaration": "attention_reciprocal_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_attn_fwd",
+        "line": 105
+      },
+      {
+        "name": "_attn_fwd_inner",
+        "line": 11
+      }
+    ],
+    "scope": "Complete typed original/candidate FP equivalence using div_mul_rcp in the END normalization branch. Checks each actual fp32 accumulator for finiteness and each row denominator for finiteness/nonzero after the log2 update; continuation requires no normalization guard. Preserves fp16 Q/K/V/Out, fp32 M/L and accumulation, probability cast, opaque exp2, reduction order, NaN alpha repair, signed windows, all stores, complete state and failure. Symbolic sizes and strides; no IEEE identity or performance claim.",
+    "printed_atoms": [
+      "div_mul_rcp"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.FPEquivalence.attention_reciprocal_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/attention_kernel/FPEquiv.lean",
+    "declaration": "attention_reciprocal_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel_aligned",
+        "line": 7
+      }
+    ],
+    "scope": "Complete typed original/reciprocal candidate equivalence for fp16 and bf16 storage using div_mul_rcp at the actual final fp32 normalization. Requires finite accumulator lanes and finite/nonzero row denominators after the whole loop; no output-equality premise. Symbolic sizes and all strides; preserves both B0 windows, storage-precision bias arithmetic and implicit scalar conversion, default fp32 dots, Q/P casts, exp2, reductions, unchecked accesses, output store, complete state and failure. Nonempty full-source model/domain witnesses exist for both dtypes. No IEEE identity or performance claim.",
+    "printed_atoms": [
+      "div_mul_rcp"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.AttentionKernel.FPEquivalence.attention_reciprocal_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/attention_llama/FPEquiv.lean",
+    "declaration": "attention_carry_first_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel",
+        "line": 8
+      }
+    ],
+    "scope": "Complete original/carry-first conditional FP execution equivalence, using only admitted fp32 add_commute at l_curr. Finite actual sum(p) and rescaled l_prev at every reached iteration; symbolic dimensions, strides and causal flag; preserves source tl.exp, dots, casts, masks, stores and failure. fp16 Q/K/V/Out and fp32 accumulation.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.AttentionLlama.FPEquivalence.attention_carry_first_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/attention_llama/FPEquiv.lean",
+    "declaration": "attention_fp8_carry_first_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel",
+        "line": 8
+      }
+    ],
+    "scope": "Complete original/carry-first conditional FP execution equivalence, using only admitted fp32 add_commute at l_curr. Finite actual sum(p) and rescaled l_prev at every reached iteration; symbolic dimensions, strides and causal flag; preserves source tl.exp, dots, casts, masks, stores and failure. int8 K/V loads, E5M2 reinterpretation and fp16 conversions retained; fp16 Q/Out and fp32 accumulation.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.AttentionLlama.FPEquivalence.attention_fp8_carry_first_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/attention_score/FPEquiv.lean",
+    "declaration": "score_scaling_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_score_kernel",
+        "line": 17
+      }
+    ],
+    "scope": "Complete original/scalar-left conditional FP program equivalence using admitted fp32 mul_commute. Checks finite actual qk tile and scalar qk_scale at every reached multiplication. Both window flags, both even flags, signed offsets/sizes, grouped-head strides and symbolic BM=BN retained. Preserves fp16 Q/K/Out, fp32 M/accumulation, dot, exp2, casts, loads, stores and failure; no whole-kernel assumption.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.AttentionScore.FPEquivalence.score_scaling_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/attn_fwd_causal/FPEquiv.lean",
+    "declaration": "attention_reciprocal_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "scope": "Complete original and reciprocal typed sources under div_mul_rcp alone. Symbolic shapes/strides and outer STAGE 2 or 3; the actual fp32 accumulator and broadcast row denominator after both helper loops are finite and each denominator nonzero. Preserves fp16 Q/K/V/Out, fp32 scales/accumulation, both dot precisions, probability cast, exp2, finite penalty, masks, pointer resets, memory effects and execution failure. No output equation is a precondition; a consistent-model execution/domain witness is checked separately. Per-program admitted model, not IEEE bitwise equality or a hardware-launch theorem.",
+    "python_functions": [
+      {
+        "name": "_attn_fwd_inner",
+        "line": 7
+      },
+      {
+        "name": "_attn_fwd",
+        "line": 50
+      }
+    ],
+    "printed_atoms": [
+      "div_mul_rcp"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.AttnFwdCausal.FPEquivalence.attention_reciprocal_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/attn_fwd_triton/FPEquiv.lean",
+    "declaration": "attention_reciprocal_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "scope": "Complete original and reciprocal typed sources under div_mul_rcp alone. Symbolic shapes/strides and outer STAGE 2 or 3; actual fp32 accumulator and broadcast row denominator after both helper loops are finite and each denominator nonzero. Preserves bf16 Q/K/V/Out, fp32 scales/accumulation, bf16-input fp32-output score dot, explicit fp16 probability/V casts, fp16-output value dot, exp2, finite penalty, masks, pointer resets, memory effects and execution failure. No output equation is a precondition; a consistent-model bf16 execution/domain witness is checked separately. Per-program admitted model, not IEEE bitwise equality or a hardware-launch theorem.",
+    "python_functions": [
+      {
+        "name": "_attn_fwd_inner",
+        "line": 7
+      },
+      {
+        "name": "_attn_fwd",
+        "line": 51
+      }
+    ],
+    "printed_atoms": [
+      "div_mul_rcp"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.AttnFwdTriton.FPEquivalence.attention_reciprocal_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/batched_vecmat_mult/FPEquiv.lean",
+    "declaration": "vecmat_block_first_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "batched_vecmat_kernel",
+        "line": 6
+      }
+    ],
+    "scope": "Complete fp32 source equivalence using admitted add_commute at each reached vecmat update. Finite actual carry and block-sum operands after the load/broadcast prefix; dynamic K loop, broadcast, axis-2 sum, transpose, memory effects and failure preserved. Symbolic dimensions, no experimental-shape or output-equation premise; no concrete IEEE or performance claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.BatchedVecmatMult.FPEquivalence.vecmat_block_first_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/bgmv_shrink_kernel/FPEquiv.lean",
+    "declaration": "bgmv_scaling_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_bgmv_shrink_kernel",
+        "line": 8
+      }
+    ],
+    "scope": "Complete typed-program scalar-left scaling equivalence under admitted mul_commute. Actual finite fp32 accumulator/scaling operands are checked after the reached signed branch and full K loop. Both storage types, output conversion, masks, products, reduction, pointers, computed SPLIT_K store/atomic choice and execution failure remain in context. No atomic algebraic law, experimental-shape premise, concrete IEEE equality or numerical-error guarantee.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.BgmvShrinkKernel.Equivalence.bgmv_scaling_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/block_sparse_attn/FPEquiv.lean",
+    "declaration": "block_sparse_scaling_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "block_sparse_attention_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Complete typed-program score-scale commutation under admitted mul_commute. Each reachable signed CSR visit checks the actual fp32 qk tile and scalar for finiteness after both score dots. All fp16/bf16/fp32 storage variants, probability/output casts, tl.exp, online normalization, reductions, masks, pointer arithmetic and both channel branches remain in context. No reduction reassociation, exponential law, experimental-shape premise, concrete IEEE equality or end-to-end numerical-error claim.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.BlockSparseAttn.Equivalence.block_sparse_scaling_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/bmm_chunk_bwd/FPEquiv.lean",
+    "declaration": "bmm_residual_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_bmm_chunk_bwd_kernel",
+        "line": 21
+      }
+    ],
+    "scope": "Complete typed-program residual-add commutation under admitted fp32 add_commute. Checks finite actual post-loop accumulator and converted residual in the reached residual arm. All input storage pairs, host dot-dtype priority, residual/output casts, runtime chunk limit, partial masks, strides, full state and failure remain in context. The no-residual path is unchanged. No dot/reduction reassociation, whole-kernel atom, concrete IEEE equality or end-to-end error guarantee.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.BmmChunkBwd.Equivalence.bmm_residual_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/bmm_chunk_fwd/FPEquiv.lean",
+    "declaration": "bmm_dot_first_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_bmm_chunk_fwd_kernel",
+        "line": 22
+      }
+    ],
+    "scope": "Complete typed-program K-loop add commutation under admitted fp32 add_commute. Finite actual carry and typed dot result are checked in every reached iteration of the selected causal branch, after the actual loads. All storage pairs, host dot-dtype priority, casts, signed sequence metadata, masks, stores, full state and failure are retained. No dot reassociation, whole-kernel atom, concrete IEEE equality or end-to-end error claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.BmmChunkFwd.Equivalence.bmm_dot_first_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/bmm_optimized/FPEquiv.lean",
+    "declaration": "bmm_dot_first_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "bmm_kernel",
+        "line": 93
+      }
+    ],
+    "scope": "Complete typed original versus dot-first candidate, commuting only each reached fp32 carry plus dot result. Common fp32/fp16/bf16 A/B/O storage, fp32 dot accumulation, allow_tf32=false, output cast, all eight mask combinations, omitted other, runtime grids, CTA grouping and K-loop preserved. Only admitted add_commute, with actual finite operands after loads and pointer updates. Full state and failure preserved; no zero-unspecified premise, dot reassociation or end-to-end error claim. Source and typed execution regressions include a nonempty admitted-rule model.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.BmmOptimized.Equivalence.bmm_dot_first_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/cache_transform_triton/FPEquiv.lean",
+    "declaration": "prefill_index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "prefill_cache_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Complete original versus integer-index-commuted candidate. Exact Nat multiplication swaps operands; opaque floating payloads, independently selected cosine/sine fp32/fp16/bf16 storage, signed metadata, original masks, unspecified values, both stores and full state/failure preserved. No numerical atom or guard is needed. Separate successful complete typed executions cover symbolic shapes and all nine storage pairs; prefill requires nonempty metadata. Mathematical address arithmetic, not fixed-width overflow or GPU timing.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.CacheTransformTriton.Equivalence.prefill_index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/cache_transform_triton/FPEquiv.lean",
+    "declaration": "decode_index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "decoding_cache_kernel",
+        "line": 46
+      }
+    ],
+    "scope": "Complete original versus integer-index-commuted candidate. Exact Nat multiplication swaps operands; opaque floating payloads, independently selected cosine/sine fp32/fp16/bf16 storage, signed metadata, original masks, unspecified values, both stores and full state/failure preserved. No numerical atom or guard is needed. Separate successful complete typed executions cover symbolic shapes and all nine storage pairs; prefill requires nonempty metadata. Mathematical address arithmetic, not fixed-width overflow or GPU timing.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.CacheTransformTriton.Equivalence.decode_index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_bwd_dqkg/FPEquiv.lean",
+    "declaration": "chunk_dot_left_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_simple_gla_bwd_kernel_dqkg",
+        "line": 14
+      }
+    ],
+    "scope": "Complete typed original versus final-dq-dot-left candidate for independent fp16/bf16/fp32 q/k, v/dout, h and dh storage choices, with fp32 gates/dg. Only add_commute is used on the reached fp32 carry and converted dot result after the entire value loop and score cast. Opaque dots/reductions, source masks, every cast/store and full state/failure preserved. A complete mixed-storage, multi-iteration abstract execution witnesses the domain; no IEEE or GPU performance claim. All omitted block-pointer padding remains unspecified in the FP source and semantics.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkBwdDqkg.Equivalence.chunk_dot_left_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean",
+    "declaration": "chunk_sum_left_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_global_cumsum_scalar_kernel",
+        "line": 17
+      }
+    ],
+    "scope": "The actual source retains unspecified block-pointer padding. Complete typed original versus sum-left candidate. Only add_commute at each reached fp32 carry update, with finite actual carry and computed block total. Input and output storage choices, fp32 promotion, opaque scan and sum, masks, casts, stores, complete state and failure are retained. A mixed-storage three-chunk execution with nonzero program ID and a partial tail witnesses a nonempty domain; no scan identity or reassociation is assumed.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkCumsumKernel.Equivalence.chunk_sum_left_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_cumsum_vector/FPEquiv.lean",
+    "declaration": "chunk_sum_left_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_global_cumsum_vector_kernel",
+        "line": 22
+      }
+    ],
+    "scope": "Source loads retain unspecified padding on both sides; the FP derivation does not choose their values. Complete typed original versus sum-left candidate. Only add_commute at each reached fp32 vector carry update after the store and inside the source branch, with finite actual carry and block sum. Independent storage choices, explicit fp32 promotion/output cast, opaque triangular dot with TF32 disabled, reduction axis, both boundary masks, all stores, whole state and failure are retained. A mixed-storage, three-chunk execution with nonzero feature/head IDs and both tails inhabits the domain. No dot identity or reassociation is assumed.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkCumsumVector.Equivalence.chunk_sum_left_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_delta_fwd/FPEquiv.lean",
+    "declaration": "chunk_sum_left_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_delta_rule_fwd_kernel_h",
+        "line": 18
+      }
+    ],
+    "scope": "Complete original/sum-left conditional FP equivalence using only admitted fp32 add_commute at the outer carry update after the history store and all inner iterations. Actual operands must be finite at each reached update; both initial/final branches, all independent fp32/fp16/bf16 storage choices, symbolic dimensions/strides, opaque TF32-disabled dots, storage casts, unspecified padding, masks, stores and failures are preserved. No associativity, dot identity or empirical end-to-end error bound is assumed.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkDeltaFwd.Equivalence.chunk_sum_left_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_gate_recurrence/FPEquiv.lean",
+    "declaration": "forward_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_recurrence",
+        "line": 8
+      }
+    ],
+    "scope": "Complete contextual FP equivalence under add_commute at every reached fp32 multiply-add, with finite actual product and promoted incoming operands. Independent fp32/fp16/bf16 storage selections, all casts, reductions, pointers, stores and failures retained; symbolic dimensions. Both optional-seed branches.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkGateRecurrence.Equivalence.forward_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_gate_recurrence/FPEquiv.lean",
+    "declaration": "backward_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_bwd_recurrence",
+        "line": 44
+      }
+    ],
+    "scope": "Complete contextual FP equivalence under add_commute at every reached fp32 multiply-add, with finite actual product and promoted incoming operands. Independent fp32/fp16/bf16 storage selections, all casts, reductions, pointers, stores and failures retained; symbolic dimensions. Includes the separate final DL update, checked after the complete original reverse loop.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkGateRecurrence.Equivalence.backward_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_gated_attention/FPEquiv.lean",
+    "declaration": "cumulative_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_gated_abc_fwd_kernel_cum",
+        "line": 21
+      }
+    ],
+    "scope": "Complete typed contextual equivalence by exact natural-number head/stride multiplication commutation in both pointer bases. No FP atom and empty numerical domain; preserves triangular mask, fp32 cast/dot, unspecified padding, stores and execution failure. Symbolic dimensions and input/output storage.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkGatedAttention.Equivalence.cumulative_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_gated_attention/FPEquiv.lean",
+    "declaration": "recurrent_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_gated_abc_fwd_kernel_h",
+        "line": 45
+      }
+    ],
+    "scope": "Complete typed contextual equivalence using only add_commute at every reached fp32 carry/dot addition, checking both actual post-gate operands are finite. All gate/seed/final branches and source storage selections, symbolic dimensions, full-chunk flattened endpoints, casts, intrinsic tl.exp, TF32-disabled dots, omitted padding, stores and execution failure are preserved. The finite guard is located inside the literal-selected gate arm after its actual prefix; this repairs the old misplaced guard, without restricting any gate/storage/seed/final selection.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkGatedAttention.Equivalence.recurrent_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_gla_fwd/FPEquiv.lean",
+    "declaration": "output_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_gla_fwd_kernel_o",
+        "line": 206
+      }
+    ],
+    "scope": "Complete typed original/candidate equivalence under admitted atoms and finite reached operands. Only add_commute for the actual final fp32 carry/dot operands after the full original prefix and K loop. Preserves source storage selections, casts, intrinsic tl.exp where present, dot options, unspecified padding, addresses, masks, stores and execution failure. Symbolic dimensions; nonempty abstract-model execution witnesses. No real erasure, output-equation premise, IEEE or host composition claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkGlaFwd.FPEquiv.Output.output_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_gla_fwd/FPEquiv.lean",
+    "declaration": "inter_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_gla_fwd_A_kernel_intra_sub_inter",
+        "line": 16
+      }
+    ],
+    "scope": "Complete typed original/candidate equivalence under admitted atoms and finite reached operands. Only add_commute for the actual fp32 carry/dot operands inside both enabled branches and every reached K iteration. Preserves source storage selections, casts, intrinsic tl.exp where present, dot options, unspecified padding, addresses, masks, stores and execution failure. Symbolic dimensions; nonempty abstract-model execution witnesses. No real erasure, output-equation premise, IEEE or host composition claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkGlaFwd.FPEquiv.Inter.inter_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_gla_fwd/FPEquiv.lean",
+    "declaration": "intra_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_gla_fwd_A_kernel_intra_sub_intra",
+        "line": 70
+      }
+    ],
+    "scope": "Complete typed original/candidate equivalence under admitted atoms and finite reached operands. Only mul_commute for the actual reduced tile and scale at each reached column, checking all lanes of both-arm where. Preserves source storage selections, casts, intrinsic tl.exp where present, dot options, unspecified padding, addresses, masks, stores and execution failure. Symbolic dimensions; nonempty abstract-model execution witnesses. No real erasure, output-equation premise, IEEE or host composition claim.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkGlaFwd.FPEquiv.Intra.intra_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_gla_fwd/FPEquiv.lean",
+    "declaration": "split_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_gla_fwd_A_kernel_intra_sub_intra_split",
+        "line": 122
+      }
+    ],
+    "scope": "Complete typed original/candidate equivalence under admitted atoms and finite reached operands. Only mul_commute after the source per-column zero/add reduction steps, checking the actual sum and scale on all lanes of where. Preserves source storage selections, casts, intrinsic tl.exp where present, dot options, unspecified padding, addresses, masks, stores and execution failure. Symbolic dimensions; nonempty abstract-model execution witnesses. No real erasure, output-equation premise, IEEE or host composition claim.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkGlaFwd.FPEquiv.Split.split_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_gla_fwd/FPEquiv.lean",
+    "declaration": "merge_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_gla_fwd_A_kernel_intra_sub_intra_merge",
+        "line": 177
+      }
+    ],
+    "scope": "Complete typed original/candidate equivalence under admitted atoms and finite reached operands. Only add_commute for actual fp32 carry/load operands at every reached NK iteration inside the enabled branch. Preserves source storage selections, casts, intrinsic tl.exp where present, dot options, unspecified padding, addresses, masks, stores and execution failure. Symbolic dimensions; nonempty abstract-model execution witnesses. No real erasure, output-equation premise, IEEE or host composition claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkGlaFwd.FPEquiv.Merge.merge_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_gla_simple/FPEquiv.lean",
+    "declaration": "scale_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_simple_gla_fwd_kernel_o",
+        "line": 14
+      }
+    ],
+    "scope": "Complete typed original/scale-first candidate equivalence under admitted mul_commute for the actual final fp32 total and scale after the full common prefix and K loop. Q/K/H compatible fp32/fp16/bf16 dot storage, independently selected value/gate storage and explicit output type. Retains all three TF32-disabled dots, score-to-value cast, gate subtraction dtype, intrinsic tl.exp, padding, addresses, masks, store and execution failure. Finite reached operands, symbolic shapes and nonempty mixed-storage abstract-model execution. No exponential identity, real erasure, output-equation premise or IEEE/host composition claim.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkGlaSimple.FPEquiv.scale_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_linear_attn/FPEquiv.lean",
+    "declaration": "forwardState_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_linear_attn_fwd_kernel_h",
+        "line": 8
+      }
+    ],
+    "scope": "Complete full-NT state recurrence with optional seed assignment, pre-update history, optional final state, all flag combinations and source order. Compatible K/V/H storage, explicit seed/final dtypes. History and optional final address injectivity, K/V versus history separation, optional history/final separation and exact active seed/K/V/history/final bounds. Seed may alias outputs; final may alias inputs. Complete typed original/candidate equivalence using only admitted add_commute on the actual fp32 carry and dot result. Reached-source guards retain finite operands, full loops, casts, both dot inputs/output types, allow_tf32=False, masks, padding, memory order and execution failure. Nonempty typed executions under a named abstract model, no real erasure or kernel-output premise. Experimental shapes select assumptions and do not restrict symbolic dimensions; no IEEE or GPU-validation claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkLinearAttn.FPEquiv.forwardState_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_linear_attn/FPEquiv.lean",
+    "declaration": "forwardOutput_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_linear_attn_fwd_kernel_o",
+        "line": 41
+      }
+    ],
+    "scope": "Complete full-K loop followed by causal Q/K/V plus history output. Independent key/value feature strides and checked tails. Compatible Q/K/H storage, independent V and explicit output dtype. Active output injectivity and exact Q/K/H/V/output bounds; inputs may alias output because all loads precede the store. Complete typed original/candidate equivalence using only admitted mul_commute on the final fp32 total and scale. Reached-source guards retain finite operands, full loops, casts, both dot inputs/output types, allow_tf32=False, masks, padding, memory order and execution failure. Nonempty typed executions under a named abstract model, no real erasure or kernel-output premise. Experimental shapes select assumptions and do not restrict symbolic dimensions; no IEEE or GPU-validation claim.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkLinearAttn.FPEquiv.forwardOutput_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_linear_attn/FPEquiv.lean",
+    "declaration": "backwardState_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_linear_attn_bwd_kernel_dh",
+        "line": 78
+      }
+    ],
+    "scope": "Complete descending state recurrence, storing the sum over strictly later chunks before adding the current scaled-query/dO contraction. Ascending counter NT-1-j preserves the Python reverse sequence, including an empty NT=0 range. Independent Q/dO storage and explicit output dtype. Q/dO versus dH separation, active history injectivity and exact load/store bounds. Complete typed original/candidate equivalence using only admitted add_commute on the actual fp32 carry and dot result. Reached-source guards retain finite operands, full loops, casts, both dot inputs/output types, allow_tf32=False, masks, padding, memory order and execution failure. Nonempty typed executions under a named abstract model, no real erasure or kernel-output premise. Experimental shapes select assumptions and do not restrict symbolic dimensions; no IEEE or GPU-validation claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkLinearAttn.FPEquiv.backwardState_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_linear_attn/FPEquiv.lean",
+    "declaration": "backwardGradients_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_linear_attn_bwd_kernel_dqkv",
+        "line": 102
+      }
+    ],
+    "scope": "Complete full-V loop and three outputs dQ/dK/dV, including both causal masks, all transposes and the runtime numPrograms(2) dV slice. Compatible common storage. Actual NT*K combined history boundary remains distinct from K bounds. Active dV injectivity across blocks and dQ/dK injectivity; repeatedly loaded V/dO/H/dH separate from dV, and outputs pairwise distinct. Q/K may alias dV because they are preloaded. Complete typed original/candidate equivalence using only admitted add_commute on the actual fp32 carry and dot result. Reached-source guards retain finite operands, full loops, casts, both dot inputs/output types, allow_tf32=False, masks, padding, memory order and execution failure. Nonempty typed executions under a named abstract model, no real erasure or kernel-output premise. Experimental shapes select assumptions and do not restrict symbolic dimensions; no IEEE or GPU-validation claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkLinearAttn.FPEquiv.backwardGradients_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_retention/FPEquiv.lean",
+    "declaration": "forwardState_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_retention_fwd_kernel_h",
+        "line": 17
+      }
+    ],
+    "scope": "Complete full-NT decayed state recurrence with all seed/final branches, pre-update history, optional final state and signed last-chunk weights. Compatible K/V/H storage; independent seed/final dtypes. Exact active bounds and history/final injectivity; K/V separate from history and optional final separate from history. Seed may alias outputs. Complete typed original/candidate equivalence using only admitted add_commute on the actual fp32 (possibly decay-weighted) carry and dot result. Reached-source guards retain finite operands, full loops, casts, both dot inputs/output types, allow_tf32=False, masks, padding, memory order and execution failure. Nonempty typed executions under a named abstract model, no real erasure or kernel-output premise. Experimental shapes select assumptions and do not restrict symbolic dimensions; no IEEE or GPU-validation claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkRetention.FPEquiv.forwardState_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_retention/FPEquiv.lean",
+    "declaration": "forwardOutput_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_retention_fwd_kernel_o",
+        "line": 77
+      }
+    ],
+    "scope": "Complete full-K output with row-decayed Q/H and causal distance-decayed Q/K/V, then scale. Compatible Q/K/H storage; independent V and output dtype. Active output injectivity and exact Q/K/H/V/output bounds; all loads precede the sole store so inputs may alias output. Complete typed original/candidate equivalence using only admitted mul_commute on the final fp32 total and scale. Reached-source guards retain finite operands, full loops, casts, both dot inputs/output types, allow_tf32=False, masks, padding, memory order and execution failure. Nonempty typed executions under a named abstract model, no real erasure or kernel-output premise. Experimental shapes select assumptions and do not restrict symbolic dimensions; no IEEE or GPU-validation claim.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkRetention.FPEquiv.forwardOutput_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_retention/FPEquiv.lean",
+    "declaration": "backwardState_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_retention_bwd_kernel_dh",
+        "line": 133
+      }
+    ],
+    "scope": "Actual supplied square-BT contraction: reverse chunks, untransposed row-weighted dO dot V, one full-chunk scale after the loop, and sole store at head*historyHead+keyBlock*K*V with rowOffset=valueBlock*BT and columnOffset=0. q/scale unused; dead history loads retained and bounded. NT>0 for original Python post-loop-index correspondence; inputs may alias output. Compatible dO/V storage and explicit output dtype. Complete typed original/candidate equivalence using only admitted add_commute on the actual fp32 (possibly decay-weighted) carry and dot result. Reached-source guards retain finite operands, full loops, casts, both dot inputs/output types, allow_tf32=False, masks, padding, memory order and execution failure. Nonempty typed executions under a named abstract model, no real erasure or kernel-output premise. Experimental shapes select assumptions and do not restrict symbolic dimensions; no IEEE or GPU-validation claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkRetention.FPEquiv.backwardState_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_retention/FPEquiv.lean",
+    "declaration": "backwardGradients_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_retention_bwd_kernel_dqkv",
+        "line": 182
+      }
+    ],
+    "scope": "Complete full-V loop and all dQ/dK/dV outputs, with query/key/causal distance decay, transposes, runtime numPrograms(2) dV slice, independent K versus NT*K boundaries and common compatible storage. Exact bounds, active dV injectivity across blocks and dQ/dK injectivity; repeated V/dO/H/dH inputs separate from dV; outputs pairwise distinct. Q/K may alias dV after preload. Complete typed original/candidate equivalence using only admitted add_commute on the actual fp32 (possibly decay-weighted) carry and dot result. Reached-source guards retain finite operands, full loops, casts, both dot inputs/output types, allow_tf32=False, masks, padding, memory order and execution failure. Nonempty typed executions under a named abstract model, no real erasure or kernel-output premise. Experimental shapes select assumptions and do not restrict symbolic dimensions; no IEEE or GPU-validation claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkRetention.FPEquiv.backwardGradients_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_retention_ops/FPEquiv.lean",
+    "declaration": "forwardState_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_retention_fwd_kernel_h",
+        "line": 16
+      }
+    ],
+    "scope": "Complete full-NT decayed state recurrence with all seed/final branches, pre-update history, optional final state and signed last-chunk weights. Compatible K/V/H storage; independent seed/final dtypes. Exact active bounds and history/final injectivity; K/V separate from history and optional final separate from history. Seed may alias outputs. Complete typed original/candidate equivalence using only admitted add_commute on the actual fp32 (possibly decay-weighted) carry and dot result. Reached-source guards retain finite operands, full loops, casts, both dot inputs/output types, allow_tf32=False, masks, padding, memory order and execution failure. Nonempty typed executions under a named abstract model, no real erasure or kernel-output premise. Experimental shapes select assumptions and do not restrict symbolic dimensions; no IEEE or GPU-validation claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkRetentionOps.FPEquiv.forwardState_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_retention_ops/FPEquiv.lean",
+    "declaration": "forwardOutput_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_retention_fwd_kernel_o",
+        "line": 57
+      }
+    ],
+    "scope": "Complete full-K output with row-decayed Q/H and causal distance-decayed Q/K/V, then scale. Compatible Q/K/H storage; independent V and output dtype. Active output injectivity and exact Q/K/H/V/output bounds; all loads precede the sole store so inputs may alias output. Complete typed original/candidate equivalence using only admitted mul_commute on the final fp32 total and scale. Reached-source guards retain finite operands, full loops, casts, both dot inputs/output types, allow_tf32=False, masks, padding, memory order and execution failure. Nonempty typed executions under a named abstract model, no real erasure or kernel-output premise. Experimental shapes select assumptions and do not restrict symbolic dimensions; no IEEE or GPU-validation claim.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkRetentionOps.FPEquiv.forwardOutput_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_retention_ops/FPEquiv.lean",
+    "declaration": "backwardState_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_retention_bwd_kernel_dh",
+        "line": 98
+      }
+    ],
+    "scope": "Complete descending recurrence with independent BT/BK/BV, pre-update history stores at every chunk, scaled query and row-weighted incoming gradient, fixed full-BT carry decay including the partial tail, and empty NT=0. Compatible query/gradient storage, explicit output dtype; exact active bounds, history injectivity and inputs separate from history. Complete typed original/candidate equivalence using only admitted add_commute on the actual fp32 (possibly decay-weighted) carry and dot result. Reached-source guards retain finite operands, full loops, casts, both dot inputs/output types, allow_tf32=False, masks, padding, memory order and execution failure. Nonempty typed executions under a named abstract model, no real erasure or kernel-output premise. Experimental shapes select assumptions and do not restrict symbolic dimensions; no IEEE or GPU-validation claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkRetentionOps.FPEquiv.backwardState_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunk_retention_ops/FPEquiv.lean",
+    "declaration": "backwardGradients_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "chunk_retention_bwd_kernel_dqkv",
+        "line": 130
+      }
+    ],
+    "scope": "Complete full-V loop and all dQ/dK/dV outputs, with query/key/causal distance decay, transposes, runtime numPrograms(2) dV slice, independent K versus NT*K boundaries and common compatible storage. Exact bounds, active dV injectivity across blocks and dQ/dK injectivity; repeated V/dO/H/dH inputs separate from dV; outputs pairwise distinct. Q/K may alias dV after preload. Complete typed original/candidate equivalence using only admitted add_commute on the actual fp32 (possibly decay-weighted) carry and dot result. Reached-source guards retain finite operands, full loops, casts, both dot inputs/output types, allow_tf32=False, masks, padding, memory order and execution failure. Nonempty typed executions under a named abstract model, no real erasure or kernel-output premise. Experimental shapes select assumptions and do not restrict symbolic dimensions; no IEEE or GPU-validation claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkRetentionOps.FPEquiv.backwardGradients_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/chunked_cumsum_fwd/FPEquiv.lean",
+    "declaration": "scaleFirst_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_chunk_cumsum_fwd_kernel",
+        "line": 20
+      }
+    ],
+    "scope": "Complete typed original versus A-left multiplication candidate, for finite and positive-infinite upper limits. Uses only admitted mul_commute on the reached finite fp32 dt matrix and A row after the full prefix, including preprocessing and first store. All intrinsic exp/log, minimum-with-infinity, casts, masks, scan order, both stores, complete state and failure remain. Both limit variants have complete mixed-storage model executions with nonzero launch IDs and partial head/time tails, witnessing nonempty domains. No numerical identity for scan, softplus, clamp or infinity is assumed.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ChunkedCumsumFwd.FPEquiv.scaleFirst_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/context_attn_bloom/FPEquiv.lean",
+    "declaration": "scaleFirst_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel",
+        "line": 11
+      }
+    ],
+    "scope": "Complete typed original/scale-first equivalence using only admitted fp32 mul_commute on actual reached qk and scale operands in every signed-loop iteration. The domain requires those operands finite; grouped heads, signed metadata, masks, casts, dots, tl.exp, normalization, gathers, stores and failure are preserved. Covers fp16/bf16/fp32 storage and symbolic dimensions/strides. Full abstract typed executions witness inhabited premises under a named consistent model; this is not IEEE equality, GPU numerical validation, or ideal causal-softmax correctness.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ContextAttnBloom.FPEquivalence.scaleFirst_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/context_attn_fwd/FPEquiv.lean",
+    "declaration": "scaleFirst_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel_int8kv",
+        "line": 9
+      }
+    ],
+    "scope": "Complete typed original/scale-first equivalence under explicit FP.TypedScalarArithmetic.Rules, using admitted fp32 mul_commute at each reached qk/scale multiplication inside the eager where arm. Every operand lane must be finite, including unselected lanes; actual fp32 dot scores are retained for fp16/bf16 input storage. Preserves grouped heads, signed metadata, masks, both casts, binary dot, fused accumulator-dot, exp2, reductions, stores and failure. Symbolic dimensions/strides and fp16/bf16/fp32 storage. Full abstract typed execution witnesses establish inhabited premises under a consistent model, not physical GPU execution or IEEE equality. No exponential or dot-plus-add identity is assumed. The fp16/bf16 storage branches require separately validated typed-fp32 MUL-COMMUTE on actual fp32 operands, fp32 output and default fp32 precision. This is a new explicit evidence premise; the old real-channel rule alone is insufficient, as checked by a countermodel. The fp32 storage branch retains its real-carrier rule. Offline original-kernel compilation binds the profile but is not an IEEE proof.",
+    "printed_atoms": [
+      "mul_commute",
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ContextAttnFwd.FPEquivalence.scaleFirst_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/context_attn_llama/FPEquiv.lean",
+    "declaration": "scaleFirst_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel",
+        "line": 10
+      }
+    ],
+    "scope": "Complete typed original/scale-first equivalence under explicit FP.TypedScalarArithmetic.Rules, using admitted fp32 mul_commute at each reached qk/scale multiplication inside the eager where arm. Every operand lane must be finite, including unselected lanes; actual fp32 dot scores are retained for fp16/bf16 input storage. Preserves grouped heads, signed metadata/page-table gathers, masks, both casts, binary dot, fused accumulator-dot, exp2, reductions, stores and failure. Symbolic dimensions/strides and fp16/bf16/fp32 storage. Full abstract typed execution witnesses establish inhabited premises under a consistent model, not physical GPU execution or IEEE equality. No exponential or dot-plus-add identity is assumed. The fp16/bf16 storage branches require separately validated typed-fp32 MUL-COMMUTE on actual fp32 operands, fp32 output and default fp32 precision. This is a new explicit evidence premise; the old real-channel rule alone is insufficient, as checked by a countermodel. The fp32 storage branch retains its real-carrier rule. Offline original-kernel compilation binds the profile but is not an IEEE proof.",
+    "printed_atoms": [
+      "mul_commute",
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ContextAttnLlama.FPEquivalence.scaleFirst_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/context_attn_mistral/FPEquiv.lean",
+    "declaration": "scaleFirst_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel",
+        "line": 10
+      }
+    ],
+    "scope": "Complete typed original/scale-first equivalence using only admitted fp32 mul_commute on actual qk/scale operands at every reached iteration, before causal/window masks and across every lane. Preserves grouped heads, signed metadata/window subtraction, stored K/V pointers, both finite sentinels, center/denominator guards, natural exp, dot-plus-add order, reductions, casts, masks, stores and failure. Symbolic shapes and fp16/bf16/fp32 storage. A consistent abstract FP backend has an inhabited domain and complete execution from empty registers. No exp rewrite, associativity or dot fusion identity is assumed; not physical GPU execution or IEEE equality.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ContextAttnMistral.FPEquivalence.scaleFirst_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/context_attn_nopad/FPEquiv.lean",
+    "declaration": "scaleFirst_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel",
+        "line": 6
+      }
+    ],
+    "scope": "Complete typed original/scale-first equivalence using only admitted fp32 mul_commute on actual reached qk/scale operands before the causal mask, including every lane. Preserves signed metadata, stored K/V pointers, negative-infinity masking, natural exp, normalized dot-plus-add order, reductions, casts, masks, stores and failure. Symbolic shapes and fp16/bf16/fp32 storage. A consistent abstract FP backend has inhabited domain and complete execution from empty registers. No exp rewrite, associativity or dot fusion identity is assumed; not physical GPU execution or IEEE equality.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ContextAttnNopad.FPEquivalence.scaleFirst_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/cosine_compute/FPEquiv.lean",
+    "declaration": "index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "cos_func",
+        "line": 8
+      }
+    ],
+    "scope": "Complete typed original/index-commuted equivalence using exact Nat multiplication commutativity at the block offset. No floating numerical atoms or numerical guards. Symbolic sizes and all fp16/bf16/fp32 storage branches; unspecified masked input values, explicit fp32 conversion, opaque intrinsic cosine, destination cast, mask, store and failure retained. A named abstract FP backend has a complete execution from empty registers with an active lane and a preserved tail cell; not a physical GPU or IEEE execution claim.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.CosineCompute.FPEquivalence.index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/cross_entropy1/FPEquiv.lean",
+    "declaration": "forward_index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "cross_entropy_fwd_kernel",
+        "line": 13
+      }
+    ],
+    "scope": "Complete typed forward original/index-commuted equivalence using exact Nat multiplication commutativity in column offsets. No numerical atoms or domain restrictions; all storage, smoothing/split and signed-label branches retain numerical operations, casts, masks, stores and failure. A named abstract FP backend executes the complete fp16 kernel from empty registers at nonzero row/block with a tail, and the candidate reaches the same state. The witness establishes inhabited semantics, not physical GPU or IEEE behavior.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.CrossEntropy1.FPEquivalence.forward_index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/cross_entropy1/FPEquiv.lean",
+    "declaration": "backward_index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "cross_entropy_bwd_kernel",
+        "line": 72
+      }
+    ],
+    "scope": "Complete typed backward original/index-commuted equivalence using exact Nat multiplication commutativity in column offsets. No numerical atoms or domain restrictions; all storage and smoothing branches retain signed labels, conditional dloss load, probability calculation, LSE-square correction, masks, casts, store and failure. A named abstract FP backend executes the complete fp16 kernel from empty registers at nonzero row/block with a tail, and the candidate reaches the same state. No precomputed probability or GPU/IEEE claim.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.CrossEntropy1.FPEquivalence.backward_index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/cross_entropy2/FPEquiv.lean",
+    "declaration": "forward_index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "cross_entropy_fwd_kernel",
+        "line": 6
+      }
+    ],
+    "scope": "Complete typed forward original/index-commuted equivalence using exact Nat multiplication commutativity in column offsets. No numerical atoms or domain restrictions; all storage, smoothing/split and signed-label branches, including scaled logits and gated z-loss, retain numerical operations, casts, masks, stores and failure. A named abstract FP backend executes the complete fp16 kernel from empty registers at nonzero row/block with a tail, and the candidate reaches the same state. The witness establishes inhabited semantics, not physical GPU or IEEE behavior.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.CrossEntropy2.FPEquivalence.forward_index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/cross_entropy2/FPEquiv.lean",
+    "declaration": "backward_index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "cross_entropy_bwd_kernel",
+        "line": 70
+      }
+    ],
+    "scope": "Complete typed backward original/index-commuted equivalence using exact Nat multiplication commutativity in column offsets. No numerical atoms or domain restrictions; all storage and smoothing branches retain signed labels, conditional dloss load, probability calculation, LSE-square correction, masks, casts, store and failure. A named abstract FP backend executes the complete fp16 kernel from empty registers at nonzero row/block with a tail, and the candidate reaches the same state. No precomputed probability or GPU/IEEE claim.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.CrossEntropy2.FPEquivalence.backward_index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/cross_entropy_ops/FPEquiv.lean",
+    "declaration": "forward_index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "cross_entropy_fwd_kernel",
+        "line": 14
+      }
+    ],
+    "scope": "Complete typed forward original/index-commuted equivalence using exact Nat multiplication commutativity in column offsets. No numerical atoms or domain restrictions; all storage, smoothing/split and signed-label branches, including scaled logits and gated z-loss, retain numerical operations, casts, masks, stores and failure. A named abstract FP backend executes the complete fp16 kernel from empty registers at nonzero row/block with a tail, and the candidate reaches the same state. The witness establishes inhabited semantics, not physical GPU or IEEE behavior.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.CrossEntropyOps.FPEquivalence.forward_index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/cross_entropy_ops/FPEquiv.lean",
+    "declaration": "backward_index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "cross_entropy_bwd_kernel",
+        "line": 83
+      }
+    ],
+    "scope": "Complete typed backward original/index-commuted equivalence using exact Nat multiplication commutativity in column offsets. No numerical atoms or domain restrictions; all storage and smoothing branches retain signed labels, conditional dloss load, probability calculation, LSE-square correction, masks, casts, store and failure. A named abstract FP backend executes the complete fp16 kernel from empty registers at nonzero row/block with a tail, and the candidate reaches the same state. No precomputed probability or GPU/IEEE claim.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.CrossEntropyOps.FPEquivalence.backward_index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/decay_cumsum/FPEquiv.lean",
+    "declaration": "forward_index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "fwd_decay_cumsum",
+        "line": 9
+      }
+    ],
+    "scope": "Complete typed original/index-commuted program equivalence using exact Nat multiplication commutativity only in the lane mask. Empty atom list and domain; numerical operations, casts, loop order, reads, writes and failure remain unchanged. Real-valued abstract FP execution witnesses from empty registers use two iterations, nonzero program IDs and a partial lane. The witness is inhabited model execution, not physical GPU or IEEE behavior. All gate storage types; fp32 accumulator and explicit final storage cast. The inhabited witness uses a local consistent abstract algebra with identity casts and constant-one unary operations; it is not numerical refinement.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.DecayCumsum.FPEquivalence.forward_index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/decay_cumsum/FPEquiv.lean",
+    "declaration": "prepare_index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "prepare_qg_kg",
+        "line": 38
+      }
+    ],
+    "scope": "Complete typed original/index-commuted program equivalence using exact Nat multiplication commutativity only in the lane mask. Empty atom list and domain; numerical operations, casts, loop order, reads, writes and failure remain unchanged. Real-valued abstract FP execution witnesses from empty registers use two iterations, nonzero program IDs and a partial lane. The witness is inhabited model execution, not physical GPU or IEEE behavior. All nine independent data/gate storage pairs, unmasked last gate read and both complete output streams. The inhabited witness uses a local consistent abstract algebra with identity casts and constant-one unary operations; it is not numerical refinement.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.DecayCumsum.FPEquivalence.prepare_index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/decay_cumsum/FPEquiv.lean",
+    "declaration": "backward_index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "bwd_decay_global_cumsum",
+        "line": 83
+      }
+    ],
+    "scope": "Complete typed original/index-commuted program equivalence using exact Nat multiplication commutativity only in the lane mask. Empty atom list and domain; numerical operations, casts, loop order, reads, writes and failure remain unchanged. Real-valued abstract FP execution witnesses from empty registers use two iterations, nonzero program IDs and a partial lane. The witness is inhabited model execution, not physical GPU or IEEE behavior. All nine independent data/gate storage pairs, last_g branch, three stores, in-place gradients and final unused pointer decrements. The inhabited witness uses a local consistent abstract algebra with identity casts and constant-one unary operations; it is not numerical refinement. Both source programs retain the signed reverse loop, including the empty BT=0 case; this equivalence uses no Nat-reference premise.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.DecayCumsum.FPEquivalence.backward_index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/dequantize_matmul/FPEquiv.lean",
+    "declaration": "index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "dequantize_kernel",
+        "line": 31
+      }
+    ],
+    "scope": "Complete original/index-commuted typed program equivalence. Only the exact Nat block product in the column mask is commuted; no numerical atom or domain restriction. Actual signed integer loads/conversion, fp32 scale loads, all numerical operations, output casts, masks, stores and failure are preserved for fp16/bf16/fp32 output. Full abstract FP executions from empty registers use a negative integer weight and a partially active tile at nonzero program IDs. These witness inhabited model execution, not physical GPU/IEEE behavior; the host torch.mm call is outside this JIT contract.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.DequantizeMatmul.FPEquivalence.index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/dequantize_rowwise/FPEquiv.lean",
+    "declaration": "index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_dequantize_rowwise",
+        "line": 9
+      }
+    ],
+    "scope": "Complete typed original/index-commuted program equivalence; only the exact Nat block-start product is commuted. Empty atoms/domain. Signed integer loads/conversion, fp32 arithmetic, fp16 output cast, weight mask with omitted other, unmasked row-scale read, store mask and failure are retained. Abstract FP executions from empty registers use negative integer input at a nonzero row and a partial tile. They witness inhabited model execution, not physical GPU/IEEE behavior. Host launch and fixed-width overflow are outside scope.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.DequantizeRowwise.FPEquivalence.index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/destindex_copy/FPEquiv.lean",
+    "declaration": "index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel_destindex_copy_kv",
+        "line": 8
+      }
+    ],
+    "scope": "Complete typed dual-scatter original/index-commuted equivalence for independent fp16/bf16/fp32 nope/rope storage with corresponding output types. Candidate commutes only the exact natural-number product in the nope source-row address. No numerical atoms or domain restriction. Signed metadata/destination arithmetic, unmasked reads/stores, payload values and precision, complete final states and failure remain identical. Pointer congruence is a structural lemma composed through equiv_decompose/fp_prove. Full abstract executions from empty registers inhabit every supported dtype pair; they do not certify physical GPU/IEEE, allocation safety, grid race freedom or fixed-width overflow.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.DestindexCopy.Equivalence.index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/destindex_copy_kv1/FPEquiv.lean",
+    "declaration": "index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel_destindex_copy_kv",
+        "line": 8
+      }
+    ],
+    "scope": "Complete typed masked multi-head scatter original/index-commuted equivalence for independently fp16/bf16/fp32 input/output. Only the exact natural-number source-row address product is commuted. No numerical atoms or domain restriction. Signed metadata/destination arithmetic, input/output conversion, both masks, zero input-load default, complete final states and failure are preserved. Pointer congruence is composed through equiv_decompose/fp_prove. Full abstract executions from empty registers inhabit all nine storage pairs and source variants. No physical GPU/IEEE, allocation safety, grid race freedom or fixed-width overflow certification.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.DestindexCopyKv1.Equivalence.index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/destindex_copy_kv2/FPEquiv.lean",
+    "declaration": "index_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel_destindex_copy_kv",
+        "line": 7
+      }
+    ],
+    "scope": "Complete typed head-masked multi-head scatter original/index-commuted equivalence for independently fp16/bf16/fp32 input/output. Only the exact natural-number source-row address product is commuted. No numerical atoms or domain restriction. Signed metadata/destination arithmetic, input/output conversion, head mask, zero input-load default, complete final states and failure are preserved. Pointer congruence is composed through equiv_decompose/fp_prove. Full abstract executions from empty registers inhabit all nine storage pairs and source variants. No physical GPU/IEEE, allocation safety, grid race freedom or fixed-width overflow certification.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.DestindexCopyKv2.Equivalence.index_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/diag_ssm_triton/FPEquiv.lean",
+    "declaration": "forward_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "diag_ssm_forward_kernel",
+        "line": 6
+      }
+    ],
+    "scope": "Complete typed original/index-commuted FP equivalence: exact natural-number multiplication in col_idx is the only change. No numerical atom and no operand-domain premise. Storage, masks, casts, arithmetic order, loops, branches, all stores, full final states and failure are preserved. equiv_decompose/fp_prove compose the structural proof. Two-step abstract typed executions from empty registers inhabit original/candidate, partial tails and both reverse branches; this is a model witness, not physical rounding or memory-allocation certification. Matching fp16/bf16/fp32 across the real source arguments.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.DiagSsmTriton.Equivalence.forward_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/diag_ssm_triton/FPEquiv.lean",
+    "declaration": "backward_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "diag_ssm_backward_kernel",
+        "line": 29
+      }
+    ],
+    "scope": "Complete typed original/index-commuted FP equivalence: exact natural-number multiplication in col_idx is the only change. No numerical atom and no operand-domain premise. Storage, masks, casts, arithmetic order, loops, branches, all stores, full final states and failure are preserved. equiv_decompose/fp_prove compose the structural proof. Two-step abstract typed executions from empty registers inhabit original/candidate, partial tails and both reverse branches; this is a model witness, not physical rounding or memory-allocation certification. Matching fp16/bf16/fp32 across the real source arguments.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.DiagSsmTriton.Equivalence.backward_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/diag_ssm_triton/FPEquiv.lean",
+    "declaration": "complexForward_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "diag_ssm_forward_kernel_complex",
+        "line": 78
+      }
+    ],
+    "scope": "Complete typed original/index-commuted FP equivalence: exact natural-number multiplication in col_idx is the only change. No numerical atom and no operand-domain premise. Storage, masks, casts, arithmetic order, loops, branches, all stores, full final states and failure are preserved. equiv_decompose/fp_prove compose the structural proof. Two-step abstract typed executions from empty registers inhabit original/candidate, partial tails and both reverse branches; this is a model witness, not physical rounding or memory-allocation certification. Interleaved fp32 complex64, including source conjugation signs.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.DiagSsmTriton.Equivalence.complexForward_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/diag_ssm_triton/FPEquiv.lean",
+    "declaration": "complexBackward_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "diag_ssm_backward_kernel_complex",
+        "line": 120
+      }
+    ],
+    "scope": "Complete typed original/index-commuted FP equivalence: exact natural-number multiplication in col_idx is the only change. No numerical atom and no operand-domain premise. Storage, masks, casts, arithmetic order, loops, branches, all stores, full final states and failure are preserved. equiv_decompose/fp_prove compose the structural proof. Two-step abstract typed executions from empty registers inhabit original/candidate, partial tails and both reverse branches; this is a model witness, not physical rounding or memory-allocation certification. Interleaved fp32 complex64, including source conjugation signs.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.DiagSsmTriton.Equivalence.complexBackward_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/dropout_triton/FPEquiv.lean",
+    "declaration": "dropout_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_dropout",
+        "line": 7
+      }
+    ],
+    "scope": "Full typed _dropout body, matching fp16/bf16/fp32 input/output and int32 or bool keep buffers. Integer keep means nonzero, including negative/even values. Both masked loads retain omitted other values; eager division, selection, implicit destination cast and masked store are preserved. Candidate changes only integer block_start multiplication order. Full typed original/candidate equivalence preserves final states and failure with no numerical atoms or operand-domain premise. No division reassociation/cancellation is used, including p=1. Abstract real-carrier typed executions from empty registers inhabit all six storage/keep combinations and both candidates for arbitrary p with a masked tail; this does not certify physical GPU arithmetic.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.DropoutTriton.Equivalence.dropout_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/embedding_triton_kernel/FPEquiv.lean",
+    "declaration": "embedding_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "embedding_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Full embedding_kernel source with signed int32 token IDs, matching fp16/bf16/fp32 weights/output, complete strided loop and original vocabulary/row/column masks and explicit padding. Candidate changes only natural-number start_n multiplication order. Full typed original/candidate equivalence preserves complete states and failure with no numerical atoms or domain guards. Three-iteration abstract real-carrier typed executions from empty registers inhabit fp16/bf16/fp32 originals and candidates with negative invalid ID, valid lookup, inactive final row and hidden tail. This abstract model witness does not certify physical GPU rounding. The implicit signed-int32 load-default conversion is preserved in both complete programs.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.EmbeddingTritonKernel.Equivalence.embedding_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/f8_conversion_utils/FPEquiv.lean",
+    "declaration": "f8_to_f16_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "kernel_f8_to_f16",
+        "line": 7
+      }
+    ],
+    "scope": "Both complete conversion kernels: fp8 e4nv/e5 to fp16 retaining the duplicate store; fp16/fp32 to fp8 e4nv/e5. Input/output storage channels, implicit destination casts, masked load with omitted default and every masked store are retained. Candidate only commutes integer offset multiplication. Whole typed state/failure equivalence with no numerical atoms or domain guards. Conversion operations remain opaque and unchanged. All six precision-direction combinations have abstract typed model executions from empty registers for original and candidate with a masked tail. No assumption of cast idempotence, lossless fp8 conversion, physical GPU rounding or round-trip identity.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.F8ConversionUtils.Equivalence.f8_to_f16_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/f8_conversion_utils/FPEquiv.lean",
+    "declaration": "to_fp8_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "kernel_f16_to_f8",
+        "line": 25
+      }
+    ],
+    "scope": "Both complete conversion kernels: fp8 e4nv/e5 to fp16 retaining the duplicate store; fp16/fp32 to fp8 e4nv/e5. Input/output storage channels, implicit destination casts, masked load with omitted default and every masked store are retained. Candidate only commutes integer offset multiplication. Whole typed state/failure equivalence with no numerical atoms or domain guards. Conversion operations remain opaque and unchanged. All six precision-direction combinations have abstract typed model executions from empty registers for original and candidate with a masked tail. No assumption of cast idempotence, lossless fp8 conversion, physical GPU rounding or round-trip identity.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.F8ConversionUtils.Equivalence.to_fp8_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/fast_ce_loss/FPEquiv.lean",
+    "declaration": "forward_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_cross_entropy_forward",
+        "line": 28
+      }
+    ],
+    "scope": "Complete source JIT for fp16/bf16/fp32 storage, both constexpr flags, signed labels and the -100 sentinel. Whole typed state/failure equivalence for integer row-stride multiplication commutation, with empty domain and no numerical atoms. Retains input/output precision, signed loads, original cast positions, distinct libdevice.tanh backend, constexpr flags, runtime branches, reductions, masks and all stores. Structural equivalence does not repair the source padding or missing chunk writes. Host launch/races, fixed-width index overflow and physical IEEE rounding are outside scope.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.FastCeLoss.Equivalence.forward_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/fast_ce_loss/FPEquiv.lean",
+    "declaration": "chunked_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_chunked_cross_entropy_forward",
+        "line": 74
+      }
+    ],
+    "scope": "Complete source JIT for fp16/bf16/fp32 storage, both constexpr flags, signed labels and the -100 sentinel. Whole typed state/failure equivalence for integer row-stride multiplication commutation, with empty domain and no numerical atoms. Retains input/output precision, signed loads, original cast positions, distinct libdevice.tanh backend, constexpr flags, runtime branches, reductions, masks and all stores. Structural equivalence does not repair the source padding or missing chunk writes. Host launch/races, fixed-width index overflow and physical IEEE rounding are outside scope.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.FastCeLoss.Equivalence.chunked_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/fast_ce_loss/FPEquiv.lean",
+    "declaration": "backward_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_cross_entropy_backward",
+        "line": 124
+      }
+    ],
+    "scope": "Complete source JIT for fp16/bf16/fp32 storage, both constexpr flags, signed labels and the -100 sentinel. Whole typed state/failure equivalence for integer row-stride multiplication commutation, with empty domain and no numerical atoms. Retains input/output precision, signed loads, original cast positions, distinct libdevice.tanh backend, constexpr flags, runtime branches, reductions, masks and all stores. Structural equivalence does not repair the source padding or missing chunk writes. Host launch/races, fixed-width index overflow and physical IEEE rounding are outside scope.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.FastCeLoss.Equivalence.backward_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/fast_layernorm/FPEquiv.lean",
+    "declaration": "forward_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "layernorm_forward",
+        "line": 21
+      }
+    ],
+    "scope": "Whole typed-state/failure equivalence with an empty input domain and no numerical FP atoms. Candidate commutes only the natural-number X row-stride product. All 27 independent input/output, weight and bias storage triples (fp16/bf16/fp32), explicit fp32 arithmetic and fp32 r/mu stores. Complete casts, masks, branches, loads and stores are retained. Host launch/scheduling, races, fixed-width overflow and physical GPU rounding are outside the per-program claim.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.FastLayernorm.Equivalence.forward_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/fast_layernorm/FPEquiv.lean",
+    "declaration": "backward_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "layernorm_backward",
+        "line": 54
+      }
+    ],
+    "scope": "Whole typed-state/failure equivalence with an empty input domain and no numerical FP atoms. Candidate commutes only the natural-number X row-stride product. All 27 independent input/output, weight and bias storage triples (fp16/bf16/fp32), explicit fp32 arithmetic and fp32 r/mu stores. Complete casts, masks, branches, loads and stores are retained. Host launch/scheduling, races, fixed-width overflow and physical GPU rounding are outside the per-program claim.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.FastLayernorm.Equivalence.backward_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/fast_rms_layernorm/FPEquiv.lean",
+    "declaration": "forward_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_rms_layernorm_forward",
+        "line": 23
+      }
+    ],
+    "scope": "Whole typed-state/failure equivalence with an empty input domain and no numerical FP atoms. Candidate commutes only the natural-number X row-stride product. All nine independent input/output and weight storage pairs (fp16/bf16/fp32); regular normalized-value cast to W dtype is explicit, Gemma/backward compute fp32, saved reciprocal RMS fp32. Complete casts, masks, branches, loads and stores are retained. Host launch/scheduling, races, fixed-width overflow and physical GPU rounding are outside the per-program claim.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.FastRmsLayernorm.Equivalence.forward_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/fast_rms_layernorm/FPEquiv.lean",
+    "declaration": "gemma_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_gemma_rms_layernorm_forward",
+        "line": 95
+      }
+    ],
+    "scope": "Whole typed-state/failure equivalence with an empty input domain and no numerical FP atoms. Candidate commutes only the natural-number X row-stride product. All nine independent input/output and weight storage pairs (fp16/bf16/fp32); regular normalized-value cast to W dtype is explicit, Gemma/backward compute fp32, saved reciprocal RMS fp32. Complete casts, masks, branches, loads and stores are retained. Host launch/scheduling, races, fixed-width overflow and physical GPU rounding are outside the per-program claim.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.FastRmsLayernorm.Equivalence.gemma_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/fast_rms_layernorm/FPEquiv.lean",
+    "declaration": "backward_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_rms_layernorm_backward",
+        "line": 57
+      }
+    ],
+    "scope": "Whole typed-state/failure equivalence with an empty input domain and no numerical FP atoms. Candidate commutes only the natural-number X row-stride product. All nine independent input/output and weight storage pairs (fp16/bf16/fp32); regular normalized-value cast to W dtype is explicit, Gemma/backward compute fp32, saved reciprocal RMS fp32. Complete casts, masks, branches, loads and stores are retained. Host launch/scheduling, races, fixed-width overflow and physical GPU rounding are outside the per-program claim.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.FastRmsLayernorm.Equivalence.backward_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/fast_rope_embedding/FPEquiv.lean",
+    "declaration": "rope_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_rope_embedding",
+        "line": 21
+      }
+    ],
+    "scope": "Whole typed-state/failure equivalence with an empty input domain and no numerical FP atoms. Candidate commutes only the natural-number head-group product. All 27 independent input/output, cosine and sine storage triples (fp16/bf16/fp32), including Q-load conversion to sine dtype, typed sign reversal and conversion back to input storage. Complete casts, masks, branches, loads and stores are retained. Host launch/scheduling, races, fixed-width overflow and physical GPU rounding are outside the per-program claim.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.FastRopeEmbedding.Equivalence.rope_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/flash_attn/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "projection_only",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel",
+        "line": 36
+      }
+    ],
+    "scope": "Complete typed-state/failure equivalence of the retained extra-cast formal family under every backend and initial state; only the natural head-offset product commutes. The domain and FP assumptions are empty. This earlier formal family adds an explicit L fp32 cast and an O destination cast after the source fp16 cast. It is retained for compatibility and now has 36 floating Q/O profiles. In particular, non-fp16 O is rejected by the unmodified native block store and must not be counted as Python source coverage. The new actualKernel removes both extra casts; full_flat_correctness and actual_source_equivalence cover that exact source. Direct-call integer/bool Q conversions, other runtime scale profiles, negative strides, native integer-width overflow, general native shape/target admission, host allocation validity, grid coverage, concurrent races and IEEE/device numerical behavior remain unverified. Independent comparator replay is pending. This scoped record is not full-port acceptance.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.FlashAttn.Equivalence.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/flash_attn/FPEquiv.lean",
+    "declaration": "actual_source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_fwd_kernel",
+        "line": 36
+      }
+    ],
+    "scope": "Complete exact-source original/candidate typed-state and failure equivalence for all symbolic dimensions/natural strides, both causal modes, every backend and initial state. Only the natural head-offset product commutes. The program domain and FP assumptions are empty; no finite-input or successful-output premise is required. The unmodified Python body retains every source stride and unused parameter, Q-head base reuse for Q/K/V/O, K sequence stride for V, decimal 1.44269504, complete rounded-up unchecked KV loads, causal masking, fp16 Q/probability casts, fp32 accumulators and the exact L-then-O stores. ActualPrecision independently checks Q load and scaling precision and both stores, including fp64 multiplication before fp16 conversion. Native dot requires fp16 K/V, and the final block store requires fp16 O; the wrapper empty_like(Q) therefore requires fp16 Q/O. Six floating Q labels are modeled for direct calls with fp16 O. The unchanged-source offline Triton 3.7.1/sm90 probe checked 12 admitted cases and 10 expected block-store dtype rejections, at one block shape and fp32 scalar scale. This compile evidence does not establish GPU arithmetic or every launch configuration. The named IO includes actual source trace safety, successful finite-flat execution, both independent initial-memory attention outputs, and the complete raw-cell frame, including unallocated addresses and unrelated dtypes. The formula includes every physically loaded padded key. The reference scatters L then O in source lane order, preserving arbitrary output aliasing. Positive block step/source stop, bounds for every unchecked read/write, allocation disjointness/closure and zero undef are explicit. Real arithmetic erases floating casts. Finite witnesses discharge allocation/access premises for nonzero head ID, noncontiguous strides and SEQLEN=3/BLOCK_N=2; padding V=4 makes noncausal O=1 and L=2. Separate complete typed exact-source executions prove both variants and causal modes, causal O/L=0/0 with second-row L=1, noncausal O/L=1/2 and a raw frame outside all six store addresses. The real numerical backend uses actual dot/reduction/exp2/log2 and identity casts; it is nonvacuity evidence, not IEEE evidence. Direct-call integer/bool Q conversions, other runtime scale profiles, negative strides, native integer-width overflow, general native shape/target admission, host allocation validity, grid coverage, concurrent races and IEEE/device numerical behavior remain unverified. Independent comparator replay is pending. This scoped record is not full-port acceptance.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.FlashAttn.Equivalence.actual_source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/fused_activation/FPEquiv.lean",
+    "declaration": "fused_activation_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "fused_add_mul_activation_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Commute the final bias addition, using only admitted add_commute at fp32. Actual combined input and loaded bias are finite after the complete common prefix, including inactive arithmetic lanes. Positive num_weights; both activation branches and every register/memory/failure effect retained.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.FusedActivation.FPEquiv.fused_activation_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/geglu_tanh_triton/FPEquiv.lean",
+    "declaration": "backward_index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_geglu_tanh_backward_kernel",
+        "line": 42
+      }
+    ],
+    "scope": "216 independent A/B/DC storage combinations. Storage formats: fp32, fp16, bf16, fp64, fp8e4nv, fp8e5. Complete original/candidate typed state, memory and failure equality with no numerical atoms or domain conditions. Only signed Int row-base products commute before conversion to natural pointer offsets. The source decimal scale 0.7978845608028654 is retained exactly; the literal-only 3*0.044715 product folds to 0.134145 before fp32 conversion, with both following tensor multiplications retained. Python imported tanh is explicitly libdevice.tanh, with fp32 argument computation, actual mixed-type promotion, local precision scopes and storage conversions. This proves the written backward expression, not an analytic derivative theorem. Other storage formats, host launch/shape/allocation checks, negative strides, fixed-width address overflow and target-specific fp8 support are outside scope. Nonempty typed witnesses use exact-real arithmetic, not IEEE rounding. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.GegluTanhTriton.FPEquiv.backward_index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/geglu_tanh_triton/FPEquiv.lean",
+    "declaration": "forward_index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_geglu_tanh_forward_kernel",
+        "line": 16
+      }
+    ],
+    "scope": "36 independent A/B storage combinations. Storage formats: fp32, fp16, bf16, fp64, fp8e4nv, fp8e5. Complete original/candidate typed state, memory and failure equality with no numerical atoms or domain conditions. Only signed Int row-base products commute before conversion to natural pointer offsets. The source decimal scale 0.7978845608028654 is retained exactly; the literal-only 3*0.044715 product folds to 0.134145 before fp32 conversion, with both following tensor multiplications retained. Python imported tanh is explicitly libdevice.tanh, with fp32 argument computation, actual mixed-type promotion, local precision scopes and storage conversions. This proves the written backward expression, not an analytic derivative theorem. Other storage formats, host launch/shape/allocation checks, negative strides, fixed-width address overflow and target-specific fp8 support are outside scope. Nonempty typed witnesses use exact-real arithmetic, not IEEE rounding. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.GegluTanhTriton.FPEquiv.forward_index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/index_select_bwd/FPEquiv.lean",
+    "declaration": "index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "index_select_cat_bwd_kernel",
+        "line": 8
+      }
+    ],
+    "scope": "Seventy-two profiles: six independent input/output floating storage formats (fp32, fp16, bf16, fp8e4nv, fp8e5, fp64), and int32/int64 index storage. Complete original/candidate typed state, memory and failure equality with no numerical atoms or domain conditions. Only the natural column-block address product commutes. Actual signed index loads and arithmetic, masks with unspecified padding, explicit fp32 gradient conversion and destination store conversions are retained, including local fp64/fp32 precision scopes. Integer/boolean gradient storage, other index formats, negative pointer offsets, fixed-width address overflow, byte reinterpretation and cross-program GPU race resolution are outside scope. Nonempty typed execution witnesses use exact-real arithmetic, not IEEE rounding. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.IndexSelectBwd.FPEquiv.index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/index_select_cat/FPEquiv.lean",
+    "declaration": "index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "index_select_cat_fwd_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Seventy-two profiles: six independent input/output floating storage formats (fp32, fp16, bf16, fp8e4nv, fp8e5, fp64), and int32/int64 index storage. Complete original/candidate typed state, memory and failure equality with no numerical atoms or domain conditions. Only the natural index-window block product commutes. Actual signed index loads and arithmetic, masks with unspecified padding, source-precision gather values and destination store conversions are retained, including required local precision scopes. The source has no fp32 widening. Integer/boolean data storage, other index formats, negative pointer offsets, fixed-width address overflow, byte reinterpretation and cross-program GPU race resolution are outside scope. Nonempty typed execution witnesses use exact-real arithmetic, not IEEE rounding. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.IndexSelectCat.FPEquiv.index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/kldiv_compute/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "kldivergence_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "192 source-supported independent floating X/Y/output triples, both complete eight-statement source variants; all masked loads retain missing-other behavior. Candidate commutes only the natural block-index multiplication. Full state/memory/failure equality for arbitrary initial states, aliases and block sizes, without numerical FP assumptions. Exact load AST checks cover 216 formal triples; exact arithmetic/store checks cover the 192 source-supported triples in both variants. The four both-fp8 input pairs are excluded by the pinned frontend logarithm type restriction, not by an observed GPU compilation. The mixed fp64/fp16/bf16 nonempty execution witness uses exact-real backend arithmetic and is not an IEEE rounding certificate. Real logarithm/division are totalized; ordinary finite KL interpretation requires positive inputs. Native lowering, discrete/mixed conversion coverage, host launch and cross-program scheduling remain unproved. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.KldivCompute.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/kldiv_ops/FPEquiv.lean",
+    "declaration": "forward_default_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_kldiv_kernel_forward",
+        "line": 12
+      }
+    ],
+    "scope": "Full default-target forward source/candidate equivalence, all 216 elementwise profiles and all 150 admitted nonzero-reduction profiles. Retains the actual fp32 initializer, every signed-loop block, all padded-lane arithmetic, both reduction arms and the final scalar store. The candidate commutes only the signed output-row address product. Every floating expression, cast, loop, mask and store remains; complete state, memory and failure results are equal for every backend algebra, initial state and alias pattern, with no numerical assumptions or successful-execution premise. Source-domain predicates distinguish frontend-admitted profiles from the broader formal AST family. Exact precision trees check loads, runtime-fp32 epsilon, clamp/log/exp/subtract/multiply, elementwise store, reduction/carry and final scalar conversion. Native-device lowering, bit-accurate IEEE execution and independent comparator replay remain pending; indices are unbounded integers with natural strides.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.KldivOps.FPEquiv.forward_default_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/kldiv_ops/FPEquiv.lean",
+    "declaration": "forward_log_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_kldiv_kernel_forward",
+        "line": 12
+      }
+    ],
+    "scope": "Full logarithmic-target forward source/candidate equivalence, all 72 elementwise profiles and all 30 admitted nonzero-reduction profiles, preserving every block, fp32 initializer, padded-lane arithmetic and output store. The candidate commutes only the signed output-row address product. Every floating expression, cast, loop, mask and store remains; complete state, memory and failure results are equal for every backend algebra, initial state and alias pattern, with no numerical assumptions or successful-execution premise. Source-domain predicates distinguish frontend-admitted profiles from the broader formal AST family. Exact precision trees check loads, runtime-fp32 epsilon, clamp/log/exp/subtract/multiply, elementwise store, reduction/carry and final scalar conversion. Native-device lowering, bit-accurate IEEE execution and independent comparator replay remain pending; indices are unbounded integers with natural strides.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.KldivOps.FPEquiv.forward_log_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/kldiv_ops/FPEquiv.lean",
+    "declaration": "backward_default_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_kldiv_kernel_backward",
+        "line": 56
+      }
+    ],
+    "scope": "Full default backward source/candidate equivalence for 24 frontend-supported target/output pairs, preserving the exact weak scalar -1, original pre-loop assignments and every masked loop store. The candidate commutes only the signed output-row address product. Every floating expression, cast, loop, mask and store remains; complete state, memory and failure results are equal for every backend algebra, initial state and alias pattern, with no numerical assumptions or successful-execution premise. Source-domain predicates distinguish frontend-admitted profiles from the broader formal AST family. Exact precision trees check loads, runtime-fp32 epsilon, clamp/log/exp/subtract/multiply, elementwise store, reduction/carry and final scalar conversion. Native-device lowering, bit-accurate IEEE execution and independent comparator replay remain pending; indices are unbounded integers with natural strides.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.KldivOps.FPEquiv.backward_default_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/kldiv_ops/FPEquiv.lean",
+    "declaration": "backward_log_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_kldiv_kernel_backward",
+        "line": 56
+      }
+    ],
+    "scope": "Full logarithmic-target backward source/candidate equivalence for 12 target/output profiles, preserving exp, runtime negation, pre-loop assignments and every masked store. The candidate commutes only the signed output-row address product. Every floating expression, cast, loop, mask and store remains; complete state, memory and failure results are equal for every backend algebra, initial state and alias pattern, with no numerical assumptions or successful-execution premise. Source-domain predicates distinguish frontend-admitted profiles from the broader formal AST family. Exact precision trees check loads, runtime-fp32 epsilon, clamp/log/exp/subtract/multiply, elementwise store, reduction/carry and final scalar conversion. Native-device lowering, bit-accurate IEEE execution and independent comparator replay remain pending; indices are unbounded integers with natural strides.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.KldivOps.FPEquiv.backward_log_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/kldiv_triton/FPEquiv.lean",
+    "declaration": "forward_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_kldiv_kernel_forward",
+        "line": 33
+      }
+    ],
+    "scope": "Complete forward source/candidate programs for 72 independent floating storage profiles (six prediction choices, fp32/fp64 target, six output choices), both target flags, every reduction code, arbitrary dimensions and block sizes, including all per-chunk stores and inactive-lane arithmetic. The exact signed output-row address multiplication is the only candidate rewrite. Whole state, memory and failure results are equal for arbitrary backend operations, initial states and aliases; the numerical assumption list is empty and successful execution is not a premise. Finite exact-real numerical witnesses are not IEEE rounding or native-device acceptance evidence. The model uses unbounded integer indices and natural strides. Independent comparator replay is pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.KldivTriton.FPEquiv.forward_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/kldiv_triton/FPEquiv.lean",
+    "declaration": "backward_default_source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_kldiv_kernel_backward",
+        "line": 73
+      }
+    ],
+    "scope": "Complete default-backward source/candidate programs for the source-supported fp32/fp64/fp16/bf16 targets and six independent floating output choices (24 profiles), retaining weak target*-1 literal precision, the pre-loop offsets/mask, every signed-loop iteration and masked load. The exact signed output-row address multiplication is the only candidate rewrite. Whole state, memory and failure results are equal for arbitrary backend operations, initial states and aliases; the numerical assumption list is empty and successful execution is not a premise. Finite exact-real numerical witnesses are not IEEE rounding or native-device acceptance evidence. The model uses unbounded integer indices and natural strides. Independent comparator replay is pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.KldivTriton.FPEquiv.backward_default_source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/kldiv_triton/FPEquiv.lean",
+    "declaration": "backward_log_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_kldiv_kernel_backward",
+        "line": 73
+      }
+    ],
+    "scope": "Complete logarithmic-target backward source/candidate programs for fp32/fp64 targets and six independent floating outputs (12 profiles), retaining runtime negation, pre-loop assignments, all signed-loop iterations and inactive-lane arithmetic. The exact signed output-row address multiplication is the only candidate rewrite. Whole state, memory and failure results are equal for arbitrary backend operations, initial states and aliases; the numerical assumption list is empty and successful execution is not a premise. Finite exact-real numerical witnesses are not IEEE rounding or native-device acceptance evidence. The model uses unbounded integer indices and natural strides. Independent comparator replay is pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.KldivTriton.FPEquiv.backward_log_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/l2_norm_bwd/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_l2_norm_bwd_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Sixteen independent fp32/fp16/bf16/fp64 X/DY storage pairs with DX matching X. Complete original/candidate state, memory and failure equality; only natural-number row address products commute. No floating-point atoms or domain conditions. Explicit runtime fp32 epsilon, load-to-fp32 conversions, actual sqrt/division and final destination conversion remain unchanged. All source pointers use stride_x_row, including DY in backward. Host reshape/contiguity/launch, non-floating storage, allocation and fixed-width address overflow are outside scope. Concrete typed witnesses use exact-real arithmetic, not an IEEE rounding claim. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.L2NormBwd.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/l2_norm_triton1/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_l2_norm_fwd_1pass_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Four fp32/fp16/bf16/fp64 X/Y storage profiles. Complete original/candidate state, memory and failure equality; only natural-number row address products commute. No floating-point atoms or domain conditions. Explicit runtime fp32 epsilon, load-to-fp32 conversions, actual sqrt/division and final destination conversion remain unchanged. Both source pointers use stride_x_row. Host reshape/contiguity/launch, non-floating storage, allocation and fixed-width address overflow are outside scope. Concrete typed witnesses use exact-real arithmetic, not an IEEE rounding claim. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.L2NormTriton1.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/l2_norm_triton2/FPEquiv.lean",
+    "declaration": "backward_index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_l2_norm_bwd_kernel",
+        "line": 32
+      }
+    ],
+    "scope": "Sixteen independent fp32/fp16/bf16/fp64 X/DY storage pairs with DX matching X. Complete original/candidate state, memory and failure equality; only natural-number row address products commute. No floating-point atoms or domain conditions. Positive block size. Explicit runtime fp32 epsilon, load-to-fp32 conversions, actual sqrt/division and final destination conversion remain unchanged. All source pointers use stride_x_row, including DY in backward. Host reshape/contiguity/launch, non-floating storage, allocation and fixed-width address overflow are outside scope. Concrete typed witnesses use exact-real arithmetic, not an IEEE rounding claim. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.L2NormTriton2.FPEquiv.backward_index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/l2_norm_triton2/FPEquiv.lean",
+    "declaration": "forward_index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_l2_norm_fwd_1pass_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Four fp32/fp16/bf16/fp64 X/Y storage profiles. Complete original/candidate state, memory and failure equality; only natural-number row address products commute. No floating-point atoms or domain conditions. Positive block size. Explicit runtime fp32 epsilon, load-to-fp32 conversions, actual sqrt/division and final destination conversion remain unchanged. All source pointers use stride_x_row, including DY in backward. Host reshape/contiguity/launch, non-floating storage, allocation and fixed-width address overflow are outside scope. Concrete typed witnesses use exact-real arithmetic, not an IEEE rounding claim. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.L2NormTriton2.FPEquiv.forward_index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/llama_ff_triton/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "scope": "Complete original/candidate typed-source equivalence in both weight arms for arbitrary dimensions, natural strides, every initial state and every backend algebra. Only the exact natural output-row index product is commuted; all floating operations, byte decodes, loops, loads and stores are unchanged. Entire state, memory and failure results agree. The FP assumption list and program domain are empty; finite-byte or execution-success premises are not required, and all signed-byte patterns remain represented. The wrapper fixes A/output to fp16, equal W1/W3/RMS storage to fp16 or signed int8, BM=BN=16, BK=64 and EPS=1e-6. It does not ensure K divisibility or sufficient RMS/padded allocation. The general source theorem covers natural strides; negative strides, fixed-width index overflow, cross-program races, native IEEE conformance, host composition and independent comparator replay remain outside the checked scope. No full-port acceptance is claimed.",
+    "python_functions": [
+      {
+        "name": "ff_llama",
+        "line": 7
+      }
+    ],
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.LlamaFfTriton.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/log_softmax/FPEquiv.lean",
+    "declaration": "backward_index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "log_softmax_backward_kernel",
+        "line": 86
+      }
+    ],
+    "scope": "216 independent saved-output/upstream/destination floating profiles across fp32/fp16/bf16/fp64/f8e4nv/f8e5; both complete source variants, both program axes and two-dimensional masks. Full arbitrary-backend state, memory and failure equality without numerical atoms or domain assumptions, allowing all named aliases and undefined values. Source loads explicitly cast to fp32; forward retains log(exp(x-max)/sum) order and negative-infinity padding, backward omits other and keeps explicit saved-output cast. Candidate only commutes the natural row-block product. Exact precision boundaries are checked for all profiles/variants. Nonempty exact-real witnesses include arbitrary backward gradient padding and masked address collisions; they do not establish IEEE accuracy. Other storage formats, signed/fixed-width addressing, host views/launches, cross-program races and target instruction support are outside scope. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.LogSoftmax.FPEquiv.backward_index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/log_softmax/FPEquiv.lean",
+    "declaration": "forward_index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "log_softmax_kernel",
+        "line": 41
+      }
+    ],
+    "scope": "36 independent input/output floating profiles across fp32/fp16/bf16/fp64/f8e4nv/f8e5; both complete source variants, both program axes and two-dimensional masks. Full arbitrary-backend state, memory and failure equality without numerical atoms or domain assumptions, allowing all named aliases and undefined values. Source loads explicitly cast to fp32; forward retains log(exp(x-max)/sum) order and negative-infinity padding, backward omits other and keeps explicit saved-output cast. Candidate only commutes the natural row-block product. Exact precision boundaries are checked for all profiles/variants. Nonempty exact-real witnesses include arbitrary backward gradient padding and masked address collisions; they do not establish IEEE accuracy. Other storage formats, signed/fixed-width addressing, host views/launches, cross-program races and target instruction support are outside scope. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.LogSoftmax.FPEquiv.forward_index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/masked_add_cuda/FPEquiv.lean",
+    "declaration": "masked_add_bool_commuted_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "masked_add_kernel",
+        "line": 6
+      }
+    ],
+    "scope": "Complete legacy boolean-mask original/candidate execution equivalence under admitted add_commute, preserving registers, memory and failure. Finite actual gradient and product; not a proof of Python integer-mask transcription. Host launch scheduling and fixed-width address overflow are outside the per-program model. Independent comparator replay pending.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.MaskedAddCuda.FPEquiv.masked_add_bool_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/masked_add_cuda/FPEquiv.lean",
+    "declaration": "masked_add_commuted_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "masked_add_kernel",
+        "line": 6
+      }
+    ],
+    "scope": "Complete original/candidate typed execution equivalence, including registers, memory and failure. Only admitted fp32 add_commute on actual finite gradient and actual finite product after the integer-mask/load prefix. Fp32 gradient/data and int32/int64 mask storage; explicit runtime-fp32 alpha. Host launch scheduling and fixed-width address overflow are outside the per-program model. Independent comparator replay pending.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.MaskedAddCuda.FPEquiv.masked_add_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/masked_add_cuda/FPEquiv.lean",
+    "declaration": "masked_add_typed_commuted_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "masked_add_kernel",
+        "line": 6
+      }
+    ],
+    "scope": "Complete original/candidate typed execution equivalence, including registers, memory and failure. Only admitted fp32 add_commute on actual finite gradient and actual finite product after the integer-mask/load prefix. All nine fp32/fp16/bf16 gradient/data pairs and int32/int64 mask storage. Explicit runtime-fp32 alpha, fp32 product/addition, and exact final storage conversion. FP64 arithmetic admission and remaining storage/scalar profiles are not covered. Host launch scheduling and fixed-width address overflow are outside the per-program model. Independent comparator replay pending.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.MaskedAddCuda.FPEquiv.masked_add_typed_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/matmul_persistent_triton/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "scope": "Complete typed original/candidate source equivalence for fp16 and E4M3, every initial typed state and every backend algebra. Sole rewrite commutes the exact signed integer output-row product. Fused dot, masks, casts, original persistent range, negative initial indices, resets, full memory/state and failure results are unchanged. FP assumptions and program domain are empty; no numerical-value or successful-execution premise. Dimensions, strides and intermediate indices use unbounded Nat/Int. Separate source-mapped signed-i32 control/coordinate/offset agreement is proved under an explicit arithmetic domain, with nonempty witnesses for both recorded profiles. Reached cached-coordinate promises hold exactly when BM divides M and BN divides N for positive K; any M/N remainder gives an actual reached contiguity counterexample in that projection. These helpers do not narrow the public mathematical contract or establish full typed-source/TTIR refinement, arbitrary native configuration admission, physical pointer provenance or compiler soundness. The reviewed 174-port candidate passes the selected dtype-attribute source comparison; this is not all-profile source certification. Native IEEE/GPU numerics, concurrent interleaving semantics and official independent comparator replay are not established. This is scoped formal coverage, not complete original-Triton-port acceptance.",
+    "python_functions": [
+      {
+        "name": "matmul_kernel_persistent",
+        "line": 21
+      }
+    ],
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.MatmulPersistentTriton.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/matrix_transpose/FPEquiv.lean",
+    "declaration": "transpose_index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "kernel",
+        "line": 6
+      }
+    ],
+    "scope": "Complete fp16 original/candidate execution equality, preserving all memory/registers and failure. Only the natural-number input-address product is commuted; no floating-point atoms or finite-input assumptions. Both dimensions/all four strides remain symbolic. Host launch, legal Triton tile dimensions, allocation, fixed-width overflow and negative strides are outside scope. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.MatrixTranspose.FPEquiv.transpose_index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/max_reduction/FPEquiv.lean",
+    "declaration": "dimension_index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "max_kernel",
+        "line": 58
+      }
+    ],
+    "scope": "Six floating storage profiles: fp32, fp16, bf16, fp8e4nv, fp8e5 and fp64. Complete original/candidate state, memory and failure equality, with no numerical atoms or domain conditions. Only exact natural address products or the reversed natural mask bound change. Ordinary max promotes half/bfloat/fp8 to fp32; indexed max promotes bf16 and otherwise retains storage precision. Indexed value and index share one paired backend and default leftmost tie policy. Per-program scope; host launch, two-pass composition, target-specific GPU dtype acceptance, integer/bool inputs and fixed-width address validity are outside scope. Numerical typed witnesses use exact-real arithmetic, not IEEE rounding. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.MaxReduction.FPEquiv.dimension_index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/max_reduction/FPEquiv.lean",
+    "declaration": "stage1_index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "max_kernel_1",
+        "line": 11
+      }
+    ],
+    "scope": "Six floating storage profiles: fp32, fp16, bf16, fp8e4nv, fp8e5 and fp64. Complete original/candidate state, memory and failure equality, with no numerical atoms or domain conditions. Only exact natural address products or the reversed natural mask bound change. Ordinary max promotes half/bfloat/fp8 to fp32; indexed max promotes bf16 and otherwise retains storage precision. Indexed value and index share one paired backend and default leftmost tie policy. Per-program scope; host launch, two-pass composition, target-specific GPU dtype acceptance, integer/bool inputs and fixed-width address validity are outside scope. Numerical typed witnesses use exact-real arithmetic, not IEEE rounding. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.MaxReduction.FPEquiv.stage1_index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/max_reduction/FPEquiv.lean",
+    "declaration": "stage2_mask_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "max_kernel_2",
+        "line": 28
+      }
+    ],
+    "scope": "Six floating storage profiles: fp32, fp16, bf16, fp8e4nv, fp8e5 and fp64. Complete original/candidate state, memory and failure equality, with no numerical atoms or domain conditions. Only exact natural address products or the reversed natural mask bound change. Ordinary max promotes half/bfloat/fp8 to fp32; indexed max promotes bf16 and otherwise retains storage precision. Indexed value and index share one paired backend and default leftmost tie policy. Per-program scope; host launch, two-pass composition, target-specific GPU dtype acceptance, integer/bool inputs and fixed-width address validity are outside scope. Numerical typed witnesses use exact-real arithmetic, not IEEE rounding. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.MaxReduction.FPEquiv.stage2_mask_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/mean_reduction/FPEquiv.lean",
+    "declaration": "mean_index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "mean_dim_kernel",
+        "line": 6
+      }
+    ],
+    "scope": "Complete typed source/candidate execution equality for all 16 fp16/bf16/fp32/fp64 storage pairs. Only natural-number program address multiplication is commuted; all casts, fp32 accumulation, division, memory, registers and failure are preserved. No floating-point assumptions. Host compression/permutation, launch, non-floating dtypes, legal Triton tile dimensions, allocation and fixed-width overflow are outside scope. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.MeanReduction.FPEquiv.mean_index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/mul_exponent_compensator/FPEquiv.lean",
+    "declaration": "mul_compensator_commuted_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "mul_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Scalar-right to scalar-left multiplication, using only admitted mul_commute at fp32. Actual loaded tile and interpreted constant must be finite after the common prefix. Positive block size. All registers, memory and failure are preserved.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.MulExponentCompensator.FPEquiv.mul_compensator_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/nested_loops_processing/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "nested3",
+        "line": 6
+      }
+    ],
+    "scope": "Complete optional-state equivalence for all fifteen homogeneous source/destination storage profiles, arbitrary backend algebras, initial states, aliases and signed mathematical strides. The candidate commutes only the initial input-column index multiplication; every payload operation, load, cached tile, loop and store remains unchanged. There are no numerical assumptions or assumed successful executions. All-profile typed execution witnesses and actual nonzero int32/fp64 readbacks use a stated mathematical backend; no IEEE/device admission is inferred. Complete source keeps all three nested loops, fourteen tile loads, twenty-four 2x2 tile stores, pointer advances and the actual cached outer/middle inputs. An independent ordered-write oracle accounts for later overlapping stores. All fifteen homogeneous storage labels are covered; signed widths use Int, unsigned widths Nat, booleans Bool and floating labels the dtype-erased real channel. The native width/conversion behavior, mixed source/destination types, negative pointer increments, host grid coverage and cross-program races are not certified. The wrapper uses int32; its 4x4 example is out of bounds and its 2x2 case launches no programs. Independent comparator replay remains pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.NestedLoopsProcessing.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/pow_scalar_tensor/FPEquiv.lean",
+    "declaration": "floating_source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "pow_func_scalar_tensor_kernel_rank_1",
+        "line": 128
+      },
+      {
+        "name": "pow_func_scalar_tensor",
+        "line": 124
+      }
+    ],
+    "scope": "Complete original/candidate typed-state and failure equivalence for both floating-exponent branches, six destinations, arbitrary parameters, backends and initial states. The program domain and FP assumption list are empty; only the natural tile-offset multiplication changes. Both complete source branches retain the unused cdiv/num_tasks, dynamic grid-stride traversal, actual axis-0 boundary checks, unspecified load padding, explicit fp32 base conversion and source output-element conversion. Candidate only commutes the natural tile offset product. Six floating output labels yield 24 templates per exponent family. Independent typed precision assertions check native power dispatch and all conversions. Pinned native extern lookup accepts fp32 exponent via __nv_powf and int32 via __nv_powif; the production dispatcher rejects thirteen other exponent labels before promotion. This dispatch evidence is not full native compilation or numerical validation. The wrapper explicitly permits signed strides and shifted base pointers; negative strides remain unverified because current block-pointer strides are Nat. Integer runtime scalar-to-fp32 conversion and nonfloating output conversion are also unverified. Native fixed-width overflow, libdevice/IEEE accuracy, physical packing, host allocation validity, whole-grid composition and races remain outside these proofs. Independent comparator replay is pending; these records do not claim full-port acceptance.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.PowScalarTensor.FPEquiv.floating_source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/pow_scalar_tensor/FPEquiv.lean",
+    "declaration": "integer_source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "pow_func_scalar_tensor_kernel_rank_1",
+        "line": 128
+      },
+      {
+        "name": "pow_func_scalar_tensor",
+        "line": 124
+      }
+    ],
+    "scope": "Complete original/candidate typed-state and failure equivalence for both int32-exponent branches, six destinations, arbitrary parameters, backends and initial states, including signed32 range failure. The program domain and FP assumption list are empty; no finite-input or success premise is used. Both complete source branches retain the unused cdiv/num_tasks, dynamic grid-stride traversal, actual axis-0 boundary checks, unspecified load padding, explicit fp32 base conversion and source output-element conversion. Candidate only commutes the natural tile offset product. Six floating output labels yield 24 templates per exponent family. Independent typed precision assertions check native power dispatch and all conversions. Pinned native extern lookup accepts fp32 exponent via __nv_powf and int32 via __nv_powif; the production dispatcher rejects thirteen other exponent labels before promotion. This dispatch evidence is not full native compilation or numerical validation. The wrapper explicitly permits signed strides and shifted base pointers; negative strides remain unverified because current block-pointer strides are Nat. Integer runtime scalar-to-fp32 conversion and nonfloating output conversion are also unverified. Native fixed-width overflow, libdevice/IEEE accuracy, physical packing, host allocation validity, whole-grid composition and races remain outside these proofs. Independent comparator replay is pending; these records do not claim full-port acceptance.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.PowScalarTensor.FPEquiv.integer_source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/relu_strided_buffer/FPEquiv.lean",
+    "declaration": "one_tile_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "relu_forward_kernel_rank_1",
+        "line": 121
+      }
+    ],
+    "scope": "Constant-fold the unused Nat cdiv tile count in the complete branch body. No numerical atoms or operand-domain assumptions; positive tile size. The full state and failure result are preserved, including all grid-stride iterations, casts, unspecified padding and stores. Nonnegative-stride fp32 source profile.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ReluStridedBuffer.Equivalence.one_tile_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/relu_strided_buffer/FPEquiv.lean",
+    "declaration": "grid_stride_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "relu_forward_kernel_rank_1",
+        "line": 121
+      }
+    ],
+    "scope": "Constant-fold the unused Nat cdiv tile count in the complete branch body. No numerical atoms or operand-domain assumptions; positive tile size. The full state and failure result are preserved, including all grid-stride iterations, casts, unspecified padding and stores. Nonnegative-stride fp32 source profile.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ReluStridedBuffer.Equivalence.grid_stride_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/relu_triton_kernel/FPEquiv.lean",
+    "declaration": "relu_fused_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "relu_kernel",
+        "line": 6
+      }
+    ],
+    "scope": "Fuse the result expression into the pid=0 guarded store. No numerical atoms or finite-input assumptions; explicit fp32 comparison support and positive block size. Both runs succeed, whole memories agree and the exact gated/tail frame is proved; temporary register equality is not claimed.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.ReluTritonKernel.Equivalence.relu_fused_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/rms_matmul_rbe/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "rms_matmul_rbe",
+        "line": 11
+      }
+    ],
+    "scope": "Complete original/candidate callee typed state and failure equivalence for six X labels, both weight arms and both output types, all symbolic dimensions/strides/flags, every backend and initial state. Only the exact natural output-row product is commuted. All floating expressions, conversions, dynamic traversal, loads and stores remain unchanged. The program domain and FP assumption list are empty; there is no successful-execution or finite-byte premise, and invalid/nonfinite byte cases remain represented. The six floating X labels are a formal family; the wrapper does not constrain X dtype, and native mixed-dot admission and discrete X inputs remain unproved. Negative strides, fixed-width overflow, launch/grid scheduling, inter-program races, host view composition, IEEE rounding and physical E5M2 byte packing are not established. The callee ignores its rotary flag, start and theta; all are retained, and no rotary epilogue is invented. Independent comparator replay is pending. This record does not claim full-port acceptance.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.RmsMatmulRbe.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/rms_matmul_rbe/FPEquiv.lean",
+    "declaration": "qkv_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "rms_matmul_rbe_qkv",
+        "line": 74
+      }
+    ],
+    "scope": "Complete three-pass original/candidate typed state and failure equivalence for six formal X labels and both weight arms, arbitrary dimensions, strides, initial states and backends. Each callee changes only its exact natural output-row product. All three sequential calls and their Q fp16 versus K/V fp16-or-E5M2 storage are retained. The FP assumption list and program domain are empty; no successful-execution or finite-byte premise is used. The six floating X labels are a formal family; the wrapper does not constrain X dtype, and native mixed-dot admission and discrete X inputs remain unproved. Negative strides, fixed-width overflow, launch/grid scheduling, inter-program races, host view composition, IEEE rounding and physical E5M2 byte packing are not established. The callee ignores its rotary flag, start and theta; all are retained, and no rotary epilogue is invented. Independent comparator replay is pending. This record does not claim full-port acceptance.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.RmsMatmulRbe.FPEquiv.qkv_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/rms_norm_triton/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "rms_norm_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Sixteen fp32/fp16/bf16/fp64 X/Y and independent W storage pairs. Complete original/candidate state, memory and failure equality, with no numerical atoms or domain conditions. Only two natural row-base products commute. Symbolic nonnegative row/column strides. FP32 normalization and runtime epsilon, the conversion to Y storage BEFORE multiplying W, actual mixed-type promotion and implicit final store conversion are retained. Local precision scopes preserve inner fp32 operations under fp64. Host launch/allocation/shape checks, other storage types, negative strides and fixed-width address overflow are outside scope. Nonempty typed witnesses use exact-real arithmetic, not IEEE rounding. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.RmsNormTriton.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/rms_rbe_matmul/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "rms_matmul_rbe",
+        "line": 45
+      }
+    ],
+    "scope": "Complete original/candidate typed source equivalence for six X labels, both weight arms, arbitrary dimensions/strides/flags, every initial state and every backend algebra. Only the exact natural output-row product is commuted; every floating expression, conversion, dynamic loop, unmasked load and masked store is unchanged. Entire state, memory and failure results agree; no successful-execution or finite-byte premise is used. The FP assumption list and program domain are empty. All invalid/nonfinite E5M2 cases remain represented. This does not claim native frontend admission or numerical optimization. The six floating X storage labels are a formal family, not evidence of native mixed-dot admission. The wrapper does not constrain X dtype; discrete X profiles remain unproved. Negative strides, fixed-width index overflow, cross-program races, host tensor/view composition, physical IEEE rounding and independent comparator replay remain outside the checked scope. The separate rbe_triton JIT calls undefined/unimported get_freq_multi_tokens and remains an explicit source dependency gap. Unused start, rbe and theta are retained; a true rbe flag performs no rotary epilogue. No full-port acceptance is claimed.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.RmsRbeMatmul.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/rmsnorm_fused/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "rms_norm_fwd_fused",
+        "line": 9
+      }
+    ],
+    "scope": "216 independent floating input/weight/output profiles; complete source and candidate state/memory/failure equality for arbitrary states, aliases and N/B, commuting only natural output-row index multiplication. No numerical FP assumptions. Exact precision checks retain both fp32 input conversions, masked-zero variance values, raw weight loads without other, fp64 weight promotion, 1/sqrt, reduction order and destination conversion. Eight nonempty one/two-block exact-real execution witnesses cover both variants and fp64 input/weight paths; they are not IEEE rounding certificates. Real sqrt/division are totalized; ordinary RMS interpretation uses N>0 and positive epsilon. Discrete/mixed conversion, negative signed stride, fixed-width overflow, native lowering, host layout/launch and cross-program scheduling remain outside the verified scope. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.RmsnormFused.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/rmsnorm_fused_llama/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_rms_norm_fwd_fused",
+        "line": 7
+      }
+    ],
+    "scope": "Complete typed-state/failure equivalence of the two-pass original and candidate for all216 floating profiles, arbitrary dimensions/natural strides, every backend and initial state, including aliases and inactive undefined values. Only row*stride in the output pointer prefix becomes stride*row. All numerical expressions and conversions remain unchanged; the program domain and FP assumption list are empty. Source-accepted integer/bool and mixed discrete/floating conversions, negative strides, fixed-width overflow, native block-shape/dtype admission, host reshaping, launch/grid coverage, concurrent races, IEEE rounding and device execution remain unverified. The floating family does not restrict the original wrapper to these dtypes. Independent comparator replay is pending; this is scoped coverage, not full-port acceptance.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.RmsnormFusedLlama.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/rmsnorm_implementation/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "rmsnorm_triton",
+        "line": 7
+      }
+    ],
+    "scope": "Full typed-backend state, raw-memory and failure equivalence for every initial state, alias pattern and undefined value. Exact natural-number index commutation requires no FP atoms or domain assumptions. Both complete source loops, both program IDs and all seven nonnegative natural strides remain. Input/weight/output labels range independently over six formal floating formats (216 profiles); the wrapper correlates output to input but has no floating-only dtype guard. The first pass retains fp32 input conversion, square accumulation, reduction, division and sqrt; the second retains raw-input division, independently promoted raw-weight multiplication and output conversion. The weight load retains its omitted other. Exact precision checks retain both fp64 promotion positions. The all-profile finite witness discharges every premise with two nonzero program IDs, N=3/B=2, seven nonunit strides, nonzero outputs and raw integer sentinels. Separate complete typed numerical runs cover four mixed-storage/variant executions with actual sqrt, sum, division and multiplication, nonzero outputs and the full raw typed frame. Their identity floating casts are not an IEEE model. All 111 historical declaration headers and 50 docstrings are preserved; the public closure reaches 13 local modules and the separate Audit reaches all 14. A repeatable unchanged-source Triton 3.7.1/sm90 probe checks 44 expected outcomes: 32/36 floating wrapper profiles compile, four fp64/FP8 conversion combinations fail lowering, four additional mixed floating destinations compile, and four nonfloating input/weight/output probes compile but remain unmodeled. This is one-target compiler evidence, not GPU execution or generic native admission. Nonfloating conversion, signed strides, fixed-width overflow, host/grid composition and races, physical storage/IEEE/libdevice behavior and independent comparator replay remain unresolved. This scoped record does not complete the port.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.RmsnormImplementation.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/rmsnorm_triton/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "rmsnorm_triton",
+        "line": 11
+      }
+    ],
+    "scope": "All 216 independent floating input/weight/output storage profiles, both complete two-loop variants, arbitrary dimensions, strides, initial states and aliases. The sole rewrite commutes a natural input-row address product. Complete state/memory/failure equivalence holds for every backend, preserving native integer-power callback dispatch, missing-backend failure, fp32 casts, reduction and rsqrt, fp64-weight promotion and destination conversion. The domain and FP assumption list are empty. Exact-real nonempty numerical executions do not certify IEEE rounding. The wrapper uses output storage equal to input; discrete input/output conversions, negative signed strides and fixed-width index overflow remain outside the modeled family. Real sqrt, reciprocal and division are totalized, so this is not an IEEE rounding or native-device acceptance certificate. Independent comparator replay is pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.RmsnormTriton.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/rotary_emb/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "scope": "Complete typed-source equivalence for independent Q/K/Cos/Sin storage labels, all symbolic natural parameters, every initial state and every backend algebra. Only the exact natural head-base multiplication is commuted; floating arithmetic, promotions, masks, loads and all four stores are unchanged. Entire state, memory and failure results agree, with an empty domain and no FP assumptions. It does not require the real formula domain or claim a numerical rewrite. Storage templates are structural interpreter coverage, not native frontend admission. The recorded offline Triton 3.7.1/sm90 homogeneous fp32/fp64/fp16/bf16 lowerings succeed; homogeneous fp8e4nv/fp8e5 fail LLVM lowering, and mixed-storage admission is not established. This is not pinned-3.5.1 evidence or GPU execution. Natural strides, source-mask bounds and symbolic block dimensions do not establish signed-stride support, fixed-width overflow safety or native arange/launch validity. The host grid uses HEAD_Q, so extra K heads may be uncovered. Cross-program races, host composition, native IEEE conformance and independent comparator replay remain outside the checked scope. No full-port acceptance is claimed.",
+    "python_functions": [
+      {
+        "name": "_rotary_kernel",
+        "line": 7
+      }
+    ],
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.RotaryEmb.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/seeded_dropout/FPEquiv.lean",
+    "declaration": "seeded_dropout_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "scope": "Complete typed original/candidate whole-state equality, including failures, for every structural backend and initial state. The only rewrite commutes the exact natural-number block-start product. The full floating suffix, random generation, eager operands and stores are shared. FP assumptions and program operand domain are empty; this equality does not by itself prove successful typed execution. Six floating storage profiles and four runtime integer seed ABIs. Symbolic B is a power of two through 2^20; real execution requires N<2^31, a valid ceilDiv launch PID and an in-range seed. Original runtime p, omitted load padding, canonical Philox with both fp32 rounds, strict random>p, eager division and masked store are preserved. Per-program input/output aliasing is admitted. The selected original fp32/i32 source view uses reviewed identity-materialization metadata with full expression comparison; other profiles, native refinement, concurrent aliased launches, GPU numerics and official comparator replay are separate obligations. A separate checked B=N=1 witness starts from empty registers and succeeds for all 24 profiles with every valid seed and runtime p in an explicit consistency algebra; it is not an IEEE or all-shape typed-success result.",
+    "python_functions": [
+      {
+        "name": "_seeded_dropout",
+        "line": 6
+      }
+    ],
+    "printed_atoms": null,
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SeededDropout.Equivalence.seeded_dropout_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/sin_computation/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "sin_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "12 typed profiles and both complete source variants. fp32/fp64 input and six independently supplied output formats. Full arbitrary-backend state, memory and failure equality, no numerical atoms or domain assumptions; arbitrary undefined values and aliases. Unspecified masked loads and original sine precision retained; candidate commutes only natural block-index multiplication. Exact AST checks and nonempty exact-real execution cover every typed profile and both variants, including preserved masked neighbors. Pinned Triton v3.5.1 sine accepts only fp32/fp64 inputs; no implicit half/bfloat/fp8 promotion is claimed. Natural indexing abstracts fixed-width overflow; other source types, host views, launch scheduling, cross-program races, target instructions and GPU fp8 conversions remain outside scope. Structural equality and real-backend witnesses do not establish IEEE numerical accuracy. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SinComputation.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/sin_kernel/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "kernel_function",
+        "line": 8
+      }
+    ],
+    "scope": "2 typed profiles and both complete source variants. fp32/fp64 input with matching empty_like output storage. Full arbitrary-backend state, memory and failure equality, no numerical atoms or domain assumptions; arbitrary undefined values and aliases. Unspecified masked loads and original sine precision retained; candidate commutes only natural block-index multiplication. Exact AST checks and nonempty exact-real execution cover every typed profile and both variants, including preserved masked neighbors. Pinned Triton v3.5.1 sine accepts only fp32/fp64 inputs; no implicit half/bfloat/fp8 promotion is claimed. Natural indexing abstracts fixed-width overflow; other source types, host views, launch scheduling, cross-program races, target instructions and GPU fp8 conversions remain outside scope. Structural equality and real-backend witnesses do not establish IEEE numerical accuracy. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SinKernel.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/softmax_flaggems/FPEquiv.lean",
+    "declaration": "backward_inner_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "softmax_backward_kernel_inner",
+        "line": 318
+      }
+    ],
+    "scope": "Four correlated backward storage formats across fp32/fp16/bf16/fp64; both constexpr branches and original/candidate full source. Complete structural typed state/memory/failure equality, empty numerical assumptions and domain, including all aliases and padding. This relation also covers model profiles not accepted as actual Triton source compilation. fp64 fallback exclusion follows primary Triton carry-type analysis, not a native GPU compile observation. One-tile fp64 AST precision is checked for all four kernels. Other storage formats, independently mixed backward storage, fixed-width overflow, host launch/wrappers, target instructions and cross-program races remain outside the typed profile. Structural equivalence or mathematical projection does not prove IEEE numerical accuracy. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.Equivalence.backward_inner_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/softmax_flaggems/FPEquiv.lean",
+    "declaration": "backward_non_inner_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "softmax_backward_kernel_non_inner",
+        "line": 246
+      }
+    ],
+    "scope": "Four correlated backward storage formats across fp32/fp16/bf16/fp64; both constexpr branches and original/candidate full source. Complete structural typed state/memory/failure equality, empty numerical assumptions and domain, including all aliases and padding. This relation also covers model profiles not accepted as actual Triton source compilation. fp64 fallback exclusion follows primary Triton carry-type analysis, not a native GPU compile observation. One-tile fp64 AST precision is checked for all four kernels. Other storage formats, independently mixed backward storage, fixed-width overflow, host launch/wrappers, target instructions and cross-program races remain outside the typed profile. Structural equivalence or mathematical projection does not prove IEEE numerical accuracy. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.Equivalence.backward_non_inner_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/softmax_flaggems/FPEquiv.lean",
+    "declaration": "forward_inner_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "softmax_kernel_inner",
+        "line": 149
+      }
+    ],
+    "scope": "16 independent forward input/output storage pairs across fp32/fp16/bf16/fp64; both constexpr branches and original/candidate full source. Complete structural typed state/memory/failure equality, empty numerical assumptions and domain, including all aliases and padding. This relation also covers model profiles not accepted as actual Triton source compilation. fp64 fallback exclusion follows primary Triton carry-type analysis, not a native GPU compile observation. One-tile fp64 AST precision is checked for all four kernels. Other storage formats, independently mixed backward storage, fixed-width overflow, host launch/wrappers, target instructions and cross-program races remain outside the typed profile. Structural equivalence or mathematical projection does not prove IEEE numerical accuracy. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.Equivalence.forward_inner_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/softmax_flaggems/FPEquiv.lean",
+    "declaration": "forward_non_inner_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "softmax_kernel_non_inner",
+        "line": 55
+      }
+    ],
+    "scope": "16 independent forward input/output storage pairs across fp32/fp16/bf16/fp64; both constexpr branches and original/candidate full source. Complete structural typed state/memory/failure equality, empty numerical assumptions and domain, including all aliases and padding. This relation also covers model profiles not accepted as actual Triton source compilation. fp64 fallback exclusion follows primary Triton carry-type analysis, not a native GPU compile observation. One-tile fp64 AST precision is checked for all four kernels. Other storage formats, independently mixed backward storage, fixed-width overflow, host launch/wrappers, target instructions and cross-program races remain outside the typed profile. Structural equivalence or mathematical projection does not prove IEEE numerical accuracy. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SoftmaxFlaggems.Equivalence.forward_non_inner_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/softmax_optimize/FPEquiv.lean",
+    "declaration": "full_source_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "prev_multiple_of",
+        "line": 6
+      },
+      {
+        "name": "softmax_kernel_online_v2",
+        "line": 11
+      }
+    ],
+    "scope": "All twelve independent input-storage/output-accumulation profiles, both complete signed four-loop sources, arbitrary states and geometry including N=0 and zero stride. Full state/memory/failure equivalence from exact integer row-product commutation, with no numerical FP atoms. Faithful source preserves negative prev_multiple at N=0, complete signed-address addition before pointer conversion, both reductions, masks, casts and all four loops. Inputs fp16/bf16/fp32/fp64/f8e4nv/f8e5, output accumulators fp32/fp64; Python empty_like wrapper correlates formats and native exp rejects narrow output accumulation. Real correctness is storage-erased mathematics, not IEEE accuracy; B>N may produce NaN in actual never-active lanes. Mathematical Int addresses do not model machine wraparound or native negative-pointer validity. Native launch constraints, host wrapper, GPU scheduling and code generation remain outside scope. Nonempty N=3/B=2 full-run witness is exact-real. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SoftmaxOptimize.Equivalence.full_source_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/softmax_triton1/FPEquiv.lean",
+    "declaration": "softmax_reciprocal_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "softmax_kernel",
+        "line": 6
+      }
+    ],
+    "scope": "fp32 contextual equivalence of the complete masked row kernel and reciprocal candidate under admitted div_mul_rcp. Actual numerator lanes must be finite, and the computed row sum finite and nonzero; arbitrary symbolic sizes and strides. Preserves complete states and failure behavior, with opaque shared reductions and tl.exp; no IEEE or performance guarantee.",
+    "printed_atoms": [
+      "div_mul_rcp"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SoftmaxTriton1.FPEquiv.softmax_reciprocal_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/softmax_triton2/FPEquiv.lean",
+    "declaration": "softmax_reciprocal_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "softmax_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Replace per-lane ordinary division by reciprocal multiplication, using only admitted div_mul_rcp at fp32. Actual numerator lanes are finite and the actual row sum is finite/nonzero after the complete original prefix. The unchanged opaque tl.exp/reductions, masks, stores, full state and failure are preserved.",
+    "printed_atoms": [
+      "div_mul_rcp"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SoftmaxTriton2.FPEquiv.softmax_reciprocal_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/softmax_triton3/FPEquiv.lean",
+    "declaration": "softmax_reciprocal_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "softmax_kernel",
+        "line": 8
+      }
+    ],
+    "scope": "Complete typed original/candidate execution equivalence for all nine storage pairs and both mask branches, preserving casts, reduction order, fp32 exp, stores, all memory/registers and failure. Only admitted div_mul_rcp, applied to actual finite numerator lanes and actual finite nonzero row sum after the complete prefix. Source regression checks precise output carrier and single half/bfloat conversion. Independent comparator replay pending.",
+    "printed_atoms": [
+      "div_mul_rcp"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SoftmaxTriton3.FPEquiv.softmax_reciprocal_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/square_matrix/FPEquiv.lean",
+    "declaration": "square_index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "square_kernel",
+        "line": 6
+      }
+    ],
+    "scope": "Complete typed original/candidate execution equality, all memory/registers and failure, with fp32/fp16/bf16 matching storage and positive B. Candidate only commutes the natural-number row-index/stride product before input pointer addition. No numerical atoms or finite-value assumptions; multiplication precision, padding and stores are unchanged. Host launch, negative strides, fixed-width overflow and other storage profiles remain outside scope. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SquareMatrix.FPEquiv.square_index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/swiglu_backward/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_swiglu_bwd_kernel",
+        "line": 20
+      }
+    ],
+    "scope": "1296 wrapper-correlated profiles across fp32, fp16, bf16, fp64, fp8e4nv and fp8e5: X/Y share input storage and DX/DY share gradient storage; DOUT and recomputed OUT vary independently. Both RECOMPUTE_OUTPUT flags and both source variants. Complete original/candidate state, memory and failure equality without numerical atoms or domain conditions, including arbitrary named aliases and ordered stores. Only six natural row-address products commute. All three loads explicitly convert to fp32; fp32 arithmetic, source operation order, guarded OUT pointer and recomputation, and destination conversions are retained. The disabled null OUT is an unused symbolic role. Low-level independently typed X/Y or DX/DY calls, other storage formats, negative strides, fixed-width overflow, byte reinterpretation, host views/grid/scheduling/races and target fp8 support are outside scope. Eight nonempty exact-real witnesses check both flags/variants, padding and OUT=DX final-store behavior; these do not certify IEEE rounding. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SwigluBackward.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/swiglu_fwd/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_swiglu_fwd_kernel",
+        "line": 19
+      }
+    ],
+    "scope": "216 independent X/Y/OUT combinations across fp32, fp16, bf16, fp64, fp8e4nv and fp8e5. Complete original/candidate typed state, memory and failure equality without numerical atoms or domain conditions. Only three natural row-address products commute. Actual masks, both explicit load-to-fp32 casts, fp32 sigmoid and multiplication order, local precision scopes and implicit destination conversions are retained. Named input/output aliases are supported because all loads precede the store. Integer/boolean storage, other formats, negative strides, fixed-width address overflow, byte reinterpretation, target-specific fp8 support and host grid/scheduling/races are outside scope. Nonempty typed exact-real witnesses have two nonzero program axes and distinct strides, produce 3*sigmoid(1), and preserve adjacent padding7; these do not certify IEEE rounding. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SwigluFwd.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/swiglu_triton/FPEquiv.lean",
+    "declaration": "backward_index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_swiglu_backward_kernel",
+        "line": 53
+      }
+    ],
+    "scope": "216 independent A/B/DC storage combinations. Storage formats: fp32, fp16, bf16, fp64, fp8e4nv, fp8e5. Complete original/candidate typed state, memory and failure equality with no numerical atoms or domain conditions. Only signed Int row-base products commute before conversion to natural pointer offsets. The helper silu is a*sigmoid(a), computed in fp32. B and DC retain their raw storage, backward preserves ((dc*factor)*b), and exact AST regressions protect mixed fp64 local precision and output conversion. This proves the written backward expression, not an analytic derivative theorem. Other storage formats, host launch/shape/allocation checks, negative strides, fixed-width address overflow and target-specific fp8 support are outside scope. Nonempty typed witnesses use exact-real arithmetic, not IEEE rounding. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SwigluTriton.FPEquiv.backward_index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/swiglu_triton/FPEquiv.lean",
+    "declaration": "forward_index_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_swiglu_forward_kernel",
+        "line": 33
+      }
+    ],
+    "scope": "36 independent A/B storage combinations. Storage formats: fp32, fp16, bf16, fp64, fp8e4nv, fp8e5. Complete original/candidate typed state, memory and failure equality with no numerical atoms or domain conditions. Only signed Int row-base products commute before conversion to natural pointer offsets. The helper silu is a*sigmoid(a), computed in fp32. B and DC retain their raw storage, backward preserves ((dc*factor)*b), and exact AST regressions protect mixed fp64 local precision and output conversion. This proves the written backward expression, not an analytic derivative theorem. Other storage formats, host launch/shape/allocation checks, negative strides, fixed-width address overflow and target-specific fp8 support are outside scope. Nonempty typed witnesses use exact-real arithmetic, not IEEE rounding. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.SwigluTriton.FPEquiv.forward_index_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/triton_mul2/FPEquiv.lean",
+    "declaration": "mul2_commuted_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "mul2_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Complete fp32 program equivalence of original 2 * x and candidate x * 2 under admitted mul_commute. Actual tile lanes and interpreted scalar 2 must be finite after the source prefix, including evaluated masked lanes. Symbolic sizes; preserves complete state and execution failure, without an IEEE or performance claim.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.TritonMul2.FPEquiv.mul2_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/triton_mul2/FPEquiv.lean",
+    "declaration": "mul2_inplace_commuted_equiv",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "mul2_inplace_kernel",
+        "line": 22
+      }
+    ],
+    "scope": "Complete fp32 in-place program equivalence of 2 * x and x * 2 under admitted mul_commute. Checks finite loaded tile and interpreted scalar 2 at the actual rewrite site, then preserves the masked store to the same input region. Symbolic sizes; complete state and execution failure preserved, with no IEEE or performance claim.",
+    "printed_atoms": [
+      "mul_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.TritonMul2.FPEquiv.mul2_inplace_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/var_len_copy/FPEquiv.lean",
+    "declaration": "discrete_source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "var_len_copy_kernel_triton",
+        "line": 6
+      }
+    ],
+    "scope": "Nine homogeneous signed/unsigned integer and boolean profiles, both exact complete signed-loop source variants, metadata loaded once before the loop, signed address addition before pointer conversion, actual lane-only mask retained. Full state/memory/failure equality for every initial state, aliases and block size including zero stride, without numerical FP assumptions. For length<=0 no cells copy; for 0<length<=B exactly length cells copy; for length>B the source copies ceil(length/B)*B cells, including overcopy. Nonempty length3/B2 witnesses copy four cells and preserve a sentinel; discrete witnesses include negative signed values and booleans. All 36 floating store conversions and both variants have exact AST checks. Metadata int32/int64 labels use mathematical Int without wraparound. Mixed floating/discrete or distinct discrete-width/sign conversions, negative-start real IO, fixed-width overflow, native dispatch/host launch and cross-program scheduling remain unproved. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.VarLenCopy.FPEquiv.discrete_source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/var_len_copy/FPEquiv.lean",
+    "declaration": "source_equivalence",
+    "coverage_level": "specialization",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "var_len_copy_kernel_triton",
+        "line": 6
+      }
+    ],
+    "scope": "36 independent floating input/output storage profiles, both exact complete signed-loop source variants, metadata loaded once before the loop, signed address addition before pointer conversion, actual lane-only mask retained. Full state/memory/failure equality for every initial state, aliases and block size including zero stride, without numerical FP assumptions. For length<=0 no cells copy; for 0<length<=B exactly length cells copy; for length>B the source copies ceil(length/B)*B cells, including overcopy. Nonempty length3/B2 witnesses copy four cells and preserve a sentinel; discrete witnesses include negative signed values and booleans. All 36 floating store conversions and both variants have exact AST checks. Metadata int32/int64 labels use mathematical Int without wraparound. Mixed floating/discrete or distinct discrete-width/sign conversions, negative-start real IO, fixed-width overflow, native dispatch/host launch and cross-program scheduling remain unproved. Independent comparator replay pending.",
+    "printed_atoms": [
+      "none"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.VarLenCopy.FPEquiv.source_equivalence"
+  },
+  {
+    "file": "bench/tritonbench_g/vector_addition/FPEquiv.lean",
+    "declaration": "add_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "add_kernel",
+        "line": 6
+      }
+    ],
+    "scope": "Complete fp32 program equivalence of the original and operand-commuted source under admitted add_commute, with finite actual loaded operands at the addition site (including evaluated masked lanes). Arbitrary element count and block size; preserves final state and execution failure. No bitwise IEEE, host launch or performance claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.VectorAddition.FPEquiv.add_commuted_equiv"
+  },
+  {
+    "file": "bench/tritonbench_g/vector_addition_custom/FPEquiv.lean",
+    "declaration": "add_commuted_equiv",
+    "coverage_level": "full_value_candidate",
+    "numeric_model": "admitted_fp",
+    "python_functions": [
+      {
+        "name": "_add_kernel",
+        "line": 7
+      }
+    ],
+    "scope": "Complete fp32 program equivalence under admitted add_commute applied inside the store value. Both actual loaded operands must be finite after the source prefix, including evaluated masked lanes. Store address, mask and dtype stay identical; arbitrary symbolic dimensions, complete state and failure preserved. No IEEE or performance claim.",
+    "printed_atoms": [
+      "add_commute"
+    ],
+    "qualified_declaration": "VeriTile.Bench.TritonBenchG.VectorAdditionCustom.FPEquiv.add_commuted_equiv"
+  }
+]

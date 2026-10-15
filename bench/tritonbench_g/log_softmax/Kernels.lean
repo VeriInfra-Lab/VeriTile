@@ -1,3 +1,12 @@
+/-
+Source-audit target: log_softmax_kernel
+Source-audit Lean: logSoftmaxForward%
+Source-audit args: destStorage=tl.float32, version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original forward row addresses and exp/sum/log sequence; input dtype symbolic, output fp32.
+The backward JIT, other storage profiles and commuted candidate are unselected.
+-/
+
 import VeriTile.Triton
 
 namespace VeriTile.Bench.TritonBenchG.LogSoftmax

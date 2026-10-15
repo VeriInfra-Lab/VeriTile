@@ -37,11 +37,24 @@ Per-program contracts do not establish grid coverage or cross-program race
 freedom. A valid 8×8 witness records the actual overwrite `output[8] = 2`, final
 cells `output[47] = 27`, `output[55] = 35`, and untouched sentinel `output[56] = -1`.
 
-Sequential single-worker Lean checks passed for all 59 Lean modules, including
-the full real proof chain, all 15 typed successful executions, concrete
-int32/fp64 source and candidate witnesses, preserved legacy helpers, and both
-public specification files. All eight public headlines use only `propext`,
-`Classical.choice`, and `Quot.sound`; the FP assumption list is empty. Each
-proof module also has a standard-axiom audit. The coordinated dependency-aware
-build and independent comparator replay remain separate integration gates.
-See `source_scope.md` for the precise source boundaries.
+`Proofs/FiniteWitness.lean` additionally closes the complete flat contract over
+two explicit 64-cell allocations, for every storage profile and both variants.
+Bounds, disjointness, tile injectivity, access safety, execution and the full
+frame are proved without output assumptions. Actual int32 and erased fp64
+flat-memory executions reproduce the four cells above; the separate typed
+backend witnesses remain in `Proofs/FPExecutionWitness.lean`.
+
+Current-head verification on 2026-10-13 passed the dependency-aware rebuild of
+all 59 existing modules (3491 jobs), then the final public build with the new
+finite witness (3492 jobs). All 60 modules are now reachable from `Correct`
+and `FPEquiv`, including the preserved full int32 helpers in `RealBoth`.
+The 25-declaration audit covers all eight public headlines, the all-profile
+source checks, typed and real executions, numeric readbacks and finite witnesses;
+every declaration uses only standard Lean axioms. The FP assumption list is
+empty, and the independent ordered oracle passes the non-circularity check.
+The original public statements, proofs and docstrings remain unchanged.
+
+Current receipts are `/tmp/nested_current_head_build.log`,
+`/tmp/nested_finite_public_build.log` and `/tmp/nested_current_public_audit.log`.
+Independent comparator replay and corpus acceptance remain pending. See
+`source_scope.md` for the precise source boundaries.

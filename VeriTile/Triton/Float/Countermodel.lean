@@ -10,9 +10,10 @@ open Structural Guarded
 /-- Equal guards and equal scalar output observations on their domain. -/
 def FragmentSound {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     (lhs rhs : GuardedFragment) : Prop :=
-  lhs.guards = rhs.guards ∧ ∀ s, ScalarDomain D lhs.guards s →
-    (run M lhs.code s).map (fun t => t.regs .real [] "out") =
-      (run M rhs.code s).map (fun t => t.regs .real [] "out")
+  (lhs.dtype, lhs.guards) = (rhs.dtype, rhs.guards) ∧ ∀ s,
+    TypedScalarDomain D lhs.dtype lhs.guards s →
+    (run (fragmentAlgebra lhs M) lhs.code s).map (fun t => scalarOutput lhs.dtype t) =
+      (run (fragmentAlgebra rhs M) rhs.code s).map (fun t => scalarOutput rhs.dtype t)
 
 theorem models_of_atoms {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     (R : Spec.Assumptions GuardedFragment)
@@ -32,7 +33,7 @@ theorem models_of_atoms {α : Type} [Inhabited α] (M : Algebra α) (D : Domain 
         cases h₂ with
         | cons h₂ tail =>
             exact .cons ⟨h₁.1.trans h₂.1, fun s hd =>
-              (h₁.2 s hd).trans (h₂.2 s (h₁.1 ▸ hd))⟩ (ih tail)
+              (h₁.2 s hd).trans (h₂.2 s (by have he := Prod.mk.inj h₁.1; simpa only [he.1, he.2] using hd))⟩ (ih tail)
   have sound {xs ys} (h : Spec.Derivation R xs ys) :
       List.Forall₂ (FragmentSound M D) xs ys := by
     induction h with
@@ -40,7 +41,7 @@ theorem models_of_atoms {α : Type} [Inhabited α] (M : Algebra α) (D : Domain 
     | atom e he _ => exact atoms e he
     | symm _ ih =>
         exact ih.flip.imp (fun _ _ h => ⟨h.1.symm, fun s hd =>
-          (h.2 s (h.1.symm ▸ hd)).symm⟩)
+          (h.2 s (by have he := Prod.mk.inj h.1; simpa only [he.1, he.2] using hd)).symm⟩)
     | trans _ _ ih₁ ih₂ => exact chain ih₁ ih₂
     | frame pre post _ ih => exact List.rel_append (List.rel_append (reflexive pre) ih) (reflexive post)
   intro lhs rhs h s hl _ a b ha hb

@@ -15,15 +15,44 @@ def ScalarDomain {α : Type} (D : Domain α) (guards : List OperandGuard)
     (s : State α) : Prop :=
   ∀ g ∈ guards, ∃ v, s.regs .real [] g.operand = some v ∧ D g.kind (v PUnit.unit)
 
+/-- A typed scalar fragment guards its actual input channel. `.real` reduces
+exactly to the original `ScalarDomain`. No casts or coherence laws are inserted. -/
+def TypedScalarDomain {α : Type} (D : Domain α) (dtype : FloatDType)
+    (guards : List OperandGuard) (s : State α) : Prop :=
+  ∀ g ∈ guards, ∃ v, s.regs dtype.toTileDType [] g.operand = some v ∧
+    D g.kind (toFloat dtype (v PUnit.unit))
+
+@[simp] theorem typedScalarDomain_real {α : Type} (D : Domain α)
+    (guards : List OperandGuard) (s : State α) :
+    TypedScalarDomain D .real guards s = ScalarDomain D guards s := rfl
+
+def scalarOutput {α : Type} (dtype : FloatDType) (s : State α) : Option (TileIndex [] → α) :=
+  (s.regs dtype.toTileDType [] "out").map (fun v i => toFloat dtype (v i))
+
+@[simp] theorem scalarOutput_real {α : Type} (s : State α) :
+    scalarOutput .real s = s.regs .real [] "out" := by
+  simp [scalarOutput, toFloat]
+
+/-- A fragment may select a default precision without changing explicit tags. -/
+def fragmentAlgebra {α : Type} (f : GuardedFragment) (M : Algebra α) : Algebra α :=
+  match f.defaultPrecision with
+  | none => M
+  | some p => M.withDefaultPrecision p
+
+@[simp] theorem fragmentAlgebra_none {α : Type} (f : GuardedFragment) (M : Algebra α)
+    (h : f.defaultPrecision = none) : fragmentAlgebra f M = M := by
+  simp [fragmentAlgebra, h]
+
 /-- A model of the admitted scalar theory, observed at the scalar `out` register.
 This does not assert that the theory is an exact IEEE identity. Both executions
 must exist, and both operand domains must hold, before a law can be used. -/
 def Models {α : Type} [Inhabited α] (R : Spec.Assumptions GuardedFragment)
     (M : Algebra α) (D : Domain α) : Prop :=
   ∀ lhs rhs, Spec.Derivation R [lhs] [rhs] →
-    ∀ s, ScalarDomain D lhs.guards s → ScalarDomain D rhs.guards s →
-      ∀ a b, run M lhs.code s = some a → run M rhs.code s = some b →
-        a.regs .real [] "out" = b.regs .real [] "out"
+    ∀ s, TypedScalarDomain D lhs.dtype lhs.guards s → TypedScalarDomain D rhs.dtype rhs.guards s →
+      ∀ a b, run (fragmentAlgebra lhs M) lhs.code s = some a →
+        run (fragmentAlgebra rhs M) rhs.code s = some b →
+        scalarOutput lhs.dtype a = scalarOutput rhs.dtype b
 
 structure RegisterGuard where
   name : RegName
@@ -68,7 +97,7 @@ instance : Spec.ProgramSyntax IO where
   Statement := GuardedFragment
   Signature := IO₁Signature × Precondition × Option ComputeDType
   signature p := (io₁Signature p.io, p.domain, p.defaultPrecision)
-  body p := [⟨[], p.io.kernel.surfaceBody⟩]
+  body p := [⟨[], p.io.kernel.surfaceBody, .real, none⟩]
   structural := some (fun _ _ => False)
   numerical := Equivalent
   -- These IO proofs use successful execution, never unchecked syntax rewrites.
@@ -97,7 +126,7 @@ instance : Spec.ProgramSyntax IO₁ₓ₂ where
   Statement := GuardedFragment
   Signature := IO₁ₓ₂Signature × Precondition
   signature p := (io₁ₓ₂Signature p.io, p.domain)
-  body p := [⟨[], p.io.kernel.surfaceBody⟩]
+  body p := [⟨[], p.io.kernel.surfaceBody, .real, none⟩]
   structural := some (fun _ _ => False)
   numerical := Equivalent₁ₓ₂
   sameContext := fun lhs rhs => lhs = rhs

@@ -92,7 +92,8 @@ private theorem arithmetic_atom (atom : FP.ScalarArithmetic.Atom) :
         FP.ScalarArithmetic.divide, FP.Reciprocal.lhs, FP.Reciprocal.rhs, FP.Reciprocal.div,
         FP.Reciprocal.inv, FP.Reciprocal.mul, FP.Reciprocal.ref,
         run, step, FP.Structural.evalExpr, evalComputeOp, evalOp_unfold,
-        ComputeDType.eraseDType, numeric, ha, State.setReg_same]
+        ComputeDType.eraseDType, numeric, ha, State.setReg_same,
+        FP.Guarded.fragmentAlgebra, FP.Guarded.scalarOutput, toFloat]
       simp_all [State.setReg, model, bop, Function.comp_def, _root_.add_comm, _root_.add_assoc,
         _root_.mul_comm, _root_.mul_assoc, mul_add, div_eq_mul_inv]
       all_goals
@@ -114,6 +115,39 @@ theorem model_satisfies_rules (R : FP.ScalarArithmetic.Rules) :
       simp only [hr, Option.map_some, Option.some.injEq] at he
       subst entry
       exact .cons (arithmetic_atom atom) .nil
+
+
+private theorem typed_arithmetic_atom :
+    FP.FragmentSound model domain FP.TypedScalarArithmetic.lhs FP.TypedScalarArithmetic.rhs := by
+  refine ⟨rfl, fun s hd => ?_⟩
+  change FP.Guarded.TypedScalarDomain domain .fp32 FP.TypedScalarArithmetic.guards s at hd
+  obtain ⟨a, ha, _⟩ := hd ⟨"a", .finite⟩ (by simp [FP.TypedScalarArithmetic.lhs, FP.TypedScalarArithmetic.guards])
+  obtain ⟨b, hb, _⟩ := hd ⟨"b", .finite⟩ (by simp [FP.TypedScalarArithmetic.lhs, FP.TypedScalarArithmetic.guards])
+  change s.regs .fp32 [] "a" = some a at ha
+  change s.regs .fp32 [] "b" = some b at hb
+  simp [FP.TypedScalarArithmetic.lhs, FP.TypedScalarArithmetic.rhs, run, step,
+    FP.Structural.evalExpr, evalComputeOp, evalOp_unfold, ComputeDType.eraseDType,
+    numeric, ha, hb, FP.Guarded.scalarOutput, State.setReg, toFloat,
+    FP.Guarded.fragmentAlgebra, Algebra.withDefaultPrecision, model, bop, _root_.mul_comm]
+  funext i
+  exact _root_.mul_comm _ _
+
+theorem model_satisfies_typed_rules (R : FP.TypedScalarArithmetic.Rules) :
+    FP.Guarded.Models R.assumptions model domain := by
+  apply FP.models_of_atoms
+  intro entry member
+  rcases List.mem_append.mp member with member | member
+  · obtain ⟨atom, _, he⟩ := List.mem_filterMap.mp member
+    unfold FP.ScalarArithmetic.Atom.entry? at he
+    cases hr : atom.report? with
+    | none => simp [hr] at he
+    | some row =>
+        simp only [hr, Option.map_some, Option.some.injEq] at he
+        subst entry
+        exact .cons (arithmetic_atom atom) .nil
+  · have he : entry = FP.TypedScalarArithmetic.entry := by simpa using member
+    subst entry
+    exact .cons typed_arithmetic_atom .nil
 
 
 #guard_msgs (drop info) in

@@ -1,5 +1,7 @@
 # fused_activation
 
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+
 The new public real and FP specifications require `0 < num_weights`, as the
 Python source takes a remainder by this parameter. The legacy
 `fused_add_mul_activation_kernel_correctness` signature is retained in the

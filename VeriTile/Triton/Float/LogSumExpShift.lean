@@ -14,7 +14,7 @@ def log {α : Type} (M : Algebra α) (a : α) : α := M.unary (some .fp32) .log 
 
 structure IntrinsicLogMul {α : Type} (M : Algebra α) (D : Domain α) : Prop where
   apply : ∀ a b, D .finite a → D .finite b → D .positive a → D .positive b →
-    log M (mul M a b) = add M (log M a) (log M b)
+    log M (ScalarArithmetic.mul M a b) = ScalarArithmetic.add M (log M a) (log M b)
 
 structure LogLibdeviceExp {α : Type} (M : Algebra α) (D : Domain α) : Prop where
   apply : ∀ a, D .finite a → log M (exp M a) = a
@@ -31,8 +31,8 @@ structure ShiftDomain {α : Type} (M : Algebra α) (D : Domain α)
   expInputs : ∀ i, D .finite (exponentials M xs i)
   inverseCenterExp : D .finite (scale M m)
   zeroFinite : D .finite (zero M)
-  scaledZero : D .finite (mul M (scale M m) (zero M))
-  negScaledZero : D .finite (sub M (zero M) (mul M (scale M m) (zero M)))
+  scaledZero : D .finite (ScalarArithmetic.mul M (scale M m) (zero M))
+  negScaledZero : D .finite (ScalarArithmetic.sub M (zero M) (ScalarArithmetic.mul M (scale M m) (zero M)))
   partialSums : FiniteTree M D (exponentials M xs) (zero M) tree
   shiftedSum : D .finite (value M (shifted M xs m) (zero M) tree)
   shiftedSumPositive : D .positive (value M (shifted M xs m) (zero M) tree)
@@ -42,9 +42,9 @@ theorem recover_sum {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α)
     (hExp : LibdeviceExpSub M D) (xs : Fin N → α) (m : α) (tree : ReductionTree N)
     (hd : ShiftDomain M D xs m tree) :
-    mul M (value M (shifted M xs m) (zero M) tree) (exp M m) =
+    ScalarArithmetic.mul M (value M (shifted M xs m) (zero M) tree) (exp M m) =
       value M (exponentials M xs) (zero M) tree := by
-  have hlane (i : Fin N) : shifted M xs m i = mul M (exponentials M xs i) (scale M m) := by
+  have hlane (i : Fin N) : shifted M xs m i = ScalarArithmetic.mul M (exponentials M xs i) (scale M m) := by
     unfold shifted scale exponentials
     rw [hExp.apply _ _ (hd.inputs i) hd.center]
     exact div_mul_rcp R M D hM s _ _ (hd.expInputs i) hd.centerExp hd.centerExpNonzero
@@ -54,7 +54,7 @@ theorem recover_sum {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
   have hf := value_finite M D _ (zero M) tree hd.partialSums
   rw [mul_assoc R M D hM s _ _ _ hf hd.inverseCenterExp hd.centerExp,
     mul_comm R M D hM s _ _ hd.inverseCenterExp hd.centerExp]
-  rw [show mul M (exp M m) (scale M m) = one M from
+  rw [show ScalarArithmetic.mul M (exp M m) (scale M m) = one M from
     mul_rcp_cancel R M D hM s _ hd.centerExp hd.centerExpNonzero,
     mul_one R M D hM s _ hf]
 
@@ -64,7 +64,7 @@ theorem shifted_result {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α)
     (hExp : LibdeviceExpSub M D) (hMul : IntrinsicLogMul M D) (hLogExp : LogLibdeviceExp M D)
     (xs : Fin N → α) (m : α) (tree : ReductionTree N) (hd : ShiftDomain M D xs m tree) :
-    add M m (log M (value M (shifted M xs m) (zero M) tree)) =
+    ScalarArithmetic.add M m (log M (value M (shifted M xs m) (zero M) tree)) =
       log M (value M (exponentials M xs) (zero M) tree) := by
   rw [← recover_sum R M D hM s hExp xs m tree hd,
     hMul.apply _ _ hd.shiftedSum hd.centerExp hd.shiftedSumPositive hd.centerExpPositive,
@@ -76,8 +76,8 @@ def checks {α : Type} (M : Algebra α) (xs : Fin N → α) (m : α)
   .all [.each N (fun i => .guard .finite (xs i)), .guard .finite m,
     .guard .finite (exp M m), .guard .nonzero (exp M m), .guard .positive (exp M m),
     .each N (fun i => .guard .finite (exponentials M xs i)), .guard .finite (scale M m),
-    .guard .finite (zero M), .guard .finite (mul M (scale M m) (zero M)),
-    .guard .finite (sub M (zero M) (mul M (scale M m) (zero M))),
+    .guard .finite (zero M), .guard .finite (ScalarArithmetic.mul M (scale M m) (zero M)),
+    .guard .finite (ScalarArithmetic.sub M (zero M) (ScalarArithmetic.mul M (scale M m) (zero M))),
     finiteTree M (exponentials M xs) (zero M) tree,
     .guard .finite (value M (shifted M xs m) (zero M) tree),
     .guard .positive (value M (shifted M xs m) (zero M) tree),

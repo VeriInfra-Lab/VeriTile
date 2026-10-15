@@ -64,11 +64,11 @@ theorem step (s : BlockState) (T O : RegionName) (st so N B targetBase outputBas
   all_goals try rfl
   congr 1
   · funext state j
-    split_ifs <;> simp_all
+    split_ifs <;> simp_all [WithBot.map]
   · congr 1
     ext j
     dsimp
-    split_ifs <;> simp_all
+    split_ifs <;> simp_all [WithBot.map]
 
 end VeriTile.Bench.TritonBenchG.KldivOps.FullBackward
 

@@ -11,7 +11,7 @@ def range (base width : Nat) : Tile .nat [width] :=
 def dims (D : Nat) (odd : Bool) : Tile .nat [D/2] :=
   ⟨fun i ↦ i.1.val*2 + if odd then 1 else 0⟩
 
-def prefix (p : Parameters) : List Stmt := [
+def «prefix» (p : Parameters) : List Stmt := [
   .assign .nat [] "cur_head_index" (.programId 0),
   .assign .nat [] "cur_seq_index" (.programId 1),
   .assign .nat [p.blockHead] "cur_head_range"
@@ -37,12 +37,12 @@ def prefixState (p : Parameters) (s : BlockState) : BlockState :=
     "dim_range1" .nat [p.dimension/2] (dims p.dimension Bool.true)
 
 theorem source_prefix (p : Parameters) (Q K Cos Sin : RegionName) :
-    (mathKernel p Q K Cos Sin).body.take 6 = prefix p := by
+    (mathKernel p Q K Cos Sin).body.take 6 = «prefix» p := by
   rfl
 
 theorem prefix_run (p : Parameters) (s : BlockState) :
-    stepStmts (prefix p) s = some (prefixState p s) := by
-  simp only [prefix]
+    stepStmts («prefix» p) s = some (prefixState p s) := by
+  simp only [«prefix»]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId _ _))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (evalOp_programId _ _))]
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (v := range (s.pids 0) p.blockHead) (by
@@ -59,7 +59,7 @@ theorem prefix_run (p : Parameters) (s : BlockState) :
   rw [stepStmts.cons_some (stepStmt_assign_eq_some (v := dims p.dimension Bool.true) (by
     simp only [evalOp.eq_def, Option.bind_some, Option.bind_eq_bind]
     rfl))]
-  rfl
+  simp only [stepStmts.nil, prefixState, BlockState.setReg_pids]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

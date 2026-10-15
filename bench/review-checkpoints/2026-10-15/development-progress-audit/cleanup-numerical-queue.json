@@ -1,0 +1,15 @@
+{
+  "label": "cleanup-numerical-queue",
+  "command": [
+    "python3",
+    "-B",
+    "bench/deferred_numerical_experiments.py",
+    "--check"
+  ],
+  "cwd": "/tmp/veritile-cleanup-20261015/export",
+  "started_at_utc": "2026-10-15T08:46:46.515314+00:00",
+  "exit_code": 0,
+  "elapsed_seconds": 0.374,
+  "log": "cleanup-numerical-queue.log",
+  "log_sha256": "72a9b115cea3a8fe887a9450748217e2ea2f8670896b5c7d3c48f20e2af1e1da"
+}

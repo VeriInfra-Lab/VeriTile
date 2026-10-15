@@ -95,13 +95,13 @@ def expectedStore (storage : Storage) (wide : Bool) (pointer name : RegName)
         (.castFloat .real .real
           (.withPrecision .real .fp64 (.ref .real [B] name))))) (.mask (.ref .bool [B] "mask"))
   | .fp16, Bool.false => .store .fp16 [B] (loadAddress .fp16 pointer B)
-      (.alg (.castFloat .real .fp16 (.ref .real [B] name))) (.mask (.ref .bool [B] "mask"))
+      (.alg (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [B] name)))) (.mask (.ref .bool [B] "mask"))
   | .fp16, Bool.true => .store .fp16 [B] (loadAddress .fp16 pointer B)
       (.alg
         (.castFloat .real .fp16
           (.withPrecision .real .fp64 (.ref .real [B] name)))) (.mask (.ref .bool [B] "mask"))
   | .bf16, Bool.false => .store .bf16 [B] (loadAddress .bf16 pointer B)
-      (.alg (.castFloat .real .bf16 (.ref .real [B] name))) (.mask (.ref .bool [B] "mask"))
+      (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [B] name)))) (.mask (.ref .bool [B] "mask"))
   | .bf16, Bool.true => .store .bf16 [B] (loadAddress .bf16 pointer B)
       (.alg
         (.castFloat .real .bf16
@@ -114,13 +114,13 @@ def expectedStore (storage : Storage) (wide : Bool) (pointer name : RegName)
   | .fp64, Bool.true => .store .real [B] (loadAddress .real pointer B)
       (.compute (.alg .fp64 (.ref .real [B] name))) (.mask (.ref .bool [B] "mask"))
   | .f8e4, Bool.false => .store .f8e4 [B] (loadAddress .f8e4 pointer B)
-      (.alg (.castFloat .real .f8e4 (.ref .real [B] name))) (.mask (.ref .bool [B] "mask"))
+      (.alg (.castFloat .real .f8e4 (.withPrecision .real .fp32 (.ref .real [B] name)))) (.mask (.ref .bool [B] "mask"))
   | .f8e4, Bool.true => .store .f8e4 [B] (loadAddress .f8e4 pointer B)
       (.alg
         (.castFloat .real .f8e4
           (.withPrecision .real .fp64 (.ref .real [B] name)))) (.mask (.ref .bool [B] "mask"))
   | .f8e5, Bool.false => .store .f8e5 [B] (loadAddress .f8e5 pointer B)
-      (.alg (.castFloat .real .f8e5 (.ref .real [B] name))) (.mask (.ref .bool [B] "mask"))
+      (.alg (.castFloat .real .f8e5 (.withPrecision .real .fp32 (.ref .real [B] name)))) (.mask (.ref .bool [B] "mask"))
   | .f8e5, Bool.true => .store .f8e5 [B] (loadAddress .f8e5 pointer B)
       (.alg
         (.castFloat .real .f8e5

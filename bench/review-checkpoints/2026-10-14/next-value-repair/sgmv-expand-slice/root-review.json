@@ -1,0 +1,22 @@
+{
+  "reviewer": "root",
+  "status": "artifact_and_scope_review_pass_pending_integration",
+  "receipt_sha256": "e8d8d3c39f2495e13e62c9930521fe13f620cfd403b6af1565aa3afa80ffc9f6",
+  "manifest_files_verified": 401,
+  "compiled_records_verified": 78,
+  "dependency_sources_verified": 191,
+  "changed_sources_verified": 13,
+  "source_drift_count": 0,
+  "reference_audit_receipt": "../sgmv-expand-slice-reference-audit.json",
+  "reference_audit_sha256": "fd5f9a2547019c7b9912cd6dba958c44698232858dac649731b263a9a6562e42",
+  "findings": [
+    "All old47 statements and2 public declarations remain byte-identical. Complete accepted exactK active body covers metadata, gathers, strides, slice, masks and all K iterations without new numerical/finite/NaN/alias restrictions.",
+    "Original Python singleton-tuple a_ptr fails both native input profiles. Comma-only candidate compiles both; compilation is not GPU execution.",
+    "Source two-argument dot plus separate add and compiled candidate dotAcc have separately proved full-memory contracts. They are not asserted equivalent. Their independent concrete increasing-k software profiles have a kernel-checked bit difference.",
+    "2 input formats x3 output formats have backend and fully specified software values; low-format encoding, widening, scalar/cast rounding and full output/frame are retained. Sequential FP mul/add and FMA are explicit software profiles pending native MMA binding.",
+    "Seven independent reference audits exclude both complete source graphs and interpreter execution. Fixed two-block/witness checks supplement the parameterized proofs.",
+    "Original early-return/sentinel/full host mapping, nonaccepted flags and K tails remain outside the inherited body scope. Native graph schedule, hardware values, fixed-width addresses/launch remain explicit obligations."
+  ],
+  "native_execution": false,
+  "canonical_acceptance_updated": false
+}

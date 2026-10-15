@@ -1,4 +1,6 @@
 import VeriTile.Triton
+import VeriTile.Meta.StatementAudit
+import VeriTile.Triton.Semantics.ProgramRewrite
 
 /-!
 # `triton_conv2d_fwd` — closed-form conv2d-forward correctness
@@ -65,6 +67,8 @@ injectivity (distinct active lanes hit distinct `Output` addresses).
 namespace VeriTile.Bench.TritonBenchG.TritonConv2dFwd
 
 open VeriTile.Triton
+
+variable {tf32 : Bool}
 
 set_option linter.unusedSimpArgs false
 set_option linter.unusedVariables false
@@ -656,7 +660,7 @@ The innermost `c`-loop body (11 statements), transcribed from the algorithm
 layer (with `fp16 = true`, so the conditional fp16 cast runs and the dot's
 fp16→real casts compose to the identity under ℝ). -/
 
-def convInnerBody (BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : Nat) :
+private def convInnerBodyFactored (BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : Nat) :
     List Stmt :=
   [ Stmt.assign .nat [BIN] "input_feat_offset"
       (Op.add NumericDType.nat Broadcast.scalarL (Op.ref TileDType.nat [] "c") (Op.arange BIN)),
@@ -734,15 +738,155 @@ def convInnerBody (BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_w
         (MaskOpt.mask (Op.ref TileDType.bool [BIN, OF] "weight_mask"))),
     Stmt.ifThen (Op.constBool Bool.true)
       [Stmt.assign .fp16 [BHW, BIN] "input_block"
-          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BHW, BIN] "input_block")),
+          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BHW, BIN] "input_block"))),
         Stmt.assign .fp16 [BIN, OF] "weight_block"
-          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BIN, OF] "weight_block"))],
+          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BIN, OF] "weight_block")))],
     Stmt.assign .real [BHW, OF] "accum"
       (Op.add NumericDType.real (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
         (Op.ref TileDType.real [BHW, OF] "accum")
         (Op.dot (batch := [])
           (Op.castFloat FloatDType.fp16 FloatDType.real (Op.ref TileDType.fp16 [BHW, BIN] "input_block"))
           (Op.castFloat FloatDType.fp16 FloatDType.real (Op.ref TileDType.fp16 [BIN, OF] "weight_block")))) ]
+
+private def conv_casts (M K N : Nat) : List Stmt := [
+ .assign .fp16 [M,K] "input_block" (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [M,K] "input_block"))),
+ .assign .fp16 [K,N] "weight_block" (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [K,N] "weight_block")))]
+private def conv_oldAcc (M K N : Nat) : Stmt :=
+ .assign .real [M,N] "accum" (.add .real (.consSame (.consSame .nil)) (.ref .real [M,N] "accum")
+  (.dot (batch:=[]) (.castFloat .fp16 .real (.ref .fp16 [M,K] "input_block"))
+   (.castFloat .fp16 .real (.ref .fp16 [K,N] "weight_block"))))
+private def conv_newAcc (M K N : Nat) (tf32 : Bool) : Stmt :=
+ .assign .real [M,N] "accum" (.add .real (.consSame (.consSame .nil)) (.ref .real [M,N] "accum")
+  (.castFloat .fp32 .real (.dotTyped .fp16 .fp16 .fp32 (batch:=[])
+   (.ref .fp16 [M,K] "input_block") (.ref .fp16 [K,N] "weight_block") {allowTF32:=some tf32})))
+private theorem conv_newAcc_exec (M K N : Nat) (tf32 : Bool) (s : BlockState) :
+ stepStmt (conv_newAcc M K N tf32) s = stepStmt (conv_oldAcc M K N) s := by
+ simp only [conv_newAcc,conv_oldAcc,stepStmt,evalOp.eq_def]
+ cases ha:s.regs .real [M,N] "accum" <;>
+  cases hx:s.regs .fp16 [M,K] "input_block" <;>
+   cases hy:s.regs .fp16 [K,N] "weight_block" <;>
+    simp [ha,hx,hy,FloatDType.cast,FloatDType.ofWithBot,FloatDType.toWithBot] <;> rfl
+private theorem conv_newAcc_execR (R : RoundingModel) (M K N : Nat) (tf32 : Bool) (s : BlockState) :
+ stepStmtR R (conv_newAcc M K N tf32) s = stepStmtR R (conv_oldAcc M K N) s := by
+ have hc (d : FloatDType) : R.cast d .real = FloatDType.cast d .real := by
+  funext x
+  unfold RoundingModel.cast FloatDType.cast
+  rw [show R.roundW .real = id from by
+    funext y; cases y <;> simp [RoundingModel.roundW]]
+  rfl
+ simp only [conv_newAcc,conv_oldAcc,stepStmtR,evalOpR.eq_def,hc]
+ cases ha:s.regs .real [M,N] "accum" <;>
+  cases hx:s.regs .fp16 [M,K] "input_block" <;>
+   cases hy:s.regs .fp16 [K,N] "weight_block" <;>
+    simp [ha,hx,hy,FloatDType.cast,FloatDType.ofWithBot,FloatDType.toWithBot] <;> rfl
+private def conv_newBranch (M K N : Nat) (tf32 : Bool) : Stmt :=
+ .ifThenElse (.constBool Bool.true) (conv_casts M K N ++ [conv_newAcc M K N tf32])
+  [.assign .real [M,N] "accum" (.add .real (.consSame (.consSame .nil)) (.ref .real [M,N] "accum")
+   (.dot (batch:=[]) (.ref .real [M,K] "input_block") (.ref .real [K,N] "weight_block") {allowTF32:=some tf32}))]
+private theorem conv_branch_exec (M K N : Nat) (tf32 : Bool) (s : BlockState) :
+ stepStmts [conv_newBranch M K N tf32] s =
+ stepStmts [.ifThen (.constBool Bool.true) (conv_casts M K N),conv_oldAcc M K N] s := by
+ have htrue (yes no : List Stmt) :
+  stepStmts [.ifThenElse (.constBool Bool.true) yes no] s = stepStmts yes s := by
+   simp only [stepStmts,stepStmt,evalOp,Tile.scalar_data,Option.bind_some,ite_true]
+   cases stepStmts yes s <;> rfl
+ rw [conv_newBranch,htrue,ProgramRewrite.constant_branch]
+ simp only [Bool.true_eq,ite_true,ProgramRewrite.append]
+ congr 1
+ funext t
+ simp only [stepStmts,conv_newAcc_exec]
+private theorem conv_branch_execR (R : RoundingModel) (M K N : Nat) (tf32 : Bool) (s : BlockState) :
+ stepStmtsR R [conv_newBranch M K N tf32] s =
+ stepStmtsR R [.ifThen (.constBool Bool.true) (conv_casts M K N),conv_oldAcc M K N] s := by
+ have htrue (yes no : List Stmt) :
+  stepStmtsR R [.ifThenElse (.constBool Bool.true) yes no] s = stepStmtsR R yes s := by
+   simp only [stepStmtsR,stepStmtR,evalOpR,Tile.scalar_data,Option.bind_some,ite_true]
+   cases stepStmtsR R yes s <;> rfl
+ have hif (yes after : List Stmt) :
+  stepStmtsR R (.ifThen (.constBool Bool.true) yes :: after) s =
+   stepStmtsR R (yes ++ after) s := by
+   rw [stepStmtsR_append]
+   have hs : stepStmtR R (.ifThen (.constBool Bool.true) yes) s = stepStmtsR R yes s := by
+    simp only [stepStmtR,evalOpR]
+    rfl
+   rw [stepStmtsR, hs]
+   cases stepStmtsR R yes s <;> rfl
+ rw [conv_newBranch,htrue,hif]
+ simp only [stepStmtsR_append]
+ congr 1
+ funext t
+ simp only [stepStmtsR,conv_newAcc_execR]
+
+private theorem conv_newBranch_safe (R : RoundingModel) (bounds : RegionBounds)
+ (M K N : Nat) (tf32 : Bool) (s : BlockState) :
+ Stmt.TraceSafeListR R bounds [conv_newBranch M K N tf32] s := by
+ apply Stmt.TraceSafeListR.of_forall
+ intro st hs t
+ simp only [List.mem_singleton] at hs
+ subst st
+ simp only [conv_newBranch,Stmt.TraceSafeR,evalOpR,Tile.scalar_data,ite_true]
+ refine ⟨by simp [Op.SafeAtR], ?_⟩
+ apply Stmt.TraceSafeListR.of_forall
+ intro st hs t
+ simp only [conv_casts,conv_newAcc,List.cons_append,List.nil_append,List.mem_cons,List.not_mem_nil,or_false] at hs
+ rcases hs with rfl|rfl|rfl <;> simp [Stmt.TraceSafeR,Op.SafeAtR.eq_def]
+private theorem conv_oldTail_safe (R : RoundingModel) (bounds : RegionBounds)
+ (M K N : Nat) (s : BlockState) :
+ Stmt.TraceSafeListR R bounds [.ifThen (.constBool Bool.true) (conv_casts M K N),conv_oldAcc M K N] s := by
+ apply Stmt.TraceSafeListR.of_forall
+ intro st hs t
+ simp only [List.mem_cons,List.not_mem_nil,or_false] at hs
+ rcases hs with rfl|rfl
+ · simp only [Stmt.TraceSafeR,evalOpR,Tile.scalar_data,ite_true]
+   refine ⟨by simp [Op.SafeAtR], ?_⟩
+   apply Stmt.TraceSafeListR.of_forall
+   intro st hs t
+   simp only [conv_casts,List.mem_cons,List.not_mem_nil,or_false] at hs
+   rcases hs with rfl|rfl <;> simp [Stmt.TraceSafeR,Op.SafeAtR.eq_def]
+ · simp [conv_oldAcc,Stmt.TraceSafeR,Op.SafeAtR.eq_def]
+private theorem conv_pureTail_safe_iff (R : RoundingModel) (bounds : RegionBounds)
+ (before after : List Stmt) (h : ∀ s, Stmt.TraceSafeListR R bounds after s) (s : BlockState) :
+ Stmt.TraceSafeListR R bounds (before ++ after) s ↔ Stmt.TraceSafeListR R bounds before s := by
+ induction before generalizing s with
+ | nil => simp [Stmt.TraceSafeListR,h]
+ | cons st rest ih =>
+   simp only [List.cons_append,Stmt.TraceSafeListR]
+   cases stepStmtR R st s <;> simp [ih]
+
+/-- Exact source body, including the typed branch and dot metadata. -/
+def convInnerBody (BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : Nat) (tf32 : Bool) : List Stmt :=
+  (convInnerBodyFactored BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW).take 9 ++ [conv_newBranch BHW BIN OF tf32]
+
+private theorem convInnerBody_exec (BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : Nat) (tf32 : Bool) (s : BlockState) :
+    stepStmts (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32) s =
+      stepStmts (convInnerBodyFactored BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW) s := by
+  have hs : convInnerBodyFactored BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW =
+      (convInnerBodyFactored BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW).take 9 ++
+        [.ifThen (.constBool Bool.true) (conv_casts BHW BIN OF),conv_oldAcc BHW BIN OF] := rfl
+  conv_rhs => rw [hs]
+  simp only [convInnerBody, ProgramRewrite.append, conv_branch_exec]
+
+private theorem convInnerBody_execR (R : RoundingModel)
+    (BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : Nat) (tf32 : Bool) (s : BlockState) :
+    stepStmtsR R (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32) s =
+      stepStmtsR R (convInnerBodyFactored BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW) s := by
+  have hs : convInnerBodyFactored BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW =
+      (convInnerBodyFactored BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW).take 9 ++
+        [.ifThen (.constBool Bool.true) (conv_casts BHW BIN OF),conv_oldAcc BHW BIN OF] := rfl
+  conv_rhs => rw [hs]
+  simp only [convInnerBody, stepStmtsR_append, conv_branch_execR]
+
+private theorem convInnerBody_safeR (R : RoundingModel) (bounds : RegionBounds)
+    (BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : Nat) (tf32 : Bool) (s : BlockState) :
+    Stmt.TraceSafeListR R bounds (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32) s ↔
+      Stmt.TraceSafeListR R bounds (convInnerBodyFactored BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW) s := by
+  have hs : convInnerBodyFactored BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW =
+      (convInnerBodyFactored BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW).take 9 ++
+        [.ifThen (.constBool Bool.true) (conv_casts BHW BIN OF),conv_oldAcc BHW BIN OF] := rfl
+  conv_rhs => rw [hs]
+  simp only [convInnerBody,
+    conv_pureTail_safe_iff R bounds _ _ (conv_newBranch_safe R bounds BHW BIN OF tf32),
+    conv_pureTail_safe_iff R bounds _ _ (conv_oldTail_safe R bounds BHW BIN OF)]
 
 /-- Post-loop tail: `Output +=`, `output_mask`, masked store (3 statements). -/
 def convPostBody (Input Weight Output : RegionName)
@@ -797,7 +941,7 @@ theorem conv2d_body_split
         ++ (Stmt.forRange "h" 0 KH 1
               [Stmt.forRange "w" 0 KW 1
                 [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-                  (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]]
+                  (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]]
             :: convPostBody Input Weight Output batch_dim out_height out_width OBS OOFS OHS OWS
                 (in_feat_dim / groups) BHW OF) := by
   rfl
@@ -882,7 +1026,7 @@ theorem conv2d_c_step
     (i : Nat) (s : BlockState) (hilt : i < IGD)
     (hinv : convCInv s0 Input Weight BHW BIN OF batch_dim in_height in_width
         IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS OH OW IGD OGD SH SW PH PW hc wc accBase i s) :
-    ∃ s', stepStmts (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)
+    ∃ s', stepStmts (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)
         (s.setReg "c" .nat [] (Tile.scalar i)) = some s'
       ∧ convCInv s0 Input Weight BHW BIN OF batch_dim in_height in_width
           IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS OH OW IGD OGD SH SW PH PW hc wc accBase (i + BIN) s' := by
@@ -905,7 +1049,8 @@ theorem conv2d_c_step
   -- abbreviations
   set ihoff : Fin BHW → Int := fun ii => inHeightOff s0 OH OW BHW SH PH hc ii with hihoff
   set iwoff : Fin BHW → Int := fun ii => inWidthOff s0 OW BHW SW PW wc ii with hiwoff
-  unfold convInnerBody
+  rw [convInnerBody_exec]
+  unfold convInnerBodyFactored
   -- stmt 0: input_feat_offset
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
         (input_feat_offset_eval sk BIN i (by simp [hsk])))]
@@ -1005,19 +1150,19 @@ theorem conv2d_c_step
   -- stmt 9: ifThen (constBool true) [cast input_block→fp16, cast weight_block→fp16]
   have hif : stepStmt (Stmt.ifThen (Op.constBool Bool.true)
       [Stmt.assign .fp16 [BHW, BIN] "input_block"
-          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BHW, BIN] "input_block")),
+          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BHW, BIN] "input_block"))),
         Stmt.assign .fp16 [BIN, OF] "weight_block"
-          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BIN, OF] "weight_block"))]) s9
+          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BIN, OF] "weight_block")))]) s9
       = stepStmts [Stmt.assign .fp16 [BHW, BIN] "input_block"
-          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BHW, BIN] "input_block")),
+          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BHW, BIN] "input_block"))),
         Stmt.assign .fp16 [BIN, OF] "weight_block"
-          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BIN, OF] "weight_block"))] s9 := by
+          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BIN, OF] "weight_block")))] s9 := by
     simp only [stepStmt, evalOp]
     rfl
   -- evaluate the two fp16 casts
-  have hcastI : evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BHW, BIN] "input_block")) s9
+  have hcastI : evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BHW, BIN] "input_block"))) s9
       = some (⟨fun idx => FloatDType.real.cast FloatDType.fp16 (inBlock.data idx)⟩ : Tile .fp16 [BHW, BIN]) := by
-    rw [evalOp_castFloat, Option.bind_eq_bind]
+    rw [evalOp_castFloat, evalOp.eq_def, Option.bind_eq_bind]
     simp only [FloatDType.toTileDType_real]
     have hrefI : evalOp (Op.ref TileDType.real [BHW, BIN] "input_block") s9 = some inBlock := by
       rw [evalOp_ref]; simp [hs9, hs8]
@@ -1025,9 +1170,9 @@ theorem conv2d_c_step
     rfl
   set inFp : Tile .fp16 [BHW, BIN] := ⟨fun idx => FloatDType.real.cast FloatDType.fp16 (inBlock.data idx)⟩ with hinFp
   set s10 := s9.setReg "input_block" .fp16 [BHW, BIN] inFp with hs10
-  have hcastW : evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BIN, OF] "weight_block")) s10
+  have hcastW : evalOp (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BIN, OF] "weight_block"))) s10
       = some (⟨fun idx => FloatDType.real.cast FloatDType.fp16 (wBlock.data idx)⟩ : Tile .fp16 [BIN, OF]) := by
-    rw [evalOp_castFloat, Option.bind_eq_bind]
+    rw [evalOp_castFloat, evalOp.eq_def, Option.bind_eq_bind]
     simp only [FloatDType.toTileDType_real]
     have hrefW : evalOp (Op.ref TileDType.real [BIN, OF] "weight_block") s10 = some wBlock := by
       rw [evalOp_ref]; simp [hs10, hs9]
@@ -1037,17 +1182,17 @@ theorem conv2d_c_step
   set s11 := s10.setReg "weight_block" .fp16 [BIN, OF] wFp with hs11
   -- the ifThen body runs both casts, ending at s11
   have hifbody : stepStmts [Stmt.assign .fp16 [BHW, BIN] "input_block"
-          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BHW, BIN] "input_block")),
+          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BHW, BIN] "input_block"))),
         Stmt.assign .fp16 [BIN, OF] "weight_block"
-          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BIN, OF] "weight_block"))] s9
+          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BIN, OF] "weight_block")))] s9
       = some s11 := by
     rw [stepStmts.cons_some (stepStmt_assign_eq_some (dtype := TileDType.fp16) hcastI),
         stepStmts.cons_some (stepStmt_assign_eq_some (dtype := TileDType.fp16) hcastW), stepStmts.nil]
   have hif' : stepStmt (Stmt.ifThen (Op.constBool Bool.true)
       [Stmt.assign .fp16 [BHW, BIN] "input_block"
-          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BHW, BIN] "input_block")),
+          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BHW, BIN] "input_block"))),
         Stmt.assign .fp16 [BIN, OF] "weight_block"
-          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BIN, OF] "weight_block"))]) s9
+          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BIN, OF] "weight_block")))]) s9
       = some s11 := by rw [hif, hifbody]
   rw [stepStmts.cons_some hif']
   -- stmt 10: accum += tl.dot(fp16→real input_block, fp16→real weight_block)
@@ -1203,7 +1348,7 @@ theorem conv2d_c_loop
     (hP0 : convCInv s0 Input Weight BHW BIN OF batch_dim in_height in_width
         IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS OH OW (BIN * numCBlocks) OGD SH SW PH PW hc wc accBase 0 s) :
     ∃ s', stepStmt (Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-        (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)) s = some s'
+        (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)) s = some s'
       ∧ convCInv s0 Input Weight BHW BIN OF batch_dim in_height in_width
           IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS OH OW (BIN * numCBlocks) OGD SH SW PH PW hc wc accBase
           (BIN * numCBlocks) s' := by
@@ -1211,9 +1356,9 @@ theorem conv2d_c_loop
   -- the dynamic stop resolves to IGD via in_group_dim
   have hgd : s.regs .nat [] "in_group_dim" = some (Tile.scalar IGD) := hP0.1.in_group_dim
   have hresolve : stepStmt (Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-      (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)) s
+      (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)) s
       = stepForRangeAux "c" 0 IGD BIN
-          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW) s := by
+          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32) s := by
     rw [stepForRangeAux.forRangeDyn_unfold]
     simp only [evalOp_constNat, evalOp_ref, hgd, Tile.scalar, Option.bind_some, bind]
   rw [hresolve]
@@ -1262,7 +1407,7 @@ theorem conv2d_w_step
         IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS OH OW (BIN * numCBlocks) OGD SH SW PH PW numCBlocks
         hc accBaseH wCount s) :
     ∃ s', stepStmts [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-        (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]
+        (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]
         (s.setReg "w" .nat [] (Tile.scalar wCount)) = some s'
       ∧ convWInv s0 Input Weight BHW BIN OF batch_dim in_height in_width
           IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS OH OW (BIN * numCBlocks) OGD SH SW PH PW numCBlocks
@@ -1342,7 +1487,7 @@ theorem conv2d_w_loop
         IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS OH OW (BIN * numCBlocks) OGD SH SW PH PW numCBlocks hc accBaseH 0 s) :
     ∃ s', stepStmt (Stmt.forRange "w" 0 KW 1
         [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]) s = some s'
+          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]) s = some s'
       ∧ convWInv s0 Input Weight BHW BIN OF batch_dim in_height in_width
           IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS OH OW (BIN * numCBlocks) OGD SH SW PH PW numCBlocks hc accBaseH KW s' := by
   exact forRange_step1_exact (idx := "w")
@@ -1376,7 +1521,7 @@ theorem conv2d_h_step
         IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS OH OW (BIN * numCBlocks) OGD SH SW PH PW KW numCBlocks hCount s) :
     ∃ s', stepStmts [Stmt.forRange "w" 0 KW 1
         [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]]
+          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]]
         (s.setReg "h" .nat [] (Tile.scalar hCount)) = some s'
       ∧ convHInv s0 Input Weight BHW BIN OF batch_dim in_height in_width
           IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS OH OW (BIN * numCBlocks) OGD SH SW PH PW KW numCBlocks (hCount + 1) s' := by
@@ -1429,7 +1574,7 @@ theorem conv2d_h_loop
     ∃ s', stepStmt (Stmt.forRange "h" 0 KH 1
         [Stmt.forRange "w" 0 KW 1
           [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]]) s = some s'
+            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]]) s = some s'
       ∧ convHInv s0 Input Weight BHW BIN OF batch_dim in_height in_width
           IBS IIFS IHS IWS WOFS WIFS WHS WWS OBS OOFS OHS OWS OH OW (BIN * numCBlocks) OGD SH SW PH PW KW numCBlocks KH s' := by
   exact forRange_step1_exact (idx := "h")
@@ -2043,7 +2188,7 @@ private theorem conv2d_body_split' (Input Weight Output : RegionName)
         ++ (Stmt.forRange "h" 0 KH 1
               [Stmt.forRange "w" 0 KW 1
                 [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-                  (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]]
+                  (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]]
             :: convPostBody Input Weight Output batch_dim out_height out_width OBS OOFS OHS OWS
                 (in_feat_dim / groups) BHW OF) := by
   rw [conv2d_body_split Input Weight Output batch_dim in_feat_dim in_height in_width
@@ -2074,12 +2219,12 @@ set_option maxHeartbeats 4000000 in
 the four `castFloat` sites (the `if fp16:` branch's two widenings and the two
 `fp16 → real` re-widenings inside `tl.dot`) collapse via the three
 `convIO_Rcast_*` lemmas; the two masked loads are `.real`. -/
-private theorem convIO_innerBody_stmt_castFree (R : RoundingModel) (hfp16 : R.round .fp16 = id)
+private theorem convIO_innerBodyFactored_stmt_castFree (R : RoundingModel) (hfp16 : R.round .fp16 = id)
     (BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : Nat) :
-    ∀ st ∈ convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW,
+    ∀ st ∈ convInnerBodyFactored BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW,
       ∀ u, stepStmtR R st u = stepStmt st u := by
   intro st hst u
-  simp only [convInnerBody, List.mem_cons, List.not_mem_nil, or_false] at hst
+  simp only [convInnerBodyFactored, List.mem_cons, List.not_mem_nil, or_false] at hst
   rcases hst with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
     simp only [stepStmtR, stepStmt, stepStmtsR, stepStmts, evalOpR.eq_def, evalOp.eq_def,
       convIO_Rcast_real_real R, convIO_Rcast_real_fp16 R hfp16, convIO_Rcast_fp16_real R]
@@ -2114,11 +2259,11 @@ private theorem convIO_preBody_castFree (R : RoundingModel) (Input Weight : Regi
 private theorem convIO_innerBody_castFree (R : RoundingModel) (hfp16 : R.round .fp16 = id)
     (BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW : Nat)
     (t : BlockState) :
-    stepStmtsR R (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW) t
-      = stepStmts (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW) t :=
-  convIO_stepStmtsR_castFree_of_stmts R _
-    (convIO_innerBody_stmt_castFree R hfp16 BHW BIN OF IIFS IHS IWS WIFS WHS WWS
-      batch_dim in_height in_width PH PW SH SW) t
+    stepStmtsR R (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32) t
+      = stepStmts (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32) t := by
+  rw [convInnerBody_execR, convInnerBody_exec]
+  exact convIO_stepStmtsR_castFree_of_stmts R _
+    (convIO_innerBodyFactored_stmt_castFree R hfp16 BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW) t
 
 /-- The post-loop tail collapses onto the exact stepper. -/
 private theorem convIO_postBody_castFree (R : RoundingModel)
@@ -2157,10 +2302,10 @@ private theorem convIO_wLoopStmt_castFree (R : RoundingModel) (hfp16 : R.round .
     (u : BlockState) :
     stepStmtR R (Stmt.forRange "w" 0 KW 1
         [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]) u
+          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]) u
       = stepStmt (Stmt.forRange "w" 0 KW 1
         [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]) u := by
+          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]) u := by
   rw [stepStmtR_forRange,
     stepForRangeAuxR_castFree R _
       (convIO_stepStmtsR_castFree_of_stmts R _ (by
@@ -2179,11 +2324,11 @@ private theorem convIO_hLoopStmt_castFree (R : RoundingModel) (hfp16 : R.round .
     stepStmtR R (Stmt.forRange "h" 0 KH 1
         [Stmt.forRange "w" 0 KW 1
           [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]]) u
+            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]]) u
       = stepStmt (Stmt.forRange "h" 0 KH 1
         [Stmt.forRange "w" 0 KW 1
           [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]]) u := by
+            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]]) u := by
   rw [stepStmtR_forRange,
     stepForRangeAuxR_castFree R _
       (convIO_stepStmtsR_castFree_of_stmts R _ (by
@@ -2715,7 +2860,7 @@ private theorem conv2d_flattenOk (Input Weight Output : RegionName)
       | exact trivial
       | apply And.intro
       | exact (convIO_flattenOk_expandDim _ _).mpr (by simp [Op.FlattenOk])
-  · simp [Stmt.FlattenOk, StmtList.FlattenOk, convInnerBody, Op.FlattenOk]
+  · simp [Stmt.FlattenOk, StmtList.FlattenOk, convInnerBody, convInnerBodyFactored, conv_newBranch, conv_casts, conv_newAcc, Op.FlattenOk]
     repeat' first
       | exact trivial
       | apply And.intro
@@ -2723,6 +2868,7 @@ private theorem conv2d_flattenOk (Input Weight Output : RegionName)
       | apply (convIO_flattenOk_castFloat _ _ _).mpr
       | apply (convIO_flattenOk_dot _ _).mpr
       | simp [Op.FlattenOk]
+    all_goals simp only [Op.FlattenOk.eq_def, and_self]
   · simp [convPostBody, StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk]
     repeat' first
       | exact trivial
@@ -3162,15 +3308,16 @@ private theorem conv2d_c_bodyW (R : RoundingModel) (hfp16 : R.round .fp16 = id)
         (convStepH KW numCBlocks t.val) (convStepW KW numCBlocks t.val)
         (convStepCB numCBlocks t.val * BIN) (j.val / OF) (j.val % OF) < bounds Weight) :
     Stmt.TraceSafeListR R bounds
-        (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)
+        (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)
         (s.setReg "c" .nat [] (Tile.scalar (cb * BIN)))
       ∧ ∃ s', stepStmts (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS
-              batch_dim in_height in_width PH PW SH SW)
+              batch_dim in_height in_width PH PW SH SW tf32)
             (s.setReg "c" .nat [] (Tile.scalar (cb * BIN))) = some s'
           ∧ ConvSafeCtx pid₀ pid₁ pid₂ Input Weight BHW OF OH OW (BIN * numCBlocks) OGD
               IBS IIFS WOFS s'
           ∧ s'.regs .nat [] "h" = some (Tile.scalar hc)
           ∧ s'.regs .nat [] "w" = some (Tile.scalar wc) := by
+  rw [convInnerBody_safeR, convInnerBody_exec]
   obtain ⟨hgp, hgd, hod, hbo, hoh, how, hof, hIreg, hWreg, ⟨accT, hacc⟩⟩ := hctx
   -- per-lane window bounds at this nest iteration
   have hb1 : ∀ (ii : Fin BHW) (e : Fin BIN),
@@ -3300,10 +3447,10 @@ private theorem conv2d_c_bodyW (R : RoundingModel) (hfp16 : R.round .fp16 = id)
   set u9 := u8.setReg "weight_block" .real [BIN, OF] wBlock with hu9
   -- statement 9: the pinned `if fp16:` branch — two `.real → .fp16` casts
   have hcastI : evalOp (Op.castFloat FloatDType.real FloatDType.fp16
-      (Op.ref TileDType.real [BHW, BIN] "input_block")) u9
+      (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BHW, BIN] "input_block"))) u9
       = some (⟨fun idx => FloatDType.real.cast FloatDType.fp16 (inBlock.data idx)⟩
               : Tile .fp16 [BHW, BIN]) := by
-    rw [evalOp_castFloat, Option.bind_eq_bind]
+    rw [evalOp_castFloat, evalOp.eq_def, Option.bind_eq_bind]
     simp only [FloatDType.toTileDType_real]
     have hrefI : evalOp (Op.ref TileDType.real [BHW, BIN] "input_block") u9 = some inBlock := by
       rw [evalOp_ref]; simp [hu9, hu8]
@@ -3313,10 +3460,10 @@ private theorem conv2d_c_bodyW (R : RoundingModel) (hfp16 : R.round .fp16 = id)
     ⟨fun idx => FloatDType.real.cast FloatDType.fp16 (inBlock.data idx)⟩ with hinFp
   set u10 := u9.setReg "input_block" .fp16 [BHW, BIN] inFp with hu10
   have hcastW : evalOp (Op.castFloat FloatDType.real FloatDType.fp16
-      (Op.ref TileDType.real [BIN, OF] "weight_block")) u10
+      (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BIN, OF] "weight_block"))) u10
       = some (⟨fun idx => FloatDType.real.cast FloatDType.fp16 (wBlock.data idx)⟩
               : Tile .fp16 [BIN, OF]) := by
-    rw [evalOp_castFloat, Option.bind_eq_bind]
+    rw [evalOp_castFloat, evalOp.eq_def, Option.bind_eq_bind]
     simp only [FloatDType.toTileDType_real]
     have hrefW : evalOp (Op.ref TileDType.real [BIN, OF] "weight_block") u10 = some wBlock := by
       rw [evalOp_ref]; simp [hu10, hu9]
@@ -3327,19 +3474,19 @@ private theorem conv2d_c_bodyW (R : RoundingModel) (hfp16 : R.round .fp16 = id)
   set u11 := u10.setReg "weight_block" .fp16 [BIN, OF] wFp with hu11
   have E9 : stepStmt (Stmt.ifThen (Op.constBool Bool.true)
       [Stmt.assign .fp16 [BHW, BIN] "input_block"
-          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BHW, BIN] "input_block")),
+          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BHW, BIN] "input_block"))),
         Stmt.assign .fp16 [BIN, OF] "weight_block"
-          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BIN, OF] "weight_block"))])
+          (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BIN, OF] "weight_block")))])
       u9 = some u11 := by
     have hif : stepStmt (Stmt.ifThen (Op.constBool Bool.true)
         [Stmt.assign .fp16 [BHW, BIN] "input_block"
-            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BHW, BIN] "input_block")),
+            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BHW, BIN] "input_block"))),
           Stmt.assign .fp16 [BIN, OF] "weight_block"
-            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BIN, OF] "weight_block"))]) u9
+            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BIN, OF] "weight_block")))]) u9
         = stepStmts [Stmt.assign .fp16 [BHW, BIN] "input_block"
-            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BHW, BIN] "input_block")),
+            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BHW, BIN] "input_block"))),
           Stmt.assign .fp16 [BIN, OF] "weight_block"
-            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.ref TileDType.real [BIN, OF] "weight_block"))] u9 := by
+            (Op.castFloat FloatDType.real FloatDType.fp16 (Op.withPrecision .real .fp32 (Op.ref TileDType.real [BIN, OF] "weight_block")))] u9 := by
       simp only [stepStmt, evalOp]
       rfl
     rw [hif, stepStmts.cons_some (stepStmt_assign_eq_some (dtype := TileDType.fp16) hcastI),
@@ -3388,46 +3535,46 @@ private theorem conv2d_c_bodyW (R : RoundingModel) (hfp16 : R.round .fp16 = id)
     (Tile.bop NumericDType.real.add (Broadcast.consSame (Broadcast.consSame Broadcast.nil))
       accT (Tile.dot [] inBlock wBlock)) with hu12
   -- the cast-free collapse, statement by statement
-  have castFreeAll := convIO_innerBody_stmt_castFree R hfp16 BHW BIN OF IIFS IHS IWS WIFS WHS WWS
+  have castFreeAll := convIO_innerBodyFactored_stmt_castFree R hfp16 BHW BIN OF IIFS IHS IWS WIFS WHS WWS
     batch_dim in_height in_width PH PW SH SW
   constructor
   · -- trace safety of the eleven statements
-    unfold convInnerBody
-    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBody; simp)) E0 (by
+    unfold convInnerBodyFactored
+    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBodyFactored; simp)) E0 (by
       simp [Stmt.TraceSafeR, Op.SafeAtR]) ?_
-    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBody; simp)) E1 (by
+    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBodyFactored; simp)) E1 (by
       simp [Stmt.TraceSafeR, Op.SafeAtR]) ?_
-    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBody; simp)) E2 (by
+    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBodyFactored; simp)) E2 (by
       simp [Stmt.TraceSafeR, Op.SafeAtR]) ?_
-    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBody; simp)) E3 ?_ ?_
+    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBodyFactored; simp)) E3 ?_ ?_
     · simp only [Stmt.TraceSafeR]
       repeat' first
         | exact trivial
         | apply And.intro
         | exact (convIO_safeAtR_expandDim R bounds _ _ _).mpr (by simp [Op.SafeAtR])
         | simp [Op.SafeAtR]
-    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBody; simp)) E4 ?_ ?_
+    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBodyFactored; simp)) E4 ?_ ?_
     · simp only [Stmt.TraceSafeR]
       repeat' first
         | exact trivial
         | apply And.intro
         | exact (convIO_safeAtR_expandDim R bounds _ _ _).mpr (by simp [Op.SafeAtR])
         | simp [Op.SafeAtR]
-    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBody; simp)) E5 ?_ ?_
+    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBodyFactored; simp)) E5 ?_ ?_
     · simp only [Stmt.TraceSafeR]
       repeat' first
         | exact trivial
         | apply And.intro
         | exact (convIO_safeAtR_expandDim R bounds _ _ _).mpr (by simp [Op.SafeAtR])
         | simp [Op.SafeAtR]
-    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBody; simp)) E6 ?_ ?_
+    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBodyFactored; simp)) E6 ?_ ?_
     · simp only [Stmt.TraceSafeR]
       repeat' first
         | exact trivial
         | apply And.intro
         | exact (convIO_safeAtR_expandDim R bounds _ _ _).mpr (by simp [Op.SafeAtR])
         | simp [Op.SafeAtR]
-    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBody; simp)) E7 ?_ ?_
+    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBodyFactored; simp)) E7 ?_ ?_
     · -- the masked input load: active addresses are the skin's `read1` window
       simp only [Stmt.TraceSafeR, Op.SafeAtR, MaskOpt.ActiveR, MemAccess.ActiveAddressSafeR,
         memAccessActiveAddressSafeR]
@@ -3445,7 +3592,7 @@ private theorem conv2d_c_bodyW (R : RoundingModel) (hfp16 : R.round .fp16 = id)
         < bounds (Region.cast Input)
       simp only [Region.cast_id]
       exact hb1 idx.1 idx.2.1 (of_decide_eq_true hmi)
-    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBody; simp)) E8 ?_ ?_
+    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBodyFactored; simp)) E8 ?_ ?_
     · -- the masked weight load: active addresses are the skin's `read2` window
       simp only [Stmt.TraceSafeR, Op.SafeAtR, MaskOpt.ActiveR, MemAccess.ActiveAddressSafeR,
         memAccessActiveAddressSafeR]
@@ -3460,7 +3607,7 @@ private theorem conv2d_c_bodyW (R : RoundingModel) (hfp16 : R.round .fp16 = id)
           + WHS * hc + WWS * wc < bounds (Region.cast Weight)
       simp only [Region.cast_id]
       exact hb2 idx.1 idx.2.1 (of_decide_eq_true hmi)
-    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBody; simp)) E9 ?_ ?_
+    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBodyFactored; simp)) E9 ?_ ?_
     · -- the pinned `if fp16:` branch: two register-only casts
       simp only [Stmt.TraceSafeR]
       refine ⟨by simp [Op.SafeAtR], ?_⟩
@@ -3471,8 +3618,8 @@ private theorem conv2d_c_bodyW (R : RoundingModel) (hfp16 : R.round .fp16 = id)
       rcases hst with rfl | rfl <;>
         simp only [Stmt.TraceSafeR] <;>
         refine (convIO_safeAtR_castFloat R bounds t _ _ _).mpr ?_ <;>
-        simp [Op.SafeAtR]
-    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBody; simp)) E10 ?_ ?_
+        simp only [Op.SafeAtR.eq_def]
+    refine convIO_tsl_cons (castFreeAll _ (by unfold convInnerBodyFactored; simp)) E10 ?_ ?_
     · simp only [Stmt.TraceSafeR]
       repeat' first
         | exact trivial
@@ -3483,7 +3630,7 @@ private theorem conv2d_c_bodyW (R : RoundingModel) (hfp16 : R.round .fp16 = id)
     exact Stmt.TraceSafeListR.nil_intro
   · -- the step itself
     refine ⟨u12, ?_, ?_, ?_, ?_⟩
-    · unfold convInnerBody
+    · unfold convInnerBodyFactored
       rw [stepStmts.cons_some E0, stepStmts.cons_some E1, stepStmts.cons_some E2,
         stepStmts.cons_some E3, stepStmts.cons_some E4, stepStmts.cons_some E5,
         stepStmts.cons_some E6, stepStmts.cons_some E7, stepStmts.cons_some E8,
@@ -3544,10 +3691,10 @@ private theorem conv2d_c_loopW (hfp16 : R.round .fp16 = id) (hBIN : 0 < BIN)
         (convStepCB numCBlocks t.val * BIN) (j.val / OF) (j.val % OF) < bounds Weight) :
     Stmt.TraceSafeR R bounds (Stmt.forRangeDyn "c" (Op.constNat 0)
         (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-        (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)) s
+        (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)) s
       ∧ ∃ s', stepStmt (Stmt.forRangeDyn "c" (Op.constNat 0)
           (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)) s
+          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)) s
           = some s'
         ∧ ConvSafeCtx pid₀ pid₁ pid₂ Input Weight BHW OF OH OW (BIN * numCBlocks) OGD
             IBS IIFS WOFS s'
@@ -3563,10 +3710,10 @@ private theorem conv2d_c_loopW (hfp16 : R.round .fp16 = id) (hBIN : 0 < BIN)
   -- one iteration: safe and stepping
   have hbody : ∀ i st, i < BIN * numCBlocks → P i st →
       Stmt.TraceSafeListR R bounds
-        (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)
+        (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)
         (st.setReg "c" .nat [] (Tile.scalar i)) ∧
       ∃ st', stepStmts (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS
-            batch_dim in_height in_width PH PW SH SW)
+            batch_dim in_height in_width PH PW SH SW tf32)
           (st.setReg "c" .nat [] (Tile.scalar i)) = some st' ∧ P (i + BIN) st' := by
     intro i st hilt hinv
     obtain ⟨hctxi, hi, hile, hhi, hwi⟩ := hinv
@@ -3580,7 +3727,7 @@ private theorem conv2d_c_loopW (hfp16 : R.round .fp16 = id) (hBIN : 0 < BIN)
             _ = i := hi.symm
         omega
     have hieq : i / BIN * BIN = i := hi.symm
-    have hstep := conv2d_c_bodyW R hfp16 bounds pid₀ pid₁ pid₂ Input Weight
+    have hstep := conv2d_c_bodyW (tf32 := tf32) R hfp16 bounds pid₀ pid₁ pid₂ Input Weight
       BHW BIN OF batch_dim in_height in_width IBS IIFS IHS IWS WOFS WIFS WHS WWS
       OH OW OGD SH SW PH PW KH KW numCBlocks hc wc (i / BIN) hcLt hwLt hcbLt st hctxi hhi hwi
       hbr1 hbr2
@@ -3613,9 +3760,9 @@ private theorem conv2d_c_loopW (hfp16 : R.round .fp16 = id) (hBIN : 0 < BIN)
       0 s hP0
   · have hresolve : stepStmt (Stmt.forRangeDyn "c" (Op.constNat 0)
         (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-        (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)) s
+        (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)) s
         = stepForRangeAux "c" 0 (BIN * numCBlocks) BIN
-            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW) s := by
+            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32) s := by
       rw [stepForRangeAux.forRangeDyn_unfold]
       simp only [evalOp_constNat, evalOp_ref, hgd, Tile.scalar, Option.bind_some, bind]
     rw [hresolve]
@@ -3648,10 +3795,10 @@ private theorem conv2d_w_loopW (hfp16 : R.round .fp16 = id) (hBIN : 0 < BIN)
         (convStepCB numCBlocks t.val * BIN) (j.val / OF) (j.val % OF) < bounds Weight) :
     Stmt.TraceSafeR R bounds (Stmt.forRange "w" 0 KW 1
         [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]) s
+          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]) s
       ∧ ∃ s', stepStmt (Stmt.forRange "w" 0 KW 1
           [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]) s
+            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]) s
           = some s'
         ∧ ConvSafeCtx pid₀ pid₁ pid₂ Input Weight BHW OF OH OW (BIN * numCBlocks) OGD
             IBS IIFS WOFS s'
@@ -3663,11 +3810,11 @@ private theorem conv2d_w_loopW (hfp16 : R.round .fp16 = id) (hBIN : 0 < BIN)
   have hbody : ∀ wc st, wc < KW → Q wc st →
       Stmt.TraceSafeListR R bounds
         [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]
+          (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]
         (st.setReg "w" .nat [] (Tile.scalar wc)) ∧
       ∃ st', stepStmts
           [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]
+            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]
           (st.setReg "w" .nat [] (Tile.scalar wc)) = some st' ∧ Q (wc + 1) st' := by
     intro wc st hwLt hQi
     obtain ⟨hctxi, hhi⟩ := hQi
@@ -3733,11 +3880,11 @@ private theorem conv2d_h_loopW (hfp16 : R.round .fp16 = id) (hBIN : 0 < BIN)
     Stmt.TraceSafeR R bounds (Stmt.forRange "h" 0 KH 1
         [Stmt.forRange "w" 0 KW 1
           [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]]) s
+            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]]) s
       ∧ ∃ s', stepStmt (Stmt.forRange "h" 0 KH 1
           [Stmt.forRange "w" 0 KW 1
             [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-              (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]]) s
+              (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]]) s
           = some s'
         ∧ ConvSafeCtx pid₀ pid₁ pid₂ Input Weight BHW OF OH OW (BIN * numCBlocks) OGD
             IBS IIFS WOFS s' := by
@@ -3748,12 +3895,12 @@ private theorem conv2d_h_loopW (hfp16 : R.round .fp16 = id) (hBIN : 0 < BIN)
       Stmt.TraceSafeListR R bounds
         [Stmt.forRange "w" 0 KW 1
           [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]]
+            (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]]
         (st.setReg "h" .nat [] (Tile.scalar hc)) ∧
       ∃ st', stepStmts
           [Stmt.forRange "w" 0 KW 1
             [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim") (Op.constNat BIN)
-              (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW)]]
+              (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width PH PW SH SW tf32)]]
           (st.setReg "h" .nat [] (Tile.scalar hc)) = some st' ∧ S (hc + 1) st' := by
     intro hc st hcLt hSi
     set sh := st.setReg "h" .nat [] (Tile.scalar hc) with hsh
@@ -4130,7 +4277,7 @@ specification triton_conv2d_fwd_io_correctness (R : RoundingModel)
           [Stmt.forRangeDyn "c" (Op.constNat 0) (Op.ref TileDType.nat [] "in_group_dim")
             (Op.constNat BIN)
             (convInnerBody BHW BIN OF IIFS IHS IWS WIFS WHS WWS batch_dim in_height in_width
-              PH PW SH SW)]]) s1 = some sLoop := by
+              PH PW SH SW tf32)]]) s1 = some sLoop := by
       rw [convIO_hLoopStmt_castFree R hfp16 BHW BIN OF IIFS IHS IWS WIFS WHS WWS
         batch_dim in_height in_width PH PW SH SW KH KW]
       exact hloop
@@ -4207,3 +4354,5 @@ specification triton_conv2d_fwd_io_correctness (R : RoundingModel)
 end IOFace
 
 end VeriTile.Bench.TritonBenchG.TritonConv2dFwd
+
+#auditModuleAxioms

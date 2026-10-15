@@ -1,0 +1,27 @@
+{
+  "reference_sha256": "4513ddd34acb937e4e8c3637bf75ef2e37ee8caa27a8e794132914f5d4809dd5",
+  "mode": "compile",
+  "requested_archs": [
+    80,
+    90
+  ],
+  "selected_cases": [
+    "original_test_shape",
+    "full_two_forward_chunks",
+    "ragged_time_special",
+    "ragged_split_heads",
+    "strided"
+  ],
+  "selected_stages": [
+    "forward",
+    "backward_helper",
+    "backward_shell"
+  ],
+  "fusion_values": [
+    false,
+    true
+  ],
+  "full_corpus_selected": true,
+  "numeric_reference": "NOT_ESTABLISHED",
+  "host_partial_reductions": false
+}

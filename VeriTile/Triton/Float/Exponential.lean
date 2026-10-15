@@ -49,13 +49,13 @@ def Atom.lhs : Atom → GuardedFragment
   | a => ⟨a.guards, fragment (match a with
     | .exp_sub exp => exp.exp (minus (ref "a") (ref "b"))
     | .exp_zero exp => exp.exp (.const 0)
-    | .exp_neg_inf_sub exp => exp.exp (minus .negInf (ref "a")))⟩
+    | .exp_neg_inf_sub exp => exp.exp (minus .negInf (ref "a"))), .real, none⟩
 
 def Atom.rhs : Atom → GuardedFragment
   | a => ⟨a.guards, fragment (match a with
     | .exp_sub exp => divide (exp.exp (ref "a")) (exp.exp (ref "b"))
     | .exp_zero _ => .const 1
-    | .exp_neg_inf_sub _ => .const 0)⟩
+    | .exp_neg_inf_sub _ => .const 0), .real, none⟩
 
 /-- Match the exact relation, precision and operand domain before selecting a row. -/
 def Atom.matches (a : Atom) (row : ReportedScalarRule) : Bool :=

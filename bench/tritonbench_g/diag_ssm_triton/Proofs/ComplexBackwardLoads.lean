@@ -26,10 +26,18 @@ theorem step (gy : RegionName) (length batch dim B k : Nat) (u : BlockState)
     stepStmts (source gy length batch dim B) u = some (result u gy batch dim (length-1-k) col mask) := by
   simp only [source,ComplexBackwardSource.body,Erasure.complexBackward,
     ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,ComputeKernel.surfaceBody,
-    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
+    ComputeKernel.eraseDType,ComputeKernel.fromKernelBody,ComputeDType.eraseDType,
+    Kernel.eraseDType,Stmt.eraseDTypeList,Stmt.eraseDType,
+    Op.eraseDType,MemAccess.eraseDType,MaskOpt.eraseDType,NumericDType.eraseDType,
+    ComparableDType.eraseDType,IntegralDType.eraseDType,
+    List.map_cons,List.map_nil,Op.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType,FloatDType.toTileDType,
     Except.bind,bind,Bool.false_eq_true,↓reduceIte,List.drop,List.take]
+  simp only [eq_mp_eq_cast, eq_mpr_eq_cast, cast_eq, id_eq]
   simp only [stepStmts,stepStmt,evalOp,evalOp.eq_def,Option.bind,bind,pure,
-    Option.map,Option.pure_def,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,
+    Option.map,Option.pure_def,FloatDType.ofWithBot,FloatDType.toWithBot,
+    FloatDType.toTileDType,WithBot.map,Broadcast.leftIndex,Broadcast.rightIndex,Tile.vec,
     String.reduceEq,Tile.bop,Tile.cop,Tile.scalar,NumericDType.mul,NumericDType.add,NumericDType.sub,
     WithBot.realSub,Option.map₂_some_some,Region.cast,
     BlockState.setReg_same,BlockState.setReg_ne_name,BlockState.setReg_pids,
@@ -39,7 +47,11 @@ theorem step (gy : RegionName) (length batch dim B k : Nat) (u : BlockState)
   simp only [result,realTile,imagTile,input,offset,Complex.conj_re,Complex.conj_im]
   simp only [apply_ite,Option.map₂_some_some]
   norm_num only [zero_sub]
-  rfl
+  congr 1
+  congr 1
+  congr 1
+  funext j
+  cases hj : mask j <;> simp [hj]
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

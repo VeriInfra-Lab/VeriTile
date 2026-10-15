@@ -1,0 +1,507 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-14T18:36:58.404365+00:00",
+  "status": "PASS_SOURCE_AND_SOFTWARE_CONTRACTS",
+  "tasks": [
+    "token_attn_reduceV",
+    "token_attn_mistral"
+  ],
+  "full_accepted_scope_covered": true,
+  "new_lean_modules": 16,
+  "public_specifications": [
+    {
+      "task": "token_attn_reduceV",
+      "file": "bench/tritonbench_g/token_attn_reduceV/FPCorrect.lean",
+      "declaration": "fp32_stream_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPCorrect.fp32_stream_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification fp32_stream_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (R : SumPrimitive α) (p : Parameters) (s : State α)\n    (hinj : Function.Injective (outputOffset p s)) :\n    ∃ t, FP.Structural.exec (withSum M R) (kernel p) s = some t ∧\n      t.mem = (reference M R p s).mem ∧\n      (∀ i : TileIndex [p.width], t.mem p.output (outputOffset p s i) =\n        .mk .fp32 (outputValues M R p s i)) ∧\n      (∀ r off, Outside p s r off → t.mem r off = s.mem r off)",
+      "statement_sha256": "880affb9764a0708ce63b7dd020819271eb83f6018c13b1cad16fd731daa5026",
+      "scope": "complete_original_accepted_pv_stream",
+      "dtype_profile": "local_fp32_storage_and_fp32_arithmetic",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "token_attn_reduceV",
+      "file": "bench/tritonbench_g/token_attn_reduceV/FPCorrect.lean",
+      "declaration": "fp32_stream_io_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPCorrect.fp32_stream_io_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification fp32_stream_io_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (R : SumPrimitive α) (p : Parameters) (s : State α) (T : Nat)\n    (_hpbs : p.probTokenStride = 1) (_hrts : p.requestTokenStride = 1)\n    (_hBN : 0 < p.block) (_hbudget : count p s ≤ T*p.block)\n    (hinj : Function.Injective (outputOffset p s)) :\n    ∃ t, FP.Structural.exec (withSum M R) (kernel p) s = some t ∧\n      (∀ i : TileIndex [p.width], t.mem p.output (outputOffset p s i) =\n        .mk .fp32 (outputValues M R p s i)) ∧\n      (∀ r off, Outside p s r off → t.mem r off = s.mem r off)",
+      "statement_sha256": "9b8aa4e946f0f6f083011059ca02a61026731ede5674e6aba9d33ab21e898e6a",
+      "scope": "complete_original_accepted_pv_stream",
+      "dtype_profile": "local_fp32_storage_and_fp32_arithmetic",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "token_attn_reduceV",
+      "file": "bench/tritonbench_g/token_attn_reduceV/FPCorrect.lean",
+      "declaration": "fp32_software_stream_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPCorrect.fp32_software_stream_correctness",
+      "model_kind": "bit_interpreter_contract",
+      "statement": "specification fp32_software_stream_correctness [Inhabited (FP.Value .fp32)]\n    (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config) (p : Parameters)\n    (s : State (FP.Value .fp32)) (hinj : Function.Injective (outputOffset p s)) :\n    ∃ t, FP.Structural.exec (withSum (software rest cfg) (softwareSum cfg)) (kernel p) s = some t ∧\n      (∀ i : TileIndex [p.width], t.mem p.output (outputOffset p s i) =\n        .mk .fp32 (bitOutput cfg p s i)) ∧\n      (∀ r off, Outside p s r off → t.mem r off = s.mem r off)",
+      "statement_sha256": "1a26d5b309c9d362156828bf50840eac2d0832a8540c896ddeeb0db7a9e406f3",
+      "scope": "complete_original_accepted_pv_stream",
+      "dtype_profile": "local_fp32_storage_and_fp32_arithmetic",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "token_attn_mistral",
+      "file": "bench/tritonbench_g/token_attn_mistral/FPCorrect.lean",
+      "declaration": "fp32_stream_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPCorrect.fp32_stream_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification fp32_stream_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (R : SumPrimitive α) (p : Parameters) (s : State α)\n    (hinj : Function.Injective (outputOffset p s)) :\n    ∃ t, FP.Structural.exec (withSum M R) (kernel p) s = some t ∧\n      t.mem = (reference M R p s).mem ∧\n      (∀ i : TileIndex [p.width], t.mem p.output (outputOffset p s i) =\n        .mk .fp32 (outputValues M R p s i)) ∧\n      (∀ r off, Outside p s r off → t.mem r off = s.mem r off)",
+      "statement_sha256": "880affb9764a0708ce63b7dd020819271eb83f6018c13b1cad16fd731daa5026",
+      "scope": "complete_original_accepted_pv_stream",
+      "dtype_profile": "local_fp32_storage_and_fp32_arithmetic",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "token_attn_mistral",
+      "file": "bench/tritonbench_g/token_attn_mistral/FPCorrect.lean",
+      "declaration": "fp32_stream_io_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPCorrect.fp32_stream_io_correctness",
+      "model_kind": "backend_value_contract",
+      "statement": "specification fp32_stream_io_correctness {α : Type} [Inhabited α]\n    (M : Algebra α) (R : SumPrimitive α) (p : Parameters) (s : State α) (T : Nat)\n    (_hpbs : p.probTokenStride = 1) (_hrts : p.requestTokenStride = 1)\n    (_hBN : 0 < p.block) (_hbudget : count p s ≤ T*p.block)\n    (hinj : Function.Injective (outputOffset p s)) :\n    ∃ t, FP.Structural.exec (withSum M R) (kernel p) s = some t ∧\n      (∀ i : TileIndex [p.width], t.mem p.output (outputOffset p s i) =\n        .mk .fp32 (outputValues M R p s i)) ∧\n      (∀ r off, Outside p s r off → t.mem r off = s.mem r off)",
+      "statement_sha256": "9b8aa4e946f0f6f083011059ca02a61026731ede5674e6aba9d33ab21e898e6a",
+      "scope": "complete_original_accepted_pv_stream",
+      "dtype_profile": "local_fp32_storage_and_fp32_arithmetic",
+      "native_functional_correctness": "not_established"
+    },
+    {
+      "task": "token_attn_mistral",
+      "file": "bench/tritonbench_g/token_attn_mistral/FPCorrect.lean",
+      "declaration": "fp32_software_stream_correctness",
+      "qualified": "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPCorrect.fp32_software_stream_correctness",
+      "model_kind": "bit_interpreter_contract",
+      "statement": "specification fp32_software_stream_correctness [Inhabited (FP.Value .fp32)]\n    (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config) (p : Parameters)\n    (s : State (FP.Value .fp32)) (hinj : Function.Injective (outputOffset p s)) :\n    ∃ t, FP.Structural.exec (withSum (software rest cfg) (softwareSum cfg)) (kernel p) s = some t ∧\n      (∀ i : TileIndex [p.width], t.mem p.output (outputOffset p s i) =\n        .mk .fp32 (bitOutput cfg p s i)) ∧\n      (∀ r off, Outside p s r off → t.mem r off = s.mem r off)",
+      "statement_sha256": "1a26d5b309c9d362156828bf50840eac2d0832a8540c896ddeeb0db7a9e406f3",
+      "scope": "complete_original_accepted_pv_stream",
+      "dtype_profile": "local_fp32_storage_and_fp32_arithmetic",
+      "native_functional_correctness": "not_established"
+    }
+  ],
+  "original_source_sha256_unchanged": {
+    "bench/tritonbench_g/token_attn_reduceV/TokenAttnReduceV.lean": "3a159912c5f9daefc11783a6468fcf70970242490499027811743379152263ef",
+    "bench/tritonbench_g/token_attn_reduceV/token_attn_reduceV.py": "cb2d1316c8c6eff4ee5220bf562596a8443639d65ada2c22c4c0054baa503165",
+    "bench/tritonbench_g/token_attn_mistral/TokenAttnMistral.lean": "517a7f3e104619e29086bccd2a83094afa04f3fdf35cbd7c0870136657a6d175",
+    "bench/tritonbench_g/token_attn_mistral/token_attn_mistral.py": "39c37c3f43353511cce0d0a3b63fc5e5f1602a41450a51ef4a89065869f8407a"
+  },
+  "original_public_statements_unchanged": [
+    {
+      "file": "bench/tritonbench_g/token_attn_reduceV/TokenAttnReduceV.lean",
+      "declaration": "token_attn_reducev_output_summary_general",
+      "line": 1540,
+      "statement_sha256": "b3da76304d94f852029bc2dd1332cff53d843725e1c29e86c4c0d9b100ec47ea"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_reduceV/TokenAttnReduceV.lean",
+      "declaration": "token_attn_reducev_io_correctness",
+      "line": 3238,
+      "statement_sha256": "6bf715f1cb7bcfbd54e4dce86fbf1d1aed4e0b7d03fe0216391b8b153a711605"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_mistral/TokenAttnMistral.lean",
+      "declaration": "token_attn_mistral_output_summary_general",
+      "line": 1783,
+      "statement_sha256": "aff43fcedf55982f90dd897e59701ee265d53b61cf15c14df3956522b3272142"
+    },
+    {
+      "file": "bench/tritonbench_g/token_attn_mistral/TokenAttnMistral.lean",
+      "declaration": "token_attn_mistral_io_correctness",
+      "line": 3681,
+      "statement_sha256": "e6cdbf41f252e1537bbb0e97b8de78bd408feaadc91450f42fe0c79086293dbe"
+    }
+  ],
+  "compile": {
+    "mode": "direct lake env lean -o; isolated imports; no lake build",
+    "cwd": "/tmp/veritile-fp-full-precheck",
+    "modules": [
+      {
+        "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPTypedSource.lean",
+        "sha256": "ceb1d1a2b571863d0901e86e586f68c8f04ac074c39048476fe737c4ebefecba",
+        "exit_code": 0,
+        "seconds": 3.2894973754882812,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_reduceV-FPTypedSource.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_reduceV/Proofs/FPTypedSource.olean",
+        "olean_sha256": "aff6d5e77c7aeff787cefdce457ac961dfc8634812642a3cbad679c8f3f38858"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPModel.lean",
+        "sha256": "a2f3470690d51fdde017aef94451202478e2e1d5944631f066b44442cd18d9d5",
+        "exit_code": 0,
+        "seconds": 3.389012575149536,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_reduceV-FPModel.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_reduceV/Proofs/FPModel.olean",
+        "olean_sha256": "c8f8ef4915e587e91753fca7469cf4c1195bc2e68babf23a2818f8cc5303ad02"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPComplete.lean",
+        "sha256": "e79cb06864d4f2bb9d8dbb6035c907e5507a855840595d7ebe30cb60f69fe101",
+        "exit_code": 0,
+        "seconds": 31.649211883544922,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_reduceV-FPComplete.log",
+        "log_sha256": "629be6305ee2b89c4cacf46710e353d6921f7197942ce23b618ed29900cba1e6",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_reduceV/Proofs/FPComplete.olean",
+        "olean_sha256": "067c3aa31edf78d3fa5e41753f2b62ad8fe79775dfdd6845aa664779f6ebc933"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPContract.lean",
+        "sha256": "fe66f03b9ec0fa3264766164697481270a4915a9100dccad41d4bd126b98fe88",
+        "exit_code": 0,
+        "seconds": 5.467947006225586,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_reduceV-FPContract.log",
+        "log_sha256": "fa6f5a9649925ab91e263ca556241ee7291f976f7c5d61d5611faa03d5b080f9",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_reduceV/Proofs/FPContract.olean",
+        "olean_sha256": "144a03a0930ced900f72f59fdb8df4321c525ab8fb93cca9f1337f67e3e0b109"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPShape.lean",
+        "sha256": "403dc21665de33413a4db5609ebea74741359aca58dcbbd5fb26b270f81798b8",
+        "exit_code": 0,
+        "seconds": 9.073871612548828,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_reduceV-FPShape.log",
+        "log_sha256": "5d56e64e71d83e1ee71894688fa56ea6d38e077403c08b08880aef35ebfc1d2f",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_reduceV/Proofs/FPShape.olean",
+        "olean_sha256": "7b1f6d614c6ae6c54e6e32a40504d052f84182790798b4bdf25b38a2df3c812d"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPSoftware.lean",
+        "sha256": "bf8c04fd12109c2d40082a216c2cbf4c7221c7c175330217fb4051a18047f0ed",
+        "exit_code": 0,
+        "seconds": 4.120560884475708,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_reduceV-FPSoftware.log",
+        "log_sha256": "4e76eb6eefeeb48d551f2ed8c2c5a11124d18b4886be163cab53956466b88f91",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_reduceV/Proofs/FPSoftware.olean",
+        "olean_sha256": "4cba450b01fa67dd64336adc659c271d6ed754e56632a66bb065ca0670c2c197"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_reduceV/FPCorrect.lean",
+        "sha256": "7b5bdef8fc4ec3348f794b624e47131c3b2c868272c3793da09ad93fec4b0a84",
+        "exit_code": 0,
+        "seconds": 4.431079387664795,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_reduceV-FPCorrect.log",
+        "log_sha256": "f0d5106d7cbae61bc99d4ae494fcf0892b7791ce3554633799766aa68455aaaa",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_reduceV/FPCorrect.olean",
+        "olean_sha256": "47d0e999eea34f56ed6e17cb8583bc2647bdaa65360b204d8eb95efcbc2ebe84"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPWitness.lean",
+        "sha256": "7a1d7a88b3ba378714b1a5251e2453aac008ca9ac8b402abc1c76dc7546dcd1d",
+        "exit_code": 0,
+        "seconds": 3.7118332386016846,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_reduceV-FPWitness.log",
+        "log_sha256": "b474b4221506d1cfcc23d1b1543b46092968758abad1145ee1684a5e6c744e81",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_reduceV/Proofs/FPWitness.olean",
+        "olean_sha256": "a8837529fab02cb70e6a45b347ee479f8950c1f072a3f1b71037e1b90fa2091e"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_mistral/Proofs/FPTypedSource.lean",
+        "sha256": "b4528add4811f39eb19d4a358147f65321946b725237163adf5a5d283b53106d",
+        "exit_code": 0,
+        "seconds": 3.4127044677734375,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_mistral-FPTypedSource.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_mistral/Proofs/FPTypedSource.olean",
+        "olean_sha256": "df1b3ac0610d5ae438f591a2594ab4a4d4d9287d077118319d56c5bb80c92209"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_mistral/Proofs/FPModel.lean",
+        "sha256": "d35bbdf1429dc39fa6de23441732a63f0444573a2ce6bd524c7b245e2acca229",
+        "exit_code": 0,
+        "seconds": 3.109807252883911,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_mistral-FPModel.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_mistral/Proofs/FPModel.olean",
+        "olean_sha256": "4e1c464208b2ab101e712288d590a14ff6054d0acf13ae9517bb52200be2b828"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_mistral/Proofs/FPComplete.lean",
+        "sha256": "d2d84651e6a335a70174ff9ca73727dfe05f5ce8792a04ba95f17bf488098de4",
+        "exit_code": 0,
+        "seconds": 42.99312973022461,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_mistral-FPComplete.log",
+        "log_sha256": "2f3b813d48602f0dd680e7201b0da0177a09cb66d03ca964ddd63e26626ef959",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_mistral/Proofs/FPComplete.olean",
+        "olean_sha256": "30bdedf5bfc7ad722abf3383ffc9fa27df4b76208c92960b94dce1476d1ced25"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_mistral/Proofs/FPContract.lean",
+        "sha256": "89483cc85ffa2735e2b6390528edc191433e6942f61988c5917979c06dec411f",
+        "exit_code": 0,
+        "seconds": 5.867716312408447,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_mistral-FPContract.log",
+        "log_sha256": "3bee8b435ff0b554d2aab6fcd67a61a9653f8829b54482a7dc238e4b9392a3f2",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_mistral/Proofs/FPContract.olean",
+        "olean_sha256": "becc98dbfb44805d31df75b5da3d01dcac4c3b4bef9ef036de71fbdf2425e202"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_mistral/Proofs/FPShape.lean",
+        "sha256": "49e9a5cb88068ce37ebd908d7997ba808e76d9a083c56437bb5f9c6da0b4d9e4",
+        "exit_code": 0,
+        "seconds": 9.905808210372925,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_mistral-FPShape.log",
+        "log_sha256": "a42c78c87918583b02c16a8549de918995b1eddf0085916f8b07d54b4a6335ef",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_mistral/Proofs/FPShape.olean",
+        "olean_sha256": "4489b5814e02533eae4a536ead7348c4de7dd33b1dc4486faeb5d46978abca24"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_mistral/Proofs/FPSoftware.lean",
+        "sha256": "a49be32b33e9f0ed1daca199a957c4b19e679668e0048e0fb979080e560e39f8",
+        "exit_code": 0,
+        "seconds": 4.093628644943237,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_mistral-FPSoftware.log",
+        "log_sha256": "4f0c587012c051e23efe3da5cac27b5e6a9295a1188d0a4b4a470ee42900047a",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_mistral/Proofs/FPSoftware.olean",
+        "olean_sha256": "d368d58e852dab65580ff38a5dbcaf336aae8e24945fe1aa43bb73bb8aeadf2a"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_mistral/FPCorrect.lean",
+        "sha256": "6d2ab7ba80a22a77af36c3ce9f369643963294c01ac5d9e759a12aa5b138fd76",
+        "exit_code": 0,
+        "seconds": 4.51754903793335,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_mistral-FPCorrect.log",
+        "log_sha256": "c943e87dd804bac7d9d1497e2426b25f26699d2f42d5eb616c61b5edab282661",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_mistral/FPCorrect.olean",
+        "olean_sha256": "e1d85b7f7236b11a9e65bd632cf031f71ad86ca8b6013ef5e1a4ee7e6bad962a"
+      },
+      {
+        "source": "bench/tritonbench_g/token_attn_mistral/Proofs/FPWitness.lean",
+        "sha256": "45328e388cfe325397448a0a6ec5d53c5bf514546ba89fe24f19ed80912ea676",
+        "exit_code": 0,
+        "seconds": 3.678671360015869,
+        "log": "/tmp/next23-pv-contracts-20261014/token_attn_mistral-FPWitness.log",
+        "log_sha256": "5c8a368a77e0eb0feffcc8fba76be0f033743ed63c14f63bd32d3121b140752e",
+        "olean": "/tmp/veritile-fp-full-precheck/.lake/build/lib/lean/bench/tritonbench_g/token_attn_mistral/Proofs/FPWitness.olean",
+        "olean_sha256": "12136aaaea4ea7e6aab343898f2b98e9907c2fbdfd760977d4292944273de2bf"
+      }
+    ],
+    "passed": 16,
+    "failed": 0
+  },
+  "axioms": {
+    "checked_declarations": [
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.prelude_run",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.body_run",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.range_run",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.postlude_run",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.source_split",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.complete_run",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.reference_readback",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.reference_frame",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.source_shape",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.products_software",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.update_software",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.output_software",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPCorrect.fp32_stream_correctness",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPCorrect.fp32_stream_io_correctness",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPCorrect.fp32_software_stream_correctness",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.witness_bits",
+      "VeriTile.Bench.TritonBenchG.TokenAttnReduceV.FPStages.full_stream_nonempty_rounding",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.prelude_run",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.body_run",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.range_run",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.postlude_run",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.source_split",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.complete_run",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.reference_readback",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.reference_frame",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.source_shape",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.products_software",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.update_software",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.output_software",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPCorrect.fp32_stream_correctness",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPCorrect.fp32_stream_io_correctness",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPCorrect.fp32_software_stream_correctness",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.witness_bits",
+      "VeriTile.Bench.TritonBenchG.TokenAttnMistral.FPStages.full_stream_distinct_masks_nan"
+    ],
+    "count": 34,
+    "allowed_only": [
+      "propext",
+      "Quot.sound",
+      "Classical.choice"
+    ],
+    "sorry_or_admit_added": false
+  },
+  "direct_import_bindings": {
+    "VeriTile.Triton": {
+      "source": "VeriTile/Triton.lean",
+      "source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "olean_sha256": "c76243f1226a0984808c5b43a9d338cefd35b1d2410b30393612efd4c17516c7"
+    },
+    "bench.tritonbench_g.token_attn_reduceV.Proofs.FPTypedSource": {
+      "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPTypedSource.lean",
+      "source_sha256": "ceb1d1a2b571863d0901e86e586f68c8f04ac074c39048476fe737c4ebefecba",
+      "olean_sha256": "aff6d5e77c7aeff787cefdce457ac961dfc8634812642a3cbad679c8f3f38858"
+    },
+    "bench.tritonbench_g.parallel_attention.Proofs.FPRange": {
+      "source": "bench/tritonbench_g/parallel_attention/Proofs/FPRange.lean",
+      "source_sha256": "f4d812c3efdbba2af1bd81053771565e05021f69bc2c02301b167a405b685351",
+      "olean_sha256": "ff866b1cb350a156c8a7d8c0ede34a921c2a66b6f47e5a36980cd310bb962b2b"
+    },
+    "bench.tritonbench_g.isfinite_kernel.Proofs.MemoryProjection": {
+      "source": "bench/tritonbench_g/isfinite_kernel/Proofs/MemoryProjection.lean",
+      "source_sha256": "9923d3c976fd312e31ab92570b5adb6aca8e0094f83950ae304bed4ea3a53e57",
+      "olean_sha256": "729f1f8f8bddc19fb2165c3eddb8c87bfb9e72e81f18c1b767fe69731f8e730d"
+    },
+    "bench.tritonbench_g.token_attn_reduceV.Proofs.FPModel": {
+      "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPModel.lean",
+      "source_sha256": "a2f3470690d51fdde017aef94451202478e2e1d5944631f066b44442cd18d9d5",
+      "olean_sha256": "c8f8ef4915e587e91753fca7469cf4c1195bc2e68babf23a2818f8cc5303ad02"
+    },
+    "bench.tritonbench_g.token_attn_reduceV.Proofs.FPComplete": {
+      "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPComplete.lean",
+      "source_sha256": "e79cb06864d4f2bb9d8dbb6035c907e5507a855840595d7ebe30cb60f69fe101",
+      "olean_sha256": "067c3aa31edf78d3fa5e41753f2b62ad8fe79775dfdd6845aa664779f6ebc933"
+    },
+    "VeriTile.Meta.StatementAudit": {
+      "source": "VeriTile/Meta/StatementAudit.lean",
+      "source_sha256": "9c82458cd9f705e8bd4511b8c8fa9580d314c1ec274cba9ab93f665a0d7b1ea5",
+      "olean_sha256": "2618f9e9e600abad63b8247bfea7d68e35ade157932f73ddadc2aa2da29e9ba7"
+    },
+    "bench.tritonbench_g.token_attn_reduceV.TokenAttnReduceV": {
+      "source": "bench/tritonbench_g/token_attn_reduceV/TokenAttnReduceV.lean",
+      "source_sha256": "3a159912c5f9daefc11783a6468fcf70970242490499027811743379152263ef",
+      "olean_sha256": "4a64e1d043e13c3b507b09674b56e5ba259ef152be917133434c7c36b4a196b9"
+    },
+    "bench.tritonbench_g.token_attn_reduceV.Proofs.FPContract": {
+      "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPContract.lean",
+      "source_sha256": "fe66f03b9ec0fa3264766164697481270a4915a9100dccad41d4bd126b98fe88",
+      "olean_sha256": "144a03a0930ced900f72f59fdb8df4321c525ab8fb93cca9f1337f67e3e0b109"
+    },
+    "bench.tritonbench_g.matrix_vector_multip.Proofs.TypedSoftware": {
+      "source": "bench/tritonbench_g/matrix_vector_multip/Proofs/TypedSoftware.lean",
+      "source_sha256": "970685a2a8c0916802f1641b6261fe0e5145fd193bc5de403883ae62695e8784",
+      "olean_sha256": "cc485fdfd7701b17a30129218bb7254461092bdfe334a489dcd9cbe0192c6620"
+    },
+    "bench.tritonbench_g.token_attn_reduceV.Proofs.FPShape": {
+      "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPShape.lean",
+      "source_sha256": "403dc21665de33413a4db5609ebea74741359aca58dcbbd5fb26b270f81798b8",
+      "olean_sha256": "7b1f6d614c6ae6c54e6e32a40504d052f84182790798b4bdf25b38a2df3c812d"
+    },
+    "bench.tritonbench_g.token_attn_reduceV.Proofs.FPSoftware": {
+      "source": "bench/tritonbench_g/token_attn_reduceV/Proofs/FPSoftware.lean",
+      "source_sha256": "bf8c04fd12109c2d40082a216c2cbf4c7221c7c175330217fb4051a18047f0ed",
+      "olean_sha256": "4cba450b01fa67dd64336adc659c271d6ed754e56632a66bb065ca0670c2c197"
+    },
+    "bench.tritonbench_g.token_attn_reduceV.FPCorrect": {
+      "source": "bench/tritonbench_g/token_attn_reduceV/FPCorrect.lean",
+      "source_sha256": "7b5bdef8fc4ec3348f794b624e47131c3b2c868272c3793da09ad93fec4b0a84",
+      "olean_sha256": "47d0e999eea34f56ed6e17cb8583bc2647bdaa65360b204d8eb95efcbc2ebe84"
+    },
+    "bench.tritonbench_g.token_attn_mistral.Proofs.FPTypedSource": {
+      "source": "bench/tritonbench_g/token_attn_mistral/Proofs/FPTypedSource.lean",
+      "source_sha256": "b4528add4811f39eb19d4a358147f65321946b725237163adf5a5d283b53106d",
+      "olean_sha256": "df1b3ac0610d5ae438f591a2594ab4a4d4d9287d077118319d56c5bb80c92209"
+    },
+    "bench.tritonbench_g.token_attn_mistral.Proofs.FPModel": {
+      "source": "bench/tritonbench_g/token_attn_mistral/Proofs/FPModel.lean",
+      "source_sha256": "d35bbdf1429dc39fa6de23441732a63f0444573a2ce6bd524c7b245e2acca229",
+      "olean_sha256": "4e1c464208b2ab101e712288d590a14ff6054d0acf13ae9517bb52200be2b828"
+    },
+    "bench.tritonbench_g.token_attn_mistral.Proofs.FPComplete": {
+      "source": "bench/tritonbench_g/token_attn_mistral/Proofs/FPComplete.lean",
+      "source_sha256": "d2d84651e6a335a70174ff9ca73727dfe05f5ce8792a04ba95f17bf488098de4",
+      "olean_sha256": "30bdedf5bfc7ad722abf3383ffc9fa27df4b76208c92960b94dce1476d1ced25"
+    },
+    "bench.tritonbench_g.token_attn_mistral.TokenAttnMistral": {
+      "source": "bench/tritonbench_g/token_attn_mistral/TokenAttnMistral.lean",
+      "source_sha256": "517a7f3e104619e29086bccd2a83094afa04f3fdf35cbd7c0870136657a6d175",
+      "olean_sha256": "efaae4181495fd8f6e0658979cb38126610b223344da0f4a1884a4ecc65909ab"
+    },
+    "bench.tritonbench_g.token_attn_mistral.Proofs.FPContract": {
+      "source": "bench/tritonbench_g/token_attn_mistral/Proofs/FPContract.lean",
+      "source_sha256": "89483cc85ffa2735e2b6390528edc191433e6942f61988c5917979c06dec411f",
+      "olean_sha256": "becc98dbfb44805d31df75b5da3d01dcac4c3b4bef9ef036de71fbdf2425e202"
+    },
+    "bench.tritonbench_g.token_attn_mistral.Proofs.FPShape": {
+      "source": "bench/tritonbench_g/token_attn_mistral/Proofs/FPShape.lean",
+      "source_sha256": "49e9a5cb88068ce37ebd908d7997ba808e76d9a083c56437bb5f9c6da0b4d9e4",
+      "olean_sha256": "4489b5814e02533eae4a536ead7348c4de7dd33b1dc4486faeb5d46978abca24"
+    },
+    "bench.tritonbench_g.token_attn_mistral.Proofs.FPSoftware": {
+      "source": "bench/tritonbench_g/token_attn_mistral/Proofs/FPSoftware.lean",
+      "source_sha256": "a49be32b33e9f0ed1daca199a957c4b19e679668e0048e0fb979080e560e39f8",
+      "olean_sha256": "d368d58e852dab65580ff38a5dbcaf336aae8e24945fe1aa43bb73bb8aeadf2a"
+    },
+    "bench.tritonbench_g.token_attn_mistral.FPCorrect": {
+      "source": "bench/tritonbench_g/token_attn_mistral/FPCorrect.lean",
+      "source_sha256": "6d2ab7ba80a22a77af36c3ce9f369643963294c01ac5d9e759a12aa5b138fd76",
+      "olean_sha256": "e1d85b7f7236b11a9e65bd632cf031f71ad86ca8b6013ef5e1a4ee7e6bad962a"
+    }
+  },
+  "scope": {
+    "common": "Supplied Prob and gather metadata; all dynamic loop iterations and tails; all BLOCK_DMODEL outputs unmasked; initial +0; all BLOCK_N products, exact source casts, full reduction, cross-block add, final cast/store and frame.",
+    "io_domain": "Original spbs=srts=1, BN>0 and count<=T*BN retained; arbitrary T, count, dimensions and original output offset injectivity. General execution/value theorem is stronger: uses exact source address formulas for arbitrary strides.",
+    "reduceV": "count=B_Seqlen; identical P and V masks; arbitrary S, including S=0. No pad deletion, no real finite sum.",
+    "mistral": "count=B_Att_Seqlen; windowStart=max(B_Seqlen-window,0); P mask start+n<count; V/gather mask start+n+windowStart<sequenceLength. No attSeq=min(seq,window) or finite-V assumption.",
+    "memory": "New FP contract uses initial typed cells and proves successful Structural execution plus every output value and frame. Original IO safety/bounds declarations remain byte-for-byte unchanged; no new typed StreamMetaGather skin implementation is claimed.",
+    "dtype": "Concrete contract profile is fp32 Prob/V/Out, matching local Python. DTYPE transcription is instantiated at .fp32; this delivery does not claim other storage dtypes.",
+    "source_bridge": "Complete original typed-erasure/control correspondence is separately proved; erasure is not claimed value preserving."
+  },
+  "numerical_model": {
+    "parameterized": "Arbitrary opaque value type alpha, Algebra callbacks and a total typed full-tile SumPrimitive; no numerical algebraic laws or assumed final values.",
+    "software": "FP.Value.fp32 + ScalarOps per operation, arbitrary Config; ascending lane fold with +0 seed, full BN input, separate rounded multiplication and addition; all output values independent of unused rest callbacks.",
+    "used_callbacks": [
+      "literal(some fp32, real, +0)",
+      "literal(none, real, 0.0)",
+      "cast(none, real, fp32): padded zero and final output",
+      "binary(some fp32, fp32, mul)",
+      "SumPrimitive.apply(some fp32, shape=[BN,BD], axis=0, keepDims=false)",
+      "cast(some fp32, fp32, real): explicit erased fp32 carrier",
+      "binary(some fp32, real, add): carry update"
+    ],
+    "extra_numeric_laws": []
+  },
+  "witnesses": {
+    "reduceV": "actual successful execution S=3, BN=2, BD=1; two blocks and a padded tail; probabilities [1,2^-25,1], V=1; software output 2 while exact rational sum is 2+2^-25.",
+    "mistral": "actual successful execution attSeq=1, seqLen=2, window=2, BN=2, BD=1; padded P lane1=+0 with live V lane1=+Inf; software result qNaN and frame preserved."
+  },
+  "native_obligations": [
+    {
+      "id": "FP32_STORAGE_AND_CASTS",
+      "bind": "Prob/V/Out actual fp32 storage; typed loads/stores preserve bit patterns; literal +0; fp32 erased-carrier casts preserve bits; original metadata/address domain and launch legality."
+    },
+    {
+      "id": "SCALAR_INSTRUCTION_PROFILE",
+      "bind": "Exact GPU architecture, compiler/Triton/CUDA versions, generated PTX/cubin and flags; mul/add precision, rounding mode, input/result FTZ, signed-zero and NaN payload/canonicalization policy; exception flags outside software model."
+    },
+    {
+      "id": "UNFUSED_OPERATION_GRAPH",
+      "bind": "Check actual compiled mul/reduce/add fusion. Software theorem proves separately rounded mul then additions. If compiler fuses operations, revise/bind its actual operation graph; do not assume generic FMA equality."
+    },
+    {
+      "id": "REDUCTION_PLAN",
+      "bind": "Actual BN/BD/numWarps/layout-specific axis0 reduction tree, seed and lane ordering including padding. The supplied sequential software plan is not asserted to be Triton GPU tree."
+    },
+    {
+      "id": "MASK_AND_PADDING",
+      "bind": "Preserve source distinct Mistral masks and every BN arithmetic lane, including 0*Inf/NaN. No live-only reduction rewrite is authorized."
+    }
+  ],
+  "gpu_experiments_run": false,
+  "hardware_correctness_claimed": false,
+  "source_sha256": {
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPTypedSource.lean": "ceb1d1a2b571863d0901e86e586f68c8f04ac074c39048476fe737c4ebefecba",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPModel.lean": "a2f3470690d51fdde017aef94451202478e2e1d5944631f066b44442cd18d9d5",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPComplete.lean": "e79cb06864d4f2bb9d8dbb6035c907e5507a855840595d7ebe30cb60f69fe101",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPContract.lean": "fe66f03b9ec0fa3264766164697481270a4915a9100dccad41d4bd126b98fe88",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPShape.lean": "403dc21665de33413a4db5609ebea74741359aca58dcbbd5fb26b270f81798b8",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPSoftware.lean": "bf8c04fd12109c2d40082a216c2cbf4c7221c7c175330217fb4051a18047f0ed",
+    "bench/tritonbench_g/token_attn_reduceV/FPCorrect.lean": "7b5bdef8fc4ec3348f794b624e47131c3b2c868272c3793da09ad93fec4b0a84",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPWitness.lean": "7a1d7a88b3ba378714b1a5251e2453aac008ca9ac8b402abc1c76dc7546dcd1d",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPTypedSource.lean": "b4528add4811f39eb19d4a358147f65321946b725237163adf5a5d283b53106d",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPModel.lean": "d35bbdf1429dc39fa6de23441732a63f0444573a2ce6bd524c7b245e2acca229",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPComplete.lean": "d2d84651e6a335a70174ff9ca73727dfe05f5ce8792a04ba95f17bf488098de4",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPContract.lean": "89483cc85ffa2735e2b6390528edc191433e6942f61988c5917979c06dec411f",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPShape.lean": "49e9a5cb88068ce37ebd908d7997ba808e76d9a083c56437bb5f9c6da0b4d9e4",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPSoftware.lean": "a49be32b33e9f0ed1daca199a957c4b19e679668e0048e0fb979080e560e39f8",
+    "bench/tritonbench_g/token_attn_mistral/FPCorrect.lean": "6d2ab7ba80a22a77af36c3ce9f369643963294c01ac5d9e759a12aa5b138fd76",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPWitness.lean": "45328e388cfe325397448a0a6ec5d53c5bf514546ba89fe24f19ed80912ea676"
+  },
+  "patch_sha256": "10b0432afb44747fd814908a5ed610b5f16cd58ebb92e7ea564f5bc7e074fe8c"
+}

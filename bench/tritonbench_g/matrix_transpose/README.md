@@ -1,5 +1,7 @@
 # matrix_transpose
 
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+
 `Kernels.lean` retains the entire upstream two-dimensional pointer construction,
 unmasked matrix load, transpose, and unmasked output store. The Python wrapper
 allocates only float16 input/output, and `typedKernel` preserves that storage

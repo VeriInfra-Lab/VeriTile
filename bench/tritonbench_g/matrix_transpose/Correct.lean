@@ -2,6 +2,11 @@ import bench.tritonbench_g.matrix_transpose.Proofs.Real
 import bench.tritonbench_g.matrix_transpose.Proofs.Candidate
 import VeriTile.Meta.StatementAudit
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.MatrixTranspose
 open VeriTile.Triton
 open scoped VeriTile.Triton.Masked2DKernelIO₁
@@ -47,7 +52,7 @@ unchanged.
 lanes must not alias the same memory cell, otherwise only the last store
 survives and the per-lane claim is false. The host's contiguous `out` buffer
 satisfies it. -/
-specification kernel_correctness
+theorem kernel_correctness
     (M Out : RegionName)
     (matrix_stridex matrix_stridey out_stridex out_stridey
       SIZE_M D_HEAD : Nat)

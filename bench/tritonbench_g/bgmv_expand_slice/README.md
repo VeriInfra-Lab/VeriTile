@@ -1,60 +1,56 @@
 # bgmv_expand_slice
 
-**Reopened: FP precision correction.** The earlier source expansion widened
-half/bfloat16 sums to fp32. The corrected source retains the product's sum dtype
-and specializes the output dtype before arithmetic promotion. Both complete
-real correctness specifications rebuild successfully; the old general FP theorem
-and fp16-output execution witness still need updating. The source precision
-regression is refreshed and passes. In particular,
-fp16 addition has no admitted `add_commute` row in the current tables. This case
-is not currently counted as complete, and its older receipt does not validate
-the new FP lowering.
+**Full-source conditional FP contract; native admission remains open.** The
+corrected source preserves the product's reduction dtype and specializes output
+storage before arithmetic promotion. The public `FPEquiv.lean` contract now
+states whole-execution equality for all 72 modeled input/weight/cast/output
+configurations, under an explicit native scalar addition law and a finite
+operand domain. This is a correction of the formerly false fp32-only theorem,
+not a claim that existing experiments have validated every native dtype.
 
-`Proofs/SupportedFP32.lean` now proves the unchanged output-first candidate for fp32
-output storage, across every input/weight/cast choice and both masking and
-accumulation flags. `Proofs/FP32.lean` checks finite actual promoted operands
-under the taken sentinel branch, reached output iteration and accumulation arm.
-The typed reduction and explicit output conversion remain unchanged. Its only
-numerical atom is the existing admitted fp32 `add_commute`; this scoped theorem
-does not discharge the arbitrary-output theorem in `FPEquiv.lean`.
-`Proofs/FP32Execution.lean` supplies a separate nonempty execution and guard
-witness for this supported theorem: fp32 input cast to bf16 weights, fp32
-output, a masked K tail, two output-loop iterations and signed-sentinel skip.
-It uses the consistent abstract backend, not a GPU experiment.
+`Proofs/NativeFP.lean` extracts the actual addition under the final store
+conversion. Its domain checks the actual typed operands, in their actual
+compute context, only on the selected non-sentinel branch, reached output-loop
+iterations and accumulation arm. `requirements_present` checks all 72
+configurations, so a missed source site cannot silently erase a guard. The
+scalar premise requests commutativity only for the `(compute precision, dtype)`
+selected by that source configuration. It contains no kernel execution,
+candidate, output equation, cast law, product law or reduction law.
+`output_first_execution` lifts this local scalar law through the complete
+source, preserving casts, reduction order, pointers, masks, control flow,
+registers, memory and failure. The new scalar premises are hypotheses; no
+experiment admission or axiom is manufactured.
 
-The admission gap is specifically fp16: its addition has no admitted row.
-There are existing bf16 and bf16-to-fp32 commutation report rows, but the old
-`ScalarArithmetic.Rules` interface exposes only fp32 atoms, so applying those
-rows would require a separate correctly typed and validated rule interface.
-The old theorem and its signature are retained as pending, without new axioms,
-placeholder proofs or a substituted candidate.
+`Proofs/SupportedFP32.lean` retains the separately admitted fp32-output theorem
+for every input/weight/cast choice and both masking and accumulation flags.
+`NativeFP.fp32_native_of_rules` explicitly derives that source's required
+scalar premise from the existing `ScalarArithmetic.Rules`. The domain still
+checks the actual reduction/output operands. `Proofs/FP32Execution.lean`
+supplies a successful nonempty execution witness with fp32 input cast to bf16
+weights, fp32 output, a masked K tail, two output-loop iterations and signed
+sentinel skip.
 
-`Proofs/GeneralCountermodel.lean` checks that the old fp32-only assumptions
-cannot prove the general target. It copies the pending domain locator exactly
-and proves source correspondence with `TypedSource.original` and `outputFirst`.
-For fp16 input/weights/output, K=N=BK=BN=SPLIT_N=1, unit strides, active slot 0
-and accumulation enabled, both complete kernels execute. A model changing only
-fp16 addition to left projection satisfies every selected fp32 scalar rule;
-the original stores 1 at Y[0], while the candidate stores 2. The copied locator
-returns an empty domain for this source. `not_output_first_equiv` refutes the
-old equivalence for every `ScalarArithmetic.Rules` parameter. Its axiom audit
-contains only `propext`, `Classical.choice` and `Quot.sound`. This is a logical
-countermodel to the current assumptions, not an IEEE or GPU numerical failure.
-The original public declarations remain unchanged and pending.
+`Proofs/GeneralCountermodel.lean` preserves the historical fp32-only contract
+and its old locator. For fp16 input/weights/output, K=N=BK=BN=SPLIT_N=1,
+unit strides, active slot 0 and accumulation enabled, both complete kernels
+execute. A model changing only fp16 addition to left projection satisfies
+every selected fp32 scalar rule; the original stores 1 at Y[0], while the
+candidate stores 2. The historical locator returns an empty domain.
+`not_output_first_equiv` refutes that historical equivalence for every
+`ScalarArithmetic.Rules` parameter. The corrected locator is nonempty on the
+same source, and `not_corrected_native_law` proves this backend violates the
+new scalar premise. This is a logical countermodel to inadequate assumptions,
+not an IEEE or GPU numerical discrepancy.
 
-`Proofs/AdditionProfiles.lean` adds separate typed scalar admission plumbing
-for the existing bf16, bf16_fp32 and fp32 ADD-COMMUTE report rows. Input guards
-read each profile's typed registers and observations read its typed output.
-Validation remains an explicit premise for the exact bound fragments; report
-metadata and admission are checked without adding axioms. Inspection of
-`experiments/floating_point/kernels.py` shows that both bf16 profiles widen
-inputs to fp32 before addition. The bf16 profile then rounds through
-bf16→fp32 before the final bf16 output conversion; bf16_fp32 converts the fp32
-result directly to output bf16. The new fragments preserve these conversions.
-Consequently these rows alone do not establish commutativity of the abstract
-native bf16 primitive used by BGMV: an explicit lowering correspondence is
-still required. No fp16 or fp64 report is supplied, and this plumbing is not
-connected to or counted as a proof of the pending general theorem.
+`Proofs/AdditionProfiles.lean` supplies typed admission plumbing for the
+existing bf16, bf16_fp32 and fp32 ADD-COMMUTE report rows. Validation remains an
+explicit premise for the exact bound fragments. The bf16 experiments widen
+their inputs to fp32 and perform explicit rounding conversions; these report
+rows therefore do not by themselves establish the native bf16 primitive's
+law used by BGMV. There is no supplied fp16 report. Other source-selected precision/dtype profiles, including the explicit fp64
+output computation, also remain scalar premises unless separately validated.
+The conditional full-source proof does not remove these concrete admission/lowering obligations and must
+not be counted as unconditional hardware certification.
 
 The three public entries share the complete source of
 `bgmv_expand_slice.py`'s `_bgmv_expand_slice_kernel`:
@@ -68,9 +64,9 @@ The three public entries share the complete source of
   includes successful flat-memory execution, actual access bounds and full-cell
   preservation. Initial vector, weights and old output are separate input
   values; the output allocation is listed once.
-- `FPEquiv.lean`: the previous fp32 addition proof, awaiting replacement by
-  the actual dtype-specific rule and domain. The intended checks still follow
-  the non-sentinel branch, reached output-loop iteration and accumulation arm.
+- `FPEquiv.lean`: the complete conditional native-addition proof, with the
+  precise dtype-specific scalar premise and reached-operand domain described
+  above. The public theorem no longer asserts the false fp32-only contract.
 
 The real contract states K ≤ BK, positive BN, output stride and split count,
 separate weight/output regions, disjoint allocations, initial input pins and
@@ -98,9 +94,13 @@ masked output tail. All dtype/cast/load choices and both versions produce
 may change. Masked weight padding is outside the weight allocation; the actual
 active accesses remain in bounds. The signed sentinel preserves all memory.
 
-`Proofs/TypedExecution.lean` is the earlier abstract-model witness and still
-needs the typed-sum backend and new guard path. It is not a GPU numerical
-experiment, and is not counted as current validation until rebuilt.
+`Proofs/TypedExecution.lean` uses the actual typed-sum backend and updated
+guard path for fp32 inputs cast to bf16 weights and fp16 output. It provides
+successful executions, inhabits both the finite domain and the scalar-law
+premise in a consistent abstract model, and applies the full-source theorem.
+`Proofs/NativeHalfExecution.lean` supplies the corresponding successful
+fp16-weight/fp16-output path, whose final addition is actually native fp16.
+Both are semantic consistency witnesses, not GPU numerical experiments.
 `Proofs/RealFoundation.lean` contains the generic tile/mask/pointer lemmas
 used by the current proof. `RealSetup` executes the source's full signed
 base-offset sum and proves it equals the displayed read window on the

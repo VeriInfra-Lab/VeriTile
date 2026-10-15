@@ -1,5 +1,7 @@
 # softmax_flaggems
 
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+
 **Complete symbolic per-program contracts on the stated source domains.**
 `Correct.lean` proves all four complete kernels, both branch choices and both
 versions. Five historical one-tile specifications retain their exact statements

@@ -29,26 +29,21 @@ theorem original_real_source :
     (RealKernel.mathematical q k v bias out sm_scale
       sqh sqm sqk skh skn skk svh svk svn soh som son sbh sbm
       Z H N P BIAS B0_SIZE BD BM BN .real).toAlgKernel := by
-  have ht : (TypedSource.original storage q k v bias out sm_scale sqh sqm sqk skh skn skk svh svk svn soh som son sbh sbm Z H N P BIAS B0_SIZE BD BM BN).toAlgorithm? =
-      .ok (TypedSource.original storage q k v bias out sm_scale sqh sqm sqk skh skn skk svh svk svn soh som son sbh sbm Z H N P BIAS B0_SIZE BD BM BN).toAlgKernel := by
-    cases storage <;> rfl
-  simp only [ComputeKernel.eraseDType, ht, ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType]
-  congr 1
-  all_goals cases storage
-  all_goals first | rfl | skip
+  cases storage
   all_goals
     simp only [TypedSource.original, TypedSource.FP16.original, TypedSource.BF16.original,
-      RealKernel.mathematical, ComputeKernel.toAlgKernel,
-      ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
-      ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
-      Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType,
-      MemAccess.eraseDType, MaskOpt.eraseDType, VeriTile.Triton.eraseDType,
-      NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType,
-      Except.bind, bind, List.map_cons, List.map_nil]
-    simp only [Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
+      RealKernel.mathematical, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?_mk,
+      ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
+      ComputeOp.toAlgorithm?, Except.bind, bind]
+    simp only [ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType]
+    -- Reduce literal offset maps before unfolding recursive erasure in their
+    -- function argument; otherwise simp expands erasure at an unknown Op.
+    simp only [Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
       VeriTile.Triton.eraseDType, FloatDType.toTileDType, NumericDType.eraseDType,
-      ComparableDType.eraseDType, IntegralDType.eraseDType, List.map_cons, List.map_nil]
-    rfl
+      ComparableDType.eraseDType, IntegralDType.eraseDType,
+      ↓List.map_cons, ↓List.map_nil, eq_mp_eq_cast, eq_mpr_eq_cast, cast_eq, id_eq]
+    all_goals rfl
 
 theorem original_projection_supported :
     (TypedSource.original storage q k v bias out sm_scale

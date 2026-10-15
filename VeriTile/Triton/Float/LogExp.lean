@@ -85,9 +85,11 @@ def Backend.exp : Backend → Op .real [] → Op .real []
 /-- Both fragments require the same finite input register `a`. -/
 def guards : List OperandGuard := [⟨"a", .finite⟩]
 
-/-- FP absolute value, preserving the source comparison and subtraction. -/
+/-- The source `tl.abs` primitive. In particular this is not a comparison
+followed by subtraction: signed zero and NaN signs belong to the backend's
+absolute-value operation. -/
 def absolute (a : Op .real []) : Op .real [] :=
-  .where (.lt .real .nil a (.const 0)) (.sub .real .nil (.const 0) a) a
+  .absFloat .real a
 
 /-- Select elimination only away from zero and within the normal exp range. -/
 def useIdentity (a : Op .real []) : Op .bool [] :=
@@ -129,10 +131,10 @@ def assignOutput (e : Op .real []) : List ComputeStmt :=
 
 /-- The fixed reference computation, with the finite-input condition attached. -/
 def originalLogExp : GuardedFragment :=
-  ⟨guards, assignOutput (.libdeviceLog (.libdeviceExp input))⟩
+  ⟨guards, assignOutput (.libdeviceLog (.libdeviceExp input)), .real, none⟩
 
 /-- The candidate eliminates the composition on its guarded fast path. -/
-def piecewiseLogExp : GuardedFragment := ⟨guards, assignOutput (expression .libdevice input)⟩
+def piecewiseLogExp : GuardedFragment := ⟨guards, assignOutput (expression .libdevice input), .real, none⟩
 
 /-- A log-product rewrite requires positive finite operands on both sides. -/
 def productGuards : List OperandGuard :=
@@ -148,7 +150,7 @@ def secondInput : Op .real [] := .ref .real [] "b"
 def Atom.lhs (a : Atom) : GuardedFragment := ⟨a.guards, assignOutput (match a with
   | .log_mul log | .log_mul_split log => log.log (.mul .real .nil input secondInput)
   | .log_exp log exp => log.log (exp.exp input)
-  | .log_exp_cancel log exp => log.log (exp.exp input))⟩
+  | .log_exp_cancel log exp => log.log (exp.exp input)), .real, none⟩
 
 /-- The proposed expression. Conditional rewrites keep their fallbacks;
 unconditional rewrites require their own independent admission. -/
@@ -156,7 +158,7 @@ def Atom.rhs (a : Atom) : GuardedFragment := ⟨a.guards, assignOutput (match a 
   | .log_mul log => .add .real .nil (log.log input) (log.log secondInput)
   | .log_mul_split log => splitProduct log input secondInput
   | .log_exp _ _ => input
-  | .log_exp_cancel log exp => expression log input exp)⟩
+  | .log_exp_cancel log exp => expression log input exp), .real, none⟩
 
 /-- Match an accepted report to the candidate's exact fp32 profile and domain.
 Experimental shape and input distribution select the row; they do not become
@@ -229,7 +231,7 @@ def referenceValue (backend : Backend) {α : Type} (M : Algebra α) (a : α) : �
 def value (backend : Backend) {α : Type} (M : Algebra α) (lt le : α → α → Bool) (a : α) : α :=
   let z := M.literal (some .fp32) .real 0
   let half := M.literal (some .fp32) .real (1 / 2)
-  let absolute := if lt a z then M.binary (some .fp32) .real .sub z a else a
+  let absolute := M.unary (some .fp32) (.abs .real) a
   let upper := M.literal (some .fp32) .real 80
   let simplify := lt half absolute && le absolute upper
   let fallback := M.unary (some .fp32) backend.logOp
@@ -255,7 +257,7 @@ theorem apply_log_exp_cancel (backend : Backend) {α : Type} [Inhabited α] (R :
   have h := hM _ _ (derive R (.log_exp_cancel backend) selected) t hg hg
   cases backend <;> simp only [Atom.lhs, Atom.rhs, assignOutput, run, step, evalExpr,
     evalComputeOp, expression, Backend.log, Backend.exp, evalOp_unfold, useIdentity, absolute, input,
-    ComputeDType.eraseDType, numeric, numericLt, numericLe, hlt, hle,
+    ComputeDType.eraseDType, fragmentAlgebra, numeric, numericLt, numericLe, hlt, hle,
     State.setReg_same, t] at h
   all_goals
     simp [State.setReg, bop, referenceValue, value, Backend.logOp] at h ⊢
@@ -299,7 +301,7 @@ theorem apply_log_mul_split (backend : Backend) {α : Type} [Inhabited α] (R : 
   have h := hM _ _ (derive R (.log_mul_split backend) selected) t hg hg
   cases backend <;> simp only [Atom.lhs, Atom.rhs, assignOutput, run, step, evalExpr,
     evalComputeOp, splitProduct, Backend.log, evalOp_unfold, keepProduct, input, secondInput,
-    ComputeDType.eraseDType, numeric, numericLe, hle, t] at h
+    ComputeDType.eraseDType, fragmentAlgebra, numeric, numericLe, hle, t] at h
   all_goals
     simp [State.setReg, bop, splitProductValue, Backend.logOp] at h ⊢
     exact congrFun h PUnit.unit

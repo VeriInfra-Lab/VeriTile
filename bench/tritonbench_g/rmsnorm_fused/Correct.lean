@@ -5,31 +5,15 @@ import bench.tritonbench_g.rmsnorm_fused.Proofs.Math
 import bench.tritonbench_g.rmsnorm_fused.Proofs.Precision
 import bench.tritonbench_g.rmsnorm_fused.Proofs.Execution
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.RmsnormFused
 open VeriTile.Triton
 open scoped VeriTile.Triton.StreamEmitMasked2DKernelIO₂
 
-/-- Per-kernel output summary for `rms_norm_fwd_fused`: the DSL surface lowers to
-the algorithm layer, and the masked store to `Y` is compute-correct — every
-active lane (`i.val < N`) holds the RMSNorm spec `rmsnormSpec`, out-of-bounds
-lanes are preserved. Stated under the `0 < N ≤ BLOCK_SIZE` single-block launch
-precondition chosen by the Python wrapper. -/
-specification rms_norm_fwd_fused_output_summary
-    (X Y W : RegionName) (stride N BLOCK_SIZE : Nat) (eps : ℝ)
-    (s : BlockState)
-    (hNpos : 0 < N) (hNle : N ≤ BLOCK_SIZE)
-    (hOutInj : Function.Injective
-      (fun i : Fin BLOCK_SIZE => yOffset s stride i)) :
-    (∃ alg, (rms_norm_fwd_fused X Y W stride N BLOCK_SIZE eps).toAlgorithm? =
-        Except.ok alg) ∧
-    ComputeCorrect.Realizes_without_Rounding
-      (kernel := rms_norm_fwd_fused X Y W stride N BLOCK_SIZE eps)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin BLOCK_SIZE => i.val < N)
-        (fun i => (Y, yOffset s stride i)))
-      (expected := fun i => rmsnormSpec s X W stride N BLOCK_SIZE eps i) := by
-  exact rms_norm_fwd_fused_output_summary_bridge X Y W stride N BLOCK_SIZE eps s hNpos hNle hOutInj
 
 /-- **The `⊨[R]` streaming headline (wave-5 S3 per-step emit genre).** For
 every rounding model `R`, the faithful `rms_norm_fwd_fused` surface
@@ -81,7 +65,7 @@ retained unchanged; this `⊨[R]` face restates the same RMS-norm content on
 the streaming emit skin, for every `R` at once (at the `.real` grid the two
 faces carry the same exact cell). Both faces are kept per the
 rounding-as-default doctrine. -/
-specification rms_norm_fwd_fused_io_correctness (R : RoundingModel)
+theorem rms_norm_fwd_fused_io_correctness (R : RoundingModel)
     (X Y W : RegionName) (stride N BLOCK_SIZE : Nat) (eps : ℝ)
     (hNpos : 0 < N) (hNle : N ≤ BLOCK_SIZE) :
     rmsnormFusedKernelIO X Y W stride N BLOCK_SIZE eps ⊨[R]

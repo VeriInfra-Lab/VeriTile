@@ -38,7 +38,12 @@ theorem load_compute (s : BlockState) (Y T O : RegionName)
     stepStmts ((body Y T O sy st so N B eps logTarget reduction).take 5) s =
       some (loadedState (B := B) s Y T yBase tBase N current eps logTarget) := by
   cases logTarget <;>
-    simp [body, forward, forwardSurface, ComputeKernel.surfaceBody,
+    simp [body, forward, forwardSurface, ComputeKernel.eraseDType, ComputeKernel.fromKernelBody,
+      ComputeKernel.toAlgKernel_fromKernelBody, Kernel.eraseDType,
+      Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def,
+      MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
+      NumericDType.eraseDType, ComparableDType.eraseDType, ComputeDType.eraseDType,
+      VeriTile.Triton.eraseDType, ComputeKernel.surfaceBody,
       ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?, ComputeStmt.listToAlgorithm?,
       ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?,
       stepStmts, stepStmt, evalOp.eq_def, hI, hY, hT, hBase,

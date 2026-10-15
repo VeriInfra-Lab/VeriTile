@@ -1,5 +1,7 @@
 # rms_norm_triton
 
+Public-entry cleanup (2026-10-14): the current benchmark specifications are the `specification` declarations in [Correct.lean](Correct.lean) and [FPEquiv.lean](FPEquiv.lean). Superseded entries have been retired; reusable mathematical facts remain ordinary helper theorems, and unused output-summary declarations have been removed. Historical preservation counts below describe the earlier snapshots. This cleanup adds no proof coverage or task acceptance.
+
 `Kernels.lean` contains the historical source declaration and the complete typed
 original/candidate family. X and Y share a storage type; W independently ranges
 over fp16, bf16, fp32 and fp64, giving 16 storage pairs. The source retains all

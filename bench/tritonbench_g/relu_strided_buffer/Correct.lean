@@ -2,78 +2,16 @@ import bench.tritonbench_g.relu_strided_buffer.Proofs.Real
 import bench.tritonbench_g.relu_strided_buffer.Proofs.CandidateReal
 import VeriTile.Meta.StatementAudit
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.ReluStridedBuffer
 open VeriTile.Triton
 open scoped VeriTile.Triton.MaskedTileKernelIO₁
 open scoped VeriTile.Triton.StreamGridStrideEmitMasked2DKernelIO₁
 
-/-- **Dimension-general** correctness summary for `relu_strided_buffer.py`'s
-`relu_forward_kernel_rank_1`, against the **genuine closed form**
-`reluSpec = relu(in0[t·in0_stride0]) = max 0 (…)` — a pure function of INPUT
-memory, never a read-back of the kernel's own output — for arbitrary `s0`,
-strides, `tile_size0` and `tiles_per_cta`. It packages, for **both**
-`one_tile_per_cta` constexpr branches:
-
-* both surfaces lower to the algorithm layer;
-* the `one_tile_per_cta = true` branch: every active lane
-  (`pid·tile_size0 + i < s0`) of the program's single tile holds
-  `relu(in0[t·in0_stride0])` at `out0[t·out0_stride0]`;
-* the `one_tile_per_cta = false` grid-stride branch: for **every** iteration
-  `j < tiles_per_cta` and lane `i` of tile `pid + j·num_ctas`, the active
-  cells hold the genuine ReLU value — the full multi-iteration loop is
-  verified end-to-end (loop invariant `gs_loop_readback`).
-
-Honest side-conditions: `0 < out0_stride0` (store-footprint injectivity —
-torch strides of a non-degenerate rank-1 buffer are ≥ 1), and for the
-grid-stride branch `in0_ptr ≠ out0_ptr` (later iterations load after earlier
-stores) and `0 < s.numPids 0` (a launched grid has at least one program). -/
-specification relu_strided_buffer_output_summary_general
-    (in0_ptr out0_ptr : RegionName)
-    (in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta tile_size0 : Nat)
-    (s : BlockState)
-    (hStride : 0 < out0_stride0)
-    (hDisj : in0_ptr ≠ out0_ptr)
-    (hGrid : 0 < s.numPids 0) :
-    -- (1) both branch surfaces lower to the algorithm layer
-    (∃ alg, (relu_forward_kernel_rank_1_one_tile_surface in0_ptr out0_ptr
-      in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta
-      tile_size0).toAlgorithm? = Except.ok alg) ∧
-    (∃ alg, (relu_forward_kernel_rank_1_grid_stride_surface in0_ptr out0_ptr
-      in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta
-      tile_size0).toAlgorithm? = Except.ok alg) ∧
-    -- (2) one_tile_per_cta = true: genuine elementwise ReLU
-    ComputeCorrect.Realizes_without_Rounding
-      (kernel := relu_forward_kernel_rank_1_one_tile_surface in0_ptr out0_ptr
-        in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta tile_size0)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin tile_size0 => taskIndex (s.pids 0) tile_size0 i < s0)
-        (fun i => (out0_ptr, taskIndex (s.pids 0) tile_size0 i * out0_stride0)))
-      (expected := fun i =>
-        reluSpec s in0_ptr in0_stride0 (taskIndex (s.pids 0) tile_size0 i)) ∧
-    -- (3) one_tile_per_cta = false: genuine elementwise ReLU across the
-    --     whole grid-stride loop
-    ComputeCorrect.Realizes_without_Rounding
-      (kernel := relu_forward_kernel_rank_1_grid_stride_surface in0_ptr
-        out0_ptr in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta tile_size0)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun p : Fin tiles_per_cta × Fin tile_size0 =>
-          taskIndex (s.pids 0 + p.1.val * s.numPids 0) tile_size0 p.2 < s0)
-        (fun p => (out0_ptr,
-          taskIndex (s.pids 0 + p.1.val * s.numPids 0) tile_size0 p.2
-            * out0_stride0)))
-      (expected := fun p =>
-        reluSpec s in0_ptr in0_stride0
-          (taskIndex (s.pids 0 + p.1.val * s.numPids 0) tile_size0 p.2)) :=
-  ⟨relu_one_tile_surface_toAlgorithm_supported in0_ptr out0_ptr in0_stride0
-      out0_stride0 s0 num_tasks tiles_per_cta tile_size0,
-    relu_grid_stride_surface_toAlgorithm_supported in0_ptr out0_ptr in0_stride0
-      out0_stride0 s0 num_tasks tiles_per_cta tile_size0,
-    relu_one_tile_compute_correct in0_ptr out0_ptr in0_stride0 out0_stride0
-      s0 num_tasks tiles_per_cta tile_size0 s hStride,
-    relu_grid_stride_compute_correct in0_ptr out0_ptr in0_stride0 out0_stride0
-      s0 num_tasks tiles_per_cta tile_size0 s hStride hDisj hGrid⟩
 
 
 /-- IO signature of the `one_tile_per_cta = true` branch on the **tile-indexed**
@@ -105,7 +43,7 @@ Dimension-general in `s0`, both strides, `tile_size0`; the only side-condition
 is `0 < out0_stride0` (store-footprint injectivity — a torch stride of a
 non-degenerate rank-1 buffer is ≥ 1). The strided, two-stride footprint is
 carried verbatim by `MaskedTileKernelIO₁`'s address functions. -/
-specification relu_strided_buffer_one_tile_io_correctness
+theorem relu_strided_buffer_one_tile_io_correctness
     (in0_ptr out0_ptr : RegionName)
     (in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta tile_size0 : Nat)
     (hStride : 0 < out0_stride0) :
@@ -185,7 +123,7 @@ loop arithmetic needs).
 the exact grid-stride streaming contract. That is faithful rather than vacuous
 because ReLU is a *selection* (`tl.where`), so no arithmetic manufactures a real
 that would need quantizing. -/
-specification relu_strided_buffer_grid_stride_io_correctnessR (R : RoundingModel)
+theorem relu_strided_buffer_grid_stride_io_correctnessR (R : RoundingModel)
     (in0_ptr out0_ptr : RegionName)
     (in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta tile_size0 : Nat)
     (hStride : 0 < out0_stride0) (hDisj : in0_ptr ≠ out0_ptr) :
@@ -225,73 +163,6 @@ specification relu_strided_buffer_grid_stride_io_correctnessR (R : RoundingModel
 
 
 namespace Candidate
-/-- **Dimension-general** correctness summary for `relu_strided_buffer.py`'s
-`relu_forward_kernel_rank_1`, against the **genuine closed form**
-`reluSpec = relu(in0[t·in0_stride0]) = max 0 (…)` — a pure function of INPUT
-memory, never a read-back of the kernel's own output — for arbitrary `s0`,
-strides, `tile_size0` and `tiles_per_cta`. It packages, for **both**
-`one_tile_per_cta` constexpr branches:
-
-* both surfaces lower to the algorithm layer;
-* the `one_tile_per_cta = true` branch: every active lane
-  (`pid·tile_size0 + i < s0`) of the program's single tile holds
-  `relu(in0[t·in0_stride0])` at `out0[t·out0_stride0]`;
-* the `one_tile_per_cta = false` grid-stride branch: for **every** iteration
-  `j < tiles_per_cta` and lane `i` of tile `pid + j·num_ctas`, the active
-  cells hold the genuine ReLU value — the full multi-iteration loop is
-  verified end-to-end (loop invariant `gs_loop_readback`).
-
-Honest side-conditions: `0 < out0_stride0` (store-footprint injectivity —
-torch strides of a non-degenerate rank-1 buffer are ≥ 1), and for the
-grid-stride branch `in0_ptr ≠ out0_ptr` (later iterations load after earlier
-stores) and `0 < s.numPids 0` (a launched grid has at least one program). -/
-specification relu_strided_buffer_output_summary_general
-    (in0_ptr out0_ptr : RegionName)
-    (in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta tile_size0 : Nat)
-    (s : BlockState)
-    (hStride : 0 < out0_stride0)
-    (hDisj : in0_ptr ≠ out0_ptr)
-    (hGrid : 0 < s.numPids 0) (_hB : 0 < tile_size0) :
-    -- (1) both branch surfaces lower to the algorithm layer
-    (∃ alg, (relu_forward_kernel_rank_1_one_tile_surface in0_ptr out0_ptr
-      in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta
-      tile_size0).toAlgorithm? = Except.ok alg) ∧
-    (∃ alg, (relu_forward_kernel_rank_1_grid_stride_surface in0_ptr out0_ptr
-      in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta
-      tile_size0).toAlgorithm? = Except.ok alg) ∧
-    -- (2) one_tile_per_cta = true: genuine elementwise ReLU
-    ComputeCorrect.Realizes_without_Rounding
-      (kernel := relu_forward_kernel_rank_1_one_tile_surface in0_ptr out0_ptr
-        in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta tile_size0)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun i : Fin tile_size0 => taskIndex (s.pids 0) tile_size0 i < s0)
-        (fun i => (out0_ptr, taskIndex (s.pids 0) tile_size0 i * out0_stride0)))
-      (expected := fun i =>
-        reluSpec s in0_ptr in0_stride0 (taskIndex (s.pids 0) tile_size0 i)) ∧
-    -- (3) one_tile_per_cta = false: genuine elementwise ReLU across the
-    --     whole grid-stride loop
-    ComputeCorrect.Realizes_without_Rounding
-      (kernel := relu_forward_kernel_rank_1_grid_stride_surface in0_ptr
-        out0_ptr in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta tile_size0)
-      (initialState := s)
-      (write := ComputeCorrect.WriteMap.writeIf
-        (fun p : Fin tiles_per_cta × Fin tile_size0 =>
-          taskIndex (s.pids 0 + p.1.val * s.numPids 0) tile_size0 p.2 < s0)
-        (fun p => (out0_ptr,
-          taskIndex (s.pids 0 + p.1.val * s.numPids 0) tile_size0 p.2
-            * out0_stride0)))
-      (expected := fun p =>
-        reluSpec s in0_ptr in0_stride0
-          (taskIndex (s.pids 0 + p.1.val * s.numPids 0) tile_size0 p.2)) :=
-  ⟨relu_one_tile_surface_toAlgorithm_supported in0_ptr out0_ptr in0_stride0
-      out0_stride0 s0 num_tasks tiles_per_cta tile_size0,
-    relu_grid_stride_surface_toAlgorithm_supported in0_ptr out0_ptr in0_stride0
-      out0_stride0 s0 num_tasks tiles_per_cta tile_size0,
-    relu_one_tile_compute_correct in0_ptr out0_ptr in0_stride0 out0_stride0
-      s0 num_tasks tiles_per_cta tile_size0 s hStride,
-    relu_grid_stride_compute_correct in0_ptr out0_ptr in0_stride0 out0_stride0
-      s0 num_tasks tiles_per_cta tile_size0 s hStride hDisj hGrid⟩
 
 
 /-- IO signature of the `one_tile_per_cta = true` branch on the **tile-indexed**
@@ -323,7 +194,7 @@ Dimension-general in `s0`, both strides, `tile_size0`; the only side-condition
 is `0 < out0_stride0` (store-footprint injectivity — a torch stride of a
 non-degenerate rank-1 buffer is ≥ 1). The strided, two-stride footprint is
 carried verbatim by `MaskedTileKernelIO₁`'s address functions. -/
-specification relu_strided_buffer_one_tile_io_correctness
+theorem relu_strided_buffer_one_tile_io_correctness
     (in0_ptr out0_ptr : RegionName)
     (in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta tile_size0 : Nat)
     (hStride : 0 < out0_stride0) (_hB : 0 < tile_size0) :
@@ -403,7 +274,7 @@ loop arithmetic needs).
 the exact grid-stride streaming contract. That is faithful rather than vacuous
 because ReLU is a *selection* (`tl.where`), so no arithmetic manufactures a real
 that would need quantizing. -/
-specification relu_strided_buffer_grid_stride_io_correctnessR (R : RoundingModel)
+theorem relu_strided_buffer_grid_stride_io_correctnessR (R : RoundingModel)
     (in0_ptr out0_ptr : RegionName)
     (in0_stride0 out0_stride0 s0 num_tasks tiles_per_cta tile_size0 : Nat)
     (hStride : 0 < out0_stride0) (hDisj : in0_ptr ≠ out0_ptr)

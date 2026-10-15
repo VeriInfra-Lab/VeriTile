@@ -1,7 +1,8 @@
 # KLDiv Triton Full-Source Proof Plan
 
-> Execute sequentially with one capped Lean compiler. No subagents, commits,
-> shared edits, Lake builds, or global registry edits are authorized here.
+> This port is integrated under the active corpus-completion plan. Root owns
+> its implementation and registry updates; parallel agents own other ports.
+> Keep dependency builds coordinated when shared artifacts are being refreshed.
 
 **Goal:** Prove independent real IO/safety/frame and whole-kernel FP equivalence
 for the actual complete forward and backward kernels, preserving historical APIs.
@@ -39,11 +40,12 @@ one-scalar-per-row allocation does not satisfy general multi-block bounds.
 - [x] Prove independent pointwise, padded-block and backward mathematical formulas.
 - [x] Prove actual initialization and body execution, then arbitrary-length signed-loop invariants.
 - [x] Prove actual active bounds, trace safety, flat execution/readback and full frames for the canonical mathematical source. Typed projection and candidate execution/safety transport gates also pass.
-- [ ] Prove full FP state/failure equivalence without numerical rewrite assumptions.
-- [ ] Check nonempty multi-block execution witnesses, reduction chunk footprints and empty-row behavior.
-- [ ] Gate every leaf, public entry and axiom audit sequentially; preserve all historical headers/docs.
-- [ ] Remove the redundant historical top-level module only after all replacements pass.
-- [ ] Obtain root read-only review and hand off dependency integration; report unsupported source profiles.
+- [x] Prove full FP state/failure equivalence without numerical rewrite assumptions. All three source-facing declarations compile and print no numerical assumptions.
+- [x] Check nonempty multi-block execution witnesses, reduction chunk footprints and empty-row behavior. Full typed numerical executions and active/sentinel readbacks pass at the default native stack using explicit two-block composition.
+- [x] Gate every leaf, public entry and axiom audit; preserve all historical headers/docs. The current public and support chain passes, including all typed numerical regressions.
+- [x] Remove the redundant historical top-level module after Kernels, LegacyReal and Correct compile and all 51 historical declaration headers/docstrings match.
+- [x] Complete root source/contract review and migrate all eleven public coverage records with validated source/support hashes; report unsupported source profiles and the wrapper allocation counterexample.
+- [ ] Complete corpus manifest integration and independent comparator replay when its required environment is available.
 
 No proof may assume successful execution or desired output values. Real log is
 totalized; real padding simplifications do not claim IEEE behavior. FP proofs

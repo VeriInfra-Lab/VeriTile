@@ -26,7 +26,7 @@ def windowMask (p : Layout) : Op .bool [p.BM,p.BN] :=
   .gt .int Broadcast.nil.consR.consL
     (.add .int .scalarL (z "start_n") (keyView p).castNatToInt)
     (.sub .int .scalarR (rowView p).castNatToInt (.constInt p.window))
-def sentinel : Op .real [] := .sub .real .nil (.const (0.0 : ℝ)) (.const (1e9 : ℝ))
+def sentinel : Op .real [] := .const (-1e9 : ℝ)
 
 def scaling (p : Layout) (swapped : Bool) (scale : ℝ) : Op .real [p.BM,p.BN] :=
   if swapped then .mul .real .scalarL (.const scale) (.ref .real [p.BM,p.BN] "qk")
@@ -55,7 +55,7 @@ def statsCode (p : Layout) : List Stmt :=
    .assign .real [p.BM] "l_ij" (.reduceSum ⟨1,by simp⟩ Bool.false (mat p "p"))]
 
 def normalizerCode (p : Layout) : List Stmt :=
-  [.assign .real [p.BM] "m_i_new" (.where (.gt .real Broadcast.nil.consSame (vec p "m_i") (vec p "m_ij")) (vec p "m_i") (vec p "m_ij")),
+  [.assign .real [p.BM] "m_i_new" (.max2 Broadcast.nil.consSame (vec p "m_i") (vec p "m_ij")),
    .assign .real [p.BM] "alpha" (.exp (.sub .real Broadcast.nil.consSame (vec p "m_i") (vec p "m_i_new"))),
    .assign .real [p.BM] "beta" (.exp (.sub .real Broadcast.nil.consSame (vec p "m_ij") (vec p "m_i_new"))),
    .assign .real [p.BM] "l_i_new" (.add .real Broadcast.nil.consSame

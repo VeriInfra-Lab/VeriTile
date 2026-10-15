@@ -1,10 +1,18 @@
 import bench.tritonbench_g.rmsnorm_triton.Proofs.Real
+import bench.tritonbench_g.rmsnorm_triton.Proofs.Contracts
+import bench.tritonbench_g.rmsnorm_triton.Proofs.Safety
+import bench.tritonbench_g.rmsnorm_triton.Proofs.Math
+import bench.tritonbench_g.rmsnorm_triton.Proofs.Execution
+import bench.tritonbench_g.rmsnorm_triton.Proofs.Precision
+import bench.tritonbench_g.rmsnorm_triton.Proofs.Witness
 
 namespace VeriTile.Bench.TritonBenchG.RmsnormTriton
 open VeriTile.Triton
 open scoped VeriTile.Triton.StreamEmitMasked2DKernelIO₂
 
 namespace Full.Final2
+open ScratchRms Wb
+
 /-- **Full output summary**: the surface lowers to the algorithm layer, and the
 masked store realizes the genuine multi-block RMS-norm closed form at every
 global lane `k < N_SIZE`. Holds for arbitrary `N_SIZE` — no
@@ -78,5 +86,21 @@ specification rmsnorm_full_io_correctness (R : RoundingModel)
     rmsnormKernelIO x w o sxb sxm sxk srw sob som sok N B eps ⊨[R]
       fun _ _ xs ws t j => rmsStreamSpec N B eps xs ws t j := by
   exact rmsnorm_full_io_correctness_bridge R x w o sxb sxm sxk srw sob som sok N B eps hB hox how hsok
+
+/-- Every modeled floating-storage profile, for each complete source variant,
+implements the independent full-row RMS formula. The theorem includes access
+safety, successful flattened execution and preservation of every cell outside
+the active output window.
+Integer native power is linked to the historical square model only over ℝ. -/
+specification typed_real_correct (input weight output : Storage) (v : Bool)
+    (X W O : RegionName) (sxb sxm sxk sw sob som sok N B : Nat) (eps : ℝ)
+    (hB : 0 < B) (hOX : O ≠ X) (hOW : O ≠ W) (hsok : 0 < sok) :
+    ExactIO (typedIO input weight output v X W O sxb sxm sxk sw sob som sok N B eps)
+      (fun _ _ xs ws t j => rmsStreamSpec N B eps xs ws t j) :=
+  typed_exact_io input weight output v X W O sxb sxm sxk sw sob som sok N B eps
+    hB hOX hOW hsok
+
+#guard_msgs (drop info) in
+#auditModuleAxioms
 
 end VeriTile.Bench.TritonBenchG.RmsnormTriton

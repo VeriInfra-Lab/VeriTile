@@ -29,10 +29,13 @@ unsigned 8/16/32/64-bit labels, boolean, and six floating formats. Signed widths
 share the Int channel and unsigned widths share Nat; these labels do not prove
 machine-width conversion behavior. Mixed source/destination conversion remains
 an explicit generic low-level gap, as recorded for `var_len_copy`; it is absent
-from this wrapper. The complete real contracts and typed successful-execution witnesses have
-passed local Lean checks. The public FP theorem and all eight headline axiom checks also passed.
-Dependency-aware integration and independent replay are tracked separately;
-these boundaries remain in force after validation.
+from this wrapper. The current-head dependency-aware public build passes all
+60 modules, including the complete real contracts, typed successful-execution
+witnesses and explicit finite flat allocations for all 15 profiles and both
+variants. All eight public heads and the execution/precision witnesses pass
+the 25-declaration standard-axiom audit; the FP assumption list is empty.
+Corpus acceptance and independent replay remain separate pending gates;
+these boundaries remain in force after local validation.
 
 The carrier-parametric ideal-real oracle explicitly applies `storedCell` to
 loaded payloads. Floating storage uses the library's finite-value representation

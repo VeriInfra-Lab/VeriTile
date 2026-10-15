@@ -44,7 +44,7 @@ instance : Spec.ProgramSyntax Program where
   Signature := RegionName × RegionName × Nat × (Nat → Nat) × Scheduled.Profile ×
     (Schedules → GuardExpression.Condition)
   signature p := (p.input, p.output, p.size, p.offset, p.profile, p.domain)
-  body p := [⟨[], p.kernel.surfaceBody⟩]
+  body p := [⟨[], p.kernel.surfaceBody, .real, none⟩]
   structural := some (fun _ _ => False)
   numerical := Equivalent
   -- Kernel-body syntax alone cannot change an observation or memory frame.

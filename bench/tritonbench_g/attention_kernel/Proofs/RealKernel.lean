@@ -1,4 +1,5 @@
 import VeriTile.Triton
+import VeriTile.Triton.Math.MaximumProjection
 import VeriTile.Triton.Semantics.UncheckedBlockLoad
 import VeriTile.Meta.StatementAudit
 
@@ -16,6 +17,8 @@ open VeriTile.Triton
 
 set_option linter.unusedSimpArgs false
 set_option linter.unusedVariables false
+set_option maxHeartbeats 600000
+set_option maxRecDepth 24000
 
 section Correct_without_Rounding
 
@@ -32,7 +35,7 @@ def mathematical
       _Z _H N_CTX P_SEQ BIAS_LAST_SIZE B0_NUMEL
       BLOCK_DMODEL BLOCK_M BLOCK_N : Nat)
     (out_dtype : FloatDType) :
-    ComputeKernel := triton {
+    ComputeKernel := (triton {
   start_m = tl.program_id(0)
   off_hz = tl.program_id(1)
   q_offset = off_hz * $(stride_qh)
@@ -100,7 +103,7 @@ def mathematical
     block_shape=($(BLOCK_M), $(BLOCK_DMODEL)),
     order=(1, 0))
   tl.store(O_block_ptr, acc)
-}
+}).eraseDType
 
 /-- The full aligned attention-kernel surface lowers to the algorithm layer. -/
 theorem mathematical_toAlgorithm_supported
@@ -118,8 +121,17 @@ theorem mathematical_toAlgorithm_supported
       stride_vk stride_vn stride_oh stride_om stride_on stride_b0h
       stride_b0m Z H N_CTX P_SEQ BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL
       BLOCK_M BLOCK_N out_dtype).toAlgorithm? = Except.ok alg := by
-  simp [mathematical, ComputeExpr.toAlgorithm?,
-    ComputeOp.toAlgorithm?]
+  simp only [mathematical, ComputeKernel.eraseDType, ComputeKernel.toAlgorithm?_mk,
+    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?, Except.bind, bind]
+  simp
+
+/-- Reuse the supported projection without expanding the complete AST again. -/
+private theorem supported_projection (k : ComputeKernel)
+    (h : ∃ alg, k.toAlgorithm? = Except.ok alg) :
+    k.toAlgorithm? = Except.ok k.toAlgKernel := by
+  obtain ⟨alg,h⟩ := h
+  simp [ComputeKernel.toAlgKernel,h]
 
 def mIndex (s : BlockState) (BLOCK_M : Nat) (i : Fin BLOCK_M) : Nat :=
   s.pids 0 * BLOCK_M + i.val
@@ -608,7 +620,9 @@ theorem preLoop_prefix (Q K V B0 Out : RegionName) (sm_scale : ℝ)
               [stride_vk, stride_vn] [0, 0]),
           Stmt.assign .real [BLOCK_M] "m_i" (Op.add .real Broadcast.scalarR (Op.full [BLOCK_M] (Op.const 0)) Op.negInf),
           Stmt.assign .real [BLOCK_M] "l_i" (Op.full [BLOCK_M] (Op.const 0)),
-          Stmt.assign .real [BLOCK_M, BLOCK_DMODEL] "acc" (Op.full [BLOCK_M, BLOCK_DMODEL] (Op.const 0)) ] from rfl]
+          Stmt.assign .real [BLOCK_M, BLOCK_DMODEL] "acc" (Op.full [BLOCK_M, BLOCK_DMODEL] (Op.const 0)) ] from by
+    simp only [mathematical, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel_fromKernelBody, ComputeKernel.toAlgorithm?_fromKernelBody, Kernel.eraseDType, ComputeKernel.toAlgKernel_mk, ComputeKernel.toAlgorithm?_mk, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, FloatDType.toTileDType, Except.bind, bind, ↓List.map_cons, ↓List.map_nil]
+    all_goals rfl]
   have hmi : ∀ s' : BlockState, evalOp (Op.add .real Broadcast.scalarR (Op.full [BLOCK_M] (Op.const 0)) Op.negInf) s'
       = some (⟨fun _ : TileIndex [BLOCK_M] => (⊥ : WithBot ℝ)⟩ : Tile .real [BLOCK_M]) := by
     intro s'
@@ -768,10 +782,7 @@ def attnLoopBodyG (B0 : RegionName)
           (Op.add .real (Broadcast.consSame (Broadcast.consL Broadcast.nil))
             (Op.ref .real [BLOCK_M, 1] "b0") (Op.ref .real [BLOCK_M, BLOCK_N] "b1")) (Op.const 1.44269504))),
     Stmt.assign .real [BLOCK_M] "m_i_new"
-      (Op.where
-        (Op.gt .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [BLOCK_M] "m_i")
-          (Op.reduceMax (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk")))
-        (Op.ref .real [BLOCK_M] "m_i")
+      (Op.max2 (Broadcast.consSame Broadcast.nil) (Op.ref .real [BLOCK_M] "m_i")
         (Op.reduceMax (⟨1, by simp⟩ : Fin [BLOCK_M, BLOCK_N].length) Bool.false (Op.ref .real [BLOCK_M, BLOCK_N] "qk"))),
     Stmt.assign .real [BLOCK_M] "alpha"
       (Op.exp2 (Op.sub .real (Broadcast.consSame Broadcast.nil) (Op.ref .real [BLOCK_M] "m_i")
@@ -829,14 +840,14 @@ theorem attnLoopBodyG_check (Q K V B0 Out : RegionName) (sm_scale : ℝ)
             stride_vk stride_vn stride_oh stride_om stride_on stride_b0h
             stride_b0m Z H N_CTX P_SEQ BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL
             BLOCK_M BLOCK_N FloatDType.real).toAlgKernel.body.drop 20 := by
-  simp only [mathematical, ComputeKernel.toAlgKernel_mk,
+  simp only [↓List.map_cons, ↓List.map_nil, mathematical, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel_fromKernelBody, ComputeKernel.toAlgorithm?_fromKernelBody, Kernel.eraseDType, ComputeKernel.toAlgorithm?_mk, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, FloatDType.toTileDType, Except.bind, bind, ComputeKernel.toAlgKernel_mk,
     ComputeStmt.listToAlgorithm?_cons_assign_alg, ComputeStmt.listToAlgorithm?_cons_assign_compute,
     ComputeStmt.listToAlgorithm?_cons_forRangeDyn, ComputeStmt.listToAlgorithm?_cons_store_alg,
     ComputeStmt.listToAlgorithm?_nil, computeExpr_toAlgorithm?_compute_alg,
     ComputeExpr.toAlgorithm?_compute_full_alg, ComputeExpr.toAlgorithm?_alg,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?_full_alg, computeOp_toAlgorithm?_alg,
     List.drop_succ_cons, List.drop_zero, attnLoopBodyG]
-  rfl
+  all_goals rfl
 
 /-- The lowered 3-statement post-loop, dimension-parameterized over
 `BLOCK_M BLOCK_DMODEL N_CTX stride_om stride_on`. -/
@@ -864,14 +875,14 @@ theorem attnPostLoopG_check (Q K V B0 Out : RegionName) (sm_scale : ℝ)
         stride_b0m Z H N_CTX P_SEQ BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL
         BLOCK_M BLOCK_N FloatDType.real).toAlgKernel.body.drop 20
       = attnPostLoopG Out BLOCK_M BLOCK_DMODEL N_CTX stride_om stride_on := by
-  simp only [mathematical, ComputeKernel.toAlgKernel_mk,
+  simp only [↓List.map_cons, ↓List.map_nil, mathematical, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel_fromKernelBody, ComputeKernel.toAlgorithm?_fromKernelBody, Kernel.eraseDType, ComputeKernel.toAlgorithm?_mk, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, FloatDType.toTileDType, Except.bind, bind, ComputeKernel.toAlgKernel_mk,
     ComputeStmt.listToAlgorithm?_cons_assign_alg, ComputeStmt.listToAlgorithm?_cons_assign_compute,
     ComputeStmt.listToAlgorithm?_cons_forRangeDyn, ComputeStmt.listToAlgorithm?_cons_store_alg,
     ComputeStmt.listToAlgorithm?_nil, computeExpr_toAlgorithm?_compute_alg,
     ComputeExpr.toAlgorithm?_compute_full_alg, ComputeExpr.toAlgorithm?_alg,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?_full_alg, computeOp_toAlgorithm?_alg,
     List.drop_succ_cons, List.drop_zero, attnPostLoopG]
-  rfl
+  all_goals rfl
 
 /-- **General** `qk = zeros + dot(q, k)` (dimension-parameterized). -/
 theorem qk_dot_op_evalG (s : BlockState) (BM BN HEAD : Nat)
@@ -1004,6 +1015,17 @@ theorem ak_mnew_op_eval (s : BlockState) (BM BN : Nat)
       (Op.reduceMax (⟨1, by simp⟩ : Fin [BM,BN].length) Bool.false (Op.ref .real [BM, BN] "qk")) s = some rmaxT := hrmaxN
   rw [evalOp_where]
   simp only [evalOp_gt, evalOp_ref, hmax, hrmax, Option.bind_eq_bind, Option.bind_some]
+
+/-- The maximum compatibility is restricted to the WithBot Real interpreter. -/
+private theorem ak_mnew_source_eval (s : BlockState) (BM BN : Nat)
+    (mtile : Tile .real [BM]) (qktile : Tile .real [BM, BN]) (rmaxT : Tile .real [BM])
+    (hmax : s.regs .real [BM] "m_i" = some mtile)
+    (hqk : s.regs .real [BM, BN] "qk" = some qktile)
+    (hrm : Tile.reduceMaxDrop (⟨1, by simp⟩ : Fin [BM,BN].length) qktile = some rmaxT) :
+    evalOp (Op.max2 (.consSame .nil) (.ref .real [BM] "m_i")
+      (.reduceMax ⟨1, by simp⟩ Bool.false (.ref .real [BM,BN] "qk"))) s =
+      some (Tile.select (Tile.cop ComparableDType.real.gt (.consSame .nil) mtile rmaxT) mtile rmaxT) := by
+  exact evalOp_max2_of_where (ak_mnew_op_eval s BM BN mtile qktile rmaxT hmax hqk hrm)
 
 /-- **`alpha = tl.math.exp2(m_i - m_i_new)`** op-eval recipe. -/
 theorem ak_alpha_op_eval (s : BlockState) (BM : Nat) (mtile mnewtile : Tile .real [BM])
@@ -1236,7 +1258,7 @@ theorem attnLoopBody_stepsG (B0 : RegionName) (BLOCK_M BLOCK_N HEAD stride_b0m :
         (by rw [BlockState.setReg_same]) (by simp [BlockState.setReg_ne_name, hb1])]))]
   -- L6: m_i_new = maximum(m_i, reduceMax qk 1)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
-    (ak_mnew_op_eval _ BLOCK_M BLOCK_N mtile qkT rmaxT
+    (ak_mnew_source_eval _ BLOCK_M BLOCK_N mtile qkT rmaxT
       (by simp [BlockState.setReg_ne_name, hmax]) (by rw [BlockState.setReg_same]) hrm))]
   -- L7: alpha = exp2(m_i - m_i_new)
   rw [stepStmts.cons_some (stepStmt_assign_eq_some
@@ -1329,14 +1351,14 @@ theorem attnPreLoopTailG_check (Q K V B0 Out : RegionName) (sm_scale : ℝ)
         stride_b0m Z H N_CTX P_SEQ BIAS_LAST_SIZE B0_NUMEL BLOCK_DMODEL
         BLOCK_M BLOCK_N FloatDType.real).toAlgKernel.body.take 19).drop 10
       = attnPreLoopTailG B0 sm_scale BLOCK_M BLOCK_N BLOCK_DMODEL N_CTX P_SEQ BIAS_LAST_SIZE stride_b0h stride_b0m := by
-  simp only [mathematical, ComputeKernel.toAlgKernel_mk,
+  simp only [↓List.map_cons, ↓List.map_nil, mathematical, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel_fromKernelBody, ComputeKernel.toAlgorithm?_fromKernelBody, Kernel.eraseDType, ComputeKernel.toAlgorithm?_mk, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, FloatDType.toTileDType, Except.bind, bind, ComputeKernel.toAlgKernel_mk,
     ComputeStmt.listToAlgorithm?_cons_assign_alg, ComputeStmt.listToAlgorithm?_cons_assign_compute,
     ComputeStmt.listToAlgorithm?_cons_forRangeDyn, ComputeStmt.listToAlgorithm?_cons_store_alg,
     ComputeStmt.listToAlgorithm?_nil, computeExpr_toAlgorithm?_compute_alg,
     ComputeExpr.toAlgorithm?_compute_full_alg, ComputeExpr.toAlgorithm?_alg,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?_full_alg, computeOp_toAlgorithm?_alg,
     List.take_succ_cons, List.take_zero, List.drop_succ_cons, List.drop_zero, attnPreLoopTailG]
-  rfl
+  all_goals rfl
 
 /-- **General** `q = q · qk_scale` (dimension-parameterized). -/
 theorem ak_qscale_op_evalG (s : BlockState) (BM HEAD : Nat) (qtile : Tile .real [BM, HEAD]) (sc : ℝ)
@@ -2006,8 +2028,8 @@ theorem attention_kernel_genuine_output_compute_correct_general
             (s.pids 1 * stride_qh) (s.pids 1 * stride_kh) (s.pids 1 * stride_b0h)
             BLOCK_M BLOCK_N HEAD (BLOCK_N * nB) BIAS_LAST_SIZE stride_b0m (s.pids 0) idx)))) := by
   apply ComputeKernel.computeCorrect_of_toAlgKernel
-  · simp [mathematical, ComputeExpr.toAlgorithm?,
-      ComputeOp.toAlgorithm?]
+  · apply supported_projection
+    apply mathematical_toAlgorithm_supported
   intro s0 s' hExec hs0
   subst s0
   intro idx
@@ -2131,7 +2153,9 @@ private theorem akIO_take10 (Q K V B0 Out : RegionName) (sm_scale : ℝ)
         stride_qh HEAD 1 stride_kh HEAD 1 stride_kh HEAD 1 stride_qh HEAD 1
         stride_b0h stride_b0m 2 4 (BLOCK_N * nB) 0 BIAS_LAST_SIZE 128 HEAD BLOCK_M BLOCK_N
         FloatDType.real).toAlgKernel.body.take 10)
-      = akPreLoop10G Q K V stride_qh stride_kh BLOCK_M BLOCK_N HEAD nB := rfl
+      = akPreLoop10G Q K V stride_qh stride_kh BLOCK_M BLOCK_N HEAD nB := by
+  simp only [↓List.map_cons, ↓List.map_nil, mathematical, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel_fromKernelBody, ComputeKernel.toAlgorithm?_fromKernelBody, Kernel.eraseDType, ComputeKernel.toAlgKernel_mk, ComputeKernel.toAlgorithm?_mk, ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType, IntegralDType.eraseDType, FloatDType.toTileDType, Except.bind, bind, akPreLoop10G]
+  all_goals rfl
 
 set_option maxRecDepth 100000 in
 private theorem akIO_take19 (Q K V B0 Out : RegionName) (sm_scale : ℝ)
@@ -2192,7 +2216,7 @@ private theorem akIO_body_split (Q K V B0 Out : RegionName) (sm_scale : ℝ)
 
 /-! ## Per-segment cast-free collapse -/
 
-set_option maxHeartbeats 4000000 in
+set_option maxHeartbeats 600000 in
 /-- Every prologue-prefix statement is cast-free (`.nat` arithmetic, the two
 `makeBlockPtrDyn` assigns, the `makeBlockPtrDynOffsets` assign through the
 `mapM` mirror, and the `.real` initializers). -/
@@ -2224,7 +2248,7 @@ private theorem akIO_preLoop10_stmt_castFree (R : RoundingModel)
   · simp only [stepStmtR, stepStmt, evalOpR.eq_def, evalOp.eq_def]
   · simp only [stepStmtR, stepStmt, evalOpR.eq_def, evalOp.eq_def]
 
-set_option maxHeartbeats 4000000 in
+set_option maxHeartbeats 600000 in
 /-- Prologue loads and arithmetic contain no precision casts. -/
 private theorem akIO_preLoopTail_stmt_castFree (R : RoundingModel)
     (hreal : R.round .real = id) (B0 : RegionName) (sm_scale : ℝ)
@@ -2237,7 +2261,7 @@ private theorem akIO_preLoopTail_stmt_castFree (R : RoundingModel)
   rcases hst with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
     simp only [stepStmtR, stepStmt, evalOpR.eq_def, evalOp.eq_def]
 
-set_option maxHeartbeats 4000000 in
+set_option maxHeartbeats 600000 in
 /-- The entire real loop body is independent of rounding. -/
 private theorem akIO_loopBody_stmt_castFree (R : RoundingModel)
     (hreal : R.round .real = id) (B0 : RegionName)
@@ -2250,7 +2274,7 @@ private theorem akIO_loopBody_stmt_castFree (R : RoundingModel)
     rfl | rfl | rfl <;>
     simp only [stepStmtR, stepStmt, evalOpR.eq_def, evalOp.eq_def]
 
-set_option maxHeartbeats 4000000 in
+set_option maxHeartbeats 600000 in
 /-- Normalization, output-pointer construction and the real store are exact. -/
 private theorem akIO_postLoop_stmt_castFree (R : RoundingModel)
     (hreal : R.round .real = id) (Out : RegionName) (BLOCK_M HEAD N_CTX : Nat) :
@@ -2341,7 +2365,7 @@ private theorem akIO_body_castFree (R : RoundingModel) (hreal : R.round .real = 
       · exact akIO_loopStmt_castFree R hreal B0 BLOCK_M BLOCK_N HEAD stride_b0m u
       · exact akIO_postLoop_stmt_castFree R hreal Out BLOCK_M HEAD (BLOCK_N * nB) st hpost u
 
-set_option maxHeartbeats 4000000 in
+set_option maxHeartbeats 600000 in
 /-- The pinned surface sits inside the flat-memory bridge's covered fragment
 (no `ptrSub`; block-pointer ops structurally covered). -/
 private theorem akIO_flattenOk (Q K V B0 Out : RegionName) (sm_scale : ℝ)
@@ -2678,7 +2702,7 @@ private theorem akIO_evalOpR_bn1 (R : RoundingModel) (BLOCK_N BIAS_LAST_SIZE : N
 
 /-! ## Loop-body trace safety -/
 
-set_option maxHeartbeats 4000000 in
+set_option maxHeartbeats 600000 in
 /-- Loop-body trace safety from the block-pointer and bias-register facts:
 the K/V block-ptr loads and the `b0` block-column region load are the body's
 only memory accesses; every other statement is register-only. -/
@@ -2786,7 +2810,7 @@ private theorem akIO_bodySafeR (R : RoundingModel) (bounds : RegionBounds)
 
 /-! ## Kernel-level trace safety -/
 
-set_option maxHeartbeats 4000000 in
+set_option maxHeartbeats 600000 in
 set_option maxRecDepth 8000 in
 /-- **Kernel-level trace safety** for the pinned surface: assembled from the
 deterministic prologue walk, the weak (success-conditional) loop safety
@@ -3313,6 +3337,9 @@ def attentionKernelIO (Q K V B0 Out : RegionName) (sm_scale : ℝ)
     stride_qh HEAD 1 stride_kh HEAD 1 stride_kh HEAD 1 stride_qh HEAD 1
     stride_b0h stride_b0m 2 4 (BLOCK_N * nB) 0 BIAS_LAST_SIZE 128 HEAD BLOCK_M BLOCK_N
     FloatDType.real
+  projection := by
+    apply supported_projection
+    apply mathematical_toAlgorithm_supported
   inp1 := Q
   inp2 := K
   inp3 := V
@@ -3410,7 +3437,7 @@ section IOHeadline
 open scoped VeriTile.Triton.StreamMasked3DKernelIO₄
 open ClosedForm
 
-set_option maxHeartbeats 4000000 in
+set_option maxHeartbeats 600000 in
 set_option maxRecDepth 8000 in
 /-- Successful flat execution, the bias-attention formula and the memory
 frame on the real channel. The final contract instantiates the internal adapter

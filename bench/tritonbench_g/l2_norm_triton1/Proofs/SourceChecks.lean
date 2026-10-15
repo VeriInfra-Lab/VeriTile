@@ -44,9 +44,9 @@ def expectedStore (storage : Storage) (B : Nat) : ComputeStmt :=
         (.withPrecision .real .fp32 (.ref .real [B] "y")))))
       (.mask (.ref .bool [B] "mask"))
   | .fp16 => .store .fp16 [B] (storeAddress .fp16 B)
-      (.alg (.castFloat .real .fp16 (.ref .real [B] "y"))) (.mask (.ref .bool [B] "mask"))
+      (.alg (.castFloat .real .fp16 (.withPrecision .real .fp32 (.ref .real [B] "y")))) (.mask (.ref .bool [B] "mask"))
   | .bf16 => .store .bf16 [B] (storeAddress .bf16 B)
-      (.alg (.castFloat .real .bf16 (.ref .real [B] "y"))) (.mask (.ref .bool [B] "mask"))
+      (.alg (.castFloat .real .bf16 (.withPrecision .real .fp32 (.ref .real [B] "y")))) (.mask (.ref .bool [B] "mask"))
 
 theorem store_precision (storage : Storage) (v : Bool) (X Y : RegionName)
     (stride N : Nat) (eps : ℝ) (B : Nat) :

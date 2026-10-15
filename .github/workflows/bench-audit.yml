@@ -20,6 +20,14 @@ on:
       - 'scripts/setup-comparator.sh'
       - 'scripts/kernel-manifest.tsv'
       - 'scripts/test_audit_shards.py'
+      - 'scripts/test_acceptance_bundle.py'
+      - 'scripts/test_comparator_preflight.py'
+      - 'lakefile.toml'
+      - 'scripts/test_source_control_materializations.py'
+      - 'scripts/test_source_uniform_materializations.py'
+      - 'scripts/fixtures/source_uniform_materializations/**'
+      - 'scripts/check_triton_softmax_source_profiles.py'
+      - 'scripts/fixtures/source_control_materializations/**'
       - 'lean-toolchain'
       - '.github/actions/setup-comparator/**'
       - '.github/workflows/bench-audit.yml'
@@ -33,6 +41,14 @@ on:
       - 'scripts/setup-comparator.sh'
       - 'scripts/kernel-manifest.tsv'
       - 'scripts/test_audit_shards.py'
+      - 'scripts/test_acceptance_bundle.py'
+      - 'scripts/test_comparator_preflight.py'
+      - 'lakefile.toml'
+      - 'scripts/test_source_control_materializations.py'
+      - 'scripts/test_source_uniform_materializations.py'
+      - 'scripts/fixtures/source_uniform_materializations/**'
+      - 'scripts/check_triton_softmax_source_profiles.py'
+      - 'scripts/fixtures/source_control_materializations/**'
       - 'lean-toolchain'
       - '.github/actions/setup-comparator/**'
       - '.github/workflows/bench-audit.yml'
@@ -72,13 +88,27 @@ jobs:
       - name: Check audit source and sharding regressions
         run: |
           python3 -m unittest discover -s scripts -p 'test_audit_source.py'
+          python3 -m unittest discover -s scripts -p 'test_correctness_surface_audit.py'
+          python3 -m unittest discover -s scripts -p 'test_source_shape_audit.py'
+          python3 -m unittest discover -s scripts -p 'test_source_dtype_audit.py'
+          python3 -m unittest discover -s scripts -p 'test_source_constexpr_profile.py'
+          python3 -m unittest discover -s scripts -p 'test_source_runtime_scalar_profile.py'
+          python3 -m unittest discover -s scripts -p 'test_source_helpers.py'
+          python3 -m unittest discover -s scripts -p 'test_source_extern_orders.py'
+          python3 -m unittest discover -s scripts -p 'test_source_pointer_dtype_profile.py'
+          python3 -m unittest discover -s scripts -p 'test_source_materializations.py'
+          python3 -m unittest discover -s scripts -p 'test_source_control_materializations.py'
+          python3 -m unittest discover -s scripts -p 'test_source_uniform_materializations.py'
           python3 -m unittest discover -s scripts -p 'test_audit_shards.py'
+          python3 -m unittest discover -s scripts -p 'test_acceptance_bundle.py'
+          python3 -m unittest discover -s scripts -p 'test_comparator_preflight.py'
+          python3 scripts/check_triton_softmax_source_profiles.py --output "$RUNNER_TEMP/softmax-source-profiles"
 
       - name: Build Lean project
         uses: leanprover/lean-action@v1
         with:
           build: true
-          build-args: "VeriTile VeriTileFull"
+          build-args: "VeriTile VeriTileMath VeriTileFull TritonBenchGVerified TritonBenchGInProgress TritonBenchGLegacy TritonBenchSpecExamples FPFrontendRegressions"
           test: false
           lint: false
           use-mathlib-cache: auto

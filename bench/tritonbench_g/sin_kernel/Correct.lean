@@ -2,6 +2,11 @@ import bench.tritonbench_g.sin_kernel.Proofs.Execution
 import bench.tritonbench_g.sin_kernel.Proofs.Real
 import bench.tritonbench_g.sin_kernel.Proofs.Candidate
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.SinKernel
 
 open VeriTile.Triton VeriTile.Examples
@@ -15,7 +20,7 @@ kernel terminates, every active output lane holds `Real.sin (xs i)`, and
 every other memory cell is unchanged. Proof:
 `MaskedKernelIO₁.Implements.intro` assembles the region-model masked triple
 with the flat-memory bridge side conditions. -/
-specification kernel_function_correctness
+theorem kernel_function_correctness
     (x_ptr output_ptr : RegionName)
     (n_elements BLOCK_SIZE : Nat) :
     sinIO x_ptr output_ptr n_elements BLOCK_SIZE

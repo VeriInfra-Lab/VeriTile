@@ -1,3 +1,12 @@
+/-
+Source-audit target: max_kernel_1
+Source-audit Lean: maxStage1%
+Source-audit args: dtype=tl.float32, version=original
+Selected lexical source view only; this metadata is not all-profile certification.
+Original fp32 first-stage maximum quotation, including its masked infinity padding.
+max_kernel_2, max_kernel, other dtypes and candidate transformations are unselected.
+-/
+
 import VeriTile.Triton.DSL
 
 namespace VeriTile.Bench.TritonBenchG.MaxReduction

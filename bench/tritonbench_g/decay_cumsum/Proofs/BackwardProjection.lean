@@ -1,5 +1,5 @@
 import bench.tritonbench_g.decay_cumsum.Kernels
-import bench.tritonbench_g.decay_cumsum.Proofs.RealReference
+import bench.tritonbench_g.decay_cumsum.Proofs.BackwardLoop
 import VeriTile.Triton.Float.Erasure
 namespace VeriTile.Bench.TritonBenchG.DecayCumsum.BackwardProjection
 open VeriTile.Triton TypedSource
@@ -16,15 +16,17 @@ def stop (BT : Nat) : Op .nat [] :=
 
 def canonicalBody (dq_inner dq_inter dk_inner dk_inter q k g dg : RegionName) (sH DK BT BK : Nat) (scale : ℝ) : List Stmt :=
   prelude dq_inner dq_inter dk_inner dk_inter q k g dg sH DK BT BK scale ++
-    [.forRangeDyn "__rev_j" (.constNat 0) (stop BT) (.constNat 1)
-      (RealReference.bwdIterBodyG DK BT BK)]
+    [.forRangeInt "__rev_j"
+      (.sub .int .nil (.constInt 0) (.sub .int .nil (.constInt (Int.ofNat BT)) (.constInt (Int.ofNat 1))))
+      (.constInt (Int.ofNat 1)) (.constNat 1)
+      (BackwardLoop.sourceBody DK BT BK)]
 
 theorem original_body (source gate : Storage) (dq_inner dq_inter dk_inner dk_inter q k g dg : RegionName)
     (sH sT sD B H T BT BK DK : Nat) (scale : ℝ) :
     (backward source gate Bool.false dq_inner dq_inter dk_inner dk_inter q k g dg sH sT sD B H T BT BK DK scale).eraseDType.toAlgKernel.body =
       canonicalBody dq_inner dq_inter dk_inner dk_inter q k g dg sH DK BT BK scale := by
   cases source <;> cases gate
-  all_goals simp only [backward,canonicalBody,prelude,RealReference.bwdIterBodyG,stop,
+  all_goals simp only [backward,canonicalBody,prelude,BackwardLoop.sourceBody,RealReference.bwdIterBodyG,stop,
     Bool.false_eq_true,↓reduceIte,ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

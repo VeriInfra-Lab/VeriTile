@@ -1,3 +1,4 @@
+import VeriTile.Triton.Math.MaximumProjection
 import bench.tritonbench_g.context_attn_nopad.Proofs.LoopProgram
 import bench.tritonbench_g.context_attn_bloom.Proofs.NumericOps
 namespace VeriTile.Bench.TritonBenchG.ContextAttnNopad.NormalizerExecution
@@ -35,7 +36,7 @@ theorem executes (p : Layout)
   let s2 := s1.setReg "alpha" .real [p.BM] (alpha p mi mij)
   let s3 := s2.setReg "beta" .real [p.BM] (beta p mi mij)
   let s4 := s3.setReg "l_i_new" .real [p.BM] (newDenominator p mi mij li lij)
-  have h1 := bloomMiNew_eval u mi mij hmi hmij
+  have h1 := evalOp_max2_of_where (bloomMiNew_eval u mi mij hmi hmij)
   change evalOp _ u = some (newMaximum p mi mij) at h1
   have h2 := bloomExpSub_eval s1 "m_i" "m_i_new" mi (newMaximum p mi mij)
     (by simp [s1,hmi]) (by simp [s1])
@@ -47,7 +48,7 @@ theorem executes (p : Layout)
     (by simp [s3,s2]) (by simp [s3,s2,s1,hli]) (by simp [s3]) (by simp [s3,s2,s1,hlij])
   change evalOp _ s3 = some (newDenominator p mi mij li lij) at h4
   unfold normalizerCode vec
-  rw [stepStmts.cons_some (stepStmt_assign_eq_some h1)]
+  erw [stepStmts.cons_some (stepStmt_assign_eq_some h1)]
   change stepStmts _ s1 = _
   rw [stepStmts.cons_some (stepStmt_assign_eq_some h2)]
   change stepStmts _ s2 = _

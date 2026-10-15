@@ -17,7 +17,7 @@ class AuditAggregateTests(unittest.TestCase):
         ports = self.root / 'bench/tritonbench_g'
         ports.mkdir(parents=True)
         (self.root / 'scripts').mkdir()
-        for name in ['audit_tritonbench_g.sh', 'audit_source.py', 'port_layout.py']:
+        for name in ['audit_tritonbench_g.sh', 'audit_source.py', 'source_helpers.py', 'source_orders.py', 'source_extern.py', 'source_pointer_dtypes.py', 'source_materializations.py', 'source_control_materializations.py', 'source_uniform_materializations.py', 'source_dtype_constexpr.py', 'port_layout.py']:
             shutil.copyfile(ROOT / 'bench' / name, self.root / 'bench' / name)
         for name in ['proof_blockers.md', 'completion_audit.md']:
             (ports / name).touch()

@@ -33,7 +33,7 @@ theorem original_flattenOk (input : Storage) (output : Accumulation)
   rw [projection]
   unfold Kernel.FlattenOk
   rw [source_body]
-  simp [StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def,
+  simp [sourceMaximum, StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def,
     inputFull, inputTail, outputFull, outputTail, indexPrefix, maskStatement, outputPointer,
     loopAbody, loopBbody, loopApass2body, loopBpass2body, reductionStmts,
     previousExpression, signedQuotient]
@@ -44,7 +44,7 @@ theorem candidate_flattenOk (input : Storage) (output : Accumulation)
   rw [projection]
   unfold Kernel.FlattenOk
   rw [candidate_source_body]
-  simp [StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def,
+  simp [sourceMaximum, StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def,
     inputFullCandidate, inputTailCandidate, outputFullCandidate, outputTailCandidate, indexPrefixCandidate, maskStatement, outputPointer,
     loopAbody, loopBbody, loopApass2body, loopBpass2body, reductionStmts,
     previousExpression, signedQuotient]

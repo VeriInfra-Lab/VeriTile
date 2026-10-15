@@ -26,6 +26,26 @@ private theorem if_lt_self (a x y : WithBot ℝ) :
 private theorem option_max_self (a : ℝ) :
     @max (WithBot ℝ) _ (some a) (some a) = some a := max_self _
 
+-- The evaluator's maximum uses the semilattice instance, whose raw operation
+-- is distinct from the linear-order max instance used by some simp lemmas.
+private theorem semilattice_max_eq_option (a b : WithBot ℝ) :
+    @max (WithBot ℝ)
+      (@SemilatticeSup.toMax (WithBot ℝ) (@WithBot.semilatticeSup ℝ Real.instSemilatticeSup)) a b =
+      @max (Option ℝ) Option.instMax a b := by
+  cases a <;> cases b <;> rfl
+private theorem option_max_bot_left (a : WithBot ℝ) :
+    @max (Option ℝ) Option.instMax none a = a := by
+  cases a <;> rfl
+private theorem option_max_bot_right (a : WithBot ℝ) :
+    @max (Option ℝ) Option.instMax a none = a := by
+  cases a <;> rfl
+private theorem option_max_same (a : WithBot ℝ) :
+    @max (Option ℝ) Option.instMax a a = a := by
+  cases a with
+  | bot => rfl
+  | coe x => change some (max x x) = some x; rw [max_self]
+attribute [local simp] semilattice_max_eq_option option_max_bot_left option_max_bot_right option_max_same
+
 def initial : BlockState where
   mem := fun r _ ↦ .real (if r = "Y" then 7 else 0)
   regs := fun _ _ _ ↦ none

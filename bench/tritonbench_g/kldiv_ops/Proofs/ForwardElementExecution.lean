@@ -13,7 +13,15 @@ theorem element_source_decomposition (Y T O : RegionName) (sy st so N B : Nat)
         [.forRangeInt "i" (.constInt 0) (.constInt N) (.constNat B)
           (body Y T O sy st so N B eps logTarget 0)] ++
         (forward Y T O sy st so N B eps logTarget 0).body.drop 7 := by
-  rfl
+  cases logTarget <;> simp [body, forward, forwardSurface,
+    ComputeKernel.eraseDType, ComputeKernel.fromKernelBody,
+    ComputeKernel.toAlgKernel_fromKernelBody, ComputeKernel.surfaceBody,
+    ComputeKernel.toAlgKernel, ComputeKernel.toAlgorithm?,
+    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeOp.toAlgorithm?, Except.bind, bind, Kernel.eraseDType, Stmt.eraseDTypeList,
+    Stmt.eraseDType, Op.eraseDType.eq_def, MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
+    VeriTile.Triton.eraseDType, NumericDType.eraseDType, ComparableDType.eraseDType,
+    FloatDType.toTileDType, ComputeDType.eraseDType, Region.cast]
 
 theorem element_initial_inv (s : BlockState) (Y T O : RegionName)
     (sy st so N B : Nat) (eps : ℝ) (logTarget : Bool) :

@@ -49,7 +49,7 @@ instance : Spec.ProgramSyntax IO₁ₓ₂ where
   Statement := GuardedFragment
   Signature := IO₁ₓ₂Signature × Profile × (Schedules → GuardExpression.Condition)
   signature p := (io₁ₓ₂Signature p.io, p.profile, p.domain)
-  body p := [⟨[], p.io.kernel.surfaceBody⟩]
+  body p := [⟨[], p.io.kernel.surfaceBody, .real, none⟩]
   structural := some (fun _ _ => False)
   numerical := Equivalent₁ₓ₂
   sameContext := fun lhs rhs => lhs = rhs
@@ -83,7 +83,7 @@ instance : Spec.ProgramSyntax IO₃ where
   Statement := GuardedFragment
   Signature := IO₃Signature × Profile × (Schedules → GuardExpression.Condition)
   signature p := (ioSignature p.io, p.profile, p.domain)
-  body p := [⟨[], p.io.kernel.surfaceBody⟩]
+  body p := [⟨[], p.io.kernel.surfaceBody, .real, none⟩]
   structural := some (fun _ _ => False)
   numerical := Equivalent₃
   sameContext := fun lhs rhs => lhs = rhs
@@ -116,7 +116,7 @@ instance : Spec.ProgramSyntax IO₁ where
   Statement := GuardedFragment
   Signature := IO₁Signature × Profile × (Schedules → GuardExpression.Condition)
   signature p := (io₁Signature p.io, p.profile, p.domain)
-  body p := [⟨[], p.io.kernel.surfaceBody⟩]
+  body p := [⟨[], p.io.kernel.surfaceBody, .real, none⟩]
   structural := some (fun _ _ => False)
   numerical := Equivalent₁
   sameContext := fun lhs rhs => lhs = rhs

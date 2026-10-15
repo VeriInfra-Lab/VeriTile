@@ -3,37 +3,15 @@ import bench.tritonbench_g.max_reduction.Proofs.Stage2Real
 import bench.tritonbench_g.max_reduction.Proofs.Candidate
 import bench.tritonbench_g.max_reduction.Proofs.DimensionIO
 
+/-! Historical mathematical and slice contracts in this file are ordinary helper
+theorems. Only the retained `specification` entries below are public source contracts.
+The helpers retain their statements and proofs for downstream reuse. -/
+
+
 namespace VeriTile.Bench.TritonBenchG.MaxReduction
 open VeriTile.Triton
 open scoped VeriTile.Triton.MaskedTileKernelIO₁
 
-/-- Per-kernel output summary for the 2D value/index `max_kernel`: the DSL
-surface lowers to the algorithm layer, and the masked value/index stores are
-compute-correct — every active row lane `i` holds the row-wise maximum
-(`maxKernelValueSpec`) in `out_value` and its argmax (`maxKernelIndexSpec`) in
-`out_index`. Carries the existing side conditions of
-`max_kernel_compute_correct`: `hOutInj` (injective output offsets) and
-`hOutRegions` (`out_value ≠ out_index`). -/
-specification max_kernel_output_summary
-    (inp out_value out_index : RegionName)
-    (M N K BLOCK_M BLOCK_N : Nat)
-    (s : BlockState)
-    (hOutInj : Function.Injective
-      (fun i : Fin BLOCK_M => maxKernelOutOffset s K BLOCK_M i))
-    (hOutRegions : out_value ≠ out_index) :
-    (∃ alg, (max_kernel inp out_value out_index M N K BLOCK_M BLOCK_N).toAlgorithm?
-        = Except.ok alg) ∧
-    ComputeCorrect.OutputPairWhere
-      (max_kernel inp out_value out_index M N K BLOCK_M BLOCK_N)
-      s out_value out_index
-      (maxKernelOutOffset s K BLOCK_M)
-      (fun i : Fin BLOCK_M => s.pids 0 * BLOCK_M + i.val < M)
-      (maxKernelValueSpec s inp M N K BLOCK_M BLOCK_N)
-      (maxKernelIndexSpec s inp M N K BLOCK_M BLOCK_N) := by
-  refine ⟨?_, ?_⟩
-  · simp [max_kernel, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?]
-  · exact max_kernel_compute_correct inp out_value out_index M N K BLOCK_M BLOCK_N
-      s hOutInj hOutRegions
 
 /-- **The headline on the IO surface** for `max_reduction.py`'s `max_kernel_1`:
 for every disjoint flat placement of the two buffers, every program id whose
@@ -51,7 +29,7 @@ than a full block) and a pid-independent spec would be falsifiable.
 Dimension-general in `M` and `BLOCK_SIZE`. Honest side-condition:
 `0 < BLOCK_SIZE` — with an empty tile `tl.max` has no axis to reduce and the
 kernel faults, so termination genuinely fails there. -/
-specification max_kernel_1_io_correctness
+theorem max_kernel_1_io_correctness
     (inp mid : RegionName) (M BLOCK_SIZE : Nat) (hB : 0 < BLOCK_SIZE) :
     maxKernel1IO inp mid M BLOCK_SIZE
       ⊨ fun pid xs _ => maxTileSpecOf M BLOCK_SIZE pid xs := by
