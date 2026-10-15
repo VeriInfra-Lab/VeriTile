@@ -1,0 +1,14 @@
+{
+  "kind": "actual_isolated_staged_whitespace_check",
+  "exit_code": 2,
+  "command": [
+    "git",
+    "diff",
+    "--cached",
+    "--check"
+  ],
+  "temporary_index_root": "/tmp/veritile-admission-whitespace-upigc47j",
+  "staged_files": 66,
+  "stdout": "evidence/source-audit/original_python__test_add.txt:6: trailing whitespace.\n+    \nevidence/source-audit/original_python__test_add.txt:9: trailing whitespace.\n+    \nevidence/source-audit/original_python__test_add.txt:15: trailing whitespace.\n+    \nevidence/source-audit/original_python__test_add.txt:21: trailing whitespace.\n+    \nevidence/source-audit/original_python__test_add.txt:27: trailing whitespace.\n+    \nevidence/source-audit/original_python__test_add.txt:34: trailing whitespace.\n+    \n",
+  "stderr": ""
+}

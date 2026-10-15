@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "kind": "original_program_scope_ledger",
-  "catalog_sha256": "c414906ed216fc5fdfe2dc5026c1510b80523a00c6c4e4b6a36c86067a681e22",
+  "catalog_sha256": "8a1067debf1ab6f279876937140490c3b41862c4108e983aef6e645a2dd8be6e",
   "binding_status": "current_catalog_bound_pending_scope_reviews",
   "expected_tasks": [
     "adam_update_triton",
@@ -37109,11 +37109,15 @@
       "status": "pending",
       "input_sha256": {
         "lean": {
+          "bench/tritonbench_g/relu_triton_kernel/AccessGridCorrect.lean": "d4577753ca046e1186dbb2a6820602a049a18e510525d46a4e63d6c6ff945b8e",
           "bench/tritonbench_g/relu_triton_kernel/AddressGridCorrect.lean": "1eacb114c677dc06ee97089476b07fe61ac371a960b36180e737c0c2dd8d54ab",
           "bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.lean": "75559f4cd4f9ef3b4abb0d1b2aae4be07489cf7413b2fdbdd3d4a144047c2c7a",
           "bench/tritonbench_g/relu_triton_kernel/Correct.lean": "4df862a1c8ee191e8acdc68abc9fdf19577163ff43d56381ffe2752c13c87ec2",
           "bench/tritonbench_g/relu_triton_kernel/FPEquiv.lean": "d94ae39d90194f69555af4102d9bd92fb3183e220bf367b70253eb76bb46800d",
           "bench/tritonbench_g/relu_triton_kernel/Kernels.lean": "b13e94ca9403a5d16dc95bf53713b7c96cb7d0b0f066f85f0c96753f01851cde",
+          "bench/tritonbench_g/relu_triton_kernel/Proofs/AccessGrid.lean": "d0dfbbc5d528ead38f1a356c76667b3b1a040bd24964d8959987f3f928881adc",
+          "bench/tritonbench_g/relu_triton_kernel/Proofs/AccessLoads.lean": "a9da9364455336a93d0450fc67003e7c47e12001396cbf02cf3183821b91a8ab",
+          "bench/tritonbench_g/relu_triton_kernel/Proofs/AccessMemory.lean": "8441241c8d12668d19a9eddff6a89f1d791dfd01cd21519df126fa151c5c15e8",
           "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteAddress.lean": "d06cfe355088475f09976e2dbfb2f2b277180da68c88c111ca388980ed10b481",
           "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteCodec.lean": "1524c55f059d152ab4ff36b8f27e5cc86c46360a9b7cfa045b5c8f91cd8ff712",
           "bench/tritonbench_g/relu_triton_kernel/Proofs/ByteStores.lean": "69450c5c328332cac6757d3445de508c2c84263da094582ec9756492803b326f",
@@ -37240,27 +37244,27 @@
       "structural_gaps": [
         {
           "kind": "remaining_original_program_scope",
-          "finding": "RELU-B-S1: Native storage to mathematical little-endian byte memory. Real8-bit assembly/splitting and read/write relations are proved for a chosen total Nat-addressed byte map. Native device bytes, little-endian representation, pointer provenance, alignment, allocation/admission and source dtype dispatch remain to be related to that map. This is not merely a renamed logical cell, but it is not a native memory theorem.",
+          "finding": "RELU-A-S1: Native allocation, storage and access permissions. The custom partial interface is a total mathematical byte payload plus explicit allocated/readable/writable maps. Native device allocation, memory validity, access rights, little-endian layout, alignment and provenance are not related to those maps. Full-N input readability and first-tile output writability are selected-domain premises, not host-established facts.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "RELU-B-S2: Native source/compiler and byte execution correspondence. The custom byteProgram is the source memory-effect projection with total byte reads, pre-store pid0 lane values and sequential4-byte stores. The nonzero-pid loaded/result functions can remain unevaluated; byte memory-effect success does not imply their native load success. The actual old logical source independently succeeds and its final tagged cells correspond to the byte result. This is an end-to-end representation proof, not a stepwise TTIR/extraction/native instruction theorem. Masked/unused values, access failures, poison, sanitizers and native addptr lowering remain open.",
+          "finding": "RELU-A-S2: Native source/compiler and error correspondence. Every active input byte of every pid now passes a failing-access bind before the store gate. The nonzero-pid missing-byte theorem distinguishes this from the old total memory-effect projection. This custom interpreter still has no stepwise Python/TTIR/compiler bridge. Deterministic first-unavailable-byte errors and retained partial-write states are mathematical semantics, not native traps, poison, sanitizers or observable fault order. Scalar comparisons/conversions are pure total callbacks; nonzero-pid scalar results are not separately evaluated and no native instruction trace follows. Unloaded entries in loadWords/loadedPrefix are zero placeholders used only to complete the mathematical container; original no-other masked-load values are not specified.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "RELU-B-S3: Host-established layout and domain coverage. Distinct logical names and nonoverlapping contiguous physical byte intervals are explicit subtheorem premises; no runtime guard, empty_like freshness, tensor layout/stride or native wrapper property is inferred. Shifted/overlapping/misaligned layouts, N>=2^31, other block sizes, launch limits and native zero-grid behavior remain open.",
+          "finding": "RELU-A-S3: Host-established layout and domains. Logical name distinction, numeric interval separation, B1024, N<2^31 and representable endpoints remain theorem premises. Native empty_like freshness, layouts/strides, shifted/overlapping aliases, other sizes/blocks, launch limits and native zero-grid/error behavior remain open. No allocation or permission is required for the unmodified output tail.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "RELU-B-S4: Remaining dtype, host/module and concurrent scope. Nine prior finite-word profiles are refined, with no additional dtype names. Prior fp64/fp8/error families, native host/harness/module stages, compiler targets and instruction interleavings remain required. Math-byte sequential grid success is not whole-original-program acceptance.",
+          "finding": "RELU-A-S4: Native instruction interleaving and remaining dtype/module scope. All complete permutations of whole programs are proved in the partial-access model. Programs remain atomic relative to each other; native instruction interleavings and races remain open. The same nine finite-word profiles are refined with no new dtype names. Prior fp64/fp8/error families and host/harness/module/compiler target scope remain required.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "All previous dtype/error/host/harness/module obligations remain outside the explicitly added mathematical byte and finite-pointer relations. Numeric bounds, distinct logical names and full byte-interval separation are subtheorem premises, not original runtime guards or proved allocator freshness.",
+          "finding": "The original dtype/error/host/module/harness obligations outside these nine finite-word profiles remain. Explicit readability, writability, separated intervals and finite-address domains are theorem premises, not wrapper-established runtime guards.",
           "can_defer_as_numeric_assumption": false
         }
       ],
@@ -37286,7 +37290,10 @@
             "dtype_profile": "Twelve logical labels: decoded signed/unsigned8/16/32/64, Bool, fp16/bf16/fp32, with fp32 output and the complete ascending grid. Only pid0 writes; cells outside min(N,block) retain arbitrary pre-launch memory. Width/byte mapping, fp64 and native errors are unproved.",
             "covers_stages": [
               "twelve_profile_complete_pid_zero_only_logical_grid"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/relu_triton_kernel/WordGridCorrect.lean",
@@ -37295,7 +37302,10 @@
             "dtype_profile": "Nine finite-input-word profiles: signed/unsigned8/16/32/64 and all256 raw bool bytes. InputWords binds tagged logical cells below N; full ascending pid-zero-only grid, fp32 output and arbitrary prelaunch tail. No new logical dtype names.",
             "covers_stages": [
               "nine_profile_finite_input_word_to_pid_zero_grid_refinement"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/relu_triton_kernel/AddressGridCorrect.lean",
@@ -37304,7 +37314,10 @@
             "dtype_profile": "The same nine finite-word ReLU profiles with fixed B1024, N<2^31 and explicit input/output64-bit interval bounds. Actual logical grid plus separate arithmetic certificate; no new dtype names or native byte-memory mapping.",
             "covers_stages": [
               "fixed1024_bounded_index_and_byte_address_arithmetic_with_word_grid"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/relu_triton_kernel/ByteGridCorrect.lean",
@@ -37313,16 +37326,34 @@
             "dtype_profile": "The same nine integer/bool ReLU profiles over actual8-bit mathematical byte cells with source widths8/16/32/64 and fp32 output words; B1024, N<2^31, explicit64-bit input/output bounds and separated full byte intervals. No new dtype names or native-memory binding.",
             "covers_stages": [
               "little_endian_separated_byte_memory_to_finite_word_grid_refinement"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
+          },
+          {
+            "file": "bench/tritonbench_g/relu_triton_kernel/AccessGridCorrect.lean",
+            "declaration": "relu_access_grid_correctness",
+            "statement_sha256": "aae5aed9e0dfc45a417effea4b15528348e23a24297ed2ae7a9880e17bd7e509",
+            "dtype_profile": "The same nine ReLU integer/bool finite-word profiles; checked partial 8-bit accesses, all-N readable input and only first-min(N,1024)-word writable output, complete whole-program permutations, B1024 and inherited finite-address/interval domains.",
+            "covers_stages": [
+              "partial_byte_access_all_active_loads_complete_program_permutation"
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           }
         ],
         "review": {
-          "path": "2026-10-16/vector-schedules-relu-byte-memory/root-review.json",
-          "sha256": "0825e8732444edcaa9e52c36b9c46f44af35637901c7ca73ec8ef5c503f4dea4",
+          "path": "2026-10-16/fp64-admission-relu-access/root-review.json",
+          "sha256": "d524ef5d388031f77312cce2bb2b82efb656395e8071e9f1c0bfc6f14393badd",
           "source_hashes_pointer": [
             "reviewed_input_sha256"
           ]
-        }
+        },
+        "execution_contracts": 5,
+        "protocol_contracts": 0,
+        "protocols_counted_as_execution": false
       }
     },
     {
@@ -48255,6 +48286,8 @@
       "input_sha256": {
         "lean": {
           "bench/tritonbench_g/vector_addition/Correct.lean": "4128f543e4c1c5d358da769024f5a6da7ddc048eb2025c75f709bb19d9bf299e",
+          "bench/tritonbench_g/vector_addition/DTypeAdmissionCorrect.lean": "cb4fc5ad5f962d7d6849ee3c1aa740cee9add7ec216fa9f1964fd3631bfd6b88",
+          "bench/tritonbench_g/vector_addition/FP64GridCorrect.lean": "2dc86fe29d71eafb6ec7cf62d3ed2f19199bb3120b4fd308be6bfb4ce161eae7",
           "bench/tritonbench_g/vector_addition/FPEquiv.lean": "ee365e292341aa2313644d72aa5c63b31a6ab8dc109110bdd455e7f3ec3b398c",
           "bench/tritonbench_g/vector_addition/IntegerGridCorrect.lean": "b9917c860ad9df439f676fdd931fc6381459b4152a9d5366f0f09300c3d92888",
           "bench/tritonbench_g/vector_addition/IntegerValueCorrect.lean": "25a41ad6ba7207415d3dac267dee69b34a795735a078336868d0ed33e61b8537",
@@ -48262,7 +48295,14 @@
           "bench/tritonbench_g/vector_addition/Kernels.lean": "f9033fb31ae6585f0148768f54d20774235d7b10c2c5db7882eac4a05c5b47b0",
           "bench/tritonbench_g/vector_addition/MixedFP32ValueCorrect.lean": "9994c5d2185eaea4b3f3a6212637993f77084dde17613462691e5901977bc710",
           "bench/tritonbench_g/vector_addition/MixedSmallValueCorrect.lean": "691edf2928eba3b03f8d11563dd62b6e108a672b0fed3647311649b020f9ad4b",
+          "bench/tritonbench_g/vector_addition/Proofs/Binary64Words.lean": "360eafbfc1d796d2c9a0f623c4cfe2b408775288558d9ee9e8a4f9c89eca1798",
+          "bench/tritonbench_g/vector_addition/Proofs/DTypeAdmission.lean": "1250b7afd0bfd8b04a44ce62b38028ec82d3033c89db85046bc160433f946b5a",
           "bench/tritonbench_g/vector_addition/Proofs/DTypeScope.lean": "47f247289be76548b31f0fe787a3ba7b9058f7457409bdb6226437ca99558312",
+          "bench/tritonbench_g/vector_addition/Proofs/FP64Grid.lean": "c3154feba59c340ba6887b6b61ae4217c53713f2402f5e674961aba33dddbeab",
+          "bench/tritonbench_g/vector_addition/Proofs/FP64Memory.lean": "557c6dd10145ecd878994cb0c0b7cbf71bd6fcb20d0715f6cdfd3c81da22ae37",
+          "bench/tritonbench_g/vector_addition/Proofs/FP64Profiles.lean": "88a6bacaddd0cda05d59232d2fa67ae870d2f427f41cc86f7ca5cbbd61c91e13",
+          "bench/tritonbench_g/vector_addition/Proofs/FP64Programs.lean": "f69a22c63c7e93799c30bd72cec1ee3eb5074f52de96bffc23908e4c35ac40c7",
+          "bench/tritonbench_g/vector_addition/Proofs/FP64TypedCore.lean": "b900fa70bb306f4d5c65eb5cd87ecc60f50f79a9b3ca99872adfbdc1fb0524f8",
           "bench/tritonbench_g/vector_addition/Proofs/HostGrid.lean": "873eaff589ad70bb166c40936369367b0c3d5f65779d0be8c6e73b05a51ff1ce",
           "bench/tritonbench_g/vector_addition/Proofs/HostWrapper.lean": "8b247a594346d9f7e6b9f302b38c75b252eee5c0556ad18844657b6612b5cf22",
           "bench/tritonbench_g/vector_addition/Proofs/IntegerGrid.lean": "197d52ec02fbfc1874767b1184969dc00934ad5a2812d0f169b81c33237f802d",
@@ -48384,32 +48424,77 @@
       "structural_gaps": [
         {
           "kind": "remaining_original_program_scope",
-          "finding": "VA-ORDER-S1: Native source, compiler and dtype/error correspondence. Actual existing manually materialized typed source programs are executed. All original Python/compiler admission, unsupported profiles, errors/poison/sanitizers and noncanonical dtype families retain their prior obligations.",
+          "finding": "VA-F64-S1: Source, extraction and compiler correspondence. The typed AST and memory/grid interpreter are task-local, separate from shared FP.Structural. Inherited raw TTIR route observations do not formally relate the original source/compiler to this interpreter.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "VA-ORDER-S2: Native bytes, physical views and finite addresses. Whole tagged logical cells and Nat element offsets do not establish raw byte decoding, memory validity, mixed-width or shifted aliases, finite-width overflow or native allocation/layout.",
+          "finding": "VA-F64-S2-remaining: Native instruction trace and scheduling. Logical memory, masks, stores, frames and complete sequential program permutations are proved. runLanes computes/writes each lane in order with reads from a fixed program-entry snapshot; it does not execute or refine load-all/compute-all/store-all phases, native instruction interleavings or memory races.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "VA-ORDER-S3: Native instruction interleaving. Any complete permutation of whole programs is proved. Operations within each program remain sequential/atomic at this scheduling layer; native load/store interleaving, races and physical scheduling require separate refinement.",
+          "finding": "VA-F64-S3: Native storage, finite addresses and memory admission. String/Nat logical regions and indexed words do not establish physical byte layout/endianness, provenance, allocation extent, native pointer admission, signed i32 pid/offset/mask arithmetic or overflow behavior.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "VA-ORDER-S4: Remaining host, harness, module and dtype scope. The same135 existing integer/mixed logical profiles are refined. No new dtype pairs, original error branches, native host allocation/dispatch, harness or module execution are accepted.",
+          "finding": "VA-F64-S4: Wrapper, inactive-lane, errors and host composition. Output separation is an explicit selected-domain premise, not wrapper freshness or physical nonaliasing. Logical missing-input/undefined-conversion errors return no final memory and prove no native poison, traps, partial-write visibility or rollback. Native masked-load behavior, allocation/device dispatch and Python/Torch module/harness composition remain open.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "All previous numerical/native binding obligations remain. Logical value/grid coverage stays at160 of217 promotion-success pairs; the57 remaining pairs are unchanged.",
+          "finding": "VA-F64-S5: Remaining original dtype and error branches. The 28 semantically promoted fnuz frontend rejection pairs have no successful logical grid; original-program rejection/error contracts are not established by these successful fp64 profiles.",
           "can_defer_as_numeric_assumption": false
         },
         {
           "kind": "remaining_original_program_scope",
-          "finding": "All160 existing logical profile pairs now have complete whole-program permutation results. This does not establish native instruction interleavings or physical aliasing; total mixed policies remain explicit and defined domains are subtheorem premises.",
+          "finding": "VA-ADMISSION-S1: Python/AST-to-model semantic refinement",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-ADMISSION-S2: host allocation/assertions and original module/harness effects",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-ADMISSION-S3: fresh-ASTSource versus JIT/cache/launch path composition",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-ADMISSION-S4: unsupported/noncanonical dtype families and overrides",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-ADMISSION-S5: exact exception wrapping",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-ADMISSION-S6: native lowering/runtime/debug/sanitizer behavior",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "VA-ADMISSION-S7: physical memory and GPU execution",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "The prior 160 logical profiles use shared FP.Structural and concrete software operations. The new 29 use a separate task-local fp64 typed memory/grid interpreter and 15 unverified callback families. Combined inventory 189/217 is across two models, not one 189-profile interpreter.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "The remaining 28 promoted fnuz pairs have no successful logical grid. Four finite admission protocol contracts classify selected frozen gates but establish no original Python/JIT/compiler exception or execution theorem.",
+          "can_defer_as_numeric_assumption": false
+        },
+        {
+          "kind": "remaining_original_program_scope",
+          "finding": "Only precisely registered native numerical correspondence may be deferred. All original host/module/harness/stage/dtype/branch and native storage/address/compiler/error/scheduling gaps remain structural blockers.",
           "can_defer_as_numeric_assumption": false
         }
       ],
@@ -48437,7 +48522,10 @@
             "dtype_profile": "25 ordered pairs of fp16/bf16/fp32/f8e4/f8e5 logical storage formats; explicit tensor promotion and cast back to x dtype, positive natural block size and complete ascending ceil grid. Arbitrary floating add/cast backend, including fp32; wrong-tag reads use logical defaults. No native storage/layout or full dtype domain claim.",
             "covers_stages": [
               "five_float_profiles_complete_sequential_grid"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/vector_addition/IntegerGridCorrect.lean",
@@ -48446,7 +48534,10 @@
             "dtype_profile": "81 ordered canonical bool/signed/unsigned8/16/32/64 pairs; decoded logical int/nat cells, explicit BitVec promotion/add/store, positive natural block and complete ascending ceil grid. Native source representability and physical storage remain open.",
             "covers_stages": [
               "canonical_integer_bool_complete_sequential_grid"
-            ]
+            ],
+            "model_kind": "bit_interpreter_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/vector_addition/TypedScheduleCorrect.lean",
@@ -48455,7 +48546,10 @@
             "dtype_profile": "The same25 floating pairs over fp16/bf16/fp32/f8e4/f8e5, positive natural block, and every permutation of the complete ceil grid. Equal logical region names remain allowed; physical byte views and native concurrency remain unbound.",
             "covers_stages": [
               "five_float_profiles_arbitrary_sequential_program_order"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/vector_addition/MixedFP32ValueCorrect.lean",
@@ -48464,7 +48558,10 @@
             "dtype_profile": "18 ordered canonical signed/unsigned8/16/32/64 or bool with fp32 pairs; concrete software fp32 round/add and destination conversion, positive natural block and complete ascending ceil grid. Logical source-width normalization does not establish native storage/tag/address correspondence.",
             "covers_stages": [
               "mixed_integer_bool_fp32_totalized_complete_sequential_grid"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/vector_addition/MixedFP32ValueCorrect.lean",
@@ -48473,7 +48570,10 @@
             "dtype_profile": "18 ordered canonical signed/unsigned8/16/32/64 or bool with fp32 pairs; concrete software fp32 round/add and destination conversion, positive natural block and complete ascending ceil grid. Logical source-width normalization does not establish native storage/tag/address correspondence. Only active integer-output addresses additionally satisfy OutputDefined; this is a theorem domain, not an added source runtime guard.",
             "covers_stages": [
               "mixed_integer_bool_fp32_active_defined_domain_policy_independent_grid"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/vector_addition/IntegerWordGridCorrect.lean",
@@ -48482,7 +48582,10 @@
             "dtype_profile": "Existing81 ordered canonical integer/bool pairs refined by finite source-width input and output words, positive natural block, full tagged input relations and complete ascending grid. No new dtype pairs.",
             "covers_stages": [
               "canonical_integer_bool_finite_input_output_word_grid_refinement"
-            ]
+            ],
+            "model_kind": "bit_interpreter_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/vector_addition/MixedSmallValueCorrect.lean",
@@ -48491,7 +48594,10 @@
             "dtype_profile": "36 ordered canonical signed/unsigned8/16/32/64 or bool with fp16/bf16 pairs; direct target-format integer rounding, concrete ordered software addition and exact destination conversion, positive natural block and complete ascending ceil grid. Own-width logical normalization and low16 payload carriers do not establish native storage or pointer correspondence.",
             "covers_stages": [
               "mixed_integer_bool_fp16_bf16_totalized_complete_sequential_grid"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/vector_addition/MixedSmallValueCorrect.lean",
@@ -48500,7 +48606,10 @@
             "dtype_profile": "36 ordered canonical signed/unsigned8/16/32/64 or bool with fp16/bf16 pairs; direct target-format integer rounding, concrete ordered software addition and exact destination conversion, positive natural block and complete ascending ceil grid. Own-width logical normalization and low16 payload carriers do not establish native storage or pointer correspondence. Only active integer-output addresses satisfy OutputDefined; this theorem domain adds no source runtime guard.",
             "covers_stages": [
               "mixed_integer_bool_fp16_bf16_active_defined_domain_policy_independent_grid"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/vector_addition/ValueScheduleCorrect.lean",
@@ -48509,7 +48618,10 @@
             "dtype_profile": "81 existing ordered integer/bool pairs; positive natural block and arbitrary complete permutation of original ceil-grid ids. No new dtype pairs.",
             "covers_stages": [
               "integer_bool_complete_program_permutation"
-            ]
+            ],
+            "model_kind": "bit_interpreter_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/vector_addition/ValueScheduleCorrect.lean",
@@ -48518,7 +48630,10 @@
             "dtype_profile": "18 existing ordered integer/bool with fp32 pairs; positive natural block and arbitrary complete permutation of original ceil-grid ids. No new dtype pairs.",
             "covers_stages": [
               "mixed_integer_bool_fp32_totalized_complete_program_permutation"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/vector_addition/ValueScheduleCorrect.lean",
@@ -48527,7 +48642,10 @@
             "dtype_profile": "18 existing ordered integer/bool with fp32 pairs; positive natural block and arbitrary complete permutation of original ceil-grid ids. No new dtype pairs. Only active integer outputs satisfy inherited OutputDefined; no added source guard.",
             "covers_stages": [
               "mixed_integer_bool_fp32_active_defined_domain_complete_program_permutation"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/vector_addition/ValueScheduleCorrect.lean",
@@ -48536,7 +48654,10 @@
             "dtype_profile": "36 existing ordered integer/bool with fp16/bf16 pairs; positive natural block and arbitrary complete permutation of original ceil-grid ids. No new dtype pairs.",
             "covers_stages": [
               "mixed_integer_bool_fp16_bf16_totalized_complete_program_permutation"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
           },
           {
             "file": "bench/tritonbench_g/vector_addition/ValueScheduleCorrect.lean",
@@ -48545,16 +48666,86 @@
             "dtype_profile": "36 existing ordered integer/bool with fp16/bf16 pairs; positive natural block and arbitrary complete permutation of original ceil-grid ids. No new dtype pairs. Only active integer outputs satisfy inherited OutputDefined; no added source guard.",
             "covers_stages": [
               "mixed_integer_bool_fp16_bf16_active_defined_domain_complete_program_permutation"
-            ]
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
+          },
+          {
+            "file": "bench/tritonbench_g/vector_addition/FP64GridCorrect.lean",
+            "declaration": "vector_addition_fp64_defined_grid_correctness",
+            "statement_sha256": "8338642e381312993fa2aefad38f88de6dcedb50844e37c585f962bd3b1560a3",
+            "dtype_profile": "29 successful fp64 operand profiles: 20 floating-output total profiles and 9 integer-output profiles with defined conversions at active indices. Task-local tagged-memory grid, B1024, distinct output/input region names, complete sequential program permutations; not the shared FP.Structural interpreter.",
+            "covers_stages": [
+              "task_local_fp64_defined_typed_memory_complete_program_permutation"
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
+          },
+          {
+            "file": "bench/tritonbench_g/vector_addition/FP64GridCorrect.lean",
+            "declaration": "vector_addition_fp64_floating_grid_correctness",
+            "statement_sha256": "b96c6cee0252fecf7370c7f17e1641c573c113985e5ccb6e1a8160722c9d2f32",
+            "dtype_profile": "20 floating-output fp64 operand profiles, total under the chosen callbacks and with no finiteness premise. Task-local tagged-memory grid, B1024, distinct output/input region names, complete sequential program permutations; not the shared FP.Structural interpreter.",
+            "covers_stages": [
+              "task_local_fp64_floating_typed_memory_complete_program_permutation"
+            ],
+            "model_kind": "backend_value_contract",
+            "role": "parametric_value_contract",
+            "scope_relation": "full_declared_stage"
+          },
+          {
+            "file": "bench/tritonbench_g/vector_addition/DTypeAdmissionCorrect.lean",
+            "declaration": "vector_addition_sm90_admission_model_partition",
+            "statement_sha256": "25cd61c87af864d36ad133bc7dd3129d627e0a1608b6b910283b8210635f5706",
+            "dtype_profile": "Finite selected 17 canonical scalar signatures / 289 ordered-pair dtype-gate model on frozen sm90 configuration; no value or execution coverage increment.",
+            "covers_stages": [],
+            "model_kind": "protocol_contract",
+            "role": "protocol_contract",
+            "scope_relation": "not_an_execution_contract"
+          },
+          {
+            "file": "bench/tritonbench_g/vector_addition/DTypeAdmissionCorrect.lean",
+            "declaration": "vector_addition_fnuz_first_stage_model",
+            "statement_sha256": "775b590d2a462ded823d88f65a9bc6842a1c3a2ca9c9d5c2994b3f9e94da0a21",
+            "dtype_profile": "Finite selected 17 canonical scalar signatures / 289 ordered-pair dtype-gate model on frozen sm90 configuration; no value or execution coverage increment.",
+            "covers_stages": [],
+            "model_kind": "protocol_contract",
+            "role": "protocol_contract",
+            "scope_relation": "not_an_execution_contract"
+          },
+          {
+            "file": "bench/tritonbench_g/vector_addition/DTypeAdmissionCorrect.lean",
+            "declaration": "vector_addition_sm90_add_rejection_model",
+            "statement_sha256": "f1e4a7562bc760bacf99ee7ea480e67200ef85d2523076db6e6283154115ab6c",
+            "dtype_profile": "Finite selected 17 canonical scalar signatures / 289 ordered-pair dtype-gate model on frozen sm90 configuration; no value or execution coverage increment.",
+            "covers_stages": [],
+            "model_kind": "protocol_contract",
+            "role": "protocol_contract",
+            "scope_relation": "not_an_execution_contract"
+          },
+          {
+            "file": "bench/tritonbench_g/vector_addition/DTypeAdmissionCorrect.lean",
+            "declaration": "vector_addition_sm90_promotion_stage_cross_model",
+            "statement_sha256": "f12f4de757b1be0c904f5f4ad805f0e968af311b80529b9b308d27bccaff6bc4",
+            "dtype_profile": "Finite selected 17 canonical scalar signatures / 289 ordered-pair dtype-gate model on frozen sm90 configuration; no value or execution coverage increment.",
+            "covers_stages": [],
+            "model_kind": "protocol_contract",
+            "role": "protocol_contract",
+            "scope_relation": "not_an_execution_contract"
           }
         ],
         "review": {
-          "path": "2026-10-16/vector-schedules-relu-byte-memory/root-review.json",
-          "sha256": "0825e8732444edcaa9e52c36b9c46f44af35637901c7ca73ec8ef5c503f4dea4",
+          "path": "2026-10-16/fp64-admission-relu-access/root-review.json",
+          "sha256": "d524ef5d388031f77312cce2bb2b82efb656395e8071e9f1c0bfc6f14393badd",
           "source_hashes_pointer": [
             "reviewed_input_sha256"
           ]
-        }
+        },
+        "execution_contracts": 15,
+        "protocol_contracts": 4,
+        "protocols_counted_as_execution": false
       }
     },
     {
@@ -48671,5 +48862,5 @@
       "review": null
     }
   ],
-  "progress_checkpoint": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/README.md"
+  "progress_checkpoint": "bench/review-checkpoints/2026-10-16/fp64-admission-relu-access/README.md"
 }

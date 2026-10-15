@@ -1,0 +1,139 @@
+import bench.tritonbench_g.relu_triton_kernel.ByteGridCorrect
+
+/-! Partial mathematical byte access with explicit allocation and permissions.
+Payloads at unavailable addresses are latent; the access interface cannot read
+or write them. Faults retain the memory reached before the failing byte write.
+These are selected mathematical access semantics, not native fault semantics. -/
+namespace VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory
+open VeriTile.Triton FP.Structural IntegerWords FiniteAddress ByteMemory
+
+structure Memory where
+  bytes : ByteMemory.Memory
+  allocated : Nat → Bool
+  readable : Nat → Bool
+  writable : Nat → Bool
+
+inductive Fault where
+  | loadUnavailable (address : Nat)
+  | storeUnavailable (address : Nat)
+  deriving DecidableEq, Repr
+
+abbrev Execution := Except (Fault × Memory) Memory
+
+def partialContents (mem : Memory) (address : Nat) : Option Byte :=
+  if mem.allocated address = Bool.true then some (mem.bytes address) else none
+
+def withBytes (mem : Memory) (bytes : ByteMemory.Memory) : Memory := { mem with bytes := bytes }
+
+def Readable (mem : Memory) (base count : Nat) : Prop :=
+  ∀ byte, byte < count → mem.allocated (base + byte) = Bool.true ∧
+    mem.readable (base + byte) = Bool.true
+
+def Writable (mem : Memory) (base count : Nat) : Prop :=
+  ∀ byte, byte < count → mem.allocated (base + byte) = Bool.true ∧
+    mem.writable (base + byte) = Bool.true
+
+def SameAccess (before after : Memory) : Prop :=
+  after.allocated = before.allocated ∧ after.readable = before.readable ∧ after.writable = before.writable
+
+def readByte (mem : Memory) (address : Nat) : Except Fault Byte :=
+  if mem.allocated address = Bool.true ∧ mem.readable address = Bool.true then
+    .ok (mem.bytes address) else .error (.loadUnavailable address)
+
+def loadLE : (count : Nat) → Memory → Nat → Except Fault (BitVec (count * 8))
+  | 0, _, _ => .ok 0
+  | count + 1, mem, base => do
+    let low ← readByte mem base
+    let high ← loadLE count mem (base + 1)
+    pure ((high ++ low).cast (by omega))
+
+theorem load_success (count : Nat) (mem : Memory) (base : Nat)
+    (available : Readable mem base count) :
+    loadLE count mem base = .ok (ByteMemory.loadLE count mem.bytes base) := by
+  induction count generalizing base with
+  | zero => rfl
+  | succ count ih =>
+    have first := available 0 (by omega)
+    have rest : Readable mem (base + 1) count := by
+      intro byte within
+      simpa only [Nat.add_assoc, Nat.add_comm 1 byte] using available (byte + 1) (by omega)
+    simp only [loadLE, readByte, Nat.add_zero] at first ⊢
+    rw [if_pos first]
+    rw [ih (base + 1) rest]
+    rfl
+
+theorem load_first_unavailable (count : Nat) (mem : Memory) (base : Nat)
+    (unavailable : ¬ (mem.allocated base = Bool.true ∧ mem.readable base = Bool.true)) :
+    loadLE (count + 1) mem base = .error (.loadUnavailable base) := by
+  simp only [loadLE, readByte, if_neg unavailable]
+  rfl
+
+def writeByte (mem : Memory) (address : Nat) (value : Byte) : Execution :=
+  if mem.allocated address = Bool.true ∧ mem.writable address = Bool.true then
+    .ok (withBytes mem (fun a => if a = address then value else mem.bytes a))
+  else .error (.storeUnavailable address, mem)
+
+/-- Writes bytes in increasing address order, retaining the partial state on failure. -/
+def writePrefix (values : Nat → Byte) (base : Nat) (mem : Memory) : Nat → Execution
+  | 0 => .ok mem
+  | count + 1 => do
+    let current ← writePrefix values base mem count
+    writeByte current (base + count) (values count)
+
+def prefixBytes (values : Nat → Byte) (base : Nat) (initial : ByteMemory.Memory)
+    (count : Nat) : ByteMemory.Memory := fun address =>
+  if base ≤ address ∧ address < base + count then values (address - base) else initial address
+
+theorem prefix_bytes_step (values : Nat → Byte) (base : Nat) (initial : ByteMemory.Memory)
+    (count : Nat) :
+    (fun a => if a = base + count then values count else prefixBytes values base initial count a) =
+      prefixBytes values base initial (count + 1) := by
+  funext address
+  by_cases last : address = base + count
+  · subst address
+    simp [prefixBytes]
+  · have same : (base ≤ address ∧ address < base + count) ↔
+        (base ≤ address ∧ address < base + (count + 1)) := by omega
+    simp only [last, if_false, prefixBytes, same]
+
+theorem write_prefix_success (values : Nat → Byte) (base : Nat) (mem : Memory) (count : Nat)
+    (available : Writable mem base count) :
+    writePrefix values base mem count = .ok (withBytes mem (prefixBytes values base mem.bytes count)) := by
+  induction count with
+  | zero =>
+    have zero : prefixBytes values base mem.bytes 0 = mem.bytes := by
+      funext address; simp [prefixBytes]
+    rw [zero]
+    rfl
+  | succ count ih =>
+    have earlier : Writable mem base count := fun byte within => available byte (by omega)
+    have last := available count (by omega)
+    rw [writePrefix, ih earlier]
+    change writeByte (withBytes mem (prefixBytes values base mem.bytes count)) (base + count) (values count) = _
+    simp only [writeByte, withBytes, last, and_self, if_true]
+    rw [prefix_bytes_step]
+
+def storeWords (values : Nat → BitVec 32) (base : Nat) (mem : Memory) (count : Nat) : Execution :=
+  writePrefix (fun byte => splitByte (values (byte / 4)) (byte % 4)) base mem (count * 4)
+
+theorem store_words_success (values : Nat → BitVec 32) (base : Nat) (mem : Memory) (count : Nat)
+    (available : Writable mem base (count * 4)) :
+    storeWords values base mem count = .ok (withBytes mem (ByteMemory.storePrefix values base mem.bytes count)) := by
+  unfold storeWords
+  rw [write_prefix_success _ _ _ _ available, ByteMemory.prefix_correct]
+  rfl
+
+theorem with_bytes_access (mem : Memory) (bytes : ByteMemory.Memory) :
+    SameAccess mem (withBytes mem bytes) := ⟨rfl, rfl, rfl⟩
+
+#specNonCircular Readable avoiding [readByte, loadLE, writeByte, writePrefix, storeWords]
+#specNonCircular Writable avoiding [readByte, loadLE, writeByte, writePrefix, storeWords]
+#axiomsClean load_success
+#axiomsClean load_first_unavailable
+#axiomsClean prefix_bytes_step
+#axiomsClean write_prefix_success
+#axiomsClean store_words_success
+#axiomsClean with_bytes_access
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end VeriTile.Bench.TritonBenchG.ReluTritonKernel.AccessMemory

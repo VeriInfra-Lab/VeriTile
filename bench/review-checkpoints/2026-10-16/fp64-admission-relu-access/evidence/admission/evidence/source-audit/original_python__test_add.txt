@@ -1,0 +1,35 @@
+def test_add():
+    torch.manual_seed(0)
+    size = 98432
+    x = torch.rand(size, device='cuda')
+    y = torch.rand(size, device='cuda')
+    
+    # Test case 1
+    output_triton_1 = add(x, y)
+    
+    # Test case 2
+    size_2 = 1024
+    x_2 = torch.rand(size_2, device='cuda')
+    y_2 = torch.rand(size_2, device='cuda')
+    output_triton_2 = add(x_2, y_2)
+    
+    # Test case 3
+    size_3 = 2048
+    x_3 = torch.rand(size_3, device='cuda')
+    y_3 = torch.rand(size_3, device='cuda')
+    output_triton_3 = add(x_3, y_3)
+    
+    # Test case 4
+    size_4 = 4096
+    x_4 = torch.rand(size_4, device='cuda')
+    y_4 = torch.rand(size_4, device='cuda')
+    output_triton_4 = add(x_4, y_4)
+    
+    results = {
+        "test_case_1": output_triton_1,
+        "test_case_2": output_triton_2,
+        "test_case_3": output_triton_3,
+        "test_case_4": output_triton_4
+    }
+    
+    return results

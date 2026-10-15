@@ -1,0 +1,2 @@
+    def __add__(self, other, _semantic=None):
+        return add(self, other, sanitize_overflow=True, _semantic=_semantic)
