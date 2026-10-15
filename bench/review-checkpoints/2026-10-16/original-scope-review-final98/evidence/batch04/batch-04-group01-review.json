@@ -1,0 +1,913 @@
+{
+  "schema": 1,
+  "kind": "original_scope_batch_review",
+  "batch": 4,
+  "part": "group01",
+  "reviewer": "/root/relu_current_review",
+  "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+  "catalog_sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875",
+  "source_ledger_snapshot_sha256": "a59d0cc02251d96b6b8d47d1cf35e7f2990abd858c2cb210640be1dfd4ae1379",
+  "task_count": 4,
+  "structural_gaps_confirmed": 4,
+  "whole_original_program_accepted": 0,
+  "completion_increment": 0,
+  "public_declarations_checked": 20,
+  "structural_gap_count": 8,
+  "catalog_declaration_metadata_discrepancies": [
+    {
+      "task": "mixed_sparse_attention",
+      "file": "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean",
+      "declaration": "mixed_sparse_attention_output_closed_form_summary_general",
+      "field": "sha256",
+      "catalog_value": "0d0fc077eae64f55b50b0628ce2465d926659e5113df95293239d8faf81be8bb",
+      "actual_value": "bb6ec182a8bbe85e9d17e670b7e32822ac2d3a640017f81d926d2931d26cb7aa"
+    },
+    {
+      "task": "mixed_sparse_attention",
+      "file": "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean",
+      "declaration": "mixed_sparse_attention_output_closed_form_summary_general",
+      "field": "line",
+      "catalog_value": 4459,
+      "actual_value": 4481
+    },
+    {
+      "task": "mixed_sparse_attention",
+      "file": "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean",
+      "declaration": "mixed_sparse_attention_epilogue_io_correctness",
+      "field": "sha256",
+      "catalog_value": "0d0fc077eae64f55b50b0628ce2465d926659e5113df95293239d8faf81be8bb",
+      "actual_value": "bb6ec182a8bbe85e9d17e670b7e32822ac2d3a640017f81d926d2931d26cb7aa"
+    },
+    {
+      "task": "mixed_sparse_attention",
+      "file": "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean",
+      "declaration": "mixed_sparse_attention_epilogue_io_correctness",
+      "field": "line",
+      "catalog_value": 4855,
+      "actual_value": 4877
+    }
+  ],
+  "integration_note": "Read-only concrete original-scope findings. Existing proofs remain credited. No new execution, numerical registration, repository mutation or acceptance. Root reviews integration.",
+  "tasks": [
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/relu_current_review",
+      "reviewed_at_utc": "2026-10-15T19:08:48.367499+00:00",
+      "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/current-source-catalog.json",
+        "sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875"
+      },
+      "task": "flash_attn",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "The current full_flat_correctness establishes actual full-source trace safety, successful finite-flat execution, both L/O initial-state formulas and a raw-cell frame. Current formulas allow arbitrary natural strides and causal/noncausal loops, superseding restrictions of older legacy summaries. Typed source retains explicit fp16 query/probability casts, all six Q selectors, fp32 accumulators and output storage; source-index equivalence and concrete typed numerical witnesses remain credited.",
+      "production_stage_mapping": [
+        {
+          "function": "flash_attn_triton",
+          "coverage": "Shape checks, empty_like output, fp32 L allocation, warp choice and the entire batch/head/query grid are outside the public single-state source contracts.",
+          "path": "bench/tritonbench_g/flash_attn/flash_attn.py",
+          "line": 6,
+          "end_line": 32,
+          "sha256": "fedc0f296ff2f6c4176ee990c1ea4a29129466998c8ac2fc3f6b1ccc5dfc84a1",
+          "stage_id": "stage:bench/tritonbench_g/flash_attn/flash_attn.py:6:flash_attn_triton"
+        },
+        {
+          "function": "_fwd_kernel",
+          "coverage": "Complete query/key/value loop, both causal branches, pointer advances, L store and O store are represented.",
+          "path": "bench/tritonbench_g/flash_attn/flash_attn.py",
+          "line": 36,
+          "end_line": 119,
+          "sha256": "fedc0f296ff2f6c4176ee990c1ea4a29129466998c8ac2fc3f6b1ccc5dfc84a1",
+          "stage_id": "stage:bench/tritonbench_g/flash_attn/flash_attn.py:36:_fwd_kernel"
+        }
+      ],
+      "dtype_review": "The generalized source has six Q/output floating selectors but fixes K/V to fp16; the actual-syntax family fixes output storage to fp16. Original Python only checks head dimensions and returns empty_like(q). Missing K/V/storage admission outside the represented floating routes is not supplied by an index equivalence.",
+      "branch_review": "Both causal and noncausal loops are now represented, including actual hi and original unmasked loads. Do not charge the obsolete hHi=SEQLEN legacy restriction against the current full source result.",
+      "structural_gaps": [
+        {
+          "id": "FLASH_ATTN-S1",
+          "kind": "host_allocation_and_full_grid",
+          "finding": "The wrapper allocates O and L and launches ceil(SEQLEN/128) by batch*heads with a dimension-selected warp count; full_flat_correctness has one initial BlockState and one program footprint.",
+          "why_blocks_full_original_scope": "The exact returned tensor and all L/O writes are not composed over the actual launch.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 6,
+              "end_line": 32,
+              "path": "bench/tritonbench_g/flash_attn/flash_attn.py",
+              "sha256": "fedc0f296ff2f6c4176ee990c1ea4a29129466998c8ac2fc3f6b1ccc5dfc84a1",
+              "excerpt": "def flash_attn_triton(q, k, v, causal=True, sm_scale=1):\n    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]\n    assert Lq == Lk and Lk == Lv\n    assert Lk in {16, 32, 64, 128}\n\n    o = torch.empty_like(q)\n\n    BLOCK_M = 128\n    BLOCK_N = 64\n    grid = (triton.cdiv(q.shape[2], BLOCK_M), q.shape[0] * q.shape[1], 1)\n    L = torch.empty((q.shape[0] * q.shape[1], q.shape[2]), device=q.device, dtype=torch.float32)\n    num_warps = 4 if Lk <= 64 else 8\n    _fwd_kernel[grid](\n        q, k, v, sm_scale,\n        L,\n        o,\n        q.stride(0), q.stride(1), q.stride(2), q.stride(3),\n        k.stride(0), k.stride(1), k.stride(2), k.stride(3),\n        v.stride(0), v.stride(1), v.stride(2), v.stride(3),\n        o.stride(0), o.stride(1), o.stride(2), o.stride(3),\n        q.shape[0], q.shape[1], q.shape[2],\n        BLOCK_M=BLOCK_M, BLOCK_N=BLOCK_N, DIM=Lk,\n        IS_CAUSAL=causal,\n        num_warps=num_warps,\n        num_stages=4)\n\n    return o"
+            },
+            {
+              "line": 226,
+              "end_line": 244,
+              "path": "bench/tritonbench_g/flash_attn/Correct.lean",
+              "sha256": "5470941ec525764621def3c41b1cdde0c66eb683be9bb82799275c4c79794564",
+              "excerpt": "specification full_flat_correctness (swapped : Bool) (input : Storage)\n    (Q K V L O : RegionName) (p : Layout)\n    (stride_q_bs stride_k_bs stride_k_head stride_v_bs stride_v_head stride_v_seqlen\n      stride_o_bs stride_o_head BS HEAD : Nat)\n    (A : FlatAlloc) (hd : A.Disjoint)\n    (hcov : ∀ r, r ∉ A.regions → A.extent r = 0)\n    (s : BlockState) (hb : AddressBounds p s Q K V L O A.extent)\n    (hundef : s.undef = fun _ _ => 0)\n    (hBN : 0 < p.BLOCK_N) (hhi : 0 < hi p (s.pids 0)) :\n    VeriTile.Spec.Real (Contracts.FlatIO\n      (actualKernel input swapped Q K V L O p.sm_scale\n        stride_q_bs p.stride_q_head p.stride_q_seqlen p.stride_q_dim\n        stride_k_bs stride_k_head p.stride_k_seqlen p.stride_k_dim\n        stride_v_bs stride_v_head stride_v_seqlen p.stride_v_dim\n        stride_o_bs stride_o_head p.stride_o_seqlen p.stride_o_dim\n        BS HEAD p.SEQLEN p.BLOCK_M p.DIM p.BLOCK_N p.causal).eraseDType.toAlgKernel\n      A p s Q K V L O) := by\n  rw [actual_full_source_erasure]\n  exact Contracts.full_flat A hd hcov swapped Q K V L O p s hb hundef hBN hhi"
+            }
+          ]
+        },
+        {
+          "id": "FLASH_ATTN-S2",
+          "kind": "operand_dtype_admission",
+          "finding": "The materialized macro fixes K and V to tl.float16, while the original wrapper has no dtype assertions for K/V; six Q/output selectors do not supply the remaining input storage/admission branches.",
+          "why_blocks_full_original_scope": "Each supported original storage combination or its precise original rejection must be related before the whole dtype domain is complete.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 6,
+              "end_line": 9,
+              "path": "bench/tritonbench_g/flash_attn/flash_attn.py",
+              "sha256": "fedc0f296ff2f6c4176ee990c1ea4a29129466998c8ac2fc3f6b1ccc5dfc84a1",
+              "excerpt": "def flash_attn_triton(q, k, v, causal=True, sm_scale=1):\n    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]\n    assert Lq == Lk and Lk == Lv\n    assert Lk in {16, 32, 64, 128}"
+            },
+            {
+              "line": 84,
+              "end_line": 102,
+              "path": "bench/tritonbench_g/flash_attn/flash_attn.py",
+              "sha256": "fedc0f296ff2f6c4176ee990c1ea4a29129466998c8ac2fc3f6b1ccc5dfc84a1",
+              "excerpt": "    q = tl.load(Q_block_ptr)\n    q = (q * qk_scale).to(tl.float16)\n    lo = 0\n    hi = (start_m + 1) * BLOCK_M if IS_CAUSAL else SEQLEN\n    for start_n in range(lo, hi, BLOCK_N):\n        k = tl.load(K_block_ptr)\n        v = tl.load(V_block_ptr)\n\n        qk = tl.zeros([BLOCK_M, BLOCK_N], dtype=tl.float32)\n        if IS_CAUSAL:\n            qk = tl.where(off_m[:, None] >= (start_n + off_n[None, :]), qk, float(\"-inf\"))\n        qk += tl.dot(q, k)\n\n        max_new = tl.maximum(max, tl.max(qk, 1))\n        alpha = tl.math.exp2(max - max_new)\n        nume = tl.math.exp2(qk - max_new[:, None])\n        out_scale = denom * 0 + alpha\n        out_buffer *= out_scale[:, None]\n        out_buffer += tl.dot(nume.to(tl.float16), v)"
+            },
+            {
+              "line": 27,
+              "end_line": 29,
+              "path": "bench/tritonbench_g/flash_attn/Kernels.lean",
+              "sha256": "68649a206ffe2b522fcdcd45b7b86036c124c83ecee504acc159a204dd8bf886",
+              "excerpt": "inductive Storage where\n  | fp16 | bf16 | fp32 | fp64 | f8e4 | f8e5\n  deriving DecidableEq"
+            },
+            {
+              "line": 54,
+              "end_line": 55,
+              "path": "bench/tritonbench_g/flash_attn/Kernels.lean",
+              "sha256": "68649a206ffe2b522fcdcd45b7b86036c124c83ecee504acc159a204dd8bf886",
+              "excerpt": "      ComputeKernel.mk [Q,K,V] [L,O] (triton {\n  tl.region Q = $inputTy, K = tl.float16, V = tl.float16, L = tl.float32, O = $outputTy"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Exact profile-bound dot, exp2/log2, reductions, division, scaling and represented storage casts may be numerical followups. The full-source IO and actual nonempty typed witnesses must remain credited."
+      ],
+      "precondition_assessment": "Existing valid-address, injectivity, disjointness and positive-size premises remain legitimate. Findings concern concrete source branches or missing composition, not hypothetical hardware faults or arbitrary invalid inputs.",
+      "source_sha256": {
+        "bench/tritonbench_g/flash_attn/flash_attn.py": "fedc0f296ff2f6c4176ee990c1ea4a29129466998c8ac2fc3f6b1ccc5dfc84a1",
+        "bench/tritonbench_g/flash_attn/Correct.lean": "5470941ec525764621def3c41b1cdde0c66eb683be9bb82799275c4c79794564",
+        "bench/tritonbench_g/flash_attn/FPEquiv.lean": "fb9920adcdc3378dafffdc33e5b88f72ec0b1e32a5e7bc02eb5119916112a922",
+        "bench/tritonbench_g/flash_attn/Kernels.lean": "68649a206ffe2b522fcdcd45b7b86036c124c83ecee504acc159a204dd8bf886",
+        "bench/tritonbench_g/flash_attn/Proofs/Contracts.lean": "d37f0b50bc2406fcc9686ce853928c095f34ada2b9317f3e7626d5481493d084",
+        "bench/tritonbench_g/flash_attn/Proofs/SourceChecks.lean": "ccb79b8efc4d183c6bc0e307868bbaf0c0b617a509b4506d98e5aa5a31376bfa",
+        "bench/tritonbench_g/flash_attn/Proofs/ActualNumericValues.lean": "84e381064207ddb7b49b89c12983367ad262e806e6abda530bf4da8d7934f5de"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/flash_attn/Correct.lean": "5470941ec525764621def3c41b1cdde0c66eb683be9bb82799275c4c79794564",
+          "bench/tritonbench_g/flash_attn/FPEquiv.lean": "fb9920adcdc3378dafffdc33e5b88f72ec0b1e32a5e7bc02eb5119916112a922",
+          "bench/tritonbench_g/flash_attn/Kernels.lean": "68649a206ffe2b522fcdcd45b7b86036c124c83ecee504acc159a204dd8bf886",
+          "bench/tritonbench_g/flash_attn/Proofs/ActualFP.lean": "87724e5c52916519c782f7e7d18757fdffea294508b9cacc081bc27342165363",
+          "bench/tritonbench_g/flash_attn/Proofs/ActualNumericExecution.lean": "670348ad8b38ec754a8cf8060946f8dbbe5de5049533b9bffb0ef07a776ce110",
+          "bench/tritonbench_g/flash_attn/Proofs/ActualNumericValues.lean": "84e381064207ddb7b49b89c12983367ad262e806e6abda530bf4da8d7934f5de",
+          "bench/tritonbench_g/flash_attn/Proofs/ActualPrecision.lean": "6284cf1e73fded008577376ae88eb4e11ddaffbef3d8c8e72aff26f46ea98c60",
+          "bench/tritonbench_g/flash_attn/Proofs/Candidate.lean": "027ceebd4036f6a8536514bd5f9b271c39246eca34365035fd2b6ee97a8d0ea9",
+          "bench/tritonbench_g/flash_attn/Proofs/Contracts.lean": "d37f0b50bc2406fcc9686ce853928c095f34ada2b9317f3e7626d5481493d084",
+          "bench/tritonbench_g/flash_attn/Proofs/Erasure.lean": "088c5ec03787b8a5a212622a36a8ee8507e9ea3e9aa99e3674a7abc0dd14fd12",
+          "bench/tritonbench_g/flash_attn/Proofs/FP.lean": "73adb54f8124ce3886f731cdb278c806ad150ce06256a48cf30f7c3ac451a293",
+          "bench/tritonbench_g/flash_attn/Proofs/FlatReal.lean": "e56fb96ad22829b5d57dcb5fc11684aaee4be9ee6886a026839bc0638f89d123",
+          "bench/tritonbench_g/flash_attn/Proofs/Formula.lean": "341ebe17da5053a6bd68a3b67df86b5db05204be502c2ca6b2e32ff918cef114",
+          "bench/tritonbench_g/flash_attn/Proofs/Geometry.lean": "c88d6a91dd333a7d916b37bd547ffeab3e969220ab0cda2951e6b077b0915266",
+          "bench/tritonbench_g/flash_attn/Proofs/LegacyCompat.lean": "1a9d694a3eb85d8e1b601cf12e33db9ae71f4fb4267387d53c8eb9cfa60fc4b2",
+          "bench/tritonbench_g/flash_attn/Proofs/LegacyReal.lean": "51212e5d190a4d431a31b113655842eb59cecf5bdd5a6b989d7c3bfce4f88018",
+          "bench/tritonbench_g/flash_attn/Proofs/NormalizedSource.lean": "98da81dc64a6dad123dac1229bce224e013fbfb5a24c323dc1eb690fa0a1e4cf",
+          "bench/tritonbench_g/flash_attn/Proofs/NumericTypedEntry.lean": "2090802661b988c72c38331e78bef40a247b189bb678be10daa5f087134012ef",
+          "bench/tritonbench_g/flash_attn/Proofs/NumericTypedExecution.lean": "0063153396e8ae1a11e7eb08859173dd99811c0d8694465f61b9758f2d21e9eb",
+          "bench/tritonbench_g/flash_attn/Proofs/NumericTypedFirst.lean": "c3fa4b2395b8aa920f663684eab9433163827e6d23b0eff34c87a50639c18134",
+          "bench/tritonbench_g/flash_attn/Proofs/NumericTypedModel.lean": "58a126cba7acf5726ce333957f860390282e582e6248816abe27eca01d4f52cb",
+          "bench/tritonbench_g/flash_attn/Proofs/NumericTypedPost.lean": "6a185c45c512a23ff50b403da39b1c59f2e615ab1ced8973c2b68ce784fdb15a",
+          "bench/tritonbench_g/flash_attn/Proofs/NumericTypedSecond.lean": "f5088d24f1f554f6f3c0c253b2f2faed0bd066109a09cae0bae2dd26e7b9b3e1",
+          "bench/tritonbench_g/flash_attn/Proofs/NumericTypedValues.lean": "bbab9e74571512970c63fb93411fd75fef88f0ce60ac5da273d90dea3f361bec",
+          "bench/tritonbench_g/flash_attn/Proofs/RealComplete.lean": "44f87252d263b5c1424147e6af5320eebbe1694ab6c30ec1974d7b79b363ee0b",
+          "bench/tritonbench_g/flash_attn/Proofs/RealEntry.lean": "9a01acf2759e744faef4f997a18f5c4870c70367b9a89918f1a793e3d89f9247",
+          "bench/tritonbench_g/flash_attn/Proofs/RealEntryFacts.lean": "4940fc993d84662e5dbf5d9db52e8d921715311091af61a000607785ae87498c",
+          "bench/tritonbench_g/flash_attn/Proofs/RealInputTiles.lean": "3943e6d98a9b08e8f28e5f8c5002b7f83b587748a2cc7deac012757837431ec1",
+          "bench/tritonbench_g/flash_attn/Proofs/RealInvariant.lean": "a9e4d7fa0fb26623d9a514c1af4ecb9da2a83d730fee936f14b97e70c705f4b6",
+          "bench/tritonbench_g/flash_attn/Proofs/RealInvariantMath.lean": "f50e74cf5a31b838ccc4fd0d6ac1a5deed220f7ee273c60092649b875247bbb8",
+          "bench/tritonbench_g/flash_attn/Proofs/RealInvariantStep.lean": "ecc4fb2e3c14aeb11852ee4eecab7d215c7721e134d1b3f4a6eaf2cafa4b5ab0",
+          "bench/tritonbench_g/flash_attn/Proofs/RealLoop.lean": "def37c17924c2b8ee7c3d02c4bad31bbec17245b4d0b93909a90844f0216e3ab",
+          "bench/tritonbench_g/flash_attn/Proofs/RealLoopFacts.lean": "3779c57356c97c89de3c0bbfab7e6906128bfa14791fbfd3e9df75237cfce45a",
+          "bench/tritonbench_g/flash_attn/Proofs/RealLoopInvariant.lean": "1f780e30082cfd301f8cd76c77562c6a510df71009d9799481077716f5481624",
+          "bench/tritonbench_g/flash_attn/Proofs/RealMath.lean": "022d86049448d4a477909490902cad3d74ff0f05582f6ad2da9836dede2bfbf7",
+          "bench/tritonbench_g/flash_attn/Proofs/RealNumericAlgebra.lean": "654254a565c061ba8ee88f256ed77fd628e17b954aeece510962b6f9d0bb3645",
+          "bench/tritonbench_g/flash_attn/Proofs/RealNumericStep.lean": "aae1c377512834891ea66bc0412c76e19abebfaadc83134e5ff5bdec05e85d29",
+          "bench/tritonbench_g/flash_attn/Proofs/RealPointers.lean": "e89debe224c09308a04ac382be536a99a4701ec6df8ebc9fc0d6b4e4823da43e",
+          "bench/tritonbench_g/flash_attn/Proofs/RealPost.lean": "9a2db577bc2d689f0c33802f952e56e32030397f3c6789e7e5d64770afdeb775",
+          "bench/tritonbench_g/flash_attn/Proofs/RealPostMemory.lean": "54aba2ec85c23d88e89881995456187b2f8647da9de74394f560d5bc6535b093",
+          "bench/tritonbench_g/flash_attn/Proofs/RealSafety.lean": "5b8c8a81a054a2de44bf73eabc49257977336f550c277ffa74a573868faa57f4",
+          "bench/tritonbench_g/flash_attn/Proofs/RealStructural.lean": "d696dcb51e353a0a8ef3c9ce67fd9ff39df4ab4174e5fae2acbec0202125b863",
+          "bench/tritonbench_g/flash_attn/Proofs/RealSummary.lean": "514780cbe990c1df9569091d4d94f25e7a2ed4fd946f3d6de9c5b8555110ed6e",
+          "bench/tritonbench_g/flash_attn/Proofs/RealWitness.lean": "4d98e55a300e646e7253cfdb53e952259630cff1d9711030bc31a9caab6bf2bf",
+          "bench/tritonbench_g/flash_attn/Proofs/RealWritebackMath.lean": "486e3585f75d62816fe133de4ce683c3b9529c551ad2d29fd7745bb3c9f1ea37",
+          "bench/tritonbench_g/flash_attn/Proofs/SourceBridge.lean": "f2f11fe0d7d812d094dc1a80b8714a8b3d65631001189696fb2eefddb4ba0a41",
+          "bench/tritonbench_g/flash_attn/Proofs/SourceChecks.lean": "ccb79b8efc4d183c6bc0e307868bbaf0c0b617a509b4506d98e5aa5a31376bfa",
+          "bench/tritonbench_g/flash_attn/Proofs/WitnessData.lean": "e5c772a3fc1f9adefdd49141054fed1c5a756f56b64980bdc30ee75310ca71fc",
+          "bench/tritonbench_g/flash_attn/Proofs/Writeback.lean": "0bc53c6fd6c095441da577947b638f4c0a4a70375290e0b6bed49e840e3afafb"
+        },
+        "python": {
+          "bench/tritonbench_g/flash_attn/flash_attn.py": "fedc0f296ff2f6c4176ee990c1ea4a29129466998c8ac2fc3f6b1ccc5dfc84a1"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/flash_attn/Correct.lean",
+          "declaration": "original_correctness",
+          "parser_name": "original_correctness",
+          "line": 178,
+          "sha256": "5470941ec525764621def3c41b1cdde0c66eb683be9bb82799275c4c79794564",
+          "statement_sha256": "a57efa6323c2679a27f97cf862c970bf11ab4a1c927f75562789520b71d9e11f",
+          "statement": "specification original_correctness (input output : Storage) (Q K V L O : RegionName) (p : Layout)\n    (stride_q_bs stride_k_bs stride_k_head stride_v_bs stride_v_head stride_v_seqlen\n      stride_o_bs stride_o_head BS HEAD : Nat)\n    (s : BlockState) (hBN : 0 < p.BLOCK_N) (hhi : 0 < hi p (s.pids 0)) :\n    VeriTile.Spec.Real (Contracts.RegionIO (kernel input output Bool.false Q K V L O p.sm_scale\n      stride_q_bs p.stride_q_head p.stride_q_seqlen p.stride_q_dim\n      stride_k_bs stride_k_head p.stride_k_seqlen p.stride_k_dim\n      stride_v_bs stride_v_head stride_v_seqlen p.stride_v_dim\n      stride_o_bs stride_o_head p.stride_o_seqlen p.stride_o_dim\n      BS HEAD p.SEQLEN p.BLOCK_M p.DIM p.BLOCK_N p.causal).eraseDType.toAlgKernel p s Q K V L O)"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_attn/Correct.lean",
+          "declaration": "candidate_correctness",
+          "parser_name": "candidate_correctness",
+          "line": 191,
+          "sha256": "5470941ec525764621def3c41b1cdde0c66eb683be9bb82799275c4c79794564",
+          "statement_sha256": "23e9d252a485566a7a9eea022a2f16ca55c4dda2ab2c820794e5b9dbea802fed",
+          "statement": "specification candidate_correctness (input output : Storage) (Q K V L O : RegionName) (p : Layout)\n    (stride_q_bs stride_k_bs stride_k_head stride_v_bs stride_v_head stride_v_seqlen\n      stride_o_bs stride_o_head BS HEAD : Nat)\n    (s : BlockState) (hBN : 0 < p.BLOCK_N) (hhi : 0 < hi p (s.pids 0)) :\n    VeriTile.Spec.Real (Contracts.RegionIO (kernel input output Bool.true Q K V L O p.sm_scale\n      stride_q_bs p.stride_q_head p.stride_q_seqlen p.stride_q_dim\n      stride_k_bs stride_k_head p.stride_k_seqlen p.stride_k_dim\n      stride_v_bs stride_v_head stride_v_seqlen p.stride_v_dim\n      stride_o_bs stride_o_head p.stride_o_seqlen p.stride_o_dim\n      BS HEAD p.SEQLEN p.BLOCK_M p.DIM p.BLOCK_N p.causal).eraseDType.toAlgKernel p s Q K V L O)"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_attn/Correct.lean",
+          "declaration": "flat_correctness",
+          "parser_name": "flat_correctness",
+          "line": 204,
+          "sha256": "5470941ec525764621def3c41b1cdde0c66eb683be9bb82799275c4c79794564",
+          "statement_sha256": "360e4147e9180c71f15b31804e24314f5f616eef598dc9d577881c30104b86b7",
+          "statement": "specification flat_correctness (swapped : Bool) (input output : Storage) (Q K V L O : RegionName) (p : Layout)\n    (stride_q_bs stride_k_bs stride_k_head stride_v_bs stride_v_head stride_v_seqlen\n      stride_o_bs stride_o_head BS HEAD : Nat)\n    (A : FlatAlloc) (hd : A.Disjoint)\n    (hcov : ∀ r, r ∉ A.regions → A.extent r = 0)\n    (s : BlockState) (hb : AddressBounds p s Q K V L O A.extent)\n    (hundef : s.undef = fun _ _ => 0)\n    (hBN : 0 < p.BLOCK_N) (hhi : 0 < hi p (s.pids 0)) :\n    VeriTile.Spec.Real (Contracts.RegionFlatIO (kernel input output swapped Q K V L O p.sm_scale\n      stride_q_bs p.stride_q_head p.stride_q_seqlen p.stride_q_dim\n      stride_k_bs stride_k_head p.stride_k_seqlen p.stride_k_dim\n      stride_v_bs stride_v_head stride_v_seqlen p.stride_v_dim\n      stride_o_bs stride_o_head p.stride_o_seqlen p.stride_o_dim\n      BS HEAD p.SEQLEN p.BLOCK_M p.DIM p.BLOCK_N p.causal).eraseDType.toAlgKernel A p s Q K V L O)"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_attn/Correct.lean",
+          "declaration": "full_flat_correctness",
+          "parser_name": "full_flat_correctness",
+          "line": 226,
+          "sha256": "5470941ec525764621def3c41b1cdde0c66eb683be9bb82799275c4c79794564",
+          "statement_sha256": "9cec45573c80b2a5ab0ef1c1e8a6a9f2f6510aa5612c45ace078e32d0ae61933",
+          "statement": "specification full_flat_correctness (swapped : Bool) (input : Storage)\n    (Q K V L O : RegionName) (p : Layout)\n    (stride_q_bs stride_k_bs stride_k_head stride_v_bs stride_v_head stride_v_seqlen\n      stride_o_bs stride_o_head BS HEAD : Nat)\n    (A : FlatAlloc) (hd : A.Disjoint)\n    (hcov : ∀ r, r ∉ A.regions → A.extent r = 0)\n    (s : BlockState) (hb : AddressBounds p s Q K V L O A.extent)\n    (hundef : s.undef = fun _ _ => 0)\n    (hBN : 0 < p.BLOCK_N) (hhi : 0 < hi p (s.pids 0)) :\n    VeriTile.Spec.Real (Contracts.FlatIO\n      (actualKernel input swapped Q K V L O p.sm_scale\n        stride_q_bs p.stride_q_head p.stride_q_seqlen p.stride_q_dim\n        stride_k_bs stride_k_head p.stride_k_seqlen p.stride_k_dim\n        stride_v_bs stride_v_head stride_v_seqlen p.stride_v_dim\n        stride_o_bs stride_o_head p.stride_o_seqlen p.stride_o_dim\n        BS HEAD p.SEQLEN p.BLOCK_M p.DIM p.BLOCK_N p.causal).eraseDType.toAlgKernel\n      A p s Q K V L O)"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_attn/FPEquiv.lean",
+          "declaration": "source_equivalence",
+          "parser_name": "source_equivalence",
+          "line": 51,
+          "sha256": "fb9920adcdc3378dafffdc33e5b88f72ec0b1e32a5e7bc02eb5119916112a922",
+          "statement_sha256": "3229623f3ccfe1347c8b462c78bc4fc408d01b6411b73691234c2ce2d6f44bf3",
+          "statement": "specification source_equivalence (input output : Storage) (Q K V L O : RegionName) (sm_scale : ℝ)\n    (stride_q_bs stride_q_head stride_q_seqlen stride_q_dim\n      stride_k_bs stride_k_head stride_k_seqlen stride_k_dim\n      stride_v_bs stride_v_head stride_v_seqlen stride_v_dim\n      stride_o_bs stride_o_head stride_o_seqlen stride_o_dim\n      BS HEAD SEQLEN BLOCK_M DIM BLOCK_N : Nat) (causal : Bool) :\n    original input output Q K V L O sm_scale stride_q_bs stride_q_head stride_q_seqlen stride_q_dim\n    stride_k_bs stride_k_head stride_k_seqlen stride_k_dim\n    stride_v_bs stride_v_head stride_v_seqlen stride_v_dim\n    stride_o_bs stride_o_head stride_o_seqlen stride_o_dim\n    BS HEAD SEQLEN BLOCK_M DIM BLOCK_N causal ≡[assumptions]\n    indexCommuted input output Q K V L O sm_scale stride_q_bs stride_q_head stride_q_seqlen stride_q_dim\n    stride_k_bs stride_k_head stride_k_seqlen stride_k_dim\n    stride_v_bs stride_v_head stride_v_seqlen stride_v_dim\n    stride_o_bs stride_o_head stride_o_seqlen stride_o_dim\n    BS HEAD SEQLEN BLOCK_M DIM BLOCK_N causal"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_attn/FPEquiv.lean",
+          "declaration": "actual_source_equivalence",
+          "parser_name": "actual_source_equivalence",
+          "line": 76,
+          "sha256": "fb9920adcdc3378dafffdc33e5b88f72ec0b1e32a5e7bc02eb5119916112a922",
+          "statement_sha256": "17cd38571ab53a658db56fc0a8bf861665c0b9dc2a658f0db096fc819373039d",
+          "statement": "specification actual_source_equivalence (input : Storage) (Q K V L O : RegionName) (sm_scale : ℝ)\n    (stride_q_bs stride_q_head stride_q_seqlen stride_q_dim\n      stride_k_bs stride_k_head stride_k_seqlen stride_k_dim\n      stride_v_bs stride_v_head stride_v_seqlen stride_v_dim\n      stride_o_bs stride_o_head stride_o_seqlen stride_o_dim\n      BS HEAD SEQLEN BLOCK_M DIM BLOCK_N : Nat) (causal : Bool) :\n    ActualFPProof.program Bool.false input Q K V L O sm_scale stride_q_bs stride_q_head stride_q_seqlen stride_q_dim\n    stride_k_bs stride_k_head stride_k_seqlen stride_k_dim\n    stride_v_bs stride_v_head stride_v_seqlen stride_v_dim\n    stride_o_bs stride_o_head stride_o_seqlen stride_o_dim\n    BS HEAD SEQLEN BLOCK_M DIM BLOCK_N causal ≡[assumptions]\n    ActualFPProof.program Bool.true input Q K V L O sm_scale stride_q_bs stride_q_head stride_q_seqlen stride_q_dim\n    stride_k_bs stride_k_head stride_k_seqlen stride_k_dim\n    stride_v_bs stride_v_head stride_v_seqlen stride_v_dim\n    stride_o_bs stride_o_head stride_o_seqlen stride_o_dim\n    BS HEAD SEQLEN BLOCK_M DIM BLOCK_N causal"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 6,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/relu_current_review",
+      "reviewed_at_utc": "2026-10-15T19:08:48.430399+00:00",
+      "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/current-source-catalog.json",
+        "sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875"
+      },
+      "task": "attention_llama",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "Both complete fp16 and int8-byte-as-fp8e5 source families are present, with byte reinterpretation then fp16 conversion, causal/noncausal loops, masking, full attention formulas and framed IO. The two carry-first equivalences retain explicit native addition assumptions; FP8 is not missing.",
+      "production_stage_mapping": [
+        {
+          "function": "_fwd_kernel",
+          "coverage": "All source computations, offset/causal masks, fp8 reinterpretation branches and output writes are materialized.",
+          "path": "bench/tritonbench_g/attention_llama/attention_llama.py",
+          "line": 8,
+          "end_line": 96,
+          "sha256": "d328bc37666929912b963afb0b53e8150a0212a20d6993e4d7ce51e13f4db96c",
+          "stage_id": "stage:bench/tritonbench_g/attention_llama/attention_llama.py:8:_fwd_kernel"
+        },
+        {
+          "function": "triton_fa",
+          "coverage": "Dtype/head-size assertions, empty_like, warp choice and all query/head/batch programs remain uncomposed.",
+          "path": "bench/tritonbench_g/attention_llama/attention_llama.py",
+          "line": 99,
+          "end_line": 131,
+          "sha256": "d328bc37666929912b963afb0b53e8150a0212a20d6993e4d7ce51e13f4db96c",
+          "stage_id": "stage:bench/tritonbench_g/attention_llama/attention_llama.py:99:triton_fa"
+        }
+      ],
+      "dtype_review": "The wrapper explicitly admits q fp16 with K/V both fp16 or both int8; both admitted branches are represented. No extra unsupported dtype demand is made.",
+      "branch_review": "The successful IO precondition requires N=BN*T in noncausal mode; causal mode further requires (pid+1)*BN+SP=BN*T, BN*T<=N and SP<=pid*BM. The source uses masked K/V tails for arbitrary N and accepts start_position without those checks. Its score mask uses offs_n<N exactly and is preserved, not repaired.",
+      "structural_gaps": [
+        {
+          "id": "ATTENTION_LLAMA-S1",
+          "kind": "partial_key_tile_and_causal_prefix_cases",
+          "finding": "The public IO precondition excludes nonmultiple key lengths and causal prefixes that violate its alignment/range equalities, while source K/V loads explicitly mask block_n_offs<N_CTX.",
+          "why_blocks_full_original_scope": "These source tail/prefix executions need an actual-source value/frame contract, rather than being inferred from addition commutation.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 45,
+              "end_line": 62,
+              "path": "bench/tritonbench_g/attention_llama/attention_llama.py",
+              "sha256": "d328bc37666929912b963afb0b53e8150a0212a20d6993e4d7ce51e13f4db96c",
+              "excerpt": "    block_n_end = N_CTX  # <- ADDED (including the IF)\n    if IS_CAUSAL:\n        # in causal mode, we expect that BLOCK_M_SIZE == BLOCK_N_SIZE\n        # autotune will prune shapes not matching this rule\n        block_n_end = (start_m + 1) * BLOCK_N + start_position\n    for start_n in range(0, block_n_end, BLOCK_N):\n        block_n_offs = start_n + offs_n  # <- ADDED\n        # -- compute qk ----\n        k = tl.load(k_ptrs, block_n_offs[:, None] < N_CTX, 0.)\n        if USE_FP8:\n            k = k.to(tl.float8e5, bitcast=True)\n            k = k.to(tl.float16)\n        qk = tl.zeros([BLOCK_M, BLOCK_N], dtype=tl.float32)\n        qk += tl.dot(q, tl.trans(k))\n        qk = tl.where(offs_n[None, :] < N_CTX, qk, float(\"-inf\"))  # <- ADDED\n        qk *= sm_scale\n        if IS_CAUSAL:  # <- ADDED\n            qk = tl.where(offs_m[:, None] >= (block_n_offs[None, :] + start_position), qk, float(\"-inf\"))"
+            },
+            {
+              "line": 50,
+              "end_line": 64,
+              "path": "bench/tritonbench_g/attention_llama/Correct.lean",
+              "sha256": "152893d6836a0635a9853b96b483a4781161c24e280c1287c18489d9ed2b3162",
+              "excerpt": "  outDType := .real\n  pre := fun p _ _ => if causal then (p + 1) * BN + SP = BN * T ∧ BN * T ≤ N ∧ SP ≤ p * BM\n    else N = BN * T\n  read1 := fun p h _ _ j => h / NH * sqz + h % NH * sqh +\n    (p * BM + j.val / BD) * sqm + j.val % BD * sqk\n  read2 := fun _ h _ t j => h / NH * skz + h % NH * skh +\n    (t.val * BN + j.val / BD) * skn + j.val % BD * skk\n  read3 := fun _ h _ t j => h / NH * svz + h % NH * svh +\n    (t.val * BN + j.val / BD) * svk + j.val % BD * svn\n  write := fun p h _ j => h / NH * soz + h % NH * soh +\n    (p * BM + j.val / BD) * som + j.val % BD * son\n  mask1 := fun p _ _ _ j => p * BM + j.val / BD < H\n  mask2 := fun _ _ _ _ _ => True\n  mask3 := fun _ _ _ _ _ => True\n  writeMask := fun p _ _ j => p * BM + j.val / BD < H"
+            },
+            {
+              "line": 130,
+              "end_line": 152,
+              "path": "bench/tritonbench_g/attention_llama/Correct.lean",
+              "sha256": "152893d6836a0635a9853b96b483a4781161c24e280c1287c18489d9ed2b3162",
+              "excerpt": "specification attention_correctness (hBM : 0 < BM) (hBN : 0 < BN) (hT : 0 < T)\n    (hinj : Function.Injective (fun i : TileIndex [BM, BD] =>\n      i.1.val * som + i.2.1.val * son)) :\n    Spec.Real (io Q K V Out scale\n      sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son\n      NH H N SP BM BN BD T candidate causal ⊨\n      fun p _ _ xs ys zs => expected T BM BN BD H SP hBN hT causal scale p xs ys zs) := by\n  exact RealIO.correct Q K V Out scale\n      sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son\n      NH H N SP BM BN BD T candidate causal hBM hBN hT hinj\n\n/-- The same formula over the original integer K/V buffers, with exact E5M2\ndecoding. Q/Out are distinct from K/V so real cells cannot replace byte cells. -/\nspecification attention_fp8_correctness (hBM : 0 < BM) (hBN : 0 < BN) (hT : 0 < T)\n    (hQK : Q ≠ K) (hQV : Q ≠ V) (hOK : Out ≠ K) (hOV : Out ≠ V)\n    (hinj : Function.Injective (fun i : TileIndex [BM, BD] =>\n      i.1.val * som + i.2.1.val * son)) :\n    Spec.Real ((byteIO Q K V Out scale\n      sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son\n      NH H N SP BM BN BD T candidate causal).ImplementsCells\n      MemCell.real byteCell byteCell\n      (fun p _ _ xs ys zs => expected T BM BN BD H SP hBN hT causal scale p xs\n        (fun t i => decode (ys t i)) (fun t i => decode (zs t i)))) := by"
+            }
+          ]
+        },
+        {
+          "id": "ATTENTION_LLAMA-S2",
+          "kind": "host_checks_allocation_and_grid",
+          "finding": "triton_fa checks two dtype branches and head dimensions, allocates O and launches all query/head/batch tiles; current IO is a per-program stream contract.",
+          "why_blocks_full_original_scope": "A wrapper theorem must connect these checks and chosen block/grid to the returned tensor.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 99,
+              "end_line": 131,
+              "path": "bench/tritonbench_g/attention_llama/attention_llama.py",
+              "sha256": "d328bc37666929912b963afb0b53e8150a0212a20d6993e4d7ce51e13f4db96c",
+              "excerpt": "def triton_fa(q, k, v, sm_scale, is_causal, start_position):\n    assert q.dtype == torch.float16\n    assert k.dtype == v.dtype and k.dtype in [torch.float16, torch.int8]\n\n    BLOCK = 64\n    # shape constraints\n    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]\n    assert Lq == Lk and Lk == Lv\n    assert Lk in {16, 32, 64, 128}\n    o = torch.empty_like(q)\n    num_warps = 4 if Lk <= 64 else 8\n    batch, head_size, m_size, dhead = q.size()\n    grid = (triton.cdiv(m_size, BLOCK), head_size * batch)\n    n_size = k.size(2)\n    _fwd_kernel[grid](\n        q, k, v, sm_scale,\n        o,\n        q.stride(0), q.stride(1), q.stride(2), q.stride(3),\n        k.stride(0), k.stride(1), k.stride(2), k.stride(3),\n        v.stride(0), v.stride(1), v.stride(2), v.stride(3),\n        o.stride(0), o.stride(1), o.stride(2), o.stride(3),\n        head_size, m_size, n_size,\n        start_position=start_position,\n        IS_CAUSAL=is_causal,\n        BLOCK_M=BLOCK,\n        BLOCK_N=BLOCK,\n        BLOCK_DMODEL=Lk,\n        USE_FP8=k.dtype == torch.int8,  # USE_FP8\n        num_warps=num_warps,\n        num_stages=2,\n    )\n\n    return o"
+            },
+            {
+              "line": 130,
+              "end_line": 152,
+              "path": "bench/tritonbench_g/attention_llama/Correct.lean",
+              "sha256": "152893d6836a0635a9853b96b483a4781161c24e280c1287c18489d9ed2b3162",
+              "excerpt": "specification attention_correctness (hBM : 0 < BM) (hBN : 0 < BN) (hT : 0 < T)\n    (hinj : Function.Injective (fun i : TileIndex [BM, BD] =>\n      i.1.val * som + i.2.1.val * son)) :\n    Spec.Real (io Q K V Out scale\n      sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son\n      NH H N SP BM BN BD T candidate causal ⊨\n      fun p _ _ xs ys zs => expected T BM BN BD H SP hBN hT causal scale p xs ys zs) := by\n  exact RealIO.correct Q K V Out scale\n      sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son\n      NH H N SP BM BN BD T candidate causal hBM hBN hT hinj\n\n/-- The same formula over the original integer K/V buffers, with exact E5M2\ndecoding. Q/Out are distinct from K/V so real cells cannot replace byte cells. -/\nspecification attention_fp8_correctness (hBM : 0 < BM) (hBN : 0 < BN) (hT : 0 < T)\n    (hQK : Q ≠ K) (hQV : Q ≠ V) (hOK : Out ≠ K) (hOV : Out ≠ V)\n    (hinj : Function.Injective (fun i : TileIndex [BM, BD] =>\n      i.1.val * som + i.2.1.val * son)) :\n    Spec.Real ((byteIO Q K V Out scale\n      sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son\n      NH H N SP BM BN BD T candidate causal).ImplementsCells\n      MemCell.real byteCell byteCell\n      (fun p _ _ xs ys zs => expected T BM BN BD H SP hBN hT causal scale p xs\n        (fun t i => decode (ys t i)) (fun t i => decode (zs t i)))) := by"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Native fp16 dots, fp32 reductions/exp/reciprocal and fp8 decoding/casts may be explicitly bound numerical followups; both fp8 and half source routes are already present."
+      ],
+      "precondition_assessment": "Existing valid-address, injectivity, disjointness and positive-size premises remain legitimate. Findings concern concrete source branches or missing composition, not hypothetical hardware faults or arbitrary invalid inputs.",
+      "source_sha256": {
+        "bench/tritonbench_g/attention_llama/attention_llama.py": "d328bc37666929912b963afb0b53e8150a0212a20d6993e4d7ce51e13f4db96c",
+        "bench/tritonbench_g/attention_llama/Correct.lean": "152893d6836a0635a9853b96b483a4781161c24e280c1287c18489d9ed2b3162",
+        "bench/tritonbench_g/attention_llama/FPEquiv.lean": "e30d2b0db073574b5d8c5fad61619df8b2a062df4253786e95c17222b94ebca4",
+        "bench/tritonbench_g/attention_llama/Kernels.lean": "0e853063bed2fc6286144959d9a30133aa36329e92bdcb86b650e76e5b293c8a"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/attention_llama/Correct.lean": "152893d6836a0635a9853b96b483a4781161c24e280c1287c18489d9ed2b3162",
+          "bench/tritonbench_g/attention_llama/FPEquiv.lean": "e30d2b0db073574b5d8c5fad61619df8b2a062df4253786e95c17222b94ebca4",
+          "bench/tritonbench_g/attention_llama/Kernels.lean": "0e853063bed2fc6286144959d9a30133aa36329e92bdcb86b650e76e5b293c8a",
+          "bench/tritonbench_g/attention_llama/Proofs/FP.lean": "38c06b1f2039d2c41d9b2e9344a5ce81b30492d06733976a5d0af14c18015d95",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8.lean": "f8a6da3b56eb222346a8910c098e168d4a486f460428575afdd11ef5b6ce0874",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8Model.lean": "7a14b701c2a9ddd9e31a68740b8181abc8ecb16a9c183de3be9f01b04be9d776",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealExecution.lean": "64a0fc3292039741883bd9609f7d1025a876fb65f90d62f268a7cc42e1d4557b",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealFlat.lean": "f099d1c05130226db96e841df372be93f9d9654caef6ae084b92433d86e6f2be",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealIO.lean": "dc8f19648843115c7fac682cffe8da0119ff0ef3e91cd4aa8c669735834cfb4f",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealIteration.lean": "e274b40a0784cb212e2246187fe4ea1b5a509688e2bf302032eed16033bfce36",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealLoads.lean": "27ddcdb74234fae12521d5d423eb552368e39239e995f3b84605f06a63400927",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealLoop.lean": "8bead0ce1eed6052e8355b584dd164833bfb23ee0af74da4a8587a3333dadadb",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealLoopFrame.lean": "fbe1d43507af66549117d175d74db2529fbc5a5366b571ad52eaff34be46a123",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealMemory.lean": "fcd50163676fbf27eb824574cc07a796e65ec39fffbc74f111adbab444817dd7",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealOutput.lean": "b8ac37046691738dc5308bfc45bb2e2ad3b63dff00492ac8e906292cbf11c020",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealPostamble.lean": "9c92ef896f9c5ec30ac69654acf355b2e45bf26e798bf63f98659bd5ddfa3cb2",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealReference.lean": "581d27798619dfed86915f6c7fc7770475d4795e10a76af42360c7000f7a9ef8",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealSafety.lean": "823b46bfc16dbd5203ce49751f966e85c282259f53eaba2aa95dc4d2b2c48697",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealSafetyLoop.lean": "266c8966d02770d50c9d80b3feacbbcb5a46bb967fa72f2724f96a2913939d42",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealSetup.lean": "95eb5a7b6fb1e8fe7736c67886ee1851c00401cbbd1da4c5ab61fe9a05ccef8d",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealSimulation.lean": "aba36eba9785b3b02088d8a75112415a6e03ab5aeaa1e80462bf4dcce1e63f4a",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8RealSource.lean": "43ef6fae40eb94e4383265d4eae061042cb3800d464cadf71b414d50ea416f03",
+          "bench/tritonbench_g/attention_llama/Proofs/FP8TypedExecution.lean": "437580f15632a5be983f58e39afb9e79099c0316b4f8864498b665f78b48aea2",
+          "bench/tritonbench_g/attention_llama/Proofs/RealIO.lean": "ebbfd0e89c7fca52433b969388f428246d6e61efa5d004d1865e68bc2e64159e",
+          "bench/tritonbench_g/attention_llama/Proofs/RealKernel.lean": "725199dd00118dbc2ef062b546e500ecdcb1c68ade7b2cebdc18a9e225de136c",
+          "bench/tritonbench_g/attention_llama/Proofs/RealMemory.lean": "94c569fa24bfe78a88aca2abb036051b7645a201807d199925f0efa51c72a9a3",
+          "bench/tritonbench_g/attention_llama/Proofs/RealOutput.lean": "d980ed90358e2f68a32a5fd82dad0fedd03a30a510ba5e3df8caa74d99e8ea6b",
+          "bench/tritonbench_g/attention_llama/Proofs/RealSafety.lean": "b63008447d5bac7dd20c55657d4606f03d7ed41f82b808f8a2d2ed1267aa9478",
+          "bench/tritonbench_g/attention_llama/Proofs/RealSafetyFragments.lean": "33b72a9fa94a37da29950e669ec1232967db6ce3e2207f51040646250ccb1418",
+          "bench/tritonbench_g/attention_llama/Proofs/RealSafetyLoop.lean": "dc5fd615d562c3d6e312fbe1bb46c870e9d42cd571655b3337ed0c8948517242",
+          "bench/tritonbench_g/attention_llama/Proofs/RealSafetyPrologue.lean": "32f848e1fc6536da9dec726e262f09c01c342bf4f27266a2980148bb4ecdc2ec",
+          "bench/tritonbench_g/attention_llama/Proofs/RealSource.lean": "5497602c8d851f22824cc2960c33cf6ea0d3a9316e593ef993fde79202a27b50",
+          "bench/tritonbench_g/attention_llama/Proofs/TypedExecution.lean": "33ea251c28a1fb88f3c0f14c156fd70b31dd024e2ea54a657b2e95d429885710"
+        },
+        "python": {
+          "bench/tritonbench_g/attention_llama/attention_llama.py": "d328bc37666929912b963afb0b53e8150a0212a20d6993e4d7ce51e13f4db96c"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/attention_llama/Correct.lean",
+          "declaration": "attention_correctness",
+          "parser_name": "attention_correctness",
+          "line": 130,
+          "sha256": "152893d6836a0635a9853b96b483a4781161c24e280c1287c18489d9ed2b3162",
+          "statement_sha256": "8672bc86d12f18c53b7b5ae6b077c9557056931dec5dd60918c39172ad1f8df3",
+          "statement": "specification attention_correctness (hBM : 0 < BM) (hBN : 0 < BN) (hT : 0 < T)\n    (hinj : Function.Injective (fun i : TileIndex [BM, BD] =>\n      i.1.val * som + i.2.1.val * son)) :\n    Spec.Real (io Q K V Out scale\n      sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son\n      NH H N SP BM BN BD T candidate causal ⊨\n      fun p _ _ xs ys zs => expected T BM BN BD H SP hBN hT causal scale p xs ys zs)"
+        },
+        {
+          "file": "bench/tritonbench_g/attention_llama/Correct.lean",
+          "declaration": "attention_fp8_correctness",
+          "parser_name": "attention_fp8_correctness",
+          "line": 143,
+          "sha256": "152893d6836a0635a9853b96b483a4781161c24e280c1287c18489d9ed2b3162",
+          "statement_sha256": "9cfff1bbdf59f51e12d4f7c58aef0656659ed2b004f1b9b0415e0904813ac7fc",
+          "statement": "specification attention_fp8_correctness (hBM : 0 < BM) (hBN : 0 < BN) (hT : 0 < T)\n    (hQK : Q ≠ K) (hQV : Q ≠ V) (hOK : Out ≠ K) (hOV : Out ≠ V)\n    (hinj : Function.Injective (fun i : TileIndex [BM, BD] =>\n      i.1.val * som + i.2.1.val * son)) :\n    Spec.Real ((byteIO Q K V Out scale\n      sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son\n      NH H N SP BM BN BD T candidate causal).ImplementsCells\n      MemCell.real byteCell byteCell\n      (fun p _ _ xs ys zs => expected T BM BN BD H SP hBN hT causal scale p xs\n        (fun t i => decode (ys t i)) (fun t i => decode (zs t i))))"
+        },
+        {
+          "file": "bench/tritonbench_g/attention_llama/FPEquiv.lean",
+          "declaration": "attention_carry_first_equiv",
+          "parser_name": "attention_carry_first_equiv",
+          "line": 57,
+          "sha256": "e30d2b0db073574b5d8c5fad61619df8b2a062df4253786e95c17222b94ebca4",
+          "statement_sha256": "6fd8857ecb54bd531e81241ffea67991db7bfdb7f000d8e79851d6e3727cc930",
+          "statement": "specification attention_carry_first_equiv (R : Rules) :\n    original Q K V Out sm_scale\n      sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son\n      NH H N SP BM BN BD causal ≡[R]\n    carryFirst Q K V Out sm_scale\n      sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son\n      NH H N SP BM BN BD causal"
+        },
+        {
+          "file": "bench/tritonbench_g/attention_llama/FPEquiv.lean",
+          "declaration": "attention_fp8_carry_first_equiv",
+          "parser_name": "attention_fp8_carry_first_equiv",
+          "line": 106,
+          "sha256": "e30d2b0db073574b5d8c5fad61619df8b2a062df4253786e95c17222b94ebca4",
+          "statement_sha256": "e6483ef9d05eea1ef1a15e6f281071f76e351106e8d44f8c7c13dc77dcb91035",
+          "statement": "specification attention_fp8_carry_first_equiv (R : Rules) :\n    originalFP8 Q K V Out sm_scale\n      sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son\n      NH H N SP BM BN BD causal ≡[R]\n    carryFirstFP8 Q K V Out sm_scale\n      sqz sqh sqm sqk skz skh skn skk svz svh svk svn soz soh som son\n      NH H N SP BM BN BD causal"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 4,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/relu_current_review",
+      "reviewed_at_utc": "2026-10-15T19:08:49.175792+00:00",
+      "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/current-source-catalog.json",
+        "sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875"
+      },
+      "task": "mixed_sparse_attention",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "The full fixed-eight-block plus fixed-sixteen-column source is represented. forward_fp16 proves actual successful backend-parametric complete execution and independent output memory, beyond an epilogue-only result; nonempty witnesses and a nonexact fp32 division witness are present. The Real complete summary, early-return syntax and epilogue frame remain credited.",
+      "production_stage_mapping": [
+        {
+          "function": "_triton_mixed_sparse_attn_fwd_kernel",
+          "coverage": "Both bounded sparse phases, dynamic metadata loads, masks, online max/exp2/sum/division and output store are represented for the selected fp16 contract.",
+          "path": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
+          "line": 7,
+          "end_line": 101,
+          "sha256": "cadf55fd56b6ac21b74cf88501ca43b90a685db901bdaad2312a1a3f42933c0e",
+          "stage_id": "stage:bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py:7:_triton_mixed_sparse_attn_fwd_kernel"
+        },
+        {
+          "function": "_triton_mixed_sparse_attention",
+          "coverage": "Head-size assertions, zeros_like initialization, dtype selection and full batch/head/query grid have no composed returned-tensor theorem.",
+          "path": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
+          "line": 104,
+          "end_line": 139,
+          "sha256": "cadf55fd56b6ac21b74cf88501ca43b90a685db901bdaad2312a1a3f42933c0e",
+          "stage_id": "stage:bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py:104:_triton_mixed_sparse_attention"
+        }
+      ],
+      "dtype_review": "The original wrapper chooses bf16 when q is bf16 and fp16 otherwise; current public complete typed value theorem is forward_fp16 and the Real full summary specializes FloatDType.fp16. The bf16 branch needs its own source-coupled successful value contract.",
+      "branch_review": "The code really executes eight block iterations and the fixed sixteen-column range, retaining conditional loads and zero/unspecified padding; no unbounded sparse traversal or ordinary masked-softmax repair is assumed. The public typed result requires active row and BN>=16; the wrapper grid contains early-return programs as well.",
+      "structural_gaps": [
+        {
+          "id": "MIXED_SPARSE_ATTENTION-S1",
+          "kind": "bf16_value_branch",
+          "finding": "The wrapper explicitly selects tl.bfloat16 for bf16 q, while the public full typed contract and Real summary select fp16.",
+          "why_blocks_full_original_scope": "A cast-law deferral on the existing half route cannot supply the missing bfloat storage/result execution branch.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 120,
+              "end_line": 135,
+              "path": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
+              "sha256": "cadf55fd56b6ac21b74cf88501ca43b90a685db901bdaad2312a1a3f42933c0e",
+              "excerpt": "    o = torch.zeros_like(q)\n    grid = (triton.cdiv(q.shape[2], block_size_M), q.shape[0] * q.shape[1], 1)\n    dtype = tl.bfloat16 if q.dtype == torch.bfloat16 else tl.float16\n    _triton_mixed_sparse_attn_fwd_kernel[grid](\n        q, k, v, seqlens, sm_scale,\n        block_count, block_offset, column_count, column_index,\n        o,\n        q.stride(0), q.stride(1), q.stride(2), q.stride(3),\n        k.stride(0), k.stride(1), k.stride(2), k.stride(3),\n        v.stride(0), v.stride(1), v.stride(2), v.stride(3),\n        o.stride(0), o.stride(1), o.stride(2), o.stride(3),\n        q.shape[0], q.shape[1], q.shape[2],\n        block_count.shape[-1], block_offset.shape[-1], column_index.shape[-1],\n        BLOCK_M=block_size_M, BLOCK_N=block_size_N,\n        BLOCK_DMODEL=Lk,\n        dtype=dtype,"
+            },
+            {
+              "line": 10,
+              "end_line": 14,
+              "path": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+              "sha256": "4f5ff279ac75fbf015da996f550555332ec66fbff490e77d797f990664d92c50",
+              "excerpt": "specification forward_fp16 {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)\n    (c : Config) (hBN : 16≤c.BN) (s : State α) (hactive : rowStart c s < sequenceLength c s) :\n    ∃ final, FP.Structural.exec (backend M D) (kernel c) s = some final ∧\n      final.mem = (outputMemory M c s (acceptedValues M D c s)).mem := by\n  simpa only [one_column_iteration M D c s hBN] using whole_fp16 M D c s (by omega) hactive"
+            },
+            {
+              "line": 4506,
+              "end_line": 4515,
+              "path": "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean",
+              "sha256": "bb6ec182a8bbe85e9d17e670b7e32822ac2d3a640017f81d926d2931d26cb7aa",
+              "excerpt": "      ∧ ∀ idx : TileIndex [BM, BD],\n          active s H Seqlens BM idx →\n            sF.readMemValue .fp16 Out (outOffset s H sqz sqh som sok BM idx)\n              = (some (mixedSparseAttnClosedForm s Q K V BlockOffsets Cols H\n                  sqz sqh sqm skz skh skn svz svh svn NR NS NV\n                  (s.readMemValue .nat (Region.cast Blocks) (s.pids 1 * NR + s.pids 0))\n                  (s.readMemValue .nat (Region.cast ColCounts) (s.pids 1 * NR + s.pids 0))\n                  (seqLen s H (Region.cast Seqlens)) BD BM BN sm_scale idx.1 (dIndex idx)) : WithBot ℝ) := by\n  obtain ⟨sF, hexec, hOut⟩ := msa_execGS Q K V Seqlens Blocks BlockOffsets ColCounts Cols Out\n    BM BN BD hBN hBN16 NCTX Zc H NR NS NV sqz sqh sqm sqk skz skh skn skk svz svh svn svk soz soh som sok"
+            }
+          ]
+        },
+        {
+          "id": "MIXED_SPARSE_ATTENTION-S2",
+          "kind": "host_zero_initialization_and_full_grid",
+          "finding": "The wrapper allocates zeros_like(q) and launches the complete grid including rows that return before writing; the public complete contract is for an active selected program.",
+          "why_blocks_full_original_scope": "The returned output must compose active writes with the zero-initialized untouched/early-return rows under the actual grid and metadata.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 25,
+              "end_line": 27,
+              "path": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
+              "sha256": "cadf55fd56b6ac21b74cf88501ca43b90a685db901bdaad2312a1a3f42933c0e",
+              "excerpt": "    seqlen = tl.load(seqlens + off_hz // H)\n    if start_m * BLOCK_M >= seqlen:\n        return"
+            },
+            {
+              "line": 117,
+              "end_line": 139,
+              "path": "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py",
+              "sha256": "cadf55fd56b6ac21b74cf88501ca43b90a685db901bdaad2312a1a3f42933c0e",
+              "excerpt": "    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]\n    assert Lq == Lk and Lk == Lv\n    assert Lk in {16, 32, 64, 128}\n    o = torch.zeros_like(q)\n    grid = (triton.cdiv(q.shape[2], block_size_M), q.shape[0] * q.shape[1], 1)\n    dtype = tl.bfloat16 if q.dtype == torch.bfloat16 else tl.float16\n    _triton_mixed_sparse_attn_fwd_kernel[grid](\n        q, k, v, seqlens, sm_scale,\n        block_count, block_offset, column_count, column_index,\n        o,\n        q.stride(0), q.stride(1), q.stride(2), q.stride(3),\n        k.stride(0), k.stride(1), k.stride(2), k.stride(3),\n        v.stride(0), v.stride(1), v.stride(2), v.stride(3),\n        o.stride(0), o.stride(1), o.stride(2), o.stride(3),\n        q.shape[0], q.shape[1], q.shape[2],\n        block_count.shape[-1], block_offset.shape[-1], column_index.shape[-1],\n        BLOCK_M=block_size_M, BLOCK_N=block_size_N,\n        BLOCK_DMODEL=Lk,\n        dtype=dtype,\n        num_warps=4, num_stages=2,\n    )\n\n    return o"
+            },
+            {
+              "line": 10,
+              "end_line": 14,
+              "path": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+              "sha256": "4f5ff279ac75fbf015da996f550555332ec66fbff490e77d797f990664d92c50",
+              "excerpt": "specification forward_fp16 {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)\n    (c : Config) (hBN : 16≤c.BN) (s : State α) (hactive : rowStart c s < sequenceLength c s) :\n    ∃ final, FP.Structural.exec (backend M D) (kernel c) s = some final ∧\n      final.mem = (outputMemory M c s (acceptedValues M D c s)).mem := by\n  simpa only [one_column_iteration M D c s hBN] using whole_fp16 M D c s (by omega) hactive"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "At a represented profile, dots, fp32 maximum/exp2/reductions/division and storage casts may be numerical followups. The complete typed value theorem is already stronger than an epilogue-only statement."
+      ],
+      "precondition_assessment": "Existing valid-address, injectivity, disjointness and positive-size premises remain legitimate. Findings concern concrete source branches or missing composition, not hypothetical hardware faults or arbitrary invalid inputs.",
+      "source_sha256": {
+        "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py": "cadf55fd56b6ac21b74cf88501ca43b90a685db901bdaad2312a1a3f42933c0e",
+        "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean": "4f5ff279ac75fbf015da996f550555332ec66fbff490e77d797f990664d92c50",
+        "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean": "bb6ec182a8bbe85e9d17e670b7e32822ac2d3a640017f81d926d2931d26cb7aa",
+        "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPShape.lean": "1be001cead8c530ab30626551552c387734fc69b4657bb317e401060b5cdce37"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean": "4f5ff279ac75fbf015da996f550555332ec66fbff490e77d797f990664d92c50",
+          "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean": "bb6ec182a8bbe85e9d17e670b7e32822ac2d3a640017f81d926d2931d26cb7aa",
+          "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPConfig.lean": "33bc1cc8d58bda8def251753874a33a8a3cedf43474d5eaa3f152177b171e9ae",
+          "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPEpilogue.lean": "a0c0220defb7662200a42179db34fbf92b183bb9cc60e736e8cbe9fcfa0fda89",
+          "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPEpilogueSoftware.lean": "65380f8cb5ce26d8d50ed704c236c8d5359d9c783c963e04fc695b761b9218f2",
+          "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPLoops.lean": "2e53705c584c43d7498a66cefe54fbe48a74f574cc60ab34d58ffd4e16754ac0",
+          "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPMemory.lean": "39f5694630d30a71d3e0cd0b1e86f58f86e3e515abd57728cbd0052e8d446cca",
+          "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPPrefix.lean": "3803daaf2b110d779d67a73fd5154ba609c89944e52490d5e4dadb338fd6d33f",
+          "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPReference.lean": "8a6c089ae5e165bd39de8a07dffd3e9de93cec2d0dbb4dd22af108d6d8971c3c",
+          "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPShape.lean": "1be001cead8c530ab30626551552c387734fc69b4657bb317e401060b5cdce37",
+          "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPSources.lean": "99ddd0fd3a719cfc9bcf1117549485d2048bf86fcb48773ed466fec59c571449",
+          "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPSuffix.lean": "73c393751a95cc1748b124a7df299134e9dfa55d67521ec83b3ed119eaff8cc4",
+          "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPWhole.lean": "ecdaaa70409944de7fd7f9d439aedd6d6d2d377eae85de894f369577557aa3b7",
+          "bench/tritonbench_g/mixed_sparse_attention/Proofs/FPWitness.lean": "f6c76f8ab88d83c36a3b8f86ea63aad180a0d678fe00845da489c6d16aeeb304"
+        },
+        "python": {
+          "bench/tritonbench_g/mixed_sparse_attention/mixed_sparse_attention.py": "cadf55fd56b6ac21b74cf88501ca43b90a685db901bdaad2312a1a3f42933c0e"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+          "declaration": "forward_fp16",
+          "parser_name": "forward_fp16",
+          "line": 10,
+          "sha256": "4f5ff279ac75fbf015da996f550555332ec66fbff490e77d797f990664d92c50",
+          "statement_sha256": "218509bdf3183d9f9278228c8df87c26e10b71aa76c8329390cc5adc8ff5b777",
+          "statement": "specification forward_fp16 {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α)\n    (c : Config) (hBN : 16≤c.BN) (s : State α) (hactive : rowStart c s < sequenceLength c s) :\n    ∃ final, FP.Structural.exec (backend M D) (kernel c) s = some final ∧\n      final.mem = (outputMemory M c s (acceptedValues M D c s)).mem"
+        },
+        {
+          "file": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+          "declaration": "forward_nonempty",
+          "parser_name": "forward_nonempty",
+          "line": 16,
+          "sha256": "4f5ff279ac75fbf015da996f550555332ec66fbff490e77d797f990664d92c50",
+          "statement_sha256": "c69b2680703616135e1928b00baa3a1ce0dc512c647b82bb4c5787d3432961e7",
+          "statement": "specification forward_nonempty {α : Type} [Inhabited α] (M : Algebra α) (D : Dot α) :\n    ∃ final, FP.Structural.exec (backend M D) (kernel witnessConfig) witnessInitial = some final ∧\n      final.mem = (outputMemory M witnessConfig witnessInitial\n        (finalValues M D witnessConfig witnessInitial)).mem ∧\n      (∃ i : TileIndex [16,16], rowStart witnessConfig (witnessInitial : State α)+i.1.val <\n        sequenceLength witnessConfig (witnessInitial : State α))"
+        },
+        {
+          "file": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+          "declaration": "epilogue_fp16",
+          "parser_name": "epilogue_fp16",
+          "line": 24,
+          "sha256": "4f5ff279ac75fbf015da996f550555332ec66fbff490e77d797f990664d92c50",
+          "statement_sha256": "ce7caa3f05d9abb3e553765267ea4b25711ba36c3928365082f014a2d5ad0f64",
+          "statement": "specification epilogue_fp16 {α : Type} [Inhabited α] (M : Algebra α) (AccPre LPre : RegionName)\n    (c : Config) (s : State α) :\n    ∃ final, FP.Structural.exec M (epilogueSource AccPre LPre c) s = some final ∧\n      final.mem = (outputMemory M c s (epilogueInputs M c s AccPre LPre)).mem"
+        },
+        {
+          "file": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+          "declaration": "epilogue_software_with_cast",
+          "parser_name": "epilogue_software_with_cast",
+          "line": 30,
+          "sha256": "4f5ff279ac75fbf015da996f550555332ec66fbff490e77d797f990664d92c50",
+          "statement_sha256": "7aa5346e3b34cbc8c3bdb3fb96ec2b543df243e373766f8dc714e2d3149c7392",
+          "statement": "specification epilogue_software_with_cast [Inhabited (FP.Value .fp32)]\n    (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config)\n    (toHalf : FP.Value .fp32 → FP.Value .fp32) (AccPre LPre : RegionName)\n    (c : Config) (s : State (FP.Value .fp32)) :\n    ∃ final, FP.Structural.exec (softwareEpilogue rest cfg toHalf) (epilogueSource AccPre LPre c) s = some final ∧\n      final.mem = (roundedEpilogueMemory cfg toHalf AccPre LPre c s).mem"
+        },
+        {
+          "file": "bench/tritonbench_g/mixed_sparse_attention/FPCorrect.lean",
+          "declaration": "epilogue_nonempty_rounding",
+          "parser_name": "epilogue_nonempty_rounding",
+          "line": 38,
+          "sha256": "4f5ff279ac75fbf015da996f550555332ec66fbff490e77d797f990664d92c50",
+          "statement_sha256": "12e362d4fcea298898958b2cf961312b59c38dd64c4f56aeb3f63935431ff539",
+          "statement": "specification epilogue_nonempty_rounding [Inhabited (FP.Value .fp32)]\n    (rest : Algebra (FP.Value .fp32)) (toHalf : FP.Value .fp32 → FP.Value .fp32) :\n    ∃ final, FP.Structural.exec (softwareEpilogue rest .ieeeValue toHalf)\n      (epilogueSource \"acc\" \"den\" epilogueWitnessConfig) epilogueWitnessInitial = some final ∧\n      final.mem \"out\" 0 = .mk .fp16 (toHalf (FP.Value.ofBits .fp32 0x3eaaaaab)) ∧\n      final.mem \"out\" 1 = epilogueWitnessInitial.mem \"out\" 1 ∧\n      (11184811/33554432 : Rat) ≠ 1/3"
+        },
+        {
+          "file": "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean",
+          "declaration": "mixed_sparse_attention_output_closed_form_summary_general",
+          "parser_name": "mixed_sparse_attention_output_closed_form_summary_general",
+          "line": 4481,
+          "sha256": "bb6ec182a8bbe85e9d17e670b7e32822ac2d3a640017f81d926d2931d26cb7aa",
+          "statement_sha256": "3241cd3c0d30ce6329113134a22c07c13f47e2b8743847b2d96d3b7393eab49a",
+          "statement": "specification mixed_sparse_attention_output_closed_form_summary_general\n    (Q K V Out : RegionName)\n    (Seqlens Blocks BlockOffsets ColCounts Cols : Region .nat) (s : BlockState)\n    (BM BN BD : Nat) (hBN : 0 < BN) (hBN16 : 16 ≤ BN)\n    -- memory-layout strides (Q/K/V/O batch z, head h, row m / key n, channel k)\n    -- and grid/layout sizes, ALL symbolic\n    (NCTX Zc H NR NS NV\n      sqz sqh sqm sqk skz skh skn skk svz svh svn svk soz soh som sok : Nat)\n    -- honest contiguity hypotheses (the natural row-major attention layout):\n    -- channel strides are 1; V reuses K's batch/head base; O channel stride 1 and\n    -- its row stride covers the channel block (BD ≤ stride_om)\n    (hsqk : sqk = 1) (hskk : skk = 1) (hsvk : svk = 1) (hvz : svz = skz) (hvh : svh = skh)\n    (hsok : sok = 1) (hBDsom : BD ≤ som)\n    (sm_scale : ℝ)\n    (hundef : ∀ rg o, s.undef rg o = 0)\n    (hactive : s.pids 0 * BM < seqLen s H (Region.cast Seqlens))\n    (hNCBN : s.readMemValue .nat (Region.cast ColCounts) (s.pids 1 * NR + s.pids 0) ≤ BN)\n    (hpos : ∀ i : Fin BM, s.pids 0 * BM + i.val < seqLen s H (Region.cast Seqlens) →\n      0 < msaDenomUpto BM BN\n        (msaCatScore0GS Q K V Seqlens Blocks BlockOffsets ColCounts Cols BM BN BD\n          H NR NS NV sqz sqh sqm sqk skz skh skn skk s sm_scale) 9 i) :\n    ∃ sF, exec (mixed_sparse_attention_fwd_kernel_surface Q K V Seqlens\n        sm_scale Blocks BlockOffsets ColCounts Cols Out\n        sqz sqh sqm sqk skz skh skn skk svz svh svn svk soz soh som sok\n        Zc H NCTX NR NS NV BM BN BD FloatDType.fp16).toAlgKernel s = some sF\n      ∧ ∀ idx : TileIndex [BM, BD],\n          active s H Seqlens BM idx →\n            sF.readMemValue .fp16 Out (outOffset s H sqz sqh som sok BM idx)\n              = (some (mixedSparseAttnClosedForm s Q K V BlockOffsets Cols H\n                  sqz sqh sqm skz skh skn svz svh svn NR NS NV\n                  (s.readMemValue .nat (Region.cast Blocks) (s.pids 1 * NR + s.pids 0))\n                  (s.readMemValue .nat (Region.cast ColCounts) (s.pids 1 * NR + s.pids 0))\n                  (seqLen s H (Region.cast Seqlens)) BD BM BN sm_scale idx.1 (dIndex idx)) : WithBot ℝ)"
+        },
+        {
+          "file": "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean",
+          "declaration": "mixed_sparse_attention_epilogue_io_correctness",
+          "parser_name": "mixed_sparse_attention_epilogue_io_correctness",
+          "line": 4877,
+          "sha256": "bb6ec182a8bbe85e9d17e670b7e32822ac2d3a640017f81d926d2931d26cb7aa",
+          "statement_sha256": "66191dc83b3a122609c9c65065c8d6917958b53c80b9ca637664bb2f4a25f091",
+          "statement": "specification mixed_sparse_attention_epilogue_io_correctness\n    (AccPre LPre : RegionName) (Seqlens : Region .nat) (Out : RegionName)\n    (H stride_qz stride_qh stride_om stride_ok BLOCK_M BLOCK_DMODEL : Nat)\n    (hOutInj : ∀ p₀ p₁ : Nat, Function.Injective\n      (fun idx : TileIndex [BLOCK_M, BLOCK_DMODEL] =>\n        p₁ / H * stride_qz + p₁ % H * stride_qh +\n          (p₀ * BLOCK_M + idx.1.val) * stride_om + idx.2.1.val * stride_ok)) :\n    epilogueIO AccPre LPre Seqlens Out H stride_qz stride_qh stride_om stride_ok\n        BLOCK_M BLOCK_DMODEL\n      ⊨ fun _p₀ _p₁ _m xs ys idx => xs idx / ys (idx.1, PUnit.unit)"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [
+        {
+          "file": "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean",
+          "declaration": "mixed_sparse_attention_output_closed_form_summary_general",
+          "field": "sha256",
+          "catalog_value": "0d0fc077eae64f55b50b0628ce2465d926659e5113df95293239d8faf81be8bb",
+          "actual_value": "bb6ec182a8bbe85e9d17e670b7e32822ac2d3a640017f81d926d2931d26cb7aa"
+        },
+        {
+          "file": "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean",
+          "declaration": "mixed_sparse_attention_output_closed_form_summary_general",
+          "field": "line",
+          "catalog_value": 4459,
+          "actual_value": 4481
+        },
+        {
+          "file": "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean",
+          "declaration": "mixed_sparse_attention_epilogue_io_correctness",
+          "field": "sha256",
+          "catalog_value": "0d0fc077eae64f55b50b0628ce2465d926659e5113df95293239d8faf81be8bb",
+          "actual_value": "bb6ec182a8bbe85e9d17e670b7e32822ac2d3a640017f81d926d2931d26cb7aa"
+        },
+        {
+          "file": "bench/tritonbench_g/mixed_sparse_attention/MixedSparseAttention.lean",
+          "declaration": "mixed_sparse_attention_epilogue_io_correctness",
+          "field": "line",
+          "catalog_value": 4855,
+          "actual_value": 4877
+        }
+      ],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 7,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/relu_current_review",
+      "reviewed_at_utc": "2026-10-15T19:08:49.219812+00:00",
+      "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/current-source-catalog.json",
+        "sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875"
+      },
+      "task": "bgmv_expand_slice",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "The complete adapter-index sentinel branch, EVEN_K masked/unmasked loads, optional float32-to-weight cast, split-N loop, optional old-output addition, typed store, successful Real IO and frame are proved. All three admitted input types, both weight types, cast flags and floating output selectors are materialized; native addition commutation remains explicit.",
+      "production_stage_mapping": [
+        {
+          "function": "_bgmv_expand_slice_kernel",
+          "coverage": "The entire per-split/per-batch computation and lora_index=-1 skip are represented.",
+          "path": "bench/tritonbench_g/bgmv_expand_slice/bgmv_expand_slice.py",
+          "line": 7,
+          "end_line": 72,
+          "sha256": "268c1d19e9a0431e6afee3564c7597c0bbdb0544d57b0608bf3fbccf811463d8",
+          "stage_id": "stage:bench/tritonbench_g/bgmv_expand_slice/bgmv_expand_slice.py:7:_bgmv_expand_slice_kernel"
+        },
+        {
+          "function": "_bgmv_expand_slice",
+          "coverage": "Dtype/shape/contiguity assertions, four-dimensional squeeze, BLOCK_K/EVEN_K/CAST_TYPE selection and complete split/batch launch remain outside the public contract.",
+          "path": "bench/tritonbench_g/bgmv_expand_slice/bgmv_expand_slice.py",
+          "line": 75,
+          "end_line": 145,
+          "sha256": "268c1d19e9a0431e6afee3564c7597c0bbdb0544d57b0608bf3fbccf811463d8",
+          "stage_id": "stage:bench/tritonbench_g/bgmv_expand_slice/bgmv_expand_slice.py:75:_bgmv_expand_slice"
+        }
+      ],
+      "dtype_review": "Input and weight selector types match the wrapper assertions. output_tensor has no dtype assertion; the formal out_dtype enumerates floating outputs only, leaving nonfloating destination conversion/admission cases separate.",
+      "branch_review": "ADD_INPUTS, EVEN_K, CAST_TYPE and the -1 sentinel are already represented. The actual wrapper sets SPLIT_N=N (hence one output element per split for N>0); this is not a missing kernel loop. Squeeze-versus-rank-three selection and complete launch still need composition.",
+      "structural_gaps": [
+        {
+          "id": "BGMV_EXPAND_SLICE-S1",
+          "kind": "host_shape_squeeze_and_launch",
+          "finding": "The wrapper performs rank-dependent squeeze, shape/contiguity checks and fixed launch specialization, while public originalIO is one split and batch.",
+          "why_blocks_full_original_scope": "The exact in-place slice across all selected indices is not composed from the per-program proof with the original host decisions.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 84,
+              "end_line": 145,
+              "path": "bench/tritonbench_g/bgmv_expand_slice/bgmv_expand_slice.py",
+              "sha256": "268c1d19e9a0431e6afee3564c7597c0bbdb0544d57b0608bf3fbccf811463d8",
+              "excerpt": "    assert inputs.dtype in [torch.float16, torch.bfloat16, torch.float32]\n    assert lora_b_weights.dtype in [\n        torch.float16,\n        torch.bfloat16,\n    ]\n    assert inputs.size(1) == lora_b_weights.size(-1)\n\n    assert slice_size == lora_b_weights.size(-2)\n    assert inputs.is_contiguous()\n    assert output_tensor.is_contiguous()\n\n    if lora_b_weights.ndim == 4:\n        assert lora_b_weights.size(1) == 1\n        lora_b_weights = lora_b_weights.squeeze(dim=1)\n    else:\n        assert lora_b_weights.ndim == 3\n\n    assert lora_b_weights.is_contiguous()\n\n    N, K = lora_b_weights.shape[-2:]\n    BLOCK_K = triton.next_power_of_2(K)\n    EVEN_K = K % BLOCK_K == 0\n    ADD_INPUTS = add_inputs\n    CAST_TYPE = False\n    if inputs.dtype == torch.float32 and lora_b_weights.dtype in [\n            torch.float16,\n            torch.bfloat16,\n    ]:\n        CAST_TYPE = True\n\n    batches = lora_indices_tensor.size(0)\n\n    # config = get_lora_op_configs(\"expand\", batches, N)\n\n    grid = lambda META: (\n        META[\"SPLIT_N\"],\n        batches,\n    )\n    _bgmv_expand_slice_kernel[grid](\n        inputs,\n        lora_b_weights,\n        output_tensor,\n        N,\n        K,\n        lora_indices_tensor,\n        inputs.stride(0),\n        inputs.stride(1),\n        lora_b_weights.stride(0),\n        lora_b_weights.stride(1),\n        lora_b_weights.stride(2),\n        output_tensor.stride(0),\n        output_tensor.stride(1),\n        slice_offset,\n        BLOCK_K=BLOCK_K,\n        BLOCK_N=256,\n        SPLIT_N=lora_b_weights.shape[-2:][0],\n        EVEN_K=EVEN_K,\n        ADD_INPUTS=ADD_INPUTS,\n        CAST_TYPE=CAST_TYPE,\n        # **config,\n    )\n    return"
+            },
+            {
+              "line": 36,
+              "end_line": 46,
+              "path": "bench/tritonbench_g/bgmv_expand_slice/Correct.lean",
+              "sha256": "f7ed6b1a91d85fa7b4f6eaa104d7b3e8e85321a0f165a142565d860dfdc544cc",
+              "excerpt": "def originalIO : RealIO.IO p where\n  kernel := (TypedSource.original input weight cast out_dtype p.input p.weights p.output p.N p.K p.indices\n    p.inputBatchStride p.inputStride p.slotStride p.rowStride p.colStride p.outputBatchStride\n    p.outputStride p.slice p.BN p.BK p.splits even add).eraseDType\n  projection := RealIO.projection p input weight out_dtype cast Bool.false even add\n  even := even\n  add := add\n  readIndex := fun batch => batch\n  readInput := fun batch k => batch*p.inputBatchStride+k.val*p.inputStride\n  readWeight := fun split slot g k => p.slotStride*slot.toNat+split*p.length*p.rowStride+g.val*p.rowStride+k.val*p.colStride\n  write := fun split batch g => batch*p.outputBatchStride+split*p.length+p.slice*p.outputStride+g.val*p.outputStride"
+            },
+            {
+              "line": 63,
+              "end_line": 68,
+              "path": "bench/tritonbench_g/bgmv_expand_slice/Correct.lean",
+              "sha256": "f7ed6b1a91d85fa7b4f6eaa104d7b3e8e85321a0f165a142565d860dfdc544cc",
+              "excerpt": "specification bgmv_expand_slice_correctness (p : Parameters)\n    (input : TypedSource.InputStorage) (weight : TypedSource.WeightStorage) (out_dtype : FloatDType)\n    (cast even add : Bool) (hBN : 0 < p.BN) (hstride : 0 < p.outputStride)\n    (hK : p.K ≤ p.BK) (hsplits : 0 < p.splits) (hw : p.weights ≠ p.output) :\n    Spec.Real (originalIO p input weight out_dtype cast even add ⊨ expected p hK add) := by\n  exact RealIO.implements p input weight out_dtype cast Bool.false even add hBN hstride hK hsplits hw"
+            }
+          ]
+        },
+        {
+          "id": "BGMV_EXPAND_SLICE-S2",
+          "kind": "independent_nonfloating_output_admission",
+          "finding": "output_tensor is independently supplied without a dtype guard, but out_dtype only chooses six floating storage routes.",
+          "why_blocks_full_original_scope": "Supported nonfloating destination stores or precise rejection branches require structural representation before scalar rounding can be deferred.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 75,
+              "end_line": 94,
+              "path": "bench/tritonbench_g/bgmv_expand_slice/bgmv_expand_slice.py",
+              "sha256": "268c1d19e9a0431e6afee3564c7597c0bbdb0544d57b0608bf3fbccf811463d8",
+              "excerpt": "def _bgmv_expand_slice(\n    inputs: torch.Tensor,\n    lora_b_weights: torch.Tensor,\n    output_tensor: torch.Tensor,\n    lora_indices_tensor: torch.Tensor,\n    slice_offset: int,\n    slice_size: int,\n    add_inputs: bool = True,\n) -> None:\n    assert inputs.dtype in [torch.float16, torch.bfloat16, torch.float32]\n    assert lora_b_weights.dtype in [\n        torch.float16,\n        torch.bfloat16,\n    ]\n    assert inputs.size(1) == lora_b_weights.size(-1)\n\n    assert slice_size == lora_b_weights.size(-2)\n    assert inputs.is_contiguous()\n    assert output_tensor.is_contiguous()\n"
+            },
+            {
+              "line": 105,
+              "end_line": 114,
+              "path": "bench/tritonbench_g/bgmv_expand_slice/Kernels.lean",
+              "sha256": "7e347bb56e8325759c8144f72a67a3788572ec89f38df55b4d3460006471b4f6",
+              "excerpt": "syntax \"bgmvSource%\" \"[\" tritonDType \",\" tritonDType \",\" ident \",\" ident \"]\" : term\nmacro_rules\n  | `(bgmvSource%[$inTy:tritonDType, $weightTy:tritonDType, $castFlag:ident, $swapFlag:ident]) =>\n    `(fun (out_dtype : FloatDType) => match out_dtype with\n      | .real => bgmvConcreteSource%[$inTy, $weightTy, tl.float64, $castFlag, $swapFlag]\n      | .fp32 => bgmvConcreteSource%[$inTy, $weightTy, tl.float32, $castFlag, $swapFlag]\n      | .fp16 => bgmvConcreteSource%[$inTy, $weightTy, tl.float16, $castFlag, $swapFlag]\n      | .bf16 => bgmvConcreteSource%[$inTy, $weightTy, tl.bfloat16, $castFlag, $swapFlag]\n      | .f8e4 => bgmvConcreteSource%[$inTy, $weightTy, tl.float8e4nv, $castFlag, $swapFlag]\n      | .f8e5 => bgmvConcreteSource%[$inTy, $weightTy, tl.float8e5, $castFlag, $swapFlag])"
+            },
+            {
+              "line": 63,
+              "end_line": 68,
+              "path": "bench/tritonbench_g/bgmv_expand_slice/Correct.lean",
+              "sha256": "f7ed6b1a91d85fa7b4f6eaa104d7b3e8e85321a0f165a142565d860dfdc544cc",
+              "excerpt": "specification bgmv_expand_slice_correctness (p : Parameters)\n    (input : TypedSource.InputStorage) (weight : TypedSource.WeightStorage) (out_dtype : FloatDType)\n    (cast even add : Bool) (hBN : 0 < p.BN) (hstride : 0 < p.outputStride)\n    (hK : p.K ≤ p.BK) (hsplits : 0 < p.splits) (hw : p.weights ≠ p.output) :\n    Spec.Real (originalIO p input weight out_dtype cast even add ⊨ expected p hK add) := by\n  exact RealIO.implements p input weight out_dtype cast Bool.false even add hBN hstride hK hsplits hw"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Represented multiply/reduce/add and storage conversions can be deferred at exact dtype cases. Input/weight cast selection and sentinel control are already proved and must not be relabeled numeric assumptions."
+      ],
+      "precondition_assessment": "Existing valid-address, injectivity, disjointness and positive-size premises remain legitimate. Findings concern concrete source branches or missing composition, not hypothetical hardware faults or arbitrary invalid inputs.",
+      "source_sha256": {
+        "bench/tritonbench_g/bgmv_expand_slice/bgmv_expand_slice.py": "268c1d19e9a0431e6afee3564c7597c0bbdb0544d57b0608bf3fbccf811463d8",
+        "bench/tritonbench_g/bgmv_expand_slice/Correct.lean": "f7ed6b1a91d85fa7b4f6eaa104d7b3e8e85321a0f165a142565d860dfdc544cc",
+        "bench/tritonbench_g/bgmv_expand_slice/FPEquiv.lean": "6b06bf8c5ef8a389c336ce8e4eabff512b5e950ef134620781d7b67419de95ac",
+        "bench/tritonbench_g/bgmv_expand_slice/Kernels.lean": "7e347bb56e8325759c8144f72a67a3788572ec89f38df55b4d3460006471b4f6"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/bgmv_expand_slice/Correct.lean": "f7ed6b1a91d85fa7b4f6eaa104d7b3e8e85321a0f165a142565d860dfdc544cc",
+          "bench/tritonbench_g/bgmv_expand_slice/FPEquiv.lean": "6b06bf8c5ef8a389c336ce8e4eabff512b5e950ef134620781d7b67419de95ac",
+          "bench/tritonbench_g/bgmv_expand_slice/Kernels.lean": "7e347bb56e8325759c8144f72a67a3788572ec89f38df55b4d3460006471b4f6",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/AdditionProfiles.lean": "cecf33a258fe0600fde260b814fdd20350744310651f4fafba4d59b694633365",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/FP.lean": "87b7e2940f4428f0dae481e901f29e6b3c9d223b90dc1d41c1638f067e94434a",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/FP32.lean": "6bf8f84dcdaef9172843a3395e203e15c4216f5d382a152cc67b43766f606ac6",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/FP32Execution.lean": "b77df1228d233c8f616d7321e6dcb2bbf4cbb35a5fd0ea37a57c35b8e2443656",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/GeneralCountermodel.lean": "78a25465d325cb388f105519d52c4961ddbfb6e05c23a745af1dfffe38895005",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/LegacyClippedOffset.lean": "889ecdd2fe5b12f79bfce0809c6c76155b66bb69b9fcfd127478f3e1340890cc",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/NativeFP.lean": "721179eb708ae7ad5884ad8449a98a5449129ea7666c565635c500440c361f4b",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/NativeHalfExecution.lean": "f97693135f73044fdd8d099464c4cd0511ff280dd6c962599229009b68d8800f",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealAccessSafety.lean": "844b57012c73bf3f84b1c3cd5665adf290a069b43d60fa1b586a4bd839102c78",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealBlock.lean": "99938baeea471bb9c3e68c5106161a602e019d502e96319619050b0a4411f7c2",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealBlockExecution.lean": "1353f8355d48d34ea044437ede1c800d69c66640fef43788dfe3b2fc86b5df4e",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealExecution.lean": "14c9914de62016b7541e34a41dcad8198c4006abce13687b66968144a38f50b3",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealFlat.lean": "62006f433aa5ba76472157e9694240721257edbd9c28ad9785b7bff890c2a930",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealFoundation.lean": "be7f0d1d0a7431eaeb8c465ec545500f4a3da01601c28489c47bf13bbe134e19",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealIO.lean": "236692d2ba55a9d143cc04c148f306a7bf5446e0c686df96771ca6d4dd536344",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealIOExecution.lean": "7d36c1d3d0b715c71bcae5a83bfac534bb9c772ec3429f0a19e97ecbc5117022",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealLoop.lean": "f05546467b458cda52fc24bb65283aa6ca7fd8de5fc2c79ca43df9ede72bb2d1",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealLoopExecution.lean": "d329114172b5579c86029f71e5263da47ce915d4a1e78ad0a22673388279fafb",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealLoopSafety.lean": "a5895f06a30718092360df34a2f6aae8467c3266659a1f1bc51bd312d59da49c",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealLoopSource.lean": "d381cd7b884cc9e0184257da824d268da90549966c542c39fbffa962acac7d5f",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealProgram.lean": "bd8c52c5885d4659977b1e8957ec09901211c325151c53119c4b79d2835fba49",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealSafety.lean": "5e8b4c27eadf790cd363614829091be79d1cb649c5df088b6d1ac274f10dc5f6",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealSetup.lean": "7882b52d4a86bb7928cc784e4a6289036016d575372eee988faa09d746de73d9",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealSetupSafety.lean": "70c31b1ae8c75a27fc517f0783475d87f50c830fa7169f06f2555d726320d5a5",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealSetupSource.lean": "d54c1cbd855732089368a883865a844d6ea41125d7df17e32eb4fe76ab114fd4",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/RealSource.lean": "7ccc83f3d94a2e12aca405e205d34006e2a2dd8170da160e835a5b0b443ef173",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/SupportedFP32.lean": "33bae38fbb4e52dda74bb15b96db6faa841a511ab1ea6e66d0b40477212f354c",
+          "bench/tritonbench_g/bgmv_expand_slice/Proofs/TypedExecution.lean": "b1ca5bf7203c7e39b2f0533e7fb38614fdf5d0423a900caed4178deeec2c968a"
+        },
+        "python": {
+          "bench/tritonbench_g/bgmv_expand_slice/bgmv_expand_slice.py": "268c1d19e9a0431e6afee3564c7597c0bbdb0544d57b0608bf3fbccf811463d8"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/bgmv_expand_slice/Correct.lean",
+          "declaration": "bgmv_expand_slice_correctness",
+          "parser_name": "bgmv_expand_slice_correctness",
+          "line": 63,
+          "sha256": "f7ed6b1a91d85fa7b4f6eaa104d7b3e8e85321a0f165a142565d860dfdc544cc",
+          "statement_sha256": "bc021153ca42369f7e7f41ada41c4fd7ea0f09e833e4434dbd70b2b4ec6fcaaf",
+          "statement": "specification bgmv_expand_slice_correctness (p : Parameters)\n    (input : TypedSource.InputStorage) (weight : TypedSource.WeightStorage) (out_dtype : FloatDType)\n    (cast even add : Bool) (hBN : 0 < p.BN) (hstride : 0 < p.outputStride)\n    (hK : p.K ≤ p.BK) (hsplits : 0 < p.splits) (hw : p.weights ≠ p.output) :\n    Spec.Real (originalIO p input weight out_dtype cast even add ⊨ expected p hK add)"
+        },
+        {
+          "file": "bench/tritonbench_g/bgmv_expand_slice/Correct.lean",
+          "declaration": "bgmv_output_first_correctness",
+          "parser_name": "bgmv_output_first_correctness",
+          "line": 70,
+          "sha256": "f7ed6b1a91d85fa7b4f6eaa104d7b3e8e85321a0f165a142565d860dfdc544cc",
+          "statement_sha256": "5eab9e6cd12cb2f3a393112fe178e092ea748142254eb1a9bd8818c27893c09d",
+          "statement": "specification bgmv_output_first_correctness (p : Parameters)\n    (input : TypedSource.InputStorage) (weight : TypedSource.WeightStorage) (out_dtype : FloatDType)\n    (cast even add : Bool) (hBN : 0 < p.BN) (hstride : 0 < p.outputStride)\n    (hK : p.K ≤ p.BK) (hsplits : 0 < p.splits) (hw : p.weights ≠ p.output) :\n    Spec.Real (outputFirstIO p input weight out_dtype cast even add ⊨ expected p hK add)"
+        },
+        {
+          "file": "bench/tritonbench_g/bgmv_expand_slice/FPEquiv.lean",
+          "declaration": "bgmv_output_first_equiv",
+          "parser_name": "bgmv_output_first_equiv",
+          "line": 22,
+          "sha256": "6b06bf8c5ef8a389c336ce8e4eabff512b5e950ef134620781d7b67419de95ac",
+          "statement_sha256": "d426831c6c8e8749fb60057892a3dde967cd110349037c6f04b44820627943a9",
+          "statement": "specification bgmv_output_first_equiv {α : Type} [Inhabited α]\n    (M : Algebra α) (D : FP.Guarded.Domain α)\n    (native_add : NativeFP.NativeAdditionCommutes M D\n      (original input weight cast out_dtype x w out N K indices\n        sx sk sw0 swn swk sy syn slice BN BK splits even add).kernel)\n    (s : State α)\n    (finite_operands : ∀ site ∈ (original input weight cast out_dtype x w out N K indices\n      sx sk sw0 swn swk sy syn slice BN BK splits even add).domain, site.Holds M D s) :\n    FP.Structural.exec (FP.ProfiledRewrite.engine M)\n      (original input weight cast out_dtype x w out N K indices\n        sx sk sw0 swn swk sy syn slice BN BK splits even add).kernel s =\n    FP.Structural.exec (FP.ProfiledRewrite.engine M)\n      (outputFirst input weight cast out_dtype x w out N K indices\n        sx sk sw0 swn swk sy syn slice BN BK splits even add).kernel s"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    }
+  ]
+}

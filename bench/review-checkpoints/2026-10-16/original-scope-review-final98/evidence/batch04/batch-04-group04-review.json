@@ -1,0 +1,623 @@
+{
+  "schema": 1,
+  "kind": "original_scope_batch_review",
+  "batch": 4,
+  "part": "group04",
+  "reviewer": "/root/relu_current_review",
+  "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+  "catalog_sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875",
+  "source_ledger_snapshot_sha256": "a59d0cc02251d96b6b8d47d1cf35e7f2990abd858c2cb210640be1dfd4ae1379",
+  "task_count": 3,
+  "structural_gaps_confirmed": 3,
+  "whole_original_program_accepted": 0,
+  "completion_increment": 0,
+  "public_declarations_checked": 10,
+  "structural_gap_count": 8,
+  "catalog_declaration_metadata_discrepancies": [],
+  "integration_note": "Read-only concrete original-scope findings. Existing proofs remain credited. No new execution, numerical registration, repository mutation or acceptance. Root reviews integration.",
+  "tasks": [
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/relu_current_review",
+      "reviewed_at_utc": "2026-10-15T19:15:26.395029+00:00",
+      "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/current-source-catalog.json",
+        "sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875"
+      },
+      "task": "block_sparse_attn",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "The complete CSR-selected source has successful flat execution, independent initial-memory weighted-attention values and full-cell frame. Signed CSR rows/columns, duplicates, empty/reversed rows, grouped heads, even/partial loads and the one/two-channel branch are covered. The functional result does not assume a supplied loop trace or output.",
+      "production_stage_mapping": [
+        {
+          "function": "block_sparse_attention_kernel",
+          "coverage": "Complete original body, both NUM_D_BLOCKS branches and CSR visits are covered for three homogeneous floating profiles.",
+          "path": "bench/tritonbench_g/block_sparse_attn/block_sparse_attn.py",
+          "line": 7,
+          "end_line": 161,
+          "sha256": "c7e6c7bbfc3363b542cf52083f9dde7feb7ca38c3801b75166235d008d76d30b",
+          "stage_id": "stage:bench/tritonbench_g/block_sparse_attn/block_sparse_attn.py:7:block_sparse_attention_kernel"
+        },
+        {
+          "function": "block_sparse_attention",
+          "coverage": "Output allocation and actual complete grid with caller-provided flags/block sizes remain uncomposed.",
+          "path": "bench/tritonbench_g/block_sparse_attn/block_sparse_attn.py",
+          "line": 164,
+          "end_line": 182,
+          "sha256": "c7e6c7bbfc3363b542cf52083f9dde7feb7ca38c3801b75166235d008d76d30b",
+          "stage_id": "stage:bench/tritonbench_g/block_sparse_attn/block_sparse_attn.py:164:block_sparse_attention"
+        }
+      ],
+      "dtype_review": "Q/K/V/Out share one fp16/bf16/fp32 selector and CSR storage is int32; original Out inherits Q.dtype and the wrapper does not constrain independent K/V or CSR dtypes.",
+      "branch_review": "NUM_D_BLOCKS>=2 executes exactly two channel blocks, even when the integer exceeds2. This actual behavior is preserved; no imaginary loop over all NUM_D_BLOCKS is required.",
+      "structural_gaps": [
+        {
+          "id": "BLOCK_SPARSE_ATTN-S1",
+          "kind": "independent_operand_and_csr_storage",
+          "finding": "The formal source fixes homogeneous Q/K/V/Out and int32 CSR buffers, while the original host accepts independent K/V/CSR storage without matching guards.",
+          "why_blocks_full_original_scope": "Other admitted operand/metadata profiles or exact original rejection remain outside the materialized storage routes.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 46,
+              "end_line": 47,
+              "path": "bench/tritonbench_g/block_sparse_attn/Kernels.lean",
+              "sha256": "b5a7f75bd8b14874ff9c0519da9a64e132ef4139f211343394116a73029d9046",
+              "excerpt": "  tl.region Q = $storage, K = $storage, V = $storage, out = $storage\n  tl.region layout_csr_row_indices = tl.int32, layout_csr_col_indices = tl.int32"
+            },
+            {
+              "line": 155,
+              "end_line": 171,
+              "path": "bench/tritonbench_g/block_sparse_attn/Kernels.lean",
+              "sha256": "b5a7f75bd8b14874ff9c0519da9a64e132ef4139f211343394116a73029d9046",
+              "excerpt": "inductive Storage where\n  | fp32 | fp16 | bf16\n  deriving DecidableEq\n\nabbrev KernelSource := RegionName → RegionName → RegionName → RegionName →\n  Region .int → Region .int → Nat → Nat → Nat → ℝ →\n  Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat → Nat →\n  Nat → Nat → Nat → Nat → Nat → Nat → Nat → Bool → Bool → ComputeKernel\n\ndef specialize (storage : Storage) (swapped : Bool) : KernelSource :=\n  match storage, swapped with\n  | .fp32, Bool.false => blockSparseSource%[tl.float32, original]\n  | .fp32, Bool.true => blockSparseSource%[tl.float32, scalarLeft]\n  | .fp16, Bool.false => blockSparseSource%[tl.float16, original]\n  | .fp16, Bool.true => blockSparseSource%[tl.float16, scalarLeft]\n  | .bf16, Bool.false => blockSparseSource%[tl.bfloat16, original]\n  | .bf16, Bool.true => blockSparseSource%[tl.bfloat16, scalarLeft]"
+            },
+            {
+              "line": 164,
+              "end_line": 180,
+              "path": "bench/tritonbench_g/block_sparse_attn/block_sparse_attn.py",
+              "sha256": "c7e6c7bbfc3363b542cf52083f9dde7feb7ca38c3801b75166235d008d76d30b",
+              "excerpt": "def block_sparse_attention(\n    Q, K, V, layout_csr_row_indices, layout_csr_col_indices, layout_csr_row_stride_h, layout_csr_col_stride_h,\n    num_layout, softmax_scale, num_heads, num_kv_heads, total_seq_len, BLOCK_M, EVEN_M, BLOCK_N, EVEN_N, BLOCK_D, NUM_D_BLOCKS\n):\n    # Determine the grid size\n    q_seq_len = total_seq_len\n    grid = (triton.cdiv(q_seq_len, BLOCK_M), Q.shape[0] * num_heads)\n\n    # Allocate output tensor\n    out = torch.empty((Q.shape[0], num_heads, q_seq_len, Q.shape[-1]), device=Q.device, dtype=Q.dtype)\n\n    # Call the Triton kernel\n    block_sparse_attention_kernel[grid](\n        out, Q, K, V, layout_csr_row_indices, layout_csr_col_indices, layout_csr_row_stride_h, layout_csr_col_stride_h,\n        num_layout, softmax_scale, Q.stride(0), Q.stride(1), Q.stride(2), K.stride(0), K.stride(1), K.stride(2),\n        V.stride(0), V.stride(1), V.stride(2), out.stride(0), out.stride(1), out.stride(2), num_heads, num_kv_heads,\n        total_seq_len, BLOCK_M=BLOCK_M, EVEN_M=EVEN_M, BLOCK_N=BLOCK_N, EVEN_N=EVEN_N, BLOCK_D=BLOCK_D, NUM_D_BLOCKS=NUM_D_BLOCKS"
+            }
+          ]
+        },
+        {
+          "id": "BLOCK_SPARSE_ATTN-S2",
+          "kind": "allocated_output_and_channel_coverage",
+          "finding": "The host allocates Q.shape[-1] output channels but the kernel writes BD or exactly2*BD and launches ceil(total_seq_len/BM) by batch*heads using caller-provided flags.",
+          "why_blocks_full_original_scope": "The full returned tensor must compose those actual stores and any allocated unwritten channel tail; the existing per-program frame alone does not identify the host result.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 157,
+              "end_line": 182,
+              "path": "bench/tritonbench_g/block_sparse_attn/block_sparse_attn.py",
+              "sha256": "c7e6c7bbfc3363b542cf52083f9dde7feb7ca38c3801b75166235d008d76d30b",
+              "excerpt": "    off_o = off_b * stride_ob + off_h * stride_oh + offs_m[:, None] * stride_om + offs_d[None, :]\n    out_ptrs = out + off_o\n    tl.store(out_ptrs, acc, mask=offs_m[:, None] < q_seq_len)\n    if NUM_D_BLOCKS >= 2:\n        tl.store(out_ptrs + BLOCK_D, acc2, mask=offs_m[:, None] < q_seq_len)\n\n# Define the wrapper function to call the Triton kernel\ndef block_sparse_attention(\n    Q, K, V, layout_csr_row_indices, layout_csr_col_indices, layout_csr_row_stride_h, layout_csr_col_stride_h,\n    num_layout, softmax_scale, num_heads, num_kv_heads, total_seq_len, BLOCK_M, EVEN_M, BLOCK_N, EVEN_N, BLOCK_D, NUM_D_BLOCKS\n):\n    # Determine the grid size\n    q_seq_len = total_seq_len\n    grid = (triton.cdiv(q_seq_len, BLOCK_M), Q.shape[0] * num_heads)\n\n    # Allocate output tensor\n    out = torch.empty((Q.shape[0], num_heads, q_seq_len, Q.shape[-1]), device=Q.device, dtype=Q.dtype)\n\n    # Call the Triton kernel\n    block_sparse_attention_kernel[grid](\n        out, Q, K, V, layout_csr_row_indices, layout_csr_col_indices, layout_csr_row_stride_h, layout_csr_col_stride_h,\n        num_layout, softmax_scale, Q.stride(0), Q.stride(1), Q.stride(2), K.stride(0), K.stride(1), K.stride(2),\n        V.stride(0), V.stride(1), V.stride(2), out.stride(0), out.stride(1), out.stride(2), num_heads, num_kv_heads,\n        total_seq_len, BLOCK_M=BLOCK_M, EVEN_M=EVEN_M, BLOCK_N=BLOCK_N, EVEN_N=EVEN_N, BLOCK_D=BLOCK_D, NUM_D_BLOCKS=NUM_D_BLOCKS\n    )\n    return out"
+            },
+            {
+              "line": 50,
+              "end_line": 64,
+              "path": "bench/tritonbench_g/block_sparse_attn/Correct.lean",
+              "sha256": "f245e2ad66122d68482edfcf61a8f7ed8c20793ceed94c30ca249106435d9852",
+              "excerpt": "row endpoints and visited column slots. Allocation bounds use active physical\nlanes, including padding for evenM/evenN. Width is BD or exactly 2*BD.\nOutput channels share one row-masked window, with no scratch allocation. -/\ndef originalIO (storage : TypedSource.Storage) (BM BN BD : Nat) (p : Parameters) : RealIO.IO BM where\n  kernel := (TypedSource.original storage p.Out p.Q p.K p.V p.rows p.cols\n    p.rowStride p.columnStride p.layouts p.scale\n    p.qBatch p.qHead p.qRow p.kBatch p.kHead p.kRow p.vBatch p.vHead p.vRow\n    p.oBatch p.oHead p.oRow p.heads p.kvHeads p.context BM BN BD p.blocks p.evenM p.evenN).eraseDType\n  projection := RealContract.projection storage Bool.false BM BN BD p\n  Q := p.Q\n  K := p.K\n  V := p.V\n  rows := p.rows\n  columns := p.cols\n  output := p.Out"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Dot, maximum/exp/reductions/normalization and casts may be numerical followups for represented profiles. Unchecked-load allocation bounds remain legitimate premises, not extra missing branches."
+      ],
+      "precondition_assessment": "Existing valid-address, injectivity, disjointness and positive-size premises remain legitimate. Findings concern concrete source branches or missing composition, not hypothetical hardware faults or arbitrary invalid inputs.",
+      "source_sha256": {
+        "bench/tritonbench_g/block_sparse_attn/block_sparse_attn.py": "c7e6c7bbfc3363b542cf52083f9dde7feb7ca38c3801b75166235d008d76d30b",
+        "bench/tritonbench_g/block_sparse_attn/Correct.lean": "f245e2ad66122d68482edfcf61a8f7ed8c20793ceed94c30ca249106435d9852",
+        "bench/tritonbench_g/block_sparse_attn/FPEquiv.lean": "c6bd70f8ec26cfcc796b0db5b9fa3e367b1e7835ca0606a6ac3354dbe0a2a168",
+        "bench/tritonbench_g/block_sparse_attn/Kernels.lean": "b5a7f75bd8b14874ff9c0519da9a64e132ef4139f211343394116a73029d9046"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/block_sparse_attn/Correct.lean": "f245e2ad66122d68482edfcf61a8f7ed8c20793ceed94c30ca249106435d9852",
+          "bench/tritonbench_g/block_sparse_attn/FPEquiv.lean": "c6bd70f8ec26cfcc796b0db5b9fa3e367b1e7835ca0606a6ac3354dbe0a2a168",
+          "bench/tritonbench_g/block_sparse_attn/Kernels.lean": "b5a7f75bd8b14874ff9c0519da9a64e132ef4139f211343394116a73029d9046",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/CSRMath.lean": "c1b5e48f28a278ec802c23a11806f65c8615f7392021a378a9ddde9b90a7dcda",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/ExecutionLoop.lean": "bff624730e3c8d907f1b6305afd5650019c3b242b69f8aca426bf1120c045f2f",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/ExecutionPrefix.lean": "9cb067e06234e8c01e8ac59127cb03f33c9560a560c0f572149ce991f6b363f7",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/FP.lean": "4febf887b6ff0e57b064aac33311b9239b48ba9ca95ba7cfbb86168baaee61bc",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/LegacySummary.lean": "01934c7aec2402304d4b6f091c2698ddf0c16393c2aa11866dc7b11d6cd1e1c7",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealAccumulation.lean": "557538bee49a8060bb004f840578dba3a747ea0d8c92533c5671fa82d49ae81d",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealAccumulationSource.lean": "9db1b9d0cb66be3aae21afceaff23bb14cb54bd2516159820ee8d550ee5167da",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealAddressFormula.lean": "830550010e08a9ae12305effdfcfb9cfeb111db33623aa0d83e2f730e6a231f9",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealColumn.lean": "1de1d9a17771b10e12868ade4d670335a8cad690f0d3f7be1971d9da914714dc",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealContract.lean": "b2d735bdfa3604a72ad26c8abfb81004ca70e6181b4a4b73af8bd28ee55752a5",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealFlat.lean": "4581bb9f925cd435ba0dd50d0e8d5117f2303657a5a50c5099ee1df330722d17",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealFlatten.lean": "b972b6f02631203e2ccf884c3426d0cc53daaac7d5a712f4591dc8dba412d0b1",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealFormula.lean": "6691e83ac7671acf600c52068deedb90f9a74816b599d5e5acc1edcb7fd64260",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealIO.lean": "46b70df28870070582f1ab48ba6c4d287c1acc5e81592365da0158be12bd61b6",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealInputs.lean": "c091c450ff770cd988991fe0e903c1ea5524460464c8a46b3171ed593c5da045",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealKey.lean": "8ae077fd60e4bcabbd96626ff1943948ab06e4f90e6594c04bb1876e114c847d",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealLoop.lean": "356edeb6c592ee1807858783d7bf1956c1bd1d9a25fe1baefb4566977f935ea6",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealLoopSafety.lean": "ff0a0d9d0079a3e539e9f0fccac62258aed3c0c954d9060c8648af41fbb56814",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealLoopTail.lean": "21f24c42521e53c29e600ce48c61cdd1ab45326f482e1fe2be0b6cd8b533e3c0",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealNormalization.lean": "4f078954d26cc8613d6b911e63a5642c778fa283bc63c6531e1898e970dc95fa",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealNormalizationMath.lean": "28ee47e70a812de6434048f4302ab826b4bb4b193a346ba0310334684d2f1852",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealNormalizationSource.lean": "4961bfbb4b4992f06590120f04de9ac316a00847ed3ebe8acf60beeead0bce37",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealNormalizationValues.lean": "0814f5aff6c090a840b85e0335528e113e3a052986a18950a660e492d53c1097",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealObservedFormula.lean": "7d42ab7534f884458ed9e0ec673520f8851990ae4aca0b29c7340696c2df50ad",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealProgram.lean": "006f871f861b73edbe456a37ca60536fc9054f25c2185b5dda8b524588809c36",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealPrologue.lean": "c4674cb4a682f6d1f90852d6e7977978a4b2e9ba4caee39b9b7c0fc0173b6b99",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealQuery.lean": "b79bb53e9515901da5e5752e1544e0a386c87080ef564e442bf4dce4fdc66239",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealRows.lean": "12031bf986fe3103bd37b201d20c37978755cfd994b388b3b9e1cb85ef8106d4",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealScore.lean": "4ba0fdd74b40d4e3d9c959c13a2fa27e7b1a0c3fc51b4722ea59ae094beb9c1f",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealSetup.lean": "e04d842e96af61a135f221a434ea3f9b2c62bf0dbb5aa7011ea4e2441499f73c",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealSource.lean": "97a0c5f0f698a47be54675875307f349d5e163f3a257dc27fee4d3313dffb510",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealStoreOutputs.lean": "2f857d7093aef9423c1a23be1b97e157d6c21ff574ce824dbb5b4116add635e1",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealStoreSafety.lean": "6063972b9941ec36e6d194f3ea009d43469c7877bdb56ef568e9497e0fb67a42",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealStores.lean": "72d759bec0bd2d16b34853e0bc6c790b2c708941ec43e655c809b4a77a18311d",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealValueFormula.lean": "4791c6e3b6eb9c91b641218d6cf532894530f7585d38403f62e98c67f7cbb1b8",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealValueLoad.lean": "c8a61647e1acec60d418cbea6c7341982696718c03bb445faeb45a2a92fa11a7",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealValueSafety.lean": "844a487c9f42c49c7dfb01d2000b4ae7511f6a1c144dbfb3d159d9d44e6df553",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealValueSource.lean": "eb353409ec7f72ace655bcd97845aa9e54a690abd3828b98eaab19c9b623a551",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealVisit.lean": "9c3ff2f54d9730b181764caba74e0d190e7061d4aaa522d0855b411c71789391",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealVisitSafety.lean": "9972e5c8e872cd637d45dfba22d0bbaba2a170aa8af9dab2653a273073c535dc",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/RealWindows.lean": "084ee105be560b7c7ad0d7688bff2c394ae6307ed6773dd0d677168d4815ce6d",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/StreamingMath.lean": "d4ed1a725195fdd05dec8d1f5f207e65e367876e0365ff2507b5f3cc681a34c8",
+          "bench/tritonbench_g/block_sparse_attn/Proofs/TypedExecution.lean": "840bf106a238409ad1b75b75d77267bd939d6f008bcbfda413f38ef326d5f43b"
+        },
+        "python": {
+          "bench/tritonbench_g/block_sparse_attn/block_sparse_attn.py": "c7e6c7bbfc3363b542cf52083f9dde7feb7ca38c3801b75166235d008d76d30b"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/block_sparse_attn/Correct.lean",
+          "declaration": "block_sparse_attention_correctness",
+          "parser_name": "block_sparse_attention_correctness",
+          "line": 109,
+          "sha256": "f245e2ad66122d68482edfcf61a8f7ed8c20793ceed94c30ca249106435d9852",
+          "statement_sha256": "78a1e328895f0af342d5687cf93c5700c6c8a9754fb0fc8fc5727f7b95481c30",
+          "statement": "specification block_sparse_attention_correctness (storage : TypedSource.Storage) (BM BN BD : Nat) (p : Parameters)\n    (hN : 0 < BN) (hstride : BD ≤ p.oRow) (htwo : 2 ≤ p.blocks → 2 * BD ≤ p.oRow) :\n    Spec.Real (originalIO storage BM BN BD p ⊨[BN] expected BM BN BD p)"
+        },
+        {
+          "file": "bench/tritonbench_g/block_sparse_attn/Correct.lean",
+          "declaration": "block_sparse_scalar_left_correctness",
+          "parser_name": "block_sparse_scalar_left_correctness",
+          "line": 114,
+          "sha256": "f245e2ad66122d68482edfcf61a8f7ed8c20793ceed94c30ca249106435d9852",
+          "statement_sha256": "936fd979c32414732629a91a9814bbddb9da830802a0f9064e81df11b57d53db",
+          "statement": "specification block_sparse_scalar_left_correctness (storage : TypedSource.Storage) (BM BN BD : Nat) (p : Parameters)\n    (hN : 0 < BN) (hstride : BD ≤ p.oRow) (htwo : 2 ≤ p.blocks → 2 * BD ≤ p.oRow) :\n    Spec.Real (scalarLeftIO storage BM BN BD p ⊨[BN] expected BM BN BD p)"
+        },
+        {
+          "file": "bench/tritonbench_g/block_sparse_attn/FPEquiv.lean",
+          "declaration": "block_sparse_scaling_equiv",
+          "parser_name": "block_sparse_scaling_equiv",
+          "line": 36,
+          "sha256": "c6bd70f8ec26cfcc796b0db5b9fa3e367b1e7835ca0606a6ac3354dbe0a2a168",
+          "statement_sha256": "a8ebef084da4ae9d079d67560c8ffe438af3088486ee62debf0c458568aacc93",
+          "statement": "specification block_sparse_scaling_equiv (R : FP.ScalarArithmetic.Rules) :\n    original storage out Q K V rows cols rs cs layouts scale\n      sqb sqh sqm skb skh skn svb svh svn sob soh som heads kvHeads N BM BN BD blocks evenM evenN ≡[R]\n    scalarLeft storage out Q K V rows cols rs cs layouts scale\n      sqb sqh sqm skb skh skn svb svh svn sob soh som heads kvHeads N BM BN BD blocks evenM evenN"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/relu_current_review",
+      "reviewed_at_utc": "2026-10-15T19:15:26.811161+00:00",
+      "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/current-source-catalog.json",
+        "sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875"
+      },
+      "task": "fused_rotary_embedding",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "Successful Q pair IO with frame and honest chained-metadata V-cache IO are public. An ordinary K-cache chain theorem also derives cache addresses from loaded context lengths/block tables and proves both rotated halves; it is credited, not mistaken for a pinned scratch slice. FP32 Q rounded execution and bit-preserving V stage execution are present with nonempty witnesses.",
+      "production_stage_mapping": [
+        {
+          "function": "decoding_fused_rotary_embedding_kernel",
+          "coverage": "Full surface is transcribed and lowerable; Q, K-cache and V-cache stage contracts exist but are not one successful full-source state transition.",
+          "path": "bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding.py",
+          "line": 10,
+          "end_line": 108,
+          "sha256": "3581c60f75eb5314c472d4e9ccfd2c0cc8c6a089352352247258c8cbabe7f630",
+          "stage_id": "stage:bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding.py:10:decoding_fused_rotary_embedding_kernel"
+        },
+        {
+          "function": "decoding_fused_rotary_embedding",
+          "coverage": "Old/new cache-layout choice, grouping, full token/head grid and simultaneous in-place/cache results are uncomposed.",
+          "path": "bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding.py",
+          "line": 111,
+          "end_line": 195,
+          "sha256": "3581c60f75eb5314c472d4e9ccfd2c0cc8c6a089352352247258c8cbabe7f630",
+          "stage_id": "stage:bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding.py:111:decoding_fused_rotary_embedding"
+        }
+      ],
+      "dtype_review": "Public typed stages specialize Q/Cos/Sin and V/cache to fp32; cache metadata is modeled as natural regions. Original independently supplies all seven floating buffers and signed tensor metadata without these dtype restrictions.",
+      "branch_review": "The leader/nonleader guard and both cache offset layouts are present in source/helpers. Missing work is connecting the complete Q-then-K/V execution and all outputs, not recreating absent metadata loads.",
+      "structural_gaps": [
+        {
+          "id": "FUSED_ROTARY_EMBEDDING-S1",
+          "kind": "single_execution_all_output_composition",
+          "finding": "Public Q and V results and the ordinary K-cache theorem execute separate stage kernels; the full Python-shaped source has a lowering theorem but no public successful one-state all-output contract.",
+          "why_blocks_full_original_scope": "Sequential Q stores, later K/V reads, cache addressing, three output regions and their joint frame must be derived for the complete original source.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 96,
+              "end_line": 190,
+              "path": "bench/tritonbench_g/fused_rotary_embedding/FusedRotaryEmbedding.lean",
+              "sha256": "4ee05e5b78a277baf76ead094dff7390b7ddcf4ee2d077444ffcc5612cb288fc",
+              "excerpt": "def decoding_fused_rotary_embedding_kernel_surface\n    (q k v cos sin k_cache v_cache : RegionName)\n    (BLOCK_TABLES context_lengths : Region .nat)\n    (x q_token_stride q_head_stride k_token_stride k_head_stride\n      head_dim_stride cos_token_stride cos_stride kcb_stride kch_stride\n      kcsplit_x_stride kcs_stride kcd_stride vcb_stride vch_stride vcs_stride\n      vcd_stride bts_stride btb_stride block_size KV_GROUP_NUM HEAD_DIM\n      : Nat) :\n    ComputeKernel := triton {\n  cur_head_idx = tl.program_id(0)\n  cur_token_idx = tl.program_id(1)\n\n  dim_range = tl.arange(0, $(HEAD_DIM))\n  dim_range0 = tl.arange(0, $(HEAD_DIM) // $(2))\n  dim_range1 = tl.arange($(HEAD_DIM) // $(2), $(HEAD_DIM))\n\n  off_q = cur_token_idx * $(q_token_stride) + cur_head_idx * $(q_head_stride)\n  off_q0 = off_q + dim_range0 * $(head_dim_stride)\n  off_q1 = off_q + dim_range1 * $(head_dim_stride)\n\n  loaded_q0 = tl.load(q + off_q0)\n  loaded_q1 = tl.load(q + off_q1)\n  off_cos_sin = cur_token_idx * $(cos_token_stride) + dim_range0 * $(cos_stride)\n  loaded_cos = tl.load(cos + off_cos_sin)\n  loaded_sin = tl.load(sin + off_cos_sin)\n\n  out_q0 = loaded_q0 * loaded_cos - loaded_q1 * loaded_sin\n  out_q1 = loaded_q0 * loaded_sin + loaded_q1 * loaded_cos\n  tl.store(q + off_q0, out_q0)\n  tl.store(q + off_q1, out_q1)\n\n  handle_kv = cur_head_idx % $(KV_GROUP_NUM) == $(0)\n  if handle_kv {\n    cur_k_head_idx = cur_head_idx // $(KV_GROUP_NUM)\n    off_kv = cur_token_idx * $(k_token_stride) + cur_k_head_idx * $(k_head_stride)\n    off_k0 = off_kv + dim_range0 * $(head_dim_stride)\n    off_k1 = off_kv + dim_range1 * $(head_dim_stride)\n    loaded_k0 = tl.load(k + off_k0)\n    loaded_k1 = tl.load(k + off_k1)\n\n    out_k0 = loaded_k0 * loaded_cos - loaded_k1 * loaded_sin\n    out_k1 = loaded_k0 * loaded_sin + loaded_k1 * loaded_cos\n\n    past_kv_seq_len = tl.load(context_lengths + cur_token_idx) - $(1)\n\n    last_block_idx = past_kv_seq_len // $(block_size)\n    block_ids = tl.load(BLOCK_TABLES + cur_token_idx * $(bts_stride) +\n      last_block_idx * $(btb_stride))\n    offsets_in_last_block = past_kv_seq_len % $(block_size)\n    offsets_cache_base = block_ids * $(kcb_stride) +\n      cur_k_head_idx * $(kch_stride)\n    k_range0 = offsets_cache_base +\n      offsets_in_last_block * $(kcs_stride) +\n      (dim_range0 // $(x)) * $(kcsplit_x_stride) +\n      (dim_range0 % $(x)) * $(kcd_stride)\n    k_range1 = offsets_cache_base +\n      offsets_in_last_block * $(kcs_stride) +\n      (dim_range1 // $(x)) * $(kcsplit_x_stride) +\n      (dim_range1 % $(x)) * $(kcd_stride)\n    tl.store(k_cache + k_range0, out_k0)\n    tl.store(k_cache + k_range1, out_k1)\n\n    off_v = off_kv + dim_range * $(head_dim_stride)\n    loaded_v = tl.load(v + off_v)\n    v_range = block_ids * $(vcb_stride) +\n      cur_k_head_idx * $(vch_stride) +\n      offsets_in_last_block * $(vcs_stride) +\n      dim_range * $(vcd_stride)\n    tl.store(v_cache + v_range, loaded_v)\n  }\n}\n\n/-- The full Python-shaped fused rotary decoding surface lowers to the\nalgorithm layer, including both Q halves, conditional K rotation, and K/V cache\nstores. -/\ntheorem decoding_fused_rotary_embedding_kernel_surface_toAlgorithm_supported\n    (q k v cos sin k_cache v_cache : RegionName)\n    (BLOCK_TABLES context_lengths : Region .nat)\n    (x q_token_stride q_head_stride k_token_stride k_head_stride\n      head_dim_stride cos_token_stride cos_stride kcb_stride kch_stride\n      kcsplit_x_stride kcs_stride kcd_stride vcb_stride vch_stride vcs_stride\n      vcd_stride bts_stride btb_stride block_size KV_GROUP_NUM HEAD_DIM\n      : Nat) :\n    ∃ alg, (decoding_fused_rotary_embedding_kernel_surface q k v cos sin\n      k_cache v_cache BLOCK_TABLES context_lengths x q_token_stride\n      q_head_stride k_token_stride k_head_stride head_dim_stride\n      cos_token_stride cos_stride kcb_stride kch_stride kcsplit_x_stride\n      kcs_stride kcd_stride vcb_stride vch_stride vcs_stride vcd_stride\n      bts_stride btb_stride block_size KV_GROUP_NUM HEAD_DIM).toAlgorithm?\n        = Except.ok alg := by\n  simp [decoding_fused_rotary_embedding_kernel_surface, ComputeExpr.toAlgorithm?,\n    ComputeOp.toAlgorithm?]\n\n/-- Surface transcription of the unconditional Q rotary part of\n`fused_rotary_embedding.py`'s `decoding_fused_rotary_embedding_kernel`."
+            },
+            {
+              "line": 2223,
+              "end_line": 2242,
+              "path": "bench/tritonbench_g/fused_rotary_embedding/FusedRotaryEmbedding.lean",
+              "sha256": "4ee05e5b78a277baf76ead094dff7390b7ddcf4ee2d077444ffcc5612cb288fc",
+              "excerpt": "specification decoding_fused_rotary_embedding_q_correctness\n    (q cos sin : RegionName)\n    (q_token_stride q_head_stride head_dim_stride cos_token_stride cos_stride\n      HALF_DIM : Nat)\n    (hstride : 0 < head_dim_stride) :\n    decodingRotaryQIO q cos sin q_token_stride q_head_stride head_dim_stride\n        cos_token_stride cos_stride HALF_DIM ⊨\n      fun _pid₀ _pid₁ xs o j =>\n        let q0 := xs (⟨0, by decide⟩ : Fin 4) j\n        let q1 := xs (⟨1, by decide⟩ : Fin 4) j\n        let c := xs (⟨2, by decide⟩ : Fin 4) j\n        let sn := xs (⟨3, by decide⟩ : Fin 4) j\n        match o with\n        | ⟨0, _⟩ => q0 * c - q1 * sn\n        | ⟨_ + 1, _⟩ => q0 * sn + q1 * c := by\n  refine GroupedMasked2DKernelIO.Implements.intro _ ?_ ?_ ?_ ?_\n  · -- both output channels live in the declared allocation list\n    intro o\n    fin_cases o <;> simp [decodingRotaryQIO]\n  · exact decoding_fused_rotary_embedding_q_surface_flattenOk q cos sin"
+            },
+            {
+              "line": 2700,
+              "end_line": 2720,
+              "path": "bench/tritonbench_g/fused_rotary_embedding/FusedRotaryEmbedding.lean",
+              "sha256": "4ee05e5b78a277baf76ead094dff7390b7ddcf4ee2d077444ffcc5612cb288fc",
+              "excerpt": "open scoped VeriTile.Triton.ChainMetaGroupedMasked2DKernelIO in\ntheorem decoding_fused_rotary_embedding_kcache_chain_correctness\n    (k cos sin k_cache : RegionName)\n    (BLOCK_TABLES context_lengths : Region .nat)\n    (KV_GROUP_NUM x k_token_stride k_head_stride head_dim_stride\n      cos_token_stride cos_stride kcb_stride kch_stride kcsplit_x_stride\n      kcs_stride kcd_stride bts_stride btb_stride block_size HALF_DIM : Nat)\n    (hCross : ∀ (pid₀ _pid₁ m₁ m₂ : Nat) (j l : Fin HALF_DIM),\n      m₂ * kcb_stride + (pid₀ / KV_GROUP_NUM) * kch_stride +\n          ((m₁ - 1) % block_size) * kcs_stride +\n          (j.val / x) * kcsplit_x_stride + (j.val % x) * kcd_stride\n        ≠ m₂ * kcb_stride + (pid₀ / KV_GROUP_NUM) * kch_stride +\n          ((m₁ - 1) % block_size) * kcs_stride +\n          ((l.val + HALF_DIM) / x) * kcsplit_x_stride +\n          ((l.val + HALF_DIM) % x) * kcd_stride) :\n    decodingKCacheChainIO k cos sin k_cache BLOCK_TABLES context_lengths KV_GROUP_NUM x\n        k_token_stride k_head_stride head_dim_stride cos_token_stride cos_stride\n        kcb_stride kch_stride kcsplit_x_stride kcs_stride kcd_stride bts_stride\n        btb_stride block_size HALF_DIM\n      ⊨ decodingKCacheChainSpec := by\n  refine ChainMetaGroupedMasked2DKernelIO.Implements.intro _ ?_ ?_ ?_ ?_"
+            },
+            {
+              "line": 7,
+              "end_line": 24,
+              "path": "bench/tritonbench_g/fused_rotary_embedding/FPCorrect.lean",
+              "sha256": "c884848d334d0c38a9bd35a9fb3c428671d03250e02c4584bfc21673ef0db8bd",
+              "excerpt": "\n/-- Complete selected in-place Q pair, with concrete binary32 rounding at each\nmultiply and add/subtract, initial-state reads, successful execution and frame. -/\nspecification fused_rotary_q_fp32_correctness [Inhabited (FP.Value .fp32)]\n    (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config) (p : FPQ.Parameters)\n    (s : State (FP.Value .fp32)) (hstride : 0 < p.dimensionStride) :\n    ∃ final, FP.Structural.exec (FP.Software.scalarFP32 rest cfg) (FPQ.source p) s = some final ∧\n      FPQ.Post p s final (FPQ.roundedValue cfg p s) :=\n  FPQ.software_correctness rest cfg p s (Nat.ne_of_gt hstride)\n\n/-- Complete selected V chain: leader gate, context length, block table,\ninitial payload, readback and frame. No floating arithmetic law is required. -/\nspecification fused_rotary_vcache_typed_correctness {α : Type} [Inhabited α]\n    (rest : Algebra α) (p : FPV.Parameters) (s : State α)\n    (hinj : FPV.active p s → Function.Injective (FPV.outputOffset p s)) :\n    ∃ final, FP.Structural.exec (KcacheCopyTriton.TypedCopy.copyBackend rest)\n      (FPV.source p) s = some final ∧ FPV.Post p s final :=\n  FPV.correctness rest p s hinj"
+            }
+          ]
+        },
+        {
+          "id": "FUSED_ROTARY_EMBEDDING-S2",
+          "kind": "complete_storage_and_metadata_routes",
+          "finding": "FPQ.source and FPV.source fix fp32, while full cache metadata uses natural-number regions and the host has no corresponding dtype checks.",
+          "why_blocks_full_original_scope": "Other original storage/conversion and metadata routes require an explicit source-coupled execution or admission result, beyond fp32 scalar laws.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 40,
+              "end_line": 46,
+              "path": "bench/tritonbench_g/fused_rotary_embedding/Proofs/FPQ.lean",
+              "sha256": "ea1366f41e915ed6916034728a0dc55a2f33fc3a1414d51ff3dd6069af185c1e",
+              "excerpt": "def source (p : Parameters) : ComputeKernel :=\n  qTyped .fp32 p.q p.cosine p.sine p.tokenStride p.headStride p.dimensionStride\n    p.cosineTokenStride p.cosineStride (p.half * 2) p.half\n\ndef legacySource (p : Parameters) : ComputeKernel :=\n  decoding_fused_rotary_embedding_q_surface p.q p.cosine p.sine p.tokenStride p.headStride\n    p.dimensionStride p.cosineTokenStride p.cosineStride (p.half * 2) p.half"
+            },
+            {
+              "line": 17,
+              "end_line": 24,
+              "path": "bench/tritonbench_g/fused_rotary_embedding/Proofs/FPV.lean",
+              "sha256": "6e2437109c9412c70b2fc9f760263afaaeca86337a5114e09a3a8bfbd724e20e",
+              "excerpt": "def vTyped (dtype : FloatDType)\n    (v v_cache : RegionName)\n    (BLOCK_TABLES context_lengths : Region .nat)\n    (KV_GROUP_NUM k_token_stride k_head_stride head_dim_stride\n      vcb_stride vch_stride vcs_stride vcd_stride bts_stride btb_stride\n      block_size HEAD_DIM : Nat) :\n    ComputeKernel := triton {\n  tl.region v = DTYPE, v_cache = DTYPE"
+            },
+            {
+              "line": 44,
+              "end_line": 51,
+              "path": "bench/tritonbench_g/fused_rotary_embedding/Proofs/FPV.lean",
+              "sha256": "6e2437109c9412c70b2fc9f760263afaaeca86337a5114e09a3a8bfbd724e20e",
+              "excerpt": "def source (p : Parameters) : ComputeKernel :=\n  vTyped .fp32 p.input p.output p.blockTables p.lengths p.groups p.tokenStride p.headStride\n    p.dimensionStride p.cacheBlockStride p.cacheHeadStride p.cacheSlotStride p.cacheDimensionStride\n    p.tableSequenceStride p.tableBlockStride p.blockSize p.width\n\ndef legacySource (p : Parameters) : ComputeKernel :=\n  decoding_fused_rotary_embedding_vcache_chain p.input p.output p.blockTables p.lengths p.groups\n    p.tokenStride p.headStride p.dimensionStride p.cacheBlockStride p.cacheHeadStride"
+            },
+            {
+              "line": 111,
+              "end_line": 145,
+              "path": "bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding.py",
+              "sha256": "3581c60f75eb5314c472d4e9ccfd2c0cc8c6a089352352247258c8cbabe7f630",
+              "excerpt": "def decoding_fused_rotary_embedding(\n    q: torch.Tensor,\n    k: torch.Tensor,\n    v: torch.Tensor,\n    cos: torch.Tensor,\n    sin: torch.Tensor,\n    k_cache: Optional[torch.Tensor] = None,\n    v_cache: Optional[torch.Tensor] = None,\n    block_tables: Optional[torch.Tensor] = None,\n    kv_lengths: Optional[torch.Tensor] = None,\n    use_new_kcache_layout: bool = False,\n):\n    \"\"\"\n    Args:\n        q: query tensor, [total_tokens, head_num, head_dim]\n        k: key tensor, [total_tokens, kv_head_num, head_dim]\n        v: value tensor, [total tokens, kv_head_num, head_dim]\n        cos: cosine for rotary embedding, [max_position_len, head_dim]\n        sin: sine for rotary embedding, [max_position_len, head_dim]\n        k_cache (torch.Tensor):  Blocked key cache. [num_blocks, kv_head_num, block_size, head_dim]\n        v_cache (torch.Tensor):  Blocked value cache. [num_blocks, kv_head_num, block_size, head_dim]\n        kv_lengths, Past key/value sequence lengths plus current sequence length for each sequence. [bsz]\n        block_tables: Block tables for each sequence. [bsz, max_blocks_per_sequence]\n    \"\"\"\n    q_total_tokens, q_head_num, head_dim = q.shape\n    assert q.size(0) == k.size(0) == v.size(0)\n\n    if head_dim >= 512:\n        num_warps = 16\n    elif head_dim >= 256:\n        num_warps = 8\n    else:\n        num_warps = 4\n    k_head_num = k.size(1)\n    kv_group_num = q_head_num // k_head_num"
+            }
+          ]
+        },
+        {
+          "id": "FUSED_ROTARY_EMBEDDING-S3",
+          "kind": "cache_layout_host_grid",
+          "finding": "The wrapper selects the4D or5D key-cache stride decomposition, computes KV grouping and launches all query heads/tokens.",
+          "why_blocks_full_original_scope": "A whole-function result must use those actual layouts and coordinate all Q/cache writes, preserving nonleader cache frames.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 147,
+              "end_line": 160,
+              "path": "bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding.py",
+              "sha256": "3581c60f75eb5314c472d4e9ccfd2c0cc8c6a089352352247258c8cbabe7f630",
+              "excerpt": "    # For KCache and VCache with the same layout\n    x = head_dim\n    kcsplit_x_stride, kcs_stride, kcd_stride = 0, k_cache.stride(2), k_cache.stride(3)\n    # For KCache layout [num_blocks, num_kv_heads, head_dim//x, block_size, x]\n    if use_new_kcache_layout:\n        assert (\n            k_cache.dim() == 5\n            and k_cache.shape[1] == v_cache.shape[1]\n            and k_cache.shape[2] * k_cache.shape[4] == v_cache.shape[3]\n        ), f\"Invalid KCache shape {k_cache.shape} and VCache shape {v_cache.shape}\"\n        x = k_cache.size(-1)\n        kcsplit_x_stride, kcs_stride, kcd_stride = k_cache.stride()[-3:]\n\n    grid = (q_head_num, q_total_tokens)"
+            },
+            {
+              "line": 179,
+              "end_line": 195,
+              "path": "bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding.py",
+              "sha256": "3581c60f75eb5314c472d4e9ccfd2c0cc8c6a089352352247258c8cbabe7f630",
+              "excerpt": "        k_cache.stride(0),\n        k_cache.stride(1),\n        kcsplit_x_stride,\n        kcs_stride,\n        kcd_stride,\n        v_cache.stride(0),\n        v_cache.stride(1),\n        v_cache.stride(2),\n        v_cache.stride(3),\n        block_tables.stride(0),\n        block_tables.stride(1),\n        k_cache.size(-2),\n        KV_GROUP_NUM=kv_group_num,\n        HEAD_DIM=head_dim,\n        num_warps=num_warps,\n    )\n    return"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Existing FP32 Q rounding and V payload-copy theorems are real progress. Arithmetic/casts for a represented full-source profile can be explicit numerical followups after structural composition."
+      ],
+      "precondition_assessment": "Existing valid-address, injectivity, disjointness and positive-size premises remain legitimate. Findings concern concrete source branches or missing composition, not hypothetical hardware faults or arbitrary invalid inputs.",
+      "source_sha256": {
+        "bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding.py": "3581c60f75eb5314c472d4e9ccfd2c0cc8c6a089352352247258c8cbabe7f630",
+        "bench/tritonbench_g/fused_rotary_embedding/FPCorrect.lean": "c884848d334d0c38a9bd35a9fb3c428671d03250e02c4584bfc21673ef0db8bd",
+        "bench/tritonbench_g/fused_rotary_embedding/FusedRotaryEmbedding.lean": "4ee05e5b78a277baf76ead094dff7390b7ddcf4ee2d077444ffcc5612cb288fc",
+        "bench/tritonbench_g/fused_rotary_embedding/Proofs/FPQ.lean": "ea1366f41e915ed6916034728a0dc55a2f33fc3a1414d51ff3dd6069af185c1e",
+        "bench/tritonbench_g/fused_rotary_embedding/Proofs/FPV.lean": "6e2437109c9412c70b2fc9f760263afaaeca86337a5114e09a3a8bfbd724e20e"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/fused_rotary_embedding/FPCorrect.lean": "c884848d334d0c38a9bd35a9fb3c428671d03250e02c4584bfc21673ef0db8bd",
+          "bench/tritonbench_g/fused_rotary_embedding/FusedRotaryEmbedding.lean": "4ee05e5b78a277baf76ead094dff7390b7ddcf4ee2d077444ffcc5612cb288fc",
+          "bench/tritonbench_g/fused_rotary_embedding/Proofs/FPQ.lean": "ea1366f41e915ed6916034728a0dc55a2f33fc3a1414d51ff3dd6069af185c1e",
+          "bench/tritonbench_g/fused_rotary_embedding/Proofs/FPQContract.lean": "18f3cbc916db0bdf4627b316f23cb1d87d9b3deb7950197f766c4fa48df102f1",
+          "bench/tritonbench_g/fused_rotary_embedding/Proofs/FPQSoftware.lean": "b478ed98ab36f643db56ddb9d90d67b854456f06a0492ec637f6d40e2ab7d68f",
+          "bench/tritonbench_g/fused_rotary_embedding/Proofs/FPV.lean": "6e2437109c9412c70b2fc9f760263afaaeca86337a5114e09a3a8bfbd724e20e",
+          "bench/tritonbench_g/fused_rotary_embedding/Proofs/FPVWitness.lean": "e6f1b8e781a0960bb8731bc96760ed744d3f7aae8ec4643b24c2bb6b019ff0ad"
+        },
+        "python": {
+          "bench/tritonbench_g/fused_rotary_embedding/fused_rotary_embedding.py": "3581c60f75eb5314c472d4e9ccfd2c0cc8c6a089352352247258c8cbabe7f630"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/fused_rotary_embedding/FPCorrect.lean",
+          "declaration": "fused_rotary_q_fp32_correctness",
+          "parser_name": "fused_rotary_q_fp32_correctness",
+          "line": 10,
+          "sha256": "c884848d334d0c38a9bd35a9fb3c428671d03250e02c4584bfc21673ef0db8bd",
+          "statement_sha256": "9a0e11262be58b30a358e477858c4f01df41acfab03f30ee9ff1e00e5bed4ba3",
+          "statement": "specification fused_rotary_q_fp32_correctness [Inhabited (FP.Value .fp32)]\n    (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config) (p : FPQ.Parameters)\n    (s : State (FP.Value .fp32)) (hstride : 0 < p.dimensionStride) :\n    ∃ final, FP.Structural.exec (FP.Software.scalarFP32 rest cfg) (FPQ.source p) s = some final ∧\n      FPQ.Post p s final (FPQ.roundedValue cfg p s)"
+        },
+        {
+          "file": "bench/tritonbench_g/fused_rotary_embedding/FPCorrect.lean",
+          "declaration": "fused_rotary_vcache_typed_correctness",
+          "parser_name": "fused_rotary_vcache_typed_correctness",
+          "line": 19,
+          "sha256": "c884848d334d0c38a9bd35a9fb3c428671d03250e02c4584bfc21673ef0db8bd",
+          "statement_sha256": "c733933fa100992c11bdf2ea7d589274b4d752c18ff9f5f3c4932b46fa8d0a92",
+          "statement": "specification fused_rotary_vcache_typed_correctness {α : Type} [Inhabited α]\n    (rest : Algebra α) (p : FPV.Parameters) (s : State α)\n    (hinj : FPV.active p s → Function.Injective (FPV.outputOffset p s)) :\n    ∃ final, FP.Structural.exec (KcacheCopyTriton.TypedCopy.copyBackend rest)\n      (FPV.source p) s = some final ∧ FPV.Post p s final"
+        },
+        {
+          "file": "bench/tritonbench_g/fused_rotary_embedding/FusedRotaryEmbedding.lean",
+          "declaration": "decoding_fused_rotary_embedding_q_correctness",
+          "parser_name": "decoding_fused_rotary_embedding_q_correctness",
+          "line": 2223,
+          "sha256": "4ee05e5b78a277baf76ead094dff7390b7ddcf4ee2d077444ffcc5612cb288fc",
+          "statement_sha256": "7547b399028a3cbd0d29a498ae30b1dd253cf69876861f168912a35c2dd35a8a",
+          "statement": "specification decoding_fused_rotary_embedding_q_correctness\n    (q cos sin : RegionName)\n    (q_token_stride q_head_stride head_dim_stride cos_token_stride cos_stride\n      HALF_DIM : Nat)\n    (hstride : 0 < head_dim_stride) :\n    decodingRotaryQIO q cos sin q_token_stride q_head_stride head_dim_stride\n        cos_token_stride cos_stride HALF_DIM ⊨\n      fun _pid₀ _pid₁ xs o j =>\n        let q0 := xs (⟨0, by decide⟩ : Fin 4) j\n        let q1 := xs (⟨1, by decide⟩ : Fin 4) j\n        let c := xs (⟨2, by decide⟩ : Fin 4) j\n        let sn := xs (⟨3, by decide⟩ : Fin 4) j\n        match o with\n        | ⟨0, _⟩ => q0 * c - q1 * sn\n        | ⟨_ + 1, _⟩ => q0 * sn + q1 * c"
+        },
+        {
+          "file": "bench/tritonbench_g/fused_rotary_embedding/FusedRotaryEmbedding.lean",
+          "declaration": "decoding_fused_rotary_embedding_vcache_chain_correctness",
+          "parser_name": "decoding_fused_rotary_embedding_vcache_chain_correctness",
+          "line": 3037,
+          "sha256": "4ee05e5b78a277baf76ead094dff7390b7ddcf4ee2d077444ffcc5612cb288fc",
+          "statement_sha256": "4f6a4b055d4c5488da8ea9adcb1c38736667bf38477d1d4e6f5f2d9aeadf8252",
+          "statement": "specification decoding_fused_rotary_embedding_vcache_chain_correctness\n    (v v_cache : RegionName) (BLOCK_TABLES context_lengths : Region .nat)\n    (KV_GROUP_NUM k_token_stride k_head_stride head_dim_stride\n      vcb_stride vch_stride vcs_stride vcd_stride bts_stride btb_stride\n      block_size HEAD_DIM : Nat) :\n    decodingVCacheChainIO v v_cache BLOCK_TABLES context_lengths KV_GROUP_NUM\n        k_token_stride k_head_stride head_dim_stride vcb_stride vch_stride vcs_stride\n        vcd_stride bts_stride btb_stride block_size HEAD_DIM\n      ⊨ decodingVCacheChainSpec"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 4,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/relu_current_review",
+      "reviewed_at_utc": "2026-10-15T19:15:27.070976+00:00",
+      "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/current-source-catalog.json",
+        "sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875"
+      },
+      "task": "rotary_transform_ops",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "The retained public summary proves full-surface lowerability plus genuine selected noninterleaved one-row pair formulas. The metadata-row IO successfully loads both CU_SEQLENS slots and covers fixed/varlen bases with frame. FP32 software correctness and nonempty rounding witnesses cover row/fixed/varlen selected stages.",
+      "production_stage_mapping": [
+        {
+          "function": "rotary_kernel",
+          "coverage": "Full syntax exists; public value results concern noninterleaved scalar-offset, nonconjugated one-row stages, not the complete BLOCK_M tile and every branch.",
+          "path": "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py",
+          "line": 9,
+          "end_line": 119,
+          "sha256": "867d995f86d786536d2f43f83685ac163f979f3191b43a77d7e7c63afb5d1468",
+          "stage_id": "stage:bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py:9:rotary_kernel"
+        },
+        {
+          "function": "apply_rotary",
+          "coverage": "Contiguous conversion, fixed/varlen host shape checks, optional in-place alias, tail copy and full grid remain uncomposed.",
+          "path": "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py",
+          "line": 121,
+          "end_line": 201,
+          "sha256": "867d995f86d786536d2f43f83685ac163f979f3191b43a77d7e7c63afb5d1468",
+          "stage_id": "stage:bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py:121:apply_rotary"
+        }
+      ],
+      "dtype_review": "Original enforces equal X/Cos/Sin dtypes but allows int32/int64 tensor offsets. Stage correctness currently uses fp32 software arithmetic with natural CU/offset abstractions rather than explicit full original storage/metadata routes.",
+      "branch_review": "Varlen metadata is already partially proved. Interleaved, conjugation, tensor-offset loading, original early return and remaining rows in each BLOCK_M tile are not closed by the selected row summary; independent body_* parameters do not connect them to the complete source.",
+      "structural_gaps": [
+        {
+          "id": "ROTARY_TRANSFORM_OPS-S1",
+          "kind": "complete_tile_and_branch_values",
+          "finding": "The public summary pairs full-source lowering with one-row body kernels using independent body parameters; these row kernels omit interleaving, conjugation and tensor-offset loads and use rm=pid_m*BLOCK_M without all block rows.",
+          "why_blocks_full_original_scope": "The actual full source must successfully execute all branch-specific rows and derive their output values/frame in the same run.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 309,
+              "end_line": 340,
+              "path": "bench/tritonbench_g/rotary_transform_ops/RotaryTransformOps.lean",
+              "sha256": "a47f7f20079fc8b189bf02c6288b8121accff98927a8dd0a232d8a7b927fb0a1",
+              "excerpt": "def rotary_kernel_o0o1_row\n    (OUT X COS SIN : RegionName)\n    (SEQLEN_OFFSETS seqlen rotary_dim_half seqlen_ro\n      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim\n      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim\n      BLOCK_M BLOCK_HALF : Nat) :\n    ComputeKernel := triton {\n  pid_m = tl.program_id(axis=0)\n  pid_batch = tl.program_id(axis=1)\n  pid_head = tl.program_id(axis=2)\n  rm = pid_m * $(BLOCK_M)\n  rm_cs = rm + $(SEQLEN_OFFSETS)\n  rk_half = tl.arange(0, $(BLOCK_HALF))\n  x_base = X + pid_batch * $(stride_x_batch) + pid_head * $(stride_x_nheads)\n  out_base = OUT + pid_batch * $(stride_out_batch) + pid_head * $(stride_out_nheads)\n  cos = tl.load(COS + rm_cs * $(rotary_dim_half) + rk_half,\n    mask=(rm_cs < $(seqlen_ro)) and (rk_half < $(rotary_dim_half)), other=1.0)\n  sin = tl.load(SIN + rm_cs * $(rotary_dim_half) + rk_half,\n    mask=(rm_cs < $(seqlen_ro)) and (rk_half < $(rotary_dim_half)), other=0.0)\n  x0 = tl.load(x_base + rm * $(stride_x_seqlen) + rk_half * $(stride_x_headdim),\n    mask=(rm < $(seqlen)) and (rk_half < $(rotary_dim_half)), other=0.0)\n  x1 = tl.load(x_base + rm * $(stride_x_seqlen) +\n      (rk_half + $(rotary_dim_half)) * $(stride_x_headdim),\n    mask=(rm < $(seqlen)) and (rk_half < $(rotary_dim_half)), other=0.0)\n  o0 = x0 * cos - x1 * sin\n  o1 = x0 * sin + x1 * cos\n  tl.store(out_base + rm * $(stride_out_seqlen) + rk_half * $(stride_out_headdim),\n    o0, mask=(rm < $(seqlen)) and (rk_half < $(rotary_dim_half)))\n  tl.store(out_base + rm * $(stride_out_seqlen) +\n      (rk_half + $(rotary_dim_half)) * $(stride_out_headdim),\n    o1, mask=(rm < $(seqlen)) and (rk_half < $(rotary_dim_half)))\n}"
+            },
+            {
+              "line": 742,
+              "end_line": 819,
+              "path": "bench/tritonbench_g/rotary_transform_ops/RotaryTransformOps.lean",
+              "sha256": "a47f7f20079fc8b189bf02c6288b8121accff98927a8dd0a232d8a7b927fb0a1",
+              "excerpt": "specification rotary_transform_ops_output_summary_general\n    (OUT X COS SIN : RegionName) (CU_SEQLENS SEQLEN_OFFSETS : Region .nat)\n    (SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro\n      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim\n      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim\n      BLOCK_K BLOCK_M : Nat)\n    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool)\n    (body_SEQLEN_OFFSETS body_seqlen body_rotary_dim_half body_seqlen_ro\n      body_stride_out_batch body_stride_out_seqlen body_stride_out_nheads\n      body_stride_out_headdim body_stride_x_batch body_stride_x_seqlen\n      body_stride_x_nheads body_stride_x_headdim body_BLOCK_M BLOCK_HALF : Nat)\n    (s : BlockState)\n    (hOutInj : Function.Injective\n      (fun i : Fin BLOCK_HALF =>\n        outOffset s body_stride_out_batch body_stride_out_seqlen\n          body_stride_out_nheads body_stride_out_headdim body_BLOCK_M i))\n    (hOut1Inj : Function.Injective\n      (fun i : Fin BLOCK_HALF =>\n        out1Offset s body_stride_out_batch body_stride_out_seqlen\n          body_stride_out_nheads body_stride_out_headdim body_rotary_dim_half\n          body_BLOCK_M i))\n    (hStrideHd : body_stride_out_headdim ≠ 0)\n    (hHalfBound : BLOCK_HALF ≤ body_rotary_dim_half) :\n    (∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS\n      SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch\n      stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch\n      stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M\n      IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE).toAlgorithm? =\n        Except.ok alg) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := rotary_kernel_o0o1_row OUT X COS SIN\n        body_SEQLEN_OFFSETS body_seqlen body_rotary_dim_half body_seqlen_ro\n        body_stride_out_batch body_stride_out_seqlen body_stride_out_nheads\n        body_stride_out_headdim body_stride_x_batch body_stride_x_seqlen\n        body_stride_x_nheads body_stride_x_headdim body_BLOCK_M BLOCK_HALF)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_HALF =>\n          active s body_seqlen body_rotary_dim_half body_BLOCK_M i)\n        (fun i => (OUT,\n          outOffset s body_stride_out_batch body_stride_out_seqlen\n            body_stride_out_nheads body_stride_out_headdim body_BLOCK_M i)))\n      (expected := fun i =>\n        rotaryO0Spec s X COS SIN body_SEQLEN_OFFSETS body_seqlen_ro\n          body_stride_x_batch body_stride_x_seqlen body_stride_x_nheads\n          body_stride_x_headdim body_rotary_dim_half body_BLOCK_M i)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := rotary_kernel_o0o1_row OUT X COS SIN\n        body_SEQLEN_OFFSETS body_seqlen body_rotary_dim_half body_seqlen_ro\n        body_stride_out_batch body_stride_out_seqlen body_stride_out_nheads\n        body_stride_out_headdim body_stride_x_batch body_stride_x_seqlen\n        body_stride_x_nheads body_stride_x_headdim body_BLOCK_M BLOCK_HALF)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_HALF =>\n          active s body_seqlen body_rotary_dim_half body_BLOCK_M i)\n        (fun i => (OUT,\n          out1Offset s body_stride_out_batch body_stride_out_seqlen\n            body_stride_out_nheads body_stride_out_headdim body_rotary_dim_half\n            body_BLOCK_M i)))\n      (expected := fun i =>\n        rotaryO1Spec s X COS SIN body_SEQLEN_OFFSETS body_seqlen_ro\n          body_stride_x_batch body_stride_x_seqlen body_stride_x_nheads\n          body_stride_x_headdim body_rotary_dim_half body_BLOCK_M i)) := by\n  refine ⟨rotary_kernel_surface_toAlgorithm_supported OUT X COS SIN CU_SEQLENS\n      SEQLEN_OFFSETS SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro\n      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim\n      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim\n      BLOCK_K BLOCK_M IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE,\n    ?_, ?_⟩\n  · exact (rotary_kernel_o0o1_row_all_outputs_compute_correct OUT X COS SIN\n      body_SEQLEN_OFFSETS body_seqlen body_rotary_dim_half body_seqlen_ro\n      body_stride_out_batch body_stride_out_seqlen body_stride_out_nheads\n      body_stride_out_headdim body_stride_x_batch body_stride_x_seqlen\n      body_stride_x_nheads body_stride_x_headdim body_BLOCK_M BLOCK_HALF s\n      hOutInj hOut1Inj hStrideHd hHalfBound).1\n  · exact (rotary_kernel_o0o1_row_all_outputs_compute_correct OUT X COS SIN\n      body_SEQLEN_OFFSETS body_seqlen body_rotary_dim_half body_seqlen_ro"
+            },
+            {
+              "line": 840,
+              "end_line": 880,
+              "path": "bench/tritonbench_g/rotary_transform_ops/RotaryTransformOps.lean",
+              "sha256": "a47f7f20079fc8b189bf02c6288b8121accff98927a8dd0a232d8a7b927fb0a1",
+              "excerpt": "def rotary_meta_row\n    (OUT X COS SIN : RegionName) (CU_SEQLENS : Region .nat)\n    (HEAD_IDX SEQLEN_OFFSETS seqlen rotary_dim_half seqlen_ro\n      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim\n      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim\n      BLOCK_M BLOCK_HALF : Nat) (IS_VARLEN : Bool) :\n    ComputeKernel := triton {\n  pid_m = tl.program_id(0)\n  pid_batch = tl.program_id(1)\n  rm = pid_m * $(BLOCK_M)\n  rm_cs = rm + $(SEQLEN_OFFSETS)\n  rk_half = tl.arange(0, $(BLOCK_HALF))\n  x_base = X + pid_batch * $(stride_x_batch) + $(HEAD_IDX) * $(stride_x_nheads)\n  out_base = OUT + pid_batch * $(stride_out_batch) + $(HEAD_IDX) * $(stride_out_nheads)\n  seqlen_v = $(seqlen)\n  if IS_VARLEN {\n    start_idx = tl.load(CU_SEQLENS + pid_batch)\n    seqlen_hi = tl.load(CU_SEQLENS + pid_batch + $(1))\n    x_base = X + start_idx * $(stride_x_seqlen) + $(HEAD_IDX) * $(stride_x_nheads)\n    out_base = OUT + start_idx * $(stride_out_seqlen) + $(HEAD_IDX) * $(stride_out_nheads)\n    seqlen_v = seqlen_hi - start_idx\n  }\n  cos = tl.load(COS + rm_cs * $(rotary_dim_half) + rk_half,\n    mask=(rm_cs < $(seqlen_ro)) and (rk_half < $(rotary_dim_half)), other=1.0)\n  sin = tl.load(SIN + rm_cs * $(rotary_dim_half) + rk_half,\n    mask=(rm_cs < $(seqlen_ro)) and (rk_half < $(rotary_dim_half)), other=0.0)\n  x0 = tl.load(x_base + rm * $(stride_x_seqlen) + rk_half * $(stride_x_headdim),\n    mask=(rm < seqlen_v) and (rk_half < $(rotary_dim_half)), other=0.0)\n  x1 = tl.load(x_base + rm * $(stride_x_seqlen) +\n      (rk_half + $(rotary_dim_half)) * $(stride_x_headdim),\n    mask=(rm < seqlen_v) and (rk_half < $(rotary_dim_half)), other=0.0)\n  o0 = x0 * cos - x1 * sin\n  o1 = x0 * sin + x1 * cos\n  tl.store(out_base + rm * $(stride_out_seqlen) + rk_half * $(stride_out_headdim),\n    o0, mask=(rm < seqlen_v) and (rk_half < $(rotary_dim_half)))\n  tl.store(out_base + rm * $(stride_out_seqlen) +\n      (rk_half + $(rotary_dim_half)) * $(stride_out_headdim),\n    o1, mask=(rm < seqlen_v) and (rk_half < $(rotary_dim_half)))\n}\n\n/-- Base offset (region-relative) for X, casing on IS_VARLEN. -/"
+            },
+            {
+              "line": 42,
+              "end_line": 119,
+              "path": "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py",
+              "sha256": "867d995f86d786536d2f43f83685ac163f979f3191b43a77d7e7c63afb5d1468",
+              "excerpt": "    if not IS_VARLEN:\n        X = X + pid_batch * stride_x_batch + pid_head * stride_x_nheads\n        OUT = OUT + pid_batch * stride_out_batch + pid_head * stride_out_nheads\n    else:\n        start_idx = tl.load(CU_SEQLENS + pid_batch)\n        seqlen = tl.load(CU_SEQLENS + pid_batch + 1) - start_idx\n        X = X + start_idx * stride_x_seqlen + pid_head * stride_x_nheads\n        OUT = OUT + start_idx * stride_out_seqlen + pid_head * stride_out_nheads\n\n    if pid_m * BLOCK_M >= seqlen:\n        return\n    rm = pid_m * BLOCK_M + tl.arange(0, BLOCK_M)\n    if not IS_SEQLEN_OFFSETS_TENSOR:\n        rm_cs = rm + SEQLEN_OFFSETS\n    else:\n        rm_cs = rm + tl.load(SEQLEN_OFFSETS + pid_batch)\n    rk = tl.arange(0, BLOCK_K)\n    rk_half = tl.arange(0, BLOCK_K // 2)\n\n    if not INTERLEAVED:\n        X = X + (rm[:, None] * stride_x_seqlen + rk_half[None, :] * stride_x_headdim)\n        COS = COS + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :])\n        SIN = SIN + (rm_cs[:, None] * rotary_dim_half + rk_half[None, :])\n        cos = tl.load(\n            COS, mask=(rm_cs[:, None] < seqlen_ro) & (rk_half[None, :] < rotary_dim_half), other=1.0\n        ).to(tl.float32)\n        sin = tl.load(\n            SIN, mask=(rm_cs[:, None] < seqlen_ro) & (rk_half[None, :] < rotary_dim_half), other=0.0\n        ).to(tl.float32)\n        x0 = tl.load(\n            X, mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half), other=0.0\n        ).to(tl.float32)\n        x1 = tl.load(\n            X + rotary_dim_half * stride_x_headdim,\n            mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),\n            other=0.0,\n        ).to(tl.float32)\n        if CONJUGATE:\n            sin = -sin\n        o0 = x0 * cos - x1 * sin\n        o1 = x0 * sin + x1 * cos\n        OUT = OUT + (rm[:, None] * stride_out_seqlen + rk_half[None, :] * stride_out_headdim)\n        tl.store(OUT, o0, mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half))\n        tl.store(\n            OUT + rotary_dim_half * stride_out_headdim,\n            o1,\n            mask=(rm[:, None] < seqlen) & (rk_half[None, :] < rotary_dim_half),\n        )\n    else:\n        rk_swap = rk + ((rk + 1) % 2) * 2 - 1  # 1, 0, 3, 2, 5, 4, ...\n        rk_repeat = tl.arange(0, BLOCK_K) // 2\n        X0 = X + (rm[:, None] * stride_x_seqlen + rk[None, :] * stride_x_headdim)\n        X1 = X + (rm[:, None] * stride_x_seqlen + rk_swap[None, :] * stride_x_headdim)\n        COS = COS + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :])\n        SIN = SIN + (rm_cs[:, None] * rotary_dim_half + rk_repeat[None, :])\n        cos = tl.load(\n            COS,\n            mask=(rm_cs[:, None] < seqlen_ro) & (rk_repeat[None, :] < rotary_dim_half),\n            other=1.0,\n        ).to(tl.float32)\n        sin = tl.load(\n            SIN,\n            mask=(rm_cs[:, None] < seqlen_ro) & (rk_repeat[None, :] < rotary_dim_half),\n            other=0.0,\n        ).to(tl.float32)\n        x0 = tl.load(X0, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim), other=0.0).to(\n            tl.float32\n        )\n        x1 = tl.load(\n            X1, mask=(rm[:, None] < seqlen) & (rk_swap[None, :] < rotary_dim), other=0.0\n        ).to(tl.float32)\n        if CONJUGATE:\n            sin = -sin\n        x0_cos = x0 * cos\n        x1_sin = x1 * sin\n        out = tl.where(rk[None, :] % 2 == 0, x0_cos - x1_sin, x0_cos + x1_sin)\n        OUT = OUT + (rm[:, None] * stride_out_seqlen + rk[None, :] * stride_out_headdim)\n        tl.store(OUT, out, mask=(rm[:, None] < seqlen) & (rk[None, :] < rotary_dim))"
+            }
+          ]
+        },
+        {
+          "id": "ROTARY_TRANSFORM_OPS-S2",
+          "kind": "storage_and_signed_offset_routes",
+          "finding": "The typed public stages are fp32 and reused selected row sources; original tensor offsets explicitly admit int32 or int64 and are loaded inside the full kernel.",
+          "why_blocks_full_original_scope": "A typed complete source and successful contract must retain storage casts and signed metadata addressing rather than supplying a scalar natural offset.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 15,
+              "end_line": 26,
+              "path": "bench/tritonbench_g/rotary_transform_ops/Proofs/FPStages.lean",
+              "sha256": "6add26dfb00f518dc6f0d2d6ce31f731dca67d9ccf0c072653d7239241e82a90",
+              "excerpt": "def source (k : Kind) (p : Parameters) : ComputeKernel := RotaryTransform.FPRow.source k p\n\ndef legacySource (k : Kind) (p : Parameters) : ComputeKernel :=\n  match k with\n  | .row => rotary_kernel_o0o1_row p.output p.input p.cosine p.sine\n      p.sequenceOffset p.sequenceLength p.halfDimension p.cosineLength\n      p.strideOutBatch p.strideOutSequence p.strideOutHead p.strideOutDimension\n      p.strideInBatch p.strideInSequence p.strideInHead p.strideInDimension p.blockRows p.width\n  | .fixed | .varlen => rotary_meta_row p.output p.input p.cosine p.sine p.cuLengths\n      p.headIndex p.sequenceOffset p.sequenceLength p.halfDimension p.cosineLength\n      p.strideOutBatch p.strideOutSequence p.strideOutHead p.strideOutDimension\n      p.strideInBatch p.strideInSequence p.strideInHead p.strideInDimension p.blockRows p.width (k == .varlen)"
+            },
+            {
+              "line": 7,
+              "end_line": 12,
+              "path": "bench/tritonbench_g/rotary_transform_ops/FPCorrect.lean",
+              "sha256": "f6b238f5e3318d40498ddc2f82b628c1c639d7f890bc07c18304f3eea98811cf",
+              "excerpt": "specification rotary_transform_ops_fp32_correctness [Inhabited (FP.Value .fp32)]\n    (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config) (k : FPStages.Kind)\n    (p : FPStages.Parameters) (s : State (FP.Value .fp32)) (hstride : p.strideOutDimension ≠ 0) :\n    ∃ final, FP.Structural.exec (FP.Software.scalarFP32 rest cfg) (FPStages.source k p) s = some final ∧\n      RotaryTransform.FPRow.Post k p s final (RotaryTransform.FPRow.roundedValue cfg k p s) :=\n  FPStages.software_correctness rest cfg k p s hstride"
+            },
+            {
+              "line": 148,
+              "end_line": 161,
+              "path": "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py",
+              "sha256": "867d995f86d786536d2f43f83685ac163f979f3191b43a77d7e7c63afb5d1468",
+              "excerpt": "    assert (\n        cos.dtype == sin.dtype\n    ), f\"cos and sin must have the same dtype, got {cos.dtype} and {sin.dtype}\"\n    assert (\n        x.dtype == cos.dtype\n    ), f\"Input and cos/sin must have the same dtype, got {x.dtype} and {cos.dtype}\"\n\n    cos, sin = cos.contiguous(), sin.contiguous()\n    if isinstance(seqlen_offsets, torch.Tensor):\n        assert seqlen_offsets.shape == (batch,)\n        assert seqlen_offsets.dtype in [torch.int32, torch.int64]\n        seqlen_offsets = seqlen_offsets.contiguous()\n    else:\n        assert seqlen_offsets + seqlen <= seqlen_ro"
+            }
+          ]
+        },
+        {
+          "id": "ROTARY_TRANSFORM_OPS-S3",
+          "kind": "allocation_alias_tail_and_grid",
+          "finding": "apply_rotary chooses empty_like versus in-place X, copies the unrotated output tail, makes trig/offset arrays contiguous and launches all sequence/batch/head blocks.",
+          "why_blocks_full_original_scope": "The complete returned tensor, including copied tail and in-place alias branch, is not implied by isolated row contracts.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 155,
+              "end_line": 176,
+              "path": "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py",
+              "sha256": "867d995f86d786536d2f43f83685ac163f979f3191b43a77d7e7c63afb5d1468",
+              "excerpt": "    cos, sin = cos.contiguous(), sin.contiguous()\n    if isinstance(seqlen_offsets, torch.Tensor):\n        assert seqlen_offsets.shape == (batch,)\n        assert seqlen_offsets.dtype in [torch.int32, torch.int64]\n        seqlen_offsets = seqlen_offsets.contiguous()\n    else:\n        assert seqlen_offsets + seqlen <= seqlen_ro\n\n    output = torch.empty_like(x) if not inplace else x\n    if rotary_dim < headdim and not inplace:\n        output[..., rotary_dim:].copy_(x[..., rotary_dim:])\n\n    BLOCK_K = (\n        32\n        if rotary_dim <= 32\n        else (64 if rotary_dim <= 64 else (128 if rotary_dim <= 128 else 256))\n    )\n    grid = lambda META: (triton.cdiv(seqlen, META[\"BLOCK_M\"]), batch, nheads)\n    BLOCK_M = 4 if interleaved else (8 if rotary_dim <= 128 else 4)\n\n    with torch.cuda.device(x.device.index):\n        rotary_kernel[grid]("
+            },
+            {
+              "line": 186,
+              "end_line": 201,
+              "path": "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py",
+              "sha256": "867d995f86d786536d2f43f83685ac163f979f3191b43a77d7e7c63afb5d1468",
+              "excerpt": "            output.stride(0) if not is_varlen else 0,  # batch_strides if not varlen else 0\n            output.stride(-3),  # seqlen_stride or total_seqlen_stride\n            output.stride(-2),  # nheads_stride\n            output.stride(-1),  # headdim_stride\n            x.stride(0) if not is_varlen else 0,  # batch_strides if not varlen else 0\n            x.stride(-3),  # seqlen stride or total_seqlen_stride\n            x.stride(-2),  # nheads stride\n            x.stride(-1),  # headdim stride\n            BLOCK_K,\n            isinstance(seqlen_offsets, torch.Tensor),\n            is_varlen,\n            interleaved,\n            conjugate,\n            BLOCK_M,\n        )\n    return output"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Existing FP32 row/fixed/varlen rounded values stay credited. Cast and arithmetic laws can be deferred only for explicitly materialized full branch profiles."
+      ],
+      "precondition_assessment": "Existing valid-address, injectivity, disjointness and positive-size premises remain legitimate. Findings concern concrete source branches or missing composition, not hypothetical hardware faults or arbitrary invalid inputs.",
+      "source_sha256": {
+        "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py": "867d995f86d786536d2f43f83685ac163f979f3191b43a77d7e7c63afb5d1468",
+        "bench/tritonbench_g/rotary_transform_ops/FPCorrect.lean": "f6b238f5e3318d40498ddc2f82b628c1c639d7f890bc07c18304f3eea98811cf",
+        "bench/tritonbench_g/rotary_transform_ops/RotaryTransformOps.lean": "a47f7f20079fc8b189bf02c6288b8121accff98927a8dd0a232d8a7b927fb0a1",
+        "bench/tritonbench_g/rotary_transform_ops/Proofs/FPStages.lean": "6add26dfb00f518dc6f0d2d6ce31f731dca67d9ccf0c072653d7239241e82a90"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/rotary_transform_ops/FPCorrect.lean": "f6b238f5e3318d40498ddc2f82b628c1c639d7f890bc07c18304f3eea98811cf",
+          "bench/tritonbench_g/rotary_transform_ops/Proofs/FPStages.lean": "6add26dfb00f518dc6f0d2d6ce31f731dca67d9ccf0c072653d7239241e82a90",
+          "bench/tritonbench_g/rotary_transform_ops/RotaryTransformOps.lean": "a47f7f20079fc8b189bf02c6288b8121accff98927a8dd0a232d8a7b927fb0a1"
+        },
+        "python": {
+          "bench/tritonbench_g/rotary_transform_ops/rotary_transform_ops.py": "867d995f86d786536d2f43f83685ac163f979f3191b43a77d7e7c63afb5d1468"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/rotary_transform_ops/FPCorrect.lean",
+          "declaration": "rotary_transform_ops_fp32_correctness",
+          "parser_name": "rotary_transform_ops_fp32_correctness",
+          "line": 7,
+          "sha256": "f6b238f5e3318d40498ddc2f82b628c1c639d7f890bc07c18304f3eea98811cf",
+          "statement_sha256": "ad2e0535a651771173a69ee6ad492b2ea40f19aaff34f69322e2706aa44e5fb4",
+          "statement": "specification rotary_transform_ops_fp32_correctness [Inhabited (FP.Value .fp32)]\n    (rest : Algebra (FP.Value .fp32)) (cfg : FP.Config) (k : FPStages.Kind)\n    (p : FPStages.Parameters) (s : State (FP.Value .fp32)) (hstride : p.strideOutDimension ≠ 0) :\n    ∃ final, FP.Structural.exec (FP.Software.scalarFP32 rest cfg) (FPStages.source k p) s = some final ∧\n      RotaryTransform.FPRow.Post k p s final (RotaryTransform.FPRow.roundedValue cfg k p s)"
+        },
+        {
+          "file": "bench/tritonbench_g/rotary_transform_ops/RotaryTransformOps.lean",
+          "declaration": "rotary_transform_ops_output_summary_general",
+          "parser_name": "rotary_transform_ops_output_summary_general",
+          "line": 742,
+          "sha256": "a47f7f20079fc8b189bf02c6288b8121accff98927a8dd0a232d8a7b927fb0a1",
+          "statement_sha256": "d9afc5993d0abe8fb4ee4446428bf7698447968e412eadca902023400d2a562a",
+          "statement": "specification rotary_transform_ops_output_summary_general\n    (OUT X COS SIN : RegionName) (CU_SEQLENS SEQLEN_OFFSETS : Region .nat)\n    (SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro\n      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim\n      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim\n      BLOCK_K BLOCK_M : Nat)\n    (IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE : Bool)\n    (body_SEQLEN_OFFSETS body_seqlen body_rotary_dim_half body_seqlen_ro\n      body_stride_out_batch body_stride_out_seqlen body_stride_out_nheads\n      body_stride_out_headdim body_stride_x_batch body_stride_x_seqlen\n      body_stride_x_nheads body_stride_x_headdim body_BLOCK_M BLOCK_HALF : Nat)\n    (s : BlockState)\n    (hOutInj : Function.Injective\n      (fun i : Fin BLOCK_HALF =>\n        outOffset s body_stride_out_batch body_stride_out_seqlen\n          body_stride_out_nheads body_stride_out_headdim body_BLOCK_M i))\n    (hOut1Inj : Function.Injective\n      (fun i : Fin BLOCK_HALF =>\n        out1Offset s body_stride_out_batch body_stride_out_seqlen\n          body_stride_out_nheads body_stride_out_headdim body_rotary_dim_half\n          body_BLOCK_M i))\n    (hStrideHd : body_stride_out_headdim ≠ 0)\n    (hHalfBound : BLOCK_HALF ≤ body_rotary_dim_half) :\n    (∃ alg, (rotary_kernel_surface OUT X COS SIN CU_SEQLENS SEQLEN_OFFSETS\n      SEQLEN_OFFSETS_SCALAR seqlen rotary_dim seqlen_ro stride_out_batch\n      stride_out_seqlen stride_out_nheads stride_out_headdim stride_x_batch\n      stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_K BLOCK_M\n      IS_SEQLEN_OFFSETS_TENSOR IS_VARLEN INTERLEAVED CONJUGATE).toAlgorithm? =\n        Except.ok alg) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := rotary_kernel_o0o1_row OUT X COS SIN\n        body_SEQLEN_OFFSETS body_seqlen body_rotary_dim_half body_seqlen_ro\n        body_stride_out_batch body_stride_out_seqlen body_stride_out_nheads\n        body_stride_out_headdim body_stride_x_batch body_stride_x_seqlen\n        body_stride_x_nheads body_stride_x_headdim body_BLOCK_M BLOCK_HALF)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_HALF =>\n          active s body_seqlen body_rotary_dim_half body_BLOCK_M i)\n        (fun i => (OUT,\n          outOffset s body_stride_out_batch body_stride_out_seqlen\n            body_stride_out_nheads body_stride_out_headdim body_BLOCK_M i)))\n      (expected := fun i =>\n        rotaryO0Spec s X COS SIN body_SEQLEN_OFFSETS body_seqlen_ro\n          body_stride_x_batch body_stride_x_seqlen body_stride_x_nheads\n          body_stride_x_headdim body_rotary_dim_half body_BLOCK_M i)) ∧\n    (ComputeCorrect.Realizes_without_Rounding\n      (kernel := rotary_kernel_o0o1_row OUT X COS SIN\n        body_SEQLEN_OFFSETS body_seqlen body_rotary_dim_half body_seqlen_ro\n        body_stride_out_batch body_stride_out_seqlen body_stride_out_nheads\n        body_stride_out_headdim body_stride_x_batch body_stride_x_seqlen\n        body_stride_x_nheads body_stride_x_headdim body_BLOCK_M BLOCK_HALF)\n      (initialState := s)\n      (write := ComputeCorrect.WriteMap.writeIf\n        (fun i : Fin BLOCK_HALF =>\n          active s body_seqlen body_rotary_dim_half body_BLOCK_M i)\n        (fun i => (OUT,\n          out1Offset s body_stride_out_batch body_stride_out_seqlen\n            body_stride_out_nheads body_stride_out_headdim body_rotary_dim_half\n            body_BLOCK_M i)))\n      (expected := fun i =>\n        rotaryO1Spec s X COS SIN body_SEQLEN_OFFSETS body_seqlen_ro\n          body_stride_x_batch body_stride_x_seqlen body_stride_x_nheads\n          body_stride_x_headdim body_rotary_dim_half body_BLOCK_M i))"
+        },
+        {
+          "file": "bench/tritonbench_g/rotary_transform_ops/RotaryTransformOps.lean",
+          "declaration": "rotary_transform_ops_meta_implements",
+          "parser_name": "rotary_transform_ops_meta_implements",
+          "line": 1588,
+          "sha256": "a47f7f20079fc8b189bf02c6288b8121accff98927a8dd0a232d8a7b927fb0a1",
+          "statement_sha256": "772f9e46ad230b4952250f813567e2d5f578b7ae2f225723a8e5f49fd698aac8",
+          "statement": "specification rotary_transform_ops_meta_implements\n    (OUT X COS SIN : RegionName) (CU_SEQLENS : Region .nat)\n    (HEAD_IDX SEQLEN_OFFSETS seqlen rotary_dim_half seqlen_ro\n      stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim\n      stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim\n      BLOCK_M BLOCK_HALF : Nat) (IS_VARLEN : Bool)\n    (hStrideHd : stride_out_headdim ≠ 0)\n    (hHalfBound : BLOCK_HALF ≤ rotary_dim_half) :\n    rotaryMetaIO OUT X COS SIN CU_SEQLENS HEAD_IDX SEQLEN_OFFSETS seqlen rotary_dim_half\n        seqlen_ro stride_out_batch stride_out_seqlen stride_out_nheads stride_out_headdim\n        stride_x_batch stride_x_seqlen stride_x_nheads stride_x_headdim BLOCK_M BLOCK_HALF\n        IS_VARLEN\n      ⊨ fun pid₀ _pid₁ _s1 _s2 xs o j =>\n          rotaryMetaF SEQLEN_OFFSETS seqlen_ro rotary_dim_half BLOCK_M pid₀ xs o j"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    }
+  ]
+}

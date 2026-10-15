@@ -1,0 +1,834 @@
+{
+  "schema": 1,
+  "kind": "original_scope_batch_review",
+  "batch": 4,
+  "part": "group03",
+  "reviewer": "/root/relu_current_review",
+  "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+  "catalog_sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875",
+  "source_ledger_snapshot_sha256": "a59d0cc02251d96b6b8d47d1cf35e7f2990abd858c2cb210640be1dfd4ae1379",
+  "task_count": 4,
+  "structural_gaps_confirmed": 4,
+  "whole_original_program_accepted": 0,
+  "completion_increment": 0,
+  "public_declarations_checked": 12,
+  "structural_gap_count": 8,
+  "catalog_declaration_metadata_discrepancies": [],
+  "integration_note": "Read-only concrete original-scope findings. Existing proofs remain credited. No new execution, numerical registration, repository mutation or acceptance. Root reviews integration.",
+  "tasks": [
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/relu_current_review",
+      "reviewed_at_utc": "2026-10-15T19:13:57.856957+00:00",
+      "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/current-source-catalog.json",
+        "sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875"
+      },
+      "task": "attention_score",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "The complete score source has a successful flat IO contract, independent Q/K/M inputs, exact base-2 column sums, access safety and frame. Window/complement, checked/unchecked loads, grouped heads, signed windows, empty loops and partial queries are covered. The unusual evenN-controlled query-tail selection is preserved.",
+      "production_stage_mapping": [
+        {
+          "function": "_score_kernel",
+          "coverage": "Complete source covered at fp16 Q/K/Out and fp32 M, with equal query/key block size matching the host globals.",
+          "path": "bench/tritonbench_g/attention_score/attention_score.py",
+          "line": 17,
+          "end_line": 118,
+          "sha256": "08c87e7a44ce401d01eeadcf2e81b3500bc30e5d31565041026cc33caf08920b",
+          "stage_id": "stage:bench/tritonbench_g/attention_score/attention_score.py:17:_score_kernel"
+        },
+        {
+          "function": "get_score",
+          "coverage": "Zero allocation, heuristic even flags, global block-size mutation on retry and full-grid return are uncomposed.",
+          "path": "bench/tritonbench_g/attention_score/attention_score.py",
+          "line": 120,
+          "end_line": 179,
+          "sha256": "08c87e7a44ce401d01eeadcf2e81b3500bc30e5d31565041026cc33caf08920b",
+          "stage_id": "stage:bench/tritonbench_g/attention_score/attention_score.py:120:get_score"
+        }
+      ],
+      "dtype_review": "Q/K/Out are fixed fp16 and M fp32, whereas the wrapper allocates Out with k.dtype and independently accepts Q/K/M without dtype guards.",
+      "branch_review": "IS_EVEN_M/N are supplied by decorators, not missing arguments. Both initial globals are64 and both halve on the one OutOfResources retry, preserving common block size; the actual mutation and retry remain host behavior.",
+      "structural_gaps": [
+        {
+          "id": "ATTENTION_SCORE-S1",
+          "kind": "input_output_storage_profiles",
+          "finding": "Typed original fixes Q/K/Out to fp16 and M to fp32; get_score returns storage chosen from k.dtype without matching input dtype checks.",
+          "why_blocks_full_original_scope": "Additional admitted input/normalizer/output storage routes or their exact rejection need structural source coverage.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 26,
+              "end_line": 37,
+              "path": "bench/tritonbench_g/attention_score/Kernels.lean",
+              "sha256": "ef76d48b792866a40fa87d0d5133eb6f1834d602602a92369abb819f6b3394ed",
+              "excerpt": "def original\n    (Q K M Out : RegionName)\n    (stride_qz stride_qh stride_qm stride_qk\n      stride_kz stride_kh stride_kn stride_kk\n      stride_oz stride_oh _stride_on\n      _Z H H_KV N_CTX ROUND_CTX NKV_CTX\n      BLOCK_M BLOCK_DMODEL BLOCK_N : Nat)\n    (sliding_window_offset sliding_window_size : Int) (sm_scale : ℝ)\n    (SLIDING_WINDOW COMPLEMENT_SLIDING_WINDOW IS_EVEN_M IS_EVEN_N : Bool)\n    (_hBlockMN : BLOCK_M = BLOCK_N) :\n    ComputeKernel := .mk [Q, K, M] [Out] (triton {\n  tl.region Q = tl.float16, K = tl.float16, M = tl.float32, Out = tl.float16"
+            },
+            {
+              "line": 120,
+              "end_line": 127,
+              "path": "bench/tritonbench_g/attention_score/attention_score.py",
+              "sha256": "08c87e7a44ce401d01eeadcf2e81b3500bc30e5d31565041026cc33caf08920b",
+              "excerpt": "def get_score(q, k, m, sliding_window, complement_sliding_window):\n    N_CTX = q.size(-2)\n    NKV_CTX = k.size(-2)\n    ROUND_CTX = m.size(-1)\n    ret = torch.zeros(\n        (q.size(0), q.size(1), k.size(2)),\n        dtype=k.dtype, device=k.device\n    )"
+            }
+          ]
+        },
+        {
+          "id": "ATTENTION_SCORE-S2",
+          "kind": "stateful_retry_and_full_grid",
+          "finding": "The host allocates zeros, derives even flags, launches all key/head/batch programs, and on OutOfResources halves both global block sizes then retries once.",
+          "why_blocks_full_original_scope": "The per-program contract does not connect either launch path, the changed global state, output initialization and returned tensor.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 7,
+              "end_line": 15,
+              "path": "bench/tritonbench_g/attention_score/attention_score.py",
+              "sha256": "08c87e7a44ce401d01eeadcf2e81b3500bc30e5d31565041026cc33caf08920b",
+              "excerpt": "_BLOCK_N = 64\n_BLOCK_M = 64\n\n@triton.heuristics(\n    {\n        \"IS_EVEN_M\": lambda args: args[\"N_CTX\"] % args[\"BLOCK_M\"] == 0,\n        \"IS_EVEN_N\": lambda args: args[\"NKV_CTX\"] % args[\"BLOCK_N\"] == 0,\n    }\n)"
+            },
+            {
+              "line": 133,
+              "end_line": 179,
+              "path": "bench/tritonbench_g/attention_score/attention_score.py",
+              "sha256": "08c87e7a44ce401d01eeadcf2e81b3500bc30e5d31565041026cc33caf08920b",
+              "excerpt": "    grid = lambda META: (\n        triton.cdiv(k.shape[2], META[\"BLOCK_N\"]),\n        q.shape[0] * q.shape[1]\n    )\n    sm_scale = 1 / math.sqrt(q.size(-1))\n\n    global _BLOCK_N\n    global _BLOCK_M\n\n    try:\n        _score_kernel[grid](\n            q, k, m, sm_scale, ret,\n            q.stride(0), q.stride(1), q.stride(2), q.stride(3),\n            k.stride(0), k.stride(1), k.stride(2), k.stride(3),\n            ret.stride(0), ret.stride(1), ret.stride(2),\n            q.size(0), q.size(1), k.size(1),\n            N_CTX, ROUND_CTX, NKV_CTX,\n            sliding_window_offset,\n            sliding_window_size,\n            SLIDING_WINDOW=(sliding_window is not None),\n            COMPLEMENT_SLIDING_WINDOW=complement_sliding_window,\n            BLOCK_M=_BLOCK_M,\n            BLOCK_N=_BLOCK_N,\n            BLOCK_DMODEL=q.size(-1)\n        )\n    except triton.OutOfResources as E:\n        from warnings import warn\n        _BLOCK_N = _BLOCK_N // 2\n        _BLOCK_M = _BLOCK_M // 2\n        warn(f\"Triton Attention Output Resources. {E}\\nUse smaller block size {_BLOCK_N}.\")\n        _score_kernel[grid](\n            q, k, m, sm_scale, ret,\n            q.stride(0), q.stride(1), q.stride(2), q.stride(3),\n            k.stride(0), k.stride(1), k.stride(2), k.stride(3),\n            ret.stride(0), ret.stride(1), ret.stride(2),\n            q.size(0), q.size(1), k.size(1),\n            N_CTX, ROUND_CTX, NKV_CTX,\n            sliding_window_offset,\n            sliding_window_size,\n            SLIDING_WINDOW=(sliding_window is not None),\n            COMPLEMENT_SLIDING_WINDOW=complement_sliding_window,\n            BLOCK_M=_BLOCK_M,\n            BLOCK_N=_BLOCK_N,\n            BLOCK_DMODEL=q.size(-1)\n        )\n\n    return ret"
+            },
+            {
+              "line": 35,
+              "end_line": 39,
+              "path": "bench/tritonbench_g/attention_score/Correct.lean",
+              "sha256": "4a668098f9518487f03456ede032b953b3e6050ff07b0826d21ecb1c6696503c",
+              "excerpt": "  kernel := (TypedSource.original p.Q p.K p.M p.Out\n    p.queryBatch p.queryHead p.queryRow p.queryDim p.keyBatch p.keyHead p.keyRow p.keyDim\n    p.outputBatch p.outputHead p.outputInner p.batches p.heads p.kvHeads p.queryContext p.roundedContext\n    p.keyContext B D B p.offset p.size p.scale p.window p.complement p.evenM p.evenN rfl).eraseDType\n  projection := RealSource.projection B D p Bool.false"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Exact represented dot/scale/exp2/reduction/cast profiles may be numerical followups. M is an explicit independent input, so no missing producer should be invented."
+      ],
+      "precondition_assessment": "Existing valid-address, injectivity, disjointness and positive-size premises remain legitimate. Findings concern concrete source branches or missing composition, not hypothetical hardware faults or arbitrary invalid inputs.",
+      "source_sha256": {
+        "bench/tritonbench_g/attention_score/attention_score.py": "08c87e7a44ce401d01eeadcf2e81b3500bc30e5d31565041026cc33caf08920b",
+        "bench/tritonbench_g/attention_score/Correct.lean": "4a668098f9518487f03456ede032b953b3e6050ff07b0826d21ecb1c6696503c",
+        "bench/tritonbench_g/attention_score/FPEquiv.lean": "93f1f595f9bb1289188866dc96e31ed3c948f5a61cc05c2435ea784ffd511927",
+        "bench/tritonbench_g/attention_score/Kernels.lean": "ef76d48b792866a40fa87d0d5133eb6f1834d602602a92369abb819f6b3394ed"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/attention_score/Correct.lean": "4a668098f9518487f03456ede032b953b3e6050ff07b0826d21ecb1c6696503c",
+          "bench/tritonbench_g/attention_score/FPEquiv.lean": "93f1f595f9bb1289188866dc96e31ed3c948f5a61cc05c2435ea784ffd511927",
+          "bench/tritonbench_g/attention_score/Kernels.lean": "ef76d48b792866a40fa87d0d5133eb6f1834d602602a92369abb819f6b3394ed",
+          "bench/tritonbench_g/attention_score/Proofs/FP.lean": "4fd05958a4cada06de8353e828be66555c4b5fd77d8b6562a3bca20969c855eb",
+          "bench/tritonbench_g/attention_score/Proofs/LegacyNaturalWindow.lean": "5cc6ed06b4371d210f541e1096683067ccd2280a6deb1dcca67f866c695c13de",
+          "bench/tritonbench_g/attention_score/Proofs/RealArithmetic.lean": "81361a50f55ab7bd5a07644c06abf19fb77b4c9292ca56e99d896bb833d3906a",
+          "bench/tritonbench_g/attention_score/Proofs/RealArithmeticOutput.lean": "0ee5ebd1801d3205d9f16e2981e798aa164d8afd45393d665ef63b03bd3a30a1",
+          "bench/tritonbench_g/attention_score/Proofs/RealBody.lean": "ef8a2fecfb90e56d8c22bf762520149b3beb279637e2e4c0cb673188d703bc2f",
+          "bench/tritonbench_g/attention_score/Proofs/RealContract.lean": "66ba178b31c87db5579c3441a55a5f56ad94ed154be27e3e4f2a1c1682d4f73a",
+          "bench/tritonbench_g/attention_score/Proofs/RealExecution.lean": "1351bd1b868b4f19e4fc6ecc20f962987cde0fe53cecfacf6244facb51736dd4",
+          "bench/tritonbench_g/attention_score/Proofs/RealExpressions.lean": "69b6b136839b41afa616edb25d80670c4e6288f76c3858dcb9e80cf6933126f9",
+          "bench/tritonbench_g/attention_score/Proofs/RealFormula.lean": "cff3599f0ac85cfa277493b19a80c73d04ecea696e2b6b0adc3c2b3dded7ca63",
+          "bench/tritonbench_g/attention_score/Proofs/RealFrame.lean": "2e57800e6b5b828e1db1e774beddef09aa17e76ea1b2e17bee8567eef4a40f82",
+          "bench/tritonbench_g/attention_score/Proofs/RealIO.lean": "6967df9799166e14aa5145791a6ecc9a8ff96b735271ab324cc076d15afdd768",
+          "bench/tritonbench_g/attention_score/Proofs/RealIOBridge.lean": "9680702362c4e01cceca86c3dd5040974d42f1d16ea058afcff24013f48fd60a",
+          "bench/tritonbench_g/attention_score/Proofs/RealInputs.lean": "74051d626b2b9ec2d2416979c450534ed40f77fde94010f55eb29b405ddc5ce0",
+          "bench/tritonbench_g/attention_score/Proofs/RealIteration.lean": "55860420796ed00f662fc7ed3425ddcc3fe96c6f51fd8b4953965473b2aba395",
+          "bench/tritonbench_g/attention_score/Proofs/RealLoads.lean": "a6e51bc942007d90f923c7d1cfb871f141f5d7641db09881dfc5e1a083527b28",
+          "bench/tritonbench_g/attention_score/Proofs/RealLoop.lean": "6d73fbdf067e1458e6e9734a813e30f9ea249d08aa75ba3af2388e620604bf21",
+          "bench/tritonbench_g/attention_score/Proofs/RealOutput.lean": "12496becded2f44c1b2bb728807ffa6bd86cacdef28ecd22e129bf119fa1ccaa",
+          "bench/tritonbench_g/attention_score/Proofs/RealPrelude.lean": "751bc55664b6a71b5fab8c270c8ae611672e47b369ea0e0b4752ababb8f7745b",
+          "bench/tritonbench_g/attention_score/Proofs/RealProgram.lean": "c249c59c6f0550b4b555289ff489d6f52dfec919c61bd9d94874abb33f307914",
+          "bench/tritonbench_g/attention_score/Proofs/RealSafety.lean": "e7aa056eab93bbcf927fa9e3ec4b25aa560cb863cc8d78f7534e1ebccda49062",
+          "bench/tritonbench_g/attention_score/Proofs/RealSafetyLoop.lean": "a3f61a82e9b5e6f75293a19c350c66b7e6c0463f1bf57f1874277cc750a093a6",
+          "bench/tritonbench_g/attention_score/Proofs/RealSafetyOutput.lean": "2540e6c437f6b88ca4ab0242865816e2e8cbe292052c0b2c35bdde3237ef9779",
+          "bench/tritonbench_g/attention_score/Proofs/RealSafetyParts.lean": "7d8e0245c3589eccb3a7ff21b034589c8285a86745967d578553ca9e9fc66474",
+          "bench/tritonbench_g/attention_score/Proofs/RealSafetyPrelude.lean": "1c96db083dbaddeb5c7673dcc0d712bcb219086df7b238fd82136ab2757a9675",
+          "bench/tritonbench_g/attention_score/Proofs/RealSource.lean": "92254a01ea35a13b3be4c3143aa5befe5ac095add14e780e6fd4cfbc0d552eed",
+          "bench/tritonbench_g/attention_score/Proofs/RealTiles.lean": "25efb958c145f372c01a27cc0283be9b3d62ccd58c7386b9dff9d64b9da46b3f",
+          "bench/tritonbench_g/attention_score/Proofs/TypedExecution.lean": "596461344d01640a7be432e1c933f8a001ca03e54e98f412c42e059eb8d86503"
+        },
+        "python": {
+          "bench/tritonbench_g/attention_score/attention_score.py": "08c87e7a44ce401d01eeadcf2e81b3500bc30e5d31565041026cc33caf08920b"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/attention_score/Correct.lean",
+          "declaration": "score_correctness",
+          "parser_name": "score_correctness",
+          "line": 97,
+          "sha256": "4a668098f9518487f03456ede032b953b3e6050ff07b0826d21ecb1c6696503c",
+          "statement_sha256": "ba214f72d5e7f15c642d4c0772e48fe6291407070bbb3fe21650a22565c84430",
+          "statement": "specification score_correctness (B D : Nat) (p : Parameters) (hB : 0 < B) :\n    Spec.Real (originalIO B D p ⊨ fun startN _ xs => expected B D startN p xs)"
+        },
+        {
+          "file": "bench/tritonbench_g/attention_score/Correct.lean",
+          "declaration": "score_scalar_left_correctness",
+          "parser_name": "score_scalar_left_correctness",
+          "line": 101,
+          "sha256": "4a668098f9518487f03456ede032b953b3e6050ff07b0826d21ecb1c6696503c",
+          "statement_sha256": "8e4920c2676be454eb7d37e0eb7592899a3f20b9da5e1d6c08a44c60ac2ce854",
+          "statement": "specification score_scalar_left_correctness (B D : Nat) (p : Parameters) (hB : 0 < B) :\n    Spec.Real (scalarLeftIO B D p ⊨ fun startN _ xs => expected B D startN p xs)"
+        },
+        {
+          "file": "bench/tritonbench_g/attention_score/FPEquiv.lean",
+          "declaration": "score_scaling_equiv",
+          "parser_name": "score_scaling_equiv",
+          "line": 48,
+          "sha256": "93f1f595f9bb1289188866dc96e31ed3c948f5a61cc05c2435ea784ffd511927",
+          "statement_sha256": "e99dbc7deb98579f37d8a6b02b4fc9b0e37f62e45e9955d4e352d5a6cd09d65d",
+          "statement": "specification score_scaling_equiv (R : Rules) :\n    original Q K M Out \n      sqz sqh sqm sqk skz skh skn skk soz soh son\n      Z H HK N RN NK BM BD BN offset size scale window complement evenM evenN hBlock ≡[R]\n    scalarLeft Q K M Out \n      sqz sqh sqm sqk skz skh skn skk soz soh son\n      Z H HK N RN NK BM BD BN offset size scale window complement evenM evenN hBlock"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/relu_current_review",
+      "reviewed_at_utc": "2026-10-15T19:13:57.943463+00:00",
+      "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/current-source-catalog.json",
+        "sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875"
+      },
+      "task": "context_attn_mistral",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "The complete source and candidate have successful finite-flat execution, initial-array natural-exp weighted sums and full-cell frame. Grouped heads, signed window subtraction, both finite -1e9 masks, all-sentinel centering, denominator guard and probability/output casts are retained.",
+      "production_stage_mapping": [
+        {
+          "function": "_fwd_kernel",
+          "coverage": "Complete sliding-window kernel and masked empty/partial blocks are covered at each homogeneous storage selector.",
+          "path": "bench/tritonbench_g/context_attn_mistral/context_attn_mistral.py",
+          "line": 10,
+          "end_line": 128,
+          "sha256": "de4ee0e9235d0ead69d3fa94f00b341444e869344ca5c3f216a22ce8e44bc8b0",
+          "stage_id": "stage:bench/tritonbench_g/context_attn_mistral/context_attn_mistral.py:10:_fwd_kernel"
+        },
+        {
+          "function": "context_attention_fwd",
+          "coverage": "Dimension checks, fixed128 tiles, scale/group calculation and full batch/head/query grid are uncomposed.",
+          "path": "bench/tritonbench_g/context_attn_mistral/context_attn_mistral.py",
+          "line": 132,
+          "end_line": 174,
+          "sha256": "de4ee0e9235d0ead69d3fa94f00b341444e869344ca5c3f216a22ce8e44bc8b0",
+          "stage_id": "stage:bench/tritonbench_g/context_attn_mistral/context_attn_mistral.py:132:context_attention_fwd"
+        }
+      ],
+      "dtype_review": "One fp16/bf16/fp32 selector covers homogeneous Q/K/V/Out; metadata is int32. The original wrapper independently supplies all buffers with no dtype guard.",
+      "branch_review": "The finite sentinel remains in the actual independent formula, and the source zero-denominator and all-sentinel branches are represented. Nonnegative starts, valid addresses and distinct outputs remain legitimate premises.",
+      "structural_gaps": [
+        {
+          "id": "CONTEXT_ATTN_MISTRAL-S1",
+          "kind": "independent_storage_and_metadata_profiles",
+          "finding": "The source shares one floating storage type for Q/K/V/Out and fixes start/sequence metadata to int32, while the host checks only head dimensions.",
+          "why_blocks_full_original_scope": "Other admitted storage profiles or their precise rejection are not proved by the homogeneous real projection.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 11,
+              "end_line": 13,
+              "path": "bench/tritonbench_g/context_attn_mistral/Kernels.lean",
+              "sha256": "0990f8938e0fbfb5b659ee7af6ebed6a2f4cd0a2a8b54e9f3fcd9b22e9ffa77f",
+              "excerpt": "inductive Storage where\n  | fp16 | bf16 | fp32\n  deriving DecidableEq"
+            },
+            {
+              "line": 31,
+              "end_line": 32,
+              "path": "bench/tritonbench_g/context_attn_mistral/Kernels.lean",
+              "sha256": "0990f8938e0fbfb5b659ee7af6ebed6a2f4cd0a2a8b54e9f3fcd9b22e9ffa77f",
+              "excerpt": "  tl.region Q = $storage, K = $storage, V = $storage, Out = $storage,\n    B_Start_Loc = tl.int32, B_Seqlen = tl.int32"
+            },
+            {
+              "line": 132,
+              "end_line": 141,
+              "path": "bench/tritonbench_g/context_attn_mistral/context_attn_mistral.py",
+              "sha256": "de4ee0e9235d0ead69d3fa94f00b341444e869344ca5c3f216a22ce8e44bc8b0",
+              "excerpt": "def context_attention_fwd(q, k, v, o, b_start_loc, b_seq_len, max_input_len, sliding_window):\n    BLOCK = 128\n    # shape constraints\n    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]\n    assert Lq == Lk and Lk == Lv\n    assert Lk in {16, 32, 64, 128}\n\n    sm_scale = 1.0 / (Lq ** 0.5)  # Compute the scale factor.\n    batch, head = b_seq_len.shape[0], q.shape[1]\n    kv_group_num = q.shape[1] // k.shape[1]"
+            }
+          ]
+        },
+        {
+          "id": "CONTEXT_ATTN_MISTRAL-S2",
+          "kind": "host_window_grid_composition",
+          "finding": "The host computes grouped heads and scale, chooses128-square tiles and launches batch by head by ceil(max_input_len/128).",
+          "why_blocks_full_original_scope": "A whole-output result must compose exactly those masked stores and untouched cells using the original sliding-window argument and metadata.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 132,
+              "end_line": 174,
+              "path": "bench/tritonbench_g/context_attn_mistral/context_attn_mistral.py",
+              "sha256": "de4ee0e9235d0ead69d3fa94f00b341444e869344ca5c3f216a22ce8e44bc8b0",
+              "excerpt": "def context_attention_fwd(q, k, v, o, b_start_loc, b_seq_len, max_input_len, sliding_window):\n    BLOCK = 128\n    # shape constraints\n    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]\n    assert Lq == Lk and Lk == Lv\n    assert Lk in {16, 32, 64, 128}\n\n    sm_scale = 1.0 / (Lq ** 0.5)  # Compute the scale factor.\n    batch, head = b_seq_len.shape[0], q.shape[1]\n    kv_group_num = q.shape[1] // k.shape[1]\n\n    grid = (batch, head, triton.cdiv(max_input_len, BLOCK))  # batch, head,\n\n    num_warps = 4 if Lk <= 64 else 8\n    _fwd_kernel[grid](\n        q,\n        k,\n        v,\n        sm_scale,\n        b_start_loc,\n        b_seq_len,\n        o,\n        q.stride(0),\n        q.stride(1),\n        q.stride(2),\n        k.stride(0),\n        k.stride(1),\n        k.stride(2),\n        v.stride(0),\n        v.stride(1),\n        v.stride(2),\n        o.stride(0),\n        o.stride(1),\n        o.stride(2),\n        kv_group_num=kv_group_num,\n        sliding_window=sliding_window,\n        BLOCK_M=BLOCK,\n        BLOCK_DMODEL=Lk,\n        BLOCK_N=BLOCK,\n        num_warps=num_warps,\n        num_stages=1,\n    )\n    return"
+            },
+            {
+              "line": 24,
+              "end_line": 39,
+              "path": "bench/tritonbench_g/context_attn_mistral/Correct.lean",
+              "sha256": "60dcaab9ceab659a79e26084366c6731619ec98c89239909d979c5786c0a7b70",
+              "excerpt": "def originalIO (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) : RealIO.IO p where\n  kernel := (kernel p r storage Bool.false scale).eraseDType\n  projection := RealIO.projection p r storage Bool.false scale\n  read := fun u => {\n    q := u.readMem r.query, k := u.readMem r.key, v := u.readMem r.value,\n    start := u.readMemValue .int r.start, sequence := u.readMemValue .int r.sequence }\n  valid := fun l a => ∀ i j, RealIO.active p l a i → RealIO.active p l a j →\n    RealIO.write p l a i = RealIO.write p l a j → i = j\n  -- Two metadata cells, masked Q, reached K/V loads and active stores.\n  -- The start is nonnegative so converting the K/V pointer advance preserves\n  -- its signed value; every active address is also checked before conversion.\n  bounds := AddressBounds.Valid p r\n  out := r.out\n  write := fun l a i => ((a.start l.batch+queryRow p l i.1.val)*p.outRow+\n    l.head*p.outHead+i.2.1.val*p.outDim).toNat\n  mask := fun l a i => (queryRow p l i.1.val : Int) < Formula.sequence p l a"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "Represented dot, natural exp, accumulation, denominator guards and casts may receive explicit numerical laws; finite-sentinel and window structure are already covered."
+      ],
+      "precondition_assessment": "Existing valid-address, injectivity, disjointness and positive-size premises remain legitimate. Findings concern concrete source branches or missing composition, not hypothetical hardware faults or arbitrary invalid inputs.",
+      "source_sha256": {
+        "bench/tritonbench_g/context_attn_mistral/context_attn_mistral.py": "de4ee0e9235d0ead69d3fa94f00b341444e869344ca5c3f216a22ce8e44bc8b0",
+        "bench/tritonbench_g/context_attn_mistral/Correct.lean": "60dcaab9ceab659a79e26084366c6731619ec98c89239909d979c5786c0a7b70",
+        "bench/tritonbench_g/context_attn_mistral/FPEquiv.lean": "f9b978ec3e0d4a368afeed00a1d7d2f36bbbe33fae1d5bab6c8246d46acc303b",
+        "bench/tritonbench_g/context_attn_mistral/Kernels.lean": "0990f8938e0fbfb5b659ee7af6ebed6a2f4cd0a2a8b54e9f3fcd9b22e9ffa77f"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/context_attn_mistral/Correct.lean": "60dcaab9ceab659a79e26084366c6731619ec98c89239909d979c5786c0a7b70",
+          "bench/tritonbench_g/context_attn_mistral/FPEquiv.lean": "f9b978ec3e0d4a368afeed00a1d7d2f36bbbe33fae1d5bab6c8246d46acc303b",
+          "bench/tritonbench_g/context_attn_mistral/Kernels.lean": "0990f8938e0fbfb5b659ee7af6ebed6a2f4cd0a2a8b54e9f3fcd9b22e9ffa77f",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/AddressBounds.lean": "5b4d3d5f873e20958103d4327563c4ffcf0ccc763cbecf07f979a4dae6fc6652",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/Bounds.lean": "f933e7c9150f8d436b525b03827bd66d6d89ee6f702ebc9e534391f14e885378",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/CommitExecution.lean": "e49e0aee8690236bfdbede1247bc47e9115003494ca1a627afd02b6da9784914",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/EpilogueExecution.lean": "1f8928f015e04088f84a5075c5a64c0c9992504a82f08dd69e07defde0ad00c9",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/EpilogueProgram.lean": "d22a36790ec035b2881913336b4af14f57f3c8dde6d1c8f75db81a76d6f3c078",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/EpilogueResult.lean": "42183aba265572737baf5a822da2bc3b51fdb618c156d29f28ac0163cda382c9",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/EpilogueSafety.lean": "8596cf99eb1d4aafde6b80f62410d1605089771e572da0a892ce12dcd84df177",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/FP.lean": "47903d7d6632980d69624d50e9b7049083f8400509b53f9c63f45842e27b4e39",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/Flat.lean": "ff13046daa66a946fc3c6896eac5cb127f462ea0839756b5b12fa926cdded027",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/FlattenShape.lean": "183cf176ef09fa63f90c8da7ee56bb7d1002dc4519a380fdc296af770f947153",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/Formula.lean": "90c9c489159d0bf889fca0acbf6258cd8e8c781697f0e174c9f50ab18c2a8b0a",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/FormulaStep.lean": "9972136703676713f8746d3e415318ec36896b71662b1343a6aa743dea8f1fff",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/Frames.lean": "5d1b8221dc3bce93bf44940952be614f4701a3b7c2ebabc950774ab0c8a75125",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/Invariant.lean": "304a75de4ea146008fa30cb2349f35efbf83d106609f700fe69293a0432af390",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/InvariantStep.lean": "815c5a824646f29ff4c58318788351a8c8104142e16417d70cc624c9a392a25f",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/IterationExecution.lean": "79f8a55d3b70eb05df27f3385183894152394888444c4763e88a302e83ec1207",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/KeysExecution.lean": "101b1bf5483675cb98133211842f6bbcf02cf16615e0ad1c3eca4f219d08a50f",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/LoadSafety.lean": "27ac95e0e69196882ad1f9d3426b90f5fff4002ad1f4caeb486c4ef7fd555e33",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/LoopExecution.lean": "6fb60b6fba9da8f8847238526f87c42304e1dfd2dadaf5c7ed96347e2c8d0e33",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/LoopProgram.lean": "529b55a96f6230980c1d8d7d7378532b837a6ed5e32f61c5010a33af7b799737",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/LoopSafety.lean": "8fb796e0d267c2951022d712a39a451ef2977b9c97f74555d3f8136dea63a7b5",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/LoopState.lean": "3bb895cc72b88e470a96f6d45a87eaee87adba5cf481db6f7e09fcba5af3ea10",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/Meaning.lean": "bedbdb48e1f28840cf510ee4d7cf90b8633ab042adcea17050559a0d3c2579be",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/NormalizedStep.lean": "9016c4fef57762637405fec44dcc60c873c1743d426e93c0828901fd0fe0dea4",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/NormalizerExecution.lean": "ed54491cecfb7df021849f5a62f89ad5b2a5ca9fa2bfc2cf206f9a65edc751c1",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/NumericCells.lean": "218a5195e04f2f7ba73dac62f8a69b905ab7c7e03673ffb6b45cbdb722a0bc93",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/NumericNormalizer.lean": "f8275cc32bb52cf72ff7f4e1e6fa507ba895eaa92ed991617de726b10f688cd7",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/NumericScales.lean": "6d3d76c422f48c7de385289c1ce1b961ea372c847bdb06cef2b1b1bce440afb3",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/NumericUpdate.lean": "89716ce85c51dec9ba3d2ada2f06b93ed4605630480d00b71fcaef9a4e01fdb7",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/Prelude.lean": "2923ed6d3a6b00151a1fa2b7f1c6ae5d3868813c52e2ee115454c53547f96899",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/PreludeComplete.lean": "73b32a37023765a1920f9be630eaf6672aea78239e9967d910d9897f3158aa40",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/PreludeExecution.lean": "7db2a69fbda2aa9123cda01cdb707604e8e2037c8f6410fe4668aada70e97272",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/PreludeProgram.lean": "136ece8c4ddfb94e120af8138b7119120cdf119f7c33dadb4324366590adc871",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/PreludeSafety.lean": "7fcb679d3eae6677569108b297ee9f14812ec6619ab6f7a56c49ddb663d94e31",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/Program.lean": "9a5d7e89a53e9c3001dea4325b372670802a2a6fadc1ccfa703c9d6832623c37",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/PureSegments.lean": "6eef62b0390e263b6690f26d4a2b1f1750a1d70035e803a06230386dbe3a6ab6",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/RealIO.lean": "e15398bc3b8b4cd9543c6bb66ab296104451637a9ec21863832c32b17f55a6aa",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/RealWitness.lean": "ac0bf198527b062a1be8c53daaf98c07f11306571e602d780d34c69af676b4da",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/SafeOps.lean": "81d16e8de1dae8d0dbd970aa03a0615caf079a853bbd0ce4c87031ddd68f9e9d",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/ScalesExecution.lean": "11b16f96aeb2efebc8177a12ba571f9c33acf9409c3282d2ab387db834ec4c8f",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/ScoresExecution.lean": "64718a49c5e37372de1edd583b9660f7dc174ca2bdcf60a31bf89788217f4e16",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/StatsExecution.lean": "7ddfffbe1f63e83a19adf4fb95a4d52432f4c099a246f0e05bd332a13803cb92",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/TypedExecution.lean": "746800d8a281032e5bb26a193d426099c3972e4627fb6e607f3d15b890f8ea78",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/ValuesExecution.lean": "dd6530614548a2fc32073e5fb0e57ad332bebe51f97b2e10039ca7ac18a50bcf",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/WholeExecution.lean": "cb1cee226b969e614eff0c1dd496ea4789681a485111399817a7644984b9b38b",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/WholeProgram.lean": "15c19c28fdbb29f07e4c61453a940754add3f92124d0a4509dec2aef512c2552",
+          "bench/tritonbench_g/context_attn_mistral/Proofs/WholeSafety.lean": "625bbd935d9f17b2ac5488964d3fa01277e723a87639f1f803348b27c24dc402"
+        },
+        "python": {
+          "bench/tritonbench_g/context_attn_mistral/context_attn_mistral.py": "de4ee0e9235d0ead69d3fa94f00b341444e869344ca5c3f216a22ce8e44bc8b0"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/context_attn_mistral/Correct.lean",
+          "declaration": "original_correct",
+          "parser_name": "original_correct",
+          "line": 62,
+          "sha256": "60dcaab9ceab659a79e26084366c6731619ec98c89239909d979c5786c0a7b70",
+          "statement_sha256": "29fc716bf5e050fe96e29ec0a875af3c3dfe703bc17994b67a8259bf84912c8a",
+          "statement": "specification original_correct (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) (hBN : 0 < p.BN) :\n    Spec.Real (originalIO p r storage scale ⊨ expected p scale)"
+        },
+        {
+          "file": "bench/tritonbench_g/context_attn_mistral/Correct.lean",
+          "declaration": "scaleFirst_correct",
+          "parser_name": "scaleFirst_correct",
+          "line": 66,
+          "sha256": "60dcaab9ceab659a79e26084366c6731619ec98c89239909d979c5786c0a7b70",
+          "statement_sha256": "86262a33c24c74a43455d468034bd31dbe6db41d5015110efa09b064c020a598",
+          "statement": "specification scaleFirst_correct (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) (hBN : 0 < p.BN) :\n    Spec.Real (scaleFirstIO p r storage scale ⊨ expected p scale)"
+        },
+        {
+          "file": "bench/tritonbench_g/context_attn_mistral/FPEquiv.lean",
+          "declaration": "scaleFirst_equiv",
+          "parser_name": "scaleFirst_equiv",
+          "line": 47,
+          "sha256": "f9b978ec3e0d4a368afeed00a1d7d2f36bbbe33fae1d5bab6c8246d46acc303b",
+          "statement_sha256": "81a236f2192303160c18b0a5d742d340f7ca6b558d6b6331622d683d84253536",
+          "statement": "specification scaleFirst_equiv (R : FP.ScalarArithmetic.Rules) :\n    original storage Q K V sm_scale B_Start_Loc B_Seqlen Out\n      stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd\n      stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od kv_group_num sliding_window BLOCK_M BLOCK_DMODEL BLOCK_N ≡[R]\n    scaleFirst storage Q K V sm_scale B_Start_Loc B_Seqlen Out\n      stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd\n      stride_vbs stride_vh stride_vd stride_obs stride_oh stride_od kv_group_num sliding_window BLOCK_M BLOCK_DMODEL BLOCK_N"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/relu_current_review",
+      "reviewed_at_utc": "2026-10-15T19:13:58.019826+00:00",
+      "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/current-source-catalog.json",
+        "sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875"
+      },
+      "task": "context_attn_fwd",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "The complete prompt-cache source has successful finite-flat execution, independent initial-array weighted sums and full-cell frame. Grouped KV heads, separate four-dimensional K/V batch addressing, signed int32 metadata, finite -1e8 sentinel, source masks and fused accumulator dot are covered.",
+      "production_stage_mapping": [
+        {
+          "function": "_fwd_kernel_int8kv",
+          "coverage": "Complete displayed kernel covered for homogeneous fp16/bf16/fp32; its name does not introduce a dequantization stage absent from Python.",
+          "path": "bench/tritonbench_g/context_attn_fwd/context_attn_fwd.py",
+          "line": 9,
+          "end_line": 124,
+          "sha256": "4540e1ffb44e922bb2aa48236b0a43af75a5f185906ffcd52d25a508fb9c1370",
+          "stage_id": "stage:bench/tritonbench_g/context_attn_fwd/context_attn_fwd.py:9:_fwd_kernel_int8kv"
+        },
+        {
+          "function": "context_attention_fwd_ppl_int8kv",
+          "coverage": "Device-specific tiles, dimension checks, scale/group calculation and full grid remain uncomposed.",
+          "path": "bench/tritonbench_g/context_attn_fwd/context_attn_fwd.py",
+          "line": 128,
+          "end_line": 176,
+          "sha256": "4540e1ffb44e922bb2aa48236b0a43af75a5f185906ffcd52d25a508fb9c1370",
+          "stage_id": "stage:bench/tritonbench_g/context_attn_fwd/context_attn_fwd.py:128:context_attention_fwd_ppl_int8kv"
+        }
+      ],
+      "dtype_review": "The public source shares one of three floating selectors for Q/K/V/Out and int32 metadata. No int8 conversion is present in the original; any actually admitted integer or mixed route still needs representation or precise rejection.",
+      "branch_review": "Prompt subtraction, empty loops and masked stores are retained. Do not replace source cache addressing with the request-token gather used by a different task.",
+      "structural_gaps": [
+        {
+          "id": "CONTEXT_ATTN_FWD-S1",
+          "kind": "independent_cache_storage_profiles",
+          "finding": "The formal Q/K/V/Out share fp16/bf16/fp32 and metadata is int32; the wrapper passes independently typed Q, four-dimensional K/V, Out and metadata without dtype assertions.",
+          "why_blocks_full_original_scope": "Missing storage/admission branches cannot be supplied by scalar multiplication commutation or the kernel name.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 4,
+              "end_line": 14,
+              "path": "bench/tritonbench_g/context_attn_fwd/Kernels.lean",
+              "sha256": "e22b1451a40574b699ac7fbce0b2ccb17a3f16ca6f0fbbf92919dc61aa81a3e8",
+              "excerpt": "/-! Source: context_attn_fwd.py, _fwd_kernel_int8kv.\nComplete typed floating-storage source and scale-first candidate. Despite the\nsource name, the supplied Python test uses fp16 Q/K/V rather than an int8\nconversion path. Metadata remains signed int32. The finite -1e8 sentinel,\nbase-2 exponential, signed range, grouped KV heads, all masks and casts are\npreserved. The candidate only commutes qk and sm_scale inside the where arm. -/\nnamespace VeriTile.Bench.TritonBenchG.ContextAttnFwd\nopen Lean VeriTile.Triton\ninductive Storage where\n  | fp16 | bf16 | fp32\n  deriving DecidableEq"
+            },
+            {
+              "line": 34,
+              "end_line": 35,
+              "path": "bench/tritonbench_g/context_attn_fwd/Kernels.lean",
+              "sha256": "e22b1451a40574b699ac7fbce0b2ccb17a3f16ca6f0fbbf92919dc61aa81a3e8",
+              "excerpt": "  tl.region Q = $storage, K = $storage, V = $storage, Out = $storage,\n    B_Start_Loc = tl.int32, B_Seqlen = tl.int32, b_prompt_cache_len = tl.int32"
+            },
+            {
+              "line": 128,
+              "end_line": 139,
+              "path": "bench/tritonbench_g/context_attn_fwd/context_attn_fwd.py",
+              "sha256": "4540e1ffb44e922bb2aa48236b0a43af75a5f185906ffcd52d25a508fb9c1370",
+              "excerpt": "def context_attention_fwd_ppl_int8kv(q, k, v, o, b_start_loc, b_seq_len, max_input_len, b_prompt_cache_len):\n    BLOCK_M = 128 if not TESLA else 64\n    # shape constraints\n    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]\n    assert Lq == Lk and Lk == Lv\n    assert Lk in {16, 32, 64, 128, 256}\n\n    # Compute the scale factor and multiply by 1/log(2) = 1.4426950408889634.\n    # The kernel uses tl.math.exp2 to compute the equivalent standard attention expression.\n    sm_scale = 1.0 / (Lq ** 0.5) * 1.4426950408889634\n    batch, head = b_seq_len.shape[0], q.shape[1]\n    kv_group_num = q.shape[1] // k.shape[1]"
+            }
+          ]
+        },
+        {
+          "id": "CONTEXT_ATTN_FWD-S2",
+          "kind": "host_cache_grid_composition",
+          "finding": "The host selects64/128 blocks from TESLA, computes scale/grouping and launches the full max_input_len by batch/head grid.",
+          "why_blocks_full_original_scope": "The per-program contract does not yet establish all original output writes and preserved cache/output regions across this concrete launch.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 128,
+              "end_line": 146,
+              "path": "bench/tritonbench_g/context_attn_fwd/context_attn_fwd.py",
+              "sha256": "4540e1ffb44e922bb2aa48236b0a43af75a5f185906ffcd52d25a508fb9c1370",
+              "excerpt": "def context_attention_fwd_ppl_int8kv(q, k, v, o, b_start_loc, b_seq_len, max_input_len, b_prompt_cache_len):\n    BLOCK_M = 128 if not TESLA else 64\n    # shape constraints\n    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]\n    assert Lq == Lk and Lk == Lv\n    assert Lk in {16, 32, 64, 128, 256}\n\n    # Compute the scale factor and multiply by 1/log(2) = 1.4426950408889634.\n    # The kernel uses tl.math.exp2 to compute the equivalent standard attention expression.\n    sm_scale = 1.0 / (Lq ** 0.5) * 1.4426950408889634\n    batch, head = b_seq_len.shape[0], q.shape[1]\n    kv_group_num = q.shape[1] // k.shape[1]\n\n    grid = lambda meta: (triton.cdiv(max_input_len, meta[\"BLOCK_M\"]), batch * head, 1)\n    BLOCK_N = BLOCK_M\n    num_warps = 4 if Lk <= 64 else 8\n    num_stages = 1\n\n    _fwd_kernel_int8kv[grid]("
+            },
+            {
+              "line": 155,
+              "end_line": 176,
+              "path": "bench/tritonbench_g/context_attn_fwd/context_attn_fwd.py",
+              "sha256": "4540e1ffb44e922bb2aa48236b0a43af75a5f185906ffcd52d25a508fb9c1370",
+              "excerpt": "        q.stride(0),\n        q.stride(1),\n        q.stride(2),\n        k.stride(0),\n        k.stride(1),\n        k.stride(2),\n        k.stride(3),\n        v.stride(0),\n        v.stride(1),\n        v.stride(2),\n        v.stride(3),\n        o.stride(0),\n        o.stride(1),\n        o.stride(2),\n        kv_group_num=kv_group_num,\n        H=head,\n        BLOCK_DMODEL=Lk,\n        BLOCK_M=BLOCK_M,\n        BLOCK_N=BLOCK_N,\n        num_warps=num_warps,\n        num_stages=num_stages,\n    )"
+            },
+            {
+              "line": 22,
+              "end_line": 38,
+              "path": "bench/tritonbench_g/context_attn_fwd/Correct.lean",
+              "sha256": "04bdb3c0c98e2525fdc1396e86a5e2f5cf1606086219275c9222f34187e6a6d4",
+              "excerpt": "def originalIO (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) : RealIO.IO p where\n  kernel := (kernel p r storage Bool.false scale).eraseDType\n  projection := RealIO.projection p r storage Bool.false scale\n  read := fun u => {\n    q := u.readMem r.query, k := u.readMem r.key, v := u.readMem r.value,\n    start := u.readMemValue .int r.start, sequence := u.readMemValue .int r.sequence,\n    prompt := u.readMemValue .int r.prompt }\n  valid := fun l a => ∀ i j, RealIO.active p l a i → RealIO.active p l a j →\n    RealIO.write p l a i = RealIO.write p l a j → i = j\n  -- Three metadata cells, masked Q, reached K/V lanes and active output stores.\n  -- Each active address is checked before its signed-to-natural conversion.\n  bounds := AddressBounds.Valid p r\n  out := r.out\n  write := fun l a i => ((a.start (batch p l)+queryRow p l i.1.val)*p.outRow+\n    head p l*p.outHead+i.2.1.val*p.outDim).toNat\n  mask := fun l a i => (queryRow p l i.1.val : Int) < Formula.sequence p l a\n"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "At represented storage profiles, dot, exp2, fused accumulation, division and casts may be numerical followups; no imaginary quantization scale operation is required."
+      ],
+      "precondition_assessment": "Existing valid-address, injectivity, disjointness and positive-size premises remain legitimate. Findings concern concrete source branches or missing composition, not hypothetical hardware faults or arbitrary invalid inputs.",
+      "source_sha256": {
+        "bench/tritonbench_g/context_attn_fwd/context_attn_fwd.py": "4540e1ffb44e922bb2aa48236b0a43af75a5f185906ffcd52d25a508fb9c1370",
+        "bench/tritonbench_g/context_attn_fwd/Correct.lean": "04bdb3c0c98e2525fdc1396e86a5e2f5cf1606086219275c9222f34187e6a6d4",
+        "bench/tritonbench_g/context_attn_fwd/FPEquiv.lean": "6d5d41c095ad4d7e74f6865a99d3b74b65529946444d06fafe3634008b6df2e5",
+        "bench/tritonbench_g/context_attn_fwd/Kernels.lean": "e22b1451a40574b699ac7fbce0b2ccb17a3f16ca6f0fbbf92919dc61aa81a3e8"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/context_attn_fwd/Correct.lean": "04bdb3c0c98e2525fdc1396e86a5e2f5cf1606086219275c9222f34187e6a6d4",
+          "bench/tritonbench_g/context_attn_fwd/FPEquiv.lean": "6d5d41c095ad4d7e74f6865a99d3b74b65529946444d06fafe3634008b6df2e5",
+          "bench/tritonbench_g/context_attn_fwd/Kernels.lean": "e22b1451a40574b699ac7fbce0b2ccb17a3f16ca6f0fbbf92919dc61aa81a3e8",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/AddressBounds.lean": "2e2139fe32f6b7d6f39c62b4fc6753950473f61eee124cb7d5a7ee0c0f3516eb",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/Bounds.lean": "a078bd66d5590a1111d6cac74d349ffd73f7b7707b303a01a9df814db21d0595",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/CellMath.lean": "63ab17329e16d84c06db565ddb1673f583d9b80a176908abab4e79aaefe063c6",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/EpilogueExecution.lean": "2b57e91d9c2dee7bad26d8af2c1aa4f190191206fc939622d9a26c9aaf8d63ee",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/EpilogueProgram.lean": "ec160c927fe9b60e0576d1052b9c59df9b60ec325ed11e25f579104a04f01f15",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/EpilogueResult.lean": "849ba22b2aedc930eaad38aa8ee0f2b4281bc29c0e1e4f9545a4a0981cc01d95",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/EpilogueSafety.lean": "005cb6a371c46fee47ab878725ac1779751560577a57bfe271eb5acc761f1de3",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/FP.lean": "abddf1522595fbf453cd59bee140353dae48c900d66ad0a1e2624a856f995485",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/FPModel.lean": "a89b4cc11dab5f7d1c3111ca9dee89e9dae2e5cd25399b75493a11b0c43e0dcb",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/Flat.lean": "bbb9522ae72f452facea408fa65ab1c5d46b2f432cf6b48a2317627f02c6339d",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/FlattenShape.lean": "b6b33d969f49ccaec22f48bcb9c01e230586d55e3e50895babe7f4f219b69d2a",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/Formula.lean": "19c86cfaacb5de9aa64e23fd6d20d343f191b9b19a11af83a9e5457c93a6b4e1",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/Frames.lean": "d1a04ca4c85c5612dd9c9e9a1e3f81a9ccbb160c943272e9a62266573b645a0b",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/Invariant.lean": "a5686a351c5f067d9795d9c43445517d32e22eb3977bd2487ce580a9ed23063b",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/InvariantStep.lean": "86ee2abac053c986c0a222a11b210e6ef9b7591934d2b865fc4ea8c05738864b",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/IterationExecution.lean": "10ede6fe8145b0ca920301e1e960311e92d337304654ef04259f399f8c69f950",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/KeysExecution.lean": "60de52db0d1ec484a372aca810a083fd3d4a6d3937a09143f1eb349eb7e5ad34",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/LoadSafety.lean": "9e397b4b21ad98f27b89d2a4d234f18d1106a422b72efc6a87cc93fce1b57cfe",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/LoopExecution.lean": "44150a6b8c88b8ea42e10df6b3fc576a8a42ef5a5b99d334384caceecbeba0cf",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/LoopProgram.lean": "8b80d7d15f0fb256db9d75f46472d7c227c147fb52ae584a2c50e70f7492110b",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/LoopSafety.lean": "c3ce43fa2166b2c02f8b8d57a85c1115d071283eb3deff63693eba0d62a0521c",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/LoopState.lean": "1b52834722f483dc5b9494026097252fcb51dbe941f69105dfb65c5a3307d9c6",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/Meaning.lean": "80d04d31ab3b1bf756c6cc3e0f3fd88799c55e58ec73b3dc4b2cf743ca9f705b",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/NumericOps.lean": "c573214ae83cb3bc43a213afa838762e0d108f55d57d8e92d20bc736bd362873",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/NumericUpdate.lean": "48482d4ed1f3acfaf3d77eb43152c1b78b0ffad8048f5e73f5d2d4b1d986533d",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/Prelude.lean": "1b4a45ca0213f3936a3ed6556a8854abb005cc90343ae3b955307a67300cd4c6",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/PreludeComplete.lean": "f0a19714933553baf4b0d43edae7236e8d88a258fa52a35614a60aa514764442",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/PreludeExecution.lean": "abf6dd097018b516965786375638a9251890fc52ace404310fe3a69c881a62aa",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/PreludeProgram.lean": "09ac8f0d7e8deb8e67efda92d379f79bb2180cee42d2e3e5759e58d136bc4697",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/PreludeSafety.lean": "faaf2a306957b18c60f284e8f7872b2c4b60e518b50a9e69ff10a2004c7049a2",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/Program.lean": "377c57764c7bb39e4aee5aaacfc17bc4fd771c1ebb1fab16faeea3c205b35d99",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/PureSegments.lean": "c73b58816f880333380261e1cb6c40ad39bd8b5e8461882076a342bf7a086521",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/RealIO.lean": "6dfa24ee53024da219ede9cc3e45cb0fb4c94fbf129ad238511f63e072932d39",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/RealWitness.lean": "c36be2b975de9e0970e99fcb8a85f461c5293513c76a63ff9c1d9373cba2910d",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/SafeOps.lean": "01507572972ba1a4e167dd6340f5edffe1cb0fe54d96b99e4b441a3c4c24b79c",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/ScoresExecution.lean": "ab403152c6a79a2c63f02d12a1255098097d676ca0ee53cb14f8df8b5f731784",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/StatsExecution.lean": "b2ddc51b29229d6de960fc23bb049078601ef5fad073bd0c2a7c3b75db60a48e",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/TypedExecution.lean": "fb3d0a71307000a59442b8a3e2de0ce84a4a98f68bd2abb3be04c5e37168fb1b",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/ValuesExecution.lean": "9af1976ee33aee4c0b5ae5742a91e7d58c5cddb8ae9ffaba356c072e3ea38591",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/WholeExecution.lean": "ade90c74ab4bea76d188e87809b8e411097bd112ab8ad257f03994add4bb9fbd",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/WholeProgram.lean": "c033f19f4adc914076d6e4fc0c294c6cfeafea1b070733acdedce8059c2f8ab3",
+          "bench/tritonbench_g/context_attn_fwd/Proofs/WholeSafety.lean": "952d3452226ab5ee87ffbd5c0b4540ce02784f87636ff2f725c146ba61e6ffa7"
+        },
+        "python": {
+          "bench/tritonbench_g/context_attn_fwd/context_attn_fwd.py": "4540e1ffb44e922bb2aa48236b0a43af75a5f185906ffcd52d25a508fb9c1370"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/context_attn_fwd/Correct.lean",
+          "declaration": "original_correct",
+          "parser_name": "original_correct",
+          "line": 60,
+          "sha256": "04bdb3c0c98e2525fdc1396e86a5e2f5cf1606086219275c9222f34187e6a6d4",
+          "statement_sha256": "29fc716bf5e050fe96e29ec0a875af3c3dfe703bc17994b67a8259bf84912c8a",
+          "statement": "specification original_correct (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) (hBN : 0 < p.BN) :\n    Spec.Real (originalIO p r storage scale ⊨ expected p scale)"
+        },
+        {
+          "file": "bench/tritonbench_g/context_attn_fwd/Correct.lean",
+          "declaration": "scaleFirst_correct",
+          "parser_name": "scaleFirst_correct",
+          "line": 64,
+          "sha256": "04bdb3c0c98e2525fdc1396e86a5e2f5cf1606086219275c9222f34187e6a6d4",
+          "statement_sha256": "86262a33c24c74a43455d468034bd31dbe6db41d5015110efa09b064c020a598",
+          "statement": "specification scaleFirst_correct (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) (hBN : 0 < p.BN) :\n    Spec.Real (scaleFirstIO p r storage scale ⊨ expected p scale)"
+        },
+        {
+          "file": "bench/tritonbench_g/context_attn_fwd/FPEquiv.lean",
+          "declaration": "scaleFirst_equiv",
+          "parser_name": "scaleFirst_equiv",
+          "line": 59,
+          "sha256": "6d5d41c095ad4d7e74f6865a99d3b74b65529946444d06fafe3634008b6df2e5",
+          "statement_sha256": "f0be72bee05fa2d33f4114658e509553c11ea9631fa2bf14754bff1a67bdbaad",
+          "statement": "specification scaleFirst_equiv (R : FP.TypedScalarArithmetic.Rules) :\n    original storage Q K V sm_scale Out B_Start_Loc B_Seqlen b_prompt_cache_len\n      stride_qbs stride_qh stride_qd stride_kb stride_kh stride_ks stride_kd\n      stride_vb stride_vh stride_vs stride_vd stride_obs stride_oh stride_od kv_group_num H BLOCK_DMODEL BLOCK_M BLOCK_N ≡[R]\n    scaleFirst storage Q K V sm_scale Out B_Start_Loc B_Seqlen b_prompt_cache_len\n      stride_qbs stride_qh stride_qd stride_kb stride_kh stride_ks stride_kd\n      stride_vb stride_vh stride_vs stride_vd stride_obs stride_oh stride_od kv_group_num H BLOCK_DMODEL BLOCK_M BLOCK_N"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    },
+    {
+      "schema": 1,
+      "kind": "original_scope_gap_review",
+      "reviewer": "/root/relu_current_review",
+      "reviewed_at_utc": "2026-10-15T19:13:58.118098+00:00",
+      "reviewed_base_commit": "ad4f5643e0c6c8b6d95937d8fb4dfdda2e262096",
+      "catalog": {
+        "path": "bench/review-checkpoints/2026-10-16/vector-schedules-relu-byte-memory/current-source-catalog.json",
+        "sha256": "9fa565b78c2d882ddd03564facc39a464b3f079c13b021f21dd6e293ae61e875"
+      },
+      "task": "context_attn_bloom",
+      "status": "structural_gaps_confirmed",
+      "whole_original_program_accepted": false,
+      "completion_increment": 0,
+      "existing_proofs_preserved": "The complete source and candidate have successful finite-flat execution, access bounds and full-cell frame. The independent normalized-block formula preserves the finite -1e8 sentinel and separate accumulator-rescaling guard, plus grouped KV heads, signed metadata, gathered pages and both channel/time masks.",
+      "production_stage_mapping": [
+        {
+          "function": "_fwd_kernel",
+          "coverage": "Complete guarded prompt/gather source is covered under homogeneous floating storage and int32 metadata.",
+          "path": "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py",
+          "line": 11,
+          "end_line": 128,
+          "sha256": "d74efc6e5d299280642b3587ec9b6c2f13af14474ddf0b00588d6d95d4a94985",
+          "stage_id": "stage:bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py:11:_fwd_kernel"
+        },
+        {
+          "function": "context_attention_fwd",
+          "coverage": "Power-of-two head padding, device-dependent tiles, scale/group calculation and full grid remain uncomposed.",
+          "path": "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py",
+          "line": 132,
+          "end_line": 182,
+          "sha256": "d74efc6e5d299280642b3587ec9b6c2f13af14474ddf0b00588d6d95d4a94985",
+          "stage_id": "stage:bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py:132:context_attention_fwd"
+        }
+      ],
+      "dtype_review": "One fp16/bf16/fp32 selector applies to Q/K/V/Out, with int32 metadata and page indices; the original has no corresponding dtype equality checks.",
+      "branch_review": "Arbitrary headDim and padded channels are represented, so non-power-of-two head sizes are not a missing kernel branch. The guarded normalized recurrence must not be replaced by ideal causal softmax.",
+      "structural_gaps": [
+        {
+          "id": "CONTEXT_ATTN_BLOOM-S1",
+          "kind": "independent_storage_and_page_profiles",
+          "finding": "The formal source uses one shared floating dtype and int32 page/metadata buffers, but the host independently passes these tensors and checks only equal head dimensions.",
+          "why_blocks_full_original_scope": "Additional storage/admission routes need structural representation before a scalar-law deferral can apply.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 17,
+              "end_line": 19,
+              "path": "bench/tritonbench_g/context_attn_bloom/Kernels.lean",
+              "sha256": "fd2ac8084014244f7dc686a58aac0178fc15bc1bc16d7d8164c891a005175750",
+              "excerpt": "inductive Storage where\n  | fp16 | bf16 | fp32\n  deriving DecidableEq"
+            },
+            {
+              "line": 40,
+              "end_line": 42,
+              "path": "bench/tritonbench_g/context_attn_bloom/Kernels.lean",
+              "sha256": "fd2ac8084014244f7dc686a58aac0178fc15bc1bc16d7d8164c891a005175750",
+              "excerpt": "  tl.region Q = $storage, K = $storage, V = $storage, Out = $storage,\n    B_Start_Loc = tl.int32, B_Seqlen = tl.int32, Req_to_tokens = tl.int32,\n    B_req_idx = tl.int32, b_prompt_cache_len = tl.int32"
+            },
+            {
+              "line": 132,
+              "end_line": 144,
+              "path": "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py",
+              "sha256": "d74efc6e5d299280642b3587ec9b6c2f13af14474ddf0b00588d6d95d4a94985",
+              "excerpt": "def context_attention_fwd(\n    q, k, v, o, b_req_idx, b_start_loc, b_seq_len, b_prompt_cache_len, max_input_len, req_to_token_indexs\n):\n    BLOCK = 128 if not TESLA else 64\n    # shape constraints\n    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]\n    assert Lq == Lk and Lk == Lv\n    head_dim = Lq\n    BLOCK_DMODEL = triton.next_power_of_2(head_dim)\n\n    sm_scale = 1.0 / (Lq ** 0.5)  # Compute the scale factor.\n    batch, head = b_seq_len.shape[0], q.shape[1]\n    kv_group_num = q.shape[1] // k.shape[1]"
+            }
+          ]
+        },
+        {
+          "id": "CONTEXT_ATTN_BLOOM-S2",
+          "kind": "host_padding_and_metadata_grid_composition",
+          "finding": "The wrapper selects next_power_of_2(head_dim),64/128 tiles, grouped heads and the full batch/head/query grid.",
+          "why_blocks_full_original_scope": "The per-program source theorem is not yet tied to all writes and frames of the original padded launch and supplied prompt/page metadata.",
+          "can_defer_as_numeric_assumption": false,
+          "evidence": [
+            {
+              "line": 135,
+              "end_line": 149,
+              "path": "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py",
+              "sha256": "d74efc6e5d299280642b3587ec9b6c2f13af14474ddf0b00588d6d95d4a94985",
+              "excerpt": "    BLOCK = 128 if not TESLA else 64\n    # shape constraints\n    Lq, Lk, Lv = q.shape[-1], k.shape[-1], v.shape[-1]\n    assert Lq == Lk and Lk == Lv\n    head_dim = Lq\n    BLOCK_DMODEL = triton.next_power_of_2(head_dim)\n\n    sm_scale = 1.0 / (Lq ** 0.5)  # Compute the scale factor.\n    batch, head = b_seq_len.shape[0], q.shape[1]\n    kv_group_num = q.shape[1] // k.shape[1]\n\n    grid = (batch, head, triton.cdiv(max_input_len, BLOCK))  # batch, head,\n\n    num_warps = 4 if Lk <= 64 else 8\n    _fwd_kernel[grid]("
+            },
+            {
+              "line": 173,
+              "end_line": 182,
+              "path": "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py",
+              "sha256": "d74efc6e5d299280642b3587ec9b6c2f13af14474ddf0b00588d6d95d4a94985",
+              "excerpt": "        kv_group_num=kv_group_num,\n        b_prompt_cache_len=b_prompt_cache_len,\n        head_dim=head_dim,\n        BLOCK_M=BLOCK,\n        BLOCK_DMODEL=BLOCK_DMODEL,\n        BLOCK_N=BLOCK,\n        num_warps=num_warps,\n        num_stages=1,\n    )\n    return"
+            },
+            {
+              "line": 22,
+              "end_line": 39,
+              "path": "bench/tritonbench_g/context_attn_bloom/Correct.lean",
+              "sha256": "8f5c97fbd9de28464cab86a6db8ccf75fee901a10db4a8f403997b8003406a3f",
+              "excerpt": "def originalIO (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) : RealIO.IO p where\n  kernel := (kernel p r storage Bool.false scale).eraseDType\n  projection := RealIO.projection p r storage Bool.false scale\n  read := fun u => {\n    q := u.readMem r.query, k := u.readMem r.key, v := u.readMem r.value,\n    start := u.readMemValue .int r.start, sequence := u.readMemValue .int r.sequence,\n    prompt := u.readMemValue .int r.prompt, request := u.readMemValue .int r.request,\n    tokens := u.readMemValue .int r.tokens }\n  valid := fun l a => 0 ≤ a.prompt l.batch ∧\n    ∀ i j, RealIO.active p l a i → RealIO.active p l a j →\n      RealIO.write p l a i = RealIO.write p l a j → i = j\n  -- Four metadata cells, masked Q, reached page-table/K/V lanes and output.\n  -- Each address is checked as signed and nonnegative before conversion.\n  bounds := AddressBounds.Valid p r\n  out := r.out\n  write := fun l a i => ((a.start l.batch+queryRow p l i.1.val)*p.outRow+\n    l.head*p.outHead+i.2.1.val*p.outDim).toNat\n  mask := fun l a i => (queryRow p l i.1.val : Int) < sequence a l ∧ i.2.1.val < p.headDim"
+            }
+          ]
+        }
+      ],
+      "numerical_items_eligible_for_explicit_deferral": [
+        "The represented natural-exp/dot/normalization/cast profile may be deferred numerically; exact source guard and finite-sentinel behavior are already part of the structural formula."
+      ],
+      "precondition_assessment": "Existing valid-address, injectivity, disjointness and positive-size premises remain legitimate. Findings concern concrete source branches or missing composition, not hypothetical hardware faults or arbitrary invalid inputs.",
+      "source_sha256": {
+        "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py": "d74efc6e5d299280642b3587ec9b6c2f13af14474ddf0b00588d6d95d4a94985",
+        "bench/tritonbench_g/context_attn_bloom/Correct.lean": "8f5c97fbd9de28464cab86a6db8ccf75fee901a10db4a8f403997b8003406a3f",
+        "bench/tritonbench_g/context_attn_bloom/FPEquiv.lean": "d4978e9ea89359854edbd2a400587c4c645841c97dd4bab98ecb4c037644804d",
+        "bench/tritonbench_g/context_attn_bloom/Kernels.lean": "fd2ac8084014244f7dc686a58aac0178fc15bc1bc16d7d8164c891a005175750"
+      },
+      "all_input_sha256": {
+        "lean": {
+          "bench/tritonbench_g/context_attn_bloom/Correct.lean": "8f5c97fbd9de28464cab86a6db8ccf75fee901a10db4a8f403997b8003406a3f",
+          "bench/tritonbench_g/context_attn_bloom/FPEquiv.lean": "d4978e9ea89359854edbd2a400587c4c645841c97dd4bab98ecb4c037644804d",
+          "bench/tritonbench_g/context_attn_bloom/Kernels.lean": "fd2ac8084014244f7dc686a58aac0178fc15bc1bc16d7d8164c891a005175750",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/AddressBounds.lean": "352489859a93015840e5958f51c671b3b21281823e5a26943e79446c513140d2",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/Bounds.lean": "2812d5d76d02e882d58754265429634339fd164cf07593a27a21e482bb0932d6",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/CommitExecution.lean": "ca37bb3eebc4aabde2636ad7a4c340ec17e4faf916ad6bcc4064a98883c243e5",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/EpilogueExecution.lean": "4b322728c1787952dcd0170d674270013afd5a8e5efbaf6249363964d7ee087e",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/EpilogueProgram.lean": "9cb2c0ec14a7e00eaedbb47a44b16332707e1486b04423e13453c1da5df0b002",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/EpilogueResult.lean": "5365b3dedbd0c38df37dfd37b36af6471ca8bc30c6ab2cae388b6961ce680037",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/EpilogueSafety.lean": "24bf1fc6eb1dcf709ff28abc34f6da355b104db11daa80bcc657d8c183e46448",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/FP.lean": "915ec13fec6b49f808f6a81350e83d38881aa207054cc1448854ff7ff7cfa8bc",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/FPModel.lean": "65a8668db9030b44440d2a5fb80ba9885af85734743a97089628dcd292b83b6c",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/FiniteMaskFormula.lean": "f621b33316a820e8d6dae3578c76a0fa27739e2bc726f885d693331a3a966dbe",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/Flat.lean": "93716b84337704c53e261c19d66e3fc2ddd0e65efa36f5c80ba1d8d607faba9e",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/FlattenShape.lean": "f839eb39f20822cf5ebb89d8847ac2b2fec7dbfbefc297ffa8c74e20a9e34364",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/Formula.lean": "a4b1d38cc4cf87031bb3b9d86e10026863ffe22b02b68fd535033288b90ceb60",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/Invariant.lean": "bdfd5131b6998c2723dc21ff9230e0fbbfce7a4d6d7d9eac22f3564e762c4b03",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/InvariantStep.lean": "4b402e5c9c6e41d501c76b5a070ed6db895f63f32d17af26ee9437a68f65358a",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/IterationExecution.lean": "9997bb3e3d6818b5d5ef7cc2ece75e43aaa593ceddb957f6900a2b60f0ebeec8",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/KeysMeaning.lean": "0a81fc4206df6eefd19299967359af69cc28b2decbacad53978db2693e11039c",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/KeysSafety.lean": "a6fd75488f4cefefe04d859bbba9b0d07a4a1c6ef75f27a38060a2086279994d",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/LoopExecution.lean": "85cd88af859bb3193b6228db343017c23d364b37d2b7bda81f1783a96f6f2703",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/LoopKeysExecution.lean": "cc34a697cfc242962462cb366e3935457dd627eb3b5874bd275584e368870b1d",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/LoopKeysProgram.lean": "08cc05655c4320ca32aba45286fed58e3219a26d1a2424f58ca411962791e24f",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/LoopProgram.lean": "eef98c23a7b5046809b47439aeb5ce74f3de12c4ca527ea3c8eee60855f2ac34",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/LoopSafety.lean": "69f94e7b2e255b38adb994447ac50dcb04e9613ba6ad02d009c9c2b69d9d5e9d",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/LoopState.lean": "e04e36b8331f7cddf3ad3e69e990d1312cbfc278cf2d10dfd41d44e303484770",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/Math.lean": "a73207d89312fb95ce776b0313791a3b776c2b1a81ab04dc53de72201b8da092",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/NormalizedFormula.lean": "6e83182732e57bf6c827360a6d64b64b228cabbf9bd2e544fb2f3d8460754775",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/NormalizerExecution.lean": "655c5fb494a3a2264e99bb1dabdcd90aefe1d3b5895e3719cc250bb55be030be",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/NumericOps.lean": "50ec0ca06dabe9b95035473b5e14c1487cb5e6f5d8e964db981bd15107f63086",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/NumericUpdate.lean": "e39b2012e47425d99cbc5d3661d9f52e1fc9886a1c0292af4e0c1a003e8dc602",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/PreludeAlignment.lean": "ec3a6cc67e3264549ff6de086aaab4a55a460cbcb0e47e1ad52b3e387abb84ae",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/PreludeComplete.lean": "523c1ca1bea96db4863be673a840a2496070a0a2863c08c43ff4df64979323c5",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/PreludeLaunch.lean": "4aac9e9eeb613cd83f17eaa2b7a5c16dd88066f6b320dd5d8ad2fa4b9edf8d0a",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/PreludeMetadata.lean": "04b84231fbf24aafedf78dadf347fdfc1ce1f49f70e970ea3668d2150c1b2d43",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/PreludeOffsets.lean": "0411671b17180153e0cd14878dab64fca31b8c58126a6e4baf15b9c1d9128095",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/PreludeProgram.lean": "2a4bc4720497092885bbd6da5a2cfb5d8e9e58ecaecba672041bac0b97525f7e",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/PreludeQuery.lean": "77efccb21db1285d5fcd4781148a55cc91acd7a0926d290d505712455ea3093f",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/PreludeSafety.lean": "f54dac20031a4df8a62e98a9c79b45dab9f0a5755babff1994294ec0f55674bb",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/Program.lean": "c84cbdb687ad3219b30361064f1747a4d5a1171e84e59c3b2afdd0abbd077c7b",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/PrologueAlignment.lean": "aaa1fdf7f63c2ec1c4020fc856ad38f94712c64b1f4cf3509b50001cdc0de1f6",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/PrologueDefinition.lean": "9b9a74c88fac922bb9afb5a028fdd3e9c7c49f4fa02a28b248c24f4a2a6c230c",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/PureSegments.lean": "ceaeedacf69b37ac4b4be21f2dcf986bed9c20d8ac662e96e889c739ee45c9d8",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/RealIO.lean": "ecbe8f06bbb9a8304f146ae6effdd9457801c17bb7eb03a74674b07d656f33ec",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/RealPreparation.lean": "d0c46011a7bbb17951647042b76f5bcc628765ab9277e5fc9cb45c17652d5d31",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/RealSetup.lean": "f96bbd5d54f5e982f35dfa897f82231cc859d0a3cce81134fe193ffe0138dd25",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/RealWitness.lean": "8f8d1aa25add6c4211a49396451b656fa1fc12a3b3863c460fff85dbf639b9b3",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/RegisterFrame.lean": "31d3e07df1d0cdaaa36e26ca4e34496b3e03ffabc01335d4335b01ab6fd834c4",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/SafeOps.lean": "75cf66d57f2658c631e2ead464c3a55e28d7945bfaea265af9dfdd998191002a",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/ScalesExecution.lean": "575538212412b479d0ab03df9170e3540ba67498a6af2e068f72905b839fd949",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/ScoreTiles.lean": "7da2fa8999b28f8cfbaffb4a5bdfab2b1235c96e6819dbc525767a53a46c471a",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/ScoresMeaning.lean": "7487941c47837467719c8b988b5f5dde76ca59d1d85b28201c340b693b9e744a",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/ScoresProgram.lean": "05953a9640e836a55dfe93a5e252a787ab29cbf878251687ce034832bafb3310",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/ScoresStaged.lean": "b758eb5a2153a085cc751f8cad28e1eb3237cba51932bb202d9f79409cde8be3",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/StageFrames.lean": "0ac0b856284554b28b577fbf6c08f11f3c96dab93efaa73c3ef7afaca792ac5b",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/StaticFrame.lean": "de9f772d7724280193847783487e34fcd9fbca9313b968c472bf1d159fde9ba5",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/StatsExecution.lean": "ba38103ef7bb2a91396e4307b7a32ef78e54a18ef43cb25fadb90c2a80d82e32",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/TypedExecution.lean": "60bb53e3aa3228268e60d345ec2606a97caad0a948f84476dde6bf05ffc61c12",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/UpdateProgram.lean": "8839c4695683605bea49959ab32e83aff2cec1aeffa370b47750aa4d70b0289a",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/ValuesExecution.lean": "97042da2b125cc91f43b29e7396a1e18cfab30afb4ab9a6366b83933729e723a",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/ValuesMeaning.lean": "27dd2a617f813ad80f58ecda6d233f611a3cb404739b413880994366e52af2a7",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/ValuesProgram.lean": "48126c48d27e86922fa11d6924e02cf32e426b1144448ee5a0dc95b8e73fcf83",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/ValuesSafety.lean": "2e2e47b10dad64a055387c19fe7ac61ceeffbf2bf0c5bc5292dd64412d5b98bc",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/WholeExecution.lean": "bd46ee0e1764ddd9cd756ff0b29b60135ad4a306adc82809b324403d72d34a01",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/WholeProgram.lean": "11e272fd9f294d56bc1b45a238de1e0a83bf92c2c7bdbf1d7c526c96b5fa45c4",
+          "bench/tritonbench_g/context_attn_bloom/Proofs/WholeSafety.lean": "4a189addb43da81bc9ce9499a6c60c91784696162016da3db5a85864cedb9c72"
+        },
+        "python": {
+          "bench/tritonbench_g/context_attn_bloom/context_attn_bloom.py": "d74efc6e5d299280642b3587ec9b6c2f13af14474ddf0b00588d6d95d4a94985"
+        }
+      },
+      "public_declarations_checked": [
+        {
+          "file": "bench/tritonbench_g/context_attn_bloom/Correct.lean",
+          "declaration": "original_correct",
+          "parser_name": "original_correct",
+          "line": 74,
+          "sha256": "8f5c97fbd9de28464cab86a6db8ccf75fee901a10db4a8f403997b8003406a3f",
+          "statement_sha256": "29fc716bf5e050fe96e29ec0a875af3c3dfe703bc17994b67a8259bf84912c8a",
+          "statement": "specification original_correct (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) (hBN : 0 < p.BN) :\n    Spec.Real (originalIO p r storage scale ⊨ expected p scale)"
+        },
+        {
+          "file": "bench/tritonbench_g/context_attn_bloom/Correct.lean",
+          "declaration": "scaleFirst_correct",
+          "parser_name": "scaleFirst_correct",
+          "line": 79,
+          "sha256": "8f5c97fbd9de28464cab86a6db8ccf75fee901a10db4a8f403997b8003406a3f",
+          "statement_sha256": "86262a33c24c74a43455d468034bd31dbe6db41d5015110efa09b064c020a598",
+          "statement": "specification scaleFirst_correct (p : Layout) (r : Regions) (storage : Storage) (scale : ℝ) (hBN : 0 < p.BN) :\n    Spec.Real (scaleFirstIO p r storage scale ⊨ expected p scale)"
+        },
+        {
+          "file": "bench/tritonbench_g/context_attn_bloom/FPEquiv.lean",
+          "declaration": "scaleFirst_equiv",
+          "parser_name": "scaleFirst_equiv",
+          "line": 55,
+          "sha256": "d4978e9ea89359854edbd2a400587c4c645841c97dd4bab98ecb4c037644804d",
+          "statement_sha256": "399c21d72eb9be425f57f09531e055c453dad1cf6ebd69fb43bba2f1580b3776",
+          "statement": "specification scaleFirst_equiv (R : FP.ScalarArithmetic.Rules) :\n    original storage Q K V sm_scale B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx b_prompt_cache_len\n    stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd\n    stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s\n    kv_group_num head_dim BLOCK_M BLOCK_DMODEL BLOCK_N ≡[R]\n    scaleFirst storage Q K V sm_scale B_Start_Loc B_Seqlen Out Req_to_tokens B_req_idx b_prompt_cache_len\n    stride_qbs stride_qh stride_qd stride_kbs stride_kh stride_kd stride_vbs stride_vh stride_vd\n    stride_obs stride_oh stride_od stride_req_to_tokens_b stride_req_to_tokens_s\n    kv_group_num head_dim BLOCK_M BLOCK_DMODEL BLOCK_N"
+        }
+      ],
+      "catalog_declaration_metadata_discrepancies": [],
+      "dtype_scope_caveat": "No unsupported dtype is assumed to compile merely because a Python wrapper admits it. Missing-route findings require either the actual supported conversion route or a precise admission/rejection contract; they do not demand arbitrary compiler internals.",
+      "verification": {
+        "manual_original_production_functions_read": 2,
+        "actual_public_statements_reparsed_and_hash_checked": 3,
+        "key_source_and_referenced_definition_review": true,
+        "source_matches_baseline_scope_inputs": true,
+        "generated_selector_check": null,
+        "new_lean_runs": 0,
+        "new_frontend_runs": 0,
+        "gpu_runs": 0,
+        "numerical_deferrals_registered_by_this_read_only_review": 0
+      }
+    }
+  ]
+}
