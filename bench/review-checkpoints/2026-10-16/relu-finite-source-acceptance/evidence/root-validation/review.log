@@ -1,0 +1,18 @@
+{
+  "status": "substantively_reviewed_for_finite_scope_integration",
+  "review_sha256": "30c9a722e03c76521da3daf7ec370c8151fb18dd3dbcd424ad185451bc99c909",
+  "counts": {
+    "files": 628,
+    "project_dependencies": 175,
+    "external_objects": 36,
+    "compile_attempts": 21,
+    "failed_compile_attempts_retained": 2,
+    "frontend_cases": 153,
+    "independent_boundary_replays": 68,
+    "independent_metadata_replays": 10,
+    "scope_cases": 340,
+    "numeric_families": 12,
+    "numeric_ports": 84,
+    "omitted_port_negative_checks": 84
+  }
+}

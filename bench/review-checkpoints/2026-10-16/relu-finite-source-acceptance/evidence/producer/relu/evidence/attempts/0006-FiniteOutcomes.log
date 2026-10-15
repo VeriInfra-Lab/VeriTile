@@ -1,0 +1,170 @@
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FiniteOutcomes.lean:84:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  relu P x { runtime := s, trace := trace }
+in the target expression
+  Outcome views P M cmp16 cmp32 num fault x s trace
+    (relu (withLaunch P M cmp16 cmp32 num undef order fault) x { runtime := s, trace := trace })
+
+case error
+α : Type
+inst✝ : Inhabited α
+views : Tensor → StorageView
+P : Primitives (Runtime α)
+C : PrimitivesContract views P
+M : FP.Structural.Algebra α
+cmp16 cmp32 : α → α → Bool
+num : FP64Source.Numerics
+undef : ℕ → BitVec 64
+order : ℕ → List ℕ
+fault : Option (Error × Runtime α)
+x : Tensor
+s : Runtime α
+trace : List Event
+domain : SourceDomain x
+ready : Ready views x s
+complete : (order (gridCount (numel x) 1024)).Perm (List.range (gridCount (numel x) 1024))
+e : Error
+t : Runtime α
+hd : P.device x s = Result.error e t
+⊢ Outcome views P M cmp16 cmp32 num fault x s trace
+    (relu (withLaunch P M cmp16 cmp32 num undef order fault) x { runtime := s, trace := trace })
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FiniteOutcomes.lean:89:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  relu P x { runtime := s, trace := trace }
+in the target expression
+  Outcome views P M cmp16 cmp32 num fault x s trace
+    (relu (withLaunch P M cmp16 cmp32 num undef order fault) x { runtime := s, trace := trace })
+
+case ok.error
+α : Type
+inst✝ : Inhabited α
+views : Tensor → StorageView
+P : Primitives (Runtime α)
+C : PrimitivesContract views P
+M : FP.Structural.Algebra α
+cmp16 cmp32 : α → α → Bool
+num : FP64Source.Numerics
+undef : ℕ → BitVec 64
+order : ℕ → List ℕ
+fault : Option (Error × Runtime α)
+x : Tensor
+s : Runtime α
+trace : List Event
+domain : SourceDomain x
+ready : Ready views x s
+complete : (order (gridCount (numel x) 1024)).Perm (List.range (gridCount (numel x) 1024))
+device : String
+d : Runtime α
+hd : P.device x s = Result.ok device d
+e : Error
+t : Runtime α
+ha : P.emptyLike x "float32" device d = Result.error e t
+⊢ Outcome views P M cmp16 cmp32 num fault x s trace
+    (relu (withLaunch P M cmp16 cmp32 num undef order fault) x { runtime := s, trace := trace })
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FiniteOutcomes.lean:94:12: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  relu P x { runtime := s, trace := trace }
+in the target expression
+  Outcome views P M cmp16 cmp32 num fault x s trace
+    (relu (withLaunch P M cmp16 cmp32 num undef order fault) x { runtime := s, trace := trace })
+
+case ok.ok.error
+α : Type
+inst✝ : Inhabited α
+views : Tensor → StorageView
+P : Primitives (Runtime α)
+C : PrimitivesContract views P
+M : FP.Structural.Algebra α
+cmp16 cmp32 : α → α → Bool
+num : FP64Source.Numerics
+undef : ℕ → BitVec 64
+order : ℕ → List ℕ
+fault : Option (Error × Runtime α)
+x : Tensor
+s : Runtime α
+trace : List Event
+domain : SourceDomain x
+ready : Ready views x s
+complete : (order (gridCount (numel x) 1024)).Perm (List.range (gridCount (numel x) 1024))
+device : String
+d : Runtime α
+hd : P.device x s = Result.ok device d
+output : Tensor
+a : Runtime α
+ha : P.emptyLike x "float32" device d = Result.ok output a
+e : Error
+t : Runtime α
+hm : P.numel output a = Result.error e t
+⊢ Outcome views P M cmp16 cmp32 num fault x s trace
+    (relu (withLaunch P M cmp16 cmp32 num undef order fault) x { runtime := s, trace := trace })
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FiniteOutcomes.lean:100:14: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  relu P x { runtime := s, trace := trace }
+in the target expression
+  Outcome views P M cmp16 cmp32 num (some (e, t)) x s trace
+    (relu (withLaunch P M cmp16 cmp32 num undef order (some (e, t))) x { runtime := s, trace := trace })
+
+case ok.ok.ok.some
+α : Type
+inst✝ : Inhabited α
+views : Tensor → StorageView
+P : Primitives (Runtime α)
+C : PrimitivesContract views P
+M : FP.Structural.Algebra α
+cmp16 cmp32 : α → α → Bool
+num : FP64Source.Numerics
+undef : ℕ → BitVec 64
+order : ℕ → List ℕ
+x : Tensor
+s : Runtime α
+trace : List Event
+domain : SourceDomain x
+ready : Ready views x s
+complete : (order (gridCount (numel x) 1024)).Perm (List.range (gridCount (numel x) 1024))
+device : String
+d : Runtime α
+hd : P.device x s = Result.ok device d
+output : Tensor
+a : Runtime α
+ha : P.emptyLike x "float32" device d = Result.ok output a
+n : ℕ
+m : Runtime α
+hm : P.numel output a = Result.ok n m
+e : Error
+t : Runtime α
+⊢ Outcome views P M cmp16 cmp32 num (some (e, t)) x s trace
+    (relu (withLaunch P M cmp16 cmp32 num undef order (some (e, t))) x { runtime := s, trace := trace })
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FiniteOutcomes.lean:100:91: error: Tactic `rfl` failed: The left-hand side
+  P.launch x output n (gridCount n 1024) 1024 m
+is not definitionally equal to the right-hand side
+  Result.error e t
+
+α : Type
+inst✝ : Inhabited α
+views : Tensor → StorageView
+P : Primitives (Runtime α)
+C : PrimitivesContract views P
+M : FP.Structural.Algebra α
+cmp16 cmp32 : α → α → Bool
+num : FP64Source.Numerics
+undef : ℕ → BitVec 64
+order : ℕ → List ℕ
+x : Tensor
+s : Runtime α
+trace : List Event
+domain : SourceDomain x
+ready : Ready views x s
+complete : (order (gridCount (numel x) 1024)).Perm (List.range (gridCount (numel x) 1024))
+device : String
+d : Runtime α
+hd : P.device x s = Result.ok device d
+output : Tensor
+a : Runtime α
+ha : P.emptyLike x "float32" device d = Result.ok output a
+n : ℕ
+m : Runtime α
+hm : P.numel output a = Result.ok n m
+e : Error
+t : Runtime α
+⊢ P.launch x output n (gridCount n 1024) 1024 m = Result.error e t
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteHost.Ready: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.HostWrapper.relu,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.logicalLaunch] — non-circular ✓
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteHost.Outcome: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.HostWrapper.relu,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.FP64Host.logicalLaunch] — non-circular ✓
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/FiniteOutcomes.lean:128:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteHost.all_outcomes: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

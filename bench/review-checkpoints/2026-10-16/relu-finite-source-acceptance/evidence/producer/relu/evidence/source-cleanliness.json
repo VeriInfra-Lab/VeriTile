@@ -1,0 +1,7 @@
+{
+  "status": "passed",
+  "module_count": 5,
+  "no_sorry_or_new_axioms": true,
+  "no_trailing_whitespace": true,
+  "metadata_checker_dependencies_unchanged": true
+}

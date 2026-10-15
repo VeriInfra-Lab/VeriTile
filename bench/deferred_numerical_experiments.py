@@ -235,8 +235,10 @@ def markdown(data):
             f"{exact['new_scalar_families']} additional scalar families bind "
             f"{exact['scope_bindings']} exact dtype/port instances across "
             f"{exact['declaration_cases']} declaration cases. All remain unvalidated.", "",
-            "The fp64 cases bind the frozen sm90 frontend configuration. ReLU binds only "
-            "N=1025, block_size=1024, sm90; other specializations remain unregistered. "
+            "The original fp64 and ReLU records retain their frozen sm90 configurations. "
+            "The finite ReLU extension covers all 17 canonical profiles with block_size=1024 "
+            "and 0<=N<=2^31, including errors and empty launches; its 84 numerical ports "
+            "apply to the 39 nonempty successful cases. "
             "The queue preserves structural gaps and adds no accepted original programs.", ""]
     return "\n".join(lines)
 

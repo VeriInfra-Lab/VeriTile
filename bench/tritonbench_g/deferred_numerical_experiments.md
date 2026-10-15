@@ -37,6 +37,18 @@ The inventory covers 184 tasks: 77 have concrete native-binding recipes, and the
 | `RELU-W-N1-FROMINT` | `exact_profile_bound_validation_pending` | 1 |
 | `RELU-W-N1-FROMNAT` | `exact_profile_bound_validation_pending` | 1 |
 | `RELU-W-N2-LITERAL` | `exact_profile_bound_validation_pending` | 1 |
+| `RELU-FINITE-SINT32` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-FINITE-UINT32` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-FINITE-ZERO32` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-FINITE-ZERO16` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-FINITE-ZEROBF16` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-FINITE-CMP16` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-FINITE-CMP32` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-FINITE-EXT16` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-FINITE-EXTBF16` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-FINITE-CMP64` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-FINITE-ZERO64` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-FINITE-NARROW64` | `awaiting_explicit_numeric_validation` | 1 |
 
 Five profiles still need exact binding. Existing reports remain limited to their recorded configuration. The unrestricted fp16 rounding-is-identity assumption is refuted; it must be repaired, not submitted as a validation target.
 
@@ -68,6 +80,6 @@ Keep failed and not-run cases. A source/compiled graph mismatch requires a corre
 
 ## Exact scalar follow-up bindings
 
-18 additional scalar families bind 86 exact dtype/port instances across 58 declaration cases. All remain unvalidated.
+30 additional scalar families bind 170 exact dtype/port instances across 398 declaration cases. All remain unvalidated.
 
-The fp64 cases bind the frozen sm90 frontend configuration. ReLU binds only N=1025, block_size=1024, sm90; other specializations remain unregistered. The queue preserves structural gaps and adds no accepted original programs.
+The original fp64 and ReLU records retain their frozen sm90 configurations. The finite ReLU extension covers all 17 canonical profiles with block_size=1024 and 0<=N<=2^31, including errors and empty launches; its 84 numerical ports apply to the 39 nonempty successful cases. The queue preserves structural gaps and adds no accepted original programs.

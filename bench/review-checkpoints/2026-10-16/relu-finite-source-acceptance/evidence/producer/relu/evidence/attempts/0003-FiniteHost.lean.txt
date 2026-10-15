@@ -1,0 +1,140 @@
+import bench.tritonbench_g.relu_triton_kernel.Proofs.FiniteBoundary
+
+namespace VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteHost
+open VeriTile.Triton HostWrapper GatedGrid FP64Host FiniteBoundary
+noncomputable section
+set_option maxHeartbeats 3000000
+set_option linter.unusedSimpArgs false
+
+def TypedPost {α : Type} [Inhabited α] (M : FP.Structural.Algebra α)
+    (cmp16 cmp32 : α → α → Bool) (p : TypedValue.Profile) (x output : Tensor)
+    (v : StorageView) (storage : Nat → FP.Structural.Cell α)
+    (initial allocated final : Runtime α) : Prop :=
+  (∀ i, i < numel x → final.1.mem output.region i =
+    if i < 1024 then .mk .fp32 (TypedValue.resultValue M cmp16 cmp32 p.kind
+      (storage (dataBase v x + i * bytes x.dtype))) else allocated.1.mem output.region i) ∧
+  (∀ r i, r ≠ output.region → final.1.mem r i = initial.1.mem r i) ∧
+  (∀ i, 1024 ≤ i → final.1.mem output.region i = allocated.1.mem output.region i) ∧
+  final.2 = allocated.2
+
+def WidePost {α : Type} (num : FP64Source.Numerics) (x output : Tensor)
+    (v : StorageView) (storage : Nat → BitVec 64)
+    (initial allocated final : Runtime α) : Prop :=
+  (∀ i, i < numel x → final.2.f32 output.region i =
+    if i < 1024 then FP64Source.value num (storage (dataBase v x + i * bytes x.dtype))
+    else allocated.2.f32 output.region i) ∧
+  (∀ r i, r ≠ output.region → final.2.f32 r i = initial.2.f32 r i) ∧
+  (∀ i, 1024 ≤ i → final.2.f32 output.region i = allocated.2.f32 output.region i) ∧
+  final.2.f64 = allocated.2.f64 ∧ final.1 = allocated.1
+
+theorem typed_correct {α : Type} [Inhabited α] (views : Tensor → StorageView)
+    (P : Primitives (Runtime α)) (C : PrimitivesContract views P)
+    (M : FP.Structural.Algebra α) (cmp16 cmp32 : α → α → Bool)
+    (num : FP64Source.Numerics) (undef : Nat → BitVec 64) (order : Nat → List Nat)
+    (p : TypedValue.Profile) (x output : Tensor) (s d a m : Runtime α)
+    (trace : List Event) (device : String) (n : Nat)
+    (storage : Nat → FP.Structural.Cell α) (input : TypedInput p x (views x) storage s)
+    (hd : P.device x s = .ok device d)
+    (ha : P.emptyLike x "float32" device d = .ok output a)
+    (hm : P.numel output a = .ok n m) :
+    ∃ final, relu (FP64Host.withLogicalLaunch P M cmp16 cmp32 num undef order) x ⟨s, trace⟩ =
+        .ok output ⟨final, trace ++ successTrace x output device (numel x)⟩ ∧
+      Allocation views x output s a ∧ TypedPost M cmp16 cmp32 p x output (views x) storage s a final := by
+  obtain ⟨ds, ma, nx, alloc⟩ := metadata_chain views P C x output s d a m device n hd ha hm
+  subst d; subst m; subst n
+  have kept := typed_input_preserved views p x output (views x) storage s a input alloc
+  obtain ⟨final, run, formula, other⟩ := FP64Host.relu_typed_success P M cmp16 cmp32 num undef order
+    p x output s s a a trace device (numel x) input.dtype hd ha hm
+  refine ⟨final, run, alloc, ?_, ?_, ?_, other⟩
+  · intro i active
+    have positive := positive_grid_count (numel x) 1024 (by omega) (by decide)
+    rw [formula, if_neg (Nat.ne_of_gt positive)]
+    by_cases first : i < 1024
+    · simp [TypedValue.reference, first, active, kept.view i active]
+    · simp [TypedValue.reference, first]
+  · intro r i outside
+    rw [formula]
+    split
+    · exact alloc.typedFrame r i outside
+    · rw [TypedValue.reference_frame M cmp16 cmp32 p.kind x.region output.region
+        (numel x) 1024 a.1.mem r i (Or.inl outside)]
+      exact alloc.typedFrame r i outside
+  · intro i tail
+    rw [formula]
+    split
+    · rfl
+    · exact TypedValue.reference_frame M cmp16 cmp32 p.kind x.region output.region
+        (numel x) 1024 a.1.mem output.region i (Or.inr (Or.inl tail))
+
+theorem wide_correct {α : Type} [Inhabited α] (views : Tensor → StorageView)
+    (P : Primitives (Runtime α)) (C : PrimitivesContract views P)
+    (M : FP.Structural.Algebra α) (cmp16 cmp32 : α → α → Bool)
+    (num : FP64Source.Numerics) (undef : Nat → BitVec 64) (order : Nat → List Nat)
+    (x output : Tensor) (s d a m : Runtime α) (trace : List Event) (device : String) (n : Nat)
+    (storage : Nat → BitVec 64) (input : WideInput x (views x) storage s)
+    (complete : (order (gridCount (numel x) 1024)).Perm (List.range (gridCount (numel x) 1024)))
+    (hd : P.device x s = .ok device d)
+    (ha : P.emptyLike x "float32" device d = .ok output a)
+    (hm : P.numel output a = .ok n m) :
+    ∃ final, relu (FP64Host.withLogicalLaunch P M cmp16 cmp32 num undef order) x ⟨s, trace⟩ =
+        .ok output ⟨final, trace ++ successTrace x output device (numel x)⟩ ∧
+      Allocation views x output s a ∧ WidePost num x output (views x) storage s a final := by
+  obtain ⟨ds, ma, nx, alloc⟩ := metadata_chain views P C x output s d a m device n hd ha hm
+  subst d; subst m; subst n
+  have kept := wide_input_preserved views x output (views x) storage s a input alloc
+  obtain ⟨final, run, formula, other⟩ := FP64Host.relu_fp64_success P M cmp16 cmp32 num undef order
+    x output s s a a trace device (numel x) input.dtype complete hd ha hm
+  refine ⟨final, run, alloc, ?_, ?_, ?_, ?_, other⟩
+  · intro i active
+    have positive := positive_grid_count (numel x) 1024 (by omega) (by decide)
+    rw [formula, if_neg (Nat.ne_of_gt positive)]
+    by_cases first : i < 1024
+    · simp [FP64Source.reference, first, active, kept.view i active]
+    · simp [FP64Source.reference, first]
+  · intro r i outside
+    rw [formula]
+    split
+    · exact alloc.outputFrame r i outside
+    · rw [FP64Source.reference_frame num x.region output.region r (numel x) 1024 i a.2 (Or.inl outside)]
+      exact alloc.outputFrame r i outside
+  · intro i tail
+    rw [formula]
+    split
+    · rfl
+    · exact FP64Source.reference_frame num x.region output.region output.region (numel x) 1024 i a.2
+        (Or.inr (Or.inl tail))
+  · rw [formula]
+    split <;> rfl
+
+/-- A launch-setup failure is a fallible trusted primitive category. It does
+not assert rollback: errors retain arbitrary diagnostic state supplied here.
+The successful path always invokes the proved source interpreter. -/
+def launch {α : Type} [Inhabited α] (M : FP.Structural.Algebra α)
+    (cmp16 cmp32 : α → α → Bool) (num : FP64Source.Numerics)
+    (undef : Nat → BitVec 64) (order : Nat → List Nat)
+    (fault : Option (Error × Runtime α)) (x output : Tensor) (n grid block : Nat) : Run (Runtime α) Unit :=
+  match fault with
+  | some (e, t) => fun _ => .error e t
+  | none => FP64Host.logicalLaunch M cmp16 cmp32 num undef order x output n grid block
+
+def withLaunch {α : Type} [Inhabited α] (P : Primitives (Runtime α))
+    (M : FP.Structural.Algebra α) (cmp16 cmp32 : α → α → Bool)
+    (num : FP64Source.Numerics) (undef : Nat → BitVec 64) (order : Nat → List Nat)
+    (fault : Option (Error × Runtime α)) : Primitives (Runtime α) :=
+  { P with launch := launch M cmp16 cmp32 num undef order fault }
+
+theorem no_fault {α : Type} [Inhabited α] (P : Primitives (Runtime α))
+    (M : FP.Structural.Algebra α) (cmp16 cmp32 : α → α → Bool)
+    (num : FP64Source.Numerics) (undef : Nat → BitVec 64) (order : Nat → List Nat) :
+    withLaunch P M cmp16 cmp32 num undef order none =
+      FP64Host.withLogicalLaunch P M cmp16 cmp32 num undef order := rfl
+
+#specNonCircular TypedPost avoiding [HostWrapper.relu, FP64Host.logicalLaunch]
+#specNonCircular WidePost avoiding [HostWrapper.relu, FP64Host.logicalLaunch]
+#axiomsClean typed_correct
+#axiomsClean wide_correct
+#axiomsClean no_fault
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.ReluTritonKernel.FiniteHost

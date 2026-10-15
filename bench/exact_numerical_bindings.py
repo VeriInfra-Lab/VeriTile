@@ -240,7 +240,8 @@ def derive_authority(root=ROOT):
    'declaration_cases':sum(len(c['cases']) for c in requirements),'registered_declarations':3,
    'unvalidated_numeric_instances':len(provenance),'original_program_completion_increment':0,'native_executions':0}}
  fail(len(provenance)==86 and sum(len(c['cases']) for c in requirements)==58,'unexpected exact scope counts')
- return data
+ from reviewed_numerical_extensions import extend_reviewed_authority
+ return extend_reviewed_authority(root,data)
 
 
 def extend_queue(legacy,authority):
@@ -264,7 +265,9 @@ def extend_queue(legacy,authority):
 def validate_exact_queue(queue,authority,legacy):
  """Fail closed against source-derived authority, not self-rehashed claims."""
  fail(queue==extend_queue(legacy,authority),'exact numerical queue differs from frozen source/statement/case/port authority')
- return {'status':'passed','exact_bindings':86,'declaration_cases':58,'native_executions':0,'structural_acceptance':False}
+ return {'status':'passed','exact_bindings':len(authority['provenance']),
+  'declaration_cases':sum(len(r['cases']) for r in authority['requirements']),
+  'native_executions':0,'structural_acceptance':False}
 
 
 def collect(root=ROOT):

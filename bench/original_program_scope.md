@@ -5,9 +5,10 @@ The requested standard covers **all declared stages, dtypes and branches of
 existing contract is for a repaired candidate. This exclusion does not cover
 the separate original-source task `fp4_to_bf16`.
 
-[`original_program_scope.json`](original_program_scope.json) has **1 source scope verified and 182 pending**, bound to the current extension
-catalog. The verified scope is `matrix_transpose`, under explicit primitive
-contracts and without numerical deferrals. Official comparator and whole-corpus
+[`original_program_scope.json`](original_program_scope.json) has **2 source scopes accepted and 181 pending**, bound to the current extension
+catalog. `matrix_transpose` is verified under explicit primitive contracts without
+numerical deferrals; `relu_triton_kernel` is verified with exactly registered
+numerical deferrals. Official comparator and whole-corpus
 CI results remain separate. It preserves initial gaps
 as provenance and records reviewed partial extensions with their remaining
 structural work. Its observed input hashes and partial-progress records do not
@@ -65,14 +66,19 @@ callback links reference both the rule ID and the scope-binding ID. A matching
 rule name or arbitrary free-text configuration is insufficient: a fp32 rule
 cannot certify fp64, and an exp2 callback cannot borrow a rounding-only binding.
 
-The exact numerical adapter adds 18 unvalidated scalar families to the 11 legacy
-rules. Its 86 dtype/port bindings cover 58 cases in three earlier declarations:
+The initial exact numerical adapter added 18 unvalidated scalar families to the
+11 legacy rules. Its 86 dtype/port bindings cover 58 cases in three earlier declarations:
 the two fp64 vector-addition grid contracts and the ReLU access-grid contract.
-ReLU is registered only for N=1025, block_size=1024, sm90; other configurations
-and the newer ReLU source-block/source-grid declarations need separate bindings.
+That earlier ReLU declaration is registered only for N=1025, block_size=1024,
+sm90. The independently reviewed finite ReLU extension adds 12 families and 84
+exact scalar ports for its full source-outcome contract. The current queue has
+41 rules, with 170 exact bindings across 398 cases in four declarations; the
+finite contract has 340 cases, including error and unsafe outcomes that use no
+numerical callbacks. These registrations do not apply to unrelated declarations.
 The checker derives case-specific callback requirements from pinned sources and
 requires every applicable scalar-port reference. These registrations discharge
-no structural obligations and do not mark any program accepted.
+no structural obligations by themselves; acceptance requires the separate
+complete source-scope review.
 
 After preparing a new reviewed catalog and rebinding the ledger, run:
 
@@ -107,16 +113,16 @@ the existing `fp16=true` contract uses fp32 storage and internal half casts.
 Its correction does not establish the separate `fp16=false` branch or host program.
 
 The workflow's catalog and supplement now point to the
-`vector-typed-host-and-rotary-grid` batch, with the unchanged
+`relu-finite-source-acceptance` batch, with the unchanged
 `original-scope-extensions/metadata-baseline` and preceding final-source manifest
 retained as its historical base. Neither global success nor scope
 success establishes corpus comparator replay, the integration build or native
 GPU correctness; those remain independent checks.
 
 The full-scope review covers all 183 original programs, with no unreviewed
-programs. Matrix transpose has passed its schema2 source-scope check; 182 scopes
-remain pending. This is not a claim that whole-corpus CI or official comparator
-replay has passed. The cumulative supplemental proof inventory contains 51
+programs. Matrix transpose has passed its schema2 source-scope check. ReLU has passed
+with exactly registered numerical deferrals; 181 scopes remain pending. This is not a claim that whole-corpus CI or official comparator
+replay has passed. The cumulative supplemental proof inventory contains 52
 execution contracts and
 six protocol contracts across 15 tasks; those counts are not completed programs.
 
@@ -126,3 +132,10 @@ cases, and RotaryEmb's original real-erased source through the complete Q-derive
 grid with initial-memory formulas and tail frames. Vector safe-view/address and
 exact numerical registration gaps remain; rotary rounded execution and dtype/
 admission/address-domain gaps remain. Neither task is counted as accepted.
+
+ReLU now has complete finite source coverage for all 17 canonical CUDA profiles,
+340 outcome cases and the safe index domain through N=2^31. Its 12 numerical
+families / 84 exact ports remain unvalidated. Source pointer/view permissions,
+fresh allocation metadata and pid0-only stores are explicit. For N>1024 this
+accepts the original physical prefix behavior, with arbitrary untouched output
+tail; it does not assert whole-tensor mathematical ReLU or native GPU correctness.
