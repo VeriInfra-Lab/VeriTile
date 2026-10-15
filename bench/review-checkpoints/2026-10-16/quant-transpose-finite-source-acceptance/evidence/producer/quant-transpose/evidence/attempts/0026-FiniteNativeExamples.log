@@ -1,0 +1,44 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeExamples.lean:35:52: error(lean.unknownIdentifier): Unknown constant `Int.natCast_lt`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeExamples.lean:39:2: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  b ≤ 127
+  b - c ≤ -1
+  1 ≤ a ≤ 16383
+  0 ≤ a - 128*b ≤ 127
+  a - 128*b - c ≤ -1
+where
+ a := ↑lane
+ b := ↑lane / 128
+ c := (if True then { kind := IntegerKind.constant, value := 1 }
+  else integerWrap (if 1 < 2 ^ 31 then IntegerKind.i32 else IntegerKind.i64) ↑1).value
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeExamples.lean:35:41: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  simp only [̵i̵n̵t̵e̵g̵e̵r̵L̵e̵s̵s̵,̵m̵e̵t̵a̵d̵a̵t̵a̵I̵n̵t̵e̵g̵e̵r̵,̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵I̵n̵t̵.̵n̵a̵t̵C̵a̵s̵t̵_̵l̵t̵,̵I̵n̵t̵.̵r̵e̵d̵u̵c̵e̵N̵a̵t̵C̵a̵s̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵B̵o̵o̵l̵.̵a̵n̵d̵_̵e̵q̵_̵t̵r̵u̵e̵,̵O̵p̵t̵i̵o̵n̵.̵s̵o̵m̵e̵.̵i̵n̵j̵E̵q̵]̵[̲i̲n̲t̲e̲g̲e̲r̲L̲e̲s̲s̲,̲ ̲m̲e̲t̲a̲d̲a̲t̲a̲I̲n̲t̲e̲g̲e̲r̲,̲ ̲I̲n̲t̲.̲n̲a̲t̲C̲a̲s̲t̲_̲l̲t̲,̲ ̲I̲n̲t̲.̲r̲e̲d̲u̲c̲e̲N̲a̲t̲C̲a̲s̲t̲,̲ ̲B̲o̲o̲l̲.̲a̲n̲d̲_̲e̲q̲_̲t̲r̲u̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲O̲p̲t̲i̲o̲n̲.̲s̲o̲m̲e̲.̲i̲n̲j̲E̲q̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeExamples.lean:35:67: warning: This simp argument is unused:
+  Int.reduceNatCast
+
+Hint: Omit it from the simp argument list.
+  simp only [̵i̵n̵t̵e̵g̵e̵r̵L̵e̵s̵s̵,̵m̵e̵t̵a̵d̵a̵t̵a̵I̵n̵t̵e̵g̵e̵r̵,̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵I̵n̵t̵.̵n̵a̵t̵C̵a̵s̵t̵_̵l̵t̵,̵I̵n̵t̵.̵r̵e̵d̵u̵c̵e̵N̵a̵t̵C̵a̵s̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵B̵o̵o̵l̵.̵a̵n̵d̵_̵e̵q̵_̵t̵r̵u̵e̵,̵O̵p̵t̵i̵o̵n̵.̵s̵o̵m̵e̵.̵i̵n̵j̵E̵q̵]̵[̲i̲n̲t̲e̲g̲e̲r̲L̲e̲s̲s̲,̲ ̲m̲e̲t̲a̲d̲a̲t̲a̲I̲n̲t̲e̲g̲e̲r̲,̲ ̲i̲f̲_̲p̲o̲s̲ ̲r̲f̲l̲,̲ ̲I̲n̲t̲.̲n̲a̲t̲C̲a̲s̲t̲_̲l̲t̲,̲ ̲B̲o̲o̲l̲.̲a̲n̲d̲_̲e̲q̲_̲t̲r̲u̲e̲,̲
+  ̲ ̲ ̲ ̲ ̲O̲p̲t̲i̲o̲n̲.̲s̲o̲m̲e̲.̲i̲n̲j̲E̲q̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeExamples.lean:36:4: warning: This simp argument is unused:
+  Bool.and_eq_true
+
+Hint: Omit it from the simp argument list.
+  simp only [̵i̵n̵t̵e̵g̵e̵r̵L̵e̵s̵s̵,̵m̵e̵t̵a̵d̵a̵t̵a̵I̵n̵t̵e̵g̵e̵r̵,̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵I̵n̵t̵.̵n̵a̵t̵C̵a̵s̵t̵_̵l̵t̵,̵I̵n̵t̵.̵r̵e̵d̵u̵c̵e̵N̵a̵t̵C̵a̵s̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵B̵o̵o̵l̵.̵a̵n̵d̵_̵e̵q̵_̵t̵r̵u̵e̵,̵O̵p̵t̵i̵o̵n̵.̵s̵o̵m̵e̵.̵i̵n̵j̵E̵q̵]̵[̲i̲n̲t̲e̲g̲e̲r̲L̲e̲s̲s̲,̲ ̲m̲e̲t̲a̲d̲a̲t̲a̲I̲n̲t̲e̲g̲e̲r̲,̲ ̲i̲f̲_̲p̲o̲s̲ ̲r̲f̲l̲,̲ ̲I̲n̲t̲.̲n̲a̲t̲C̲a̲s̲t̲_̲l̲t̲,̲ ̲I̲n̲t̲.̲r̲e̲d̲u̲c̲e̲N̲a̲t̲C̲a̲s̲t̲,̲
+  ̲ ̲ ̲ ̲ ̲O̲p̲t̲i̲o̲n̲.̲s̲o̲m̲e̲.̲i̲n̲j̲E̲q̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeExamples.lean:66:0: error: QuantTransposeFinite.singleton_all_masks: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+QuantTransposeFinite.safe_wrapped_active_addresses: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.active_wrapping_not_refinement: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.unsafe_wrapped_active_address: axiom footprint ⊆ standard base ✓  ([propext])

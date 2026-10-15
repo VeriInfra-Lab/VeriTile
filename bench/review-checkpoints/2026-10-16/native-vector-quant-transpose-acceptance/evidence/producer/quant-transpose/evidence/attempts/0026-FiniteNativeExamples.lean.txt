@@ -1,0 +1,72 @@
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.FiniteNativeRefinement
+
+namespace QuantTransposeFinite
+set_option maxHeartbeats 12000000
+set_option maxRecDepth 24000
+
+theorem i32_small (n : Nat) (h : n<128) : integerWrap .i32 n=⟨.i32,n⟩ := by
+  change NativeInteger.mk .i32 (BitVec.ofInt 32 (n:Int)).toInt=NativeInteger.mk .i32 (n:Int)
+  apply congrArg (NativeInteger.mk .i32)
+  apply BitVec.toInt_ofInt_eq_self (by decide) <;> omega
+
+theorem singleton_tile : nativeTile 1 1 0=some ⟨⟨.i32,0⟩,⟨.i32,0⟩⟩ := by decide +kernel
+
+/-- All 16384 lanes are covered, for arbitrary input strides. Inactive
+padded products can wrap without creating an access. -/
+theorem singleton_all_masks (sam san lane : Nat) (hl : lane<128*128) :
+    (nativeLane 1 1 sam san 0 lane).map NativeLane.mask=some (decide (lane=0)) := by
+  have hr : lane/128<128 := by omega
+  have hc : lane%128<128 := Nat.mod_lt _ (by decide)
+  simp only [nativeLane,singleton_tile]
+  change some (integerLess
+    (integerAdd (integerMul ⟨.i32,0⟩ (integerLiteral 128)) (integerWrap .i32 (lane/128))) (metadataInteger 1) &&
+    integerLess (integerAdd (integerMul ⟨.i32,0⟩ (integerLiteral 128)) (integerWrap .i32 (lane%128)))
+      (metadataInteger 1))=some (decide (lane=0))
+  have zero : integerMul ⟨.i32,0⟩ (integerLiteral 128)=⟨.i32,0⟩ := by decide +kernel
+  rw [zero]
+  change some (integerLess (integerAdd ⟨.i32,0⟩ (integerWrap .i32 ((lane/128:Nat):Int))) (metadataInteger 1) &&
+    integerLess (integerAdd ⟨.i32,0⟩ (integerWrap .i32 ((lane%128:Nat):Int))) (metadataInteger 1))=some (decide (lane=0))
+  rw [i32_small _ hr,i32_small _ hc]
+  have add (n : Nat) (hn : n<128) : integerAdd ⟨.i32,0⟩ ⟨.i32,n⟩=⟨.i32,n⟩ := by
+    change integerWrap .i32 (0+(n:Int))=⟨.i32,n⟩
+    rw [Int.zero_add]
+    exact i32_small n hn
+  rw [add _ hr,add _ hc]
+  simp only [integerLess,metadataInteger,if_pos rfl,Int.natCast_lt,Int.reduceNatCast,
+    Bool.and_eq_true,Option.some.injEq]
+  apply Bool.eq_iff_iff.mpr
+  simp only [Bool.and_eq_true,decide_eq_true_eq]
+  omega
+
+/-- An admitted stride can change active addresses while preserving all
+allocation bounds. This byte-width-one example uses a view pointer at 2^31
+inside storage of 6*2^30+1 bytes; the five output addresses remain distinct. -/
+theorem safe_wrapped_active_addresses :
+    ([0,128,256,384,512].map fun lane =>
+      (nativeLane 5 1 (2^30) 1 0 lane).map fun n =>
+        (n.mask,(nativePointer (2^31) 1 n.inputOffset).toNat,
+          (nativePointer (2^34) 1 n.outputOffset).toNat))=
+      [some (Bool.true,2^31,2^34),some (Bool.true,3*2^30,2^34+1),
+       some (Bool.true,0,2^34+2),some (Bool.true,2^30,2^34+3),
+       some (Bool.true,2^31,2^34+4)] := by decide +kernel
+
+theorem active_wrapping_not_refinement :
+    ∃ n, nativeLane 5 1 (2^30) 1 0 256=some n ∧ n.mask=Bool.true ∧
+      (nativePointer (2^31) 1 n.inputOffset).toNat=0 ∧
+      (nativePointer (2^31) 1 n.inputOffset).toNat≠2^31+2*2^30 := by
+  decide +kernel
+
+/-- The same wrapped element offset is unsafe from a view pointer at zero;
+classification depends on the actual address and allocation, not on wrap alone. -/
+theorem unsafe_wrapped_active_address :
+    ∃ n, nativeLane 5 1 (2^30) 1 0 256=some n ∧ n.mask=Bool.true ∧
+      (nativePointer 0 1 n.inputOffset).toNat=2^64-2^31 := by
+  decide +kernel
+
+#axiomsClean singleton_all_masks
+#axiomsClean safe_wrapped_active_addresses
+#axiomsClean active_wrapping_not_refinement
+#axiomsClean unsafe_wrapped_active_address
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end QuantTransposeFinite

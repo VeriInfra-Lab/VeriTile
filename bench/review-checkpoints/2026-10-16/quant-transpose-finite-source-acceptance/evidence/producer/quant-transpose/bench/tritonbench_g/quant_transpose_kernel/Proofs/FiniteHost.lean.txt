@@ -1,0 +1,284 @@
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.FiniteGrid
+
+namespace QuantTransposeFinite
+set_option maxRecDepth 24000
+set_option maxHeartbeats 8000000
+
+structure Input where
+  shape : List Nat
+  strides : List Nat
+  /-- Relative to the actual x.data_ptr(), including view stride effects. -/
+  logicalOffsets : List Nat
+  isCuda : Bool
+  deviceIndex : Nat
+  storageBase : Nat
+  storageOffset : Nat
+  storageLength : Nat
+
+def Input.numel (a : Input) := a.shape.prod
+def Input.M (a : Input) := a.shape.headD 0
+def Input.N (a : Input) := a.shape[1]?.getD 0
+def Input.sam (a : Input) := a.strides.headD 0
+def Input.san (a : Input) := a.strides[1]?.getD 0
+
+/-- Ordinary Torch nonnegative shape/stride metadata and tensor numel fit
+signed64. This primitive metadata contract permits every runtime i32/i64
+specialization and imposes no arithmetic or active-address safety condition. -/
+def MetadataDomain (a : Input) : Prop :=
+  a.M<2^63 ∧ a.N<2^63 ∧ a.sam<2^63 ∧ a.san<2^63 ∧ a.numel<2^63
+
+def Input.outputShape (a : Input) := [a.N,a.M]
+
+
+def viewOffsets : List Nat → List Nat → List Nat
+  | [],[] => [0]
+  | n::ns,t::ts => (List.range n).flatMap (fun i => (viewOffsets ns ts).map (fun o => i*t+o))
+  | _,_ => []
+
+structure Allocations where
+  maximum : String
+  scale : String
+  output : String
+  /-- Fresh torch.empty bytes need not be zero. -/
+  initialOutput : Nat → BitVec 8
+  maximumBase : Nat
+  scaleBase : Nat
+  outputBase : Nat
+  currentDevice : Nat
+
+def Allocations.Fresh (a : Allocations) (x : String) : Prop :=
+  x≠a.maximum ∧ x≠a.scale ∧ x≠a.output ∧
+  a.maximum≠a.scale ∧ a.maximum≠a.output ∧ a.scale≠a.output
+
+def parameters (a : Input) (alloc : Allocations) (x : String) : Parameters :=
+  ⟨a.M,a.N,a.sam,a.san,x,alloc.scale,alloc.output⟩
+
+inductive Stage where
+  | abs | maximum | unsqueeze | reciprocal | shapeUnpack | outputAllocation | outputShapeAssertion | inputStrideAssertion | outputStrideAssertion | signature | compilation | launch
+  deriving DecidableEq, Repr
+
+/-- Primitive exceptions are an explicit trusted runtime outcome, distinct
+from source diagnostics. The no-failure profile is stated when proving success. -/
+abbrev Environment := Stage → Option String
+
+def available (env : Environment) (stage : Stage) : Except (Stage × String) Unit :=
+  match env stage with | none => .ok () | some detail => .error (stage,detail)
+
+inductive HostFailure where
+  | primitive (stage : Stage) (detail : String)
+  | inputUnavailable (index : Nat)
+  | emptyMaximum
+  | shapeUnpack
+  | inputStrideAssertion
+  deriving DecidableEq, Repr
+
+def primitive (env : Environment) (stage : Stage) : Except HostFailure Unit :=
+  match env stage with | none => .ok () | some detail => .error (.primitive stage detail)
+
+/-- Abs consumes every logical view cell in source order. It never uses the
+linear pointer traversal performed later by the Triton kernel. -/
+def absoluteValues (b : Numerics) (d : Storage) (m : Memory) (x : String) :
+    List Nat → Except HostFailure (List (Word d))
+  | [] => .ok []
+  | i::is => do
+    let v ← match readCell d (m x i) with
+      | none => .error (.inputUnavailable i)
+      | some v => .ok v
+    let rest ← absoluteValues b d m x is
+    pure (b.abs d v::rest)
+
+def allocated (d : Storage) (a : Input) (alloc : Allocations) (m : Memory)
+    (maximum : Word d) (inverse : Word (compute d)) : Memory := fun r i =>
+  if r=alloc.maximum ∧ i=0 then some (.mk d maximum)
+  else if r=alloc.scale ∧ i=0 then some (.mk (compute d) inverse)
+  else if r=alloc.output ∧ i<a.numel then some (.mk .i8 (alloc.initialOutput i))
+  else m r i
+
+structure Prepared (d : Storage) where
+  maximum : Word d
+  inverse : Word (compute d)
+  initial : Memory
+
+/-- Sequential original producer, unsqueeze, reciprocal, exact 2D unpack,
+CUDA output allocation, then the three source assertions. -/
+def prepare (b : Numerics) (env : Environment) (d : Storage) (a : Input)
+    (alloc : Allocations) (m : Memory) (x : String) : Except HostFailure (Prepared d) := do
+  primitive env .abs
+  let vals ← absoluteValues b d m x a.logicalOffsets
+  primitive env .maximum
+  let maximum ← match vals with
+    | [] => .error .emptyMaximum
+    | h::t => .ok (b.maximum d h t)
+  primitive env .unsqueeze
+  primitive env .reciprocal
+  let inverse := b.reciprocal d maximum
+  if a.shape.length≠2 then throw .shapeUnpack
+  primitive env .outputAllocation
+  -- Fresh torch.empty(N,M) has exact sizes [N,M] and strides [M,1].
+  if ¬(a.sam=1 ∨ a.san=1) then throw .inputStrideAssertion
+  pure ⟨maximum,inverse,allocated d a alloc m maximum inverse⟩
+
+def produced (b : Numerics) (d : Storage) (logical : List (Word d)) : Option (Word d) :=
+  match logical.map (b.abs d) with | [] => none | h::t => some (b.maximum d h t)
+
+def LogicalInputs (d : Storage) (a : Input) (m : Memory) (x : String)
+    (logical : List (Word d)) : Prop :=
+  List.Forall₂ (fun i v => m x i=some (.mk d v)) a.logicalOffsets logical
+
+theorem absolute_values (b : Numerics) (d : Storage) (m : Memory) (x : String)
+    (offsets : List Nat) (logical : List (Word d))
+    (h : List.Forall₂ (fun i v => m x i=some (.mk d v)) offsets logical) :
+    absoluteValues b d m x offsets=.ok (logical.map (b.abs d)) := by
+  induction h with
+  | nil => rfl
+  | @cons i v is vs hi hs ih =>
+    simp [absoluteValues,hi,ih]
+    rfl
+
+theorem prepare_success (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations)
+    (m : Memory) (x : String) (logical : List (Word d)) (maximum : Word d)
+    (inputs : LogicalInputs d a m x logical) (hm : produced b d logical=some maximum)
+    (rank : a.shape.length=2) (stride : a.sam=1 ∨ a.san=1) :
+    prepare b (fun _ => none) d a alloc m x=
+    .ok ⟨maximum,b.reciprocal d maximum,allocated d a alloc m maximum (b.reciprocal d maximum)⟩ := by
+  have habs := absolute_values b d m x a.logicalOffsets logical inputs
+  cases logical with
+  | nil => simp [produced] at hm
+  | cons h t =>
+    simp only [produced,List.map_cons,Option.some.injEq] at hm
+    subst maximum
+    simp [prepare,primitive,habs,rank,stride]
+    rfl
+
+theorem allocated_inputs (d : Storage) (a : Input) (alloc : Allocations) (m : Memory)
+    (x : String) (maximum : Word d) (inverse : Word (compute d)) (xs : Nat → Word d)
+    (fresh : alloc.Fresh x) (inputs : ∀ i, i<(parameters a alloc x).n → m x (inputOffset (parameters a alloc x) i)=some (.mk d (xs i))) :
+    Inputs d (parameters a alloc x) xs inverse (allocated d a alloc m maximum inverse) := by
+  constructor
+  · intro i hi
+    simpa [allocated,parameters,fresh.1,fresh.2.1,fresh.2.2.1] using inputs i hi
+  · simp [parameters,allocated,Ne.symm fresh.2.2.2.1]
+
+structure Tensor where
+  region : String
+  shape : List Nat
+  dtype : Storage
+  isCuda : Bool
+  strides : List Nat
+  storageOffset : Nat
+  storageLength : Nat
+  deviceIndex : Nat
+  deriving DecidableEq, Repr
+
+def outputTensor (a : Input) (alloc : Allocations) : Tensor :=
+  ⟨alloc.output,a.outputShape,.i8,true,[a.M,1],0,a.numel,alloc.currentDevice⟩
+def maximumTensor (d : Storage) (a : Input) (alloc : Allocations) : Tensor :=
+  ⟨alloc.maximum,[1],d,a.isCuda,[1],0,1,a.deviceIndex⟩
+def scalarMaximumTensor (d : Storage) (a : Input) (alloc : Allocations) : Tensor :=
+  ⟨alloc.maximum,[],d,a.isCuda,[],0,1,a.deviceIndex⟩
+def unsqueezeScalar (t : Tensor) : Tensor := {t with shape:=[1],strides:=[1]}
+theorem maximum_unsqueeze_alias (d : Storage) (a : Input) (alloc : Allocations) :
+    maximumTensor d a alloc=unsqueezeScalar (scalarMaximumTensor d a alloc) := rfl
+
+structure Returned where
+  memory : Memory
+  tensors : Tensor × Tensor
+
+inductive Diagnostic where
+  | host (failure : HostFailure)
+  | backend (stage : Stage) (detail : String)
+  | interpreter (fault : Fault)
+  | cpuPointer
+
+/-- Runtime launch failures are not represented by universal success. A
+successful run executes the actual typed programs of every supplied trial. -/
+def execute (b : Numerics) (env : Environment) (d : Storage) (a : Input)
+    (alloc : Allocations) (m : Memory) (x : String) (trials : List Config) (last : Config) :
+    Except Diagnostic Returned :=
+  match prepare b env d a alloc m x with
+  | .error e => .error (.host e)
+  | .ok p => match env .signature,env .compilation,env .launch with
+    | some e,_,_ => .error (.backend .signature e)
+    | none,some e,_ => .error (.backend .compilation e)
+    | none,none,some e => .error (.backend .launch e)
+    | none,none,none => if a.isCuda=false then .error .cpuPointer else match runTrials b d (parameters a alloc x) (trials++[last]) p.initial with
+      | .error e => .error (.interpreter e)
+      | .ok mem => .ok ⟨mem,(outputTensor a alloc,maximumTensor d a alloc)⟩
+
+/-- All output words are an independent expression on original strided cells;
+the maximum is the original logical abs/reduce result, not the output inverse. -/
+def Result (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations) (m : Memory)
+    (xs : Nat → Word d) (maximum : Word d) (ret : Returned) : Prop :=
+  ret.tensors=(outputTensor a alloc,maximumTensor d a alloc) ∧
+  (∀ i, i<(parameters a alloc "").n → ret.memory alloc.output i=outCell b d xs (b.reciprocal d maximum) i) ∧
+  ret.memory alloc.maximum 0=some (.mk d maximum) ∧
+  ret.memory alloc.scale 0=some (.mk (compute d) (b.reciprocal d maximum)) ∧
+  (∀ r i, ¬(r=alloc.output ∧ i<(parameters a alloc "").n) → ¬(r=alloc.maximum ∧ i=0) →
+    ¬(r=alloc.scale ∧ i=0) → ret.memory r i=m r i)
+
+def disjointRanges (a alen b blen : Nat) : Prop := a+alen≤b ∨ b+blen≤a
+
+structure Domain (d : Storage) (a : Input) (alloc : Allocations) (m : Memory)
+    (x : String) (logical : List (Word d)) (xs : Nat → Word d) : Prop where
+  metadata : MetadataDomain a
+  metadataTraversal : a.logicalOffsets=viewOffsets a.shape a.strides
+  metadataCount : a.logicalOffsets.length=a.numel
+  fresh : alloc.Fresh x
+  logical : LogicalInputs d a m x logical
+  strided : ∀ i, i<(parameters a alloc x).n → m x (inputOffset (parameters a alloc x) i)=some (.mk d (xs i))
+  matrixCount : a.numel=a.M*a.N
+  logicalBounds : ∀ i∈a.logicalOffsets, a.storageOffset+i<a.storageLength
+  stridedBounds : ∀ i, i<(parameters a alloc x).n → a.storageOffset+inputOffset (parameters a alloc x) i<a.storageLength
+  /-- This is the logical source-view relation. Actual typed metadata and
+  pointer arithmetic are interpreted separately by nativeLane/nativePointer;
+  no fixed stride width or padded-pointer bound is imposed here. -/
+  outputByteBound : a.numel<2^64
+  /-- Native pointer-address arithmetic stays within the allocation address
+  space; actual bases, alignment and lifetime are trusted primitive mechanics. -/
+  byteBound : a.storageBase+a.storageLength*(d.width/8)≤2^64
+  maximumByteBound : alloc.maximumBase+d.width/8≤2^64
+  scaleByteBound : alloc.scaleBase+(compute d).width/8≤2^64
+  outputAddressBound : alloc.outputBase+a.numel≤2^64
+  physicalInputOutput : disjointRanges a.storageBase (a.storageLength*(d.width/8)) alloc.outputBase a.numel
+  physicalInputMaximum : disjointRanges a.storageBase (a.storageLength*(d.width/8)) alloc.maximumBase (d.width/8)
+  physicalInputScale : disjointRanges a.storageBase (a.storageLength*(d.width/8)) alloc.scaleBase ((compute d).width/8)
+  physicalMaximumOutput : disjointRanges alloc.maximumBase (d.width/8) alloc.outputBase a.numel
+  physicalScaleOutput : disjointRanges alloc.scaleBase ((compute d).width/8) alloc.outputBase a.numel
+  physicalMaximumScale : disjointRanges alloc.maximumBase (d.width/8) alloc.scaleBase ((compute d).width/8)
+
+/-- Complete successful wrapper, including all finite autotuning trials.
+Ordinary typed input/domain and scalar-definedness premises replace any
+assumption of successful preparation, launch or correct output. -/
+theorem quant_transpose_finite_host_correctness
+    (b : Numerics) (d : Storage) (a : Input) (alloc : Allocations) (m : Memory)
+    (x : String) (logical : List (Word d)) (xs : Nat → Word d) (maximum : Word d)
+    (D : Domain d a alloc m x logical xs) (hm : produced b d logical=some maximum)
+    (rank : a.shape.length=2) (stride : a.sam=1 ∨ a.san=1) (cuda : a.isCuda=true)
+    (defined : Defined b d (parameters a alloc x) xs (b.reciprocal d maximum))
+    (trials : List Config) (last : Config) :
+    ∃ ret, execute b (fun _ => none) d a alloc m x trials last=.ok ret ∧
+      Result b d a alloc m xs maximum ret := by
+  have hp := prepare_success b d a alloc m x logical maximum D.logical hm rank stride
+  have hin := allocated_inputs d a alloc m x maximum (b.reciprocal d maximum) xs D.fresh D.strided
+  have hsep : Separated (parameters a alloc x) := ⟨D.fresh.2.2.1,D.fresh.2.2.2.2.2⟩
+  have ht := trials_correct b d (parameters a alloc x) xs (b.reciprocal d maximum)
+    hsep defined trials last _ hin
+  refine ⟨⟨reference b d (parameters a alloc x) xs (b.reciprocal d maximum)
+      (allocated d a alloc m maximum (b.reciprocal d maximum)),
+      (outputTensor a alloc,maximumTensor d a alloc)⟩,?_,?_⟩
+  · simp [execute,hp,ht,cuda]
+  · refine ⟨rfl,?_,?_,?_,?_⟩
+    · intro i hi; simp [parameters,Parameters.n] at hi
+      simp [reference,parameters,Parameters.n,hi]
+    · simp [reference,parameters,D.fresh.2.2.2.2.1,allocated]
+    · simp [reference,parameters,D.fresh.2.2.2.2.2,allocated,Ne.symm D.fresh.2.2.2.1]
+    · intro r i ho hm hs
+      change ¬(r=alloc.output ∧ i<a.M*a.N) at ho
+      simp [reference,parameters,Parameters.n,ho,allocated,hm,hs,D.matrixCount]
+
+#specNonCircular Result avoiding [execute,prepare,runTrials,runGrid,runProgram,runLanes,source,Expr.eval]
+#specNonCircular produced avoiding [execute,prepare,runTrials,runGrid,runProgram,runLanes,source,Expr.eval]
+#axiomsClean quant_transpose_finite_host_correctness
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end QuantTransposeFinite

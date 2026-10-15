@@ -8,7 +8,9 @@ from exact_numerical_bindings import (PACKAGE_PATHS,collect,derive_authority,
     validate_exact_queue,canonical,sha)
 from deferred_numerical_experiments import collect_legacy
 from reviewed_numerical_extensions import (RELU_FINITE_PACKAGE, RELU_FINITE_REVIEW,
-    VECTOR_FINITE_PACKAGE, VECTOR_FINITE_REVIEW, QUANT_GLOBAL_PACKAGE, QUANT_GLOBAL_REVIEW)
+    VECTOR_FINITE_PACKAGE, VECTOR_FINITE_REVIEW, QUANT_GLOBAL_PACKAGE, QUANT_GLOBAL_REVIEW,
+    QUANT_TRANSPOSE_PACKAGE, QUANT_TRANSPOSE_REVIEW,
+    VECTOR_NATIVE_PACKAGE, VECTOR_NATIVE_REVIEW)
 import check_original_program_scope as gate
 legacy,authority,queue=collect(REPO)
 
@@ -51,12 +53,12 @@ class ExactBindings(unittest.TestCase):
  def assert_reject(self,data):
   with self.assertRaises(ValueError):validate_exact_queue(data,authority,legacy)
  def test_complete_authority_and_legacy_unchanged(self):
-  self.assertEqual(queue['rules'][:11],legacy['rules']);self.assertEqual(100,len(queue['rules']))
-  self.assertEqual([29,20,9,340,2601,2400],[len(r['cases']) for r in authority['requirements']])
-  self.assertEqual([15,13,3,9,26,14],[len(r['callback_union']) for r in authority['requirements']])
-  self.assertEqual(1253,sum(len(b['declarations']) for r in authority['rules'] for b in r['scope_bindings']))
+  self.assertEqual(queue['rules'][:11],legacy['rules']);self.assertEqual(153,len(queue['rules']))
+  self.assertEqual([29,20,9,340,2601,2400,1144,4498],[len(r['cases']) for r in authority['requirements']])
+  self.assertEqual([15,13,3,9,26,14,14,22],[len(r['callback_union']) for r in authority['requirements']])
+  self.assertEqual(1689,sum(len(b['declarations']) for r in authority['rules'] for b in r['scope_bindings']))
   result=validate_exact_queue(queue,authority,legacy)
-  self.assertEqual(1206,result['exact_bindings']);self.assertEqual(5399,result['declaration_cases'])
+  self.assertEqual(1642,result['exact_bindings']);self.assertEqual(11041,result['declaration_cases'])
  def test_all_exact_usage_cases(self):
   for task in ('vector_addition','relu_triton_kernel'):
    row,p,c=usage(task);gate.validate_used_numerics(task,row,p,c,queue,root=REPO)
@@ -247,6 +249,70 @@ class ExactBindings(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,'exact scalar port omitted'):
    gate.validate_exact_case_links(exact,key,case,applicable,{'add':{('r','x')}})
   gate.validate_exact_case_links(exact,key,case,applicable,{'add':applicable})
+
+
+ def test_transpose_observations_require_no_numerical_ports(self):
+  table=next(t for t in authority['requirements'] if t['task']=='quant_transpose_kernel')
+  empty=[c for c in table['cases'] if not c['required_binding_refs']]
+  self.assertEqual(1128,len(empty))
+  row,p,c=usage('quant_transpose_kernel',lambda t,c:not c['required_binding_refs'])
+  self.assertEqual([],row['deferred_numerical_assumptions'])
+  gate.validate_used_numerics('quant_transpose_kernel',row,p,c,queue,root=REPO)
+ def test_transpose_every_required_port_is_enforced(self):
+  table=next(t for t in authority['requirements'] if t['task']=='quant_transpose_kernel')
+  case=next(c for c in table['cases'] if c['required_binding_refs'])
+  row,p,c=usage('quant_transpose_kernel',lambda t,x:t['declaration']==table['declaration'] and x==case)
+  gate.validate_used_numerics('quant_transpose_kernel',row,p,c,queue,root=REPO)
+  for omitted in range(len(row['deferred_numerical_assumptions'])):
+   changed=deepcopy(row);changed['deferred_numerical_assumptions'].pop(omitted)
+   with self.assertRaises(ValueError):gate.validate_used_numerics('quant_transpose_kernel',changed,p,c,queue,root=REPO)
+ def test_transpose_archived_source_and_independent_review_are_pinned(self):
+  targets=[QUANT_TRANSPOSE_REVIEW,
+   QUANT_TRANSPOSE_PACKAGE+'/inherited-v1/bench/tritonbench_g/quant_transpose_kernel/FiniteAcceptance.lean.txt',
+   QUANT_TRANSPOSE_PACKAGE+'/peer-review/native-review-receipt.json',
+   'bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeArithmetic.lean']
+  for target in targets:
+   with self.subTest(target=target),tempfile.TemporaryDirectory() as temp:
+    root=clone_inputs(temp);path=root/target
+    path.write_bytes(path.read_bytes()+b'\nchanged by adversarial test\n')
+    with self.assertRaises(ValueError):derive_authority(root)
+
+
+ def test_native_vector_no_access_return_needs_no_numerical_ports(self):
+  row,p,c=usage('vector_addition',lambda t,c:t['declaration']['file'].endswith('/NativeCorrect.lean') and c['configuration']['outcome']=='two31_no_access_return')
+  self.assertTrue(c)
+  self.assertEqual([],row['deferred_numerical_assumptions'])
+  gate.validate_used_numerics('vector_addition',row,p,c,queue,root=REPO)
+ def test_native_vector_required_ports_cannot_use_old_bounded_bindings(self):
+  table=next(t for t in authority['requirements'] if t['declaration']['file'].endswith('/NativeCorrect.lean'))
+  case=next(c for c in table['cases'] if c['required_binding_refs'])
+  row,p,c=usage('vector_addition',lambda t,x:t['declaration']==table['declaration'] and x==case)
+  gate.validate_used_numerics('vector_addition',row,p,c,queue,root=REPO)
+  for omitted in range(len(row['deferred_numerical_assumptions'])):
+   changed=deepcopy(row);changed['deferred_numerical_assumptions'].pop(omitted)
+   with self.assertRaises(ValueError):gate.validate_used_numerics('vector_addition',changed,p,c,queue,root=REPO)
+  previous,_,_=usage('vector_addition',lambda t,x:t['declaration']['file'].endswith('/FiniteCorrect.lean'))
+  with self.assertRaises(ValueError):gate.validate_used_numerics('vector_addition',previous,p,c,queue,root=REPO)
+ def test_native_vector_archived_objects_and_review_are_pinned(self):
+  targets=[VECTOR_NATIVE_REVIEW,
+   VECTOR_NATIVE_PACKAGE+'/evidence/final-objects/bench/tritonbench_g/vector_addition/NativeCorrect.olean.bin',
+   VECTOR_NATIVE_PACKAGE+'/evidence/inherited/annotated-i32-scope-review/Narrowing.lean.txt',
+   'bench/tritonbench_g/vector_addition/Proofs/NativeMemory.lean']
+  for target in targets:
+   with self.subTest(target=target),tempfile.TemporaryDirectory() as temp:
+    root=clone_inputs(temp);path=root/target
+    path.write_bytes(path.read_bytes()+b'\nchanged by adversarial test\n')
+    with self.assertRaises(ValueError):derive_authority(root)
+
+
+ def test_transpose_archived_python_bytecode_is_pinned(self):
+  target=QUANT_TRANSPOSE_PACKAGE+'/evidence/pre-quant-baseline/__pycache__/reviewed_numerical_extensions.cpython-312.pyc.bin'
+  with tempfile.TemporaryDirectory() as temp:
+   root=clone_inputs(temp);path=root/target
+   self.assertTrue(path.is_file())
+   self.assertFalse(path.with_suffix('').exists())
+   path.write_bytes(path.read_bytes()+b'changed archived bytecode')
+   with self.assertRaises(ValueError):derive_authority(root)
 
 if __name__=='__main__':
  unittest.main(verbosity=2)

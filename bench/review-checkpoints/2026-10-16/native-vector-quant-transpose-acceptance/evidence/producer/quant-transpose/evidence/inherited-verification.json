@@ -1,0 +1,17 @@
+{
+  "frozen_v1_and_copy": [
+    {
+      "root": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/inherited-v1",
+      "receipt_sha256": "11bf46d3b53848860556a2852a96e8a5556bb37d55b0d083dfca658b7f914386",
+      "bound_files_verified": 381,
+      "unchanged": true
+    },
+    {
+      "root": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip",
+      "receipt_sha256": "11bf46d3b53848860556a2852a96e8a5556bb37d55b0d083dfca658b7f914386",
+      "bound_files_verified": 381,
+      "unchanged": true
+    }
+  ],
+  "revised_package_has_no_writes_through_inherited_symlinks": true
+}

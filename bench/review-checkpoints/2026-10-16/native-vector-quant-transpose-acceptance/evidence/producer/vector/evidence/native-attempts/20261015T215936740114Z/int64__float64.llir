@@ -1,0 +1,138 @@
+; ModuleID = 'LLVMDialectModule'
+source_filename = "LLVMDialectModule"
+target datalayout = "e-p3:32:32-p4:32:32-p5:32:32-p6:32:32-p7:32:32-i64:64-i128:128-i256:256-v16:16-v32:32-n16:32:64"
+
+; Function Attrs: nounwind
+define ptx_kernel void @add_kernel(ptr addrspace(1) %0, ptr addrspace(1) %1, ptr addrspace(1) %2, i32 %3, ptr addrspace(1) readnone captures(none) %4, ptr addrspace(1) readnone captures(none) %5) local_unnamed_addr #0 !dbg !4 {
+  %7 = tail call i32 @llvm.nvvm.read.ptx.sreg.ctaid.x(), !dbg !14
+  %8 = shl i32 %7, 10, !dbg !15
+  %9 = tail call i32 @llvm.nvvm.read.ptx.sreg.tid.x(), !dbg !16
+  %10 = shl nuw nsw i32 %9, 1, !dbg !16
+  %11 = and i32 %10, 254, !dbg !16
+  %12 = or disjoint i32 %11, %8, !dbg !17
+  %13 = or disjoint i32 %12, 256, !dbg !17
+  %14 = or disjoint i32 %12, 512, !dbg !17
+  %15 = or disjoint i32 %12, 768, !dbg !17
+  %16 = icmp slt i32 %12, %3, !dbg !18
+  %17 = icmp slt i32 %13, %3, !dbg !18
+  %18 = icmp slt i32 %14, %3, !dbg !18
+  %19 = icmp slt i32 %15, %3, !dbg !18
+  %20 = sext i32 %12 to i64, !dbg !19
+  %21 = getelementptr i64, ptr addrspace(1) %0, i64 %20, !dbg !19
+  %22 = sext i32 %13 to i64, !dbg !19
+  %23 = getelementptr i64, ptr addrspace(1) %0, i64 %22, !dbg !19
+  %24 = sext i32 %14 to i64, !dbg !19
+  %25 = getelementptr i64, ptr addrspace(1) %0, i64 %24, !dbg !19
+  %26 = sext i32 %15 to i64, !dbg !19
+  %27 = getelementptr i64, ptr addrspace(1) %0, i64 %26, !dbg !19
+  %28 = tail call { i64, i64 } asm sideeffect "mov.u64 $0, 0x0;\0A\09mov.u64 $1, 0x0;\0A\09@$3 ld.global.v2.b64 { $0, $1 }, [ $2 + 0 ];", "=l,=l,l,b"(ptr addrspace(1) %21, i1 %16) #2, !dbg !20
+  %29 = extractvalue { i64, i64 } %28, 0, !dbg !20
+  %30 = extractvalue { i64, i64 } %28, 1, !dbg !20
+  %31 = tail call { i64, i64 } asm sideeffect "mov.u64 $0, 0x0;\0A\09mov.u64 $1, 0x0;\0A\09@$3 ld.global.v2.b64 { $0, $1 }, [ $2 + 0 ];", "=l,=l,l,b"(ptr addrspace(1) %23, i1 %17) #2, !dbg !20
+  %32 = extractvalue { i64, i64 } %31, 0, !dbg !20
+  %33 = extractvalue { i64, i64 } %31, 1, !dbg !20
+  %34 = tail call { i64, i64 } asm sideeffect "mov.u64 $0, 0x0;\0A\09mov.u64 $1, 0x0;\0A\09@$3 ld.global.v2.b64 { $0, $1 }, [ $2 + 0 ];", "=l,=l,l,b"(ptr addrspace(1) %25, i1 %18) #2, !dbg !20
+  %35 = extractvalue { i64, i64 } %34, 0, !dbg !20
+  %36 = extractvalue { i64, i64 } %34, 1, !dbg !20
+  %37 = tail call { i64, i64 } asm sideeffect "mov.u64 $0, 0x0;\0A\09mov.u64 $1, 0x0;\0A\09@$3 ld.global.v2.b64 { $0, $1 }, [ $2 + 0 ];", "=l,=l,l,b"(ptr addrspace(1) %27, i1 %19) #2, !dbg !20
+  %38 = extractvalue { i64, i64 } %37, 0, !dbg !20
+  %39 = extractvalue { i64, i64 } %37, 1, !dbg !20
+  %40 = getelementptr double, ptr addrspace(1) %1, i64 %20, !dbg !21
+  %41 = getelementptr double, ptr addrspace(1) %1, i64 %22, !dbg !21
+  %42 = getelementptr double, ptr addrspace(1) %1, i64 %24, !dbg !21
+  %43 = getelementptr double, ptr addrspace(1) %1, i64 %26, !dbg !21
+  %44 = tail call { i64, i64 } asm sideeffect "mov.u64 $0, 0x0;\0A\09mov.u64 $1, 0x0;\0A\09@$3 ld.global.v2.b64 { $0, $1 }, [ $2 + 0 ];", "=l,=l,l,b"(ptr addrspace(1) %40, i1 %16) #2, !dbg !22
+  %45 = extractvalue { i64, i64 } %44, 0, !dbg !22
+  %46 = extractvalue { i64, i64 } %44, 1, !dbg !22
+  %47 = bitcast i64 %45 to double, !dbg !22
+  %48 = bitcast i64 %46 to double, !dbg !22
+  %49 = tail call { i64, i64 } asm sideeffect "mov.u64 $0, 0x0;\0A\09mov.u64 $1, 0x0;\0A\09@$3 ld.global.v2.b64 { $0, $1 }, [ $2 + 0 ];", "=l,=l,l,b"(ptr addrspace(1) %41, i1 %17) #2, !dbg !22
+  %50 = extractvalue { i64, i64 } %49, 0, !dbg !22
+  %51 = extractvalue { i64, i64 } %49, 1, !dbg !22
+  %52 = bitcast i64 %50 to double, !dbg !22
+  %53 = bitcast i64 %51 to double, !dbg !22
+  %54 = tail call { i64, i64 } asm sideeffect "mov.u64 $0, 0x0;\0A\09mov.u64 $1, 0x0;\0A\09@$3 ld.global.v2.b64 { $0, $1 }, [ $2 + 0 ];", "=l,=l,l,b"(ptr addrspace(1) %42, i1 %18) #2, !dbg !22
+  %55 = extractvalue { i64, i64 } %54, 0, !dbg !22
+  %56 = extractvalue { i64, i64 } %54, 1, !dbg !22
+  %57 = bitcast i64 %55 to double, !dbg !22
+  %58 = bitcast i64 %56 to double, !dbg !22
+  %59 = tail call { i64, i64 } asm sideeffect "mov.u64 $0, 0x0;\0A\09mov.u64 $1, 0x0;\0A\09@$3 ld.global.v2.b64 { $0, $1 }, [ $2 + 0 ];", "=l,=l,l,b"(ptr addrspace(1) %43, i1 %19) #2, !dbg !22
+  %60 = extractvalue { i64, i64 } %59, 0, !dbg !22
+  %61 = extractvalue { i64, i64 } %59, 1, !dbg !22
+  %62 = bitcast i64 %60 to double, !dbg !22
+  %63 = bitcast i64 %61 to double, !dbg !22
+  %64 = sitofp i64 %29 to double, !dbg !23
+  %65 = sitofp i64 %30 to double, !dbg !23
+  %66 = sitofp i64 %32 to double, !dbg !23
+  %67 = sitofp i64 %33 to double, !dbg !23
+  %68 = sitofp i64 %35 to double, !dbg !23
+  %69 = sitofp i64 %36 to double, !dbg !23
+  %70 = sitofp i64 %38 to double, !dbg !23
+  %71 = sitofp i64 %39 to double, !dbg !23
+  %72 = fadd double %64, %47, !dbg !23
+  %73 = fadd double %65, %48, !dbg !23
+  %74 = fadd double %66, %52, !dbg !23
+  %75 = fadd double %67, %53, !dbg !23
+  %76 = fadd double %68, %57, !dbg !23
+  %77 = fadd double %69, %58, !dbg !23
+  %78 = fadd double %70, %62, !dbg !23
+  %79 = fadd double %71, %63, !dbg !23
+  %80 = getelementptr i64, ptr addrspace(1) %2, i64 %20, !dbg !24
+  %81 = getelementptr i64, ptr addrspace(1) %2, i64 %22, !dbg !24
+  %82 = getelementptr i64, ptr addrspace(1) %2, i64 %24, !dbg !24
+  %83 = getelementptr i64, ptr addrspace(1) %2, i64 %26, !dbg !24
+  %84 = fptosi double %72 to i64, !dbg !25
+  %85 = fptosi double %73 to i64, !dbg !25
+  %86 = fptosi double %74 to i64, !dbg !25
+  %87 = fptosi double %75 to i64, !dbg !25
+  %88 = fptosi double %76 to i64, !dbg !25
+  %89 = fptosi double %77 to i64, !dbg !25
+  %90 = fptosi double %78 to i64, !dbg !25
+  %91 = fptosi double %79 to i64, !dbg !25
+  tail call void asm sideeffect "@$3 st.global.v2.b64 [ $2 + 0 ], { $0, $1 };", "l,l,l,b"(i64 %84, i64 %85, ptr addrspace(1) %80, i1 %16) #2, !dbg !25
+  tail call void asm sideeffect "@$3 st.global.v2.b64 [ $2 + 0 ], { $0, $1 };", "l,l,l,b"(i64 %86, i64 %87, ptr addrspace(1) %81, i1 %17) #2, !dbg !25
+  tail call void asm sideeffect "@$3 st.global.v2.b64 [ $2 + 0 ], { $0, $1 };", "l,l,l,b"(i64 %88, i64 %89, ptr addrspace(1) %82, i1 %18) #2, !dbg !25
+  tail call void asm sideeffect "@$3 st.global.v2.b64 [ $2 + 0 ], { $0, $1 };", "l,l,l,b"(i64 %90, i64 %91, ptr addrspace(1) %83, i1 %19) #2, !dbg !25
+  ret void, !dbg !26
+}
+
+; Function Attrs: mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none)
+declare noundef range(i32 0, 2147483647) i32 @llvm.nvvm.read.ptx.sreg.ctaid.x() #1
+
+; Function Attrs: mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none)
+declare noundef range(i32 0, 1024) i32 @llvm.nvvm.read.ptx.sreg.tid.x() #1
+
+attributes #0 = { nounwind "nvvm.reqntid"="128" }
+attributes #1 = { mustprogress nocallback nofree nosync nounwind speculatable willreturn memory(none) }
+attributes #2 = { nounwind }
+
+!llvm.dbg.cu = !{!0}
+!llvm.module.flags = !{!2, !3}
+
+!0 = distinct !DICompileUnit(language: DW_LANG_C, file: !1, producer: "triton", isOptimized: true, runtimeVersion: 0, emissionKind: LineTablesOnly)
+!1 = !DIFile(filename: "source-prefix.py", directory: "/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/evidence/native-attempts/20261015T215936740114Z")
+!2 = !{i32 2, !"Debug Info Version", i32 3}
+!3 = !{i32 4, !"nvvm-reflect-ftz", i32 1}
+!4 = distinct !DISubprogram(name: "add_kernel", linkageName: "add_kernel", scope: !1, file: !1, line: 6, type: !5, scopeLine: 6, spFlags: DISPFlagDefinition | DISPFlagOptimized, unit: !0)
+!5 = !DISubroutineType(cc: DW_CC_normal, types: !6)
+!6 = !{null, !7, !9, !7, !11, !12, !12}
+!7 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "pointer", baseType: !8, size: 64, dwarfAddressSpace: 1)
+!8 = !DIBasicType(name: "int", size: 64, encoding: DW_ATE_signed)
+!9 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "pointer", baseType: !10, size: 64, dwarfAddressSpace: 1)
+!10 = !DIBasicType(name: "double", size: 64, encoding: DW_ATE_float)
+!11 = !DIBasicType(name: "int", size: 32, encoding: DW_ATE_signed)
+!12 = !DIDerivedType(tag: DW_TAG_pointer_type, name: "pointer", baseType: !13, size: 64, dwarfAddressSpace: 1)
+!13 = !DIBasicType(name: "unknown_type", encoding: DW_ATE_signed)
+!14 = !DILocation(line: 12, column: 24, scope: !4)
+!15 = !DILocation(line: 13, column: 24, scope: !4)
+!16 = !DILocation(line: 14, column: 41, scope: !4)
+!17 = !DILocation(line: 14, column: 28, scope: !4)
+!18 = !DILocation(line: 15, column: 21, scope: !4)
+!19 = !DILocation(line: 16, column: 24, scope: !4)
+!20 = !DILocation(line: 16, column: 16, scope: !4)
+!21 = !DILocation(line: 17, column: 24, scope: !4)
+!22 = !DILocation(line: 17, column: 16, scope: !4)
+!23 = !DILocation(line: 18, column: 17, scope: !4)
+!24 = !DILocation(line: 19, column: 26, scope: !4)
+!25 = !DILocation(line: 19, column: 35, scope: !4)
+!26 = !DILocation(line: 19, column: 4, scope: !4)

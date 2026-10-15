@@ -1,0 +1,16 @@
+QuantTransposeFinite.reference: definition does not reference [QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.Defined: definition does not reference [QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.trials_correct: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.complete_grid: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.lane_bounds: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.output_ownership: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

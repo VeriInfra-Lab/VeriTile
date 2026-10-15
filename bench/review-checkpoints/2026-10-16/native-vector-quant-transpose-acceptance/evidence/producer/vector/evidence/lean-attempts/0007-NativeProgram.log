@@ -1,0 +1,33 @@
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean:47:87: error: unexpected token 'true'; expected ')', ',' or ':'
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean:61:87: error: unexpected token 'false'; expected ')', ',' or ':'
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean:129:38: error: Application type mismatch: The argument
+  writes
+has type
+  List (Write (Carrier r))
+but is expected to have type
+  List (Write (Carrier r✝))
+in the application
+  applyWrites ops r.signature.1 writes
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean:134:50: error: Application type mismatch: The argument
+  plan.1
+has type
+  List (Write (Carrier r))
+but is expected to have type
+  List (Write (Carrier r✝))
+in the application
+  applyWrites ops r.signature.1 plan.1
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean:135:13: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean:150:6: error: No goals to be solved
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean:149:17: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean:162:6: error: No goals to be solved
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean:161:17: warning: declaration uses `sorry`
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.programPlan: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAddition.Native.executeProgram,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.sourceWrites,
+ VeriTile.Bench.TritonBenchG.VectorAddition.Native.applyWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAddition.Native.source_writes_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean:226:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Native.program_correspondence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean:227:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Native.program_plan_frame: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean:228:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Native.program_write_bounds: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean:229:0: error: VeriTile.Bench.TritonBenchG.VectorAddition.Native.no_access_program: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

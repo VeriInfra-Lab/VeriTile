@@ -1,0 +1,11 @@
+{
+  "reviewer": "root",
+  "reason": "The no-active-bytecode finalizer found a historical receipt-bound pyc. Preserve its bytes under a non-importable suffix rather than deleting it.",
+  "old_path": "evidence/producer/quant-transpose/evidence/pre-quant-baseline/__pycache__/reviewed_numerical_extensions.cpython-312.pyc",
+  "new_path": "evidence/producer/quant-transpose/evidence/pre-quant-baseline/__pycache__/reviewed_numerical_extensions.cpython-312.pyc.bin",
+  "unchanged_sha256": "07dea0ca08b8fbc8f3895e33fb9695a004e6ecb99451177c981fb77d6cbca35b",
+  "adapter_before_sha256": "b42ee778297e0c274b78d76283c1565d2f617bd05955d0066d5189b9ac920c7e",
+  "adapter_after_sha256": "43719283f5d5394157578bedb83eadb88f0859ac0976952694330d4523cf65d8",
+  "all_numerical_cases_rules_and_provenance_unchanged": true,
+  "followup": "Regenerate queue input path bindings, rebind its ledger file hash, rerun relevant archive tampering test and current global gates. Earlier successful gates/tests are retained with their actual pre-relocation input hashes."
+}

@@ -1,0 +1,17 @@
+{
+  "source": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteCorrect.lean",
+  "source_sha256": "22b2478fc1b174cdc6feb8d7b1c052506ade248a5497de5e8b8a3e4b7e4e7c4a",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteCorrect.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/FiniteCorrect.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 1,
+  "seconds": 4.13,
+  "log": "evidence/attempts/0015-FiniteCorrect.log",
+  "log_sha256": "e18fdff6041e95411208d076d55d96252ef0330e55b05beec5f41741ef57f596"
+}

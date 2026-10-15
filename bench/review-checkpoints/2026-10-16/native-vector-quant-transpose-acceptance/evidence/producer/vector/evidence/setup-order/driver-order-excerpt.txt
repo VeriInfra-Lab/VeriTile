@@ -1,0 +1,83 @@
+static PyObject *launchKernel(PyObject *self, PyObject *args) {
+  // ensure cuda context is valid before calling any CUDA APIs, e.g. before
+  // calls to cuPointerGetAttributes
+  ensureCudaContext();
+
+  // Parse the arguments.
+  int gridX, gridY, gridZ;
+  uint64_t _stream;
+  uint64_t _function;
+  int launch_cooperative_grid;
+  int launch_pdl;
+  int num_warps, num_ctas, shared_memory;
+  PyObject *launch_metadata = NULL;
+  PyObject *launch_enter_hook = NULL;
+  PyObject *launch_exit_hook = NULL;
+  PyObject *global_scratch_obj = NULL;
+  PyObject *profile_scratch_obj = NULL;
+  PyObject *arg_annotations = NULL;
+  Py_buffer signature;
+  PyObject *kernel_args = NULL;
+  if (!PyArg_ParseTuple(args, "iiiKKpp(iii)OOOOOOy*O", &gridX, &gridY, &gridZ,
+                        &_stream, &_function, &launch_cooperative_grid,
+                        &launch_pdl, &num_warps, &num_ctas, &shared_memory,
+                        &launch_metadata, &launch_enter_hook, &launch_exit_hook,
+                        &global_scratch_obj, &profile_scratch_obj,
+                        &arg_annotations, &signature, &kernel_args)) {
+    return NULL;
+  }
+
+  // launch entry hook.
+  if (!launchHook(launch_enter_hook, launch_metadata)) {
+    goto cleanup;
+  }
+
+  uint8_t *extractor_data = (uint8_t *)signature.buf;
+  Py_ssize_t num_args = signature.len;
+
+  // Extract kernel parameters - flatten tuples & remove constexpr.
+  PyObject **args_data = (PyObject **)alloca(num_args * sizeof(PyObject *));
+  if (args_data == NULL) {
+    goto cleanup;
+  }
+  int list_idx = 0;
+  if (!extractArgs(args_data, &list_idx, kernel_args, arg_annotations)) {
+    goto cleanup;
+  }
+
+  // Number of parameters passed to kernel. + 2 for global & profile scratch.
+  int num_params = num_args + 2;
+  void **params = (void **)alloca(num_params * sizeof(void *));
+  int params_idx = 0;
+  // This loop has to stay in the same function that owns params, since we are
+  // using alloca to allocate pointers to it on the stack of the function.
+  for (Py_ssize_t i = 0; i < num_args; ++i) {
+    // Get extractor that will send back a struct with
+    // * size for allocation
+    // * function to call to put the parameter in params buffer
+    Extractor extractor = getExtractor(extractor_data[i]);
+    if (extractor.extract == NULL) {
+      goto cleanup;
+    }
+
+    size_t alignment = extractor.alignment;
+    if (alignment != 0) {
+      // Allocate enough space on the stack to guarantee an aligned block.
+      size_t size_with_alignment = extractor.size + alignment - 1;
+      void *storage_ptr = alloca(size_with_alignment);
+      void *aligned_ptr = (void *)((((uintptr_t)storage_ptr) + alignment - 1) &
+                                   ~(alignment - 1));
+      if (aligned_ptr == NULL) {
+        PyErr_SetString(PyExc_MemoryError, "Failed to align parameter storage");
+        goto cleanup;
+      }
+      params[params_idx] = aligned_ptr;
+    } else {
+      params[params_idx] = alloca(extractor.size);
+    }
+
+    PyObject *current_arg = args_data[i];
+    if (!extractor.extract(params[params_idx++], current_arg)) {
+      goto cleanup;
+    }
+  }

@@ -1,0 +1,83 @@
+{
+  "reviewer": "peer:/root/matrix_transpose_acceptance",
+  "status": "independent_semantic_compile_schema_review_passed",
+  "recommendation": "No structural blocker found in revision1 actual-address layer or public finite scope. Ready for root substantive review/integration with native numerical correspondence still deferred.",
+  "candidate": "/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip",
+  "producer_receipt_sha256": "63392bac5342812d467c2bc499e7870e2609d49fa74faaf01731c1391b1dcf83",
+  "reviewed_at_utc": "2026-10-15T21:50:50.672865+00:00",
+  "findings": [],
+  "semantic_checks": [
+    "Original Python node order compared with nativeTile/nativeLane; integer1 constexpr, runtime i32/i64 metadata and each intermediate promotion/wrap retained.",
+    "Source uses pid % group_size; no substitution with local group pid. Signed div/rem and min retained. Constants now use Python floor division/mod (Int.fdiv/fmod).",
+    "Masks are exactly signed rm<M and rn<N; no lower bound. Negative wrapped coordinates can stay active.",
+    "NativePointer sign extends selected element offset, scales by actual dtype bytes, then keeps uint64 wrapping. Only active resulting accesses are checked.",
+    "All input tile loads precede unmasked inverse load, typed arithmetic and concrete stores. No second pointer/value callback shortcut.",
+    "Byte decoder uses exact loadLE with presence checks; scalar host bytes written into physical snapshot and preserved outside output allocation.",
+    "Grid execution reads updated byte memory; independent plans read host snapshot; disjoint input/inverse from output proves correspondence. Owners accumulate within launch and reset across autotuning launches.",
+    "NativeResult combines plan bound to actual active loads and independent scalar result, concrete byte replay, pointwise last-write formula and output exterior frame.",
+    "Public specification includes every first source rejection through admission, all admitted observations/return partition, output tuple, maximum and inverse scalar bytes, and separately conditional logical transpose formula.",
+    "Public hypotheses contain no Safe or ArithmeticRefines. MetadataDomain is ordinary signed64 shape/stride/numel, not a padded-pointer safety restriction.",
+    "Observations discard postfailure memory and explicitly make no native trap, deterministic race winner or rollback claim.",
+    "Singleton2^30/2^31 stride cases for both axes are admitted by actual mask/address model; safe-wrapped-but-different address case remains modeled without ArithmeticRefines."
+  ],
+  "frozen_integrity": {
+    "modules": 18,
+    "module_objects": 18,
+    "artifacts": 776,
+    "project_sources_and_objects": 177,
+    "external_objects": 33,
+    "candidate_unchanged_after_review": true
+  },
+  "independent_rebuild": {
+    "modules": 18,
+    "named_axiom_checks": 68,
+    "noncircular_checks": 14,
+    "failed_review_attempts_preserved": 1,
+    "failed_attempt_reason": "Initial isolated overlay lacked linked read-only project dependency objects; fixed review infrastructure and rebuilt all18 successfully."
+  },
+  "independent_address_checks": {
+    "evaluated_lanes": 131288,
+    "runtime_specialized_singleton_profiles": 8,
+    "all_singleton_lanes_per_profile": 16384,
+    "additional_lean_regressions": [
+      "negative_coordinate_is_active",
+      "mixed_product_wraps_before_extension",
+      "wrapped_pointer_stays_inside_allocation"
+    ],
+    "additional_regressions_clean_axioms": 3,
+    "safe_wrapped_different": "Actual third input address0 remains in backing storage instead of unbounded address2^32; public theorem does not require ArithmeticRefines.",
+    "native_gpu_executions": 0
+  },
+  "schema": {
+    "status": "passed",
+    "receipt_sha256": "63392bac5342812d467c2bc499e7870e2609d49fa74faaf01731c1391b1dcf83",
+    "case_count": 863,
+    "scalar_families": 16,
+    "scope_bindings": 140,
+    "public_statement_sha256": "e74f9aed7ed2a1bd056dbb911f0a92480007153689ce375597019cb71c7ac2ba",
+    "checks": [
+      "unchanged validate_case",
+      "unique cases",
+      "unchanged declaration_scope",
+      "unchanged validate_deferrals",
+      "actual final specification statement hash",
+      "final candidate source and receipt unchanged"
+    ]
+  },
+  "exact_port_links": {
+    "status": "passed",
+    "cases": 863,
+    "omitted_ports_rejected": 140,
+    "validator": "unchanged bench.exact_scope_gate.validate_exact_case_links",
+    "not_whole_queue_integration": true
+  },
+  "limits": [
+    "This is peer review, not root approval or an acceptance increment.",
+    "Native floating scalar correspondence remains deferred; no GPU execution was performed.",
+    "Whole-queue integration and root receipt/review authority pins remain root responsibilities.",
+    "The retained generic mixed_M probe has an output-stride signature not reachable from the wrapper; its promotion order was inspected structurally, while dynamic checks used reachable mixed-width and runtime-specialized singleton profiles."
+  ],
+  "writes_confined_to": "/tmp/veritile-standardization-20261015/quant-transpose-revision1-matrix-review",
+  "candidate_repository_and_git_modified": false,
+  "acceptance_increment": 0
+}

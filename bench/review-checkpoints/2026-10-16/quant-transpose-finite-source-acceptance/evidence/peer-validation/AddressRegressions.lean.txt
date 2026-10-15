@@ -1,0 +1,39 @@
+import bench.tritonbench_g.quant_transpose_kernel.FiniteAcceptance
+
+namespace QuantTransposeReview
+open QuantTransposeFinite
+set_option maxHeartbeats 4000000
+set_option maxRecDepth 24000
+
+/-- A host-valid positive shape/grid can produce a negative row that remains
+active. The source has no implicit lower-bound conjunct in its mask. -/
+theorem negative_coordinate_is_active :
+    (nativeLane (2^31-127) 1 1 1 (2^24-1) 0).map
+      (fun lane => (lane.row.value,lane.col.value,lane.mask,lane.inputOffset.value))=
+      some (-1152,0,Bool.true,-1152) := by
+  decide +kernel
+
+/-- The narrowing occurs before extension. Changing the additive stride to
+i64 must not retroactively make the first product an i64 multiplication. -/
+theorem mixed_product_wraps_before_extension :
+    (nativeLane 128 128 (2^30) (2^31) 0 (127*128)).map
+      (fun lane => (lane.inputOffset.kind,lane.inputOffset.value))=
+      some (.i64,-(2^30)) := by
+  decide +kernel
+
+/-- The five active accesses stay in one legitimate backing allocation, while
+the third differs from the unbounded source-coordinate address. -/
+theorem wrapped_pointer_stays_inside_allocation :
+    ([0,128,256,384,512].all fun lane =>
+      match nativeLane 5 1 (2^30) 1 0 lane with
+      | none => Bool.false
+      | some actual => actual.mask &&
+          decide ((nativePointer (2^31) 1 actual.inputOffset).toNat<6*2^30+1))=Bool.true := by
+  decide +kernel
+
+#axiomsClean negative_coordinate_is_active
+#axiomsClean mixed_product_wraps_before_extension
+#axiomsClean wrapped_pointer_stays_inside_allocation
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end QuantTransposeReview

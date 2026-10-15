@@ -1,0 +1,80 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FinitePhysicalExecution.lean:106:14: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  externalMemory d a alloc p
+    (write working alloc.output (offset (parameters a alloc x) pid lane) (some (Cell.mk Storage.i8 z)))
+in the target expression
+  PhysicalStores a alloc p
+    (write working alloc.output
+      (offset { M := a.M, N := a.N, sam := a.sam, san := a.san, x := x, scale := alloc.scale, output := alloc.output }
+        pid lane)
+      (some (Cell.mk Storage.i8 z)))
+    (externalMemory d a alloc p
+      (write working alloc.output
+        (offset { M := a.M, N := a.N, sam := a.sam, san := a.san, x := x, scale := alloc.scale, output := alloc.output }
+          pid lane)
+        (some (Cell.mk Storage.i8 z))))
+    final (externalMemory d a alloc p final)
+
+case pos.some.some
+b : Numerics
+d : Storage
+a : Input
+alloc : Allocations
+p : PhysicalLayout
+x : String
+count : a.numel = a.M * a.N
+fresh : alloc.Fresh x
+snapshot : Memory
+v : Word (compute d)
+c : Config
+pid : ℕ
+final : Memory
+lane : ℕ
+lanes : List ℕ
+ih :
+  ∀ (working : Memory),
+    runLanes b d (parameters a alloc x) snapshot v c pid lanes working = Except.ok final →
+      PhysicalStores a alloc p working (externalMemory d a alloc p working) final (externalMemory d a alloc p final)
+working : Memory
+active : QuantTransposeFinite.active (parameters a alloc x) pid lane
+hi : offset (parameters a alloc x) pid lane < (parameters a alloc x).n
+hnumel : offset (parameters a alloc x) pid lane < a.numel
+value : Word d
+hx :
+  readCell d
+      (snapshot x
+        (laneInput
+          { M := a.M, N := a.N, sam := a.sam, san := a.san, x := x, scale := alloc.scale, output := alloc.output } pid
+          lane)) =
+    some value
+z : BitVec RegType.output8.width
+hz : Expr.eval b value v (source d) = some z
+run :
+  runLanes b d { M := a.M, N := a.N, sam := a.sam, san := a.san, x := x, scale := alloc.scale, output := alloc.output }
+      snapshot v c pid lanes
+      (write working alloc.output
+        (offset { M := a.M, N := a.N, sam := a.sam, san := a.san, x := x, scale := alloc.scale, output := alloc.output }
+          pid lane)
+        (some (Cell.mk Storage.i8 z))) =
+    Except.ok final
+tail :
+  PhysicalStores a alloc p
+    (write working alloc.output
+      (offset { M := a.M, N := a.N, sam := a.sam, san := a.san, x := x, scale := alloc.scale, output := alloc.output }
+        pid lane)
+      (some (Cell.mk Storage.i8 z)))
+    (externalMemory d a alloc p
+      (write working alloc.output
+        (offset { M := a.M, N := a.N, sam := a.sam, san := a.san, x := x, scale := alloc.scale, output := alloc.output }
+          pid lane)
+        (some (Cell.mk Storage.i8 z))))
+    final (externalMemory d a alloc p final)
+⊢ PhysicalStores a alloc p working (externalMemory d a alloc p working) final (externalMemory d a alloc p final)
+QuantTransposeFinite.output_store_commutes: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+QuantTransposeFinite.PhysicalStores.logical_frame: axiom footprint ⊆ standard base ✓  ([propext])
+QuantTransposeFinite.PhysicalStores.byte_frame: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FinitePhysicalExecution.lean:241:0: error: QuantTransposeFinite.lanes_physical: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FinitePhysicalExecution.lean:242:0: error: QuantTransposeFinite.grid_physical: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FinitePhysicalExecution.lean:243:0: error: QuantTransposeFinite.quant_transpose_trial_physical_execution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FinitePhysicalExecution.lean:245:0: error: QuantTransposeFinite.quant_transpose_trial_physical_execution: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

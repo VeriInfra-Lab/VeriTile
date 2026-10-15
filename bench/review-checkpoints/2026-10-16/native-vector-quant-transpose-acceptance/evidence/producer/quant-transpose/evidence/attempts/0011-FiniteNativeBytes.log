@@ -1,0 +1,60 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeBytes.lean:29:6: error: Tactic `rewrite` failed: motive is not type correct:
+  fun _a =>
+    (if _a then some (BitVec.cast ⋯ (ReluTritonKernel.ByteMemory.loadLE (bytes d) (fun a => (left a).getD 0) address))
+      else none) =
+      if ∀ k < bytes d, (right (address + k)).isSome = «true» then
+        some (BitVec.cast ⋯ (ReluTritonKernel.ByteMemory.loadLE (bytes d) (fun a => (right a).getD 0) address))
+      else none
+Error: Application type mismatch: The argument
+  (bytes d).decidableBallLT fun k a => (left (address + k)).isSome = «true»
+has type
+  Decidable (∀ n < bytes d, (left (address + n)).isSome = «true»)
+but is expected to have type
+  Decidable _a
+in the application
+  @ite (Option (Word d)) _a ((bytes d).decidableBallLT fun k a => (left (address + k)).isSome = «true»)
+
+Explanation: The rewrite tactic rewrites an expression 'e' using an equality 'a = b' by the following process. First, it looks for all 'a' in 'e'. Second, it tries to abstract these occurrences of 'a' to create a function 'm := fun _a => ...', called the *motive*, with the property that 'm a' is definitionally equal to 'e'. Third, we observe that 'congrArg' implies that 'm a = m b', which can be used with lemmas such as 'Eq.mpr' to change the goal. However, if 'e' depends on specific properties of 'a', then the motive 'm' might not typecheck.
+
+Possible solutions: use rewrite's 'occs' configuration option to limit which occurrences are rewritten, or use 'simp' or 'conv' mode, which have strategies for certain kinds of dependencies (these tactics can handle proofs and 'Decidable' instances whose types depend on the rewritten term, and 'simp' can apply user-defined '@[congr]' theorems as well).
+
+d : Storage
+left right : ByteMemory
+address : ℕ
+same : ∀ k < bytes d, left (address + k) = right (address + k)
+hcond : (∀ k < bytes d, (left (address + k)).isSome = «true») ↔ ∀ k < bytes d, (right (address + k)).isSome = «true»
+⊢ (if ∀ k < bytes d, (left (address + k)).isSome = «true» then
+      some (BitVec.cast ⋯ (ReluTritonKernel.ByteMemory.loadLE (bytes d) (fun a => (left a).getD 0) address))
+    else none) =
+    if ∀ k < bytes d, (right (address + k)).isSome = «true» then
+      some (BitVec.cast ⋯ (ReluTritonKernel.ByteMemory.loadLE (bytes d) (fun a => (right a).getD 0) address))
+    else none
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeBytes.lean:116:4: error: unsolved goals
+case neg
+initial : ByteMemory
+address : ℕ
+rest : List NativeWrite
+w : NativeWrite
+ih : applyNativeWrites rest initial address = nativeByteResult rest initial address
+h : ¬w.outputAddress = address
+⊢ (match List.find? (fun w => w.outputAddress == address) rest.reverse with
+    | none => initial address
+    | some w => some w.value) =
+    match
+      match w.outputAddress == address with
+      | «true» => some w
+      | «false» => List.find? (fun w => w.outputAddress == address) rest.reverse with
+    | none => initial address
+    | some w => some w.value
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeBytes.lean:116:12: warning: This simp argument is unused:
+  h
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵,̵N̵e̵.̵s̵y̵m̵m̵ ̵h̵,̵i̵h̵,̵n̵a̵t̵i̵v̵e̵B̵y̵t̵e̵R̵e̵s̵u̵l̵t̵]̵[̲N̲e̲.̲s̲y̲m̲m̲ ̲h̲,̲ ̲i̲h̲,̲ ̲n̲a̲t̲i̲v̲e̲B̲y̲t̲e̲R̲e̲s̲u̲l̲t̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QuantTransposeFinite.nativeByteResult: definition does not reference [QuantTransposeFinite.applyNativeWrites] — non-circular ✓
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeBytes.lean:119:0: error: QuantTransposeFinite.native_read_congr: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeBytes.lean:120:0: error: QuantTransposeFinite.native_read_outside_output: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeBytes.lean:121:0: error: QuantTransposeFinite.writes_pointwise: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+QuantTransposeFinite.writes_outside_output: axiom footprint ⊆ standard base ✓  ([propext])

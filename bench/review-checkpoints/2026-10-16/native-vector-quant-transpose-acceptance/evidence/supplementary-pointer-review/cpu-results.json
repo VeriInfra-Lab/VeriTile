@@ -1,0 +1,486 @@
+{
+  "torch_version": "2.13.0+cu130",
+  "device": "cpu",
+  "actual_tensor_allocations": true,
+  "native_pointer_extraction_executed": false,
+  "GPU_executed": false,
+  "kernel_values_executed": false,
+  "interpretation": "Identity completion only for absent/unconsumed extraction results. Actual successful extraction values must still be used on successful paths.",
+  "witnesses": [
+    {
+      "case": "positive-offset CPU; vector CUDA assertion / custom ordinary setup failure",
+      "input": {
+        "actual_metadata": {
+          "shape": [
+            4
+          ],
+          "strides": [
+            1
+          ],
+          "numel": 4,
+          "storageOffset": 3,
+          "torchStorageBase": 94809759262400,
+          "capacity": 64,
+          "torchDataPointer": 94809759262412,
+          "width": 4,
+          "dtype": "torch.float32",
+          "deviceIndex": null,
+          "isCUDA": false
+        },
+        "totalized_unconsumed_native_view": {
+          "base": 94809759262400,
+          "capacity": 64,
+          "data": 94809759262412,
+          "device": null,
+          "kernelArgumentPointer_totalization": 94809759262412,
+          "unconsumed_readable_and_writable": "const_false"
+        },
+        "TensorBinding_equations": {
+          "numel": true,
+          "range": true,
+          "shapeRange": true,
+          "offset": true,
+          "owner": true,
+          "pointerWidth": true,
+          "extent": true,
+          "torchData": true,
+          "extractedPointer_equality_without_success_assertion": true,
+          "mappedData": true
+        }
+      },
+      "output": {
+        "actual_metadata": {
+          "shape": [
+            4
+          ],
+          "strides": [
+            1
+          ],
+          "numel": 4,
+          "storageOffset": 0,
+          "torchStorageBase": 94809759238464,
+          "capacity": 16,
+          "torchDataPointer": 94809759238464,
+          "width": 4,
+          "dtype": "torch.float32",
+          "deviceIndex": null,
+          "isCUDA": false
+        },
+        "totalized_unconsumed_native_view": {
+          "base": 94809759238464,
+          "capacity": 16,
+          "data": 94809759238464,
+          "device": null,
+          "kernelArgumentPointer_totalization": 94809759238464,
+          "unconsumed_readable_and_writable": "const_false"
+        },
+        "TensorBinding_equations": {
+          "numel": true,
+          "range": true,
+          "shapeRange": true,
+          "offset": true,
+          "owner": true,
+          "pointerWidth": true,
+          "extent": true,
+          "torchData": true,
+          "extractedPointer_equality_without_success_assertion": true,
+          "mappedData": true
+        }
+      },
+      "AllocationBinding_equations": {
+        "returned_dtype": true,
+        "returned_shape": true,
+        "returned_numel": true,
+        "returned_cuda": true,
+        "returned_device": true,
+        "output_offset_zero": true,
+        "outputData": true,
+        "freshX": true,
+        "freshY": true,
+        "x_y_alias_allowed": true
+      },
+      "emptyLikeStrides_totalization": [
+        1
+      ]
+    },
+    {
+      "case": "rank-zero CPU; custom size(0) failure",
+      "input": {
+        "actual_metadata": {
+          "shape": [],
+          "strides": [],
+          "numel": 1,
+          "storageOffset": 0,
+          "torchStorageBase": 94809759238656,
+          "capacity": 4,
+          "torchDataPointer": 94809759238656,
+          "width": 4,
+          "dtype": "torch.float32",
+          "deviceIndex": null,
+          "isCUDA": false
+        },
+        "totalized_unconsumed_native_view": {
+          "base": 94809759238656,
+          "capacity": 4,
+          "data": 94809759238656,
+          "device": null,
+          "kernelArgumentPointer_totalization": 94809759238656,
+          "unconsumed_readable_and_writable": "const_false"
+        },
+        "TensorBinding_equations": {
+          "numel": true,
+          "range": true,
+          "shapeRange": true,
+          "offset": true,
+          "owner": true,
+          "pointerWidth": true,
+          "extent": true,
+          "torchData": true,
+          "extractedPointer_equality_without_success_assertion": true,
+          "mappedData": true
+        }
+      },
+      "output": {
+        "actual_metadata": {
+          "shape": [],
+          "strides": [],
+          "numel": 1,
+          "storageOffset": 0,
+          "torchStorageBase": 94809759238912,
+          "capacity": 4,
+          "torchDataPointer": 94809759238912,
+          "width": 4,
+          "dtype": "torch.float32",
+          "deviceIndex": null,
+          "isCUDA": false
+        },
+        "totalized_unconsumed_native_view": {
+          "base": 94809759238912,
+          "capacity": 4,
+          "data": 94809759238912,
+          "device": null,
+          "kernelArgumentPointer_totalization": 94809759238912,
+          "unconsumed_readable_and_writable": "const_false"
+        },
+        "TensorBinding_equations": {
+          "numel": true,
+          "range": true,
+          "shapeRange": true,
+          "offset": true,
+          "owner": true,
+          "pointerWidth": true,
+          "extent": true,
+          "torchData": true,
+          "extractedPointer_equality_without_success_assertion": true,
+          "mappedData": true
+        }
+      },
+      "AllocationBinding_equations": {
+        "returned_dtype": true,
+        "returned_shape": true,
+        "returned_numel": true,
+        "returned_cuda": true,
+        "returned_device": true,
+        "output_offset_zero": true,
+        "outputData": true,
+        "freshX": true,
+        "freshY": true,
+        "x_y_alias_allowed": true
+      },
+      "emptyLikeStrides_totalization": []
+    },
+    {
+      "case": "zero-numel huge first dimension; custom grid parse before extraction",
+      "input": {
+        "actual_metadata": {
+          "shape": [
+            34359738368,
+            0
+          ],
+          "strides": [
+            1,
+            1
+          ],
+          "numel": 0,
+          "storageOffset": 0,
+          "torchStorageBase": 0,
+          "capacity": 0,
+          "torchDataPointer": 0,
+          "width": 4,
+          "dtype": "torch.float32",
+          "deviceIndex": null,
+          "isCUDA": false
+        },
+        "totalized_unconsumed_native_view": {
+          "base": 0,
+          "capacity": 0,
+          "data": 0,
+          "device": null,
+          "kernelArgumentPointer_totalization": 0,
+          "unconsumed_readable_and_writable": "const_false"
+        },
+        "TensorBinding_equations": {
+          "numel": true,
+          "range": true,
+          "shapeRange": true,
+          "offset": true,
+          "owner": true,
+          "pointerWidth": true,
+          "extent": true,
+          "torchData": true,
+          "extractedPointer_equality_without_success_assertion": true,
+          "mappedData": true
+        }
+      },
+      "output": {
+        "actual_metadata": {
+          "shape": [
+            34359738368,
+            0
+          ],
+          "strides": [
+            1,
+            1
+          ],
+          "numel": 0,
+          "storageOffset": 0,
+          "torchStorageBase": 0,
+          "capacity": 0,
+          "torchDataPointer": 0,
+          "width": 4,
+          "dtype": "torch.float32",
+          "deviceIndex": null,
+          "isCUDA": false
+        },
+        "totalized_unconsumed_native_view": {
+          "base": 0,
+          "capacity": 0,
+          "data": 0,
+          "device": null,
+          "kernelArgumentPointer_totalization": 0,
+          "unconsumed_readable_and_writable": "const_false"
+        },
+        "TensorBinding_equations": {
+          "numel": true,
+          "range": true,
+          "shapeRange": true,
+          "offset": true,
+          "owner": true,
+          "pointerWidth": true,
+          "extent": true,
+          "torchData": true,
+          "extractedPointer_equality_without_success_assertion": true,
+          "mappedData": true
+        }
+      },
+      "AllocationBinding_equations": {
+        "returned_dtype": true,
+        "returned_shape": true,
+        "returned_numel": true,
+        "returned_cuda": true,
+        "returned_device": true,
+        "output_offset_zero": true,
+        "outputData": true,
+        "freshX": true,
+        "freshY": true,
+        "x_y_alias_allowed": true
+      },
+      "emptyLikeStrides_totalization": [
+        1,
+        1
+      ]
+    },
+    {
+      "case": "fnuz canonical signature route, allocation succeeds",
+      "input": {
+        "actual_metadata": {
+          "shape": [
+            4
+          ],
+          "strides": [
+            1
+          ],
+          "numel": 4,
+          "storageOffset": 0,
+          "torchStorageBase": 94809759397760,
+          "capacity": 4,
+          "torchDataPointer": 94809759397760,
+          "width": 1,
+          "dtype": "torch.float8_e4m3fnuz",
+          "deviceIndex": null,
+          "isCUDA": false
+        },
+        "totalized_unconsumed_native_view": {
+          "base": 94809759397760,
+          "capacity": 4,
+          "data": 94809759397760,
+          "device": null,
+          "kernelArgumentPointer_totalization": 94809759397760,
+          "unconsumed_readable_and_writable": "const_false"
+        },
+        "TensorBinding_equations": {
+          "numel": true,
+          "range": true,
+          "shapeRange": true,
+          "offset": true,
+          "owner": true,
+          "pointerWidth": true,
+          "extent": true,
+          "torchData": true,
+          "extractedPointer_equality_without_success_assertion": true,
+          "mappedData": true
+        }
+      },
+      "output": {
+        "actual_metadata": {
+          "shape": [
+            4
+          ],
+          "strides": [
+            1
+          ],
+          "numel": 4,
+          "storageOffset": 0,
+          "torchStorageBase": 94809759397888,
+          "capacity": 4,
+          "torchDataPointer": 94809759397888,
+          "width": 1,
+          "dtype": "torch.float8_e4m3fnuz",
+          "deviceIndex": null,
+          "isCUDA": false
+        },
+        "totalized_unconsumed_native_view": {
+          "base": 94809759397888,
+          "capacity": 4,
+          "data": 94809759397888,
+          "device": null,
+          "kernelArgumentPointer_totalization": 94809759397888,
+          "unconsumed_readable_and_writable": "const_false"
+        },
+        "TensorBinding_equations": {
+          "numel": true,
+          "range": true,
+          "shapeRange": true,
+          "offset": true,
+          "owner": true,
+          "pointerWidth": true,
+          "extent": true,
+          "torchData": true,
+          "extractedPointer_equality_without_success_assertion": true,
+          "mappedData": true
+        }
+      },
+      "AllocationBinding_equations": {
+        "returned_dtype": true,
+        "returned_shape": true,
+        "returned_numel": true,
+        "returned_cuda": true,
+        "returned_device": true,
+        "output_offset_zero": true,
+        "outputData": true,
+        "freshX": true,
+        "freshY": true,
+        "x_y_alias_allowed": true
+      },
+      "emptyLikeStrides_totalization": [
+        1
+      ]
+    },
+    {
+      "case": "empty positive-offset view over nonempty backing",
+      "input": {
+        "actual_metadata": {
+          "shape": [
+            0
+          ],
+          "strides": [
+            1
+          ],
+          "numel": 0,
+          "storageOffset": 1000000,
+          "torchStorageBase": 94809759262400,
+          "capacity": 64,
+          "torchDataPointer": 0,
+          "width": 4,
+          "dtype": "torch.float32",
+          "deviceIndex": null,
+          "isCUDA": false
+        },
+        "totalized_unconsumed_native_view": {
+          "base": 94809759262400,
+          "capacity": 64,
+          "data": 0,
+          "device": null,
+          "kernelArgumentPointer_totalization": 0,
+          "unconsumed_readable_and_writable": "const_false"
+        },
+        "TensorBinding_equations": {
+          "numel": true,
+          "range": true,
+          "shapeRange": true,
+          "offset": true,
+          "owner": true,
+          "pointerWidth": true,
+          "extent": true,
+          "torchData": true,
+          "extractedPointer_equality_without_success_assertion": true,
+          "mappedData": true
+        }
+      },
+      "output": {
+        "actual_metadata": {
+          "shape": [
+            0
+          ],
+          "strides": [
+            1
+          ],
+          "numel": 0,
+          "storageOffset": 0,
+          "torchStorageBase": 0,
+          "capacity": 0,
+          "torchDataPointer": 0,
+          "width": 4,
+          "dtype": "torch.float32",
+          "deviceIndex": null,
+          "isCUDA": false
+        },
+        "totalized_unconsumed_native_view": {
+          "base": 0,
+          "capacity": 0,
+          "data": 0,
+          "device": null,
+          "kernelArgumentPointer_totalization": 0,
+          "unconsumed_readable_and_writable": "const_false"
+        },
+        "TensorBinding_equations": {
+          "numel": true,
+          "range": true,
+          "shapeRange": true,
+          "offset": true,
+          "owner": true,
+          "pointerWidth": true,
+          "extent": true,
+          "torchData": true,
+          "extractedPointer_equality_without_success_assertion": true,
+          "mappedData": true
+        }
+      },
+      "AllocationBinding_equations": {
+        "returned_dtype": true,
+        "returned_shape": true,
+        "returned_numel": true,
+        "returned_cuda": true,
+        "returned_device": true,
+        "output_offset_zero": true,
+        "outputData": true,
+        "freshX": true,
+        "freshY": true,
+        "x_y_alias_allowed": true
+      },
+      "emptyLikeStrides_totalization": [
+        1
+      ]
+    }
+  ]
+}

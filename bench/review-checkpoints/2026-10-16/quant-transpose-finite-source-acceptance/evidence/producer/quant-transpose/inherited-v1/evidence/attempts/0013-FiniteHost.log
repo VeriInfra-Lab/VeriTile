@@ -1,0 +1,19 @@
+QuantTransposeFinite.Result: definition does not reference [QuantTransposeFinite.execute,
+ QuantTransposeFinite.prepare,
+ QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.produced: definition does not reference [QuantTransposeFinite.execute,
+ QuantTransposeFinite.prepare,
+ QuantTransposeFinite.runTrials,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runProgram,
+ QuantTransposeFinite.runLanes,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+QuantTransposeFinite.quant_transpose_finite_host_correctness: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

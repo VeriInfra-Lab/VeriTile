@@ -1,0 +1,8 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeArithmetic.lean:139:17: error: unexpected token 'false'; expected term
+QuantTransposeFinite.ArithmeticRefines: definition does not reference [QuantTransposeFinite.executeAPI,
+ QuantTransposeFinite.execute,
+ QuantTransposeFinite.runGrid,
+ QuantTransposeFinite.runLanes] — non-circular ✓
+QuantTransposeFinite.metadata_specializations: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeArithmetic.lean:150:0: error: QuantTransposeFinite.singleton_active_wide_strides: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+QuantTransposeFinite.narrow_product_before_extension: axiom footprint ⊆ standard base ✓  ([propext])

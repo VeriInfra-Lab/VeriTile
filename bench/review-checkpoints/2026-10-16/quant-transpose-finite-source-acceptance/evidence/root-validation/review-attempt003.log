@@ -1,0 +1,21 @@
+{
+  "status": "substantively_reviewed_for_finite_scope_integration",
+  "review_sha256": "9e0c4b360363f94670bc2477b8783477d4a93aa89ac93a2e48b050b066e87f77",
+  "checked_counts": {
+    "modules": 18,
+    "producer_artifacts": 776,
+    "project_dependencies": 177,
+    "external_dependencies": 33,
+    "peer_clean_axiom_checks": 68,
+    "peer_noncircular_checks": 14,
+    "root_clean_axiom_checks": 68,
+    "root_noncircular_checks": 14,
+    "root_external_dependencies": 34,
+    "source_cases": 863,
+    "numeric_families": 16,
+    "exact_ports": 140,
+    "root_omitted_port_mutations": 140,
+    "producer_attempts_including_inherited": 110,
+    "producer_failed_attempts_preserved": 19
+  }
+}

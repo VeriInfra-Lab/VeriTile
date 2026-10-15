@@ -1,0 +1,116 @@
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:104:24: error: unsolved goals
+case cons
+b : Numerics
+d : Storage
+alloc : Allocations
+p : PhysicalLayout
+pid : ℕ
+inverse : Word (compute d)
+loaded : NativeLoaded d
+rest : List (NativeLoaded d)
+ih :
+  ∀ (seen : List ℕ),
+    executeNativeTileWrites b d alloc p pid inverse rest seen = nativeTileWrites b d alloc p pid inverse rest seen
+seen : List ℕ
+⊢ (do
+      let z ← requireSome (result b d loaded.value inverse) (NativeIssue.conversionUndefined pid loaded.lane)
+      if ¬(InRegion p.output loaded.outputAddress 1 ∧ p.output.writable alloc.currentDevice) then
+          Except.error (NativeIssue.outputAccess pid loaded.lane loaded.outputAddress)
+        else
+          if loaded.outputAddress ∈ seen then
+            Except.error (NativeIssue.outputOwnershipConflict pid loaded.lane loaded.outputAddress)
+          else do
+            let __discr ← nativeTileWrites b d alloc p pid inverse rest (loaded.outputAddress :: seen)
+            pure
+                ({ pid := pid, lane := loaded.lane, inputAddress := loaded.inputAddress,
+                      outputAddress := loaded.outputAddress, value := z } ::
+                    __discr.1,
+                  __discr.2)) =
+    do
+    let z ← requireSome (result b d loaded.value inverse) (NativeIssue.conversionUndefined pid loaded.lane)
+    if ¬(InRegion p.output loaded.outputAddress 1 ∧ p.output.writable alloc.currentDevice) then
+        Except.error (NativeIssue.outputAccess pid loaded.lane loaded.outputAddress)
+      else
+        if loaded.outputAddress ∈ seen then
+          Except.error (NativeIssue.outputOwnershipConflict pid loaded.lane loaded.outputAddress)
+        else do
+          let __discr ← nativeTileWrites b d alloc p pid inverse rest (loaded.outputAddress :: seen)
+          pure
+              ({ pid := pid, lane := loaded.lane, inputAddress := loaded.inputAddress,
+                    outputAddress := loaded.outputAddress, value := z } ::
+                  __discr.1,
+                __discr.2)
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:152:44: warning: This simp argument is unused:
+  native_bind_error
+
+Hint: Omit it from the simp argument list.
+  simp only [̵r̵e̵q̵u̵i̵r̵e̵S̵o̵m̵e̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵]̵[̲r̲e̲q̲u̲i̲r̲e̲S̲o̲m̲e̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲o̲k̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:206:29: error: omega could not prove the goal:
+a possible counterexample may satisfy the constraints
+  f ≥ 0
+  e ≥ 0
+  c ≥ 0
+  c + e - f ≤ 0
+  0 ≤ a ≤ 18446744073709551615
+  a - c ≥ 0
+  a - c - e ≤ -1
+where
+ a := ↑item.outputAddress
+ c := ↑p.output.base
+ e := ↑p.output.capacity
+ f := ↑{ pid := pid, lane := item.lane, inputAddress := item.inputAddress, outputAddress := item.outputAddress,
+      value := z }.outputAddress
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:188:35: warning: This simp argument is unused:
+  native_bind_ok
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵z̵,̵r̵e̵q̵u̵i̵r̵e̵S̵o̵m̵e̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵]̵[̲h̲z̲,̲ ̲r̲e̲q̲u̲i̲r̲e̲S̲o̲m̲e̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲e̲r̲r̲o̲r̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:190:47: warning: This simp argument is unused:
+  native_bind_error
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵z̵,̵r̵e̵q̵u̵i̵r̵e̵S̵o̵m̵e̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵]̵[̲h̲z̲,̲ ̲r̲e̲q̲u̲i̲r̲e̲S̲o̲m̲e̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲o̲k̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:197:36: warning: This simp argument is unused:
+  native_bind_ok
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵t̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵]̵[̲h̲t̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲e̲r̲r̲o̲r̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:200:36: warning: This simp argument is unused:
+  native_bind_error
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵t̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵,̵n̵a̵t̵i̵v̵e̵_̵p̵u̵r̵e̵]̵[̲h̲t̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲o̲k̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲p̲u̲r̲e̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:216:28: warning: This simp argument is unused:
+  native_bind_ok
+
+Hint: Omit it from the simp argument list.
+  simp [̵h̵l̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵]̵[̲h̲l̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲e̲r̲r̲o̲r̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:221:38: warning: This simp argument is unused:
+  native_bind_error
+
+Hint: Omit it from the simp argument list.
+  simp only [̵h̵l̵,̵h̵v̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵o̵k̵,̵n̵a̵t̵i̵v̵e̵_̵b̵i̵n̵d̵_̵e̵r̵r̵o̵r̵]̵[̲h̲l̲,̲ ̲h̲v̲,̲ ̲n̲a̲t̲i̲v̲e̲_̲b̲i̲n̲d̲_̲o̲k̲]̲ at h
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+QuantTransposeFinite.nativeProgramPlan: definition does not reference [QuantTransposeFinite.executeNativeProgram,
+ QuantTransposeFinite.executeNativeTileWrites,
+ QuantTransposeFinite.applyNativeWrites,
+ QuantTransposeFinite.source,
+ QuantTransposeFinite.Expr.eval] — non-circular ✓
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:225:0: error: QuantTransposeFinite.native_program_correspondence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+QuantTransposeFinite.native_program_plan_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+/tmp/veritile-standardization-20261015/quant-transpose-finite-acceptance-revision1-wip/bench/tritonbench_g/quant_transpose_kernel/Proofs/FiniteNativeProgram.lean:227:0: error: QuantTransposeFinite.native_program_write_bounds: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

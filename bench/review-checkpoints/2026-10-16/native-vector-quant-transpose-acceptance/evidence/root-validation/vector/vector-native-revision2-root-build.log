@@ -1,0 +1,16 @@
+bench/tritonbench_g/vector_addition/Proofs/NativeArithmetic.lean 0
+bench/tritonbench_g/vector_addition/Proofs/NativeAdmission.lean 0
+bench/tritonbench_g/vector_addition/Proofs/NativeScalar.lean 0
+bench/tritonbench_g/vector_addition/Proofs/NativeMemory.lean 0
+bench/tritonbench_g/vector_addition/Proofs/NativeProgram.lean 0
+bench/tritonbench_g/vector_addition/Proofs/NativeGrid.lean 0
+bench/tritonbench_g/vector_addition/NativeCorrect.lean 0
+{
+  "producer_receipt_sha256": "8679242cdbdbe9d8972fe59c011fc89f51ba723de0b233bbe8af07ec32312cc4",
+  "all_passed": true,
+  "dependencies_unchanged": true,
+  "root_dependency_snapshot_sha256": "e522556b692ac7edfb175f5aa03b01c86811f918c6eea81b448e18df83a99690",
+  "clean_axiom_checks": 38,
+  "noncircular_checks": 6,
+  "frozen_artifacts_verified": 1677
+}

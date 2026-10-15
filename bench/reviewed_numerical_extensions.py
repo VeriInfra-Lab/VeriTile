@@ -268,6 +268,30 @@ def _extend_quant_global_authority(root, previous):
     return result
 
 
+QUANT_TRANSPOSE_PACKAGE = (
+    'bench/review-checkpoints/2026-10-16/native-vector-quant-transpose-acceptance/'
+    'evidence/producer/quant-transpose'
+)
+QUANT_TRANSPOSE_RECEIPT = '883f7e8e086acb7b20ac7a3f20ba16dfdf697b425ef123d0af7509c877bf188a'
+QUANT_TRANSPOSE_REVIEW = (
+    'bench/review-checkpoints/2026-10-16/native-vector-quant-transpose-acceptance/'
+    'evidence/root-validation/quant-transpose/review.json'
+)
+QUANT_TRANSPOSE_REVIEW_SHA256 = '54c7e23fb5975ec8fddd7f7bb19304616f9895607fc9f4af313a60e29aacf918'
+
+
+VECTOR_NATIVE_PACKAGE = (
+    'bench/review-checkpoints/2026-10-16/native-vector-quant-transpose-acceptance/'
+    'evidence/producer/vector'
+)
+VECTOR_NATIVE_RECEIPT = '8679242cdbdbe9d8972fe59c011fc89f51ba723de0b233bbe8af07ec32312cc4'
+VECTOR_NATIVE_REVIEW = (
+    'bench/review-checkpoints/2026-10-16/native-vector-quant-transpose-acceptance/'
+    'evidence/root-validation/vector/review.json'
+)
+VECTOR_NATIVE_REVIEW_SHA256 = '2d5529a7a7114a7e846026d44f3d1b8a7b26455294580b7e9a48326074c3f362'
+
+
 def extend_reviewed_authority(root, previous):
     """Apply independent literal pins while preserving exact whole-queue equality."""
     result = _extend_relu_authority(root, previous)
@@ -275,4 +299,14 @@ def extend_reviewed_authority(root, previous):
         root, result, VECTOR_FINITE_PACKAGE, VECTOR_FINITE_RECEIPT,
         VECTOR_FINITE_REVIEW, VECTOR_FINITE_REVIEW_SHA256,
     )
-    return _extend_quant_global_authority(root, result)
+    result = _extend_quant_global_authority(root, result)
+    from quant_transpose_numerical_extension import extend_authority
+    result = extend_authority(
+        root, result, QUANT_TRANSPOSE_PACKAGE, QUANT_TRANSPOSE_RECEIPT,
+        QUANT_TRANSPOSE_REVIEW, QUANT_TRANSPOSE_REVIEW_SHA256,
+    )
+    from vector_native_numerical_extension import extend_vector_native_authority
+    return extend_vector_native_authority(
+        root, result, VECTOR_NATIVE_PACKAGE, VECTOR_NATIVE_RECEIPT,
+        VECTOR_NATIVE_REVIEW, VECTOR_NATIVE_REVIEW_SHA256,
+    )

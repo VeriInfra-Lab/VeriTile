@@ -108,6 +108,59 @@ The inventory covers 184 tasks: 77 have concrete native-binding recipes, and the
 | `QG-FINITE-LLRINT32` | `awaiting_explicit_numeric_validation` | 1 |
 | `QG-FINITE-LLRINT64` | `awaiting_explicit_numeric_validation` | 1 |
 | `QG-FINITE-STORE8` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-ABS` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-MAX` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-RECIP` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-UCAST` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-SCAST8` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-SCAST16` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-SCAST32` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-SCAST64` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-BOOL` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-LIT32` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-LIT64` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-MUL32` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-MUL64` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-LLRINT32` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-LLRINT64` | `awaiting_explicit_numeric_validation` | 1 |
+| `QT-FINITE-NARROW8` | `awaiting_explicit_numeric_validation` | 1 |
+| `VECTOR-NATIVE-MIXEDSMALL-INTEGERROUNDED` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-MIXEDSMALL-ADDTARGET-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-MIXEDSMALL-WIDENHALF` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-FP-INTEGERCONVERSION-TOSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-MIXEDSMALL-WIDENBFLOAT` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-FP-ADD` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-MIXEDFP32-INTEGERROUNDED` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-WIDE-ADD64` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-WIDE-TOSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-WIDE-SIGNEDTO64` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-FP-INTEGERCONVERSION-TOUNSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-WIDE-UNSIGNEDTO64` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-WIDE-TOUNSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-BINARY-NONE-FP16-ADD` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-BF16-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-FP16-FP32` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-BINARY-NONE-FP32-ADD` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-FP32-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-WIDE-HALFTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-WIDE-SINGLETO64` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-WIDE-TOHALF` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-F8E4-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-F8E5-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-MIXEDSMALL-NARROWBFLOAT` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-FP16-BF16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-BINARY-NONE-BF16-ADD` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-BF16-FP32` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-FP32-BF16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-WIDE-BFLOATTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-WIDE-TOBFLOAT` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-F8E4-FP32` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-F8E5-FP32` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-WIDE-TOSINGLE` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-FP16-F8E4` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-FP32-F8E4` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-FP16-F8E5` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-NATIVE-B-REST-CAST-NONE-FP32-F8E5` | `exact_profile_bound_validation_pending` | 1 |
 
 Five profiles still need exact binding. Existing reports remain limited to their recorded configuration. The unrestricted fp16 rounding-is-identity assumption is refuted; it must be repaired, not submitted as a validation target.
 
@@ -139,6 +192,6 @@ Keep failed and not-run cases. A source/compiled graph mismatch requires a corre
 
 ## Exact scalar follow-up bindings
 
-89 additional scalar families bind 1206 exact dtype/port instances across 5399 declaration cases. All remain unvalidated.
+142 additional scalar families bind 1642 exact dtype/port instances across 11041 declaration cases. All remain unvalidated.
 
 The original fp64 and ReLU records retain their frozen sm90 configurations. The finite ReLU extension covers all 17 canonical profiles with block_size=1024 and 0<=N<=2^31, including errors and empty launches; its 84 numerical ports apply to the 39 nonempty successful cases. The queue preserves structural gaps and adds no accepted original programs.
