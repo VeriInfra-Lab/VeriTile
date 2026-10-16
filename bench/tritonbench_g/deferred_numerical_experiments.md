@@ -161,6 +161,92 @@ The inventory covers 184 tasks: 77 have concrete native-binding recipes, and the
 | `VECTOR-NATIVE-B-REST-CAST-NONE-FP32-F8E4` | `exact_profile_bound_validation_pending` | 1 |
 | `VECTOR-NATIVE-B-REST-CAST-NONE-FP16-F8E5` | `exact_profile_bound_validation_pending` | 1 |
 | `VECTOR-NATIVE-B-REST-CAST-NONE-FP32-F8E5` | `exact_profile_bound_validation_pending` | 1 |
+| `TRITON-MUL2-FINITE-MULTIPLY-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `TRITON-MUL2-FINITE-MULTIPLY-BF16` | `exact_profile_bound_validation_pending` | 1 |
+| `TRITON-MUL2-FINITE-MULTIPLY-FP32` | `exact_profile_bound_validation_pending` | 1 |
+| `TRITON-MUL2-FINITE-MULTIPLY-FP64` | `exact_profile_bound_validation_pending` | 1 |
+| `RELU-ACTUAL-SINT32` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-ACTUAL-UINT32` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-ACTUAL-CMP16` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-ACTUAL-CMP32` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-ACTUAL-EXT16` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-ACTUAL-EXTBF16` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-ACTUAL-CMP64` | `awaiting_explicit_numeric_validation` | 1 |
+| `RELU-ACTUAL-NARROW64` | `awaiting_explicit_numeric_validation` | 1 |
+| `VECTOR-CUSTOM-NATIVE-MIXEDSMALL-INTEGERROUNDED` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-MIXEDSMALL-ADDTARGET-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-MIXEDSMALL-WIDENHALF` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-FP-INTEGERCONVERSION-TOSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-MIXEDSMALL-WIDENBFLOAT` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-FP-ADD` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-MIXEDFP32-INTEGERROUNDED` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-WIDE-ADD64` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-WIDE-TOSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-WIDE-SIGNEDTO64` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-FP-INTEGERCONVERSION-TOUNSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-WIDE-UNSIGNEDTO64` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-WIDE-TOUNSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-BINARY-NONE-FP16-ADD` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-BF16-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-FP16-FP32` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-BINARY-NONE-FP32-ADD` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-FP32-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-WIDE-HALFTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-WIDE-SINGLETO64` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-WIDE-TOHALF` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-F8E4-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-F8E5-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-MIXEDSMALL-NARROWBFLOAT` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-FP16-BF16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-BINARY-NONE-BF16-ADD` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-BF16-FP32` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-FP32-BF16` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-WIDE-BFLOATTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-WIDE-TOBFLOAT` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-F8E4-FP32` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-F8E5-FP32` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-WIDE-TOSINGLE` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-FP16-F8E4` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-FP32-F8E4` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-FP16-F8E5` | `exact_profile_bound_validation_pending` | 1 |
+| `VECTOR-CUSTOM-NATIVE-B-REST-CAST-NONE-FP32-F8E5` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-MIXEDSMALL-INTEGERROUNDED` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-MIXEDSMALL-ADDTARGET-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-MIXEDSMALL-WIDENHALF` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-FP-INTEGERCONVERSION-TOSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-MIXEDSMALL-WIDENBFLOAT` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-FP-ADD` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-MIXEDFP32-INTEGERROUNDED` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-WIDE-ADD64` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-WIDE-TOSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-WIDE-SIGNEDTO64` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-FP-INTEGERCONVERSION-TOUNSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-WIDE-UNSIGNEDTO64` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-WIDE-TOUNSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-BINARY-NONE-FP16-ADD` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-BF16-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-FP16-FP32` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-BINARY-NONE-FP32-ADD` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-FP32-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-WIDE-HALFTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-WIDE-SINGLETO64` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-WIDE-TOHALF` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-F8E4-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-F8E5-FP16` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-MIXEDSMALL-NARROWBFLOAT` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-FP16-BF16` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-BINARY-NONE-BF16-ADD` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-BF16-FP32` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-FP32-BF16` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-WIDE-BFLOATTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-WIDE-TOBFLOAT` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-F8E4-FP32` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-F8E5-FP32` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-WIDE-TOSINGLE` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-FP16-F8E4` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-FP32-F8E4` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-FP16-F8E5` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-FP32-F8E5` | `exact_profile_bound_validation_pending` | 1 |
 
 Five profiles still need exact binding. Existing reports remain limited to their recorded configuration. The unrestricted fp16 rounding-is-identity assumption is refuted; it must be repaired, not submitted as a validation target.
 
@@ -192,6 +278,6 @@ Keep failed and not-run cases. A source/compiled graph mismatch requires a corre
 
 ## Exact scalar follow-up bindings
 
-142 additional scalar families bind 1642 exact dtype/port instances across 11041 declaration cases. All remain unvalidated.
+228 additional scalar families bind 2366 exact dtype/port instances across 22317 declaration cases. All remain unvalidated.
 
 The original fp64 and ReLU records retain their frozen sm90 configurations. The finite ReLU extension covers all 17 canonical profiles with block_size=1024 and 0<=N<=2^31, including errors and empty launches; its 84 numerical ports apply to the 39 nonempty successful cases. The queue preserves structural gaps and adds no accepted original programs.

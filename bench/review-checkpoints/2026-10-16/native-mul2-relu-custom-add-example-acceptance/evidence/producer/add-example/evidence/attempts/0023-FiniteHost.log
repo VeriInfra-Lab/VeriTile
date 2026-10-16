@@ -1,0 +1,250 @@
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteHost.lean:99:9: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.Finite.Carrier.undef`
+
+Note: Inferred this name from the expected resulting type of `.undef`:
+  Carrier x✝
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteHost.lean:99:9: error(lean.unknownIdentifier): Unknown constant `VeriTile.Bench.TritonBenchG.VectorAddition.Finite.Carrier.match_1.undef`
+
+Note: Inferred this name from the expected resulting type of `.undef`:
+  Carrier x✝
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteHost.lean:203:33: error: Tactic `rfl` failed: The left-hand side
+  byteObservation ops x y
+    (match none with
+    | some detail =>
+      HostOutcome.nativeFailure (setupTrace x y output) (HostFailure.primitive NativeStage.pointerExtraction detail)
+    | none =>
+      match none with
+      | some detail =>
+        HostOutcome.nativeFailure (setupTrace x y output) (HostFailure.primitive NativeStage.enqueue detail)
+      | none =>
+        match
+          Except.map
+            (fun writes =>
+              applyWrites (ops r)
+                (if { name := "out" } = { name := "x" } then metadata.view x
+                  else if { name := "out" } = { name := "y" } then metadata.view y else metadata.view output).dtype
+                writes allocated)
+            (launchPlan b r (ops r) (metadata.view x)
+              (if { name := "y" } = { name := "x" } then metadata.view x else metadata.view y)
+              (if { name := "out" } = { name := "x" } then metadata.view x
+              else if { name := "out" } = { name := "y" } then metadata.view y else metadata.view output)
+              x.numel allocated) with
+        | Except.error issue => HostOutcome.outsideModel (setupTrace x y output) issue
+        | Except.ok final => HostOutcome.returned (successTrace x y output) output final)
+is not definitionally equal to the right-hand side
+  match none with
+  | some detail =>
+    ByteOutcome.nativeFailure (setupTrace x y output) (HostFailure.primitive NativeStage.pointerExtraction detail)
+  | none =>
+    match none with
+    | some detail =>
+      ByteOutcome.nativeFailure (setupTrace x y output) (HostFailure.primitive NativeStage.enqueue detail)
+    | none =>
+      match Except.error issue with
+      | Except.error issue => ByteOutcome.outsideModel (setupTrace x y output) issue
+      | Except.ok writes =>
+        ByteOutcome.returned (successTrace x y output) output
+          (byteFormula (ops r) (metadata.view output).dtype writes allocated)
+
+case pos.none.none.error
+M : Type
+ops : (r : Route) → MemoryPrimitives M (Carrier r)
+b : Numerics
+env : NativeEnvironment
+metadata : Metadata
+x y output : Tensor
+before allocated : M
+binding : AllocationBinding ops metadata x y output before allocated
+he : env NativeStage.currentDeviceAndStream = none
+r : Route
+ha : admission x.dtype y.dtype = Except.ok r
+hc : env NativeStage.compilation = none
+hl : env NativeStage.launcherContext = none
+hg : gridSupported x.numel
+hp : env NativeStage.pointerExtraction = none
+hq : env NativeStage.enqueue = none
+corr :
+  observedLaunch b r (ops r) (sourceViews metadata x y output) (unused r) { name := "x" } { name := "y" }
+      { name := "out" } x.numel allocated =
+    Except.map
+      (fun writes =>
+        applyWrites (ops r)
+          (if { name := "out" } = { name := "x" } then metadata.view x
+            else if { name := "out" } = { name := "y" } then metadata.view y else metadata.view output).dtype
+          writes allocated)
+      (launchPlan b r (ops r) (metadata.view x)
+        (if { name := "y" } = { name := "x" } then metadata.view x else metadata.view y)
+        (if { name := "out" } = { name := "x" } then metadata.view x
+        else if { name := "out" } = { name := "y" } then metadata.view y else metadata.view output)
+        x.numel allocated)
+issue : Observation
+ht :
+  launchPlan b r (ops r) (metadata.view x) (metadata.view y) (metadata.view output) x.numel allocated =
+    Except.error issue
+⊢ byteObservation ops x y
+      (match none with
+      | some detail =>
+        HostOutcome.nativeFailure (setupTrace x y output) (HostFailure.primitive NativeStage.pointerExtraction detail)
+      | none =>
+        match none with
+        | some detail =>
+          HostOutcome.nativeFailure (setupTrace x y output) (HostFailure.primitive NativeStage.enqueue detail)
+        | none =>
+          match
+            Except.map
+              (fun writes =>
+                applyWrites (ops r)
+                  (if { name := "out" } = { name := "x" } then metadata.view x
+                    else if { name := "out" } = { name := "y" } then metadata.view y else metadata.view output).dtype
+                  writes allocated)
+              (launchPlan b r (ops r) (metadata.view x)
+                (if { name := "y" } = { name := "x" } then metadata.view x else metadata.view y)
+                (if { name := "out" } = { name := "x" } then metadata.view x
+                else if { name := "out" } = { name := "y" } then metadata.view y else metadata.view output)
+                x.numel allocated) with
+          | Except.error issue => HostOutcome.outsideModel (setupTrace x y output) issue
+          | Except.ok final => HostOutcome.returned (successTrace x y output) output final) =
+    match none with
+    | some detail =>
+      ByteOutcome.nativeFailure (setupTrace x y output) (HostFailure.primitive NativeStage.pointerExtraction detail)
+    | none =>
+      match none with
+      | some detail =>
+        ByteOutcome.nativeFailure (setupTrace x y output) (HostFailure.primitive NativeStage.enqueue detail)
+      | none =>
+        match Except.error issue with
+        | Except.error issue => ByteOutcome.outsideModel (setupTrace x y output) issue
+        | Except.ok writes =>
+          ByteOutcome.returned (successTrace x y output) output
+            (byteFormula (ops r) (metadata.view output).dtype writes allocated)
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteHost.lean:207:18: error: Tactic `apply` failed: could not unify the conclusion of `@funext`
+  ?f = ?g
+with the goal
+  (match
+      match
+        match
+          launchPlan b r (ops r) (metadata.view x)
+            (if { name := "y" } = { name := "x" } then metadata.view x else metadata.view y)
+            (if { name := "out" } = { name := "x" } then metadata.view x
+            else if { name := "out" } = { name := "y" } then metadata.view y else metadata.view output)
+            x.numel allocated with
+        | Except.error err => Except.error err
+        | Except.ok v =>
+          Except.ok
+            (applyWrites (ops r)
+              (if { name := "out" } = { name := "x" } then metadata.view x
+                else if { name := "out" } = { name := "y" } then metadata.view y else metadata.view output).dtype
+              v allocated) with
+      | Except.error issue => HostOutcome.outsideModel (setupTrace x y output) issue
+      | Except.ok final => HostOutcome.returned (successTrace x y output) output final with
+    | HostOutcome.nativeFailure trace reason => ByteOutcome.nativeFailure trace reason
+    | HostOutcome.outsideModel trace issue => ByteOutcome.outsideModel trace issue
+    | HostOutcome.returned trace output memory => ByteOutcome.returned trace output ((ops r).observeByte memory)) =
+    ByteOutcome.returned (successTrace x y output) output
+      (byteFormula (ops r) (metadata.view output).dtype writes allocated)
+
+Note: The full type of `@funext` is
+  ∀ {α : Sort ?u.17385.5106} {β : α → Sort ?u.17385.5105} {f g : (x : α) → β x}, (∀ (x : α), f x = g x) → f = g
+
+case pos.none.none.ok
+M : Type
+ops : (r : Route) → MemoryPrimitives M (Carrier r)
+b : Numerics
+env : NativeEnvironment
+metadata : Metadata
+x y output : Tensor
+before allocated : M
+binding : AllocationBinding ops metadata x y output before allocated
+he : env NativeStage.currentDeviceAndStream = none
+r : Route
+ha : admission x.dtype y.dtype = Except.ok r
+hc : env NativeStage.compilation = none
+hl : env NativeStage.launcherContext = none
+hg : gridSupported x.numel
+hp : env NativeStage.pointerExtraction = none
+hq : env NativeStage.enqueue = none
+corr :
+  observedLaunch b r (ops r) (sourceViews metadata x y output) (unused r) { name := "x" } { name := "y" }
+      { name := "out" } x.numel allocated =
+    Except.map
+      (fun writes =>
+        applyWrites (ops r)
+          (if { name := "out" } = { name := "x" } then metadata.view x
+            else if { name := "out" } = { name := "y" } then metadata.view y else metadata.view output).dtype
+          writes allocated)
+      (launchPlan b r (ops r) (metadata.view x)
+        (if { name := "y" } = { name := "x" } then metadata.view x else metadata.view y)
+        (if { name := "out" } = { name := "x" } then metadata.view x
+        else if { name := "out" } = { name := "y" } then metadata.view y else metadata.view output)
+        x.numel allocated)
+writes : List (Write (Carrier r))
+ht :
+  launchPlan b r (ops r) (metadata.view x) (metadata.view y) (metadata.view output) x.numel allocated = Except.ok writes
+⊢ (match
+      match
+        match
+          launchPlan b r (ops r) (metadata.view x)
+            (if { name := "y" } = { name := "x" } then metadata.view x else metadata.view y)
+            (if { name := "out" } = { name := "x" } then metadata.view x
+            else if { name := "out" } = { name := "y" } then metadata.view y else metadata.view output)
+            x.numel allocated with
+        | Except.error err => Except.error err
+        | Except.ok v =>
+          Except.ok
+            (applyWrites (ops r)
+              (if { name := "out" } = { name := "x" } then metadata.view x
+                else if { name := "out" } = { name := "y" } then metadata.view y else metadata.view output).dtype
+              v allocated) with
+      | Except.error issue => HostOutcome.outsideModel (setupTrace x y output) issue
+      | Except.ok final => HostOutcome.returned (successTrace x y output) output final with
+    | HostOutcome.nativeFailure trace reason => ByteOutcome.nativeFailure trace reason
+    | HostOutcome.outsideModel trace issue => ByteOutcome.outsideModel trace issue
+    | HostOutcome.returned trace output memory => ByteOutcome.returned trace output ((ops r).observeByte memory)) =
+    ByteOutcome.returned (successTrace x y output) output
+      (byteFormula (ops r) (metadata.view output).dtype writes allocated)
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteHost.lean:217:20: error: Tactic `rfl` failed: The left-hand side
+  byteObservation ops x y (sourceHost ops b alloc env metadata x y before)
+is not definitionally equal to the right-hand side
+  hostFormula ops b alloc env metadata x y before
+
+case error
+M : Type
+ops : (r : Route) → MemoryPrimitives M (Carrier r)
+b : Numerics
+alloc : Allocator M
+env : NativeEnvironment
+metadata : Metadata
+x y : Tensor
+before : M
+contract :
+  ∀ (output : Tensor) (allocated : M),
+    alloc x before = Except.ok (output, allocated) → AllocationBinding ops metadata x y output before allocated
+detail : String
+ha : alloc x before = Except.error detail
+⊢ byteObservation ops x y (sourceHost ops b alloc env metadata x y before) =
+    hostFormula ops b alloc env metadata x y before
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteHost.lean:239:58: error: Tactic `decide` failed for proposition
+  gridSupported (2 ^ 31)
+because its `Decidable` instance
+  propDecidable (gridSupported (2 ^ 31))
+did not reduce to `isTrue` or `isFalse`.
+
+Reduction got stuck at the `Decidable` instance
+  choice ⋯
+
+Hint: Reduction got stuck on `choice`, which indicates that a `Decidable` instance is defined using classical reasoning, proving an instance exists rather than giving a concrete construction. The `decide` tactic works by evaluating a decision procedure via reduction, and it cannot make progress with such instances. This can occur due to the `open scoped Classical` command, which enables the instance `propDecidable`.
+VeriTile.Bench.TritonBenchG.AddExample.Finite.hostFormula: definition does not reference [VeriTile.Bench.TritonBenchG.AddExample.Finite.sourceHost,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.sourceAllocated,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.observedLaunch,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.observedGrid,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.observedProgram,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.runProgram,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.executeBody,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.executeInstruction,
+ VeriTile.Bench.TritonBenchG.AddExample.Finite.applyWrites] — non-circular ✓
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteHost.lean:254:0: error: VeriTile.Bench.TritonBenchG.AddExample.Finite.allocated_correspondence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteHost.lean:255:0: error: VeriTile.Bench.TritonBenchG.AddExample.Finite.host_correspondence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteHost.lean:256:0: error: VeriTile.Bench.TritonBenchG.AddExample.Finite.allocation_first: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteHost.lean:257:0: error: VeriTile.Bench.TritonBenchG.AddExample.Finite.grid_parse_before_pointers: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteHost.lean:258:0: error: VeriTile.Bench.TritonBenchG.AddExample.Finite.n2p31_returns_allocation: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.AddExample.Finite.rank_zero_numel: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.empty_grid: axiom footprint ⊆ standard base ✓  ([propext])

@@ -1,0 +1,17 @@
+{
+  "source": "bench/tritonbench_g/add_example/Proofs/FiniteScalar.lean",
+  "sha256": "37fe540f3a8313c37a788fc7f2fb0250a2884dff2d03a6b5d0939090ad32bb3c",
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/add-example-independent-review/isolated",
+    "/tmp/veritile-standardization-20261015/add-example-independent-review/isolated/bench/tritonbench_g/add_example/Proofs/FiniteScalar.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/add-example-independent-review/isolated/bench/tritonbench_g/add_example/Proofs/FiniteScalar.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-standardization-20261015/add-example-independent-review/isolated:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean",
+  "log": "build-02-FiniteScalar.log",
+  "log_sha256": "732dae40c5e689a979845c392717582b9c9680e085fac4908a39ba09e373bc9e",
+  "exit_code": 0,
+  "elapsed_seconds": 4.838761257007718,
+  "object_sha256": "8410ed963b235c2d5efac6f3d9327ad60589a4cc962288794aa22059445f0374"
+}

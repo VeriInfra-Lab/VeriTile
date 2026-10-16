@@ -1,0 +1,218 @@
+import bench.tritonbench_g.vector_addition_custom.Proofs.FiniteSource
+
+namespace VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Finite
+open VeriTile.Triton
+open VeriTile.Bench.TritonBenchG.VectorAddition
+open DTypeScope TypedHost VectorAddition.Finite
+noncomputable section
+set_option maxHeartbeats 6000000
+set_option maxRecDepth 24000
+set_option linter.unusedSimpArgs false
+
+theorem source_load_all_store_correspondence {M A : Type} (ops : MemoryPrimitives M A)
+    (compute : A → A → A) (x y output : View) (n : Nat) (base : M)
+    (jobs : List Nat) (active : ∀ i∈jobs, i<n)
+    (hx : x.Valid n (rounded n)) (hy : y.Valid n (rounded n)) (ho : output.Valid n (rounded n))
+    (dx : StorageDisjoint output x) (dy : StorageDisjoint output y) :
+    runLive ops compute x y output jobs base=
+    runLoaded ops (fun i ↦ compute (readView ops base x i) (readView ops base y i)) output jobs base := by
+  apply live_eq_loaded_aux ops compute x y output n base jobs active
+  · intro i hi j hj
+    exact separated_accesses output x n n (rounded n) (rounded n) i j ho hx hi hj dx
+  · intro i hi j hj
+    exact separated_accesses output y n n (rounded n) (rounded n) i j ho hy hi hj dy
+  · intro i _
+    exact ⟨rfl,rfl⟩
+
+/-- Exact source program IDs/lanes with the original active mask. -/
+def activeLanes (n : Nat) : List Nat :=
+  (List.range ((n+15)/16)).flatMap fun pid ↦
+    ((List.range 16).map (fun lane ↦ pid*16+lane)).filter (fun i ↦ decide (i<n))
+
+theorem mem_activeLanes (n i : Nat) : i∈activeLanes n ↔ i<n := by
+  constructor
+  · intro h
+    simp only [activeLanes,List.mem_flatMap,List.mem_filter,decide_eq_true_eq] at h
+    obtain ⟨pid,_,_,hi⟩ := h
+    exact hi
+  · intro hi
+    obtain ⟨hp,hl,he⟩ := active_owner n i hi
+    simp only [activeLanes,List.mem_flatMap,List.mem_filter,List.mem_map,List.mem_range,decide_eq_true_eq]
+    exact ⟨i/16,hp,⟨i%16,hl,he⟩,hi⟩
+
+theorem batches_eq_live {M A : Type} (ops : MemoryPrimitives M A) (compute : A → A → A)
+    (x y output : View) (n : Nat) (batches : List (List Nat)) (initial : M)
+    (active : ∀ i∈batches.flatten, i<n)
+    (hx : x.Valid n (rounded n)) (hy : y.Valid n (rounded n)) (ho : output.Valid n (rounded n))
+    (dx : StorageDisjoint output x) (dy : StorageDisjoint output y) :
+    runBatches ops compute x y output batches initial=
+      runLive ops compute x y output batches.flatten initial := by
+  induction batches generalizing initial with
+  | nil => rfl
+  | cons jobs rest ih =>
+    have ha : ∀ i∈jobs, i<n := fun i hi ↦ active i (by simp [hi])
+    have hr : ∀ i∈rest.flatten, i<n := fun i hi ↦ active i (by simp [hi])
+    rw [runBatches,ih _ hr,List.flatten_cons,live_append,
+      source_load_all_store_correspondence ops compute x y output n initial jobs ha hx hy ho dx dy]
+
+def sourceBatches (n : Nat) : List (List Nat) :=
+  (List.range ((n+15)/16)).map (programLanes n)
+
+theorem source_batches_flatten (n : Nat) : (sourceBatches n).flatten=activeLanes n := by
+  simp only [sourceBatches,activeLanes,List.flatMap_def]
+  rfl
+
+theorem source_batches_correspondence {M A : Type} (ops : MemoryPrimitives M A)
+    (compute : A → A → A) (x y output : View) (n : Nat) (initial : M)
+    (hx : x.Valid n (rounded n)) (hy : y.Valid n (rounded n)) (ho : output.Valid n (rounded n))
+    (dx : StorageDisjoint output x) (dy : StorageDisjoint output y) :
+    runBatches ops compute x y output (sourceBatches n) initial=
+      runLive ops compute x y output (activeLanes n) initial := by
+  rw [batches_eq_live ops compute x y output n (sourceBatches n) initial ?_ hx hy ho dx dy,
+    source_batches_flatten]
+  intro i hi
+  exact (mem_activeLanes n i).1 (by simpa [source_batches_flatten] using hi)
+
+theorem live_preserves_inputs {M A : Type} (ops : MemoryPrimitives M A) (compute : A → A → A)
+    (x y output : View) (n : Nat) (jobs : List Nat) (base current : M)
+    (active : ∀ i∈jobs, i<n)
+    (hx : x.Valid n (rounded n)) (hy : y.Valid n (rounded n)) (ho : output.Valid n (rounded n))
+    (dx : StorageDisjoint output x) (dy : StorageDisjoint output y)
+    (preserved : InputsPreserved ops x y n base current) :
+    InputsPreserved ops x y n base (runLive ops compute x y output jobs current) := by
+  induction jobs generalizing current with
+  | nil => exact preserved
+  | cons i jobs ih =>
+    apply ih _ (fun j hj ↦ active j (by simp [hj]))
+    apply write_preserves_inputs ops x y output n i base current _ preserved
+    · intro j hj
+      exact separated_accesses output x n n (rounded n) (rounded n) i j ho hx (active i (by simp)) hj dx
+    · intro j hj
+      exact separated_accesses output y n n (rounded n) (rounded n) i j ho hy (active i (by simp)) hj dy
+
+
+theorem runPrograms_eq_batches {M α : Type} (ops : MemoryPrimitives M α) (compute : α → α → α)
+    (views : RegionName → View) (undef : α) (A B C : RegionName) (n : Nat) (pids : List Nat) (s : M) :
+    runPrograms ops compute views undef A B C n pids s=
+      some (runBatches ops compute (views A) (views B) (views C) (pids.map (programLanes n)) s) := by
+  induction pids generalizing s with
+  | nil => rfl
+  | cons pid rest ih =>
+    simp only [runPrograms,runProgram_eq_loaded,Option.bind_some,List.map_cons,runBatches]
+    exact ih _
+
+theorem source_grid_loaded {M α : Type} (ops : MemoryPrimitives M α) (compute : α → α → α)
+    (views : RegionName → View) (undef : α) (A B C : RegionName) (n : Nat) (s : M)
+    (hx : (views A).Valid n (rounded n)) (hy : (views B).Valid n (rounded n))
+    (ho : (views C).Valid n (rounded n))
+    (dx : StorageDisjoint (views C) (views A)) (dy : StorageDisjoint (views C) (views B)) :
+    runGrid ops compute views undef A B C n s=
+      some (runLoaded ops (fun i ↦ compute (readView ops s (views A) i) (readView ops s (views B) i))
+        (views C) (activeLanes n) s) := by
+  rw [runGrid,runPrograms_eq_batches]
+  change some (runBatches ops compute (views A) (views B) (views C) (sourceBatches n) s)=_
+  rw [source_batches_correspondence ops compute (views A) (views B) (views C) n s hx hy ho dx dy,
+    source_load_all_store_correspondence ops compute (views A) (views B) (views C) n s
+      (activeLanes n) (fun i hi ↦ (mem_activeLanes n i).1 hi) hx hy ho dx dy]
+
+def formulaRead {σ : Type} (r : Route) (p : ValueProofs.Parameters) (s : World σ)
+    (formula : ExternalMemory) (i : Nat) : Carrier r :=
+  match r with
+  | .wide _ _ => match formula with
+    | .wide memory => memory p.output.name i
+    | _ => s.native.wide p.output.name i
+  | .integer _ _ | .floating _ _ | .mixed32 _ _ | .mixedSmall _ _ _ => match formula with
+    | .shared memory => memory p.output i
+    | _ => s.kernel.mem p.output i
+
+def specifiedCell {σ : Type} (b : Numerics) (r : Route) (p : ValueProofs.Parameters)
+    (s : World σ) (i : Nat) : Carrier r := formulaRead r p s (definedExpected b r p s) i
+
+theorem sourceCell_specified {σ : Type} (b : Numerics) (r : Route) (p : ValueProofs.Parameters)
+    (s : World σ) (defined : DefinedConversions b r p s) (i : Nat) (hi : i<p.n) :
+    sourceCell b r p s i=specifiedCell b r p s i := by
+  unfold specifiedCell
+  rw [←expected_policy_independent b r p s defined]
+  cases r <;> simp [formulaRead,expected,sourceCell,IntegerSource.gridExpectedMemory,
+    TypedValueCorrect.spec,MixedFP32.gridExpectedMemory,MixedSmall.gridExpectedMemory,wideExpected,hi]
+
+/-- Independent full active result and unchanged arbitrary allocated tail. -/
+structure KernelCorrect {M σ : Type} (b : Numerics) (r : Route)
+    (ops : MemoryPrimitives M (Carrier r)) (views : RegionName → View)
+    (p : ValueProofs.Parameters) (snapshot : World σ) (initial final : M) : Prop where
+  values : ∀ i, i<p.n → readView ops final (views p.output) i=specifiedCell b r p snapshot i
+  tail : ∀ i, p.n ≤ i → readView ops final (views p.output) i=readView ops initial (views p.output) i
+  inputs : InputsPreserved ops (views p.x) (views p.y) p.n initial final
+  frame : ∀ address, ¬ (views p.output).active p.n address →
+    ops.observeByte final address=ops.observeByte initial address
+  schedules : ∀ jobs, (∀ i, i∈jobs ↔ i<p.n) → ∀ i, i<p.n →
+    readView ops (runLive ops (scalarSource b r) (views p.x) (views p.y) (views p.output) jobs initial)
+      (views p.output) i=specifiedCell b r p snapshot i
+
+theorem source_grid_correct {M σ : Type} (b : Numerics) (r : Route)
+    (ops : MemoryPrimitives M (Carrier r)) (views : RegionName → View)
+    (undef : Carrier r) (p : ValueProofs.Parameters) (snapshot : World σ) (initial : M)
+    (hx : (views p.x).Valid p.n (rounded p.n)) (hy : (views p.y).Valid p.n (rounded p.n))
+    (ho : (views p.output).Valid p.n (rounded p.n))
+    (dx : StorageDisjoint (views p.output) (views p.x)) (dy : StorageDisjoint (views p.output) (views p.y))
+    (domain : ValueDomain b r p snapshot)
+    (inputs : InputsRelation r ops p snapshot initial (views p.x) (views p.y)) :
+    ∃ final, runGrid ops (scalarSource b r) views undef p.x p.y p.output p.n initial=some final ∧
+      KernelCorrect b r ops views p snapshot initial final := by
+  let values := fun i ↦ scalarSource b r (readView ops initial (views p.x) i) (readView ops initial (views p.y) i)
+  let final := runLoaded ops values (views p.output) (activeLanes p.n) initial
+  have eqn := source_grid_loaded ops (scalarSource b r) views undef p.x p.y p.output p.n initial hx hy ho dx dy
+  refine ⟨final,eqn,?_,?_,?_,?_,?_⟩
+  · intro i hi
+    rw [loaded_output,if_pos ((mem_activeLanes p.n i).2 hi)]
+    change scalarSource b r _ _=specifiedCell b r p snapshot i
+    rw [(inputs i hi).1,(inputs i hi).2,←sourceCell_scalar]
+    exact sourceCell_specified b r p snapshot domain.2.2 i hi
+  · intro i hi
+    rw [loaded_output,if_neg (by intro h; have := (mem_activeLanes p.n i).1 h; omega)]
+  · have live := source_load_all_store_correspondence ops (scalarSource b r) (views p.x) (views p.y)
+      (views p.output) p.n initial (activeLanes p.n) (fun i hi ↦ (mem_activeLanes p.n i).1 hi) hx hy ho dx dy
+    dsimp only [final,values]
+    rw [←live]
+    exact live_preserves_inputs ops (scalarSource b r) (views p.x) (views p.y) (views p.output)
+      p.n (activeLanes p.n) initial initial (fun i hi ↦ (mem_activeLanes p.n i).1 hi) hx hy ho dx dy (fun _ _ ↦ ⟨rfl,rfl⟩)
+  · intro address outside
+    apply loaded_byte_frame
+    intro i hi
+    exact outside_span (views p.output) p.n i address ((mem_activeLanes p.n i).1 hi) outside
+  · intro jobs complete i hi
+    rw [source_load_all_store_correspondence ops (scalarSource b r) (views p.x) (views p.y)
+      (views p.output) p.n initial jobs (fun i hj ↦ (complete i).1 hj) hx hy ho dx dy,
+      loaded_output,if_pos ((complete i).2 hi),(inputs i hi).1,(inputs i hi).2,←sourceCell_scalar]
+    exact sourceCell_specified b r p snapshot domain.2.2 i hi
+
+/-- Zero-grid execution has no pointer access, scalar operation, or value-domain
+obligation, regardless of tensor device tags or absent logical input cells. -/
+theorem source_grid_empty {M σ : Type} (b : Numerics) (r : Route)
+    (ops : MemoryPrimitives M (Carrier r)) (views : RegionName → View)
+    (undef : Carrier r) (p : ValueProofs.Parameters) (snapshot : World σ) (initial : M)
+    (hn : p.n=0) :
+    runGrid ops (scalarSource b r) views undef p.x p.y p.output p.n initial=some initial ∧
+    KernelCorrect b r ops views p snapshot initial initial := by
+  refine ⟨by simp [runGrid,hn,runPrograms],?_,?_,?_,?_,?_⟩
+  · intro i hi; omega
+  · intro i hi; rfl
+  · intro i hi; omega
+  · intro address outside; rfl
+  · intro jobs complete i hi; omega
+
+#axiomsClean source_grid_empty
+#specNonCircular specifiedCell avoiding [runGrid,runPrograms,runProgram,executeBody,runLoaded,runLive]
+#axiomsClean source_load_all_store_correspondence
+#axiomsClean mem_activeLanes
+#axiomsClean batches_eq_live
+#axiomsClean source_batches_correspondence
+#axiomsClean live_preserves_inputs
+#axiomsClean runPrograms_eq_batches
+#axiomsClean source_grid_loaded
+#axiomsClean sourceCell_specified
+#axiomsClean source_grid_correct
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Finite

@@ -1,0 +1,7 @@
+TritonMul2Finite.pointer_binding_resolves: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+TritonMul2Finite.resolved_device_byte: axiom footprint ⊆ standard base ✓  ([Quot.sound, propext])
+TritonMul2Finite.launch_write_resolution: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+TritonMul2Finite.extracted_input_resolution: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+TritonMul2Finite.extracted_output_resolution: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+TritonMul2Finite.i32_minimum_grid_boundary: axiom footprint ⊆ standard base ✓  ([propext])
+TritonMul2Finite.host_grid_threshold: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])

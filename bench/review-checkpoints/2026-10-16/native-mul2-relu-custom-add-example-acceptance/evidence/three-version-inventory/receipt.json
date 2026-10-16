@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "kind": "three_version_policy_and_evidence_inventory",
+  "status": "frozen_consistency_audited_not_an_acceptance_run",
+  "baseline_commit": "97e11a9a6cea8d5dfe35db643a1492d79e423cdf",
+  "task_count": 183,
+  "legacy_scope_accepted": 4,
+  "legacy_scope_counts": {
+    "pending": 179,
+    "verified": 1,
+    "verified_with_deferred_numerics": 3
+  },
+  "new_policy_acceptance_transitions": 0,
+  "new_policy_version_mapping_cells": 549,
+  "interpretation": "Existing evidence and accepted shared obligations are preserved. Only their new-policy version mapping is unreviewed. Unsupported original observations and repaired variants remain distinct.",
+  "repository_files_modified_by_this_subtask": false,
+  "work_location": "tmp_only",
+  "future_checker_implemented": false,
+  "checks": {
+    "inventory_consistency": "passed",
+    "byte_identical_inventory_regeneration": "passed",
+    "committed_input_documents": 3,
+    "pinned_task_source_files": 3616,
+    "frozen_package_documents": 76,
+    "new_Lean_build": "not_run",
+    "new_native_compilation_or_GPU_execution": "not_run",
+    "legacy_scope_checker": "not_run",
+    "new_policy_acceptance_checker": "not_implemented_or_run"
+  },
+  "files": {
+    "README.md": {
+      "sha256": "450e9b6ef0c8ea2f46e71d9ee8c8f3d14dde50b7979447415e303bb40178d322",
+      "bytes": 3185
+    },
+    "build_inventory.py": {
+      "sha256": "28dd6e901ed9b00bffb82228495a268f45bfe1c907d3e1b436c761f967647e2c",
+      "bytes": 17870
+    },
+    "input-sha256.json": {
+      "sha256": "0706ba8bd32c51ce8f4150c767aa15c5fec6812d6c461c6dbd8425017761b7bd",
+      "bytes": 506214
+    },
+    "inventory-build.log": {
+      "sha256": "fa9f940b16f9787426a3e5bb3dc4d542f92b61a12d461eb1f5a9dee2192c8363",
+      "bytes": 8690
+    },
+    "inventory.csv": {
+      "sha256": "c8c151e9bcd7dd48478188c7431e7647f8e72c158bf6dcadc334db901a5dc97a",
+      "bytes": 10713
+    },
+    "inventory.json": {
+      "sha256": "6e05af8f96f37fb0ffff5513b7e5f5558db5513c88cabdf04d41a6e0b404fc23",
+      "bytes": 1812395
+    },
+    "proposal.md": {
+      "sha256": "92c47fa9f1767d7799f5492ce7b6a5bf5ef978de7157b674222d3666fa4edf70",
+      "bytes": 13989
+    },
+    "representation-example.json": {
+      "sha256": "e07d905b3987ab418b13bdb144e2330b549fc7b7fe2124225586c6cc4ca8a42d",
+      "bytes": 5801
+    },
+    "reproducibility-build.log": {
+      "sha256": "fa9f940b16f9787426a3e5bb3dc4d542f92b61a12d461eb1f5a9dee2192c8363",
+      "bytes": 8690
+    },
+    "reproducibility.json": {
+      "sha256": "6636e41fdead63d40fa0329bfc37f5d16c58b65fbf15f7824d5f608b4deafbbc",
+      "bytes": 491
+    },
+    "reviewed-policy-code-inputs.json": {
+      "sha256": "6462e76ab1eba48b994d71f2146fe91f0169ef0e5e4fa972ccd6de89cab1aa64",
+      "bytes": 740
+    },
+    "summary.json": {
+      "sha256": "fa9f940b16f9787426a3e5bb3dc4d542f92b61a12d461eb1f5a9dee2192c8363",
+      "bytes": 8690
+    },
+    "validate_inventory.py": {
+      "sha256": "c36bdf3ab8169e0824744a20be7802cf44ee267b2792174bb4b0183c0f973731",
+      "bytes": 5035
+    },
+    "validation.json": {
+      "sha256": "1670d26370090b26575caa87151aa14736bfd5ad0a35b7d0314c84e6f532cbaf",
+      "bytes": 765
+    },
+    "validation.log": {
+      "sha256": "1670d26370090b26575caa87151aa14736bfd5ad0a35b7d0314c84e6f532cbaf",
+      "bytes": 765
+    }
+  }
+}

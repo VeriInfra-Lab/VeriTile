@@ -1,0 +1,8 @@
+[
+  {
+    "file": "bench/tritonbench_g/triton_mul2/FiniteCorrect.lean",
+    "declaration": "triton_mul2_finite_source_outcomes",
+    "kind": "specification",
+    "statement_sha256": "bf5fc417c4b43f31cff3b85fedcf54d876bbe225598f03388b0a4676e85919a3"
+  }
+]

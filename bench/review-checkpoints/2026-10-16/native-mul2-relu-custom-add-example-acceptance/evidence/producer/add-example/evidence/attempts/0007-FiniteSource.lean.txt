@@ -1,0 +1,186 @@
+import bench.tritonbench_g.add_example.Proofs.FiniteScalar
+
+namespace VeriTile.Bench.TritonBenchG.AddExample.Finite
+open VeriTile.Triton VeriTile.Bench.TritonBenchG.VectorAddition
+open DTypeScope TypedHost VectorAddition.Finite
+noncomputable section
+set_option maxHeartbeats 6000000
+set_option maxRecDepth 24000
+set_option linter.unusedSimpArgs false
+
+/-- The pointer comes from the actual data_ptr query, including empty views.
+It is never reconstructed from numel or assumed contiguous tensor strides. -/
+structure PhysicalView where
+  pointer : BitVec 64
+  base : Nat
+  capacity : Nat
+  dtype : DType
+
+def PhysicalView.at (v : PhysicalView) (offset : BitVec 32) : Nat :=
+  (v.pointer + offset.signExtend 64 * BitVec.ofNat 64 (bytes v.dtype)).toNat
+
+def PhysicalView.lane (v : PhysicalView) (pid lane : Nat) : Nat := v.at (offset32 pid lane)
+
+inductive IndexExpr where
+  | literal (n : Nat)
+  | program (ax : Nat)
+  | register (name : RegName)
+  | lane (width : Nat)
+  | add (a b : IndexExpr)
+  | mul (a b : IndexExpr)
+  deriving DecidableEq
+
+def lowerIndex {shape : TileShape} : Op .nat shape → Option IndexExpr
+  | .constNat n => some (.literal n)
+  | .programId ax => some (.program ax)
+  | .ref _ _ name => some (.register name)
+  | .arange width => some (.lane width)
+  | .add _ _ a b => return .add (←lowerIndex a) (←lowerIndex b)
+  | .mul _ _ a b => return .mul (←lowerIndex a) (←lowerIndex b)
+  | _ => none
+
+inductive MaskExpr where
+  | register (name : RegName)
+  | less (a b : IndexExpr)
+  deriving DecidableEq
+
+def lowerBool {shape : TileShape} : Op .bool shape → Option MaskExpr
+  | .ref _ _ name => some (.register name)
+  | .lt .nat _ a b => return .less (←lowerIndex a) (←lowerIndex b)
+  | _ => none
+
+def lowerMask {shape : TileShape} : MaskOpt .real shape → Option MaskExpr
+  | .mask value => lowerBool value
+  | _ => none
+
+inductive Instruction where
+  | indexAssign (name : RegName) (value : IndexExpr)
+  | maskAssign (name : RegName) (value : MaskExpr)
+  | load (name : RegName) (region : RegionName) (offset : IndexExpr) (mask : MaskExpr)
+  | addAssign (name a b : RegName)
+  | store (region : RegionName) (offset : IndexExpr) (value : RegName) (mask : MaskExpr)
+  deriving DecidableEq
+
+def lowerStatement : Stmt → Option Instruction
+  | .assign .nat _ name value => return .indexAssign name (←lowerIndex value)
+  | .assign .bool _ name value => return .maskAssign name (←lowerBool value)
+  | .assign .real _ name (.load .real (.region region offset) mask _) =>
+      return .load name region (←lowerIndex offset) (←lowerMask mask)
+  | .assign .real _ name (.add .real _ (.ref _ _ a) (.ref _ _ b)) => some (.addAssign name a b)
+  | .store .real _ (.region region offset) (.ref _ _ value) mask =>
+      return .store region (←lowerIndex offset) value (←lowerMask mask)
+  | _ => none
+
+def lowerBody : List Stmt → Option (List Instruction)
+  | [] => some []
+  | stmt::rest => return (←lowerStatement stmt)::(←lowerBody rest)
+
+def sourceCode (X Y O : RegionName) (n : Nat) : List Instruction :=
+  [.indexAssign "pid" (.program 0),
+   .indexAssign "block_start" (.mul (.register "pid") (.literal 4)),
+   .indexAssign "offsets" (.add (.register "block_start") (.lane 4)),
+   .maskAssign "mask" (.less (.register "offsets") (.literal n)),
+   .load "x" X (.register "offsets") (.register "mask"),
+   .load "y" Y (.register "offsets") (.register "mask"),
+   .addAssign "output" "x" "y",
+   .store O (.register "offsets") "output" (.register "mask")]
+
+theorem original_ast_lowering (X Y O : RegionName) (n : Nat) :
+    lowerBody (add_kernel X Y O n 4).body=some (sourceCode X Y O n) := by
+  simp [lowerBody,lowerStatement,lowerIndex,lowerBool,lowerMask,add_kernel,ComputeKernel.body,
+    ComputeKernel.toAlgKernel,ComputeKernel.toAlgorithm?,sourceCode,bind,pure,Except.bind,Option.bind]
+
+structure Registers (M A : Type) where
+  indices : RegName → Nat → BitVec 32
+  masks : RegName → Nat → Bool
+  values : RegName → Nat → A
+  memory : M
+
+def evalIndex (pid lane : Nat) (registers : RegName → Nat → BitVec 32) : IndexExpr → BitVec 32
+  | .literal n => BitVec.ofNat 32 n
+  | .program ax => if ax=0 then BitVec.ofNat 32 pid else 0
+  | .register name => registers name lane
+  | .lane _ => BitVec.ofNat 32 lane
+  | .add a b => evalIndex pid lane registers a + evalIndex pid lane registers b
+  | .mul a b => evalIndex pid lane registers a * evalIndex pid lane registers b
+
+def evalMask (pid lane : Nat) (indices : RegName → Nat → BitVec 32)
+    (masks : RegName → Nat → Bool) : MaskExpr → Bool
+  | .register name => masks name lane
+  | .less a b => (evalIndex pid lane indices a).slt (evalIndex pid lane indices b)
+
+/-- Unchecked structural execution. Applicability observations are separately
+computed from every actual active access; none is a source runtime guard.
+Masked lanes never perform memory operations. -/
+def executeInstruction {M A : Type} (ops : MemoryPrimitives M A) (compute : A → A → A)
+    (views : RegionName → PhysicalView) (undef : A) (pid : Nat) (s : Registers M A) : Instruction → Registers M A
+  | .indexAssign name value => {s with indices := fun key lane =>
+      if key=name then evalIndex pid lane s.indices value else s.indices key lane}
+  | .maskAssign name value => {s with masks := fun key lane =>
+      if key=name then evalMask pid lane s.indices s.masks value else s.masks key lane}
+  | .load name region offset mask => {s with values := fun key lane =>
+      if key=name then if evalMask pid lane s.indices s.masks mask then
+        ops.read s.memory (views region).dtype ((views region).at (evalIndex pid lane s.indices offset))
+      else undef else s.values key lane}
+  | .addAssign name a b => {s with values := fun key lane =>
+      if key=name then compute (s.values a lane) (s.values b lane) else s.values key lane}
+  | .store region offset value mask => {s with memory := (List.range 4).foldl (fun memory lane =>
+      if evalMask pid lane s.indices s.masks mask then
+        ops.write memory (views region).dtype ((views region).at (evalIndex pid lane s.indices offset)) (s.values value lane)
+      else memory) s.memory}
+
+def executeBody {M A : Type} (ops : MemoryPrimitives M A) (compute : A → A → A)
+    (views : RegionName → PhysicalView) (undef : A) (pid : Nat) : List Instruction → Registers M A → Registers M A
+  | [],s => s
+  | stmt::rest,s => executeBody ops compute views undef pid rest (executeInstruction ops compute views undef pid s stmt)
+
+def runProgram {M A : Type} (ops : MemoryPrimitives M A) (compute : A → A → A)
+    (views : RegionName → PhysicalView) (undef : A) (X Y O : RegionName) (n pid : Nat) (memory : M) : Option M := do
+  let code ← lowerBody (add_kernel X Y O n 4).body
+  let initial : Registers M A := ⟨fun _ _ => 0,fun _ _ => Bool.false,fun _ _ => undef,memory⟩
+  pure (executeBody ops compute views undef pid code initial).memory
+
+structure Write (A : Type) where
+  address : Nat
+  value : A
+
+def applyWrites {M A : Type} (ops : MemoryPrimitives M A) (d : DType) : List (Write A) → M → M
+  | [],s => s
+  | w::rest,s => applyWrites ops d rest (ops.write s d w.address w.value)
+
+def uncheckedWrites {M A : Type} (ops : MemoryPrimitives M A) (compute : A → A → A)
+    (x y output : PhysicalView) (n pid : Nat) (s : M) : List (Write A) :=
+  (programLanes n pid).map fun lane => ⟨output.lane pid lane,
+    compute (ops.read s x.dtype (x.lane pid lane)) (ops.read s y.dtype (y.lane pid lane))⟩
+
+theorem fold_source_stores {M A : Type} (ops : MemoryPrimitives M A) (d : DType)
+    (addresses : Nat → Nat) (values : Nat → A) (mask : Nat → Bool) (lanes : List Nat) (s : M) :
+    lanes.foldl (fun memory lane => if mask lane then ops.write memory d (addresses lane) (values lane) else memory) s=
+    applyWrites ops d ((lanes.filter mask).map fun lane => ⟨addresses lane,values lane⟩) s := by
+  induction lanes generalizing s with
+  | nil => rfl
+  | cons lane rest ih =>
+    cases h : mask lane <;> simp [List.foldl_cons,List.filter_cons,h,applyWrites,ih]
+
+theorem source_program_reduction {M A : Type} (ops : MemoryPrimitives M A) (compute : A → A → A)
+    (views : RegionName → PhysicalView) (undef : A) (X Y O : RegionName) (n pid : Nat) (s : M) :
+    runProgram ops compute views undef X Y O n pid s=
+      some (applyWrites ops (views O).dtype (uncheckedWrites ops compute (views X) (views Y) (views O) n pid s) s) := by
+  simp only [runProgram,original_ast_lowering,Option.bind_some,bind,pure,Option.bind,sourceCode,
+    executeBody,executeInstruction,evalIndex,evalMask]
+  try simp only [if_pos rfl,if_true,String.reduceEq,if_false]
+  congr 1
+  rw [←fold_source_stores]
+  apply congrArg (fun f => List.foldl f s (List.range 4))
+  funext memory lane
+  change (if mask32 n pid lane then _ else _)=_
+  by_cases h : mask32 n pid lane=Bool.true <;>
+    simp [h,PhysicalView.lane,offset32,start32,mask32,extent32] at *
+
+#axiomsClean original_ast_lowering
+#axiomsClean fold_source_stores
+#axiomsClean source_program_reduction
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.AddExample.Finite

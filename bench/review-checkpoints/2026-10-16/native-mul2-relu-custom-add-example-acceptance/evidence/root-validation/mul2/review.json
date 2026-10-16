@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "reviewer": "root",
+  "status": "substantively_reviewed_for_finite_scope_integration",
+  "task": "triton_mul2",
+  "revision": 2,
+  "recorded_at_utc": "2026-10-15T22:58:10.687414+00:00",
+  "producer_receipt_sha256": "7644e8a8dadc81452975c71b662ff1ae587bb6ceab8fd07c94e996ce0be75a4f",
+  "peer_review_sha256": "387fad3157ec542d422fcef6e0b692610ab0a6856246d904a184c025e4237804",
+  "peer_receipt_sha256": "4dcbdb64715e0480706fb2499e14ccbbc618ba23c492e17386d63f9cba2f30a4",
+  "reviewed_candidate_source_sha256": {
+    "bench/tritonbench_g/triton_mul2/Proofs/FiniteScalar.lean": "9cc819949f3d7761c6ff8dfefd5d45818f6a062c49e989bd3beab38afd8a84a3",
+    "bench/tritonbench_g/triton_mul2/Proofs/FiniteMemory.lean": "18068dd333bc058969e772570b093ac2e17edb0794176763663a223bca289a67",
+    "bench/tritonbench_g/triton_mul2/Proofs/FiniteProgram.lean": "e6a84a92273f2c3ddf5600fdfbe46b572b3f04086c1258b6ea8c80f857e493a2",
+    "bench/tritonbench_g/triton_mul2/Proofs/FiniteSource.lean": "f1e496806a13090cadf416b77c91ecec6744b8a4485118aa50f666cb37ebc66e",
+    "bench/tritonbench_g/triton_mul2/Proofs/FiniteGrid.lean": "dfc8d6c2cc9c7905526fe0e9389ef10b413820230a0750f51df6a266cd6fa9a3",
+    "bench/tritonbench_g/triton_mul2/Proofs/FiniteHost.lean": "1a13db99d853487b191fbd86cebe73d80c558f6316520cf0fb08c1fd53fa154c",
+    "bench/tritonbench_g/triton_mul2/Proofs/FinitePointerBoundary.lean": "6e4602aa35d7c7768416261f88bcb870ce60be622c5d7184395b69497ea4c767",
+    "bench/tritonbench_g/triton_mul2/Proofs/FiniteRefinement.lean": "22034206b0dc3805227fd1310a30f9e380884a5dfe8fb2408317468bb22e5af4",
+    "bench/tritonbench_g/triton_mul2/FiniteCorrect.lean": "d1eb07466593aab583d2e731bb58d0b43f4d95e541e8a476e90408f112cec15e"
+  },
+  "public_statement": {
+    "file": "bench/tritonbench_g/triton_mul2/FiniteCorrect.lean",
+    "declaration": "triton_mul2_finite_source_outcomes",
+    "kind": "specification",
+    "statement_sha256": "bf5fc417c4b43f31cff3b85fedcf54d876bbe225598f03388b0a4676e85919a3"
+  },
+  "semantic_review": {
+    "substantive_scope": "Root previously read all eight v1 modules and the original two wrappers/kernels. In revision2 root read all six changed/new modules in full, including Memory, Program, Host, PointerBoundary, Refinement and public FiniteCorrect. Scalar, exact original AST interpreter and Grid are byte-identical to v1. The public model covers both zeros_like outplace and exact-input inplace return, all canonical dtypes, arbitrary Python integer block arguments, empty routes and nonnegative signed64 host extents without a narrower size or arithmetic-refinement premise.",
+    "ownership_repair": "Allocation owner metadata is not an access predicate. AccessContext checks each actual byte against the current launch device. Peer and mapped host permissions are representable; equal owner does not manufacture accessibility. All accesses are structural obligations or explicit interpreter observations, never numerical callbacks.",
+    "pointer_translation_repair": "Runtime.pointers returns extracted ABI pointer and launch-space base metadata, distinct from original raw Torch pointers. One shared launch-context address map resolves loads to canonical backing memory and every successful store retains/checks both device and backing addresses. The pointer contract preserves same-object aliases and conditional nonnull byte mapping. Null pointers impose no unused mapping requirement. Independent final-byte results and exterior frames refer to canonical backing memory, so an in-place translated store is visible to later alias loads while returned Tensor metadata remains original.",
+    "integer_and_grid_scope": "Annotated n_elements and every pid/lane index operation use actual i32 narrowing/wrap before signed masks; pointers use u64 arithmetic. N=2^31 masks every lane with no input-access/numerical premise when a launch is reached. Exact host_grid_threshold and the table retain B=1 grid rejection before pointers, while B>=2 supported powers admit this no-access route. Native preparation/compilation/context are fallible primitive boundaries; the grid parser precedes pointer extraction.",
+    "execution_and_failure_boundary": "Each complete input tile is loaded before stores. The host schedule is a permutation of every pid exactly once. The independent source plan determines all concrete writes with canonical-byte ownership; pointwise last-write equality includes untouched and exterior bytes. Access/missing-byte/ownership failures are model observations and claim no native trap, race winner, rollback or postfailure memory. Ordinary metadata/allocation, CUDA address translation and actual permissions are documented trusted primitives, not output or loaded-value oracles.",
+    "numerical_scope": "Only four storage-width floating multiply families are deferred through64 exact ports in4674 cases. Signed/unsigned and bool bit behavior are concrete. Missing ports and stale pointer/grid evidence are rejected by the exact adapter. Current integrated queue equality remains mandatory before acceptance.",
+    "verification": "The independent peer rebuilt all9 exact modules with36 clean-axiom/7 noncircular checks and four extra Lean translated-address/grid regressions; replayed394 pointer/wrapper cases,84 size/block partitions and228 real parser boundaries; reviewed4674 scope cases and rejected64 omitted ports plus15 adapter mutations. Root reverified every frozen producer and final peer artifact, unchanged dependency sources, unchanged three modules and the public statement. These peer tests are not represented as a second root execution.",
+    "limits": "No GPU execution, live CUDA accessibility measurement, native scalar validation or official comparator pass is established. The documented finite source boundary and exact current repository integration checks govern acceptance."
+  },
+  "verification": {
+    "modules_rebuilt": 9,
+    "candidate_named_clean_axiom_checks": 36,
+    "candidate_noncircular_checks": 7,
+    "independent_regression_axiom_checks": 4,
+    "project_dependencies": 174,
+    "direct_external_objects": 36,
+    "producer_source_object_log_receipt_sets_verified": 9,
+    "old_review_artifacts_unchanged": 653,
+    "historical_candidate_artifacts_preserved": 436,
+    "reused_native_profiles": 78,
+    "reused_equal_IR_artifacts": 172,
+    "new_pointer_wrapper_cases": 394,
+    "grid_size_block_partitions": 84,
+    "real_signed_grid_parser_checks": 228,
+    "case_path_checks": 2704,
+    "first_failure_stage_checks": 352,
+    "scope_cases": 4674,
+    "new_grid_rejection_cases": 26,
+    "exact_numeric_ports": 64,
+    "omission_mutations_rejected": 64,
+    "adapter_mutations_rejected": 15,
+    "gpu_launches": 0,
+    "native_scalar_validation": false
+  },
+  "verified_artifact_counts": {
+    "producer": 576,
+    "independent_peer": 295
+  },
+  "current_repository_integration": "pending",
+  "native_execution": false,
+  "numerical_conformance_validated": false,
+  "acceptance_increment_before_integration": 0
+}

@@ -1,0 +1,13 @@
+{
+  "reviewer": "root",
+  "status": "exact_source_object_dependency_closure_review_pass",
+  "receipt_sha256": "718502b804b2309f5ca35be529816cf8e6a6f489d3f63a8bcfbaf1785d82e4bf",
+  "source_inputs_verified": 1083,
+  "final_compiled_modules_verified": 1083,
+  "object_bindings_verified": 1129,
+  "old_statement_headers_verified": 1086,
+  "manifest_sha256": "b9c026cce4ff598efc86a88f5dfd38fbed74635383dac6e1e596beed3d75ac3e",
+  "historical_models_counted_as_new_values": false,
+  "native_execution": false,
+  "canonical_counts_updated": false
+}

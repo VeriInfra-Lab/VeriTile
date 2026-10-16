@@ -1,0 +1,55 @@
+{
+  "status": "passed",
+  "source_sha256": "a1e1a05555a7d42a6cee871847907ef6e6fbe6834ac0088d186921d994a10957",
+  "native_receipt": {
+    "receipt": "evidence/native-attempts/20261015T230320473747Z/receipt.json",
+    "sha256": "bfc718ebddc454c16cf614f6eb3e5473326f606e16ac111b78110a954afb7da9"
+  },
+  "all22_stage_counts": {
+    "compiled": 183,
+    "addition": 36,
+    "signature": 64,
+    "binder": 195,
+    "backend": 6
+  },
+  "raw_source_ir_checks": 189,
+  "compiled_C_vs_integer_reference_pointer_checks": 22272,
+  "host_extents": [
+    0,
+    1,
+    15,
+    16,
+    17,
+    2147483647,
+    2147483648,
+    2147483649,
+    4294967295,
+    4294967296,
+    4294967297,
+    34359738352,
+    34359738353,
+    9223372036854775807
+  ],
+  "original_wrapper_AST_cases": 15,
+  "CPU_metadata_examples": 6,
+  "compiled_C_command": [
+    "cc",
+    "-shared",
+    "-fPIC",
+    "-O2",
+    "/tmp/veritile-standardization-20261015/vector-custom-revision1-independent-review/replay/evidence/semantics/arithmetic.c",
+    "-o",
+    "/tmp/veritile-standardization-20261015/vector-custom-revision1-independent-review/replay/evidence/semantics/arithmetic.so"
+  ],
+  "native_PTX_arithmetic": "i32 shl, signed32 mask, signed32 wide multiply,64bit add",
+  "gpu_launches": 0,
+  "large_allocations": 0,
+  "artifacts": {
+    "build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "metadata.json": "1e7ce63c799a808ca16f7d120533ebf950fd5ec292c1737feb0ed248f25d2057",
+    "wrapper-traces.json": "005a853b8a7b77c5e6728cb9b07e34e75ef7fad491b83da7a39db7cc7d9638d2",
+    "arithmetic.c": "6ae5bc9eb933e6b80bc27b4dd4161fcaee57e193a8884fc4a38dc58c0bb56ba9",
+    "arithmetic.so": "303a6f00abdc563ad7b79b2b56164a7e482fbb662c78d93f2ba3cd1e27e1efd9",
+    "address-samples.json": "c82ebc6a413bb5a80e83311fac21e810bd49a32e0a5cf43a7b3704830e257e49"
+  }
+}

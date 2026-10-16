@@ -1,0 +1,1209 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "task": "triton_attention",
+  "frozen_at_utc": "2026-10-14T23:26:47.235048+00:00",
+  "integration_status": "private overlay only; workspace/common iso/shared core unchanged; parent owns integration",
+  "scope": "Complete original accepted preprocess, forward full raw loop, and backward full outer/inner loops; no new value/input restrictions",
+  "changed_files": [
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPSource.lean",
+      "before_sha256": null,
+      "after_sha256": "55048dbceef4f5fd071c053d105cd7d24499592755b79ca4a442da5669c700bb"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPBackend.lean",
+      "before_sha256": null,
+      "after_sha256": "3dbb4bcbc30dbbaf1162da41f1c99e4ff913b8eea382ad4f92d1f138795525ed"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPForwardReference.lean",
+      "before_sha256": null,
+      "after_sha256": "2fa7a9e98e06efcfc66cb227a70994bae9de23338b2936a2fd3e56d63ba80bb8"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPForwardInvariant.lean",
+      "before_sha256": null,
+      "after_sha256": "31d7bc2502e4138d8734e3266aa664c4238170c3bee1b32c5d382207efbf0b88"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPForwardPrologue.lean",
+      "before_sha256": null,
+      "after_sha256": "49b1ae2cc5987897a0b619d36178977eea0f5d5c686e0364b5813f9b14cf7640"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPForwardScore.lean",
+      "before_sha256": null,
+      "after_sha256": "1d1a09754aaa66af5d2e3acbb757d28edb28781d971f1dccf0060b778f71a3b6"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPForwardBody.lean",
+      "before_sha256": null,
+      "after_sha256": "7d068cba556a89de98ef6f21295f902320a3f83eeda74d018dc7713055cfe6bc"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPPreprocess.lean",
+      "before_sha256": null,
+      "after_sha256": "6eccfd5c44d96dcd7ad1dfa0d1c2b9c763a76c245e2d9d9664fdc88e7f4e1aa8"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPForwardComplete.lean",
+      "before_sha256": null,
+      "after_sha256": "cc7bca96b841b3a153936eb7683f7ef27c7bab45a257be0559f84cfed4065603"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPForwardReadback.lean",
+      "before_sha256": null,
+      "after_sha256": "0e849d1d3b0f81bad720840427140c978898448ed944781efd203cc00bd66132"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardReference.lean",
+      "before_sha256": null,
+      "after_sha256": "af1a207883d4b70883ecd13fb75988e365e5a1f23c4850cd018b90816b5cc2bd"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPShape.lean",
+      "before_sha256": null,
+      "after_sha256": "6e005c7c5f666420c41aee2b3c6dbd16cbd356ecdc66ca902b8cf05670419434"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPSoftware.lean",
+      "before_sha256": null,
+      "after_sha256": "50b4236d721f56bc2a1d557ff46fe5b9911bb118156ebe27ec1a60441fa6aaa3"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardInvariant.lean",
+      "before_sha256": null,
+      "after_sha256": "cf2f9b9638692ecd921a5c5634fdd2239c6fb18d93bf555457a03798225b07e2"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardPrologue.lean",
+      "before_sha256": null,
+      "after_sha256": "26bf34d2e9c411861f2b2e781de96414f7ddea6a70b641a6636e34c1609934b0"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardOuterStart.lean",
+      "before_sha256": null,
+      "after_sha256": "5c54bd4df595e031d2212327c17db74c20fe785c2df5f5f46cc9f6979bd7349b"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardScore.lean",
+      "before_sha256": null,
+      "after_sha256": "3d32fae77978c03b74f9b7373b5a7e7209dd405f6dc3e347a8f37e37a598854c"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardGradient.lean",
+      "before_sha256": null,
+      "after_sha256": "0a9430be06107fa27733bb25d58ade575638bb2cda1ef0a4e5d4fc58ff9fb911"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardStore.lean",
+      "before_sha256": null,
+      "after_sha256": "cadd8444eda41b8a945f933b7a4b33be7ceab4bc900dc1b8130aafa96b42f966"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardBody.lean",
+      "before_sha256": null,
+      "after_sha256": "36010127a22ce4d53f682ef5e9ea481723c69a78e8196fb12c6fdb2c070eaaa0"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardLoop.lean",
+      "before_sha256": null,
+      "after_sha256": "03f4615b2c0ab5f27b43f25f7fd9f0939990415dbe6921fd7ea486467c84c503"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFinish.lean",
+      "before_sha256": null,
+      "after_sha256": "6c6e6d59d75889977884436b6873fb2c5a786ff28ac7bbf7cf8e5c57ca0c39dc"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardComplete.lean",
+      "before_sha256": null,
+      "after_sha256": "18881f129cb653b89278673e3a6cf4f48f2a71eda5c2c7477de5ca833972adff"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFrame.lean",
+      "before_sha256": null,
+      "after_sha256": "24a91dd64e8b764573984a20d70019137c1a9d7b822be6cefe8fbd5eaaabca00"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/Proofs/FPWitness.lean",
+      "before_sha256": null,
+      "after_sha256": "95d0e91760f691aacf8c38b785bdf0d3caa36cd97200aa0f3aa728a487a8b50b"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "before_sha256": null,
+      "after_sha256": "08591ceaf6a31b32714653bc026333846acfc4acc91be1b0e3fd0c26aa4fa264"
+    },
+    {
+      "path": "bench/tritonbench_g/triton_attention/FPValueScope.md",
+      "before_sha256": null,
+      "after_sha256": "108a8c5fd19fdaf07469204284c2ad5b016af75af46c13681401ccba0276065e"
+    }
+  ],
+  "patch": "value-proof.patch",
+  "patch_sha256": "4d3904251b00ad9544c2ecb1ea459f1ad9fd1b8127d1bfd4ca7a645bc8499edf",
+  "final_build_modules": [
+    "bench.tritonbench_g.triton_attention.Proofs.FPSource",
+    "bench.tritonbench_g.triton_attention.Proofs.FPBackend",
+    "bench.tritonbench_g.triton_attention.Proofs.FPForwardReference",
+    "bench.tritonbench_g.triton_attention.Proofs.FPForwardInvariant",
+    "bench.tritonbench_g.triton_attention.Proofs.FPForwardPrologue",
+    "bench.tritonbench_g.triton_attention.Proofs.FPForwardScore",
+    "bench.tritonbench_g.triton_attention.Proofs.FPForwardBody",
+    "bench.tritonbench_g.triton_attention.Proofs.FPPreprocess",
+    "bench.tritonbench_g.triton_attention.Proofs.FPForwardComplete",
+    "bench.tritonbench_g.triton_attention.Proofs.FPForwardReadback",
+    "bench.tritonbench_g.triton_attention.Proofs.FPBackwardReference",
+    "bench.tritonbench_g.triton_attention.Proofs.FPShape",
+    "bench.tritonbench_g.triton_attention.Proofs.FPSoftware",
+    "bench.tritonbench_g.triton_attention.Proofs.FPBackwardInvariant",
+    "bench.tritonbench_g.triton_attention.Proofs.FPBackwardPrologue",
+    "bench.tritonbench_g.triton_attention.Proofs.FPBackwardOuterStart",
+    "bench.tritonbench_g.triton_attention.Proofs.FPBackwardScore",
+    "bench.tritonbench_g.triton_attention.Proofs.FPBackwardGradient",
+    "bench.tritonbench_g.triton_attention.Proofs.FPBackwardStore",
+    "bench.tritonbench_g.triton_attention.Proofs.FPBackwardBody",
+    "bench.tritonbench_g.triton_attention.Proofs.FPBackwardLoop",
+    "bench.tritonbench_g.triton_attention.Proofs.FPBackwardFinish",
+    "bench.tritonbench_g.triton_attention.Proofs.FPBackwardComplete",
+    "bench.tritonbench_g.triton_attention.Proofs.FPBackwardFrame",
+    "bench.tritonbench_g.triton_attention.Proofs.FPWitness",
+    "bench.tritonbench_g.triton_attention.FPCorrect"
+  ],
+  "final_task_module_count": 26,
+  "compiled": [
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPSource",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPSource.lean",
+      "exit_code": 0,
+      "seconds": 4.094640077993972,
+      "source_sha256": "55048dbceef4f5fd071c053d105cd7d24499592755b79ca4a442da5669c700bb",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPSource.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "4336392529a46981caf4d30af83c63bfff0733755a789bd4f561b7d2253afb3c",
+      "axiom_checks": 0,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPBackend",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackend.lean",
+      "exit_code": 0,
+      "seconds": 3.0379021580010885,
+      "source_sha256": "3dbb4bcbc30dbbaf1162da41f1c99e4ff913b8eea382ad4f92d1f138795525ed",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPBackend.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "310f9a6b591a69af94a5f195701d62d125271092de7236bb32a816d997c1605c",
+      "axiom_checks": 0,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPForwardReference",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardReference.lean",
+      "exit_code": 0,
+      "seconds": 3.662324388002162,
+      "source_sha256": "2fa7a9e98e06efcfc66cb227a70994bae9de23338b2936a2fd3e56d63ba80bb8",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPForwardReference.log",
+      "log_sha256": "50bfd0b67e3b20e01e95d2dcec359c3c85a65b3922779ea70a5e3f849cadf7a0",
+      "olean_sha256": "f8b2b47fbfb8e3e8efda29d5de7a639f664b0c551a9fa6de55af2b4683fcd6aa",
+      "axiom_checks": 1,
+      "noncircular_checks": 1
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPForwardInvariant",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardInvariant.lean",
+      "exit_code": 0,
+      "seconds": 2.875245144998189,
+      "source_sha256": "31d7bc2502e4138d8734e3266aa664c4238170c3bee1b32c5d382207efbf0b88",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPForwardInvariant.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "3426901aff898204b5a24b20414770016a8b33178ec79ba02f30723d28adb235",
+      "axiom_checks": 0,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPForwardPrologue",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardPrologue.lean",
+      "exit_code": 0,
+      "seconds": 8.908560930998647,
+      "source_sha256": "49b1ae2cc5987897a0b619d36178977eea0f5d5c686e0364b5813f9b14cf7640",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPForwardPrologue.log",
+      "log_sha256": "8c754cf69bb6bef0a727dd6107a895514632631feb2feee19ba47c4f5799d592",
+      "olean_sha256": "c5cadecefbb150359ce8f6765bb4d5165706a672756ef4ab1449c8f5a9ef1105",
+      "axiom_checks": 2,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPForwardScore",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardScore.lean",
+      "exit_code": 0,
+      "seconds": 4.601027274999069,
+      "source_sha256": "1d1a09754aaa66af5d2e3acbb757d28edb28781d971f1dccf0060b778f71a3b6",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPForwardScore.log",
+      "log_sha256": "7d65e7a5af67f2119f7f6e9bbb629cf76df738a26f151f5e8abb2503cff6ad4c",
+      "olean_sha256": "579b3ee4f05591e9b2db28a52443288ec822f233bd702e52799d8d7afe576b3b",
+      "axiom_checks": 2,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPForwardBody",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardBody.lean",
+      "exit_code": 0,
+      "seconds": 4.909094283008017,
+      "source_sha256": "7d068cba556a89de98ef6f21295f902320a3f83eeda74d018dc7713055cfe6bc",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPForwardBody.log",
+      "log_sha256": "7ebe1953d75ae38d2940fd9bcbadeca4cfaded30e19c679c5659fd3b2c649c86",
+      "olean_sha256": "704f47f78c25c4e30b4c727ff6f19824a05ea6b1b911b5384ebf12e481a965d1",
+      "axiom_checks": 4,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPPreprocess",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPPreprocess.lean",
+      "exit_code": 0,
+      "seconds": 9.460066086001461,
+      "source_sha256": "6eccfd5c44d96dcd7ad1dfa0d1c2b9c763a76c245e2d9d9664fdc88e7f4e1aa8",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPPreprocess.log",
+      "log_sha256": "c11cebf0c8a7ffa53c0300c66600d6588ff217594febb3940b8a43322b82c485",
+      "olean_sha256": "037e35d9374ac81e33cbc02b176eb4372a0c3c1996429edadfa684be9953adf6",
+      "axiom_checks": 2,
+      "noncircular_checks": 1
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPForwardComplete",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardComplete.lean",
+      "exit_code": 0,
+      "seconds": 5.07161263099988,
+      "source_sha256": "cc7bca96b841b3a153936eb7683f7ef27c7bab45a257be0559f84cfed4065603",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPForwardComplete.log",
+      "log_sha256": "b795d96275cfd417bd3093710793ab11ff8942e870b88224e79afd8a53307d7d",
+      "olean_sha256": "cd2d1ea420c982cf4c08276f8116cd9ab83a9fea6e40a2f731fc10fc8bc461f2",
+      "axiom_checks": 3,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPForwardReadback",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardReadback.lean",
+      "exit_code": 0,
+      "seconds": 3.3567551279993495,
+      "source_sha256": "0e849d1d3b0f81bad720840427140c978898448ed944781efd203cc00bd66132",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPForwardReadback.log",
+      "log_sha256": "8cbf7bdf0ec344cf1f68bd4b3ceede0f8d32b21de5462932079f82c64603707e",
+      "olean_sha256": "450fe987229f41eee672975f0f892cd0954797c8a34e46d52eaa8ba20f348026",
+      "axiom_checks": 1,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPBackwardReference",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardReference.lean",
+      "exit_code": 0,
+      "seconds": 3.927335185013362,
+      "source_sha256": "af1a207883d4b70883ecd13fb75988e365e5a1f23c4850cd018b90816b5cc2bd",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPBackwardReference.log",
+      "log_sha256": "79695bc1807e65471e9e8e202ae68a978e06e430cf2557c716e498480f3a8736",
+      "olean_sha256": "fc22145c49fd3b345e4feca7331fd82d644d6d985e4f71a736db53a19ea2b798",
+      "axiom_checks": 2,
+      "noncircular_checks": 1
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPShape",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPShape.lean",
+      "exit_code": 0,
+      "seconds": 60.93834611000784,
+      "source_sha256": "6e005c7c5f666420c41aee2b3c6dbd16cbd356ecdc66ca902b8cf05670419434",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPShape.log",
+      "log_sha256": "23022370766196095faaef733fee6d08eac431a77e15582f6ae30ad8f86c8230",
+      "olean_sha256": "4bee1288a89935d8935aa19e9e74cbeafd0171cdc4eba115aeda868d4d3f5dd9",
+      "axiom_checks": 3,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPSoftware",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPSoftware.lean",
+      "exit_code": 0,
+      "seconds": 3.54838644299889,
+      "source_sha256": "50b4236d721f56bc2a1d557ff46fe5b9911bb118156ebe27ec1a60441fa6aaa3",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPSoftware.log",
+      "log_sha256": "8c0cb072180a672316c74c31c095a9295fdb8537ad2f0bbb31a59eafd78182c2",
+      "olean_sha256": "1faf8447e495a1ea8249ae8fcdf9ace87a076e672edfce1fa1141eb8f9babea0",
+      "axiom_checks": 2,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPBackwardInvariant",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardInvariant.lean",
+      "exit_code": 0,
+      "seconds": 3.044582739996258,
+      "source_sha256": "cf2f9b9638692ecd921a5c5634fdd2239c6fb18d93bf555457a03798225b07e2",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPBackwardInvariant.log",
+      "log_sha256": "8fc0ef7180b34c9912ab87c9e0b0e836d4bbcfa57423e78dd6f169827e786028",
+      "olean_sha256": "8d00ad084cc56dab19300d10f7c55d35a8c8b649af0573b691ccac45e6daa9ec",
+      "axiom_checks": 0,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPBackwardPrologue",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardPrologue.lean",
+      "exit_code": 0,
+      "seconds": 9.029713876996539,
+      "source_sha256": "26bf34d2e9c411861f2b2e781de96414f7ddea6a70b641a6636e34c1609934b0",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPBackwardPrologue.log",
+      "log_sha256": "b966c11bb4142fe0a740dae0d13241573977435b1597da326e533bbddf9d4ef8",
+      "olean_sha256": "349a6945a791dcd87cf90ac3f2c0c670df8305b4b35ab387e86bb6a3baedea3c",
+      "axiom_checks": 2,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPBackwardOuterStart",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardOuterStart.lean",
+      "exit_code": 0,
+      "seconds": 5.546119071994326,
+      "source_sha256": "5c54bd4df595e031d2212327c17db74c20fe785c2df5f5f46cc9f6979bd7349b",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPBackwardOuterStart.log",
+      "log_sha256": "623e603132d2d6540142cd666bc4e36a8cbd1315f33be866b163bcb90c372fd6",
+      "olean_sha256": "c4a9a847557a5b08307f2458d6d9c16e6c0831eb7ed5bd05fcf663ea6b5b1c0a",
+      "axiom_checks": 2,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPBackwardScore",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardScore.lean",
+      "exit_code": 0,
+      "seconds": 5.252792972998577,
+      "source_sha256": "3d32fae77978c03b74f9b7373b5a7e7209dd405f6dc3e347a8f37e37a598854c",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPBackwardScore.log",
+      "log_sha256": "1e0345b574b4eed1af21569a73f455cd794301b3723816019929a39de892386b",
+      "olean_sha256": "f6a9184a1d5350867469521564eaef6d488df345cd7bc911507560e9dc4f518f",
+      "axiom_checks": 2,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPBackwardGradient",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardGradient.lean",
+      "exit_code": 0,
+      "seconds": 4.347370099989348,
+      "source_sha256": "0a9430be06107fa27733bb25d58ade575638bb2cda1ef0a4e5d4fc58ff9fb911",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPBackwardGradient.log",
+      "log_sha256": "59c5c387ae0024c560ad854c8bb2c32602f186246b69f7d27470ccdaea37ca99",
+      "olean_sha256": "a5c3550da95f3f333d271220cf5f991d852eb85fd8000428b80b8dea128a4499",
+      "axiom_checks": 1,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPBackwardStore",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardStore.lean",
+      "exit_code": 0,
+      "seconds": 4.759098641996388,
+      "source_sha256": "cadd8444eda41b8a945f933b7a4b33be7ceab4bc900dc1b8130aafa96b42f966",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPBackwardStore.log",
+      "log_sha256": "39f8bd9dd223ba93b54c68de6b22dafdd6cf999d6464fa4a953c22b477dcf65f",
+      "olean_sha256": "910f99462ed10b02874ebb71f8e13cc889717b749f9cf1a2cfe2c650cdd416e8",
+      "axiom_checks": 2,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPBackwardBody",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardBody.lean",
+      "exit_code": 0,
+      "seconds": 4.638880971004255,
+      "source_sha256": "36010127a22ce4d53f682ef5e9ea481723c69a78e8196fb12c6fdb2c070eaaa0",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPBackwardBody.log",
+      "log_sha256": "cf34453adebb5e7cde20562b61161d10e4c861a94e6a42db589b42acdfd6b6c3",
+      "olean_sha256": "0e5857e7ae9d270a1a8dcc7f6bc13cc2d64d8b98ac39711807a0223c6d54ccdf",
+      "axiom_checks": 2,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPBackwardLoop",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardLoop.lean",
+      "exit_code": 0,
+      "seconds": 3.120663343986962,
+      "source_sha256": "03f4615b2c0ab5f27b43f25f7fd9f0939990415dbe6921fd7ea486467c84c503",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPBackwardLoop.log",
+      "log_sha256": "4426bc33d5717ca64deebb8fc830ce0bd7e8f3d4ca41d234b7b4ea00ab4cd841",
+      "olean_sha256": "ae4af39df23a56e5fb259e9527840c34b85c6d2d96e5fcd47a5b3c53e38b60b3",
+      "axiom_checks": 1,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPBackwardFinish",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFinish.lean",
+      "exit_code": 0,
+      "seconds": 4.408453559997724,
+      "source_sha256": "6c6e6d59d75889977884436b6873fb2c5a786ff28ac7bbf7cf8e5c57ca0c39dc",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPBackwardFinish.log",
+      "log_sha256": "d262bbd35cd3d2cd10a90c61c3bf41b5a09f8c1758b529a06501373a152c47e8",
+      "olean_sha256": "cbb2c66cd2afdf5944873a0fe7d806ea1474a458bacd4a1c4d6a9d4516612819",
+      "axiom_checks": 2,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPBackwardComplete",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardComplete.lean",
+      "exit_code": 0,
+      "seconds": 3.8553909890033538,
+      "source_sha256": "18881f129cb653b89278673e3a6cf4f48f2a71eda5c2c7477de5ca833972adff",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPBackwardComplete.log",
+      "log_sha256": "cc0b4d3ad884d4a114c1452198872a1d6ad9d9d971b99d6ee9d2a3da20230d1d",
+      "olean_sha256": "bfd204a3a1c69dcf2163f7eaf90b4bb2888b31b7c786a5a73ee682fa0eee4fc0",
+      "axiom_checks": 3,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPBackwardFrame",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFrame.lean",
+      "exit_code": 0,
+      "seconds": 3.3486239449994173,
+      "source_sha256": "24a91dd64e8b764573984a20d70019137c1a9d7b822be6cefe8fbd5eaaabca00",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPBackwardFrame.log",
+      "log_sha256": "d271260a8710b4fc0bd90e0d17bd3c099ddb9bac240c5696556be19e99d7f1af",
+      "olean_sha256": "e31b93ea6504d28f42b1e3dc570fd26e109f5402f809799f4240aac7b5445797",
+      "axiom_checks": 2,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.Proofs.FPWitness",
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPWitness.lean",
+      "exit_code": 0,
+      "seconds": 7.359622703996138,
+      "source_sha256": "95d0e91760f691aacf8c38b785bdf0d3caa36cd97200aa0f3aa728a487a8b50b",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.Proofs.FPWitness.log",
+      "log_sha256": "21d530d476a12fa144191dca9abd9cf76883a71d2ce878531c56fb505655feff",
+      "olean_sha256": "4d47deac04325d4b05af4db874239be491f5cc936df28fe4edf3e8ae667a31fe",
+      "axiom_checks": 6,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.triton_attention.FPCorrect",
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "exit_code": 0,
+      "seconds": 5.665990845998749,
+      "source_sha256": "08591ceaf6a31b32714653bc026333846acfc4acc91be1b0e3fd0c26aa4fa264",
+      "log": "logs/final-bench.tritonbench_g.triton_attention.FPCorrect.log",
+      "log_sha256": "f067f890899f1c82352ecca0a715c88b2d817f49674430f9984415a77b264c28",
+      "olean_sha256": "c4d4e889a5397d7cb862987f63b030ca272334b6132a90cb4e4019682d491bf4",
+      "axiom_checks": 9,
+      "noncircular_checks": 0
+    },
+    {
+      "module": "AttentionValueAudit",
+      "file": "AttentionValueAudit.lean",
+      "exit_code": 0,
+      "seconds": 6.45329711199156,
+      "source_sha256": "2b2aee2dbe6ac83240baf60d091ace19c1c037f56059e690137f166654afbc5f",
+      "log": "logs/final-AttentionValueAudit.log",
+      "log_sha256": "2154b60be1dbe39eddd9cf5a330afb973d27f99ba91176b789b3e9b46e2b7408",
+      "olean_sha256": "4e81e862aea4e5e665a819fc27418a9559f055ffedacfd9ed00c394dc4804e0c",
+      "axiom_checks": 18,
+      "noncircular_checks": 3
+    }
+  ],
+  "dependency_manifest": "dependency-inputs.json",
+  "dependency_manifest_count": 207,
+  "named_declarations": [
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardReference.lean",
+      "name": "forwardDecomposition",
+      "kind": "theorem",
+      "line": 25,
+      "statement_sha256": "33058822d02d25bb321e46e470d223a707e4e5bead414a1da649c8e13c85f1ab"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardPrologue.lean",
+      "name": "forwardPrologueExecution",
+      "kind": "theorem",
+      "line": 24,
+      "statement_sha256": "d4ad6722657230418901708b52ec451f5f58c832499c9a722e9143ca33f53c7f"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardPrologue.lean",
+      "name": "forwardPrologueInvariant",
+      "kind": "theorem",
+      "line": 35,
+      "statement_sha256": "2123f43edf37abd86eddc6e68aff7df058c69e5569a80c392f184eb2d5c3eaea"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardScore.lean",
+      "name": "forwardScoreExecution",
+      "kind": "theorem",
+      "line": 22,
+      "statement_sha256": "2d08bdb7d55fa1e7c73a87c7719c366222b1197451ed6fb7856bb37a1780ee55"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardScore.lean",
+      "name": "forwardScoreInvariant",
+      "kind": "theorem",
+      "line": 37,
+      "statement_sha256": "d206a833ff329922dddc4e1d351a9c58256c53ce69b518a3470dc96b8fe7a35e"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardBody.lean",
+      "name": "forwardSoftmaxExecution",
+      "kind": "theorem",
+      "line": 37,
+      "statement_sha256": "9569870a22ea72c880d9b8d0f3ec3a0c11643a018d754ea9862d3617dbe0dc20"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardBody.lean",
+      "name": "forwardNormalizeExecution",
+      "kind": "theorem",
+      "line": 54,
+      "statement_sha256": "212064101caf606b29ad7ec4c8f57f9497cc8aa369fb62cc31ed8e7447ec06bd"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardBody.lean",
+      "name": "forwardAccumulateExecution",
+      "kind": "theorem",
+      "line": 70,
+      "statement_sha256": "418d0f146db03f3a281882b0ae985a3e62425bbac66dd6df63aebb6fb6d30c6a"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardBody.lean",
+      "name": "forwardTailExecution",
+      "kind": "theorem",
+      "line": 91,
+      "statement_sha256": "37405c345ec2fc827c2a7f4078a72e118f86a3c01f51db7c4e058109245d749b"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardBody.lean",
+      "name": "forwardTailInvariant",
+      "kind": "theorem",
+      "line": 116,
+      "statement_sha256": "398aadf8b1d39032462f2682f3f92498f2e8d4bfdf50aa0ee1d2bc1e6d8fcc70"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardBody.lean",
+      "name": "forwardBodyExecution",
+      "kind": "theorem",
+      "line": 127,
+      "statement_sha256": "c94ba36e99490df1a198bb847ec5c7e918f5754e9af4f73cafd984a66e716e1d"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardBody.lean",
+      "name": "forwardBodyInvariant",
+      "kind": "theorem",
+      "line": 137,
+      "statement_sha256": "3f8c238f2a139bc94cf26ed839e36ab94ba0b7ab342de34572e902af6caa2854"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPPreprocess.lean",
+      "name": "preprocessExecution",
+      "kind": "theorem",
+      "line": 48,
+      "statement_sha256": "337585a99adbb2e6f1a6cbb3b863a683bdc7e4c77caa92448f07d811fe47dc7f"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPPreprocess.lean",
+      "name": "scatterMemory",
+      "kind": "theorem",
+      "line": 58,
+      "statement_sha256": "848902c0c4934981e61d3b2e18f28a59fb8c5eb0ad02f6a239e608ac94477de7"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPPreprocess.lean",
+      "name": "preWrite_memory",
+      "kind": "theorem",
+      "line": 69,
+      "statement_sha256": "7c125587d9a7dfedad8ef6d531bb037f2529ee0b4ed1422366c912a8b3567a8b"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPPreprocess.lean",
+      "name": "preRow_injective",
+      "kind": "theorem",
+      "line": 74,
+      "statement_sha256": "6a2e4e556db2c4113db398de95f9237b1c914fbd98996c955537cd53a0d0cf07"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPPreprocess.lean",
+      "name": "preprocessCorrectness",
+      "kind": "theorem",
+      "line": 81,
+      "statement_sha256": "1273087664b4823603ecb71aa63355de0d74413e918e774c996994e8da3e00e4"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardComplete.lean",
+      "name": "forwardLoopExecution",
+      "kind": "theorem",
+      "line": 10,
+      "statement_sha256": "daf67eff8338c744326cbf5f3c4686057a9e93c7236e5e96f9a4356d7836b94f"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardComplete.lean",
+      "name": "forwardEpilogueExecution",
+      "kind": "theorem",
+      "line": 61,
+      "statement_sha256": "0a2c6e9157da96fcd8632587c9454abc78a5209544fd9d50c1495690c1255e70"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardComplete.lean",
+      "name": "maskedScatterMemory",
+      "kind": "theorem",
+      "line": 76,
+      "statement_sha256": "c7e50528950078e0d298005f9bc90d1c6be749ae060dabaa435cd7389af04174"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardComplete.lean",
+      "name": "forwardFinalMemory",
+      "kind": "theorem",
+      "line": 87,
+      "statement_sha256": "ef58558ad395bebc7993b4f5f37e4de83b6140f44f70bf92233c797784b67283"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardComplete.lean",
+      "name": "forwardFullExecution",
+      "kind": "theorem",
+      "line": 96,
+      "statement_sha256": "befce2cc897bc109110144be15ef5cc57705d71be112827d122715bdfa0fb354"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardReadback.lean",
+      "name": "maskedScatter_filter",
+      "kind": "theorem",
+      "line": 6,
+      "statement_sha256": "e9bc85d72fe07369457fa8472d7287ac7200e34331883eea820e8ada61deb21c"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardReadback.lean",
+      "name": "maskedScatter_frame",
+      "kind": "theorem",
+      "line": 14,
+      "statement_sha256": "dfc23c4a14549f4c5a452156dbe55a499d0da121471caa221d3ce1b6614c37cb"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardReadback.lean",
+      "name": "maskedScatter_readback",
+      "kind": "theorem",
+      "line": 24,
+      "statement_sha256": "3a545944ed419a18c41e61838ad682ca2b2a1f91edcc29fb499a729642910636"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardReadback.lean",
+      "name": "forwardRow_injective",
+      "kind": "theorem",
+      "line": 33,
+      "statement_sha256": "da2b23082a32e037a63ae649ad6b66f292d486e53bab1ca4ae4aec9ed059d25e"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPForwardReadback.lean",
+      "name": "forwardCorrectness",
+      "kind": "theorem",
+      "line": 40,
+      "statement_sha256": "8778f22f32574eb0898abc287b82689440fad2cb0c96d3e41c142dd027bf4c75"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardReference.lean",
+      "name": "backwardDecomposition",
+      "kind": "theorem",
+      "line": 32,
+      "statement_sha256": "3ddfa9b0f6c939d28a59a3a6f6f19b8a0d79db4bdd2218d5d272dfbdcf779a63"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardReference.lean",
+      "name": "backwardInnerDecomposition",
+      "kind": "theorem",
+      "line": 36,
+      "statement_sha256": "d20f6b93997432a8f1208a0cff456a76a199023f18574682f4c28afb2b8073bd"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPShape.lean",
+      "name": "preprocess_projection",
+      "kind": "theorem",
+      "line": 11,
+      "statement_sha256": "3490340da4aedf3160930f33186f8c06a8ae8d2edc92539edd6143e955163ca1"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPShape.lean",
+      "name": "forward_projection",
+      "kind": "theorem",
+      "line": 26,
+      "statement_sha256": "9710b825f8ef9c091800f9c1aaf449c8674ca93cd2f4a11d50bf4bd1b4990de0"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPShape.lean",
+      "name": "backward_projection",
+      "kind": "theorem",
+      "line": 43,
+      "statement_sha256": "e809c820f333c75d7e773dc451e670787be822da0dd12a32dacd3aca27063cf7"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPSoftware.lean",
+      "name": "preprocess_external_independent",
+      "kind": "theorem",
+      "line": 65,
+      "statement_sha256": "c7e815c7724c230cd35eb7bd73b4c0a959dda833c54d1f1ce98367b837974569"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPSoftware.lean",
+      "name": "conversion_boundary_vectors",
+      "kind": "theorem",
+      "line": 72,
+      "statement_sha256": "e647ab0c2cd305e83a07b23dda3a996d32677af7054dea2fcce23a207bd65139"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardPrologue.lean",
+      "name": "backwardPrologueExecution",
+      "kind": "theorem",
+      "line": 20,
+      "statement_sha256": "75e896060cbbecc44a0a38d8612dd70791ecca222e3597539dd940a7b7a94d94"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardPrologue.lean",
+      "name": "backwardPrologueInvariant",
+      "kind": "theorem",
+      "line": 29,
+      "statement_sha256": "d9f0bca0e249a3c14a159892b95f055f2cd3e4db36db294542371557ff6418ac"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardOuterStart.lean",
+      "name": "backwardOuterStartExecution",
+      "kind": "theorem",
+      "line": 30,
+      "statement_sha256": "84ba0ffc94426a8e4ec3f6fc3d1811ba3ff3b0467548d5d6197af7cc19422611"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardOuterStart.lean",
+      "name": "backwardOuterStartInvariant",
+      "kind": "theorem",
+      "line": 44,
+      "statement_sha256": "5eee80d4e92d847b10a56a2872620ef900486d185623682cf8989f3f48d45313"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardScore.lean",
+      "name": "backwardScoreExecution",
+      "kind": "theorem",
+      "line": 20,
+      "statement_sha256": "1d5dc121db89e2e71bcc1c40d51ae1de2c998caa557bacde65407310ec8cf1ed"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardScore.lean",
+      "name": "backwardScoreInvariant",
+      "kind": "theorem",
+      "line": 36,
+      "statement_sha256": "ef949784ffe85d2acec41fcc6d03fcd5afaf24da36938b679f5832d6a23acbc5"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardGradient.lean",
+      "name": "backwardGradientExecution",
+      "kind": "theorem",
+      "line": 20,
+      "statement_sha256": "2151f95fb46a500aed12879b9f536066386ceba3c6ec73aa8dc4cd12d55a46f3"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardStore.lean",
+      "name": "backwardStoreExecution",
+      "kind": "theorem",
+      "line": 23,
+      "statement_sha256": "963980b04e112bac26773f44050accd615faf851b15d860fda5612b6bdcfb24d"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardStore.lean",
+      "name": "backwardAdvanceExecution",
+      "kind": "theorem",
+      "line": 53,
+      "statement_sha256": "a86c5008e8340d99efa53b516bd0e05ad329fbf9889868053484070d7e49a056"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardBody.lean",
+      "name": "scatterMemoryReference",
+      "kind": "theorem",
+      "line": 9,
+      "statement_sha256": "0277b559286db489e799ee1459be486a4def1f73fbecdde1b2486c4ff8241515"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardBody.lean",
+      "name": "scatterUndef",
+      "kind": "theorem",
+      "line": 15,
+      "statement_sha256": "70caceb1fd4306f12922ac934d055add57e1141de4bc3340ae1dedafa5a2cf4c"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardBody.lean",
+      "name": "backwardBodyExecution",
+      "kind": "theorem",
+      "line": 28,
+      "statement_sha256": "044d14ec17923010dd97a9d21caa7c9337bed9160d5778a3664be20237458617"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardBody.lean",
+      "name": "backwardBodyInvariant",
+      "kind": "theorem",
+      "line": 62,
+      "statement_sha256": "86ca29840d24ed382cede438b00d6cd3153903fddd5677c5eeebc29854c01325"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardLoop.lean",
+      "name": "backwardInnerExecution",
+      "kind": "theorem",
+      "line": 7,
+      "statement_sha256": "07d937574b64ef7596b70570967b0fdfe547cc090512ce8b73835239d49f0c39"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFinish.lean",
+      "name": "maskedScatter_regs",
+      "kind": "theorem",
+      "line": 9,
+      "statement_sha256": "db9a2d7b53ba20babfe26368fb97593cc885190cab9147dc57cfd2946841d3ce"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFinish.lean",
+      "name": "maskedScatter_undef",
+      "kind": "theorem",
+      "line": 13,
+      "statement_sha256": "e8aef836d4a808dca713fd55532260751fb6f95932081abdd36ca9d81ea44de2"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFinish.lean",
+      "name": "maskedScatterMemoryReference",
+      "kind": "theorem",
+      "line": 17,
+      "statement_sha256": "2e1ae291a788692b4d6e5f9b66ddd9fce9e53b4eb8447874c6d769deef1c25b9"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFinish.lean",
+      "name": "backwardFinishExecution",
+      "kind": "theorem",
+      "line": 45,
+      "statement_sha256": "6c82c3185525b118bb6558476f805993d875677df29a9b0ff58a0ba7b2f6b24b"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFinish.lean",
+      "name": "backwardFinishInvariant",
+      "kind": "theorem",
+      "line": 60,
+      "statement_sha256": "c033681a09b68dbd00bcbb31a16b93b89b33aebf639464f8c686e83724a139d5"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardComplete.lean",
+      "name": "backwardOuterExecution",
+      "kind": "theorem",
+      "line": 7,
+      "statement_sha256": "ace4ad48dec171595b46ce71bc9eb00ea4689d826ea0d579abe4fcb4ac20e7fb"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardComplete.lean",
+      "name": "backwardOuterLoopExecution",
+      "kind": "theorem",
+      "line": 31,
+      "statement_sha256": "3c8f97e268bd705b82e60e9601df4c629e0d10fec27e55a0c684aa38a8a7ca38"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardComplete.lean",
+      "name": "backwardFullExecution",
+      "kind": "theorem",
+      "line": 56,
+      "statement_sha256": "f3c572d4865fbb841ad25f7204e57ace061cfb386725aa570d258697eecf493c"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFrame.lean",
+      "name": "memoryFold_frame",
+      "kind": "theorem",
+      "line": 11,
+      "statement_sha256": "31cf0555c33923a761e5112b4252c513f4d1bc18c3e45e635aa7e4119b84c970"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFrame.lean",
+      "name": "memoryMaskedFold_frame",
+      "kind": "theorem",
+      "line": 20,
+      "statement_sha256": "902c67be27edca83481baf496b4cfd0b9dcf4752ebe0b2f64d15915f53a67889"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFrame.lean",
+      "name": "backwardInner_frame",
+      "kind": "theorem",
+      "line": 32,
+      "statement_sha256": "79d21051519009c43ba04ff580500c5b056742c8db61922893280d22b4f53ab6"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFrame.lean",
+      "name": "backwardOuter_frame",
+      "kind": "theorem",
+      "line": 49,
+      "statement_sha256": "f1ec1393b56d0fc50cf1a4b09097683ac23da7a9994bc38e419f52004a7bfc36"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFrame.lean",
+      "name": "backwardFrame",
+      "kind": "theorem",
+      "line": 71,
+      "statement_sha256": "1e72c0e9c6e7a5ef227b5ace3ec6b7290df327118ba51b007b1fecbea23c51c6"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPBackwardFrame.lean",
+      "name": "backwardCorrectness",
+      "kind": "theorem",
+      "line": 84,
+      "statement_sha256": "5bb9a374b93c755ad590f52d38cf32cbe602fafd640a524d8ba07f6c5c3f82ce"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPWitness.lean",
+      "name": "preprocess_witness_values",
+      "kind": "theorem",
+      "line": 61,
+      "statement_sha256": "b95f9afc704174a8fa9dcb00ad190303a2ded477d9d7775b956824f2079e4429"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPWitness.lean",
+      "name": "forward_witness_values",
+      "kind": "theorem",
+      "line": 84,
+      "statement_sha256": "4cd3c3f3398fcb24d52e2a0191f2e89d9469a474f50a322349d1a5249fdff1ee"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPWitness.lean",
+      "name": "backward_witness_values",
+      "kind": "theorem",
+      "line": 110,
+      "statement_sha256": "9a3aed7b2919d0f041d9d742808c36398bd54e03ce4cd8844fb84f1e37dbd293"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPWitness.lean",
+      "name": "preprocess_bit_success",
+      "kind": "theorem",
+      "line": 125,
+      "statement_sha256": "2c816adfae924c563c3870ea661520285df78e83a7e330bf0e6566f3b3a157f9"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPWitness.lean",
+      "name": "forward_bit_success",
+      "kind": "theorem",
+      "line": 157,
+      "statement_sha256": "7c7f5ffe65f454ddf2bd978cc705b6457f7d76d385d426cc46fb49709e6b8365"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/Proofs/FPWitness.lean",
+      "name": "backward_bit_success",
+      "kind": "theorem",
+      "line": 181,
+      "statement_sha256": "3d481b844383c3a43c8971bbb376f2fe0b5b6b0c9b4a92753459cf2a40b59995"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_preprocess_backend_correctness",
+      "kind": "specification",
+      "line": 11,
+      "statement_sha256": "bfb5fba83dd69f55b7dcedd1671a0383bb3cb7d4a7a4dc1515f56387f9a027a7"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_preprocess_scalar_bit_correctness",
+      "kind": "specification",
+      "line": 21,
+      "statement_sha256": "5f0590138c9ad1aa49fe71ad0a0dcef5db5f290f4d3ac5324d4af43e957e5fb8"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_forward_backend_correctness",
+      "kind": "specification",
+      "line": 41,
+      "statement_sha256": "b46322653ae38b693d3921ef6fc6bc0fa1543e706730bd3aac2622a274fb5606"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_forward_scalar_bit_correctness",
+      "kind": "specification",
+      "line": 56,
+      "statement_sha256": "b1554301242d456e618d10cb499b8e1f568f03f191e6f8a246c577417e7486f3"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_backward_backend_correctness",
+      "kind": "specification",
+      "line": 76,
+      "statement_sha256": "999cb348e25e1efb9a564a8be77e1cd1cb2cd140d9d98833de20131bac4734f6"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_backward_scalar_bit_correctness",
+      "kind": "specification",
+      "line": 87,
+      "statement_sha256": "0f186008e214830fc839722a2675a36f4189600cbfb4f88146b6bd8466884016"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_preprocess_bit_success",
+      "kind": "theorem",
+      "line": 102,
+      "statement_sha256": "6250db5ba66c79a5fe4c4e9f471a1eccd98a7597291b5546f17071cf010226b5"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_forward_bit_success",
+      "kind": "theorem",
+      "line": 112,
+      "statement_sha256": "aaef909d05ec8f9d1550542ddbac4b7bbafd547f3c84215178c6102ed93a395a"
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_backward_bit_success",
+      "kind": "theorem",
+      "line": 122,
+      "statement_sha256": "0d78807e2b46cea00ec032ce00d5557fe4a225e767862d5f508d07daa339e6e3"
+    }
+  ],
+  "public_specifications": [
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_preprocess_backend_correctness",
+      "kind": "specification",
+      "line": 11,
+      "statement_sha256": "bfb5fba83dd69f55b7dcedd1671a0383bb3cb7d4a7a4dc1515f56387f9a027a7",
+      "model_role": "backend_value_contract",
+      "source_entry": "typed original accepted source port with explicit physical regions/storage conversions",
+      "scope_relation": "complete_old_accepted_source_stage",
+      "scalar_closure": "arbitrary operation callbacks",
+      "native_closed": false
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_preprocess_scalar_bit_correctness",
+      "kind": "specification",
+      "line": 21,
+      "statement_sha256": "5f0590138c9ad1aa49fe71ad0a0dcef5db5f290f4d3ac5324d4af43e957e5fb8",
+      "model_role": "bit_interpreter",
+      "source_entry": "typed original accepted source port with explicit physical regions/storage conversions",
+      "scope_relation": "complete_old_accepted_preprocess_stage_at_three_explicit_storage_profiles",
+      "scalar_closure": "fp16/bf16/fp32 conversions + fp32 scalar arithmetic + explicit checked reduction trees",
+      "native_closed": false
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_forward_backend_correctness",
+      "kind": "specification",
+      "line": 41,
+      "statement_sha256": "b46322653ae38b693d3921ef6fc6bc0fa1543e706730bd3aac2622a274fb5606",
+      "model_role": "backend_value_contract",
+      "source_entry": "typed original accepted source port with explicit physical regions/storage conversions",
+      "scope_relation": "complete_old_accepted_source_stage",
+      "scalar_closure": "arbitrary operation callbacks",
+      "native_closed": false
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_forward_scalar_bit_correctness",
+      "kind": "specification",
+      "line": 56,
+      "statement_sha256": "b1554301242d456e618d10cb499b8e1f568f03f191e6f8a246c577417e7486f3",
+      "model_role": "backend_value_contract",
+      "source_entry": "typed original accepted source port with explicit physical regions/storage conversions",
+      "scope_relation": "complete_old_accepted_source_stage",
+      "scalar_closure": "fp16/bf16/fp32 conversions + fp32 scalar arithmetic + explicit checked reduction trees",
+      "native_closed": false
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_backward_backend_correctness",
+      "kind": "specification",
+      "line": 76,
+      "statement_sha256": "999cb348e25e1efb9a564a8be77e1cd1cb2cd140d9d98833de20131bac4734f6",
+      "model_role": "backend_value_contract",
+      "source_entry": "typed original accepted source port with explicit physical regions/storage conversions",
+      "scope_relation": "complete_old_accepted_source_stage",
+      "scalar_closure": "arbitrary operation callbacks",
+      "native_closed": false
+    },
+    {
+      "file": "bench/tritonbench_g/triton_attention/FPCorrect.lean",
+      "name": "triton_attention_backward_scalar_bit_correctness",
+      "kind": "specification",
+      "line": 87,
+      "statement_sha256": "0f186008e214830fc839722a2675a36f4189600cbfb4f88146b6bd8466884016",
+      "model_role": "backend_value_contract",
+      "source_entry": "typed original accepted source port with explicit physical regions/storage conversions",
+      "scope_relation": "complete_old_accepted_source_stage",
+      "scalar_closure": "fp16/bf16/fp32 conversions + fp32 scalar arithmetic + explicit checked reduction trees",
+      "native_closed": false
+    }
+  ],
+  "public_specification_count": 6,
+  "role_counts": {
+    "backend_value_contract": 5,
+    "bit_interpreter_preprocess_three_storage_profiles": 1,
+    "fixed_success_public_theorems": 3
+  },
+  "legacy": {
+    "whole_file_identical": true,
+    "public_count": 4,
+    "source_sha256": "d17e9a2b9f554ad4708e55ebe74cbb1a74e32a63c2084c94c6a25173a8ab012c",
+    "review": "legacy-review.json",
+    "round_fp16_identity": "Old abstract ideal-real theorem remains historical; no new contract has this assumption or proves it."
+  },
+  "source_binding": {
+    "erasure_bridges": [
+      "FPValue.preprocess_projection",
+      "FPValue.forward_projection",
+      "FPValue.backward_projection"
+    ],
+    "native_body_checks": [
+      {
+        "name": "_fwd_kernel",
+        "body_ast_sha256": "a214c2c339b469973d60417eefca37207048f414acdd5a829d8ef000b140a291",
+        "identical": true
+      },
+      {
+        "name": "_bwd_preprocess",
+        "body_ast_sha256": "2aae91e9f3276257fdd2992ebc25bdef19c21b0d422478f8403f5030ff584a9a",
+        "identical": true
+      },
+      {
+        "name": "_bwd_kernel",
+        "body_ast_sha256": "de2d719da57d6f0d05a3a09d67d2c027671fe04f31de30afede5eaa1fa73dbb0",
+        "identical": true
+      }
+    ],
+    "typed_source": "bench/tritonbench_g/triton_attention/Proofs/FPSource.lean",
+    "typed_storage": "DTYPE for payload; OUT_DTYPE=.fp32 for L/M/Delta/DQ. Implicit store conversions explicit; original half register casts retained.",
+    "backward_port_boundary": "Original accepted BLOCK_M-normalized score shape/ignored BLOCK_N and pointer-reset adaptation preserved; native host BM=BN=128, not arbitrary independent native BLOCK_N."
+  },
+  "independent_references": [
+    "FPValue.preWrite",
+    "FPValue.forwardWrite",
+    "FPValue.backwardFinalMemory"
+  ],
+  "software_closure": {
+    "preprocess": "fp16/bf16/fp32 storage; all scalar/casts/reduction closed; public result unchanged for any External replacement",
+    "forward_backward": "fp32 scalars, maxnum, concrete half/bfloat/single casts and checked reduction trees; hostLiteral/exp/dot/unsupported f8 cast remain callbacks",
+    "native_equivalence": false
+  },
+  "native_obligations": [
+    "Bind exact host sm_scale ABI conversion; old Real parameter erases signed-zero/NaN-payload distinctions and software 0/1 are canonical, so arbitrary native host words need a runtime-word source interface",
+    "Bind exp operation/context/approximation; backward exp has none context enclosing fp32 child",
+    "Bind dtype/options/shape-specific dot and accumulation schedule; no sequential-software=tensor-core assumption",
+    "Native forward PV and backward DV/DP/DK/DQ dotAcc differ from separate source graph; independent compiled-graph contract/refinement still required",
+    "Default-fusion preprocess product/reduction, forward denominator and backward qk*scale-m use FMA; source scalar graph is different",
+    "Bind reduction tree, div.full.f32, ex2.approx.f32, FTZ/NaN/signed-zero and casts to selected native profile",
+    "Formal all-FloatDType callback theorem does not establish native compilation legality"
+  ],
+  "native_compile": {
+    "receipt": "native-probe/receipt.json",
+    "receipt_sha256": "adc957da9f60cb4dec73e75409258ef0f9236b06015539b2759332e5c9fe166d",
+    "triton": "3.8.0",
+    "target": "CUDA SM90 warp32",
+    "blocks": [
+      128,
+      128,
+      32
+    ],
+    "total": 18,
+    "pass": 10,
+    "fail": 8,
+    "failure": "bf16/fp32 forward/backward mix explicit fp16 weights with non-fp16 dot operands",
+    "gpu_executed": false,
+    "source_graph_only": true
+  },
+  "witnesses": {
+    "preprocess": "1 row x 2 columns: NewDO half[2,3], Delta fp32 5",
+    "forward": "2 key blocks: Out half1.5, L fp32 2, M fp32 0",
+    "backward": "2 key blocks,3 query iterations: DQ[0,0], DK[0], DV[2,1]; all actual executions + frame",
+    "role": "fixed software evidence, not parametric/full-native classification"
+  },
+  "axiom_checks": 74,
+  "final_public_audit": {
+    "source": "AttentionValueAudit.lean",
+    "log": "logs/final-AttentionValueAudit.log",
+    "checks": 18,
+    "exit_code": 0
+  },
+  "validation": "26 own Lean modules in topology plus independent audit. No sorry/native_decide/GPU claims. Source projection diagnostics preserved separately."
+}

@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "reviewer": "independent_peer",
+  "agent": "/root/mul2_independent_review",
+  "task": "triton_mul2",
+  "status": "blocked_structural_revision_required",
+  "producer_receipt_sha256": "d68f20d8057c543afb8fb90d4c359f38e4c8a7bda8d583b9bad710588e633ac7",
+  "candidate": "/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip",
+  "public_statement_sha256": "8c15d2e403390945ee501a91eff66871e25791787b610ae5ee60454c86154d8e",
+  "blockers": [
+    {
+      "id": "MUL2-ACCESS-OWNERSHIP",
+      "severity": "blocking_structural",
+      "candidate_files": [
+        "Proofs/FiniteMemory.lean:32",
+        "Proofs/FiniteMemory.lean:34",
+        "Proofs/FiniteHost.lean:54"
+      ],
+      "summary": "Same-device owner equality incorrectly excludes accessible peer GPU and pinned host memory.",
+      "evidence": [
+        "driver.c.txt",
+        "cuda.h.txt",
+        "jit.py.txt",
+        "pointer-probe.json"
+      ]
+    },
+    {
+      "id": "MUL2-NATIVE-POINTER-TRANSLATION",
+      "severity": "blocking_structural",
+      "candidate_files": [
+        "Proofs/FiniteHost.lean:60",
+        "Proofs/FiniteHost.lean:113"
+      ],
+      "summary": "Runtime pointer setup returns Unit and loses actual CUDA-translated argument pointers and alias backing.",
+      "evidence": [
+        "driver.c.txt",
+        "cuda.h.txt",
+        "pointer-probe.json"
+      ]
+    },
+    {
+      "id": "MUL2-I32-MINIMUM-B1-GRID-CASE",
+      "severity": "blocking_structural",
+      "candidate_files": [
+        "propose.py:44",
+        "evidence/scope-cases.json"
+      ],
+      "summary": "26 admitted dtype/wrapper cases omit n=2^31, B=1 grid-x parse rejection. Lean host branch itself correctly rejects.",
+      "evidence": [
+        "case-and-port-review.json",
+        "pointer-probe.json"
+      ]
+    }
+  ],
+  "recommendation": "Do not accept this frozen candidate; repair all three structural omissions in a new preserved revision.",
+  "original_program_acceptance_increment": 0,
+  "verification": {
+    "modules_rebuilt": 8,
+    "named_clean_axiom_checks": 28,
+    "independent_reference_checks": 7,
+    "project_dependencies": 174,
+    "direct_external_objects": 36,
+    "source_objects_unchanged": true,
+    "native_profiles": 78,
+    "IR_artifacts_equal": 172,
+    "case_count": 4648,
+    "omission_mutations_rejected": 64,
+    "authority_mutations_rejected": 6,
+    "gpu_launches": 0,
+    "native_scalar_validation": false
+  },
+  "source_review": {
+    "path": "source-review.md",
+    "sha256": "0f5f2ed1d6978b0f94dd891589cd6264b0294147887f4e565d86a53dd2520d11"
+  },
+  "primary_evidence": {
+    "attempt-002/independent-build-receipt.json": "6f05f9d31712f1e70cb267414762ca975b1e1bded19ad0993f78dfe939d0f430",
+    "attempt-002/dependencies-before.json": "9d1e1d329fba38d65452d7d8e23f2ec4fed3685372deb9370fc0d6f39b9cef8b",
+    "attempt-002/dependencies-after.json": "9d1e1d329fba38d65452d7d8e23f2ec4fed3685372deb9370fc0d6f39b9cef8b",
+    "replay-comparison.json": "d983e0e9da74d3b43aed71392c1526b144d29b495e36fdcf99fc4a7e4842dc39",
+    "case-and-port-review.json": "fd9318d33bc093829dd2f4576364e1fae65a25c278c6e36bf6b94a6a7352061a",
+    "pointer-probe.json": "7cbb7b48d0cacec265a6ff396e95d2fda5d112ff53ca3c1f5199544c4502c23e",
+    "adapter-tests.json": "95190dce3df9045c167fb0171c86d19a815681ae1a8187416bd6ad6f961f668e"
+  },
+  "scope_caveat": "CUDA attribute call in CPython pointer probe is stubbed; documented host/peer accessibility is not a live CUDA experiment. Native compilation is offline only.",
+  "retained_failed_attempts": [
+    "rebuild-001.py",
+    "rebuild-001.log",
+    "dependencies-before.json",
+    "build-01-FiniteScalar.json",
+    "build-01-FiniteScalar.log"
+  ],
+  "candidate_and_repository_unchanged": true
+}

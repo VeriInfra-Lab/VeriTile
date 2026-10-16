@@ -1,0 +1,28 @@
+{
+  "reviewer": "root",
+  "status": "frozen_value_scope_and_evidence_review_pass_pending_unified_integration",
+  "receipt_sha256": "121849440522eff03e18bfea610682d270fa6990918027bd55ca7f160e5e9e24",
+  "input_sources_verified": 164,
+  "compiled_modules_verified": 6,
+  "native_receipt_sha256": "d19438b14942360f43d77c40b42d6fe3dbf3fcffd21ebf8cd1ee9bf6e5b51d9c",
+  "native_artifacts_verified": 14,
+  "input_archive": {
+    "path": "root-reviewed-inputs.zip",
+    "sha256": "2e26edfdff1bb9bab494b45719a9c698da9f57c8e326fc0b7de71548ca53a81c"
+  },
+  "reference_audit": {
+    "source": "TMAValueReferenceAudit.lean",
+    "source_sha256": "f90e534266abc06f2678aacf7342b0e24864bec19bfbd3985f8c4ea595c8fcbc",
+    "log": "root-reference-audit.log",
+    "log_sha256": "dd803603b37bdc541387870cdaa22c8d7b97c6141ee00639db3b187c17da6106",
+    "checks": 6
+  },
+  "findings": [
+    "Complete original single-tile scope is preserved: arbitrary dimensions/strides, fp16 A/B, both fp32/fp16 output branches and original output-offset injectivity. Both tiles load before writes, preserving logical input/output aliasing.",
+    "Three public contracts cover callback values, concrete output casts with an explicit dot, and a full sequential software bit dot. Dot software order and direct narrowing are explicit; the six reference checks exclude source and its execution.",
+    "The16x16 transposed/aliased/gapped-output witness distinguishes fp32 product0x3f804008 from half0x3c02 and includes frame checks. It is a fixed supporting software witness, not the primary universal theorem.",
+    "Offline native WGMMA accumulation, casts/FTZ/NaN behavior, block-pointer byte addresses/allocation bounds and launch remain unbound. Original main/Python source hashes match."
+  ],
+  "native_execution": false,
+  "canonical_acceptance_updated": false
+}

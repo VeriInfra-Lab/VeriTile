@@ -1,0 +1,651 @@
+[
+  {
+    "case": "dtype-bool",
+    "dtype": "bool",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*u1",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "dtype-bool.raw.ttir",
+    "raw_ttir_sha256": "7f593dea07f54769b42fbdf31a8b4817c3b33735259f3f5b69371d9e08a65bd5",
+    "native": "compiled",
+    "artifacts": {
+      "dtype-bool.source": "7f593dea07f54769b42fbdf31a8b4817c3b33735259f3f5b69371d9e08a65bd5",
+      "dtype-bool.ttir": "8b3d34d34dadb73e1536ddc09ce1c4703ff5f3a40ebfbde4d09cd2b0456a43db",
+      "dtype-bool.ttgir": "24f1cb0f4c6dc1edaa995500b40020019d1d8127192d0acae80bd7a1423cf3e0",
+      "dtype-bool.llir": "420d931e8a2f8949fdf886b5837ec120375ae0a44bb3b716b008140fb69fb9b3",
+      "dtype-bool.ptx": "421b6385037a30c42b53b2ec97f8e15878d58df0659722cc8dac2aa3371ef3ba",
+      "dtype-bool.cubin": "2b48b2bbfee6205d5c06885d60c5dad36ec3bf9fb360fcac36bdd2ab4e7e399a"
+    }
+  },
+  {
+    "case": "dtype-int8",
+    "dtype": "int8",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*i8",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "dtype-int8.raw.ttir",
+    "raw_ttir_sha256": "42f20f922c404cc2266c3024c7416d261b79bc115253cd991ab2882b1f1ece29",
+    "native": "compiled",
+    "artifacts": {
+      "dtype-int8.source": "42f20f922c404cc2266c3024c7416d261b79bc115253cd991ab2882b1f1ece29",
+      "dtype-int8.ttir": "fd594453657d361a127cdfc7bc68f13e174cdf9148d396dd082c843e655d9770",
+      "dtype-int8.ttgir": "ad887bdc838f819f0fcc2b4c44d6372e49917acaf3371917a86f9d9aa92b8082",
+      "dtype-int8.llir": "c56fc6b88071fe59954f6a9c03872432e144dc6721c092bf7f104e4f0bf6f69b",
+      "dtype-int8.ptx": "f2575b7d73e950d3176154e6c3ce700cf2d98e7ce7cc33f6fcc7415f9da1f7ee",
+      "dtype-int8.cubin": "d9acac316b6efb3e73a830e9e6ecd3265f0684e125f97f9b12d74c9b09129db5"
+    }
+  },
+  {
+    "case": "dtype-uint8",
+    "dtype": "uint8",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*u8",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "dtype-uint8.raw.ttir",
+    "raw_ttir_sha256": "7a7f7c45b00d3e916279249dbe9834edbcd09d21d0e4a908d0bee1696eddd861",
+    "native": "compiled",
+    "artifacts": {
+      "dtype-uint8.source": "7a7f7c45b00d3e916279249dbe9834edbcd09d21d0e4a908d0bee1696eddd861",
+      "dtype-uint8.ttir": "f5ed7a5f8416d650080b2d00d223c13cecfee2545ae8a57bfce549eeae1a1f07",
+      "dtype-uint8.ttgir": "26a0dd10684831e6afa93c4c879fb0b6f663967dcf1d6480d8e01e66594337e1",
+      "dtype-uint8.llir": "5308b7f44ec8afb95ce65935f2ed52dfc835005ce74fef6168eb43139464ba2c",
+      "dtype-uint8.ptx": "d1fccfe172ed2ea511c8376341b17de5e98cb19553d58d94a0886f0613b5422e",
+      "dtype-uint8.cubin": "104387face330c73dbbd986b49a4f8f4284f237f891cc5e787b2a7a2724de60c"
+    }
+  },
+  {
+    "case": "dtype-int16",
+    "dtype": "int16",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*i16",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "dtype-int16.raw.ttir",
+    "raw_ttir_sha256": "be64ea0408b420c778c758cb7ef97e30435fd3f956b060305d596496349d99e5",
+    "native": "compiled",
+    "artifacts": {
+      "dtype-int16.source": "be64ea0408b420c778c758cb7ef97e30435fd3f956b060305d596496349d99e5",
+      "dtype-int16.ttir": "5e249ebca5dc338452da871e6bd2d46e713d9f84bb18fe85e37ff9e35db652f1",
+      "dtype-int16.ttgir": "2ddf21e4cbad044696e119a86c69f46f2e3e547bdfcb1a381e75b5e839e8ecc2",
+      "dtype-int16.llir": "77a740e49f01fe8ccf6b2216ec7d656801cc9e8c6a4298011239331a0eaa011f",
+      "dtype-int16.ptx": "cfcd02d6074fa321e7d3b3d8bf99b5fc481d909b50b514c147bf02aa12f1884a",
+      "dtype-int16.cubin": "072d195f7b1179cd65a47633719fcad5a85216c825871af6351d6813ad3b846a"
+    }
+  },
+  {
+    "case": "dtype-uint16",
+    "dtype": "uint16",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*u16",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "dtype-uint16.raw.ttir",
+    "raw_ttir_sha256": "9d41dd7a0e6ad1c2f4b6f3c66e5c74ab24ccf840f135ccb74dc6d88987356c22",
+    "native": "compiled",
+    "artifacts": {
+      "dtype-uint16.source": "9d41dd7a0e6ad1c2f4b6f3c66e5c74ab24ccf840f135ccb74dc6d88987356c22",
+      "dtype-uint16.ttir": "ec323c7f9c572edcf98d6cea4bccb45cbfd28d403b44682184e65c0336a71ac0",
+      "dtype-uint16.ttgir": "e736f51abda482d37b61753c774ed72080942e55f5fb7ac485012ab9e47bad22",
+      "dtype-uint16.llir": "b058235ca989da50a215f9435f8f04314fd60ba65aa50115b973f5c5412dcef3",
+      "dtype-uint16.ptx": "9b74be2de2f6e093908ced15f2c055d9359bc30c7c54bcf8fa7eb86b842c4b55",
+      "dtype-uint16.cubin": "4fcbfa284f11f441c681a6f92cd984ade0e8712c6932f47c3c6977d44500b449"
+    }
+  },
+  {
+    "case": "dtype-int32",
+    "dtype": "int32",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*i32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "dtype-int32.raw.ttir",
+    "raw_ttir_sha256": "ef2c41733972cd227dfed2a1c52c963aa8e2d96e9703e0eb98586b115a9b7cce",
+    "native": "compiled",
+    "artifacts": {
+      "dtype-int32.source": "ef2c41733972cd227dfed2a1c52c963aa8e2d96e9703e0eb98586b115a9b7cce",
+      "dtype-int32.ttir": "2270d2617d278bbd16030781b4b4735348fba2a36e3a69ba896d98da1e79f01e",
+      "dtype-int32.ttgir": "6d1540f8024d5f406b8b249a15b16722b43a7b0880ba64fab1c4b62b3c027575",
+      "dtype-int32.llir": "453b4d90bc253873c6f5786e0e6483c0758bf518500a7d4fd1a7b7d259d36889",
+      "dtype-int32.ptx": "2e62c1229cfd9d4b169590c904e180509dd330eb9a7cfa30c1d1558843b8e408",
+      "dtype-int32.cubin": "e23843df104e67f30f3ebc81cbbec793ba053d495f22e03e6667d86dcbe48845"
+    }
+  },
+  {
+    "case": "dtype-uint32",
+    "dtype": "uint32",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*u32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "dtype-uint32.raw.ttir",
+    "raw_ttir_sha256": "059746d128a85ed67892366231304ec828320737a77b58c97413b0df488a13bc",
+    "native": "compiled",
+    "artifacts": {
+      "dtype-uint32.source": "059746d128a85ed67892366231304ec828320737a77b58c97413b0df488a13bc",
+      "dtype-uint32.ttir": "7eb495ec2694e5c6494ece84c7d6e3a8c30aa339a72100f09edfca402b444129",
+      "dtype-uint32.ttgir": "2757fe36ecf74cc04ecf8c6681881d5de9692634d874da80d9a0e5b48e8695ce",
+      "dtype-uint32.llir": "68e5be7ee9bd9338d5fb14caa317da942b469824e6b5a8bc2ff7d8f1fd2f2fd3",
+      "dtype-uint32.ptx": "457fa019a5f26a118c56abbdd8143a3cadc0ba489cb4186a10200aabd2451ce0",
+      "dtype-uint32.cubin": "9703efba5488512ada08d4da18261cfedad5dacbdbd0c3c95fd874a9e41c3d67"
+    }
+  },
+  {
+    "case": "dtype-int64",
+    "dtype": "int64",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*i64",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "dtype-int64.raw.ttir",
+    "raw_ttir_sha256": "b62cb54f381c904aa0ef1efc0dde2d0386fa6b7dd9e393a6d0d67574d488dd8d",
+    "native": "compiled",
+    "artifacts": {
+      "dtype-int64.source": "b62cb54f381c904aa0ef1efc0dde2d0386fa6b7dd9e393a6d0d67574d488dd8d",
+      "dtype-int64.ttir": "6df50dd3c1c1d582d73922bdc577c67ca385a7a7ffb2d45b156ee5ce479f8980",
+      "dtype-int64.ttgir": "83b3cc3ea04ce36a8b9cc1f515fec6eacb45aec61218c54a74abdba47e2fa356",
+      "dtype-int64.llir": "74307c2a4b8f05db8f4ca556b9b47a64550587776662fd4757389deb9e7ac917",
+      "dtype-int64.ptx": "afb9a0cfcea745faad178932c5038955c07eba537f199a661cf431ff8bd71acb",
+      "dtype-int64.cubin": "6740b13af620008dffe617e71dc453e1d6cd1cedb06d45e20a80a4d11dc1ffed"
+    }
+  },
+  {
+    "case": "dtype-uint64",
+    "dtype": "uint64",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*u64",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "dtype-uint64.raw.ttir",
+    "raw_ttir_sha256": "c55e53bcdb0c93955c0c69230a250b595798e2408c1747295f06a291858c2eb7",
+    "native": "compiled",
+    "artifacts": {
+      "dtype-uint64.source": "c55e53bcdb0c93955c0c69230a250b595798e2408c1747295f06a291858c2eb7",
+      "dtype-uint64.ttir": "3a2257fd6c0817e8c9f3d4108c385097df5746202052314b12e7c9db173695c5",
+      "dtype-uint64.ttgir": "552ffc4df43fcbd5f5734d9af1495500540a8f1f206da16df93234c8ab98a330",
+      "dtype-uint64.llir": "8603665e0492fb135a89d0793b5fd3ef1cef0f80e3c19dbc18be3053430e55d1",
+      "dtype-uint64.ptx": "5fa229dece63e1bcbb2f1bf74e62875a6471807d025e66ccce89e3ed26a79f18",
+      "dtype-uint64.cubin": "b304ed815fb0891a30ca09b30451480022d6443b4bbacd7ee891fd6b73f5ace7"
+    }
+  },
+  {
+    "case": "dtype-float16",
+    "dtype": "float16",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*fp16",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "dtype-float16.raw.ttir",
+    "raw_ttir_sha256": "e4d07e8207fbe44698452ee589013054552a78325cf6530ea2c0d81815f89c77",
+    "native": "compiled",
+    "artifacts": {
+      "dtype-float16.source": "e4d07e8207fbe44698452ee589013054552a78325cf6530ea2c0d81815f89c77",
+      "dtype-float16.ttir": "310960c7ecc43087d6e348805d32d5dac4b8232991453097d1797d1f49c5e297",
+      "dtype-float16.ttgir": "8ff5cececc1cc4b40297749c32ddc12cc98181d91a4f57658c54cf139293740f",
+      "dtype-float16.llir": "5d74b5a6c7e5c9505d66189bdac56fa2659bbef3e53b9c45aefa7a752a2deb7b",
+      "dtype-float16.ptx": "346c6c6f28fc30d86c71a70f9e5ecf830e47cfb795b8cd9e6544753786e8d022",
+      "dtype-float16.cubin": "60fbdcd42a0f5022976a90905e4fe36ee7e591b3cbf5f1c5fa59dc83aaf634dd"
+    }
+  },
+  {
+    "case": "dtype-bfloat16",
+    "dtype": "bfloat16",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*bf16",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "dtype-bfloat16.raw.ttir",
+    "raw_ttir_sha256": "198961dd73e21333f5194f82eb72f2841880e6b391c8d88096a2a857beeb0b2d",
+    "native": "compiled",
+    "artifacts": {
+      "dtype-bfloat16.source": "198961dd73e21333f5194f82eb72f2841880e6b391c8d88096a2a857beeb0b2d",
+      "dtype-bfloat16.ttir": "e8dfa569a8a71137de8edf2fda5b7b851a072648561b7138c699bb4040bfc5f0",
+      "dtype-bfloat16.ttgir": "45d08e5d39fcec119b221dac43fa93219ecdc49244602109a3f8700a37d4e59f",
+      "dtype-bfloat16.llir": "9a3b46e6a7fa644a6b3ee05c1356fc5c71c1bb647d80f250415ae1a3ba27f3e4",
+      "dtype-bfloat16.ptx": "5aab5612c2076b7e97604decc36bc63d802edfd647d0dcfd2b451e1339b22901",
+      "dtype-bfloat16.cubin": "63a3a480894ad126044b923b2db737ec2b6697eb9eec0b1139ef80e87f1931e5"
+    }
+  },
+  {
+    "case": "dtype-float32",
+    "dtype": "float32",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "dtype-float32.raw.ttir",
+    "raw_ttir_sha256": "660291744dd7546d74146185601894560dce8146239c5142f9be4753e856e48e",
+    "native": "compiled",
+    "artifacts": {
+      "dtype-float32.source": "660291744dd7546d74146185601894560dce8146239c5142f9be4753e856e48e",
+      "dtype-float32.ttir": "aa1c5c120e3c0541193bc1eac4502038a0e4a460712dd585f6df33bcf63fc35b",
+      "dtype-float32.ttgir": "d4fd50a6bf63e797c3661d98f55165b40433dd9628e317124b760158395dd588",
+      "dtype-float32.llir": "61d9894913aacc53fc66cdabe338badfb94110b7ba6381c281c57d9f0ed9bf0a",
+      "dtype-float32.ptx": "32c48307e8c7cbcfcfa5e32735907ae4fe1562b784ae78ef944dda1f838b69ad",
+      "dtype-float32.cubin": "03dcda0cbf1a62c943523788118b7ac9c71e709f769d8d898b5964b03f9df014"
+    }
+  },
+  {
+    "case": "dtype-float64",
+    "dtype": "float64",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*fp64",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "dtype-float64.raw.ttir",
+    "raw_ttir_sha256": "d13defc8c06f9ce44a05a87ef4a2c63cf53cb9df49ae9d64dfe0d00686f6d031",
+    "native": "compiled",
+    "artifacts": {
+      "dtype-float64.source": "d13defc8c06f9ce44a05a87ef4a2c63cf53cb9df49ae9d64dfe0d00686f6d031",
+      "dtype-float64.ttir": "27c0c2b37cd3cd485388c86746fa3f6dbc02497cf9345e1a8055dc2141eb7c82",
+      "dtype-float64.ttgir": "8d4512c3473123a842e49020964178eda76dc8b669ce4a139f2796b97e52e350",
+      "dtype-float64.llir": "74f5bb9897da66c6ec550222f9d0c528eb637a9644bb9a44a09fb26114db3a3f",
+      "dtype-float64.ptx": "5b0170951e215535a2c22422921b424badd2daecbe025a12b06853b571c8e750",
+      "dtype-float64.cubin": "4734508e74136bfdae7bcb53ec1b5afd48926eb177c07f9eea56e1a349578470"
+    }
+  },
+  {
+    "case": "dtype-float8_e4m3fn",
+    "dtype": "float8_e4m3fn",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*fp8e4nv",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e4nv and int32')"
+  },
+  {
+    "case": "dtype-float8_e5m2",
+    "dtype": "float8_e5m2",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*fp8e5",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 7:22:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n    x = tl.load(x_ptr + offsets, mask=mask)\n    result = tl.where(x >= 0, x, 0.0)\n                      ^\nTypeError('unexpected type fp8e5 and int32')"
+  },
+  {
+    "case": "dtype-float8_e4m3fnuz",
+    "dtype": "float8_e4m3fnuz",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*fp8e4b8",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "case": "dtype-float8_e5m2fnuz",
+    "dtype": "float8_e5m2fnuz",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "signature": {
+      "x_ptr": "*fp8e5b16",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 1:0:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")"
+  },
+  {
+    "case": "dtype-complex32",
+    "dtype": "complex32",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "frontend": "rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "case": "dtype-complex64",
+    "dtype": "complex64",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "frontend": "rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "case": "dtype-complex128",
+    "dtype": "complex128",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "frontend": "rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "case": "dtype-float8_e8m0fnu",
+    "dtype": "float8_e8m0fnu",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "frontend": "rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "case": "dtype-float4_e2m1fn_x2",
+    "dtype": "float4_e2m1fn_x2",
+    "N": 2147483649,
+    "block_size": 1024,
+    "grid_x": 2097153,
+    "frontend": "rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "case": "extent-0",
+    "dtype": "float32",
+    "N": 0,
+    "block_size": 1024,
+    "grid_x": 0,
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "extent-0.raw.ttir",
+    "raw_ttir_sha256": "a233d192e950e85f50bb0ec4a268bebfaaf8ebd93a8dfa169f64e196f91a84d0",
+    "native": "compiled",
+    "artifacts": {
+      "extent-0.source": "a233d192e950e85f50bb0ec4a268bebfaaf8ebd93a8dfa169f64e196f91a84d0",
+      "extent-0.ttir": "d591ae29c7dc9bfbe12fdd3a21d65167f8fa941cc321a0cb1261febdedcbcd58",
+      "extent-0.ttgir": "ab121dc8a57d5bb8413f7296751001cd02a77fcb5ae9bd136ba9e3dbfde1a5d7",
+      "extent-0.llir": "ffbf3c116f998626a811b4715882ca7bd130e79a756ea854383bf77752ea2928",
+      "extent-0.ptx": "40d385b3945bdf2498753631527f6fd02cbb79a058a945d1cf5bb9b09e50c2f8",
+      "extent-0.cubin": "8b86512c5d1eb0262b8ed5c3f22180fbd719aa63c700c4faf56d9b8f995be4f2"
+    }
+  },
+  {
+    "case": "extent-1",
+    "dtype": "float32",
+    "N": 1,
+    "block_size": 1024,
+    "grid_x": 1,
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "extent-1.raw.ttir",
+    "raw_ttir_sha256": "7675149e3a6fd071f056f91437c460a3b61b5a47008f3e2c626a0a6e5dffa867",
+    "native": "compiled",
+    "artifacts": {
+      "extent-1.source": "7675149e3a6fd071f056f91437c460a3b61b5a47008f3e2c626a0a6e5dffa867",
+      "extent-1.ttir": "fdee61b1e7397adcb5e316e0ed2d15cb53914b118746079722b1f302dde779b5",
+      "extent-1.ttgir": "e5d7e872ec1ded34fa6bc756a672d3b69fe15682625ed7b7403a9359fbf1e5f6",
+      "extent-1.llir": "8ffc4913f74d2490567b3edfd1f006778e705846533c035f5d8865b5bbef749b",
+      "extent-1.ptx": "b2a7454230b734f7d2cb3a764f9850ac0fc17eb52bd6b46f3375bedb28c00e98",
+      "extent-1.cubin": "e0bb97ffa7e8bab46c7b48fb8c032a79071c3935d8f29b5b35fa08866f4038a1"
+    }
+  },
+  {
+    "case": "extent-2",
+    "dtype": "float32",
+    "N": 2,
+    "block_size": 1024,
+    "grid_x": 1,
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "extent-2.raw.ttir",
+    "raw_ttir_sha256": "412d8b5167875595ed54e6c287433c4f7c21c6bc66a79440f6f5bfd810826b7d",
+    "native": "compiled",
+    "artifacts": {
+      "extent-2.source": "412d8b5167875595ed54e6c287433c4f7c21c6bc66a79440f6f5bfd810826b7d",
+      "extent-2.ttir": "8a61f71671eb09a13fa15369c6cfbc0afb307d88d081557fbd5ccad997c19fc1",
+      "extent-2.ttgir": "359693748c3bdbd72f5b7c0fee2bc0f55da23a3b26f41cf844e8c00af88695ac",
+      "extent-2.llir": "594fcbc6c17482268a5c5a31016b8a707472d5d3f894711a2968c8b30cfdf085",
+      "extent-2.ptx": "0a843ddb9ce10e85bd728d05cef009bfd2a9d10f88bd2512f22f45a715a3e7b8",
+      "extent-2.cubin": "7f1b61966569a190be538fe555ca85e1a02a1098919dcc2dd0c974cd465e373c"
+    }
+  },
+  {
+    "case": "extent-2147483647",
+    "dtype": "float32",
+    "N": 2147483647,
+    "block_size": 1024,
+    "grid_x": 2097152,
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "extent-2147483647.raw.ttir",
+    "raw_ttir_sha256": "8dc291c2197ef0eeaac619df0dd4a7381d82c6158037126dd5ecf733768515f8",
+    "native": "compiled",
+    "artifacts": {
+      "extent-2147483647.source": "8dc291c2197ef0eeaac619df0dd4a7381d82c6158037126dd5ecf733768515f8",
+      "extent-2147483647.ttir": "01aae4c275aa8134ae8f03a585be843e5f7c97961dd89cfe8d1c046bf34f70a9",
+      "extent-2147483647.ttgir": "bf9a067627d1ee760b7a490aae453a1235573256a3b8d7eb30f7dd420ac8ad08",
+      "extent-2147483647.llir": "26a4b00b84a6e611002c772df012f564fbc6178fecd5813870f3bb318cdd4b5a",
+      "extent-2147483647.ptx": "8c790edab1cc19d589d894f0bc10833ed670bd25d0373acb09da4887b5d59813",
+      "extent-2147483647.cubin": "03f7467165241f57482c8f6a7f515202641b0d321987418e98e72fd0c0502279"
+    }
+  },
+  {
+    "case": "extent-2147483648",
+    "dtype": "float32",
+    "N": 2147483648,
+    "block_size": 1024,
+    "grid_x": 2097152,
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "extent-2147483648.raw.ttir",
+    "raw_ttir_sha256": "cc38656d0f96be15eb4da0e6b54b587ba859fed691443f7727c5a358743daab6",
+    "native": "compiled",
+    "artifacts": {
+      "extent-2147483648.source": "cc38656d0f96be15eb4da0e6b54b587ba859fed691443f7727c5a358743daab6",
+      "extent-2147483648.ttir": "27dc26734803eb451cfa644cf2ff369dc8be6ad3823a80a69f00089b068e7468",
+      "extent-2147483648.ttgir": "f0d908fe57caedf31f7a80c6740657741d680a0a8b08d48a9fb12b098d08e7d1",
+      "extent-2147483648.llir": "f4e8b9aa23545125a846ee5486526d436c8189517504dc49c33fd498e215b467",
+      "extent-2147483648.ptx": "e3d3f1c9f9a38c91104c0014f5dcdee5d7c1187cadf35a1efc35497d363c316c",
+      "extent-2147483648.cubin": "c1a43480e924a33ccca7434a3d7aec8f67a0df4f8689cd72746437adf92e4852"
+    }
+  },
+  {
+    "case": "extent-4294967295",
+    "dtype": "float32",
+    "N": 4294967295,
+    "block_size": 1024,
+    "grid_x": 4194304,
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "extent-4294967295.raw.ttir",
+    "raw_ttir_sha256": "375dc7a73a11c64954351983511a6859f09a4a0dcf8be11aac1039ae44faf57b",
+    "native": "compiled",
+    "artifacts": {
+      "extent-4294967295.source": "375dc7a73a11c64954351983511a6859f09a4a0dcf8be11aac1039ae44faf57b",
+      "extent-4294967295.ttir": "e7029919cd5c1d066f87a5b6e50a6f728b8e9d184028132db9e4a152f1d1e8eb",
+      "extent-4294967295.ttgir": "7bc937c507ac8537c73151b65904a46a256402829daf07e507a1288cecb87bd2",
+      "extent-4294967295.llir": "52cb07a5a6fb2d0590aa9b9da3cfc34f3c0457d0574aa368f5ea46c106ae9ef4",
+      "extent-4294967295.ptx": "8cad47bb063f199fc3701035014c232c5bcc735481e62c50b8ebd117738544eb",
+      "extent-4294967295.cubin": "f6c3dcb1e8d4bad5bbef706c9b26c877c9ff460de5d2e49172c9ac09905b2f2f"
+    }
+  },
+  {
+    "case": "extent-4294967296",
+    "dtype": "float32",
+    "N": 4294967296,
+    "block_size": 1024,
+    "grid_x": 4194304,
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "extent-4294967296.raw.ttir",
+    "raw_ttir_sha256": "1ddd8976e7da01277d8ccb79e523bb0bf28d6d261756f7ef33af11d890579c32",
+    "native": "compiled",
+    "artifacts": {
+      "extent-4294967296.source": "1ddd8976e7da01277d8ccb79e523bb0bf28d6d261756f7ef33af11d890579c32",
+      "extent-4294967296.ttir": "bc2af67d6c4504b406326cbc7502d0203df1ec1b2b8067660869f082e44b5c4c",
+      "extent-4294967296.ttgir": "dc75381279e43e3c8aa03c0f76063bb5c649a1a2f9825abca32c6c7f29567875",
+      "extent-4294967296.llir": "8d8c0008bea3df68a3ba555992570d62d8231b11a8cb517ce6754df755765103",
+      "extent-4294967296.ptx": "047f8aaaeec9f62fb775ef09cde868c9f71eeb5a3a08d2cb438d5c2eeaaa2cb8",
+      "extent-4294967296.cubin": "86ff38aeb6605273ad03fe4b5943e593a0675a9da9bb90935c9f712bf1bae12d"
+    }
+  },
+  {
+    "case": "extent-9223372036854775807",
+    "dtype": "float32",
+    "N": 9223372036854775807,
+    "block_size": 1024,
+    "grid_x": 9007199254740992,
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "extent-9223372036854775807.raw.ttir",
+    "raw_ttir_sha256": "16ce876c07c27dc31eb138ad16a7515aa7d05bb588c536bd22ef2cd9c97618db",
+    "native": "compiled",
+    "artifacts": {
+      "extent-9223372036854775807.source": "16ce876c07c27dc31eb138ad16a7515aa7d05bb588c536bd22ef2cd9c97618db",
+      "extent-9223372036854775807.ttir": "78782c77beb7d6b6d8251f5cbf1f32189b530e4e85fcd41e1b53ff4e7bfac8f9",
+      "extent-9223372036854775807.ttgir": "9c799e49ea677d6144d09463bccc84ff60178e81403302e158b4523b0cf13489",
+      "extent-9223372036854775807.llir": "8d8c0008bea3df68a3ba555992570d62d8231b11a8cb517ce6754df755765103",
+      "extent-9223372036854775807.ptx": "047f8aaaeec9f62fb775ef09cde868c9f71eeb5a3a08d2cb438d5c2eeaaa2cb8",
+      "extent-9223372036854775807.cubin": "86ff38aeb6605273ad03fe4b5943e593a0675a9da9bb90935c9f712bf1bae12d"
+    }
+  },
+  {
+    "case": "extent-9223372036854775808",
+    "dtype": "float32",
+    "N": 9223372036854775808,
+    "block_size": 1024,
+    "grid_x": 9007199254740992,
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "extent-9223372036854775808.raw.ttir",
+    "raw_ttir_sha256": "c82c50a70969f88eee90d0c70575fd808e8ff680c10507b08ebe25efc2dcc8b2",
+    "native": "compiled",
+    "artifacts": {
+      "extent-9223372036854775808.source": "c82c50a70969f88eee90d0c70575fd808e8ff680c10507b08ebe25efc2dcc8b2",
+      "extent-9223372036854775808.ttir": "09f5d2ad046cd572e2891d252c1b08e991e0bd28815abd47df6641dc7c63d1f8",
+      "extent-9223372036854775808.ttgir": "ba7de61e3b9d8877497855cc885e7daccd645793b0266b461acdb4ec075ce915",
+      "extent-9223372036854775808.llir": "f4e8b9aa23545125a846ee5486526d436c8189517504dc49c33fd498e215b467",
+      "extent-9223372036854775808.ptx": "e3d3f1c9f9a38c91104c0014f5dcdee5d7c1187cadf35a1efc35497d363c316c",
+      "extent-9223372036854775808.cubin": "c1a43480e924a33ccca7434a3d7aec8f67a0df4f8689cd72746437adf92e4852"
+    }
+  },
+  {
+    "case": "extent-18446744073709551615",
+    "dtype": "float32",
+    "N": 18446744073709551615,
+    "block_size": 1024,
+    "grid_x": 18014398509481984,
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "generated",
+    "raw_ttir": "extent-18446744073709551615.raw.ttir",
+    "raw_ttir_sha256": "9d432c19c88795afde085c1b8f61614233659a098093413c523c66d61160d041",
+    "native": "compiled",
+    "artifacts": {
+      "extent-18446744073709551615.source": "9d432c19c88795afde085c1b8f61614233659a098093413c523c66d61160d041",
+      "extent-18446744073709551615.ttir": "38f61ece4af5f89153a9b5f4fcdec0e0306fd309a57999a5c589125227eb8e7a",
+      "extent-18446744073709551615.ttgir": "c5b092a2e9eaf096776a9ef8b6650290cdd26cb70dde4a789af38130c76e84c3",
+      "extent-18446744073709551615.llir": "52cb07a5a6fb2d0590aa9b9da3cfc34f3c0457d0574aa368f5ea46c106ae9ef4",
+      "extent-18446744073709551615.ptx": "8cad47bb063f199fc3701035014c232c5bcc735481e62c50b8ebd117738544eb",
+      "extent-18446744073709551615.cubin": "f6c3dcb1e8d4bad5bbef706c9b26c877c9ff460de5d2e49172c9ac09905b2f2f"
+    }
+  },
+  {
+    "case": "extent-18446744073709551616",
+    "dtype": "float32",
+    "N": 18446744073709551616,
+    "block_size": 1024,
+    "grid_x": 18014398509481984,
+    "signature": {
+      "x_ptr": "*fp32",
+      "out_ptr": "*fp32"
+    },
+    "frontend": "rejected",
+    "error_type": "CompilationError",
+    "error": "at 5:11:\ndef relu_kernel(x_ptr: tl.tensor, out_ptr: tl.tensor, N: tl.constexpr, block_size: tl.constexpr):\n    pid = tl.program_id(0)\n    block_start = pid * block_size\n    offsets = block_start + tl.arange(0, block_size)\n    mask = offsets < N\n           ^\nValueError('Nonrepresentable integer 18446744073709551616.')"
+  }
+]

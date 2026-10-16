@@ -1,0 +1,103 @@
+"""Retain reviewed scope evidence without changing acceptance or runtime tools."""
+from pathlib import Path
+import csv
+import hashlib
+import json
+import shutil
+import subprocess
+import zipfile
+
+ROOT = Path('/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile')
+TMP = Path('/tmp/veritile-standardization-20261015')
+SOURCE = TMP / 'three-version-acceptance-inventory'
+MAPPING = TMP / 'eight-task-three-mainline-progress-map-wip'
+BASE = ROOT / 'bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance'
+DEST = BASE / 'evidence/three-version-inventory'
+
+def digest(data):
+    return hashlib.sha256(data).hexdigest()
+
+def checked(path, expected):
+    raw = path.read_bytes()
+    assert digest(raw) == expected, path
+    return raw
+
+receipt_bytes = checked(SOURCE / 'receipt.json', 'db9f67c5820f7492c89836a417d76fce5867d6bddaa62ec994b7464ee8bb7441')
+receipt = json.loads(receipt_bytes)
+members = {name: checked(SOURCE / name, spec['sha256']) for name, spec in receipt['files'].items()}
+assert all(len(members[name]) == spec['bytes'] for name, spec in receipt['files'].items())
+members['receipt.json'] = receipt_bytes
+inventory = json.loads(members['inventory.json'])
+summary = json.loads(members['summary.json'])
+pins = json.loads(members['input-sha256.json'])
+commit = receipt['baseline_commit']
+for path, spec in pins['committed_documents'].items():
+    raw = subprocess.check_output(['git', 'show', commit + ':' + path], cwd=ROOT)
+    assert digest(raw) == spec['sha256'] and len(raw) == spec['bytes'], path
+for path, sha in pins['checked_current_task_sources'].items():
+    checked(ROOT / path, sha)
+assert inventory['summary'] == summary
+assert len({row['task'] for row in inventory['tasks']}) == 183
+assert summary['new_policy_acceptance_assignments'] == 0
+assert summary['old_scope_counts'] == {'pending': 179, 'verified': 1, 'verified_with_deferred_numerics': 3}
+assert len(list(csv.DictReader(members['inventory.csv'].decode().splitlines()))) == 183
+map_receipt_raw = checked(MAPPING / 'receipt.json', 'ac9bc69d755c746bf314569a10f957056babc1a9873d3ab09d06fff8fb6dee20')
+map_receipt = json.loads(map_receipt_raw)
+map_bytes = checked(MAPPING / 'MAPPING.md', map_receipt['artifacts']['MAPPING.md'])
+for item in map_receipt['inputs']['tasks'].values():
+    for key in ['original_source', 'frozen_root_review']:
+        pin = item[key]
+        checked(Path(pin['path']), pin['sha256'])
+checked(Path(map_receipt['inputs']['scope_ledger']['path']), map_receipt['inputs']['scope_ledger']['sha256'])
+assert map_receipt['new_acceptance_count'] == 0
+assert not DEST.exists()
+DEST.mkdir(parents=True)
+with zipfile.ZipFile(DEST / 'frozen-inventory.zip', 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
+    for name, raw in sorted(members.items()):
+        info = zipfile.ZipInfo(name, date_time=(2026, 10, 16, 0, 0, 0))
+        info.compress_type = zipfile.ZIP_DEFLATED
+        archive.writestr(info, raw)
+with zipfile.ZipFile(DEST / 'frozen-inventory.zip') as archive:
+    assert set(archive.namelist()) == set(members)
+    for name, raw in members.items():
+        assert archive.read(name) == raw
+for name in ['inventory.csv', 'summary.json', 'receipt.json']:
+    (DEST / name).write_bytes(members[name])
+(DEST / 'eight-task-mapping.md').write_bytes(map_bytes)
+(DEST / 'eight-task-mapping-receipt.json').write_bytes(map_receipt_raw)
+(DEST / 'README.md').write_text('''# 三版本范围与已有证据盘点
+
+用户已确认 Real / FP32 / BF16 三条主线，保留原程序必需的其他类型。
+政策见 [primary-version-policy.md](../../primary-version-policy.md)。共享证明复用，
+不默认扩展全部可传入 dtype 的组合；缺少验证的数值假设继续精确登记。
+
+[183题清单](inventory.csv) 和 [统计](summary.json) 固定在已提交的 `97e11a9a`，
+该快照按旧口径验收 4/183 题。另四题在途集成单列，不加入该快照统计。
+[8题证据映射](eight-task-mapping.md) 说明已有证明能复用到哪些版本及其边界。
+表内固定 FP16 的例外描述不是 FP32/BF16 完成判定；适用性例外须单独登记。
+
+177题有数学契约声明，并非177题完整验收。FP32/BF16各4题有结构化案例，
+但BF16的两道量化题仅有拒绝/错误路径，不能计为可用实现。源码拒绝、已修复
+变体、正常执行证明和数值验证分别记录。549个版本映射待审不是既有成果清零。
+
+本次未新增程序验收，也未实现新的逐版本验收器。旧校验器与数值绑定保持原义。
+完整生成脚本、提案、清单、原始收据和检查日志逐字节保存于
+[frozen-inventory.zip](frozen-inventory.zip)；旁列文件只是原始证据的便捷副本。
+独立一致性检查及重生成通过；这不是 Lean/GPU/official-comparator 验收结果。
+''')
+record = {
+    'schema': 1, 'kind': 'root_retention_review_of_three_version_inventory',
+    'reviewer': 'root', 'baseline_commit': commit,
+    'producer_receipt_sha256': digest(receipt_bytes),
+    'map_receipt_sha256': digest(map_receipt_raw),
+    'source_files_rechecked': len(pins['checked_current_task_sources']),
+    'committed_documents_rechecked': len(pins['committed_documents']),
+    'archive_members_verified': {name: digest(raw) for name, raw in members.items()},
+    'new_acceptance_transitions': 0,
+    'limitations': 'Evidence mapping and work-scope decision only; no new per-version acceptance gate or native numerical validation.',
+    'retained_files': {p.name: digest(p.read_bytes()) for p in sorted(DEST.iterdir())},
+}
+(DEST / 'root-retention-review.json').write_text(json.dumps(record, indent=2, ensure_ascii=False) + '\n')
+with (BASE / 'README.md').open('a') as stream:
+    stream.write('\nThe [183-task evidence inventory and eight-task mapping](evidence/three-version-inventory/README.md) preserve the committed baseline and distinguish original rejection from a functional FP32/BF16 profile. They perform no new acceptance transitions.\n')
+print(json.dumps({'status': 'retained_and_hash_checked', 'destination': str(DEST), 'new_acceptance_transitions': 0, 'archive_bytes': (DEST / 'frozen-inventory.zip').stat().st_size}, indent=2))

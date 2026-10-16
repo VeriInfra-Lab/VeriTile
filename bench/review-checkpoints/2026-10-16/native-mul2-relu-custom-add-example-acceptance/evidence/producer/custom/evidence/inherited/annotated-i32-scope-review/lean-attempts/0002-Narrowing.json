@@ -1,0 +1,17 @@
+{
+  "source": "/tmp/veritile-standardization-20261015/annotated-i32-scope-review/Narrowing.lean",
+  "source_sha256": "d0f5e257c89b754f27422efa4721fec4f97551535ee45e7a621df1ddd343b293",
+  "source_unchanged": true,
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--root=/tmp/veritile-standardization-20261015/annotated-i32-scope-review",
+    "/tmp/veritile-standardization-20261015/annotated-i32-scope-review/Narrowing.lean",
+    "-o",
+    "/tmp/veritile-standardization-20261015/annotated-i32-scope-review/Narrowing.olean"
+  ],
+  "LEAN_PATH": "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+  "exit_code": 0,
+  "seconds": 4.343,
+  "log": "lean-attempts/0002-Narrowing.log",
+  "log_sha256": "ed2a6d8c1a816384e80cc3d35e2b2476dee27e63d0ebd24e79faa268f4e6f966"
+}

@@ -1,0 +1,1 @@
+Observed tool output: map_revision.py line32 called digest(o); line11 canonical(x).encode() raised AttributeError: 'bytes' object has no attribute 'encode'. Did you mean: 'decode'?

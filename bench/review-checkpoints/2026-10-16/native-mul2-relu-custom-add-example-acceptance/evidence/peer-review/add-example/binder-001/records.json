@@ -1,0 +1,9459 @@
+[
+  {
+    "x": "bool",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bool",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "bool",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "bool",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "bool",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "bool",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "int8",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int8",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "int8",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "int8",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "int8",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "int8",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "uint8",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint8",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "uint8",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "uint8",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "uint8",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "uint8",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "int16",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int16",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "int16",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "int16",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "int16",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "int16",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "uint16",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint16",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "uint16",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "uint16",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "uint16",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "uint16",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "int32",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int32",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "int32",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "int32",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "int32",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "int32",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "uint32",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint32",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "uint32",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "uint32",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "uint32",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "uint32",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "int64",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "int64",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "int64",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "int64",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "int64",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "int64",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "uint64",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "uint64",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "uint64",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "uint64",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "uint64",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "uint64",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float16",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float16",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "float16",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "float16",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "float16",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float16",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "bfloat16",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "bfloat16",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "bfloat16",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "bfloat16",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "bfloat16",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "bfloat16",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float32",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float32",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "float32",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "float32",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "float32",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float32",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float64",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float64",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "float64",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "float64",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "float64",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float64",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e4m3fn",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e5m2",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e4m3fnuz",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "bool",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*u1",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "int8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*i8",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "uint8",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*u8",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "int16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*i16",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "uint16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*u16",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "int32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*i32",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "uint32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*u32",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "int64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*i64",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "uint64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*u64",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "float16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp16",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "bfloat16",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*bf16",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "float32",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp32",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "float64",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp64",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "float8_e4m3fn",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp8e4nv",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "float8_e5m2",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp8e5",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "float8_e4m3fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp8e4b8",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "float8_e5m2fnuz",
+    "status": "bound",
+    "signature": [
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "*fp8e5b16",
+        "D"
+      ],
+      [
+        "i32",
+        1
+      ],
+      [
+        "constexpr",
+        4
+      ]
+    ],
+    "options": {}
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e5m2fnuz",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "complex32",
+    "y": "bool",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "int8",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "uint8",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "int16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "uint16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "int32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "uint32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "int64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "uint64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "float16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "bfloat16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "float32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "float64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "float8_e4m3fn",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "float8_e5m2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "float8_e4m3fnuz",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "float8_e5m2fnuz",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex32",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex32'"
+  },
+  {
+    "x": "complex64",
+    "y": "bool",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "int8",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "uint8",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "int16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "uint16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "int32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "uint32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "int64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "uint64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "float16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "bfloat16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "float32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "float64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "float8_e4m3fn",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "float8_e5m2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "float8_e4m3fnuz",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "float8_e5m2fnuz",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex64",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex64'"
+  },
+  {
+    "x": "complex128",
+    "y": "bool",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "int8",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "uint8",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "int16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "uint16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "int32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "uint32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "int64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "uint64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "float16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "bfloat16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "float32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "float64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "float8_e4m3fn",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "float8_e5m2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "float8_e4m3fnuz",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "float8_e5m2fnuz",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "complex128",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'complex128'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "bool",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "int8",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "uint8",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "int16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "uint16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "int32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "uint32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "int64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "uint64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "float16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "bfloat16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "float32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "float64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "float8_e4m3fn",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "float8_e5m2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "float8_e4m3fnuz",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "float8_e5m2fnuz",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float8_e8m0fnu",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float8_e8m0fnu'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "bool",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "int8",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "uint8",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "int16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "uint16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "int32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "uint32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "int64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "uint64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "float16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "bfloat16",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "float32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "float64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "float8_e4m3fn",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "float8_e5m2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "float8_e4m3fnuz",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "float8_e5m2fnuz",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "complex32",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "complex64",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "complex128",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "float8_e8m0fnu",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  },
+  {
+    "x": "float4_e2m1fn_x2",
+    "y": "float4_e2m1fn_x2",
+    "status": "binder_rejected",
+    "error_type": "KeyError",
+    "error": "'float4_e2m1fn_x2'"
+  }
+]

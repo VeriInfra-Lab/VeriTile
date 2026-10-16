@@ -1,0 +1,103 @@
+import bench.tritonbench_g.add_example.FiniteCorrect
+
+namespace AddExampleIndependentReview
+open VeriTile.Bench.TritonBenchG.AddExample.Finite
+open VeriTile.Bench.TritonBenchG.VectorAddition
+open VeriTile.Bench.TritonBenchG.VectorAddition.Finite
+open VeriTile.Triton DTypeScope TypedHost
+noncomputable section
+open Classical
+set_option maxHeartbeats 6000000
+set_option maxRecDepth 24000
+
+theorem exact_grid_limit (n : Nat) : gridSupported n ↔ n≤(2^31-1)*4 := by
+  unfold gridSupported gridCount
+  omega
+
+theorem both_reachable_masked_residues :
+    gridSupported (2^31) ∧ gridSupported (2^31+2^32) ∧
+    extent32 (2^31+2^32)=extent32 (2^31) ∧
+    ¬gridSupported ((2^31-1)*4+1) := by decide +kernel
+
+theorem negative_and_repeated_requests :
+    (offset32 (2^29) 0).toInt=-(2^31 : Int) ∧
+    mask32 (2^31+1) (2^29) 0=Bool.true ∧
+    pointer64 (2^33+32) .fp32 (2^29) 0=32 ∧
+    offset32 (2^30) 0=0 ∧ mask32 (2^32+1) (2^30) 0=Bool.true := by decide +kernel
+
+def emptyTensor : Tensor := ⟨"empty",.canonical .fp32,"cpu",[0],[1],3,0,108,8⟩
+def nullView : PhysicalView := ⟨0,108,8,(fun _ => 0),8,.fp32⟩
+def nullMetadata : Metadata :=
+  ⟨fun _ => nullView,fun _ => 0,7,fun _ => 0,
+    fun n => (List.range (gridCount n)).reverse,fun n => List.reverse_perm _⟩
+
+/-- Null empty views may retain a real backing span and nonzero storage offset
+without inventing a successful CUDA mapping for those unused backing bytes. -/
+theorem null_binding_needs_no_translation :
+    TensorBinding nullMetadata emptyTensor .fp32 ∧
+    ¬(∀ k,k<emptyTensor.storageBytes →
+      nullMetadata.toBacking (nullView.deviceBase+k)=emptyTensor.storageBase+k) := by
+  constructor
+  · constructor
+    all_goals simp [nullMetadata,nullView,emptyTensor,Tensor.numel]
+  · intro h
+    have := h 0 (by decide)
+    norm_num [nullMetadata,nullView,emptyTensor] at this
+
+def mappedTensor : Tensor := ⟨"mapped",.canonical .fp32,"cuda:1",[1],[1],0,4000,108,8⟩
+def mappedView : PhysicalView := ⟨8,108,8,(fun a => a+100),8,.fp32⟩
+def mappedMetadata : Metadata :=
+  ⟨fun _ => mappedView,fun _ => 8,7,fun a => a+100,
+    fun n => (List.range (gridCount n)).reverse,fun n => List.reverse_perm _⟩
+
+theorem actual_pointer_is_distinct_from_raw :
+    TensorBinding mappedMetadata mappedTensor .fp32 ∧
+    mappedMetadata.extractedPointer mappedTensor≠mappedTensor.dataPtr ∧
+    mappedView.lane 0 0=108 := by
+  constructor
+  · constructor
+    all_goals simp [mappedMetadata,mappedView,mappedTensor,Tensor.numel,bytes]
+    all_goals omega
+  · constructor <;> decide +kernel
+
+/-- A preceding or pointer-stage failure cannot demand an unconsumed binding. -/
+theorem failed_pointer_binding_obligation {M : Type}
+    (ops : (r : Route) → MemoryPrimitives M (Carrier r))
+    (env : NativeEnvironment) (metadata : Metadata) (x y output : Tensor)
+    (detail : String) (failed : env .pointerExtraction=some detail) :
+    ∀ r,admission x.dtype y.dtype=.ok r → (∀ stage,env stage=none) → gridSupported x.numel →
+      TensorBinding metadata x r.signature.1 ∧ TensorBinding metadata y r.signature.2 ∧
+      TensorBinding metadata output r.signature.1 ∧ (ops r).launchDevice=metadata.currentDevice := by
+  intro r _ success _
+  have contradiction := success .pointerExtraction
+  rw [failed] at contradiction
+  cases contradiction
+
+theorem every_program_occurs_at_most_once (metadata : Metadata) (n : Nat) :
+    (metadata.schedule n).Nodup := by
+  exact (metadata.complete n).nodup_iff.mpr (List.nodup_range _)
+
+theorem second_masked_residue_any_schedule {M : Type} (b : Numerics) (r : Route)
+    (ops : MemoryPrimitives M (Carrier r)) (views : RegionName → PhysicalView)
+    (undef : Carrier r) (memory : M) (jobs : List Nat) :
+    scheduledLaunch b r ops views undef "x" "y" "out" (2^31+2^32) memory jobs=.ok memory := by
+  apply all_masked_schedule
+  decide +kernel
+
+theorem reverse_last_write_bytes {M A : Type} (ops : MemoryPrimitives M A)
+    (memory : M) (v w : A) :
+    byteFormula ops .fp32 [⟨100,v⟩,⟨102,w⟩] memory 103=ops.encode .fp32 w 1 ∧
+    byteFormula ops .fp32 [⟨100,v⟩,⟨102,w⟩] memory 99=ops.observeByte memory 99 := by
+  simp [byteFormula,bytes]
+
+#axiomsClean exact_grid_limit
+#axiomsClean both_reachable_masked_residues
+#axiomsClean negative_and_repeated_requests
+#axiomsClean null_binding_needs_no_translation
+#axiomsClean actual_pointer_is_distinct_from_raw
+#axiomsClean failed_pointer_binding_obligation
+#axiomsClean every_program_occurs_at_most_once
+#axiomsClean second_masked_residue_any_schedule
+#axiomsClean reverse_last_write_bytes
+end
+end AddExampleIndependentReview

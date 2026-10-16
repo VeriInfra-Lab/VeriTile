@@ -1,0 +1,11 @@
+{
+  "all_unchanged": true,
+  "captures": {
+    "evidence/dependencies-before.json": {
+      "sha256": "a1614294062db6e353d290ac90351f8967ebd3159fea8d7301207b833e33fb69",
+      "verified_unchanged": true
+    }
+  },
+  "project_sources_and_objects": 182,
+  "external_objects": 36
+}

@@ -1,0 +1,6 @@
+{
+  "original": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/add_example/add_example.py",
+  "original_sha256": "4f2314d163aed2aab3a0dce796534c0c24145d506750da93349044640e62f913",
+  "prefix_sha256": "50ecdbf09549fb00540139c72b11596cd0473c4700694e673d525b6cc2d23d6d",
+  "kernel_wrapper_AST_identity": true
+}

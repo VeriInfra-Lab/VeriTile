@@ -1,0 +1,222 @@
+{
+  "status": "schemas_and_ports_passed_with_structural_case_omission",
+  "cases_checked": 4648,
+  "numeric_cases": 64,
+  "exact_ports": 64,
+  "omitted_port_mutations_rejected": 64,
+  "public_statement_sha256": "8c15d2e403390945ee501a91eff66871e25791787b610ae5ee60454c86154d8e",
+  "zero_numeric_empty_cases": 824,
+  "zero_numeric_i32_minimum_cases": 928,
+  "missing_structural_cases": [
+    {
+      "dtype": "bool",
+      "mode": "outplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "int8",
+      "mode": "outplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "uint8",
+      "mode": "outplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "int16",
+      "mode": "outplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "uint16",
+      "mode": "outplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "int32",
+      "mode": "outplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "uint32",
+      "mode": "outplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "int64",
+      "mode": "outplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "uint64",
+      "mode": "outplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "fp16",
+      "mode": "outplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "bf16",
+      "mode": "outplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "fp32",
+      "mode": "outplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "fp64",
+      "mode": "outplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "bool",
+      "mode": "inplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "int8",
+      "mode": "inplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "uint8",
+      "mode": "inplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "int16",
+      "mode": "inplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "uint16",
+      "mode": "inplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "int32",
+      "mode": "inplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "uint32",
+      "mode": "inplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "int64",
+      "mode": "inplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "uint64",
+      "mode": "inplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "fp16",
+      "mode": "inplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "bf16",
+      "mode": "inplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "fp32",
+      "mode": "inplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    },
+    {
+      "dtype": "fp64",
+      "mode": "inplace",
+      "n": 2147483648,
+      "block": 1,
+      "host_grid": 2147483648,
+      "outcome": "grid_parse_rejected"
+    }
+  ],
+  "missing_structural_case_count": 26,
+  "gpu_executions": 0
+}

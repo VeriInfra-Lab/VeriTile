@@ -1,0 +1,11 @@
+{
+  "script": "check_adapter.py",
+  "exit_code": 1,
+  "artifacts": {
+    "check_adapter.py.txt": "e29e71c3945955f4aba6bac1d6ffe3a1623ee24c9906cd824236c8fdb44b20a6",
+    "console.log": "95a28ed5674d405a50579863873e0758845a3525e795e83e8b742402b08b87c9",
+    "propose.py.txt": "2086e5cb544e2db9dfaef10c4507cbd7a2a7f32813785ed90a1414c2ff826b61",
+    "freeze.py.txt": "3f8b2b7a8d33f148f7e280eaefc59f5d3b5c88fa33e8a15cadf8467c3494e36c",
+    "authority_adapter.py.txt": "e63079d2fe513cea98009c2ee0962159aea2f593c14974ab252f226d52aeb24b"
+  }
+}

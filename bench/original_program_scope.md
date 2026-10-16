@@ -1,19 +1,16 @@
 # Original-program scope review
 
 The requested standard covers **all declared stages, dtypes and branches of
-183 original programs**. The excluded task is `fp4_to_bf16_conversion`, whose
-existing contract is for a repaired candidate. This exclusion does not cover
-the separate original-source task `fp4_to_bf16`.
+183 original programs**. `fp4_to_bf16_conversion` is excluded because its existing
+contract covers a repaired candidate; the separate `fp4_to_bf16` original task
+remains in the requested set.
 
-[`original_program_scope.json`](original_program_scope.json) has **4 source scopes accepted and 179 pending**, bound to the current extension
-catalog. `matrix_transpose` is verified under explicit primitive contracts without
-numerical deferrals; `quantize_global`, `vector_addition` and `quant_transpose_kernel` are verified with exactly registered
-numerical deferrals. Official comparator and whole-corpus
-CI results remain separate. It preserves initial gaps
-as provenance and records reviewed partial extensions with their remaining
-structural work. Its observed input hashes and partial-progress records do not
-constitute whole-program reviews. Existing mathematics, equivalence and value
-proofs remain available as evidence for each substantive review.
+The active [`original_program_scope.json.gz`](original_program_scope.json.gz)
+records **8 source scopes accepted and 175 pending**. `matrix_transpose` is
+verified under explicit primitive contracts. `quantize_global`, `vector_addition`,
+`quant_transpose_kernel`, `triton_mul2`, `relu_triton_kernel`,
+`vector_addition_custom` and `add_example` are verified with exactly registered
+numerical deferrals. Unintegrated producer candidates do not change these counts.
 
 The [finite acceptance boundary](original_program_acceptance.md) separates
 source-specific obligations from trusted Python/Torch/Triton primitive semantics.
@@ -66,124 +63,46 @@ callback links reference both the rule ID and the scope-binding ID. A matching
 rule name or arbitrary free-text configuration is insufficient: a fp32 rule
 cannot certify fp64, and an exp2 callback cannot borrow a rounding-only binding.
 
-The initial exact numerical adapter added 18 unvalidated scalar families to the
-11 legacy rules. Its 86 dtype/port bindings cover 58 cases in three earlier declarations:
-the two fp64 vector-addition grid contracts and the ReLU access-grid contract.
-That earlier ReLU declaration is registered only for N=1025, block_size=1024,
-sm90. The independently reviewed finite ReLU extension adds 12 families and 84
-exact scalar ports for its full source-outcome contract (340 cases). The reviewed
-finite vector extension adds 43 families and 616 ports across 2,601 cases. The
-reviewed quantize_global extension adds 16 families and 420 ports in 2,400 cases.
-The current queue has 153 rules, with 1,642 exact bindings across 11,041 cases in
-eight declarations. Empty and rejected cases require no unused numerical callbacks. These registrations do not apply to unrelated declarations.
-The checker derives case-specific callback requirements from pinned sources and
-requires every applicable scalar-port reference. These registrations discharge
-no structural obligations by themselves; acceptance requires the separate
-complete source-scope review.
+The current plain JSON numerical queue has **239 rules, 2,366 exact bindings,
+22,317 cases and 12 declarations**. Empty, all-masked and rejected cases require
+no unused numerical callbacks. Prior 153 rules, 1,642 exact bindings and eight
+callback tables remain unchanged. New numerical relations remain unvalidated.
 
-After preparing a new reviewed catalog and rebinding the ledger, run:
+The current catalog contains 184 tasks, 961 public declarations, 3,666 task
+modules and 4,097 registered modules. Its supplement contains 68 declarations:
+62 execution and six protocol contracts. These inventory counts are separate
+from the 8/183 source acceptance count.
+
+The workflow now uses the [2026-10-16/native-mul2-relu-custom-add-example-acceptance](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/README.md) catalog and supplement:
+
+- [Current catalog](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/current-source-catalog.json.gz)
+- [Current supplement](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/catalog-supplement.json.gz)
+- [Combined source review](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/root-review.json.gz)
+- [Integration checks and retained attempts](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/README.md)
+
+The original metadata baseline and preceding final-source manifest stay frozen.
+The global audit checks exact catalog reproduction, whole-task structural
+coverage, source-scope reviews, legacy selected sources, value metadata, numerical
+bindings, comparator preflight and library replay. Its scope-completeness gate
+continues to fail for the 175 pending tasks. Build, test and comparator results
+are recorded from actual runs in the current checkpoint; this progress document
+makes no independent build, comparator, GPU or numerical-conformance claim.
 
 ```sh
 python3 -B bench/check_original_program_scope.py \
-  --root . --catalog /path/to/current-source-catalog.json \
-  --ledger bench/original_program_scope.json --output /tmp/original-scope-result.json
+  --root . \
+  --catalog bench/review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/current-source-catalog.json.gz \
+  --ledger bench/original_program_scope.json.gz \
+  --output /tmp/original-scope-result.json
 ```
 
-The initial ledger intentionally fails this command. Update a task only after
-resolving its substantive gaps and reviewing the exact resulting statements;
-changing statuses or copying current hashes is insufficient.
+## Historical progress snapshots
 
-`current_source_audit.py` is the current-layout global runner. It requires exact
-catalog regeneration, whole-task-file structural checks, this scope gate,
-unchanged historical selected-source comparisons, value/deferred metadata,
-official comparator preflight and library replay. The workflow uses this runner
-and `audit_trust.sh --catalog …`, which schedules every catalog file including
-helpers and extra public contracts. The previous command without `--catalog`
-remains available for historical layouts.
-
-The value-metadata adapter runs the complete frozen checker in its pinned
-archive tree, then regenerates the current catalog and checks every supplemental
-public statement. Supplemental execution declarations require explicit named
-stages, dtype profiles and a root review hash of `value_scope(task)`; identities,
-frames and strict specializations cannot count as complete execution stages.
-Frozen descriptive mistakes use `metadata_corrections` with an exact field path,
-before value, after value and reason, bound by the root review. The catalog keeps
-the frozen `value_registry_row` and exposes the reviewed correction separately.
-The initially identified Conv2d annotation describes fp16 storage incorrectly:
-the existing `fp16=true` contract uses fp32 storage and internal half casts.
-Its correction does not establish the separate `fp16=false` branch or host program.
-
-The workflow's catalog and supplement now point to the
-`native-vector-quant-transpose-acceptance` batch, with the unchanged
-`original-scope-extensions/metadata-baseline` and preceding final-source manifest
-retained as its historical base. Neither global success nor scope
-success establishes corpus comparator replay, the integration build or native
-GPU correctness; those remain independent checks.
-
-The full-scope review covers all 183 original programs, with no unreviewed
-programs. Matrix transpose has passed its schema2 source-scope check. Quantize_global, vector addition and quant_transpose_kernel have passed with exactly registered numerical
-deferrals; 179 scopes remain pending. ReLU's earlier acceptance was also withdrawn because larger constexpr lengths were excluded. Vector addition's earlier acceptance was withdrawn after an actual runtime-i32 source route was found outside its finite theorem; its reviewed native revision2 now covers that route. This is not a claim that whole-corpus CI or official comparator
-replay has passed. The cumulative supplemental proof inventory contains 58
-execution contracts and
-six protocol contracts across 16 tasks; those counts are not completed programs.
-
-RotaryEmb's partial extension composes its original real-erased source through
-the complete Q-derived grid with initial-memory formulas and tail frames. Its
-rounded execution and dtype/admission/address-domain gaps remain, so it is not
-counted as accepted. Within its explicitly bounded theorem domain, vector addition connects 189 typed source routes
-and 100 frontend rejections to finite views, pointers, physical execution, frames
-and source-order host outcomes. Its 2,601 cases and 616 numerical ports are
-registered; its explicit defined-conversion domain and physical flat behavior
-remain distinct from arbitrary logical Torch elementwise addition.
-
-Within its bounded theorem domain, ReLU has finite source coverage for 17 canonical CUDA profiles,
-340 outcome cases and the safe index domain through N=2^31. Its 12 numerical
-families / 84 exact ports remain unvalidated. Source pointer/view permissions,
-fresh allocation metadata and pid0-only stores are explicit. For N>1024 this
-accepts the original physical prefix behavior, with arbitrary untouched output
-tail; it does not assert whole-tensor mathematical ReLU or native GPU correctness.
-
-Softmax now composes its original forward/backward real-erased execution across
-all four grids, host metadata and arbitrary finite autotune trials, preserving
-first compiler rejection and saved-output/gradient aliasing. Its two new public
-contracts remain partial progress: typed rounded arithmetic and finite scalar/
-pointer/view domains still prevent whole-source acceptance. No additional
-numerical registrations or completed programs are counted.
-
-Quantize_global now covers all 22 canonical dense dtype families, both source
-configs, host allocation and logical abs/max, typed linear kernel execution,
-all autotune trials, finite byte-memory effects and frames. Its 2,400 source
-cases include exact first rejections, source hazards and returned-or-undefined
-conversion outcomes without a Safe premise. The 16 numerical families / 420
-ports remain unvalidated; no native/GPU or comparator success is claimed.
-
-The [annotated i32 scope reopening](review-checkpoints/2026-10-16/integer-domain-scope-reopening/README.md) preserves the earlier vector review and numerical registrations. Python length `2^31` is accepted by the real binder and narrows to `-2^31`; every signed mask is false, so ordinary successful setup returns unchanged allocation bytes. The prior `<2^31` premise omits this source path. That review reopened vector addition and ReLU. Vector addition is now accepted through its reviewed native revision2; ReLU and the custom-vector/add-value candidates remain pending until their revised contracts are integrated. This is a structural omission, not a numerical deferral.
-
-The same checkpoint records ReLU's independently compiled `N=2^31+1` route: its grid is valid, i32 offsets wrap before the pid-zero store gate, and its constexpr-promoted mask can remain active. The previous `N≤2^31` theorem remains available, but its applicability bound cannot establish complete original-source acceptance.
-
-Quant_transpose_kernel revision2 covers all 22 canonical dense dtype families,
-both autotune configurations, logical-view abs/max and reciprocal, actual
-constexpr/i32/i64 expression wraps, signed masks and uint64 addresses. It
-composes all programs and finite trials with independent last-write byte results,
-frames and preserved returned maximum/inverse bytes. Its 1,144 cases bind 140
-ports in 16 numerical families. Source-first launch admission checks context,
-signed grid parsing, entry hook, pointer extraction, launch and exit hook in
-order, including CPU oversized-grid rejection before CPU pointer failure.
-The mathematical transpose formula remains conditional on arithmetic refinement.
-
-Vector addition native revision2 covers the full nonnegative signed64 host
-extent domain, actual annotated i32 narrowing/wrapping, signed masks and uint64
-addresses. It has no smaller-extent, same-device, equal-shape or defined-conversion
-premise. The exact N=2^31 route returns the unchanged allocated output without
-input-access or numerical assumptions. Actual extracted ABI pointers, launch
-permissions, complete x-before-y loads, stores, independent final bytes and
-allocator metadata are explicit. Its 4,498 cases bind 296 ports in 37 families.
-
-The uncommitted quant-transpose revision1 recommendation was withdrawn because
-CPU pointer rejection preceded the actual oversized-grid parser error. Its
-proof/build/test evidence and the
-[withdrawal record](review-checkpoints/2026-10-16/quant-transpose-finite-source-acceptance/withdrawal.json)
-remain unchanged. Reviewed revision2 repairs this ordering; the older
-dimension-free admission is historical small-profile evidence only.
-Neither new source acceptance establishes native numerical conformance, GPU
-correctness or official comparator success.
+The [previous scope progress document](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/evidence/baseline-progress.md)
+and [previous development summary](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/evidence/baseline-current-source-acceptance.md)
+retain their exact original bytes. Their older counts, pending conclusions and
+catalog paths describe those historical snapshots. Earlier bounded vector/ReLU
+contracts, scope reopenings, withdrawn quant-transpose recommendations, partial
+extensions and numerical registrations remain in their frozen checkpoints.
+The new reviewed contracts supersede the older pending conclusions for the
+four tasks accepted in this batch; historical evidence itself is unchanged.

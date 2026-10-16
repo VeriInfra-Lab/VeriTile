@@ -1,0 +1,7 @@
+{
+  "receipt": "/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/evidence/native-attempts/20261015T221045164642Z/receipt.json",
+  "sha256": "2f45563dee15635dac782d74f95d53a0b5383da8ccaea7bd581beffc9d9db143",
+  "cases": 33,
+  "frontend_generated": 23,
+  "native_compiled": 23
+}

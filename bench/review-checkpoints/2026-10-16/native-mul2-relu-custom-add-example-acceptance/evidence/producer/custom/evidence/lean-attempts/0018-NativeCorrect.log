@@ -1,0 +1,36 @@
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.HostSpec: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.executeHost,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.executeAllocated,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.executeSized,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.executeLaunch,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.executeGrid,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.executeProgram,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.sourceWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.ReturnedSpec: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.executeHost,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.executeAllocated,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.executeSized,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.executeLaunch,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.executeGrid,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.executeProgram,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.sourceWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.sized_return_of_launch: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.sized_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.allocated_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.uses_extracted_pointer: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.vector_addition_custom_native_source_outcomes: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.vector_addition_custom_two31_return: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.rank_zero_after_allocation: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.grid_parse_precedes_pointer_packing: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

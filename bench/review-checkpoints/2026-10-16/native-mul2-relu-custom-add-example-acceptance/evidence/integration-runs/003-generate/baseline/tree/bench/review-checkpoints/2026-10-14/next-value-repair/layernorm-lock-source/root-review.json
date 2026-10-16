@@ -1,0 +1,30 @@
+{
+  "reviewer": "root",
+  "status": "complete_three_kernel_typed_source_to_SC_value_and_mutex_review_pass_pending_integration",
+  "receipt_sha256": "f15807d146f0e03bf3f813181d034960905f0606a5415c24d4573fd48f484667",
+  "artifact_hashes_verified": 262,
+  "compiled_modules_verified": 16,
+  "loaded_object_hashes_verified": 5382,
+  "public_statements_verified": 11,
+  "independent_original_AST_tests": 8,
+  "independent_frontend_regression_tests": 10,
+  "typed_source_regenerated_byte_identically": true,
+  "reference_audit": {
+    "source": "LayerNormSourceReferenceAudit.lean",
+    "source_sha256": "8017caae60942f3abe2c00e67c9462789a46f83459a15d7b2b0c334f8e2e43ee",
+    "log": "root-reference-audit.log",
+    "log_sha256": "a607722e083197e4b02ba929ca1060ae27c75e9f48e61dc4b03e7946518ed397",
+    "noncircular_checks": 10
+  },
+  "findings": [
+    "All79 statements across3 original JIT bodies have an exact task-local typed frontend bridge. Complete forward3 streaming loops, backward DX/CAS/Count/narrow DWDB/release, and final2D streaming reduction are retained.",
+    "The source value contracts use independent initial-memory row formulas, control-only traces and memory observation replay. Zero-initialized locks prove the complete SC critical interval mutually exclusive for every finite schedule, without readiness/fairness/numeric premises.",
+    "Forward/final signed-i32 range fuel returns None when incomplete; Some is a complete source range and every finite terminating range has sufficient fuel. Arbitrary finite backward prefixes retain blocked polls and all memory effects; no universal progress is asserted.",
+    "Backward and final software-bit profiles close all used arithmetic and fp16/bf16/fp32 storage. Forward sqrt remains an explicit primitive callback. Logical regions are separate and row input memory is immutable; physical separation and compiled row-hoisting correspondence remain obligations.",
+    "The original6 default and6 fusion-disabled SM90 compiles preserve JIT ASTs. Default FMA is not equivalent to split mul/add on all finite operands; div.full.f32, sqrt.approx.ftz, actual reduction order, NaN/FTZ and GPU atomics still require binding.",
+    "Five preceding stage1 model contracts and8 modules are byte preserved. Their4 value contracts and1 frame are distinct from5 new source value contracts and1 source protocol contract; witnesses and mutex are not additional numeric value proofs."
+  ],
+  "native_execution": false,
+  "shared_DSL_admission": false,
+  "canonical_acceptance_updated": false
+}

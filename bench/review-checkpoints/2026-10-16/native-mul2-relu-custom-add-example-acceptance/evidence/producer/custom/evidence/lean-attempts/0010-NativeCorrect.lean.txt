@@ -1,0 +1,294 @@
+import bench.tritonbench_g.vector_addition_custom.Proofs.NativeGrid
+import bench.tritonbench_g.vector_addition_custom.Proofs.NativeAdmission
+
+namespace VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native
+open VeriTile.Bench.TritonBenchG.VectorAddition
+open VeriTile.Triton DTypeScope TypedHost VectorAddition.Finite
+open HostWrapper (Tensor)
+noncomputable section
+open Classical
+set_option maxHeartbeats 12000000
+set_option maxRecDepth 24000
+
+/-- Actual metadata queries and access permissions of the trusted Torch and
+device memory boundary. The output retains preserve-format strides. -/
+structure Metadata where
+  torchStorageBase : Tensor → Nat
+  torchDataPointer : Tensor → Nat
+  kernelArgumentPointer : Tensor → Nat
+  buffer : Tensor → Buffer
+  emptyLikeStrides : Tensor → List Int
+  currentDevice : Nat
+def layout (metadata : Metadata) (x y output : Tensor) : Layout :=
+  ⟨metadata.buffer x,metadata.buffer y,metadata.buffer output,metadata.currentDevice⟩
+
+/-- Torch metadata and the actual successful extractPointer result are kept
+distinct. Buffer.base is the allocation mapping in the launch address space;
+it need not equal torchStorageBase. No owner-device equality or UVA identity
+is inferred. Affine offsets within that mapped allocation are ordinary trusted
+memory metadata; the kernel uses only kernelArgumentPointer. -/
+structure TensorBinding (metadata : Metadata) (t : Tensor) (d : DType) : Prop where
+  dtype : t.dtype=dtypeName d
+  numel : t.numel=t.shape.prod
+  range : hostExtent t.numel
+  shapeRange : ∀ n∈t.shape, hostExtent n
+  offset : 0≤t.storageOffset
+  owner : (metadata.buffer t).device=t.deviceIndex
+  pointerWidth : (metadata.buffer t).data<2^64
+  extent : (metadata.buffer t).base+(metadata.buffer t).capacity≤2^64
+  torchData : metadata.torchDataPointer t=if t.numel=0 then 0 else
+    metadata.torchStorageBase t+t.storageOffset.toNat*bytes d
+  extractedPointer : (metadata.buffer t).data=metadata.kernelArgumentPointer t
+  mappedData : (metadata.buffer t).data=if t.numel=0 then 0 else
+    (metadata.buffer t).base+t.storageOffset.toNat*bytes d
+
+theorem uses_extracted_pointer (metadata : Metadata) (t : Tensor) (d : DType)
+    (binding : TensorBinding metadata t d) : (metadata.buffer t).data=metadata.kernelArgumentPointer t :=
+  binding.extractedPointer
+
+/-- Ordinary allocation metadata and freshness, required unconditionally even
+when every kernel mask is false. There is no index bound, shape equality for y,
+same-device condition, contiguous-layout assumption, or requested-span bound. -/
+structure AllocationBinding (metadata : Metadata) (x y output : Tensor) : Prop where
+  returned : ReturnedMetadata x output
+  outputStrides : output.strides=metadata.emptyLikeStrides x
+  hostNumelX : x.numel=x.shape.prod
+  hostNumelY : y.numel=y.shape.prod
+  hostRangeX : hostExtent x.numel
+  hostRangeY : hostExtent y.numel
+  shapeRangeX : ∀ n∈x.shape, hostExtent n
+  shapeRangeY : ∀ n∈y.shape, hostExtent n
+  shapeRangeOutput : ∀ n∈output.shape, hostExtent n
+  outputOffset : output.storageOffset=0
+  outputData : (metadata.buffer output).data=if output.numel=0 then 0 else (metadata.buffer output).base
+  xBinding : ∀ d, x.dtype=dtypeName d → TensorBinding metadata x d
+  yBinding : ∀ d, y.dtype=dtypeName d → TensorBinding metadata y d
+  outputBinding : ∀ d, output.dtype=dtypeName d → TensorBinding metadata output d
+  fresh : (layout metadata x y output).Fresh
+
+inductive Event where
+  | emptyLike (input : RegionName)
+  | sizeZero (output : RegionName)
+  | block (value : Nat)
+  | grid (count : Nat)
+  | launch (size block : Nat)
+  | returnTensor (output : RegionName)
+  deriving DecidableEq, Repr
+inductive SetupStage where | context | compilation | pointerPacking | launch
+  deriving DecidableEq, Repr
+abbrev Environment := SetupStage → Option String
+abbrev Allocator (M : Type) := Tensor → M → Except String (Tensor×M)
+inductive Failure where
+  | allocation (detail : String)
+  | rankZero
+  | setup (reason : SetupReject)
+  | primitive (stage : SetupStage) (detail : String)
+  | gridLimit (requested : Nat)
+  deriving DecidableEq, Repr
+inductive Outcome (M : Type) where
+  | failed (trace : List Event) (why : Failure)
+  | observed (trace : List Event) (issue : Issue)
+  | returned (trace : List Event) (tensor : Tensor) (memory : M)
+
+def rankTrace (x output : Tensor) : List Event := [.emptyLike x.region,.sizeZero output.region]
+def launchTrace (x output : Tensor) (n : Nat) : List Event :=
+  rankTrace x output ++ [.block 16,.grid (grid n),.launch n 16]
+def successTrace (x output : Tensor) (n : Nat) : List Event :=
+  launchTrace x output n ++ [.returnTensor output.region]
+
+/-- Original custom launch. The source has no CUDA assertion. Signed-grid
+argument parsing precedes kernel pointer extraction in the installed driver.
+The environment supplies only fallible ordinary setup, never values/results. -/
+def executeSized {M : Type} (ops : (r : Route) → Memory M (Carrier r)) (b : Numerics)
+    (env : Environment) (metadata : Metadata) (xd yd : DenseDType)
+    (x y output : Tensor) (n : Nat) (allocated : M) : Outcome M :=
+  match env .context with
+  | some detail => .failed (launchTrace x output n) (.primitive .context detail)
+  | none => match admission xd yd with
+    | .error reason => .failed (launchTrace x output n) (.setup reason)
+    | .ok r => match env .compilation with
+      | some detail => .failed (launchTrace x output n) (.primitive .compilation detail)
+      | none =>
+        if ¬gridSupported n then .failed (launchTrace x output n) (.gridLimit (grid n))
+        else match env .pointerPacking with
+          | some detail => .failed (launchTrace x output n) (.primitive .pointerPacking detail)
+          | none => match env .launch with
+            | some detail => .failed (launchTrace x output n) (.primitive .launch detail)
+            | none => match executeLaunch r (ops r) b (layout metadata x y output) n allocated with
+              | .error issue => .observed (launchTrace x output n) issue
+              | .ok memory => .returned (successTrace x output n) output memory
+
+def executeAllocated {M : Type} (ops : (r : Route) → Memory M (Carrier r)) (b : Numerics)
+    (env : Environment) (metadata : Metadata) (xd yd : DenseDType)
+    (x y output : Tensor) (allocated : M) : Outcome M :=
+  match output.shape with
+  | [] => .failed (rankTrace x output) .rankZero
+  | n::_ => executeSized ops b env metadata xd yd x y output n allocated
+
+def executeHost {M : Type} (ops : (r : Route) → Memory M (Carrier r)) (b : Numerics)
+    (alloc : Allocator M) (env : Environment) (metadata : Metadata) (xd yd : DenseDType)
+    (x y : Tensor) (initial : M) : Outcome M :=
+  match alloc x initial with
+  | .error detail => .failed [.emptyLike x.region] (.allocation detail)
+  | .ok (output,allocated) => executeAllocated ops b env metadata xd yd x y output allocated
+
+def SetupFailure (env : Environment) (xd yd : DenseDType) (n : Nat) (why : Failure) : Prop :=
+  (∃ detail, env .context=some detail ∧ why=.primitive .context detail) ∨
+  (env .context=none ∧ ∃ reason, admission xd yd=.error reason ∧ why=.setup reason) ∨
+  (env .context=none ∧ ∃ r, admission xd yd=.ok r ∧
+    ((∃ detail, env .compilation=some detail ∧ why=.primitive .compilation detail) ∨
+     (env .compilation=none ∧ ¬gridSupported n ∧ why=.gridLimit (grid n)) ∨
+     (env .compilation=none ∧ gridSupported n ∧ ∃ detail, env .pointerPacking=some detail ∧ why=.primitive .pointerPacking detail) ∨
+     (env .compilation=none ∧ env .pointerPacking=none ∧ gridSupported n ∧
+       ∃ detail, env .launch=some detail ∧ why=.primitive .launch detail)))
+def SetupReady (env : Environment) (xd yd : DenseDType) (n : Nat) (r : Route) : Prop :=
+  (∀ stage, env stage=none) ∧ admission xd yd=.ok r ∧ gridSupported n
+
+structure ReturnedSpec {M : Type} (r : Route) (ops : Memory M (Carrier r)) (b : Numerics)
+    (metadata : Metadata) (x y output : Tensor) (n : Nat) (allocated final : M) : Prop where
+  allocation : AllocationBinding metadata x y output
+  writes : ∃ writes, launchPlan r ops b (layout metadata x y output) n allocated=.ok writes ∧
+    final=applyWrites ops r.signature.1 writes allocated ∧
+    (∀ address, (∀ w∈writes, ¬w.Touches r.signature.1 address) → ops.byte final address=ops.byte allocated address) ∧
+    (∀ address, ops.byte final address=finalByte ops r.signature.1 writes allocated address)
+  exterior : OutsideOutput ops (layout metadata x y output) final allocated
+
+def SizedSpec {M : Type} (ops : (r : Route) → Memory M (Carrier r)) (b : Numerics)
+    (env : Environment) (metadata : Metadata) (xd yd : DenseDType)
+    (x y output : Tensor) (n : Nat) (allocated : M) : Outcome M → Prop
+  | .failed trace why => trace=launchTrace x output n ∧ SetupFailure env xd yd n why
+  | .observed trace issue => trace=launchTrace x output n ∧
+      ∃ r, SetupReady env xd yd n r ∧ launchPlan r (ops r) b (layout metadata x y output) n allocated=.error issue
+  | .returned trace tensor final => trace=successTrace x output n ∧ tensor=output ∧
+      ∃ r, SetupReady env xd yd n r ∧ ReturnedSpec r (ops r) b metadata x y output n allocated final
+
+theorem sized_all_outcomes {M : Type} (ops : (r : Route) → Memory M (Carrier r)) (b : Numerics)
+    (env : Environment) (metadata : Metadata) (xd yd : DenseDType) (x y output : Tensor) (n : Nat) (allocated : M)
+    (binding : AllocationBinding metadata x y output) :
+    SizedSpec ops b env metadata xd yd x y output n allocated
+      (executeSized ops b env metadata xd yd x y output n allocated) := by
+  unfold executeSized
+  cases he : env .context with
+  | some detail => simp [SizedSpec,SetupFailure,he]
+  | none =>
+    cases ha : admission xd yd with
+    | error reason => simp [SizedSpec,SetupFailure,he,ha]
+    | ok r =>
+      cases hcomp : env .compilation with
+      | some detail => simp [SizedSpec,SetupFailure,he,ha,hcomp]
+      | none =>
+        simp only []
+        by_cases hg : gridSupported n
+        · rw [if_neg (not_not.mpr hg)]
+          cases hpack : env .pointerPacking with
+          | some detail => simp [SizedSpec,SetupFailure,he,ha,hcomp,hg,hpack]
+          | none =>
+            cases hl : env .launch with
+            | some detail => simp [SizedSpec,SetupFailure,he,ha,hcomp,hpack,hg,hl]
+            | none =>
+              have ready : SetupReady env xd yd n r :=
+                ⟨(by intro stage; cases stage <;> assumption),ha,hg⟩
+              have corr := launch_correspondence r (ops r) b (layout metadata x y output) n allocated binding.fresh
+              cases ht : launchPlan r (ops r) b (layout metadata x y output) n allocated with
+              | error issue =>
+                simp only [ht,Except.map] at corr
+                rw [corr]
+                exact ⟨rfl,r,ready,ht⟩
+              | ok writes =>
+                simp only [ht,Except.map] at corr
+                rw [corr]
+                refine ⟨rfl,rfl,r,ready,binding,⟨writes,ht,rfl,?_,?_⟩,?_⟩
+                · exact fun address outside => writes_byte_frame (ops r) r.signature.1 writes allocated address outside
+                · exact fun address => writes_byte_result (ops r) r.signature.1 writes allocated address
+                · exact writes_outside (ops r) (layout metadata x y output) r.signature.1 writes allocated
+                    (launch_write_bounds r (ops r) b (layout metadata x y output) n allocated writes ht)
+        · simp [hg,SizedSpec,SetupFailure,he,ha,hcomp]
+
+def AllocatedSpec {M : Type} (ops : (r : Route) → Memory M (Carrier r)) (b : Numerics)
+    (env : Environment) (metadata : Metadata) (xd yd : DenseDType)
+    (x y output : Tensor) (allocated : M) (outcome : Outcome M) : Prop :=
+  (output.shape=[] ∧ outcome=.failed (rankTrace x output) .rankZero) ∨
+  ∃ n tail, output.shape=n::tail ∧ SizedSpec ops b env metadata xd yd x y output n allocated outcome
+
+theorem allocated_all_outcomes {M : Type} (ops : (r : Route) → Memory M (Carrier r)) (b : Numerics)
+    (env : Environment) (metadata : Metadata) (xd yd : DenseDType) (x y output : Tensor) (allocated : M)
+    (binding : AllocationBinding metadata x y output) :
+    AllocatedSpec ops b env metadata xd yd x y output allocated
+      (executeAllocated ops b env metadata xd yd x y output allocated) := by
+  cases hs : output.shape with
+  | nil => exact Or.inl ⟨hs,by simp [executeAllocated,hs]⟩
+  | cons n tail =>
+      refine Or.inr ⟨n,tail,hs,?_⟩
+      simpa only [executeAllocated,hs] using sized_all_outcomes ops b env metadata xd yd x y output n allocated binding
+def HostSpec {M : Type} (ops : (r : Route) → Memory M (Carrier r)) (b : Numerics)
+    (alloc : Allocator M) (env : Environment) (metadata : Metadata) (xd yd : DenseDType)
+    (x y : Tensor) (initial : M) (outcome : Outcome M) : Prop :=
+  x.dtype=denseName xd ∧ y.dtype=denseName yd ∧ (
+  (∃ detail, alloc x initial=.error detail ∧ outcome=.failed [.emptyLike x.region] (.allocation detail)) ∨
+  (∃ output allocated, alloc x initial=.ok (output,allocated) ∧
+    (∀ r, OutsideOutput (ops r) (layout metadata x y output) allocated initial) ∧
+    AllocatedSpec ops b env metadata xd yd x y output allocated outcome))
+
+/-- Full source master: allocation, original size(0) and BLOCK16, all22 signatures,
+ordinary setup failures, exact finite requests/observations, and actual return.
+The only allocation contract is ordinary metadata/freshness, at every extent. -/
+specification vector_addition_custom_native_source_outcomes {M : Type} (ops : (r : Route) → Memory M (Carrier r)) (b : Numerics)
+    (alloc : Allocator M) (env : Environment) (metadata : Metadata) (xd yd : DenseDType)
+    (x y : Tensor) (initial : M) (hx : x.dtype=denseName xd) (hy : y.dtype=denseName yd)
+    (contract : ∀ output allocated, alloc x initial=.ok (output,allocated) →
+      AllocationBinding metadata x y output ∧
+      (∀ r, OutsideOutput (ops r) (layout metadata x y output) allocated initial)) :
+    HostSpec ops b alloc env metadata xd yd x y initial (executeHost ops b alloc env metadata xd yd x y initial) := by
+  refine ⟨hx,hy,?_⟩
+  cases ha : alloc x initial with
+  | error detail => exact Or.inl ⟨detail,rfl,by simp [executeHost,ha]⟩
+  | ok result =>
+      rcases result with ⟨output,allocated⟩
+      refine Or.inr ⟨output,allocated,rfl,(contract output allocated ha).2,?_⟩
+      simpa only [executeHost,ha] using allocated_all_outcomes ops b env metadata xd yd x y output allocated (contract output allocated ha).1
+
+/-- At first dimension2^31, even zero-numel CPU tensors can pass the ordinary
+null-pointer setup. This constructed source return requires no CUDA flag,
+input access/value premise, or equality of first dimension and numel. -/
+theorem vector_addition_custom_two31_return {M : Type}
+    (ops : (r : Route) → Memory M (Carrier r)) (b : Numerics)
+    (alloc : Allocator M) (metadata : Metadata) (xd yd : DenseDType) (r : Route)
+    (x y output : Tensor) (tail : List Nat) (initial allocated : M)
+    (ha : alloc x initial=.ok (output,allocated)) (hr : admission xd yd=.ok r)
+    (hs : output.shape=(2^31)::tail) :
+    executeHost ops b alloc (fun _ => none) metadata xd yd x y initial=
+      .returned (successTrace x output (2^31)) output allocated := by
+  simp only [executeHost,ha,executeAllocated,hs,executeSized,hr,
+    counterexample_grid.2.1,not_true_eq_false,↓reduceIte,no_access_returned_memory]
+
+theorem rank_zero_after_allocation {M : Type}
+    (ops : (r : Route) → Memory M (Carrier r)) (b : Numerics)
+    (alloc : Allocator M) (env : Environment) (metadata : Metadata) (xd yd : DenseDType)
+    (x y output : Tensor) (initial allocated : M)
+    (ha : alloc x initial=.ok (output,allocated)) (hs : output.shape=[]) :
+    executeHost ops b alloc env metadata xd yd x y initial=.failed (rankTrace x output) .rankZero := by
+  simp [executeHost,ha,executeAllocated,hs]
+
+theorem grid_parse_precedes_pointer_packing {M : Type}
+    (ops : (r : Route) → Memory M (Carrier r)) (b : Numerics) (env : Environment)
+    (metadata : Metadata) (xd yd : DenseDType) (r : Route)
+    (x y output : Tensor) (n : Nat) (allocated : M)
+    (he : env .context=none) (ha : admission xd yd=.ok r) (hcomp : env .compilation=none)
+    (hg : ¬gridSupported n) :
+    executeSized ops b env metadata xd yd x y output n allocated=
+      .failed (launchTrace x output n) (.gridLimit (grid n)) := by
+  simp [executeSized,he,ha,hcomp,hg]
+
+#specNonCircular HostSpec avoiding [executeHost,executeAllocated,executeSized,executeLaunch,executeGrid,executeProgram,sourceWrites]
+#specNonCircular ReturnedSpec avoiding [executeHost,executeAllocated,executeSized,executeLaunch,executeGrid,executeProgram,sourceWrites]
+#axiomsClean sized_all_outcomes
+#axiomsClean allocated_all_outcomes
+#axiomsClean uses_extracted_pointer
+#axiomsClean vector_addition_custom_native_source_outcomes
+#axiomsClean vector_addition_custom_two31_return
+#axiomsClean rank_zero_after_allocation
+#axiomsClean grid_parse_precedes_pointer_packing
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native

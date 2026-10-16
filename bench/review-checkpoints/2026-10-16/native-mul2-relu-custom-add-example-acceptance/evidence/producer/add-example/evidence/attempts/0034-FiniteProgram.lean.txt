@@ -1,0 +1,160 @@
+import bench.tritonbench_g.add_example.Proofs.FinitePhysical
+
+namespace VeriTile.Bench.TritonBenchG.AddExample.Finite
+open VeriTile.Triton VeriTile.Bench.TritonBenchG.VectorAddition
+open DTypeScope TypedHost VectorAddition.Finite
+noncomputable section
+open Classical
+set_option maxHeartbeats 8000000
+set_option maxRecDepth 24000
+set_option linter.unusedSimpArgs false
+
+/-- These are applicability observations, never asserted native traps,
+runtime guards, rollback, or a selected winner of racing stores. -/
+inductive Observation where
+  | inputAccess (pid : Nat) (argument : Nat)
+  | scalar (pid : Nat)
+  | outputAccess (pid : Nat)
+  | outputOwnership (pid : Nat)
+  | lowering
+  deriving DecidableEq, Repr
+
+def ScalarChecks {M : Type} (b : Numerics) (r : Route) (ops : MemoryPrimitives M (Carrier r))
+    (x y : PhysicalView) (n pid : Nat) (s : M) : Prop :=
+  ∀ lane∈programLanes n pid,
+    InputsDefined r (ops.read s x.dtype (x.lane pid lane)) (ops.read s y.dtype (y.lane pid lane)) ∧
+    ConversionDefined b r (ops.read s x.dtype (x.lane pid lane)) (ops.read s y.dtype (y.lane pid lane))
+
+def OwnersUnique (output : PhysicalView) (n pid : Nat) (seen : List Nat) : Prop :=
+  (∀ i∈programLanes n pid,∀ j∈programLanes n pid,i≠j →
+    SpanDisjoint (output.lane pid i) (output.lane pid i+bytes output.dtype)
+      (output.lane pid j) (output.lane pid j+bytes output.dtype)) ∧
+  (∀ lane∈programLanes n pid,∀ address∈seen,
+    SpanDisjoint (output.lane pid lane) (output.lane pid lane+bytes output.dtype)
+      address (address+bytes output.dtype))
+
+structure ProgramChecks {M : Type} (b : Numerics) (r : Route) (ops : MemoryPrimitives M (Carrier r))
+    (x y output : PhysicalView) (n pid : Nat) (s : M) (seen : List Nat) : Prop where
+  readX : ∀ lane∈programLanes n pid,ReadOK ops x (x.nativeLane pid lane)
+  readY : ∀ lane∈programLanes n pid,ReadOK ops y (y.nativeLane pid lane)
+  scalar : ScalarChecks b r ops x y n pid s
+  writeO : ∀ lane∈programLanes n pid,WriteOK ops output (output.nativeLane pid lane)
+  owners : OwnersUnique output n pid seen
+
+/-- Every actual active access is inspected. Inactive arithmetic, including
+finite pointer wrap, does not itself impose an applicability condition. -/
+def inspectProgram {M : Type} (b : Numerics) (r : Route) (ops : MemoryPrimitives M (Carrier r))
+    (x y output : PhysicalView) (n pid : Nat) (s : M) (seen : List Nat) : Except Observation Unit :=
+  if ∀ lane∈programLanes n pid,ReadOK ops x (x.nativeLane pid lane) then
+    if ∀ lane∈programLanes n pid,ReadOK ops y (y.nativeLane pid lane) then
+      if ScalarChecks b r ops x y n pid s then
+        if ∀ lane∈programLanes n pid,WriteOK ops output (output.nativeLane pid lane) then
+          if OwnersUnique output n pid seen then .ok () else .error (.outputOwnership pid)
+        else .error (.outputAccess pid)
+      else .error (.scalar pid)
+    else .error (.inputAccess pid 1)
+  else .error (.inputAccess pid 0)
+
+theorem inspected_iff {M : Type} (b : Numerics) (r : Route) (ops : MemoryPrimitives M (Carrier r))
+    (x y output : PhysicalView) (n pid : Nat) (s : M) (seen : List Nat) :
+    inspectProgram b r ops x y output n pid s seen=.ok () ↔ ProgramChecks b r ops x y output n pid s seen := by
+  unfold inspectProgram
+  constructor
+  · intro h
+    split at h
+    · rename_i hx
+      split at h
+      · rename_i hy
+        split at h
+        · rename_i hs
+          split at h
+          · rename_i ho
+            split at h
+            · rename_i hu
+              exact ⟨hx,hy,hs,ho,hu⟩
+            · cases h
+          · cases h
+        · cases h
+      · cases h
+    · cases h
+  · intro h
+    rw [if_pos h.readX,if_pos h.readY,if_pos h.scalar,if_pos h.writeO,if_pos h.owners]
+
+def expectedWrites {M : Type} (b : Numerics) (r : Route) (ops : MemoryPrimitives M (Carrier r))
+    (x y output : PhysicalView) (n pid : Nat) (s : M) : List (Write (Carrier r)) :=
+  (programLanes n pid).map fun lane => ⟨output.lane pid lane,
+    scalarFormula b r (ops.read s x.dtype (x.lane pid lane)) (ops.read s y.dtype (y.lane pid lane))⟩
+
+def programPlan {M : Type} (b : Numerics) (r : Route) (ops : MemoryPrimitives M (Carrier r))
+    (x y output : PhysicalView) (n pid : Nat) (snapshot : M) (seen : List Nat) :
+    Except Observation (List (Write (Carrier r)) × List Nat) := do
+  let _ ← inspectProgram b r ops x y output n pid snapshot seen
+  let writes := expectedWrites b r ops x y output n pid snapshot
+  pure (writes,writes.map Write.address++seen)
+
+/-- Execute the original eight statements after recording applicability.
+An observed issue provides no claim about a native error or final memory. -/
+def observedProgram {M : Type} (b : Numerics) (r : Route) (ops : MemoryPrimitives M (Carrier r))
+    (views : RegionName → PhysicalView) (undef : Carrier r) (X Y O : RegionName)
+    (n pid : Nat) (s : M) (seen : List Nat) : Except Observation (M × List Nat) := do
+  let _ ← inspectProgram b r ops (views X) (views Y) (views O) n pid s seen
+  match runProgram ops (scalarSource b r) views undef X Y O n pid s with
+  | none => .error .lowering
+  | some final => .ok (final,(programLanes n pid).map ((views O).lane pid)++seen)
+
+theorem writes_scalar_correspondence {M : Type} (b : Numerics) (r : Route) (ops : MemoryPrimitives M (Carrier r))
+    (x y output : PhysicalView) (n pid : Nat) (s : M)
+    (hs : ScalarChecks b r ops x y n pid s) :
+    uncheckedWrites ops (scalarSource b r) x y output n pid s=expectedWrites b r ops x y output n pid s := by
+  apply List.map_congr_left
+  intro lane hl
+  congr 1
+  exact scalar_policy_independent b r _ _ (hs lane hl).2
+
+theorem program_correspondence {M : Type} (b : Numerics) (r : Route) (ops : MemoryPrimitives M (Carrier r))
+    (views : RegionName → PhysicalView) (undef : Carrier r) (X Y O : RegionName)
+    (n pid : Nat) (s : M) (seen : List Nat) :
+    observedProgram b r ops views undef X Y O n pid s seen=
+      (programPlan b r ops (views X) (views Y) (views O) n pid s seen).map
+        (fun plan => (applyWrites ops (views O).dtype plan.1 s,plan.2)) := by
+  cases h : inspectProgram b r ops (views X) (views Y) (views O) n pid s seen with
+  | error issue => simp [observedProgram,programPlan,h,bind,pure,Except.pure,Except.bind,Except.map]
+  | ok accepted =>
+    cases accepted
+    have checks := (inspected_iff b r ops (views X) (views Y) (views O) n pid s seen).mp h
+    simp [observedProgram,programPlan,h,source_program_reduction,
+      writes_scalar_correspondence b r ops (views X) (views Y) (views O) n pid s checks.scalar,
+      bind,pure,Except.pure,Except.bind,Except.map,expectedWrites,List.map_map,Function.comp_def]
+
+theorem program_plan_bounds {M : Type} (b : Numerics) (r : Route) (ops : MemoryPrimitives M (Carrier r))
+    (x y output : PhysicalView) (n pid : Nat) (s : M) (seen owners : List Nat)
+    (writes : List (Write (Carrier r)))
+    (h : programPlan b r ops x y output n pid s seen=.ok (writes,owners)) :
+    ∀ w∈writes,output.Inside w.address := by
+  cases hi : inspectProgram b r ops x y output n pid s seen with
+  | error issue => simp [programPlan,hi,bind,pure,Except.pure,Except.bind] at h
+  | ok accepted =>
+    cases accepted
+    have checks := (inspected_iff b r ops x y output n pid s seen).mp hi
+    simp [programPlan,hi,bind,pure,Except.pure,Except.bind] at h
+    obtain ⟨rfl,_⟩ := h
+    intro w hw
+    obtain ⟨lane,hl,rfl⟩ := List.mem_map.mp hw
+    exact (checks.writeO lane hl).1
+
+theorem all_masked_program_plan {M : Type} (b : Numerics) (r : Route) (ops : MemoryPrimitives M (Carrier r))
+    (x y output : PhysicalView) (n pid : Nat) (s : M) (seen : List Nat)
+    (hn : extent32 n=BitVec.ofNat 32 (2^31)) :
+    programPlan b r ops x y output n pid s seen=.ok ([],seen) := by
+  simp [programPlan,inspectProgram,ScalarChecks,OwnersUnique,expectedWrites,
+    minimum_extent_empty_program n pid hn,bind,pure,Except.pure,Except.bind]
+
+#specNonCircular programPlan avoiding [observedProgram,runProgram,executeBody,executeInstruction,applyWrites]
+#axiomsClean inspected_iff
+#axiomsClean program_correspondence
+#axiomsClean program_plan_bounds
+#axiomsClean all_masked_program_plan
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.AddExample.Finite

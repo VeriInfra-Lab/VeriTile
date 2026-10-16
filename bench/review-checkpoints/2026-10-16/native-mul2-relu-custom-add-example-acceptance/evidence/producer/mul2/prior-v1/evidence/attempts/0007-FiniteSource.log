@@ -1,0 +1,43 @@
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteSource.lean:110:82: error: unsolved goals
+b : Numerics
+d : Storage
+p : Layout
+input output : RegionName
+n block pid : ℕ
+state : State
+⊢ (do
+      let loaded ←
+        loadTile d p state.memory pid (fun lane => BitVec.ofNat 32 pid * BitVec.ofNat 32 block + BitVec.ofNat 32 lane)
+            (fun lane => BitVec.ofNat 32 pid * BitVec.ofNat 32 block + BitVec.ofNat 32 lane)
+            (fun lane =>
+              decide
+                (((BitVec.ofNat 32 pid).toInt * (BitVec.ofNat 32 block).toInt + (BitVec.ofNat 32 lane).toInt).bmod
+                    4294967296 <
+                  (BitVec.ofNat 32 n).toInt))
+            (List.range block)
+      let __discr ← tileWrites d (fun x => stored d (Expr.eval b d x source)) p pid loaded state.owners
+      Except.ok { memory := applyWrites __discr.1 state.memory, owners := __discr.2 }) =
+    do
+    let loaded ←
+      loadTile d p state.memory pid (offset32 block pid) (offset32 block pid) (active32 n block pid) (List.range block)
+    let __discr ← tileWrites d (fun x => stored d (Expr.eval b d x source)) p pid loaded state.owners
+    Except.ok { memory := applyWrites __discr.1 state.memory, owners := __discr.2 }
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteSource.lean:111:65: warning: This simp argument is unused:
+  offset32
+
+Hint: Omit it from the simp argument list.
+  simp [sourceCode, ̲executeBody, ̲evalIndex, ̲evalMask, ̲executeProgram,o̵f̵f̵s̵e̵t̵3̵2̵,̵ ̲active32]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteSource.lean:111:74: warning: This simp argument is unused:
+  active32
+
+Hint: Omit it from the simp argument list.
+  simp [sourceCode, ̲executeBody, ̲evalIndex, ̲evalMask, ̲executeProgram, ̲offset32,̵a̵c̵t̵i̵v̵e̵3̵2̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+TritonMul2Finite.original_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+TritonMul2Finite.inplace_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteSource.lean:136:0: error: TritonMul2Finite.source_body_correspondence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteSource.lean:137:0: error: TritonMul2Finite.original_program_correspondence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/bench/tritonbench_g/triton_mul2/Proofs/FiniteSource.lean:138:0: error: TritonMul2Finite.inplace_program_correspondence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

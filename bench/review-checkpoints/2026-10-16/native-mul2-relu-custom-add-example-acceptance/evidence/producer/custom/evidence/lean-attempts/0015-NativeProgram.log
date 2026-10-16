@@ -1,0 +1,18 @@
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.programPlan: definition does not reference [VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.executeProgram,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.sourceWrites,
+ VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.applyWrites] — non-circular ✓
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.source_writes_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.program_correspondence: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.program_plan_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.program_write_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.no_access_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])

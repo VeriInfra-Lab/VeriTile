@@ -1,0 +1,141 @@
+{
+  "kind": "reviewable intermediate checkpoint; not acceptance/freeze",
+  "timestamp": "20261015T220819952685Z",
+  "complete_acceptance": false,
+  "acceptance_increment": 0,
+  "completed_modules": [
+    {
+      "path": "bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean",
+      "sha256": "b2a738d35424cd5d46dc5ab5c97c2ab1d93a64feb65b9f54fee584182458b4a5",
+      "olean_sha256": "be2465b6fdc06b44f96a519bbaabe797512e99eff108d325480098247e74ed64",
+      "latest": {
+        "source": "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean",
+        "source_sha256": "b2a738d35424cd5d46dc5ab5c97c2ab1d93a64feb65b9f54fee584182458b4a5",
+        "source_unchanged": true,
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "--root=/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip",
+          "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteIndices.lean",
+          "-o",
+          "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteIndices.olean"
+        ],
+        "LEAN_PATH": "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+        "exit_code": 0,
+        "seconds": 4.227,
+        "log": "evidence/attempts/0003-FiniteIndices.log",
+        "log_sha256": "5de2cf597dd02b94e5ecce7d89407b4441f2a27003b5953f1a5127e4512aa6e4"
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/add_example/Proofs/FinitePhysical.lean",
+      "sha256": "660e06c3763545f8ebd7a930ebf2b65eef99e651abc4b1dc28814b63228bd790",
+      "olean_sha256": "b2f47a103cd61cd02499f8d93c74a6812ce542fa4ab0feb86cacac8a1b0b54a2",
+      "latest": {
+        "source": "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FinitePhysical.lean",
+        "source_sha256": "660e06c3763545f8ebd7a930ebf2b65eef99e651abc4b1dc28814b63228bd790",
+        "source_unchanged": true,
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "--root=/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip",
+          "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FinitePhysical.lean",
+          "-o",
+          "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FinitePhysical.olean"
+        ],
+        "LEAN_PATH": "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+        "exit_code": 0,
+        "seconds": 4.757,
+        "log": "evidence/attempts/0013-FinitePhysical.log",
+        "log_sha256": "caa942ccbaff897cf703ad30f21cd5f6bda552ac07932563ff0f22599e6ef4ad"
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/add_example/Proofs/FiniteProgram.lean",
+      "sha256": "f70f92f4cdeefd700850703f7b7e9198d3fcd026e540a9cb4098d07d19a12a0e",
+      "olean_sha256": "40232a804dec326e3fc6aedf397082f2cf69442bf045af34cdc79f572db08dac",
+      "latest": {
+        "source": "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteProgram.lean",
+        "source_sha256": "f70f92f4cdeefd700850703f7b7e9198d3fcd026e540a9cb4098d07d19a12a0e",
+        "source_unchanged": true,
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "--root=/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip",
+          "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteProgram.lean",
+          "-o",
+          "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteProgram.olean"
+        ],
+        "LEAN_PATH": "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+        "exit_code": 0,
+        "seconds": 4.58,
+        "log": "evidence/attempts/0016-FiniteProgram.log",
+        "log_sha256": "6185e710fbe0e43cf1baab63218e894f3230d4d0d162631598c2056678524c1d"
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/add_example/Proofs/FiniteScalar.lean",
+      "sha256": "37fe540f3a8313c37a788fc7f2fb0250a2884dff2d03a6b5d0939090ad32bb3c",
+      "olean_sha256": "8410ed963b235c2d5efac6f3d9327ad60589a4cc962288794aa22059445f0374",
+      "latest": {
+        "source": "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteScalar.lean",
+        "source_sha256": "37fe540f3a8313c37a788fc7f2fb0250a2884dff2d03a6b5d0939090ad32bb3c",
+        "source_unchanged": true,
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "--root=/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip",
+          "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteScalar.lean",
+          "-o",
+          "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteScalar.olean"
+        ],
+        "LEAN_PATH": "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+        "exit_code": 0,
+        "seconds": 4.472,
+        "log": "evidence/attempts/0005-FiniteScalar.log",
+        "log_sha256": "732dae40c5e689a979845c392717582b9c9680e085fac4908a39ba09e373bc9e"
+      }
+    },
+    {
+      "path": "bench/tritonbench_g/add_example/Proofs/FiniteSource.lean",
+      "sha256": "213c55b16d4763ce0832193f089d15309a83ecb0865ba36cbdfba4edaaab6ccb",
+      "olean_sha256": "c5cd49b3a1970fb845dd72ee16a4a4f0ecff272bcdf9f4c142073a2e0faf2979",
+      "latest": {
+        "source": "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteSource.lean",
+        "source_sha256": "213c55b16d4763ce0832193f089d15309a83ecb0865ba36cbdfba4edaaab6ccb",
+        "source_unchanged": true,
+        "command": [
+          "/tmp/veritile-lean-toolchain/bin/lean",
+          "--root=/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip",
+          "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteSource.lean",
+          "-o",
+          "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteSource.olean"
+        ],
+        "LEAN_PATH": "/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip:/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean:/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean:/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean:/tmp/veritile-lean-toolchain/lib/lean",
+        "exit_code": 0,
+        "seconds": 11.278,
+        "log": "evidence/attempts/0012-FiniteSource.log",
+        "log_sha256": "7a9dae04fa9c21095e26bf3a07f4b61db2869eb79592214e0cef50610c8e7a34"
+      }
+    }
+  ],
+  "attempts": 16,
+  "failed_attempts": 11,
+  "dependencies_unchanged": {
+    "project": 198,
+    "external": 37,
+    "before_snapshot_sha256": "755c8e6481a815553f5508ad017889c9c8ecc837af546bda07be2fb8beeb2eda"
+  },
+  "native_receipts": {
+    "evidence/native-attempts/20261015T215014552379Z/receipt.json": "5b446f33e602872d46d50a162a8ef7deca5ca89d1f1fc5f2e1a5526eaee6f884",
+    "evidence/native-attempts/20261015T215117570205Z/receipt.json": "305e6d312cdb815707fe3e34ef00a4bc258a502c0e9bdcde03092e251bc6d818",
+    "evidence/host-attempts/20261015T215502556363Z/receipt.json": "f914b7f5710fa5d520910e6ecb9fad0b3dc2d7d1edd3574bf105e6b0d6c1cd75",
+    "evidence/host-attempts/20261015T215521664431Z/receipt.json": "bed57e6d651a65b1d3be5c2cc4ce96a36d7bc9c7b2326fc2bd8506c3cedf0a3b",
+    "evidence/relu-scope-review/20261015T215740139914Z/receipt.json": "ff0c42a49e95755cf0e90133adaac0d60c627a67483c5810d1a676c460fd01ce",
+    "evidence/backend-attempts/20261015T215542684768Z/receipt.json": "3eefe17ea443b7700c1478d1ca8090edcd1377009ccdc68b9f651ffda8cb3e8c",
+    "evidence/backend-attempts/20261015T220649492197Z/receipt.json": "27be9bc7cc78228bc14335f9b700a4af0d1a60aa1803d7023a0d3568071c23a3"
+  },
+  "remaining": [
+    "Initial-memory full-grid plan/execution/frame correspondence with input/output allocation separation",
+    "Exact zeros_like(x) host metadata, source order and full22 binder/frontend/backend outcomes",
+    "Full output zero-initialization and untouched-cell return theorem including rank0, empty and N=2^31",
+    "Independent source scope/schema2 numerical proposal, double-pin adapter, negative integrity checks",
+    "Final ordered recompile, after dependencies and immutable acceptance receipt; root review"
+  ]
+}

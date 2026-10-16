@@ -1,0 +1,34 @@
+[
+  {
+    "n": 0,
+    "binding_repr": "({'in_ptr0': tensor([]), 'in_ptr1': tensor([]), 'out_ptr': tensor([]), 'n_elements': 0, 'BLOCK_SIZE': 4}, [('*fp32', 'D'), ('*fp32', 'D'), ('*fp32', 'D'), ('i32', 'D'), ('constexpr', 4)], {})"
+  },
+  {
+    "n": 1,
+    "binding_repr": "({'in_ptr0': tensor([]), 'in_ptr1': tensor([]), 'out_ptr': tensor([]), 'n_elements': 1, 'BLOCK_SIZE': 4}, [('*fp32', 'D'), ('*fp32', 'D'), ('*fp32', 'D'), ('i32', 1), ('constexpr', 4)], {})"
+  },
+  {
+    "n": 2,
+    "binding_repr": "({'in_ptr0': tensor([]), 'in_ptr1': tensor([]), 'out_ptr': tensor([]), 'n_elements': 2, 'BLOCK_SIZE': 4}, [('*fp32', 'D'), ('*fp32', 'D'), ('*fp32', 'D'), ('i32', ''), ('constexpr', 4)], {})"
+  },
+  {
+    "n": 2147483647,
+    "binding_repr": "({'in_ptr0': tensor([]), 'in_ptr1': tensor([]), 'out_ptr': tensor([]), 'n_elements': 2147483647, 'BLOCK_SIZE': 4}, [('*fp32', 'D'), ('*fp32', 'D'), ('*fp32', 'D'), ('i32', ''), ('constexpr', 4)], {})"
+  },
+  {
+    "n": 2147483648,
+    "binding_repr": "({'in_ptr0': tensor([]), 'in_ptr1': tensor([]), 'out_ptr': tensor([]), 'n_elements': 2147483648, 'BLOCK_SIZE': 4}, [('*fp32', 'D'), ('*fp32', 'D'), ('*fp32', 'D'), ('i32', 'D'), ('constexpr', 4)], {})"
+  },
+  {
+    "n": 4294967295,
+    "binding_repr": "({'in_ptr0': tensor([]), 'in_ptr1': tensor([]), 'out_ptr': tensor([]), 'n_elements': 4294967295, 'BLOCK_SIZE': 4}, [('*fp32', 'D'), ('*fp32', 'D'), ('*fp32', 'D'), ('i32', ''), ('constexpr', 4)], {})"
+  },
+  {
+    "n": 4294967296,
+    "binding_repr": "({'in_ptr0': tensor([]), 'in_ptr1': tensor([]), 'out_ptr': tensor([]), 'n_elements': 4294967296, 'BLOCK_SIZE': 4}, [('*fp32', 'D'), ('*fp32', 'D'), ('*fp32', 'D'), ('i32', 'D'), ('constexpr', 4)], {})"
+  },
+  {
+    "n": 9223372036854775807,
+    "binding_repr": "({'in_ptr0': tensor([]), 'in_ptr1': tensor([]), 'out_ptr': tensor([]), 'n_elements': 9223372036854775807, 'BLOCK_SIZE': 4}, [('*fp32', 'D'), ('*fp32', 'D'), ('*fp32', 'D'), ('i32', ''), ('constexpr', 4)], {})"
+  }
+]

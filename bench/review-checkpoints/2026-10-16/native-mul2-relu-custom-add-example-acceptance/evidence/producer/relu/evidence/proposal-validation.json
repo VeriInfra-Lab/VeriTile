@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "checks": [
+    "unchanged validate_case on all cases",
+    "unchanged schema2 declaration_scope",
+    "unchanged exact validate_deferrals",
+    "per-case callback and port/deferral bijection"
+  ],
+  "counts": {
+    "scalar_families": 8,
+    "scope_bindings": 68,
+    "declaration_cases": 404,
+    "registered_declarations": 1,
+    "native_executions": 0,
+    "original_program_completion_increment": 0
+  },
+  "scope_acceptance_increment": 0,
+  "independent_review": "pending"
+}

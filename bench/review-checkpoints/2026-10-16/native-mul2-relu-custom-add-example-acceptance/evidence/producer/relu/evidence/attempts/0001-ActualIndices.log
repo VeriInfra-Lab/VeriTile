@@ -1,0 +1,58 @@
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualIndices.lean:33:2: error: unsolved goals
+case pos
+n pid lane : ℕ
+hn : n ≤ 2 ^ 31
+h : n < 2 ^ 31
+⊢ (if n < 2147483648 then (offset32 pid lane).slt (BitVec.ofNat 32 n)
+    else
+      if n < 4294967296 then (offset32 pid lane).ult (BitVec.ofNat 32 n)
+      else
+        if n < 9223372036854775808 then (BitVec.signExtend 64 (offset32 pid lane)).slt (BitVec.ofNat 64 n)
+        else (BitVec.signExtend 64 (offset32 pid lane)).ult (BitVec.ofNat 64 n)) =
+    if n < 2147483648 then (offset32 pid lane).slt (BitVec.ofNat 32 n) else (offset32 pid lane).ult (BitVec.ofNat 32 n)
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualIndices.lean:34:2: error: unsolved goals
+case neg
+n pid lane : ℕ
+hn : n ≤ 2 ^ 31
+h : ¬n < 2 ^ 31
+h32 : n < 2 ^ 32
+⊢ (if n < 2147483648 then (offset32 pid lane).slt (BitVec.ofNat 32 n)
+    else
+      if n < 4294967296 then (offset32 pid lane).ult (BitVec.ofNat 32 n)
+      else
+        if n < 9223372036854775808 then (BitVec.signExtend 64 (offset32 pid lane)).slt (BitVec.ofNat 64 n)
+        else (BitVec.signExtend 64 (offset32 pid lane)).ult (BitVec.ofNat 64 n)) =
+    if n < 2147483648 then mask32 n pid lane else (offset32 pid lane).ult (BitVec.ofNat 32 n)
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualIndices.lean:65:10: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  mask n (offset32 0 lane)
+in the target expression
+  (if n < 2 ^ 31 then (offset32 0 lane).slt (BitVec.ofNat 32 n)
+    else
+      if n < 2 ^ 32 then (offset32 0 lane).ult (BitVec.ofNat 32 n)
+      else
+        if n < 2 ^ 63 then (BitVec.signExtend 64 (offset32 0 lane)).slt (BitVec.ofNat 64 n)
+        else (BitVec.signExtend 64 (offset32 0 lane)).ult (BitVec.ofNat 64 n)) =
+    decide (lane < n)
+
+case neg
+n lane : ℕ
+hn : n < 2 ^ 63
+hl : lane < 1024
+words : (offset32 0 lane).toNat = lane ∧ (offset32 0 lane).toInt = ↑lane
+h31 : ¬n < 2 ^ 31
+h32 : ¬n < 2 ^ 32
+ha : mask n (offset32 0 lane) = «true»
+⊢ (if n < 2 ^ 31 then (offset32 0 lane).slt (BitVec.ofNat 32 n)
+    else
+      if n < 2 ^ 32 then (offset32 0 lane).ult (BitVec.ofNat 32 n)
+      else
+        if n < 2 ^ 63 then (BitVec.signExtend 64 (offset32 0 lane)).slt (BitVec.ofNat 64 n)
+        else (BitVec.signExtend 64 (offset32 0 lane)).ult (BitVec.ofNat 64 n)) =
+    decide (lane < n)
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualIndices.lean:82:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.old_mask_refinement: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.mask_widened_all_active: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualIndices.lean:84:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.zero_program_mask: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.boundary_read_examples: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualIndices.lean:86:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.constexpr_zero_empty: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

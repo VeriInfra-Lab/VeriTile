@@ -1,0 +1,29 @@
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.all_masks_false_at_two31: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.active_tile_empty_at_two31: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.counterexample_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.wrapped_negative_lane: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.wrapped_zero_lane: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.wrapped_pointer_can_reenter: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.launched_index_i32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.offset_word: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.bounded_sign_extend: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.bounded_arithmetic: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.bounded_pointer: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.peer_read_permitted: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.TritonBenchG.VectorAdditionCustom.Native.disjoint_span: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])

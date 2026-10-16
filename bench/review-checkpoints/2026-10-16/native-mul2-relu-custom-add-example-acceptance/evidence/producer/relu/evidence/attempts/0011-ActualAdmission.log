@@ -1,0 +1,5 @@
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualAdmission.lean:50:78: error: unexpected token 'true'; expected term
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualAdmission.lean:58:31: error: unexpected token 'true'; expected term
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.all22: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualAdmission.lean:63:13: error(lean.unknownIdentifier): Unknown constant `route_counts`
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualAdmission.lean:64:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.all_mask_branches_reachable: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

@@ -1,0 +1,15 @@
+{
+  "script": "check_authority.py",
+  "source_snapshot": "evidence/script-attempts/0003-check_authority.py.txt",
+  "source_sha256": "523113ef37bb2c60209d11fa1a5fd662f8c32d9dc0a6081eab8c157782aa646b",
+  "source_unchanged": true,
+  "command": [
+    "/usr/local/bin/python",
+    "-B",
+    "/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-revision2-wip/check_authority.py"
+  ],
+  "exit_code": 0,
+  "seconds": 29.888791023986414,
+  "log": "evidence/script-attempts/0003-check_authority.log",
+  "log_sha256": "a828b894c8e88d31553ec379001153c920b50bb78ac4b1b618d47418ea8bc79c"
+}

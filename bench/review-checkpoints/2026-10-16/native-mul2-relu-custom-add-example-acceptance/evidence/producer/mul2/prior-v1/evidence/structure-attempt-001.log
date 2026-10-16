@@ -1,0 +1,3 @@
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/probe_structure.py:61: UserWarning: ComplexHalf support is experimental and many operators don't support it yet. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/EmptyTensor.cpp:54.)
+  x=torch.empty((3,),dtype=getattr(torch,name));out=torch.zeros_like(x)
+{"wrapper_metadata_cases": 126, "dtype_allocations": 22, "binder_sizes": 14, "byte_schedule_cases": 960}

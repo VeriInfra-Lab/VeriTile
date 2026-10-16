@@ -1,0 +1,36 @@
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/native-attempts/fp8-blocks-20261015T220635126426Z/source.py:32:17: error: 'llvm.fmul' op operand #0 must be floating point LLVM type or LLVM dialect-compatible vector of floating point LLVM type, but got 'i8'
+    output = 2 * x
+                ^
+#blocked = #ttg.blocked<{sizePerThread = [4], threadsPerWarp = [32], warpsPerCTA = [4], order = [0]}>
+module attributes {"ttg.num-ctas" = 1 : i32, "ttg.num-warps" = 4 : i32, ttg.target = "cuda:90", "ttg.threads-per-warp" = 32 : i32} {
+  tt.func public @mul2_inplace_kernel(%arg0: !tt.ptr<f8E5M2> {tt.divisibility = 16 : i32}, %arg1: i32) attributes {noinline = false} {
+    %cst = arith.constant dense<2.000000e+00> : tensor<512xf8E5M2, #blocked>
+    %c512_i32 = arith.constant 512 : i32
+    %0 = tt.get_program_id x : i32
+    %1 = arith.muli %0, %c512_i32 : i32
+    %2 = tt.make_range {end = 512 : i32, start = 0 : i32} : tensor<512xi32, #blocked>
+    %3 = tt.splat %1 : i32 -> tensor<512xi32, #blocked>
+    %4 = arith.addi %3, %2 : tensor<512xi32, #blocked>
+    %5 = tt.splat %arg1 : i32 -> tensor<512xi32, #blocked>
+    %6 = arith.cmpi slt, %4, %5 : tensor<512xi32, #blocked>
+    %7 = tt.splat %arg0 : !tt.ptr<f8E5M2> -> tensor<512x!tt.ptr<f8E5M2>, #blocked>
+    %8 = tt.addptr %7, %4 : tensor<512x!tt.ptr<f8E5M2>, #blocked>, tensor<512xi32, #blocked>
+    %9 = tt.load %8, %6 : tensor<512x!tt.ptr<f8E5M2>, #blocked>
+    %10 = arith.mulf %9, %cst : tensor<512xf8E5M2, #blocked>
+    tt.store %8, %10, %6 : tensor<512x!tt.ptr<f8E5M2>, #blocked>
+    tt.return
+  }
+}
+
+{-#
+  external_resources: {
+    mlir_reproducer: {
+      pipeline: "builtin.module(tritongpu-combine-tensor-select-and-if, tritongpu-allocate-warp-groups, convert-scf-to-cf{allow-pattern-rollback=true}, gluon-inline, allocate-shared-memory-nv{compute-capability=90 ptx-version=87}, triton-tensor-memory-allocation, triton-nvidia-check-matmul-two-cta, tritongpu-global-scratch-memory-allocation, triton-nvidia-gpu-proxy-fence-insertion{compute-capability=90}, convert-triton-gpu-to-llvm{compute-capability=90 ptx-version=87}, canonicalize{  max-iterations=10 max-num-rewrites=-1 region-simplify=normal test-convergence=false top-down=true}, cse, convert-nv-gpu-to-llvm, convert-warp-specialize-to-llvm, canonicalize{  max-iterations=10 max-num-rewrites=-1 region-simplify=normal test-convergence=false top-down=true}, cse, symbol-dce, convert-nvvm-to-llvm, enable-line-info)",
+      disable_threading: true,
+      verify_each: true
+    }
+  }
+#-}
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/native-attempts/fp8-blocks-20261015T220635126426Z/source.py:22:0: error: Failures have been detected while processing an MLIR pass pipeline
+/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/native-attempts/fp8-blocks-20261015T220635126426Z/source.py:22:0: note: Pipeline failed while executing [`ConvertTritonGPUToLLVM` on 'builtin.module' operation]: reproducer generated at `std::errs, please share the reproducer above with Triton project.`
+{"name": "mul2_inplace_kernel-float8_e5m2-b512", "kernel": "mul2_inplace_kernel", "dtype": "float8_e5m2", "block": 512, "n": 2049, "mode": "full", "target": {"backend": "cuda", "arch": 90, "warp_size": 32}, "signature": {"ptr": "*fp8e5", "n_elements": "i32", "BLOCK_SIZE": "constexpr"}, "specialization": [["*fp8e5", "D"], ["i32", ""], ["constexpr", 512]], "constexprs": {"(2,)": 512}, "attrs": {"(0,)": [["tt.divisibility", 16]], "(1,)": [], "(2,)": []}, "options": {"num_warps": 4, "num_ctas": 1, "num_stages": 3, "warp_size": 32, "maxnreg": null, "ptx_version": null, "ptx_options": null, "ir_override": null, "enable_fp_fusion": true, "enable_reflect_ftz": true, "launch_cooperative_grid": false, "launch_pdl": false, "supported_fp8_dtypes": ["fp8e4b15", "fp8e4nv", "fp8e5"], "deprecated_fp8_dot_operand_dtypes": ["fp8e4b15"], "default_dot_input_precision": "tf32", "allowed_dot_input_precisions": ["tf32", "tf32x3", "ieee", "bf16x3", "bf16x6"], "max_num_imprecise_acc_default": 1073741824, "extern_libs": [["libdevice", "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"]], "debug": false, "backend_name": "cuda", "sanitize_overflow": true, "arch": "sm90", "instrumentation_mode": ""}, "parameters": [{"name": "ptr", "annotation": "tensor", "annotation_type": "", "is_constexpr": false}, {"name": "n_elements", "annotation": "i32", "annotation_type": "i32", "is_constexpr": false}, {"name": "BLOCK_SIZE", "annotation": "constexpr", "annotation_type": "", "is_constexpr": true}], "status": "rejected", "failure_stage": "backend", "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/triton-mul2-finite-acceptance-wip/native-attempts/fp8-blocks-20261015T220635126426Z/probe_native.py\", line 33, in <module>\n    stage='backend';compiled=triton.compile(src,target=target,options=vars(options))\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 327, in compile\n    next_module = compile_ir(module, metadata)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 552, in <lambda>\n    stages[\"llir\"] = lambda src, metadata: self.make_llir(src, metadata, options, capability)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/compiler.py\", line 383, in make_llir\n    pm.run(mod, 'make_llir')\nRuntimeError: PassManager::run failed\n"}

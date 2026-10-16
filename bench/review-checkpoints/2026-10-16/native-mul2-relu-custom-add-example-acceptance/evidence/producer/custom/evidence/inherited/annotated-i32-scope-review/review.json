@@ -1,0 +1,73 @@
+{
+  "status": "confirmed_full_source_structural_gap",
+  "reviewer": "peer:/root/matrix_transpose_acceptance",
+  "created_at_utc": "2026-10-15T21:56:39.207471+00:00",
+  "affected_tasks": [
+    "vector_addition",
+    "vector_addition_custom",
+    "add_value"
+  ],
+  "candidate_receipts": {
+    "vector_addition": "8349ecfd8051f74130acf58fb8f8aa0b62d4760203188aa392a5f8670c0ec7d8",
+    "vector_addition_custom": "fe7de17fde2aa9617949f93d2bbc08a0e1a0db456e1157dccaee0c59a64f63be",
+    "add_value": "0ba656d2df77a707a3faf1b82e46bb5304e0801aeca81082a9295528061d1373"
+  },
+  "counterexample": {
+    "python_extent": 2147483648,
+    "actual_bound_i32": -2147483648,
+    "actual_bound_bits": "0x80000000",
+    "vector_and_add_value_grid": 2097152,
+    "custom_grid": 134217728,
+    "grid_supported": true,
+    "all_signed_lane_indices": [
+      0,
+      2147483647
+    ],
+    "every_source_mask": false,
+    "masked_input_loads": 0,
+    "masked_output_stores": 0,
+    "host_result": "returns the freshly allocated output unchanged after successful ordinary allocation, context, binder, compilation and launch primitives",
+    "scalar_numerics_needed": false
+  },
+  "basis": [
+    "All three unchanged production annotations force i32 in fresh real JIT binder probes at Python extent2^31.",
+    "The exact installed extractI32 C function was compiled and called through CPython; PyLong_AsLong succeeds on the 64bit host and int32 assignment stores -2^31 without PyErr.",
+    "All three original kernels compiled offline through TTIR/LLVM/PTX with i32 bound and signed-less-than masks; every source load and store is masked.",
+    "Original wrapper ASTs were executed with primitive stubs and returned the allocated object, passing the original host extent into the original grid and kernel call. No host range check excludes this extent.",
+    "Kernel-checked Lean proves no possible i32 word is less than the narrowed bound, both exact grid sizes are valid, every launched index has the expected nonnegative range, and every active tile is empty.",
+    "All three proof candidates require extent<2^31 through SafeAPI on successful positive launches, excluding this exact no-access returned source path."
+  ],
+  "custom_zero_storage_example": {
+    "shape": [
+      2147483648,
+      0
+    ],
+    "strides": [
+      1,
+      1
+    ],
+    "numel": 0,
+    "storage_bytes": 0,
+    "data_ptr": 0,
+    "output_shape": [
+      2147483648,
+      0
+    ],
+    "output_data_ptr": 0,
+    "scope": "actual CPU metadata construction only; no GPU launch"
+  },
+  "custom_null_pointer_admission": "Installed extractPointer accepts data_ptr0 before calling cuPointerGetAttribute. custom_add has no CUDA assertion; shape[2^31,0] is actual zero-byte Torch metadata. A native context/launch is still a trusted success prerequisite.",
+  "interpretation": "The existing bounded theorems remain valid under their explicit hypotheses. The full-original-source acceptance claim is incomplete. This is a structural host/ABI/mask omission, not a new safety requirement or a floating-numerical conformance question.",
+  "recommended_repair": "Keep unbounded nonnegative host extent for grid; extract actual annotated i32 word, execute actual i32 pid*BLOCK+lane, signed mask and sign-extended/scaled u64 pointer arithmetic. Include genuine setup failures, actual-address observations and zero-access returned memory. Retain existing mathematical prefix/value formula only as a conditional refinement.",
+  "verification": {
+    "native_backend_compiles": 3,
+    "exact_native_C_extractor_tests": 1,
+    "clean_named_Lean_checks": 7,
+    "failed_Lean_attempts_preserved": 1,
+    "gpu_launches": 0,
+    "large_tensor_allocations": 0
+  },
+  "limitations": "GPU launches and an actual large GPU allocation were not performed. Vector/add_value returned-path reasoning is conditional on the same ordinary successful allocator/setup primitives already admitted by the candidates; the native binder, ABI narrowing, compiled signed mask, all-lane proof and wrapper control flow were checked independently.",
+  "writes_confined_to": "/tmp/veritile-standardization-20261015/annotated-i32-scope-review",
+  "repository_git_and_frozen_candidates_modified": false
+}

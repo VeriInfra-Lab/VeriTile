@@ -1,0 +1,20 @@
+/tmp/veritile-standardization-20261015/add-example-independent-review/binder-001.py:19: UserWarning: ComplexHalf support is experimental and many operators don't support it yet. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/EmptyTensor.cpp:54.)
+  names=list(dict.fromkeys(r['x'] for r in frontend));tensors={n:torch.empty(0,dtype=getattr(torch,n)) for n in names}
+{
+  "status": "passed",
+  "records": 484,
+  "bound": 289,
+  "binder_rejected": 195,
+  "n1_stays_i32": true,
+  "source_sha256": "50ecdbf09549fb00540139c72b11596cd0473c4700694e673d525b6cc2d23d6d",
+  "fresh_frontend_records_sha256": "45aa4a43f38b39598e7d3009ec4633dd493ce6a7bfa3c6f420bfe6c4c7adba37",
+  "installed_jit_sha256": "5fe46fbfac257a2b8645b7a2cc709232273d42dd5e1d55de9770b412a9476d77",
+  "torch": "2.13.0+cu130",
+  "triton": "3.7.1",
+  "GPU_launches": 0,
+  "scope": "Actual installed JIT binder using real empty CPU tensor dtype metadata; no device/context query or GPU launch",
+  "artifacts": {
+    "records.json": "9aa07156a8d3b92c6246bbd5626ccd1f9538e4c2814142683ded75b18f81f441",
+    "create_function_from_signature.py.txt": "48c2c947dec285b146ddc11b6ad23482a835247dce90d2bc0817c07c21c1c96d"
+  }
+}

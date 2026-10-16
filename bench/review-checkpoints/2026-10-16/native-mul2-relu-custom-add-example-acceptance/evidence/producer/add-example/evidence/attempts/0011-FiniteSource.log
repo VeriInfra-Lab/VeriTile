@@ -1,0 +1,59 @@
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteSource.lean:159:118: error: unsolved goals
+case pos
+M A : Type
+ops : MemoryPrimitives M A
+compute : A → A → A
+views : RegionName → PhysicalView
+undef : A
+X Y O : RegionName
+n pid : ℕ
+s memory : M
+lane : ℕ
+h : (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true»
+⊢ (if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+      ops.write memory (views O).dtype ((views O).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+        (compute
+          (if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+            ops.read s (views X).dtype ((views X).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+          else undef)
+          (if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+            ops.read s (views Y).dtype ((views Y).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+          else undef))
+    else memory) =
+    if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+      ops.write memory (views O).dtype ((views O).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+        (compute (ops.read s (views X).dtype ((views X).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane)))
+          (ops.read s (views Y).dtype ((views Y).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))))
+    else memory
+
+case neg
+M A : Type
+ops : MemoryPrimitives M A
+compute : A → A → A
+views : RegionName → PhysicalView
+undef : A
+X Y O : RegionName
+n pid : ℕ
+s memory : M
+lane : ℕ
+h : (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «false»
+⊢ (if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+      ops.write memory (views O).dtype ((views O).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+        (compute
+          (if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+            ops.read s (views X).dtype ((views X).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+          else undef)
+          (if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+            ops.read s (views Y).dtype ((views Y).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+          else undef))
+    else memory) =
+    if (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane).slt (BitVec.ofNat 32 n) = «true» then
+      ops.write memory (views O).dtype ((views O).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))
+        (compute (ops.read s (views X).dtype ((views X).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane)))
+          (ops.read s (views Y).dtype ((views Y).at (BitVec.ofNat 32 pid * 4#32 + BitVec.ofNat 32 lane))))
+    else memory
+VeriTile.Bench.TritonBenchG.AddExample.Finite.original_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.AddExample.Finite.fold_source_stores: axiom footprint ⊆ standard base ✓  ([propext])
+/tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/bench/tritonbench_g/add_example/Proofs/FiniteSource.lean:174:0: error: VeriTile.Bench.TritonBenchG.AddExample.Finite.source_program_reduction: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

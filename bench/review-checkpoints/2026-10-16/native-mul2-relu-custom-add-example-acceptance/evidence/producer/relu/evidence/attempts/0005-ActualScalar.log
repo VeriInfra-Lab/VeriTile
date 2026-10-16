@@ -1,0 +1,87 @@
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:47:89: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  OfNat (Stage (Storage.integer (IntegerWords.Encoding.signed w))) 0
+numerals are polymorphic in Lean, but the numeral `0` cannot be used in a context where the expected type is
+  Stage (Storage.integer (IntegerWords.Encoding.signed w))
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:50:91: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  OfNat (Stage (Storage.integer (IntegerWords.Encoding.unsigned w))) 0
+numerals are polymorphic in Lean, but the numeral `0` cannot be used in a context where the expected type is
+  Stage (Storage.integer (IntegerWords.Encoding.unsigned w))
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:53:112: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  OfNat (Stage (Storage.integer IntegerWords.Encoding.boolean)) 0
+numerals are polymorphic in Lean, but the numeral `0` cannot be used in a context where the expected type is
+  Stage (Storage.integer IntegerWords.Encoding.boolean)
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:54:68: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  OfNat (Stage Storage.fp16) 0
+numerals are polymorphic in Lean, but the numeral `0` cannot be used in a context where the expected type is
+  Stage Storage.fp16
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:55:101: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  OfNat (Stage Storage.bf16) 0
+numerals are polymorphic in Lean, but the numeral `0` cannot be used in a context where the expected type is
+  Stage Storage.bf16
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:56:42: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  OfNat (Stage Storage.fp32) 0
+numerals are polymorphic in Lean, but the numeral `0` cannot be used in a context where the expected type is
+  Stage Storage.fp32
+due to the absence of the instance above
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:81:14: error: unsolved goals
+case integer.signed
+b : Numerics
+width✝ : IntegerWords.Width
+v : Word (Storage.integer (IntegerWords.Encoding.signed width✝))
+⊢ (if 0 ≤ (BitVec.cast ⋯ v).toInt then b.shared.fromInt none (BitVec.cast ⋯ v).toInt else sorry ()) =
+    if 0 ≤ (BitVec.cast ⋯ v).toInt then b.shared.fromInt none (BitVec.cast ⋯ v).toInt else 0#32
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:82:23: error: unsolved goals
+case fp16
+b : Numerics
+v : Word Storage.fp16
+⊢ b.shared.cast none FloatDType.fp16 FloatDType.fp32
+      (if b.cmp16 (0#32) (BitVec.setWidth 32 v) = «true» then BitVec.setWidth 32 v else sorry ()) =
+    b.shared.cast none FloatDType.fp16 FloatDType.fp32
+      (if b.cmp16 (0#32) (BitVec.setWidth 32 v) = «true» then BitVec.setWidth 32 v else 0#32)
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:82:23: error: unsolved goals
+case bf16
+b : Numerics
+v : Word Storage.bf16
+⊢ b.shared.cast none FloatDType.bf16 FloatDType.fp32
+      (if b.cmp32 (0#32) (b.shared.cast none FloatDType.bf16 FloatDType.fp32 (BitVec.setWidth 32 v)) = «true» then
+        BitVec.setWidth 32 v
+      else sorry ()) =
+    b.shared.cast none FloatDType.bf16 FloatDType.fp32
+      (if b.cmp32 (0#32) (b.shared.cast none FloatDType.bf16 FloatDType.fp32 (BitVec.setWidth 32 v)) = «true» then
+        BitVec.setWidth 32 v
+      else 0#32)
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:82:23: error: unsolved goals
+case fp32
+b : Numerics
+v : Word Storage.fp32
+⊢ (if b.cmp32 (0#32) v = «true» then v else sorry ()) = if b.cmp32 (0#32) v = «true» then v else 0#32
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:81:48: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:81:48: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:81:48: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:81:48: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:81:48: warning: declaration uses `sorry`
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:81:48: warning: declaration uses `sorry`
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.scalarFormula: definition does not reference [VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.scalarSource,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.selectSource,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.castStore,
+ VeriTile.Bench.TritonBenchG.ReluTritonKernel.TypedValue.source,
+ VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+/tmp/veritile-standardization-20261015/relu-finite-acceptance-revision1-wip/bench/tritonbench_g/relu_triton_kernel/Proofs/ActualScalar.lean:91:0: error: VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.scalar_correspondence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.TritonBenchG.ReluTritonKernel.Actual.storage_bytes_positive: axiom footprint ⊆ standard base ✓  ([])

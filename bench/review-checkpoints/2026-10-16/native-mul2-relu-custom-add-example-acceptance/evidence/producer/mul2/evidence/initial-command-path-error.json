@@ -1,0 +1,6 @@
+{
+  "command": "python compile.py bench/oracle/triton_mul2/Proofs/FinitePointerBoundary.lean",
+  "exit_code": 1,
+  "failure": "FileNotFoundError before Lean invocation: mistaken bench/oracle path; actual path bench/tritonbench_g. No candidate source or object changed.",
+  "lean_invoked": false
+}

@@ -1,0 +1,31 @@
+{
+  "pinned_sources": {
+    "driver.c": "835f068cf517d237dc62be91275261e260c2bae985a9242fd28866303c1e5a60",
+    "jit.py": "5fe46fbfac257a2b8645b7a2cc709232273d42dd5e1d55de9770b412a9476d77"
+  },
+  "JIT_order": "current_device_and_stream; binder/frontend/backend; native launcher",
+  "launcher_order": "ensureCudaContext; signed-int grid PyArg_ParseTuple; entry hook; x/y/out/i32 extraction in signature order; scratch pointers; enqueue and exit hook",
+  "integer_argument": "LP64 PyLong_AsLong then int32 assignment, not signed32 range rejection; at n=2^31 value becomes signed minimum",
+  "native_grid_max": 2147483647,
+  "largest_reachable_n": 8589934588,
+  "pointer_semantics": "raw null pointer returns ABI0 without CUDA pointer attributes; nonzero pointer may translate via CU_POINTER_ATTRIBUTE_DEVICE_POINTER",
+  "binding_condition": "Host AllocationBinding.bindings is required only after all native setup stages and signed grid parsing succeed",
+  "translation": "shared per-current-device native-to-canonical backing; byte-local decode/load and encode/store correspondence proved; no owner equality",
+  "cpu_wrapper_cases": 73,
+  "cpu_fake_launch_returned": 72,
+  "cpu_actual_allocation_errors": [
+    {
+      "dtype": "float4_e2m1fn_x2",
+      "size": 0,
+      "status": "error",
+      "error_type": "NotImplementedError",
+      "error": "\"fill_cpu\" not implemented for 'Float4_e2m1fn_x2'",
+      "launch_count": 63
+    }
+  ],
+  "returned_output_all_storage_bytes_zero": true,
+  "records_sha256": "c8a85b028dda5852a13b6e3c1cc1761129eef61d33159d27071c64ae14f85f30",
+  "gpu_executed": false,
+  "kernel_values_executed": false,
+  "numeric_validation": false
+}

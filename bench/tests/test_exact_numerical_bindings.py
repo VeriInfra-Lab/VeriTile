@@ -53,12 +53,12 @@ class ExactBindings(unittest.TestCase):
  def assert_reject(self,data):
   with self.assertRaises(ValueError):validate_exact_queue(data,authority,legacy)
  def test_complete_authority_and_legacy_unchanged(self):
-  self.assertEqual(queue['rules'][:11],legacy['rules']);self.assertEqual(153,len(queue['rules']))
-  self.assertEqual([29,20,9,340,2601,2400,1144,4498],[len(r['cases']) for r in authority['requirements']])
-  self.assertEqual([15,13,3,9,26,14,14,22],[len(r['callback_union']) for r in authority['requirements']])
-  self.assertEqual(1689,sum(len(b['declarations']) for r in authority['rules'] for b in r['scope_bindings']))
+  self.assertEqual(queue['rules'][:11],legacy['rules']);self.assertEqual(239,len(queue['rules']))
+  self.assertEqual([29, 20, 9, 340, 2601, 2400, 1144, 4498, 4674, 404, 4498, 1700],[len(r['cases']) for r in authority['requirements']])
+  self.assertEqual([15, 13, 3, 9, 26, 14, 14, 22, 1, 7, 22, 22],[len(r['callback_union']) for r in authority['requirements']])
+  self.assertEqual(2413,sum(len(b['declarations']) for r in authority['rules'] for b in r['scope_bindings']))
   result=validate_exact_queue(queue,authority,legacy)
-  self.assertEqual(1642,result['exact_bindings']);self.assertEqual(11041,result['declaration_cases'])
+  self.assertEqual(2366,result['exact_bindings']);self.assertEqual(22317,result['declaration_cases'])
  def test_all_exact_usage_cases(self):
   for task in ('vector_addition','relu_triton_kernel'):
    row,p,c=usage(task);gate.validate_used_numerics(task,row,p,c,queue,root=REPO)
@@ -313,6 +313,17 @@ class ExactBindings(unittest.TestCase):
    self.assertFalse(path.with_suffix('').exists())
    path.write_bytes(path.read_bytes()+b'changed archived bytecode')
    with self.assertRaises(ValueError):derive_authority(root)
+
+
+ def test_next_batch_required_port_omissions_are_rejected(self):
+  for table in authority['requirements'][8:]:
+   case=next(c for c in table['cases'] if c['required_binding_refs'])
+   row,p,c=usage(table['task'],lambda t,x:t['declaration']==table['declaration'] and x==case)
+   gate.validate_used_numerics(table['task'],row,p,c,queue,root=REPO)
+   for index in range(len(row['deferred_numerical_assumptions'])):
+    with self.subTest(task=table['task'],omitted=index):
+     changed=deepcopy(row);changed['deferred_numerical_assumptions'].pop(index)
+     with self.assertRaises(ValueError):gate.validate_used_numerics(table['task'],changed,p,c,queue,root=REPO)
 
 if __name__=='__main__':
  unittest.main(verbosity=2)

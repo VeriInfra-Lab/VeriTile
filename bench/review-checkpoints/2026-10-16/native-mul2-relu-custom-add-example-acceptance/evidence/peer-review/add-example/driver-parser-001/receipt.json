@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "driver_source_sha256": "835f068cf517d237dc62be91275261e260c2bae985a9242fd28866303c1e5a60",
+  "exact_parser_slice_sha256": "001613b865e61f8e5f55a556a1dd6b9c347b7bda36dea2975456c3fea697d9e5",
+  "source_order": [
+    "ensureCudaContext",
+    "PyArg_ParseTuple_signed_grid",
+    "launch_enter_hook",
+    "argument_flattening",
+    "kernel_argument_extractors",
+    "scratch_extractors",
+    "CUDA_launch",
+    "exit_hook"
+  ],
+  "actual_parser_tests": 7,
+  "counterexample": {
+    "host_numel": 8589934592,
+    "grid_x": 2147483648,
+    "pointer_stage_reached": false,
+    "first_error": "OverflowError"
+  },
+  "boundary": "Exact installed C parser and source ordering, downstream failure instrumentation; no CUDA context, pointer query or GPU launch performed",
+  "build_command": [
+    "cc",
+    "-shared",
+    "-fPIC",
+    "-O2",
+    "-I/usr/local/include/python3.12",
+    "/tmp/veritile-standardization-20261015/add-example-independent-review/driver-parser-001/parser.c",
+    "-o",
+    "/tmp/veritile-standardization-20261015/add-example-independent-review/driver-parser-001/parser.so"
+  ],
+  "artifacts": {
+    "build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "parser.so": "17fdef4e3a7068fb4b6dd8ad1a0d5d752cfb44572758adda8cfa624aa280fee2",
+    "parser.c": "b956e354acad4516f3af2d7e87fa08076cbcd940e3f4b364ac68b55d985fe5a6",
+    "records.json": "89fb06ee0eea06385bb25cffa4fe554ec4b6f2e541ee6d6ebe3054a3c69d39ea",
+    "driver-order-excerpt.txt": "627ac1be947f97c0a5e3eb05448c856f7da9d1f77cb769526cce89a8e4c0e202"
+  }
+}

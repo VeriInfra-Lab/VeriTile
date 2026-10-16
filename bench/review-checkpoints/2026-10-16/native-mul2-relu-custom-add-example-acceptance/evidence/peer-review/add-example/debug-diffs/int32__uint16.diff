@@ -1,0 +1,69 @@
+--- /tmp/veritile-standardization-20261015/add-example-finite-acceptance-wip/evidence/backend-attempts/20261015T215542684768Z/int32__uint16.ptx
++++ /tmp/veritile-standardization-20261015/add-example-independent-review/replay/evidence/backend-attempts/20261015T231413524785Z/int32__uint16.ptx
+@@ -98,12 +98,12 @@
+ 	}
+ 	.section	.debug_info
+ 	{
+-.b32 120                                // Length of Unit
++.b32 124                                // Length of Unit
+ .b8 2                                   // DWARF version number
+ .b8 0
+ .b32 .debug_abbrev                      // Offset Into Abbrev. Section
+ .b8 8                                   // Address Size (in bytes)
+-.b8 1                                   // Abbrev [1] 0xb:0x71 DW_TAG_compile_unit
++.b8 1                                   // Abbrev [1] 0xb:0x75 DW_TAG_compile_unit
+ .b8 116                                 // DW_AT_producer
+ .b8 114
+ .b8 105
+@@ -182,27 +182,31 @@
+ .b8 108
+ .b8 101
+ .b8 45
+-.b8 102
+-.b8 105
+-.b8 110
+-.b8 105
+-.b8 116
+-.b8 101
+-.b8 45
+-.b8 97
+-.b8 99
+-.b8 99
+-.b8 101
+-.b8 112
+-.b8 116
+-.b8 97
+-.b8 110
+-.b8 99
+-.b8 101
+-.b8 45
++.b8 105
++.b8 110
++.b8 100
++.b8 101
++.b8 112
++.b8 101
++.b8 110
++.b8 100
++.b8 101
++.b8 110
++.b8 116
++.b8 45
++.b8 114
++.b8 101
++.b8 118
++.b8 105
++.b8 101
+ .b8 119
+-.b8 105
+-.b8 112
++.b8 47
++.b8 114
++.b8 101
++.b8 112
++.b8 108
++.b8 97
++.b8 121
+ .b8 47
+ .b8 101
+ .b8 118
