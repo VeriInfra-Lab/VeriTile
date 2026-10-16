@@ -1,0 +1,41 @@
+{
+  "status": "passed",
+  "native_receipt": {
+    "receipt": "evidence/native-attempts/20261015T233515167976Z/receipt.json",
+    "sha256": "3ba49f9df21f90cf22681fd90baddbcff75a33ebb597857f8ca5c258522392c0"
+  },
+  "source_instructions_and_lowering": {
+    "float32": {
+      "one_masked_load_sine_store_in_order": true,
+      "no_runtime_source_assert": true,
+      "same_width_sine_and_storage": 32,
+      "backend_signed32_mask_and_pointer_sign_extension": true,
+      "raw_sha256": "a0b61e87755989826ac113af46a5728c2f44c8f833b00937cb3194979f0a97b8",
+      "llir_sha256": "5e560987eb417e2826836b189e27edd3174e79462397f618abd15c9eed1bfd82",
+      "ptx_sha256": "08f2d224029ed6673bffb461928c79ad1c68b917b9bbcae755279f91598b7e9d"
+    },
+    "float64": {
+      "one_masked_load_sine_store_in_order": true,
+      "no_runtime_source_assert": true,
+      "same_width_sine_and_storage": 64,
+      "backend_signed32_mask_and_pointer_sign_extension": true,
+      "raw_sha256": "a445ead94d3b5e88d54a2749f53a146e79b81fa61d937b8f4d462c43df2a24dd",
+      "llir_sha256": "48e73ef9d2881632a460eabf5f0fa1554839aee413bfbdf1ed5c853a722e4942",
+      "ptx_sha256": "50a2a9468956380287281994ad50848eae6ad17cc67b328d8c4d8b3fcf42b942"
+    }
+  },
+  "original_binder_profiles": {
+    "path": "evidence/abi-profiles/20261015T233515099760Z/receipt.json",
+    "sha256": "786e3ee91ffc70f096d4a3ce0c222fc9bb2f125de77ff8e7763fdce4dd11f23d",
+    "profiles": 30
+  },
+  "source_code_refs": [
+    "SinKernelNative.original_ast_lowering",
+    "SinKernelNative.source_active_tile",
+    "SinKernelNative.source_pointer",
+    "SinKernelNative.compiled_scalar",
+    "SinKernelNative.retained_source_precision"
+  ],
+  "numerics_validated": false,
+  "GPU_launches": 0
+}

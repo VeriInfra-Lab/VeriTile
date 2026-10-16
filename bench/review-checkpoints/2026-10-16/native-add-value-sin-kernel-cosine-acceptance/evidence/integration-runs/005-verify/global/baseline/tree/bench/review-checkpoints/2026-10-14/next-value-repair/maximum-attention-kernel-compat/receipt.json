@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "scope": "legacy mathematical projection compatibility only",
+  "files": [
+    {
+      "file": "bench/tritonbench_g/attention_kernel/Proofs/RealKernel.lean",
+      "original_sha256": "d0b74f7831373912013b65013ac150f7dbf5c595acdbf540ab5cf18082535a19",
+      "handoff_sha256": "72f78ec35a512171eb827e2787a8c38bbef6b0555bbd3dcd9f6a068f91b513b5",
+      "after_sha256": "8c6d85d49fc2dd0334cb593260ab96590c1b3f3759d79913f3d586ea3c686eb6",
+      "original_declarations": 105,
+      "final_declarations": 107,
+      "compile": {
+        "module": "bench.tritonbench_g.attention_kernel.Proofs.RealKernel",
+        "source": "bench/tritonbench_g/attention_kernel/Proofs/RealKernel.lean",
+        "source_sha256": "8c6d85d49fc2dd0334cb593260ab96590c1b3f3759d79913f3d586ea3c686eb6",
+        "exit_code": 0,
+        "seconds": 23.19,
+        "log": "repair-logs/20261014T215702/bench.tritonbench_g.attention_kernel.Proofs.RealKernel.log",
+        "log_sha256": "beab4c91df1d0d07831dbcfece7aba30aa9bd5fac0eac5c9ac310fdb334cdbbd",
+        "olean_sha256": "c031bc55278b16f7d43bc0bcfa951f66c3a41b4e3182b7d043a7070e6e564059"
+      },
+      "module_axiom_audit": "passed via final #guard_msgs (drop info) in #auditModuleAxioms",
+      "public_scope_and_premises": "all original declaration statement text preserved"
+    },
+    {
+      "file": "bench/tritonbench_g/attention_kernel/Proofs/RealSource.lean",
+      "original_sha256": "0071e4b5e18d42e2167bde94b08f9595f963c398149cc4686831e9863dac3ebb",
+      "handoff_sha256": "0071e4b5e18d42e2167bde94b08f9595f963c398149cc4686831e9863dac3ebb",
+      "after_sha256": "3d5d6f6b18c71f6d0117bd5130bc6575d1f9fae1b6b4bd01bae9b3b83570baed",
+      "original_declarations": 4,
+      "final_declarations": 4,
+      "compile": {
+        "module": "bench.tritonbench_g.attention_kernel.Proofs.RealSource",
+        "source": "bench/tritonbench_g/attention_kernel/Proofs/RealSource.lean",
+        "source_sha256": "3d5d6f6b18c71f6d0117bd5130bc6575d1f9fae1b6b4bd01bae9b3b83570baed",
+        "exit_code": 0,
+        "seconds": 6.54,
+        "log": "repair-logs/20261014T215743/bench.tritonbench_g.attention_kernel.Proofs.RealSource.log",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "olean_sha256": "f058dbf2155580e30f20aa863311b260e85a017ff679eac80bfff1872be6a9f6"
+      },
+      "module_axiom_audit": "passed via final #guard_msgs (drop info) in #auditModuleAxioms",
+      "public_scope_and_premises": "all original declaration statement text preserved"
+    }
+  ],
+  "original_statement_count": 109,
+  "original_statements_exactly_unchanged": true,
+  "heartbeat_budgets_increased": false,
+  "shared_core_modified": false,
+  "workspace_modified": false,
+  "artifacts": {
+    "README.md": "c63285610d4ce02027a1c1b449f27479319d768280c322c28c3a52708a5beef6",
+    "before/bench/tritonbench_g/attention_kernel/Proofs/RealKernel.lean": "d0b74f7831373912013b65013ac150f7dbf5c595acdbf540ab5cf18082535a19",
+    "before/bench/tritonbench_g/attention_kernel/Proofs/RealSource.lean": "0071e4b5e18d42e2167bde94b08f9595f963c398149cc4686831e9863dac3ebb",
+    "bench.tritonbench_g.attention_kernel.Proofs.RealKernel.json": "bc4facb3b59bbfd9b7eee83e6d4ed9704bcbd16088a4b2d192cc144ee6ff9438",
+    "bench.tritonbench_g.attention_kernel.Proofs.RealKernel.log": "beab4c91df1d0d07831dbcfece7aba30aa9bd5fac0eac5c9ac310fdb334cdbbd",
+    "bench.tritonbench_g.attention_kernel.Proofs.RealSource.json": "7747cc4c0b66f60ed0374bd15d803ea6e1d834e264086cc6f63f4fc250765437",
+    "bench.tritonbench_g.attention_kernel.Proofs.RealSource.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "changes.patch": "97e4ce1a83b81fbc379313697a35a105228502fdce9e6327b8e3a93c7f966f0d",
+    "sources/bench/tritonbench_g/attention_kernel/Proofs/RealKernel.lean": "8c6d85d49fc2dd0334cb593260ab96590c1b3f3759d79913f3d586ea3c686eb6",
+    "sources/bench/tritonbench_g/attention_kernel/Proofs/RealSource.lean": "3d5d6f6b18c71f6d0117bd5130bc6575d1f9fae1b6b4bd01bae9b3b83570baed",
+    "statements.json": "f6aa873b6e753ea5f6a5955ebb0ff973bf3b185f599e37889c3d02b65e6e0cbb"
+  }
+}

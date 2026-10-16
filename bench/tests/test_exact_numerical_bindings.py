@@ -53,12 +53,12 @@ class ExactBindings(unittest.TestCase):
  def assert_reject(self,data):
   with self.assertRaises(ValueError):validate_exact_queue(data,authority,legacy)
  def test_complete_authority_and_legacy_unchanged(self):
-  self.assertEqual(queue['rules'][:11],legacy['rules']);self.assertEqual(239,len(queue['rules']))
-  self.assertEqual([29, 20, 9, 340, 2601, 2400, 1144, 4498, 4674, 404, 4498, 1700],[len(r['cases']) for r in authority['requirements']])
-  self.assertEqual([15, 13, 3, 9, 26, 14, 14, 22, 1, 7, 22, 22],[len(r['callback_union']) for r in authority['requirements']])
-  self.assertEqual(2413,sum(len(b['declarations']) for r in authority['rules'] for b in r['scope_bindings']))
+  self.assertEqual(queue['rules'][:11],legacy['rules']);self.assertEqual(273,len(queue['rules']))
+  self.assertEqual([29, 20, 9, 340, 2601, 2400, 1144, 4498, 4674, 404, 4498, 1700, 238, 52, 268],[len(r['cases']) for r in authority['requirements']])
+  self.assertEqual([15, 13, 3, 9, 26, 14, 14, 22, 1, 7, 22, 22, 15, 2, 17],[len(r['callback_union']) for r in authority['requirements']])
+  self.assertEqual(2990,sum(len(b['declarations']) for r in authority['rules'] for b in r['scope_bindings']))
   result=validate_exact_queue(queue,authority,legacy)
-  self.assertEqual(2366,result['exact_bindings']);self.assertEqual(22317,result['declaration_cases'])
+  self.assertEqual(2943,result['exact_bindings']);self.assertEqual(22875,result['declaration_cases'])
  def test_all_exact_usage_cases(self):
   for task in ('vector_addition','relu_triton_kernel'):
    row,p,c=usage(task);gate.validate_used_numerics(task,row,p,c,queue,root=REPO)

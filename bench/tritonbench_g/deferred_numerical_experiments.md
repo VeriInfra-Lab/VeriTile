@@ -247,6 +247,40 @@ The inventory covers 184 tasks: 77 have concrete native-binding recipes, and the
 | `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-FP32-F8E4` | `exact_profile_bound_validation_pending` | 1 |
 | `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-FP16-F8E5` | `exact_profile_bound_validation_pending` | 1 |
 | `ADD-EXAMPLE-ACTUAL-B-REST-CAST-NONE-FP32-F8E5` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-ADD32` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-FP-INTEGERCONVERSION-TOSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-UNSIGNEDTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-FP-INTEGERCONVERSION-TOUNSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-SIGNEDTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-HALFTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-TOHALF` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-BFLOATTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-TOBFLOAT` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-WIDE-SINGLETO64` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-WIDE-ADD64` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-E4TO32` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-TOE4RTNE` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-E5TO32` | `exact_profile_bound_validation_pending` | 1 |
+| `ADD-VALUE-NATIVE-TOE5RTNE` | `exact_profile_bound_validation_pending` | 1 |
+| `SIN-KERNEL-NATIVE-SIN32` | `exact_profile_bound_validation_pending` | 1 |
+| `SIN-KERNEL-NATIVE-SIN64` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-HOSTMATH-INTEGER64` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-HOSTMATH-SQRTSIGNIFICAND` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-COS32` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-FP-INTEGERCONVERSION-TOSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-UNSIGNEDTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-FP-INTEGERCONVERSION-TOUNSIGNED` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-SIGNEDTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-HALFTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-TOHALF` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-BFLOATTO32` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-TOBFLOAT` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-DOUBLETO32` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-TODOUBLE` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-E4TO32` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-TOE4RTNE` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-E5TO32` | `exact_profile_bound_validation_pending` | 1 |
+| `COSINE-NATIVE-TOE5RTNE` | `exact_profile_bound_validation_pending` | 1 |
 
 Five profiles still need exact binding. Existing reports remain limited to their recorded configuration. The unrestricted fp16 rounding-is-identity assumption is refuted; it must be repaired, not submitted as a validation target.
 
@@ -278,6 +312,6 @@ Keep failed and not-run cases. A source/compiled graph mismatch requires a corre
 
 ## Exact scalar follow-up bindings
 
-228 additional scalar families bind 2366 exact dtype/port instances across 22317 declaration cases. All remain unvalidated.
+262 additional scalar families bind 2943 exact dtype/port instances across 22875 declaration cases. All remain unvalidated.
 
 The original fp64 and ReLU records retain their frozen sm90 configurations. The finite ReLU extension covers all 17 canonical profiles with block_size=1024 and 0<=N<=2^31, including errors and empty launches; its 84 numerical ports apply to the 39 nonempty successful cases. The queue preserves structural gaps and adds no accepted original programs.

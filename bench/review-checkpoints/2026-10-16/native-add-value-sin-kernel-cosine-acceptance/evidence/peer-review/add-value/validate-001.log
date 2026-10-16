@@ -1,0 +1,1 @@
+{"status": "passed", "scope_cases": 238, "dtypes": 22, "admitted_profiles": 15, "numeric_ports": 41, "numeric_families": 15, "omitted_port_mutations_rejected": 41, "public_statement_sha256": "a63f6673991eae5bb39b7fb9095b5f7170713d9c129766286185f53540981d8e", "current_module_count": 7, "GPU_launches": 0}

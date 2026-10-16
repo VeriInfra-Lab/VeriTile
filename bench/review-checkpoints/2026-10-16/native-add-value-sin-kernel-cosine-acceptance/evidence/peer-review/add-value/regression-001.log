@@ -1,0 +1,47 @@
+/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/isolated/IndependentRegression.lean:15:37: error: Ambiguous term
+  Numerics
+Possible interpretations:
+  TypedHost.Numerics : Type
+  
+  AddValueNative.Numerics : Type
+/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/isolated/IndependentRegression.lean:28:41: error: Ambiguous term
+  Numerics
+Possible interpretations:
+  TypedHost.Numerics : Type
+  
+  AddValueNative.Numerics : Type
+/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/isolated/IndependentRegression.lean:34:62: error: Ambiguous term
+  Numerics
+Possible interpretations:
+  TypedHost.Numerics : Type
+  
+  AddValueNative.Numerics : Type
+/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/isolated/IndependentRegression.lean:42:62: error: Ambiguous term
+  Numerics
+Possible interpretations:
+  TypedHost.Numerics : Type
+  
+  AddValueNative.Numerics : Type
+/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/isolated/IndependentRegression.lean:67:9: error: Ambiguous term
+  Numerics
+Possible interpretations:
+  TypedHost.Numerics : Type
+  
+  AddValueNative.Numerics : Type
+AddValueIndependentReview.exact_grid_boundary: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/isolated/IndependentRegression.lean:73:0: error: AddValueIndependentReview.bool_load_and_raw_store: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+AddValueIndependentReview.undefined_integer_conversion: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/isolated/IndependentRegression.lean:75:0: error: AddValueIndependentReview.fp64_preserves_loaded_input: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/isolated/IndependentRegression.lean:76:0: error: AddValueIndependentReview.cuda_failure_without_pointer_evidence: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/isolated/IndependentRegression.lean:77:0: error: AddValueIndependentReview.pointer_failure_without_consuming_metadata: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+AddValueIndependentReview.empty_offset_totalization: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+AddValueIndependentReview.byte_formula_frame: axiom footprint ⊆ standard base ✓  ([Classical.choice,
+ propext,
+ Quot.sound])
+/tmp/veritile-standardization-20261015/add-value-revision1-independent-review/isolated/IndependentRegression.lean:80:0: error: AddValueIndependentReview.arbitrary_order_frame: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)

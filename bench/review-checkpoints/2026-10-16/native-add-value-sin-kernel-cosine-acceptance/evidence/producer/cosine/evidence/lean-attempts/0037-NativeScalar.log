@@ -1,0 +1,2 @@
+CosineNative.result: definition does not reference [CosineNative.source, CosineNative.Expr.eval] — non-circular ✓
+CosineNative.source_scalar: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "producer_receipt_sha256": "c0f1e6f0bd2d4bdf40f41795f18e8b352b00fca8e7c30302a54f191b97e52f91",
+  "replay_receipt_sha256": "9c063d28a79ce5ecf41d7c664eefba8cd436a874f4ed084704387494ff60ea23",
+  "native_profiles": 22,
+  "compiled": 15,
+  "rejected": 7,
+  "normalized_ir_or_executable_ptx_artifacts_identical": 75,
+  "host_and_metadata_counts": {
+    "host_order": 20,
+    "torch_views": 9,
+    "byte_schedule_cases": 96,
+    "finite_index_boundary_cases": 33,
+    "bool_raw_load_patterns": 4
+  },
+  "gpu_launches": 0,
+  "earlier_comparison_failure": "A preliminary raw PTX equality check stopped at bool.ptx because absolute source paths are encoded as DWARF bytes. This check compares identical executable PTX and retains every debug-section difference. No source or generated artifact was edited."
+}

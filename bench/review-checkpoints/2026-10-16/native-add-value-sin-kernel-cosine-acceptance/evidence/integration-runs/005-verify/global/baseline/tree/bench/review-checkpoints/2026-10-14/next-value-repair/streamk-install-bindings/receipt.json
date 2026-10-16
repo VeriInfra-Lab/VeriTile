@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "status": "candidate_exact_reviewed_archive_members_verified_pending_root_review",
+  "task": "streamk_matmul",
+  "package": "streamk-install-bindings",
+  "changed_files": [
+    {
+      "path": "bench/tritonbench_g/streamk_matmul/README.md",
+      "before_sha256": "451323552fadad5ef2045ffd4dca22e6a91ba922370aca9564790e38f353e6e0",
+      "after_sha256": "4c6d89baf99ea90eb074c5288ebfe386187fa5dc5503e4bdcf802b67d2e8bb9b"
+    },
+    {
+      "path": "bench/tritonbench_g/streamk_matmul/streamk_matmul.py",
+      "before_sha256": null,
+      "after_sha256": "794c7aa68254a0cc1caf974b5ed806ce8c884e9f7c9c2c36d68c67d5b654a4f3"
+    }
+  ],
+  "source_sha256": {
+    "bench/tritonbench_g/streamk_matmul/README.md": "4c6d89baf99ea90eb074c5288ebfe386187fa5dc5503e4bdcf802b67d2e8bb9b",
+    "bench/tritonbench_g/streamk_matmul/streamk_matmul.py": "794c7aa68254a0cc1caf974b5ed806ce8c884e9f7c9c2c36d68c67d5b654a4f3"
+  },
+  "parent": {
+    "package": "streamk-source",
+    "delivery_index_path": "bench/review-checkpoints/2026-10-14/next-value-repair/delivery-index.json",
+    "delivery_index_sha256": "5de0485b15a2715bb222e71013a946c17a7188fb1b4c9dff0b301937e41f4f76",
+    "receipt_path": "bench/review-checkpoints/2026-10-14/next-value-repair/streamk-source/receipt.json",
+    "receipt_sha256": "da51875127232cfa38168b12959ea1ca81101a1a20f74041fa1ab6b9b1a529b0",
+    "root_review_path": "bench/review-checkpoints/2026-10-14/next-value-repair/streamk-source/root-review.json",
+    "root_review_sha256": "d9e6eff6a4316e38f7333c3499846f204968bdbfda47af5d48c68836a1df9e8b",
+    "review_status": "complete_two_wave_original_source_SC_value_review_pass_pending_integration",
+    "inputs_zip_path": "bench/review-checkpoints/2026-10-14/next-value-repair/streamk-source/inputs.zip",
+    "inputs_zip_sha256": "2341c6908dbe1cfac5abfa3917a704e0fa41487687f885d8d8b6158b64b48369"
+  },
+  "archive_member_sha256": {
+    "bench/tritonbench_g/streamk_matmul/README.md": "4c6d89baf99ea90eb074c5288ebfe386187fa5dc5503e4bdcf802b67d2e8bb9b",
+    "bench/tritonbench_g/streamk_matmul/streamk_matmul.py": "794c7aa68254a0cc1caf974b5ed806ce8c884e9f7c9c2c36d68c67d5b654a4f3"
+  },
+  "artifact_sha256": {
+    "README.md": "a47771d64332dde19c564155d646820943b0d052860fdba480b4b08dc045e40c",
+    "after/bench/tritonbench_g/streamk_matmul/README.md": "4c6d89baf99ea90eb074c5288ebfe386187fa5dc5503e4bdcf802b67d2e8bb9b",
+    "after/bench/tritonbench_g/streamk_matmul/streamk_matmul.py": "794c7aa68254a0cc1caf974b5ed806ce8c884e9f7c9c2c36d68c67d5b654a4f3",
+    "before/bench/tritonbench_g/streamk_matmul/README.md": "451323552fadad5ef2045ffd4dca22e6a91ba922370aca9564790e38f353e6e0",
+    "bindings.json": "2ccaa2dd7573c6e7dac468be1389ffaea4fb6ff01cc2f33eb312f3f039092602",
+    "changed-files.json": "8ebdbee774820d0e35791d2f3a03b307ed578eaf4c5d04c7c0e141c784f22ac3",
+    "origin/delivery-index.bytes": "5de0485b15a2715bb222e71013a946c17a7188fb1b4c9dff0b301937e41f4f76",
+    "origin/inputs.zip": "2341c6908dbe1cfac5abfa3917a704e0fa41487687f885d8d8b6158b64b48369",
+    "origin/receipt.bytes": "da51875127232cfa38168b12959ea1ca81101a1a20f74041fa1ab6b9b1a529b0",
+    "origin/root-review.bytes": "d9e6eff6a4316e38f7333c3499846f204968bdbfda47af5d48c68836a1df9e8b",
+    "prepare.py": "9e971564130de6915ffc426b0b5fe5f6aab20bdd1b6bf9cf427f8a7c825ba136",
+    "review.py": "ac39204500d584d857b71b062d489fc75a512b9491e4170aea85133d35d83540",
+    "validation.json": "389fc854e393a73098feb4b1fd004e939378ca89ad831048c535daa1b7c7e917"
+  },
+  "validation": {
+    "status": "PASS_exact_reviewed_archive_member_installation_binding",
+    "members_verified": 2,
+    "parent_receipt_sha256": "da51875127232cfa38168b12959ea1ca81101a1a20f74041fa1ab6b9b1a529b0",
+    "parent_root_review_sha256": "d9e6eff6a4316e38f7333c3499846f204968bdbfda47af5d48c68836a1df9e8b",
+    "parent_inputs_zip_sha256": "2341c6908dbe1cfac5abfa3917a704e0fa41487687f885d8d8b6158b64b48369",
+    "source_sha256": {
+      "bench/tritonbench_g/streamk_matmul/README.md": "4c6d89baf99ea90eb074c5288ebfe386187fa5dc5503e4bdcf802b67d2e8bb9b",
+      "bench/tritonbench_g/streamk_matmul/streamk_matmul.py": "794c7aa68254a0cc1caf974b5ed806ce8c884e9f7c9c2c36d68c67d5b654a4f3"
+    },
+    "workspace_before_checked": true,
+    "rint_after_checked": true,
+    "native_execution": false,
+    "compilation": false,
+    "installation_performed": false,
+    "scope_or_model_promoted": false
+  },
+  "workspace_modified": false,
+  "rint_modified": false,
+  "existing_frozen_packages_modified": false,
+  "source_bytes_modified": false,
+  "public_declarations_modified": false,
+  "scope_or_model_promoted": false,
+  "compilation": false,
+  "native_execution": false,
+  "installation_performed": false
+}

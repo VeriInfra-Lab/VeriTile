@@ -1,0 +1,175 @@
+import bench.tritonbench_g.cosine_compute.Proofs.NativeArithmetic
+
+namespace CosineNative
+open VeriTile.Triton
+open VeriTile.Bench.TritonBenchG.VectorAddition
+open DTypeScope TypedHost Finite Native.Buffer
+noncomputable section
+open Classical
+set_option maxHeartbeats 6000000
+
+/-- Ordinary local typed memory primitives. `load` succeeds exactly when the
+requested bytes exist; no missing byte becomes a default scalar. Encoding of
+the returned raw finite carrier belongs to the trusted typed-load boundary.
+These operations do not compute a kernel result or provide launch success. -/
+structure Memory (M A : Type) where
+  load : M → DType → Nat → Option A
+  store : M → DType → Nat → A → M
+  byte : M → Nat → Option (Fin 256)
+  /-- Pure packing for the source store element, in little-endian byte order.
+  There is no floating arithmetic or rounding conversion in this primitive. -/
+  encode : DType → A → Nat → Fin 256
+  load_present : ∀ m d a, (load m d a).isSome ↔ ∀ k, k<bytes d → (byte m (a+k)).isSome
+  load_congr : ∀ m t d a, (∀ k, k<bytes d → byte m (a+k)=byte t (a+k)) → load m d a=load t d a
+  store_byte : ∀ m d a v k, k<bytes d → byte (store m d a v) (a+k)=some (encode d v k)
+  load_disjoint : ∀ m d a v e c, SpanDisjoint a (a+bytes d) c (c+bytes e) →
+    load (store m d a v) e c=load m e c
+  byte_frame : ∀ m d a v c, c<a ∨ a+bytes d≤c → byte (store m d a v) c=byte m c
+
+/-- Little-endian raw storage words; missing bytes remain absent. This is an
+ordinary byte decoder, with no floating arithmetic or default memory values. -/
+def readBytes : Nat → (Nat → Option (Fin 256)) → Option Nat
+  | 0,_ => some 0
+  | n+1,byteAt => do
+      let low ← byteAt 0
+      let high ← readBytes n (fun k => byteAt (k+1))
+      pure (low.val+256*high)
+def decodeWord (d : Storage) (byteAt : Nat → Option (Fin 256)) : Option (Word (.storage d)) :=
+  (readBytes (bytes (dtype d)) byteAt).map (fun raw => ⟨BitVec.ofNat d.width raw⟩)
+def wordByte (d : Storage) (value : Word (.storage d)) (k : Nat) : Fin 256 :=
+  ⟨(value.bits.toNat / 2^(8*k))%256,Nat.mod_lt _ (by decide)⟩
+
+/-- The source model's Word input is the exact raw storage bits, and the store
+packs those same-width bits. These ordinary memory laws cannot supply a cosine
+result, modify the scalar ports, or invent missing storage bytes. -/
+structure WordMemory {M : Type} (d : Storage) (ops : Memory M (Word (.storage d))) : Prop where
+  rawLoad : ∀ m a, ops.load m (dtype d) a=decodeWord d (fun k => ops.byte m (a+k))
+  rawStore : ∀ value k, ops.encode (dtype d) value k=wordByte d value k
+
+def OutsideOutput {M A : Type} (ops : Memory M A) (p : Layout) (left right : M) : Prop :=
+  ∀ address, ¬p.output.Contains address → ops.byte left address=ops.byte right address
+theorem outside_refl {M A : Type} (ops : Memory M A) (p : Layout) (m : M) : OutsideOutput ops p m m := fun _ _ => rfl
+theorem outside_trans {M A : Type} (ops : Memory M A) (p : Layout) (a b c : M)
+    (h : OutsideOutput ops p a b) (k : OutsideOutput ops p b c) : OutsideOutput ops p a c :=
+  fun address outside => (h address outside).trans (k address outside)
+
+theorem load_outside {M A : Type} (ops : Memory M A) (p : Layout) (left right : M)
+    (v : Buffer) (d : DType) (address : Nat) (same : OutsideOutput ops p left right)
+    (sep : v.Disjoint p.output) (inside : v.Inside address (bytes d)) :
+    ops.load left d address=ops.load right d address := by
+  apply ops.load_congr
+  intro k hk
+  apply same
+  unfold Native.Buffer.Disjoint at sep
+  unfold Native.Buffer.Inside at inside
+  unfold Native.Buffer.Contains
+  rcases sep with sep|sep <;> omega
+
+structure Write (A : Type) where
+  pid : Nat
+  lane : Nat
+  xAddress : Nat
+  address : Nat
+  value : A
+
+def applyWrites {M A : Type} (ops : Memory M A) (d : DType) : List (Write A) → M → M
+  | [],m => m
+  | w::rest,m => applyWrites ops d rest (ops.store m d w.address w.value)
+
+theorem writes_append {M A : Type} (ops : Memory M A) (d : DType)
+    (left right : List (Write A)) (m : M) :
+    applyWrites ops d (left++right) m=applyWrites ops d right (applyWrites ops d left m) := by
+  induction left generalizing m with
+  | nil => rfl
+  | cons head tail ih => exact ih _
+
+theorem writes_outside {M A : Type} (ops : Memory M A) (p : Layout) (d : DType)
+    (writes : List (Write A)) (m : M)
+    (bounds : ∀ w∈writes, p.output.Inside w.address (bytes d)) :
+    OutsideOutput ops p (applyWrites ops d writes m) m := by
+  induction writes generalizing m with
+  | nil => exact outside_refl ops p m
+  | cons head tail ih =>
+      apply outside_trans ops p _ (ops.store m d head.address head.value) m
+      · exact ih _ (fun w hw => bounds w (by simp [hw]))
+      · intro address outside
+        apply ops.byte_frame
+        have hb := bounds head (by simp)
+        unfold Native.Buffer.Contains at outside
+        unfold Native.Buffer.Inside at hb
+        omega
+
+def Write.Touches (d : DType) (w : Write A) (address : Nat) : Prop := w.address≤address ∧ address<w.address+bytes d
+
+theorem writes_byte_frame {M A : Type} (ops : Memory M A) (d : DType)
+    (writes : List (Write A)) (m : M) (address : Nat)
+    (outside : ∀ w∈writes, ¬w.Touches d address) :
+    ops.byte (applyWrites ops d writes m) address=ops.byte m address := by
+  induction writes generalizing m with
+  | nil => rfl
+  | cons head tail ih =>
+      rw [applyWrites,ih _ (fun w hw => outside w (by simp [hw]))]
+      apply ops.byte_frame
+      have h := outside head (by simp)
+      unfold Write.Touches at h
+      omega
+
+/-- Independent byte result from the last actual store touching this byte.
+`encode` is the ordinary pure dtype packing primitive, not a kernel-value or
+final-memory callback. It may discard high bits of an abstract tagged carrier;
+no arbitrary carrier is assumed to round-trip through narrow storage. -/
+def finalByte {M A : Type} (ops : Memory M A) (d : DType)
+    (writes : List (Write A)) (initial : M) (address : Nat) : Option (Fin 256) :=
+  match writes.reverse.find? (fun w => decide (w.Touches d address)) with
+  | none => ops.byte initial address
+  | some w => some (ops.encode d w.value (address-w.address))
+
+theorem writes_byte_result {M A : Type} (ops : Memory M A) (d : DType)
+    (writes : List (Write A)) (m : M) (address : Nat) :
+    ops.byte (applyWrites ops d writes m) address=finalByte ops d writes m address := by
+  induction writes generalizing m with
+  | nil => rfl
+  | cons head tail ih =>
+      rw [applyWrites,ih]
+      simp only [finalByte,List.reverse_cons,List.find?_append]
+      cases ht : tail.reverse.find? (fun w => decide (w.Touches d address)) with
+      | some w => rfl
+      | none =>
+          simp only [List.find?_cons,List.find?_nil]
+          by_cases he : head.Touches d address
+          · have hk : address-head.address<bytes d := by unfold Write.Touches at he; omega
+            have ha : head.address+(address-head.address)=address := by unfold Write.Touches at he; omega
+            have hs := ops.store_byte m d head.address head.value (address-head.address) hk
+            simpa [he,ha] using hs
+          · have ho : address<head.address ∨ head.address+bytes d≤address := by unfold Write.Touches at he; omega
+            simp [he,ops.byte_frame _ _ _ _ _ ho]
+
+/-- Concrete full-byte result: raw same-width bits from the last touching
+store, or the original allocated byte if no store touches this address. -/
+def rawFinalByte {M : Type} (d : Storage) (ops : Memory M (Word (.storage d)))
+    (writes : List (Write (Word (.storage d)))) (initial : M) (address : Nat) : Option (Fin 256) :=
+  match writes.reverse.find? (fun w => decide (w.Touches (dtype d) address)) with
+  | none => ops.byte initial address
+  | some w => some (wordByte d w.value (address-w.address))
+
+theorem writes_raw_result {M : Type} (d : Storage) (ops : Memory M (Word (.storage d)))
+    (raw : WordMemory d ops) (writes : List (Write (Word (.storage d)))) (m : M) (address : Nat) :
+    ops.byte (applyWrites ops (dtype d) writes m) address=rawFinalByte d ops writes m address := by
+  rw [writes_byte_result]
+  unfold finalByte rawFinalByte
+  cases writes.reverse.find? (fun w => decide (w.Touches (dtype d) address)) with
+  | none => rfl
+  | some w => simp only [raw.rawStore]
+
+#specNonCircular finalByte avoiding [applyWrites]
+#specNonCircular rawFinalByte avoiding [applyWrites]
+#axiomsClean load_outside
+#axiomsClean writes_append
+#axiomsClean writes_outside
+#axiomsClean writes_byte_frame
+#axiomsClean writes_byte_result
+#axiomsClean writes_raw_result
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end CosineNative

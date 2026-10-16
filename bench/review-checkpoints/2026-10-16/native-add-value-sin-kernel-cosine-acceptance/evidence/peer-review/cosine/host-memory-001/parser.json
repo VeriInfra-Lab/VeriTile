@@ -1,0 +1,17 @@
+[
+  {
+    "grid": 0,
+    "exception": "ValueError",
+    "downstream_reached": true
+  },
+  {
+    "grid": 2147483647,
+    "exception": "ValueError",
+    "downstream_reached": true
+  },
+  {
+    "grid": 2147483648,
+    "exception": "OverflowError",
+    "downstream_reached": false
+  }
+]

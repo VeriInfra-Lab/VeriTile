@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "kind": "next_three_finalizer_checked_copy_correction",
+  "frozen": true,
+  "artifacts": {
+    "README.md": "d5561bef95f0f39daee0d431fccd7ddcb29e158ca75edbd23beeaeaecfb0cab4",
+    "copy-regression.json": "5cf316c9858913f8f6dd5303225cf095679a31e804f20412b835dd377537c5d3",
+    "finalize.patch": "8576975c9d863fd922f350ffa6558e1f2b09d56c997c3db7411d29e0b35b929b",
+    "finalize.py": "5c95c8cb0fda2ed6c14af903b8c5ea9cfffa0fcc28de5dfb8fa3a31f346a6692",
+    "input-pins.json": "0b2581fc8f598f822c4d48e945306a46d8890ba0c63b991892b3277f71edb98b",
+    "observed-completed-tests.json": "10b118bf1c13ee733968cdd46ae46d00193b1da7cf9560fb47ef07f4d368c3eb",
+    "prior-finalizer-failure.json": "afda0c9798af3c441da8570bb3d5a1c381695eb0e28d31aeacf895767f287397",
+    "test_summary.py": "728dcca8801317da625022503fde27234f5ba9c95a685222ea9cb617a430497d",
+    "tests.log": "8d7f40319538575c8d7752635f1920703ecfd00874d14c70eb1437b8bdf6dfbb",
+    "unittest_summary.py": "012fbcb941966790eb69ae6918ff451496febf2cfca87afb802cda77dc495f8a"
+  },
+  "original_scripts_receipt_sha256": "e223b9f4ca0aa5810383acfd4fe7068786041467c4058a8ab71bd76a13cf7512",
+  "prior_candidate_receipt_sha256": "0b84bf2e898e7dc81e65bf1df7306ce9048f13e9bc1a1791b2acb605692c9921",
+  "acceptance_increment": 0,
+  "repository_modified": false
+}

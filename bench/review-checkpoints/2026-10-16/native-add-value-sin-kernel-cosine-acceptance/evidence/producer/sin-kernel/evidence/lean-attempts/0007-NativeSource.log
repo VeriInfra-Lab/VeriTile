@@ -1,0 +1,11 @@
+/tmp/veritile-standardization-20261015/sin-kernel-finite-acceptance-wip/after/bench/tritonbench_g/sin_kernel/Proofs/NativeSource.lean:115:13: warning: This simp argument is unused:
+  if_pos rfl
+
+Hint: Omit it from the simp argument list.
+  s̵i̵m̵p̵ ̵o̵n̵l̵y̵ ̵[̵i̵f̵_̵p̵o̵s̵ ̵r̵f̵l̵,̵i̵f̵_̵t̵r̵u̵e̵,̵S̵t̵r̵i̵n̵g̵.̵r̵e̵d̵u̵c̵e̵E̵q̵,̵i̵f̵_̵f̵a̵l̵s̵e̵]̵s̲i̲m̲p̲ ̲o̲n̲l̲y̲ ̲[̲i̲f̲_̲t̲r̲u̲e̲,̲ ̲S̲t̲r̲i̲n̲g̲.̲r̲e̲d̲u̲c̲e̲E̲q̲,̲ ̲i̲f̲_̲f̲a̲l̲s̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+SinKernelNative.original_ast_lowering: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.compiled_source: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.source_active_tile: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+SinKernelNative.complete_source_suffix: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

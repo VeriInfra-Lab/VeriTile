@@ -1,0 +1,11 @@
+AddValueNative.launchPlan: definition does not reference [AddValueNative.executeLaunch,
+ AddValueNative.executeGrid,
+ AddValueNative.executeProgram,
+ AddValueNative.sourceWrites,
+ AddValueNative.applyWrites] — non-circular ✓
+AddValueNative.grid_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+AddValueNative.launch_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+AddValueNative.launch_write_bounds: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+AddValueNative.launch_all_outcomes: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+AddValueNative.no_access_grid: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+AddValueNative.no_access_returned_memory: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])

@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "reviewer": "independent_agent_/root/relu_fp64_recover",
+  "verdict": "no_blocker_found_for_exact_copy_correction",
+  "requested_receipt_sha256": "4850d17e97cc7533250213c0429318760e34d639be048ba6893bf33d9c652072",
+  "prior_receipt_sha256": "0b84bf2e898e7dc81e65bf1df7306ce9048f13e9bc1a1791b2acb605692c9921",
+  "checks": [
+    {
+      "name": "copy correction receipt matches requested pin",
+      "passed": true
+    },
+    {
+      "name": "single original bad copy expression",
+      "passed": true
+    },
+    {
+      "name": "finalizer differs only by corrected checked-copy expression",
+      "passed": true
+    },
+    {
+      "name": "earlier summary-correction evidence unchanged input-pins.json",
+      "passed": true
+    },
+    {
+      "name": "earlier summary-correction evidence unchanged observed-completed-tests.json",
+      "passed": true
+    },
+    {
+      "name": "earlier summary-correction evidence unchanged test_summary.py",
+      "passed": true
+    },
+    {
+      "name": "earlier summary-correction evidence unchanged tests.log",
+      "passed": true
+    },
+    {
+      "name": "earlier summary-correction evidence unchanged unittest_summary.py",
+      "passed": true
+    },
+    {
+      "name": "actual common.exact is a validator with implicit None return",
+      "passed": true
+    }
+  ],
+  "checks_passed": 9,
+  "full_validation_rerun": false,
+  "root_approval_issued": false,
+  "integration_acceptance_increment": 0,
+  "original_common_exact_has_implicit_none_return": true,
+  "sole_code_difference": "Validate source, copy original Path, validate destination; do not use validator return as copy source.",
+  "all_prior_preservation_run_gate_logic_byte_preserved": true,
+  "summary_helper_tests_log_inputs_byte_preserved": true,
+  "external_pins_verified": 21,
+  "provenance": {
+    "read_only_review_checks": "/tmp/veritile-standardization-20261015/quant-global-and-finalizer-independent-review-20261016-001/review_checks.py",
+    "read_only_review_checks_sha256": "6e817f52b49099d40ba1a744d16544857778e5e78573349804dce582fca3d1bf",
+    "combined_checks": "/tmp/veritile-standardization-20261015/quant-global-and-finalizer-independent-review-20261016-001/checks.json",
+    "combined_checks_sha256": "7cf7e27addbc9732bf7bbabf58121aa0e9c8b40f0f15b333aa7f5239b25a5e38",
+    "combined_actual_exit": 0,
+    "selection_only": true
+  },
+  "limitations": [
+    "This review covers only the exact copy correction relative to the already reviewed summary correction.",
+    "No finalizer execution, integration checkpoint modification, global rerun, staging, or real acceptance was performed."
+  ]
+}

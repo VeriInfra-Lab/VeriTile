@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "session_id": 45989,
+  "exit_code": 1,
+  "failed_line": 69,
+  "exception": "TypeError: stat: path should be string, bytes, os.PathLike or integer, not NoneType",
+  "failed_operation": "shutil.copyfile(exact(source,expected),dest)",
+  "prior_candidate_receipt_sha256": "0b84bf2e898e7dc81e65bf1df7306ce9048f13e9bc1a1791b2acb605692c9921",
+  "validation_created": false,
+  "tests_reused_only_with_exact_input_hashes": true
+}

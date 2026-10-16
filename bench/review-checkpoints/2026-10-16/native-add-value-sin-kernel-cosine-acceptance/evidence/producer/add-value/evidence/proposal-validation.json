@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "counts": {
+    "scalar_families": 15,
+    "scope_bindings": 41,
+    "declaration_cases": 238,
+    "registered_declarations": 1,
+    "admitted_dtype_profiles": 15,
+    "canonical_dtype_profiles": 22,
+    "signature_rejections": 5,
+    "architecture_rejections": 2,
+    "scalar_operations": 41,
+    "native_backend_compiles": 15,
+    "native_executions": 0,
+    "original_program_completion_increment": 0
+  },
+  "checks": [
+    "current specification parser",
+    "unchanged schema2 declaration_scope",
+    "238 validate_case calls",
+    "unchanged validate_deferrals",
+    "41 exact case-operation binding bijection",
+    "22 native profiles preserve first rejection and runtime argument specialization"
+  ],
+  "independent_root_review": "pending",
+  "global_queue_check": "pending reviewed authority integration",
+  "scope_acceptance_increment": 0
+}

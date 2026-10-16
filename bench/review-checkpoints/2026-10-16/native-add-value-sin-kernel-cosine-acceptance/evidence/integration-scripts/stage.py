@@ -1,0 +1,58 @@
+"""Stage only reviewed inputs, verify index bytes, and record the staging review."""
+from common import *
+from datetime import datetime,timezone
+import tempfile
+p=arguments(__doc__);a=p.parse_args();r,b,old,s=state(a);v=load(b/'validation.json')
+require(not (b/'staging-review.json').exists(),'Staging review already exists')
+require(git(r,'branch','--show-current').decode().strip()==s['base_branch'],'Branch changed since preparation')
+require(not git(r,'diff','--cached','--name-only','-z','--no-renames'),'Index must be empty before controlled staging; preserve and review any failed prior staging attempt before explicit repair. No automatic reset or rollback.')
+require(v['scope']=={'requested':183,'accepted':11,'verified':1,'verified_with_deferred_numerics':10,'pending':172},'Validated scope differs')
+for rel,h in v['checked_input_sha256'].items():exact(r/rel,h)
+checkpoint_prefix=b.relative_to(r).as_posix()+'/'
+sealed_checkpoint={rel for rel in v['checked_input_sha256'] if rel.startswith(checkpoint_prefix)}
+current_checkpoint={p.relative_to(r).as_posix() for p in checkpoint_files(b)}
+require(current_checkpoint==sealed_checkpoint|{checkpoint_prefix+'validation.json'},'Checkpoint file set differs from finalized validation; added or missing files require review before staging')
+expected=active_paths(a,s)|current_checkpoint
+for rel in expected:
+ path=r/relative(rel)
+ if rel in s['deactivated_ledger_paths']:
+  require(not path.exists(),'Competing old ledger remains');continue
+ require(path.is_file() and not path.is_symlink(),'Missing/symlink staged input: '+rel)
+ require(path.stat().st_size<LIMIT,'100 MiB staging limit exceeded: '+rel)
+ if path.is_relative_to(b):require(archive(path.relative_to(b))==path.relative_to(b).as_posix(),'Historical active Lean/object/bytecode: '+rel)
+for item in git(r,'status','--porcelain=v1','-z','--untracked-files=all','--no-renames').split(b'\0'):
+ if item:
+  require(item[:2] in {b' M',b' D',b'??'},'Unexpected status: '+repr(item[:120]))
+  require(item[3:].decode() in expected,'Unreviewed changed path: '+item[3:].decode())
+# Some explicitly allowed paths can be byte-identical to HEAD; stage only actual diffs.
+actual_changed=set(git(r,'diff','--name-only','-z','--no-renames').decode().strip('\0').split('\0'))-{''}
+baseline_tracked=set(git(r,'ls-tree','-r','--name-only',s['base_commit']).decode().splitlines())
+new_paths=expected-baseline_tracked
+expected_staged=actual_changed|new_paths
+require(expected_staged<=expected,'Unexpected changed file inventory')
+with tempfile.NamedTemporaryFile(prefix='veritile-next-three-stage-',suffix='.bin',delete=False) as stream:
+ pathspec=Path(stream.name);stream.write(b'\0'.join(p.encode() for p in sorted(expected))+b'\0')
+git(r,'add','-A','-f','--pathspec-from-file='+str(pathspec),'--pathspec-file-nul')
+staged=set(git(r,'diff','--cached','--name-only','-z','--no-renames').decode().strip('\0').split('\0'))-{''}
+require(staged==expected_staged,'Staged inventory mismatch')
+require(not git(r,'diff','--name-only','-z','--no-renames'),'Unstaged tracked change after staging')
+index={}
+for item in git(r,'ls-files','--stage','-z').split(b'\0'):
+ if not item:continue
+ header,path=item.split(b'\t',1);mode,oid,stage=header.decode().split()
+ if path.decode() in staged:require(stage=='0','Unmerged index');index[path.decode()]=oid
+deleted=set(s['deactivated_ledger_paths']);require(v['deleted_paths']==sorted(deleted),'Unexpected deletion list')
+paths=sorted(staged-deleted);oids=git(r,'hash-object','--stdin-paths',input=('\n'.join(paths)+'\n').encode()).decode().splitlines()
+require(len(paths)==len(oids) and all(index[path]==oid for path,oid in zip(paths,oids)),'Index/worktree object mismatch')
+for rel,h in v['checked_input_sha256'].items():exact(r/rel,h)
+whole=subprocess.run(['git','diff','--cached','--check'],cwd=r,capture_output=True,text=True)
+regular=subprocess.run(['git','diff','--cached','--check','--','.',':(exclude)'+b.relative_to(r).as_posix()+'/evidence/**'],cwd=r,capture_output=True,text=True)
+require(whole.returncode in {0,2},'git diff --check errored')
+require(regular.returncode==0,'Whitespace outside exact archived evidence requires review: '+regular.stdout+regular.stderr)
+review={'schema':1,'kind':'native_add_value_sin_cosine_staging_review','status':'passed','recorded_at_utc':datetime.now(timezone.utc).isoformat(),'base_commit':s['base_commit'],'deleted_paths':sorted(deleted),'staged_file_sha256':{rel:digest(r/rel) for rel in paths},'index_blob_equals_reviewed_worktree':True,'validated_input_hashes_rechecked':len(v['checked_input_sha256']),'all_files_below_100_MiB':True,'compressed_queue_bytes':(r/QUEUE).stat().st_size,'diff_cached_check_exit_code':whole.returncode,'exact_evidence_whitespace':whole.stdout,'all_other_staged_files_diff_check_exit_code':regular.returncode,'scope':v['scope'],'official_comparator_passed':v['current_comparator_success'],'native_gpu_execution':False}
+path=b/'staging-review.json';write(path,review);require(path.stat().st_size<LIMIT,'Staging review exceeds file limit');rel=path.relative_to(r).as_posix();git(r,'add','--',rel)
+final=set(git(r,'diff','--cached','--name-only','-z','--no-renames').decode().strip('\0').split('\0'))-{''}
+require(final==staged|{rel} and git(r,'show',':'+rel)==path.read_bytes(),'Staging review index mismatch')
+require(not git(r,'diff','--name-only','-z','--no-renames'),'Post-review tracked unstaged changes')
+require({p.relative_to(r).as_posix() for p in checkpoint_files(b)}==current_checkpoint|{rel},'Checkpoint file set changed while staging')
+print(json.dumps({'phase':'stage','staged_paths':len(final),'staging_review_sha256':digest(path),'scope':v['scope'],'commit_and_push':'not_performed'},indent=2))

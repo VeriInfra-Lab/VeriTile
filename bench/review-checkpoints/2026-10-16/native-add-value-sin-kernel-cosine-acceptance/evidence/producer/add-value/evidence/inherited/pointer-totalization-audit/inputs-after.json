@@ -1,0 +1,17 @@
+{
+  "all_unchanged": true,
+  "inputs": {
+    "vector_revision2": {
+      "/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision2-wip/evidence/receipt.json": "8679242cdbdbe9d8972fe59c011fc89f51ba723de0b233bbe8af07ec32312cc4",
+      "/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision2-wip/after/bench/tritonbench_g/vector_addition/NativeCorrect.lean": "d169fdd53eea4e3c3d82ac7c8b047751db2e6d9315e36d13bb01ef012365e874",
+      "/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision2-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeArithmetic.lean": "0dc7d47b1a57c277d9b32ae385ff0844fca87841145a46ef8912bb973afc213c",
+      "/tmp/veritile-standardization-20261015/vector-finite-acceptance-revision2-wip/after/bench/tritonbench_g/vector_addition/Proofs/NativeMemory.lean": "a8909d83dfb13a67addf5b8d5335330d5e14599879a3b61054e983cc1f089349"
+    },
+    "custom_revision1": {
+      "/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/evidence/receipt.json": "261d2be00ae6152fbbad9fc6c540ae96d0ff653198e9ae3ea7533878be7de8e1",
+      "/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition_custom/NativeCorrect.lean": "1f56f911ae9f15426aaf94cfe32f2ad4f3b6298b08d00ec3113b7cbe190b1a32",
+      "/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition_custom/Proofs/NativeArithmetic.lean": "582d69b0e84a12751d5c6177598ef25254072a90c454b92029f225eb82de14e1",
+      "/tmp/veritile-standardization-20261015/vector-custom-finite-acceptance-revision1-wip/after/bench/tritonbench_g/vector_addition_custom/Proofs/NativeMemory.lean": "1aaf3ea31ebc7ff8b1a92738153f0464d78690ba77d207de3851fea09ed26c7a"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/usr/local/bin/python3",
+    "-B",
+    "/tmp/veritile-standardization-20261015/next-three-finalizer-summary-correction-001/test_summary.py"
+  ],
+  "cwd": "/tmp/veritile-standardization-20261015/next-three-finalizer-summary-independent-review-001",
+  "exit_code": 0,
+  "log": "tests.log",
+  "log_sha256": "a3b9c0e17e8fe9e08535d8d748fe2f741ecf671495d91212dd3d3025a1b9a477",
+  "finalizer_executed": false
+}

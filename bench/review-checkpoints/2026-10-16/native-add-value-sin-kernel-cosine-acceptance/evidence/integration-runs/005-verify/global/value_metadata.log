@@ -1,0 +1,421 @@
+{"baseline_public_records_preserved": 747, "current_task_statuses": {"backend_equivalence_existing_reports": 41, "backend_equivalence_needs_validation": 3, "backend_equivalence_no_extra_law": 63, "backend_equivalence_reference_revalidated": 2, "backend_value_contract_only": 5, "bit_interpreter_contract_only": 30, "candidate_only_software_contract": 1, "full_declared_profile_backend_value_contract": 11, "full_declared_profile_software_value_contract": 28}, "extended_tasks": 40, "extension_dtype_relations": {"complete_enumerated_wrapper_dtype_domain": 4, "new_source_declared_profiles": 7, "selected_explicit_profiles_only": 29}, "fixed_witnesses_promoted": 0, "historical_numeric_statuses": {"awaiting_numeric_validation": 3, "existing_numeric_evidence": 43, "missing_source": 6, "no_extra_numeric_law": 129, "requires_numeric_model_revision": 3}, "memory_frames_not_value_contracts": 2, "native_execution": false, "native_experiment_jobs": 37, "new_declaration_models": {"backend_value_contract": 79, "bit_interpreter_contract": 63, "memory_frame_contract": 2, "protocol_contract": 1, "recurrence_identity": 1}, "new_parametric_value_contracts": 142, "new_specification_records": 146, "original23_dtype_relations": {"complete_enumerated_wrapper_dtype_domain": 2, "selected_explicit_profiles_only": 21}, "original_41_registry_unchanged": true, "original_pending_exact_bindings": 5, "protocol_contracts_not_value_contracts": 1, "recurrence_identities_not_value_contracts": 1, "review_pending_items": 0, "software_profile_dtype_relations": {"complete_enumerated_wrapper_dtype_domain": 4, "new_source_declared_profiles": 3, "selected_explicit_profiles_only": 21}, "source_frontend_classes": {"shared_triton_dsl": 37, "task_local_exact_ast": 3}, "standalone_model_value_contracts": 6, "tasks": 184}
+{
+  "schema": 1,
+  "kind": "current_value_metadata_replay",
+  "status": "passed",
+  "frozen_complete_replay_exit_code": 0,
+  "frozen_metadata_receipt_sha256": "207d0fc6f6fd80c3dd15b54908e87c4c72a5fc6e7bf5ebac08d9344ed890ddd3",
+  "catalog_sha256": "5588d2e1b843c458b75d54e6951e62ee7bbb502df9784b5a085bc33b96caed31",
+  "current_public_claims": 964,
+  "supplement_scopes": [
+    {
+      "task": "fp4_to_bf16",
+      "required_value_stages": [
+        "packed_uint8_host_grid",
+        "packed_uint8_arbitrary_sequential_program_order"
+      ],
+      "original_full_declared_value_stages": [
+        "packed_uint8_arbitrary_sequential_program_order",
+        "packed_uint8_host_grid"
+      ],
+      "original_full_declared_software_stages": [
+        "packed_uint8_arbitrary_sequential_program_order",
+        "packed_uint8_host_grid"
+      ],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "multinomial_sampling",
+      "required_value_stages": [
+        "complete_kernel_grid",
+        "valid_signed64_index_wrapper",
+        "single_token_early_return"
+      ],
+      "original_full_declared_value_stages": [
+        "complete_kernel_grid",
+        "single_token_early_return",
+        "valid_signed64_index_wrapper"
+      ],
+      "original_full_declared_software_stages": [
+        "complete_kernel_grid",
+        "single_token_early_return"
+      ],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "kcache_copy_triton",
+      "required_value_stages": [
+        "complete_signed_multitoken_copy",
+        "logical_wrapper_reshape_and_complete_sequential_3d_grid"
+      ],
+      "original_full_declared_value_stages": [
+        "complete_signed_multitoken_copy",
+        "logical_wrapper_reshape_and_complete_sequential_3d_grid"
+      ],
+      "original_full_declared_software_stages": [
+        "complete_signed_multitoken_copy",
+        "logical_wrapper_reshape_and_complete_sequential_3d_grid"
+      ],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "triton_conv2d_fwd",
+      "required_value_stages": [
+        "complete_fp32_storage_convolution_both_fp16_flags"
+      ],
+      "original_full_declared_value_stages": [
+        "complete_fp32_storage_convolution_both_fp16_flags"
+      ],
+      "original_full_declared_software_stages": [
+        "complete_fp32_storage_convolution_both_fp16_flags"
+      ],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "attention_kernel_aligned",
+      "required_value_stages": [
+        "full_kernel"
+      ],
+      "original_full_declared_value_stages": [
+        "full_kernel"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "lora_expand_gemv",
+      "required_value_stages": [
+        "full_kernel",
+        "logical_wrapper_and_complete_sequential_2d_grid"
+      ],
+      "original_full_declared_value_stages": [
+        "full_kernel",
+        "logical_wrapper_and_complete_sequential_2d_grid"
+      ],
+      "original_full_declared_software_stages": [
+        "full_kernel",
+        "logical_wrapper_and_complete_sequential_2d_grid"
+      ],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "matrix_transpose",
+      "required_value_stages": [
+        "logical_fp16_wrapper_allocation_and_single_original_program",
+        "stage:bench/tritonbench_g/matrix_transpose/matrix_transpose.py:6:kernel",
+        "stage:bench/tritonbench_g/matrix_transpose/matrix_transpose.py:23:wrapper"
+      ],
+      "original_full_declared_value_stages": [
+        "logical_fp16_wrapper_allocation_and_single_original_program",
+        "stage:bench/tritonbench_g/matrix_transpose/matrix_transpose.py:23:wrapper",
+        "stage:bench/tritonbench_g/matrix_transpose/matrix_transpose.py:6:kernel"
+      ],
+      "original_full_declared_software_stages": [
+        "logical_fp16_wrapper_allocation_and_single_original_program",
+        "stage:bench/tritonbench_g/matrix_transpose/matrix_transpose.py:23:wrapper",
+        "stage:bench/tritonbench_g/matrix_transpose/matrix_transpose.py:6:kernel"
+      ],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "batched_vecmat_mult",
+      "required_value_stages": [
+        "full_kernel",
+        "logical_wrapper_and_complete_sequential_2d_grid",
+        "separated_fp32_arbitrary_sequential_program_order"
+      ],
+      "original_full_declared_value_stages": [
+        "full_kernel",
+        "logical_wrapper_and_complete_sequential_2d_grid",
+        "separated_fp32_arbitrary_sequential_program_order"
+      ],
+      "original_full_declared_software_stages": [
+        "full_kernel",
+        "logical_wrapper_and_complete_sequential_2d_grid",
+        "separated_fp32_arbitrary_sequential_program_order"
+      ],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "vector_addition",
+      "required_value_stages": [
+        "five_float_profiles_complete_sequential_grid",
+        "original_host_wrapper",
+        "original_test_harness_and_module_initialization",
+        "remaining_original_dtype_and_error_branches",
+        "canonical_integer_bool_complete_sequential_grid",
+        "five_float_profiles_arbitrary_sequential_program_order",
+        "mixed_integer_bool_fp32_totalized_complete_sequential_grid",
+        "mixed_integer_bool_fp32_active_defined_domain_policy_independent_grid",
+        "canonical_integer_bool_finite_input_output_word_grid_refinement",
+        "mixed_integer_bool_fp16_bf16_totalized_complete_sequential_grid",
+        "mixed_integer_bool_fp16_bf16_active_defined_domain_policy_independent_grid",
+        "integer_bool_complete_program_permutation",
+        "mixed_integer_bool_fp32_totalized_complete_program_permutation",
+        "mixed_integer_bool_fp32_active_defined_domain_complete_program_permutation",
+        "mixed_integer_bool_fp16_bf16_totalized_complete_program_permutation",
+        "mixed_integer_bool_fp16_bf16_active_defined_domain_complete_program_permutation",
+        "task_local_fp64_defined_typed_memory_complete_program_permutation",
+        "task_local_fp64_floating_typed_memory_complete_program_permutation",
+        "typed_host_success_all189",
+        "typed_host_canonical_outcomes289",
+        "stage:bench/tritonbench_g/vector_addition/vector_addition.py:6:add_kernel",
+        "stage:bench/tritonbench_g/vector_addition/vector_addition.py:21:add"
+      ],
+      "original_full_declared_value_stages": [
+        "canonical_integer_bool_complete_sequential_grid",
+        "canonical_integer_bool_finite_input_output_word_grid_refinement",
+        "five_float_profiles_arbitrary_sequential_program_order",
+        "five_float_profiles_complete_sequential_grid",
+        "integer_bool_complete_program_permutation",
+        "mixed_integer_bool_fp16_bf16_active_defined_domain_complete_program_permutation",
+        "mixed_integer_bool_fp16_bf16_active_defined_domain_policy_independent_grid",
+        "mixed_integer_bool_fp16_bf16_totalized_complete_program_permutation",
+        "mixed_integer_bool_fp16_bf16_totalized_complete_sequential_grid",
+        "mixed_integer_bool_fp32_active_defined_domain_complete_program_permutation",
+        "mixed_integer_bool_fp32_active_defined_domain_policy_independent_grid",
+        "mixed_integer_bool_fp32_totalized_complete_program_permutation",
+        "mixed_integer_bool_fp32_totalized_complete_sequential_grid",
+        "stage:bench/tritonbench_g/vector_addition/vector_addition.py:21:add",
+        "stage:bench/tritonbench_g/vector_addition/vector_addition.py:6:add_kernel",
+        "task_local_fp64_defined_typed_memory_complete_program_permutation",
+        "task_local_fp64_floating_typed_memory_complete_program_permutation",
+        "typed_host_canonical_outcomes289",
+        "typed_host_success_all189"
+      ],
+      "original_full_declared_software_stages": [
+        "canonical_integer_bool_complete_sequential_grid",
+        "canonical_integer_bool_finite_input_output_word_grid_refinement",
+        "integer_bool_complete_program_permutation"
+      ],
+      "uncovered_declared_stages": [
+        "original_host_wrapper",
+        "original_test_harness_and_module_initialization",
+        "remaining_original_dtype_and_error_branches"
+      ],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "relu_triton_kernel",
+      "required_value_stages": [
+        "twelve_profile_complete_pid_zero_only_logical_grid",
+        "fp64_and_remaining_original_dtype_or_error_branches",
+        "native_allocation_tensor_metadata_and_physical_memory",
+        "native_finite_width_address_and_launch_arithmetic",
+        "native_host_wrapper_harness_and_module_execution",
+        "native_instruction_scheduling_and_compiler_runtime_outcomes",
+        "nine_profile_finite_input_word_to_pid_zero_grid_refinement",
+        "fixed1024_bounded_index_and_byte_address_arithmetic_with_word_grid",
+        "little_endian_separated_byte_memory_to_finite_word_grid_refinement",
+        "partial_byte_access_all_active_loads_complete_program_permutation",
+        "checked_byte_source_seven_statement_block_trace",
+        "checked_byte_source_seven_statement_traces_complete_program_permutation",
+        "complete_fp64_pid_zero_source_grid",
+        "fp64_source_wrapper_success",
+        "stage:bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py:6:relu_kernel",
+        "stage:bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py:23:relu"
+      ],
+      "original_full_declared_value_stages": [
+        "checked_byte_source_seven_statement_block_trace",
+        "checked_byte_source_seven_statement_traces_complete_program_permutation",
+        "complete_fp64_pid_zero_source_grid",
+        "fixed1024_bounded_index_and_byte_address_arithmetic_with_word_grid",
+        "fp64_source_wrapper_success",
+        "little_endian_separated_byte_memory_to_finite_word_grid_refinement",
+        "nine_profile_finite_input_word_to_pid_zero_grid_refinement",
+        "partial_byte_access_all_active_loads_complete_program_permutation",
+        "stage:bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py:23:relu",
+        "stage:bench/tritonbench_g/relu_triton_kernel/relu_triton_kernel.py:6:relu_kernel",
+        "twelve_profile_complete_pid_zero_only_logical_grid"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [
+        "fp64_and_remaining_original_dtype_or_error_branches",
+        "native_allocation_tensor_metadata_and_physical_memory",
+        "native_finite_width_address_and_launch_arithmetic",
+        "native_host_wrapper_harness_and_module_execution",
+        "native_instruction_scheduling_and_compiler_runtime_outcomes"
+      ],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "quantize_global",
+      "required_value_stages": [
+        "complete_fp32_llrint_int8_kernel",
+        "stage:bench/tritonbench_g/quantize_global/quantize_global.py:15:_quantize_global",
+        "stage:bench/tritonbench_g/quantize_global/quantize_global.py:31:quantize_global"
+      ],
+      "original_full_declared_value_stages": [
+        "complete_fp32_llrint_int8_kernel",
+        "stage:bench/tritonbench_g/quantize_global/quantize_global.py:15:_quantize_global",
+        "stage:bench/tritonbench_g/quantize_global/quantize_global.py:31:quantize_global"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "quant_transpose_kernel",
+      "required_value_stages": [
+        "fp32_llrint_int8_transposed_tile_stage",
+        "stage:bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py:16:_quantize_global_transpose",
+        "stage:bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py:57:quantize_global_transpose"
+      ],
+      "original_full_declared_value_stages": [
+        "fp32_llrint_int8_transposed_tile_stage",
+        "stage:bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py:16:_quantize_global_transpose",
+        "stage:bench/tritonbench_g/quant_transpose_kernel/quant_transpose_kernel.py:57:quantize_global_transpose"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "token_softmax_bloom",
+      "required_value_stages": [
+        "complete_per_program_mixed_floating_row_value_and_frame"
+      ],
+      "original_full_declared_value_stages": [
+        "complete_per_program_mixed_floating_row_value_and_frame"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "token_softmax_llama",
+      "required_value_stages": [
+        "complete_per_program_mixed_floating_row_value_and_frame"
+      ],
+      "original_full_declared_value_stages": [
+        "complete_per_program_mixed_floating_row_value_and_frame"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "rotary_emb",
+      "required_value_stages": [
+        "original_real_host_complete_grid"
+      ],
+      "original_full_declared_value_stages": [
+        "original_real_host_complete_grid"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "softmax_flaggems",
+      "required_value_stages": [
+        "original_real_host_grid_composition",
+        "original_real_host_grid_admitted"
+      ],
+      "original_full_declared_value_stages": [
+        "original_real_host_grid_admitted",
+        "original_real_host_grid_composition"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "triton_mul2",
+      "required_value_stages": [
+        "stage:bench/tritonbench_g/triton_mul2/triton_mul2.py:7:mul2_kernel",
+        "stage:bench/tritonbench_g/triton_mul2/triton_mul2.py:22:mul2_inplace_kernel",
+        "stage:bench/tritonbench_g/triton_mul2/triton_mul2.py:36:triton_mul2",
+        "stage:bench/tritonbench_g/triton_mul2/triton_mul2.py:43:triton_mul2_inplace"
+      ],
+      "original_full_declared_value_stages": [
+        "stage:bench/tritonbench_g/triton_mul2/triton_mul2.py:22:mul2_inplace_kernel",
+        "stage:bench/tritonbench_g/triton_mul2/triton_mul2.py:36:triton_mul2",
+        "stage:bench/tritonbench_g/triton_mul2/triton_mul2.py:43:triton_mul2_inplace",
+        "stage:bench/tritonbench_g/triton_mul2/triton_mul2.py:7:mul2_kernel"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "vector_addition_custom",
+      "required_value_stages": [
+        "stage:bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py:7:_add_kernel",
+        "stage:bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py:15:custom_add"
+      ],
+      "original_full_declared_value_stages": [
+        "stage:bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py:15:custom_add",
+        "stage:bench/tritonbench_g/vector_addition_custom/vector_addition_custom.py:7:_add_kernel"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "add_example",
+      "required_value_stages": [
+        "stage:bench/tritonbench_g/add_example/add_example.py:7:add_kernel",
+        "stage:bench/tritonbench_g/add_example/add_example.py:23:add_wrapper"
+      ],
+      "original_full_declared_value_stages": [
+        "stage:bench/tritonbench_g/add_example/add_example.py:23:add_wrapper",
+        "stage:bench/tritonbench_g/add_example/add_example.py:7:add_kernel"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "add_value",
+      "required_value_stages": [
+        "stage:bench/tritonbench_g/add_value/add_value.py:7:puzzle1_kernel",
+        "stage:bench/tritonbench_g/add_value/add_value.py:17:puzzle1"
+      ],
+      "original_full_declared_value_stages": [
+        "stage:bench/tritonbench_g/add_value/add_value.py:17:puzzle1",
+        "stage:bench/tritonbench_g/add_value/add_value.py:7:puzzle1_kernel"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "sin_kernel",
+      "required_value_stages": [
+        "stage:bench/tritonbench_g/sin_kernel/sin_kernel.py:8:kernel_function",
+        "stage:bench/tritonbench_g/sin_kernel/sin_kernel.py:22:call_kernel"
+      ],
+      "original_full_declared_value_stages": [
+        "stage:bench/tritonbench_g/sin_kernel/sin_kernel.py:22:call_kernel",
+        "stage:bench/tritonbench_g/sin_kernel/sin_kernel.py:8:kernel_function"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    },
+    {
+      "task": "cosine_compute",
+      "required_value_stages": [
+        "stage:bench/tritonbench_g/cosine_compute/cosine_compute.py:8:cos_func",
+        "stage:bench/tritonbench_g/cosine_compute/cosine_compute.py:21:cos"
+      ],
+      "original_full_declared_value_stages": [
+        "stage:bench/tritonbench_g/cosine_compute/cosine_compute.py:21:cos",
+        "stage:bench/tritonbench_g/cosine_compute/cosine_compute.py:8:cos_func"
+      ],
+      "original_full_declared_software_stages": [],
+      "uncovered_declared_stages": [],
+      "whole_original_program_coverage": "requires_separate_183_scope_ledger"
+    }
+  ],
+  "boundary": "Exact frozen metadata and current supplementary declaration checks. Whole-original-program scope, compiled proof replay and native numerical validation remain separate."
+}

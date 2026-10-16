@@ -1,0 +1,8 @@
+/tmp/veritile-standardization-20261015/add-value-finite-acceptance-revision1-wip/after/bench/tritonbench_g/add_value/Proofs/NativeScalar.lean:155:41: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+AddValueNative.result: definition does not reference [AddValueNative.source, AddValueNative.Expr.eval] — non-circular ✓
+AddValueNative.source_scalar: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+AddValueNative.existing_fp64_scalar: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+AddValueNative.argument_exact: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+AddValueNative.signed_defined: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

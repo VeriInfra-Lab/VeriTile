@@ -1,0 +1,121 @@
+--- revision1/common.py
++++ revision2/common.py
+@@ -241,7 +241,7 @@
+  require(hashes(old)==s['predecessor_sha256'],'Predecessor checkpoint changed')
+  require(hashes(r/BASE)==s['metadata_baseline_sha256'],'Historical metadata baseline changed')
+  for rel,h in s['new_source_sha256'].items():exact(r/rel,h)
+- changed={x.decode() for command in [('diff','--name-only','-z','HEAD'),('ls-files','--others','--exclude-standard','-z')] for x in git(r,*command).split(b'\0') if x}
++ changed={x.decode() for command in [('diff','--name-only','-z','--no-renames','HEAD'),('ls-files','--others','--exclude-standard','-z')] for x in git(r,*command).split(b'\0') if x}
+  allowed=active_paths(args,s);prefix=b.relative_to(r).as_posix()+'/'
+  require(all(rel in allowed or rel.startswith(prefix) for rel in changed),'Unrelated worktree change outside exact integration paths')
+  return r,b,old,s
+--- revision1/freeze.py
++++ revision2/freeze.py
+@@ -12,7 +12,8 @@
+ assert lint['status']=='passed' and sum(row['module_sources'] for row in preflight['packages'])==24
+ assert sum(row['families'] for row in preflight['packages'])==34 and sum(row['bindings'] for row in preflight['packages'])==577 and sum(row['cases'] for row in preflight['packages'])==558
+ assert sha(W/'specs.json')=='50490b7af9c7b81899ec872b0c3e4c158677a37bce2cc6ba20d8f3165a8f81b8'
++assert load(W/'evidence/stage-controls/results.json')['status']=='passed'
+ artifacts={p.relative_to(W).as_posix():sha(p) for p in sorted(W.rglob('*')) if p.is_file() and p!=W/'candidate-receipt.json' and '__pycache__' not in p.parts and p.suffix!='.pyc'}
+-receipt={'schema':1,'frozen':True,'kind':'next_three_source_integration_script_candidate','status':'pending_independent_root_script_review_and_actual_post_migration_base','spec_sha256':sha(W/'specs.json'),'baseline_legacy_scopes':{'accepted':8,'pending':175},'expected_legacy_scopes_after_integration':{'accepted':11,'pending':172},'new_source_modules':24,'new_numerical_rules':34,'new_exact_bindings':577,'new_declaration_cases':558,'current_candidate_tests':7,'adapter_logic_preserved_except_archive_paths':True,'old_adversarial_test_logic_preserved':True,'future_base_commit':None,'base_must_be_explicit_clean_commit_after_gzip_migration':True,'active_queue_ledger_catalog_supplement_use_gzip':True,'storage_receipt_manifest_plan_script_chain_required':True,'historical_deletions_authorized':False,'repository_or_Git_modified':False,'live_plan_or_integration_executed':False,'Lean_or_GPU_executed':False,'large_dependency_files_copied':0,'new_dtype_profiles':0,'legacy_acceptance_increment':0,'primary_version_completion_increment':0,'artifacts':artifacts}
++receipt={'schema':1,'frozen':True,'kind':'next_three_source_integration_script_candidate_revision2','revision1_receipt_sha256':sha(W/'revision1-candidate-receipt.json'),'staging_checkpoint_set_sealed':True,'literal_no_renames_path_sets':True,'automatic_staging_reset_or_rollback':False,'focused_stage_controls':load(W/'evidence/stage-controls/results.json')['test_count'],'status':'pending_independent_root_script_review_and_actual_post_migration_base','spec_sha256':sha(W/'specs.json'),'baseline_legacy_scopes':{'accepted':8,'pending':175},'expected_legacy_scopes_after_integration':{'accepted':11,'pending':172},'new_source_modules':24,'new_numerical_rules':34,'new_exact_bindings':577,'new_declaration_cases':558,'current_candidate_tests':7,'adapter_logic_preserved_except_archive_paths':True,'old_adversarial_test_logic_preserved':True,'future_base_commit':None,'base_must_be_explicit_clean_commit_after_gzip_migration':True,'active_queue_ledger_catalog_supplement_use_gzip':True,'storage_receipt_manifest_plan_script_chain_required':True,'historical_deletions_authorized':False,'repository_or_Git_modified':False,'live_plan_or_integration_executed':False,'Lean_or_GPU_executed':False,'large_dependency_files_copied':0,'new_dtype_profiles':0,'legacy_acceptance_increment':0,'primary_version_completion_increment':0,'artifacts':artifacts}
+ path=W/'candidate-receipt.json';assert not path.exists();path.write_text(json.dumps(receipt,indent=2)+'\n')
+ print(json.dumps({'receipt':str(path),'sha256':sha(path),'artifacts':len(artifacts),'package_bytes':sum(p.stat().st_size for p in W.rglob('*') if p.is_file()),'live_plan_executed':False,'acceptance_increment':0}))
+--- revision1/stage.py
++++ revision2/stage.py
+@@ -5,10 +5,14 @@
+ p=arguments(__doc__);a=p.parse_args();r,b,old,s=state(a);v=load(b/'validation.json')
+ require(not (b/'staging-review.json').exists(),'Staging review already exists')
+ require(git(r,'branch','--show-current').decode().strip()==s['base_branch'],'Branch changed since preparation')
+-require(not git(r,'diff','--cached','--name-only','-z'),'Index must be empty before controlled staging')
++require(not git(r,'diff','--cached','--name-only','-z','--no-renames'),'Index must be empty before controlled staging; preserve and review any failed prior staging attempt before explicit repair. No automatic reset or rollback.')
+ require(v['scope']=={'requested':183,'accepted':11,'verified':1,'verified_with_deferred_numerics':10,'pending':172},'Validated scope differs')
+ for rel,h in v['checked_input_sha256'].items():exact(r/rel,h)
+-expected=active_paths(a,s)|{p.relative_to(r).as_posix() for p in checkpoint_files(b)}
++checkpoint_prefix=b.relative_to(r).as_posix()+'/'
++sealed_checkpoint={rel for rel in v['checked_input_sha256'] if rel.startswith(checkpoint_prefix)}
++current_checkpoint={p.relative_to(r).as_posix() for p in checkpoint_files(b)}
++require(current_checkpoint==sealed_checkpoint|{checkpoint_prefix+'validation.json'},'Checkpoint file set differs from finalized validation; added or missing files require review before staging')
++expected=active_paths(a,s)|current_checkpoint
+ for rel in expected:
+  path=r/relative(rel)
+  if rel in s['deactivated_ledger_paths']:
+@@ -16,12 +20,12 @@
+  require(path.is_file() and not path.is_symlink(),'Missing/symlink staged input: '+rel)
+  require(path.stat().st_size<LIMIT,'100 MiB staging limit exceeded: '+rel)
+  if path.is_relative_to(b):require(archive(path.relative_to(b))==path.relative_to(b).as_posix(),'Historical active Lean/object/bytecode: '+rel)
+-for item in git(r,'status','--porcelain=v1','-z','--untracked-files=all').split(b'\0'):
++for item in git(r,'status','--porcelain=v1','-z','--untracked-files=all','--no-renames').split(b'\0'):
+  if item:
+   require(item[:2] in {b' M',b' D',b'??'},'Unexpected status: '+repr(item[:120]))
+   require(item[3:].decode() in expected,'Unreviewed changed path: '+item[3:].decode())
+ # Some explicitly allowed paths can be byte-identical to HEAD; stage only actual diffs.
+-actual_changed=set(git(r,'diff','--name-only','-z').decode().strip('\0').split('\0'))-{''}
++actual_changed=set(git(r,'diff','--name-only','-z','--no-renames').decode().strip('\0').split('\0'))-{''}
+ baseline_tracked=set(git(r,'ls-tree','-r','--name-only',s['base_commit']).decode().splitlines())
+ new_paths=expected-baseline_tracked
+ expected_staged=actual_changed|new_paths
+@@ -29,9 +33,9 @@
+ with tempfile.NamedTemporaryFile(prefix='veritile-next-three-stage-',suffix='.bin',delete=False) as stream:
+  pathspec=Path(stream.name);stream.write(b'\0'.join(p.encode() for p in sorted(expected))+b'\0')
+ git(r,'add','-A','-f','--pathspec-from-file='+str(pathspec),'--pathspec-file-nul')
+-staged=set(git(r,'diff','--cached','--name-only','-z').decode().strip('\0').split('\0'))-{''}
++staged=set(git(r,'diff','--cached','--name-only','-z','--no-renames').decode().strip('\0').split('\0'))-{''}
+ require(staged==expected_staged,'Staged inventory mismatch')
+-require(not git(r,'diff','--name-only','-z'),'Unstaged tracked change after staging')
++require(not git(r,'diff','--name-only','-z','--no-renames'),'Unstaged tracked change after staging')
+ index={}
+ for item in git(r,'ls-files','--stage','-z').split(b'\0'):
+  if not item:continue
+@@ -47,7 +51,8 @@
+ require(regular.returncode==0,'Whitespace outside exact archived evidence requires review: '+regular.stdout+regular.stderr)
+ review={'schema':1,'kind':'native_add_value_sin_cosine_staging_review','status':'passed','recorded_at_utc':datetime.now(timezone.utc).isoformat(),'base_commit':s['base_commit'],'deleted_paths':sorted(deleted),'staged_file_sha256':{rel:digest(r/rel) for rel in paths},'index_blob_equals_reviewed_worktree':True,'validated_input_hashes_rechecked':len(v['checked_input_sha256']),'all_files_below_100_MiB':True,'compressed_queue_bytes':(r/QUEUE).stat().st_size,'diff_cached_check_exit_code':whole.returncode,'exact_evidence_whitespace':whole.stdout,'all_other_staged_files_diff_check_exit_code':regular.returncode,'scope':v['scope'],'official_comparator_passed':v['current_comparator_success'],'native_gpu_execution':False}
+ path=b/'staging-review.json';write(path,review);require(path.stat().st_size<LIMIT,'Staging review exceeds file limit');rel=path.relative_to(r).as_posix();git(r,'add','--',rel)
+-final=set(git(r,'diff','--cached','--name-only','-z').decode().strip('\0').split('\0'))-{''}
++final=set(git(r,'diff','--cached','--name-only','-z','--no-renames').decode().strip('\0').split('\0'))-{''}
+ require(final==staged|{rel} and git(r,'show',':'+rel)==path.read_bytes(),'Staging review index mismatch')
+-require(not git(r,'diff','--name-only','-z'),'Post-review tracked unstaged changes')
++require(not git(r,'diff','--name-only','-z','--no-renames'),'Post-review tracked unstaged changes')
++require({p.relative_to(r).as_posix() for p in checkpoint_files(b)}==current_checkpoint|{rel},'Checkpoint file set changed while staging')
+ print(json.dumps({'phase':'stage','staged_paths':len(final),'staging_review_sha256':digest(path),'scope':v['scope'],'commit_and_push':'not_performed'},indent=2))
+--- revision1/README.md
++++ revision2/README.md
+@@ -1,4 +1,4 @@
+-# Three-source integration script candidate
++# Three-source integration script candidate — revision 2
+ 
+ This package prepares `add_value`, `sin_kernel` and `cosine_compute` for a later root-reviewed integration. It writes only this `/tmp` review package during preparation. It does not install sources, supply an assumed future commit, run Lean, launch GPUs, regenerate live metadata, change Git, or accept tasks.
+ 
+@@ -17,3 +17,9 @@
+ Candidate checks consist of complete frozen-input hashing, syntax/AST/source-view checks, and seven focused negative-control tests for the explicit base, dirty/wrong HEAD, external output paths, competing queue paths, unsafe artifact paths, script-closure corruption, and the full migration validation chain. These are script-preparation results only. Actual catalog generation, scope checks, Lean builds, benchmark tests and global results remain pending and must be recorded from future runs. `finalize.py` retains every attempt, including failures, and preserves the expected global completeness failure for 172 scopes. It does not infer current comparator or native numerical success.
+ 
+ See `PLAN.md` for the exact future sequence. Review `evidence/lint-final/source-views.json`, the transformed files in that directory, and `evidence/final-checks.json`. Existing prior-script source files are preserved under `evidence/design-origin/`; they are design history only and are not executed by this candidate.
++
++## Revision 2 staging boundary
++
++Revision 1 and its independent counterexample remain frozen separately. The old stage gathered every current checkpoint file, so a file added after final validation could enter staging without belonging to the validation seal. Revision 2 requires exact equality with the sealed checkpoint paths plus `validation.json` before staging, permits only the newly created `staging-review.json` afterward, and uses `--no-renames` for literal path-set comparisons. No source integration, validation command, numerical predicate, protected pin, dependency, required build or expected count changes.
++
++Staging does not auto-reset or roll back. Failure after `git add` may retain index changes; a direct retry is blocked until root reviews an explicit repair. Existing staging reviews are retained and block duplicate execution. The focused stage controls use fresh `/tmp` files and in-memory Git simulations only; they never run a Git mutation or claim actual source acceptance.
+--- revision1/PLAN.md
++++ revision2/PLAN.md
+@@ -12,7 +12,7 @@
+ --storage-validation-sha256 "$NEXT_STORAGE_CHECK"
+ ```
+ 
+-Use `python3 -B /tmp/veritile-standardization-20261015/next-three-source-integration-scripts-wip/SCRIPT.py` for the scripts below. The ledger defaults to `bench/original_program_scope.json.gz`; both baseline and active path must stay equal. Predecessor catalog, supplement and review defaults are the explicit `.json.gz` files under the reviewed four-task checkpoint. The migration checkpoint is `bench/review-checkpoints/2026-10-16/numerical-queue-gzip-migration`.
++Use `python3 -B /tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/SCRIPT.py` for the scripts below. The ledger defaults to `bench/original_program_scope.json.gz`; both baseline and active path must stay equal. Predecessor catalog, supplement and review defaults are the explicit `.json.gz` files under the reviewed four-task checkpoint. The migration checkpoint is `bench/review-checkpoints/2026-10-16/numerical-queue-gzip-migration`.
+ 
+ 1. Run `check_prepare_plan.py` with the shared arguments and `--report "$NEXT_RUNS/preparation-plan.json"`. This executes only the read-only prefix of `prepare.py`, validates the actual clean committed base and migration evidence chain, and writes a concrete external report. Review its hash, input pins, source-view metadata and intended changes.
+ 2. Run `record_phase.py --phase prepare --run-dir "$NEXT_RUNS/001-prepare"` with the shared arguments. It copies exactly the frozen 24 sources and receipt-bound evidence, archives the current ledger and progress documents, creates the reviewed supplement/root metadata, copies the complete script closure, and updates only the workflow's two checkpoint paths. It authorizes no historical deletion.
+@@ -21,8 +21,10 @@
+ 5. Run `record_phase.py --phase rebind --run-dir "$NEXT_RUNS/004-rebind"` with the shared arguments. Eight existing accepted rows change only their catalog-bound review reference. Three pending rows receive the frozen reviewed proposals. All 172 unrelated rows, old rules, old exact ports and old case tables remain identical; exact new deltas and all eleven accepted rows must validate. Progress documents retain the primary-version goal and label legacy counts explicitly.
+ 6. Run `run_checks.py --phase verify --run-dir "$NEXT_RUNS/005-verify"` with the shared arguments. This invokes the existing eight Lean targets, complete bench tests, shard tests and global runner while pinning before/after verification inputs. This source integration adds 24 proof modules and three authority extensions; these are actual future source-integration checks, not extra requirements for the preceding storage-only migration. Capture the real exits. Scope completeness is expected to remain failed for 172 pending tasks; comparator outcomes are reported independently.
+ 7. Run `finalize.py --runs-root "$NEXT_RUNS" --selected-verify "$NEXT_RUNS/005-verify"` with the shared arguments only after checking every actual run, including any failed attempts. Finalization verifies exact commands and logs, actual test counts, unchanged inputs and preservation; it archives all attempts and writes `validation.json`. It reports no numerical conformance or GPU success.
+-8. After root reviews the final active/checkpoint diff, `stage.py` with the same shared arguments stages exactly the allowed paths, checks index/worktree equality and file sizes, and writes a staging review. Its pathspec is a separate temporary file; it does not alter the frozen script package. Commit and push are outside these scripts.
++8. After root reviews the final active/checkpoint diff, `stage.py` with the same shared arguments stages exactly the allowed paths, checks index/worktree equality and file sizes, and writes a staging review. The checkpoint file set must exactly equal the final validation seal plus `validation.json`; files added after finalization are rejected before `git add`. Its pathspec is a separate temporary file; it does not alter the frozen script package. All status/diff path-set comparisons use `--no-renames`. Commit and push are outside these scripts.
+ 
+ Each failed run stays in its original directory. Use a fresh numbered attempt rather than overwriting logs. Completed mutation stages reject duplicate execution; inspect the partial state and prepare a reviewed repair when needed. The scripts do not roll back across unrelated work. The concrete plan is a JSON file at the runs-root level, not an attempt directory; finalization scans only child directories containing run manifests.
+ 
+ Expected changes are the 24 new module sources, three new adapter files, appended authority dispatch, numerical count assertions, two workflow checkpoint references, the active gzip queue and its Markdown, the existing gzip ledger, two current progress documents, and the new checkpoint. No existing proof source, validator predicate, primary checker, source-variant ID, primary completion field, old historical file or dependency package is changed.
++
++Staging is intentionally not transactional. A failure before `git add` leaves the index unchanged. A failure after `git add` may leave reviewed paths staged, and a later failure after writing `staging-review.json` may retain that file too. Preserve the failed attempt and inspect its exact index/worktree state. A direct retry is rejected by the empty-index or existing-review guard; root must review an explicit repair before retry. These scripts never reset, unstage, roll back, delete evidence, or treat a prior partial staging attempt as success. Use the same validated files after a reviewed repair, or repeat validation when inputs changed.

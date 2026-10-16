@@ -1,0 +1,334 @@
+{
+  "schema": 1,
+  "profiles": {
+    "kldiv_ops": {
+      "jit": "_kldiv_kernel_forward",
+      "python": {
+        "eps": {
+          "object": "float",
+          "abi": "fp32"
+        }
+      },
+      "lean": {
+        "source": "klOpsForward%",
+        "args": {
+          "pred": "tl.float32",
+          "target": "tl.float32",
+          "output": "tl.float32",
+          "branch": "defaultTarget"
+        }
+      },
+      "compiler": {
+        "triton_version": "3.7.1",
+        "target": "cuda sm90 warp32",
+        "kernel_launched": false,
+        "options": {
+          "num_warps": 4,
+          "num_stages": 3
+        }
+      },
+      "specialization": {
+        "1e-06": [
+          "fp32",
+          null
+        ],
+        "1.0": [
+          "fp32",
+          null
+        ],
+        "0.0": [
+          "fp32",
+          null
+        ],
+        "7": [
+          "i32",
+          null
+        ]
+      },
+      "native": {
+        "port": "kldiv_ops",
+        "source_sha256": "36512c93f35738488b343c4b2db4a2bb5b11ae6967976673099794efa9d8c2b1",
+        "signature": {
+          "y_ptr": "*fp32",
+          "y_stride": "i32",
+          "gt_ptr": "*fp32",
+          "gt_stride": "i32",
+          "loss_ptr": "*fp32",
+          "loss_stride": "i32",
+          "n_cols": "i32",
+          "eps": "fp32"
+        },
+        "constexprs": {
+          "BLOCK_SIZE": 32,
+          "log_target": false,
+          "reduction": 0
+        },
+        "eps_is_constexpr": false,
+        "status": "compiled",
+        "ttir_sha256": "c43f202290798fefd5acebc208705b775a957b78bf1245d7e62726d949110b88",
+        "ttir_signature": "tt.func public @_kldiv_kernel_forward(%y_ptr: !tt.ptr<f32> loc(\"y_ptr\"(#loc)), %y_stride: i32 loc(\"y_stride\"(#loc)), %gt_ptr: !tt.ptr<f32> loc(\"gt_ptr\"(#loc)), %gt_stride: i32 loc(\"gt_stride\"(#loc)), %loss_ptr: !tt.ptr<f32> loc(\"loss_ptr\"(#loc)), %loss_stride: i32 loc(\"loss_stride\"(#loc)), %n_cols: i32 loc(\"n_cols\"(#loc)), %eps: f32 loc(\"eps\"(#loc))) attributes {noinline = false} {",
+        "ptx_bytes": 8233
+      },
+      "ttir": "#loc = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":5:0)\n#loc25 = loc(\"y_ptr\"(#loc))\n#loc26 = loc(\"y_stride\"(#loc))\n#loc27 = loc(\"gt_ptr\"(#loc))\n#loc28 = loc(\"gt_stride\"(#loc))\n#loc29 = loc(\"loss_ptr\"(#loc))\n#loc30 = loc(\"loss_stride\"(#loc))\n#loc31 = loc(\"n_cols\"(#loc))\n#loc32 = loc(\"eps\"(#loc))\nmodule {\n  tt.func public @_kldiv_kernel_forward(%y_ptr: !tt.ptr<f32> loc(\"y_ptr\"(#loc)), %y_stride: i32 loc(\"y_stride\"(#loc)), %gt_ptr: !tt.ptr<f32> loc(\"gt_ptr\"(#loc)), %gt_stride: i32 loc(\"gt_stride\"(#loc)), %loss_ptr: !tt.ptr<f32> loc(\"loss_ptr\"(#loc)), %loss_stride: i32 loc(\"loss_stride\"(#loc)), %n_cols: i32 loc(\"n_cols\"(#loc)), %eps: f32 loc(\"eps\"(#loc))) attributes {noinline = false} {\n    %c32_i32 = arith.constant 32 : i32 loc(#loc1)\n    %c0_i32 = arith.constant 0 : i32 loc(#loc1)\n    %cst = arith.constant dense<0.000000e+00> : tensor<32xf32> loc(#loc2)\n    %pid = tt.get_program_id x : i32 loc(#loc33)\n    %pid_0 = arith.extsi %pid : i32 to i64 loc(#loc34)\n    %y_ptr_1 = arith.extsi %y_stride : i32 to i64 loc(#loc35)\n    %y_ptr_2 = arith.muli %pid_0, %y_ptr_1 : i64 loc(#loc35)\n    %y_ptr_3 = tt.addptr %y_ptr, %y_ptr_2 : !tt.ptr<f32>, i64 loc(#loc36)\n    %gt_ptr_4 = arith.extsi %gt_stride : i32 to i64 loc(#loc37)\n    %gt_ptr_5 = arith.muli %pid_0, %gt_ptr_4 : i64 loc(#loc37)\n    %gt_ptr_6 = tt.addptr %gt_ptr, %gt_ptr_5 : !tt.ptr<f32>, i64 loc(#loc38)\n    %loss_ptr_7 = arith.extsi %loss_stride : i32 to i64 loc(#loc39)\n    %loss_ptr_8 = arith.muli %pid_0, %loss_ptr_7 : i64 loc(#loc39)\n    %loss_ptr_9 = tt.addptr %loss_ptr, %loss_ptr_8 : !tt.ptr<f32>, i64 loc(#loc40)\n    %base_offsets = tt.make_range {end = 32 : i32, start = 0 : i32} : tensor<32xi32> loc(#loc41)\n    scf.for %i = %c0_i32 to %n_cols step %c32_i32  : i32 {\n      %offsets = tt.splat %i : i32 -> tensor<32xi32> loc(#loc42)\n      %offsets_10 = arith.addi %offsets, %base_offsets : tensor<32xi32> loc(#loc42)\n      %mask = tt.splat %n_cols : i32 -> tensor<32xi32> loc(#loc43)\n      %mask_11 = arith.cmpi slt, %offsets_10, %mask : tensor<32xi32> loc(#loc43)\n      %y = tt.splat %y_ptr_3 : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc44)\n      %y_12 = tt.addptr %y, %offsets_10 : tensor<32x!tt.ptr<f32>>, tensor<32xi32> loc(#loc44)\n      %y_13 = tt.load %y_12, %mask_11, %cst : tensor<32x!tt.ptr<f32>> loc(#loc45)\n      %y_true = tt.splat %gt_ptr_6 : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc46)\n      %y_true_14 = tt.addptr %y_true, %offsets_10 : tensor<32x!tt.ptr<f32>>, tensor<32xi32> loc(#loc46)\n      %y_true_15 = tt.load %y_true_14, %mask_11, %cst : tensor<32x!tt.ptr<f32>> loc(#loc47)\n      %loss = tt.splat %eps : f32 -> tensor<32xf32> loc(#loc48)\n      %loss_16 = arith.maxnumf %y_true_15, %loss : tensor<32xf32> loc(#loc48)\n      %loss_17 = math.log %loss_16 : tensor<32xf32> loc(#loc49)\n      %loss_18 = arith.subf %loss_17, %y_13 : tensor<32xf32> loc(#loc50)\n      %loss_19 = arith.mulf %y_true_15, %loss_18 : tensor<32xf32> loc(#loc51)\n      %0 = tt.splat %loss_ptr_9 : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc22)\n      %1 = tt.addptr %0, %offsets_10 : tensor<32x!tt.ptr<f32>>, tensor<32xi32> loc(#loc22)\n      tt.store %1, %loss_19, %mask_11 : tensor<32x!tt.ptr<f32>> loc(#loc23)\n    } loc(#loc1)\n    tt.return loc(#loc24)\n  } loc(#loc)\n} loc(#loc)\n#loc1 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":12:30)\n#loc2 = loc(unknown)\n#loc3 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":6:24)\n#loc4 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":6:30)\n#loc5 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":7:19)\n#loc6 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":7:13)\n#loc7 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":8:20)\n#loc8 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":8:14)\n#loc9 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":9:22)\n#loc10 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":9:16)\n#loc11 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":10:32)\n#loc12 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":13:22)\n#loc13 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":14:25)\n#loc14 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":15:28)\n#loc15 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":15:20)\n#loc16 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":16:34)\n#loc17 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":16:25)\n#loc18 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":18:55)\n#loc19 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":18:36)\n#loc20 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":18:63)\n#loc21 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":18:29)\n#loc22 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":22:32)\n#loc23 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":22:41)\n#loc24 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_kldiv_ops.py\":25:4)\n#loc33 = loc(\"pid\"(#loc3))\n#loc34 = loc(\"pid\"(#loc4))\n#loc35 = loc(\"y_ptr\"(#loc5))\n#loc36 = loc(\"y_ptr\"(#loc6))\n#loc37 = loc(\"gt_ptr\"(#loc7))\n#loc38 = loc(\"gt_ptr\"(#loc8))\n#loc39 = loc(\"loss_ptr\"(#loc9))\n#loc40 = loc(\"loss_ptr\"(#loc10))\n#loc41 = loc(\"base_offsets\"(#loc11))\n#loc42 = loc(\"offsets\"(#loc12))\n#loc43 = loc(\"mask\"(#loc13))\n#loc44 = loc(\"y\"(#loc14))\n#loc45 = loc(\"y\"(#loc15))\n#loc46 = loc(\"y_true\"(#loc16))\n#loc47 = loc(\"y_true\"(#loc17))\n#loc48 = loc(\"loss\"(#loc18))\n#loc49 = loc(\"loss\"(#loc19))\n#loc50 = loc(\"loss\"(#loc20))\n#loc51 = loc(\"loss\"(#loc21))\n"
+    },
+    "l2_norm_bwd": {
+      "jit": "_l2_norm_bwd_kernel",
+      "python": {
+        "eps": {
+          "object": "float",
+          "abi": "fp32"
+        }
+      },
+      "lean": {
+        "source": "l2Backward%",
+        "args": {
+          "dtype": "tl.float32",
+          "version": "original",
+          "grad": "tl.float32"
+        }
+      },
+      "compiler": {
+        "triton_version": "3.7.1",
+        "target": "cuda sm90 warp32",
+        "kernel_launched": false,
+        "options": {
+          "num_warps": 4,
+          "num_stages": 3
+        }
+      },
+      "specialization": {
+        "1e-06": [
+          "fp32",
+          null
+        ],
+        "1.0": [
+          "fp32",
+          null
+        ],
+        "0.0": [
+          "fp32",
+          null
+        ],
+        "7": [
+          "i32",
+          null
+        ]
+      },
+      "native": {
+        "port": "l2_norm_bwd",
+        "source_sha256": "5292032417de1cc1b43af26b5ed7846094dd07baf0154f8e06f933532552ab37",
+        "signature": {
+          "X": "*fp32",
+          "DY": "*fp32",
+          "DX": "*fp32",
+          "stride_x_row": "i32",
+          "N": "i32",
+          "eps": "fp32"
+        },
+        "constexprs": {
+          "BLOCK_N": 32
+        },
+        "eps_is_constexpr": false,
+        "status": "compiled",
+        "ttir_sha256": "739b6c028453611a13b3da70b40e62542c33cb027a6aa194e4f9cbb2bf1b5fcd",
+        "ttir_signature": "tt.func public @_l2_norm_bwd_kernel(%X: !tt.ptr<f32> loc(\"X\"(#loc)), %DY: !tt.ptr<f32> loc(\"DY\"(#loc)), %DX: !tt.ptr<f32> loc(\"DX\"(#loc)), %stride_x_row: i32 loc(\"stride_x_row\"(#loc)), %N: i32 loc(\"N\"(#loc)), %eps: f32 loc(\"eps\"(#loc))) attributes {noinline = false} {",
+        "ptx_bytes": 15928
+      },
+      "ttir": "#loc = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":5:0)\n#loc1 = loc(unknown)\n#loc14 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":13:17)\n#loc24 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":18:28)\n#loc33 = loc(\"X\"(#loc))\n#loc34 = loc(\"DY\"(#loc))\n#loc35 = loc(\"DX\"(#loc))\n#loc36 = loc(\"stride_x_row\"(#loc))\n#loc37 = loc(\"N\"(#loc))\n#loc38 = loc(\"eps\"(#loc))\n#loc50 = loc(\"var\"(#loc14))\n#loc59 = loc(\"dx\"(#loc24))\n#loc66 = loc(callsite(#loc1 at #loc50))\n#loc68 = loc(callsite(#loc1 at #loc59))\nmodule {\n  tt.func public @_l2_norm_bwd_kernel(%X: !tt.ptr<f32> loc(\"X\"(#loc)), %DY: !tt.ptr<f32> loc(\"DY\"(#loc)), %DX: !tt.ptr<f32> loc(\"DX\"(#loc)), %stride_x_row: i32 loc(\"stride_x_row\"(#loc)), %N: i32 loc(\"N\"(#loc)), %eps: f32 loc(\"eps\"(#loc))) attributes {noinline = false} {\n    %cst = arith.constant 1.000000e+00 : f32 loc(#loc1)\n    %cst_0 = arith.constant dense<0.000000e+00> : tensor<32xf32> loc(#loc1)\n    %row = tt.get_program_id x : i32 loc(#loc39)\n    %X_1 = arith.muli %row, %stride_x_row : i32 loc(#loc40)\n    %X_2 = tt.addptr %X, %X_1 : !tt.ptr<f32>, i32 loc(#loc41)\n    %DX_3 = tt.addptr %DX, %X_1 : !tt.ptr<f32>, i32 loc(#loc42)\n    %DY_4 = tt.addptr %DY, %X_1 : !tt.ptr<f32>, i32 loc(#loc43)\n    %cols = tt.make_range {end = 32 : i32, start = 0 : i32} : tensor<32xi32> loc(#loc44)\n    %x = tt.splat %N : i32 -> tensor<32xi32> loc(#loc45)\n    %x_5 = arith.cmpi slt, %cols, %x : tensor<32xi32> loc(#loc45)\n    %x_6 = tt.splat %X_2 : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc46)\n    %x_7 = tt.addptr %x_6, %cols : tensor<32x!tt.ptr<f32>>, tensor<32xi32> loc(#loc46)\n    %x_8 = tt.load %x_7, %x_5, %cst_0 : tensor<32x!tt.ptr<f32>> loc(#loc47)\n    %x_9 = arith.select %x_5, %x_8, %cst_0 : tensor<32xi1>, tensor<32xf32> loc(#loc48)\n    %var = arith.mulf %x_9, %x_9 : tensor<32xf32> loc(#loc49)\n    %var_10 = tt.reshape %var allow_reorder : tensor<32xf32> -> tensor<32xf32> loc(#loc65)\n    %var_11 = \"tt.reduce\"(%var_10) <{axis = 0 : i32}> ({\n    ^bb0(%var_27: f32 loc(callsite(#loc1 at #loc50)), %var_28: f32 loc(callsite(#loc1 at #loc50))):\n      %var_29 = arith.addf %var_27, %var_28 : f32 loc(#loc69)\n      tt.reduce.return %var_29 : f32 loc(#loc65)\n    }) : (tensor<32xf32>) -> f32 loc(#loc65)\n    %rstd = arith.addf %var_11, %eps : f32 loc(#loc51)\n    %rstd_12 = math.sqrt %rstd : f32 loc(#loc52)\n    %rstd_13 = arith.divf %cst, %rstd_12 : f32 loc(#loc53)\n    %dy = tt.splat %DY_4 : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc54)\n    %dy_14 = tt.addptr %dy, %cols : tensor<32x!tt.ptr<f32>>, tensor<32xi32> loc(#loc54)\n    %dy_15 = tt.load %dy_14, %x_5, %cst_0 : tensor<32x!tt.ptr<f32>> loc(#loc55)\n    %dy_16 = arith.select %x_5, %dy_15, %cst_0 : tensor<32xi1>, tensor<32xf32> loc(#loc56)\n    %dx = tt.splat %rstd_13 : f32 -> tensor<32xf32> loc(#loc57)\n    %dx_17 = arith.mulf %dy_16, %dx : tensor<32xf32> loc(#loc57)\n    %dx_18 = arith.mulf %dy_16, %x_9 : tensor<32xf32> loc(#loc58)\n    %dx_19 = tt.reshape %dx_18 allow_reorder : tensor<32xf32> -> tensor<32xf32> loc(#loc67)\n    %dx_20 = \"tt.reduce\"(%dx_19) <{axis = 0 : i32}> ({\n    ^bb0(%dx_27: f32 loc(callsite(#loc1 at #loc59)), %dx_28: f32 loc(callsite(#loc1 at #loc59))):\n      %dx_29 = arith.addf %dx_27, %dx_28 : f32 loc(#loc70)\n      tt.reduce.return %dx_29 : f32 loc(#loc67)\n    }) : (tensor<32xf32>) -> f32 loc(#loc67)\n    %dx_21 = arith.divf %cst, %rstd : f32 loc(#loc60)\n    %dx_22 = arith.mulf %dx_20, %dx_21 : f32 loc(#loc61)\n    %dx_23 = arith.mulf %dx_22, %rstd_13 : f32 loc(#loc62)\n    %dx_24 = tt.splat %dx_23 : f32 -> tensor<32xf32> loc(#loc63)\n    %dx_25 = arith.mulf %dx_24, %x_9 : tensor<32xf32> loc(#loc63)\n    %dx_26 = arith.subf %dx_17, %dx_25 : tensor<32xf32> loc(#loc64)\n    %0 = tt.splat %DX_3 : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc30)\n    %1 = tt.addptr %0, %cols : tensor<32x!tt.ptr<f32>>, tensor<32xi32> loc(#loc30)\n    tt.store %1, %dx_26, %x_5 : tensor<32x!tt.ptr<f32>> loc(#loc31)\n    tt.return loc(#loc32)\n  } loc(#loc)\n} loc(#loc)\n#loc2 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":6:24)\n#loc3 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":7:15)\n#loc4 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":7:9)\n#loc5 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":8:10)\n#loc6 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":9:10)\n#loc7 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":10:24)\n#loc8 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":11:38)\n#loc9 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":11:20)\n#loc10 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":11:16)\n#loc11 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":12:30)\n#loc12 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":13:21)\n#loc13 = loc(\"/usr/local/lib/python3.12/site-packages/triton/language/standard.py\":293:36)\n#loc15 = loc(\"/usr/local/lib/python3.12/site-packages/triton/language/standard.py\":263:15)\n#loc16 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":14:29)\n#loc17 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":14:23)\n#loc18 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":14:15)\n#loc19 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":16:22)\n#loc20 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":16:17)\n#loc21 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":17:32)\n#loc22 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":18:14)\n#loc23 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":18:33)\n#loc25 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":18:44)\n#loc26 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":18:39)\n#loc27 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":18:58)\n#loc28 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":18:65)\n#loc29 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":18:21)\n#loc30 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":19:18)\n#loc31 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":19:24)\n#loc32 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_bwd.py\":19:4)\n#loc39 = loc(\"row\"(#loc2))\n#loc40 = loc(\"X\"(#loc3))\n#loc41 = loc(\"X\"(#loc4))\n#loc42 = loc(\"DX\"(#loc5))\n#loc43 = loc(\"DY\"(#loc6))\n#loc44 = loc(\"cols\"(#loc7))\n#loc45 = loc(\"x\"(#loc8))\n#loc46 = loc(\"x\"(#loc9))\n#loc47 = loc(\"x\"(#loc10))\n#loc48 = loc(\"x\"(#loc11))\n#loc49 = loc(\"var\"(#loc12))\n#loc51 = loc(\"rstd\"(#loc16))\n#loc52 = loc(\"rstd\"(#loc17))\n#loc53 = loc(\"rstd\"(#loc18))\n#loc54 = loc(\"dy\"(#loc19))\n#loc55 = loc(\"dy\"(#loc20))\n#loc56 = loc(\"dy\"(#loc21))\n#loc57 = loc(\"dx\"(#loc22))\n#loc58 = loc(\"dx\"(#loc23))\n#loc60 = loc(\"dx\"(#loc25))\n#loc61 = loc(\"dx\"(#loc26))\n#loc62 = loc(\"dx\"(#loc27))\n#loc63 = loc(\"dx\"(#loc28))\n#loc64 = loc(\"dx\"(#loc29))\n#loc65 = loc(callsite(#loc13 at #loc50))\n#loc67 = loc(callsite(#loc13 at #loc59))\n#loc69 = loc(callsite(#loc15 at #loc65))\n#loc70 = loc(callsite(#loc15 at #loc67))\n"
+    },
+    "l2_norm_triton1": {
+      "jit": "_l2_norm_fwd_1pass_kernel",
+      "python": {
+        "eps": {
+          "object": "float",
+          "abi": "fp32"
+        }
+      },
+      "lean": {
+        "source": "l2Source%",
+        "args": {
+          "dtype": "tl.float32",
+          "version": "original"
+        }
+      },
+      "compiler": {
+        "triton_version": "3.7.1",
+        "target": "cuda sm90 warp32",
+        "kernel_launched": false,
+        "options": {
+          "num_warps": 4,
+          "num_stages": 3
+        }
+      },
+      "specialization": {
+        "1e-06": [
+          "fp32",
+          null
+        ],
+        "1.0": [
+          "fp32",
+          null
+        ],
+        "0.0": [
+          "fp32",
+          null
+        ],
+        "7": [
+          "i32",
+          null
+        ]
+      },
+      "native": {
+        "port": "l2_norm_triton1",
+        "source_sha256": "3b190a21ae5ef1c37f8d24e16c1757950215749d28a463f3c1989657fa07a017",
+        "signature": {
+          "X": "*fp32",
+          "Y": "*fp32",
+          "stride_x_row": "i32",
+          "N": "i32",
+          "eps": "fp32"
+        },
+        "constexprs": {
+          "BLOCK_N": 32
+        },
+        "eps_is_constexpr": false,
+        "status": "compiled",
+        "ttir_sha256": "93d1f23a75021423d53b10b3b51f582a5bc8abbf9e0731b7cd0cb445deaadd4a",
+        "ttir_signature": "tt.func public @_l2_norm_fwd_1pass_kernel(%X: !tt.ptr<f32> loc(\"X\"(#loc)), %Y: !tt.ptr<f32> loc(\"Y\"(#loc)), %stride_x_row: i32 loc(\"stride_x_row\"(#loc)), %N: i32 loc(\"N\"(#loc)), %eps: f32 loc(\"eps\"(#loc))) attributes {noinline = false} {",
+        "ptx_bytes": 12479
+      },
+      "ttir": "#loc = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":5:0)\n#loc2 = loc(unknown)\n#loc14 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":12:17)\n#loc22 = loc(\"X\"(#loc))\n#loc23 = loc(\"Y\"(#loc))\n#loc24 = loc(\"stride_x_row\"(#loc))\n#loc25 = loc(\"N\"(#loc))\n#loc26 = loc(\"eps\"(#loc))\n#loc38 = loc(\"var\"(#loc14))\n#loc43 = loc(callsite(#loc2 at #loc38))\nmodule {\n  tt.func public @_l2_norm_fwd_1pass_kernel(%X: !tt.ptr<f32> loc(\"X\"(#loc)), %Y: !tt.ptr<f32> loc(\"Y\"(#loc)), %stride_x_row: i32 loc(\"stride_x_row\"(#loc)), %N: i32 loc(\"N\"(#loc)), %eps: f32 loc(\"eps\"(#loc))) attributes {noinline = false} {\n    %rstd = arith.constant 1.000000e+00 : f32 loc(#loc27)\n    %cst = arith.constant dense<0.000000e+00> : tensor<32xf32> loc(#loc2)\n    %row = tt.get_program_id x : i32 loc(#loc28)\n    %X_0 = arith.muli %row, %stride_x_row : i32 loc(#loc29)\n    %X_1 = tt.addptr %X, %X_0 : !tt.ptr<f32>, i32 loc(#loc30)\n    %Y_2 = tt.addptr %Y, %X_0 : !tt.ptr<f32>, i32 loc(#loc31)\n    %cols = tt.make_range {end = 32 : i32, start = 0 : i32} : tensor<32xi32> loc(#loc32)\n    %x = tt.splat %N : i32 -> tensor<32xi32> loc(#loc33)\n    %x_3 = arith.cmpi slt, %cols, %x : tensor<32xi32> loc(#loc33)\n    %x_4 = tt.splat %X_1 : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc34)\n    %x_5 = tt.addptr %x_4, %cols : tensor<32x!tt.ptr<f32>>, tensor<32xi32> loc(#loc34)\n    %x_6 = tt.load %x_5, %x_3, %cst : tensor<32x!tt.ptr<f32>> loc(#loc35)\n    %xbar = arith.select %x_3, %x_6, %cst : tensor<32xi1>, tensor<32xf32> loc(#loc36)\n    %var = arith.mulf %xbar, %xbar : tensor<32xf32> loc(#loc37)\n    %var_7 = \"tt.reduce\"(%var) <{axis = 0 : i32}> ({\n    ^bb0(%var_12: f32 loc(callsite(#loc2 at #loc38)), %var_13: f32 loc(callsite(#loc2 at #loc38))):\n      %var_14 = arith.addf %var_12, %var_13 : f32 loc(#loc44)\n      tt.reduce.return %var_14 : f32 loc(#loc42)\n    }) : (tensor<32xf32>) -> f32 loc(#loc42)\n    %rstd_8 = arith.addf %var_7, %eps : f32 loc(#loc39)\n    %rstd_9 = math.sqrt %rstd_8 : f32 loc(#loc40)\n    %rstd_10 = arith.divf %rstd, %rstd_9 : f32 loc(#loc27)\n    %y = tt.splat %rstd_10 : f32 -> tensor<32xf32> loc(#loc41)\n    %y_11 = arith.mulf %x_6, %y : tensor<32xf32> loc(#loc41)\n    %0 = tt.splat %Y_2 : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc19)\n    %1 = tt.addptr %0, %cols : tensor<32x!tt.ptr<f32>>, tensor<32xi32> loc(#loc19)\n    tt.store %1, %y_11, %x_3 : tensor<32x!tt.ptr<f32>> loc(#loc20)\n    tt.return loc(#loc21)\n  } loc(#loc)\n} loc(#loc)\n#loc1 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":13:15)\n#loc3 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":6:24)\n#loc4 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":7:15)\n#loc5 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":7:9)\n#loc6 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":8:9)\n#loc7 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":9:24)\n#loc8 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":10:38)\n#loc9 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":10:20)\n#loc10 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":10:16)\n#loc11 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":11:33)\n#loc12 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":12:24)\n#loc13 = loc(\"/usr/local/lib/python3.12/site-packages/triton/language/standard.py\":293:36)\n#loc15 = loc(\"/usr/local/lib/python3.12/site-packages/triton/language/standard.py\":263:15)\n#loc16 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":13:29)\n#loc17 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":13:23)\n#loc18 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":15:12)\n#loc19 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":16:17)\n#loc20 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":16:23)\n#loc21 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":16:4)\n#loc27 = loc(\"rstd\"(#loc1))\n#loc28 = loc(\"row\"(#loc3))\n#loc29 = loc(\"X\"(#loc4))\n#loc30 = loc(\"X\"(#loc5))\n#loc31 = loc(\"Y\"(#loc6))\n#loc32 = loc(\"cols\"(#loc7))\n#loc33 = loc(\"x\"(#loc8))\n#loc34 = loc(\"x\"(#loc9))\n#loc35 = loc(\"x\"(#loc10))\n#loc36 = loc(\"xbar\"(#loc11))\n#loc37 = loc(\"var\"(#loc12))\n#loc39 = loc(\"rstd\"(#loc16))\n#loc40 = loc(\"rstd\"(#loc17))\n#loc41 = loc(\"y\"(#loc18))\n#loc42 = loc(callsite(#loc13 at #loc38))\n#loc44 = loc(callsite(#loc15 at #loc42))\n"
+    },
+    "l2_norm_triton2": {
+      "jit": "_l2_norm_fwd_1pass_kernel",
+      "python": {
+        "eps": {
+          "object": "float",
+          "abi": "fp32"
+        }
+      },
+      "lean": {
+        "source": "l2TwoFwd%",
+        "args": {
+          "dtype": "tl.float32",
+          "version": "original"
+        }
+      },
+      "compiler": {
+        "triton_version": "3.7.1",
+        "target": "cuda sm90 warp32",
+        "kernel_launched": false,
+        "options": {
+          "num_warps": 4,
+          "num_stages": 3
+        }
+      },
+      "specialization": {
+        "1e-06": [
+          "fp32",
+          null
+        ],
+        "1.0": [
+          "fp32",
+          null
+        ],
+        "0.0": [
+          "fp32",
+          null
+        ],
+        "7": [
+          "i32",
+          null
+        ]
+      },
+      "native": {
+        "port": "l2_norm_triton2",
+        "source_sha256": "386a7d3abb4c3960d6af1ff90cb29c0733c0ac6e9ed51319bd22309568947c12",
+        "signature": {
+          "X": "*fp32",
+          "Y": "*fp32",
+          "stride_x_row": "i32",
+          "N": "i32",
+          "eps": "fp32"
+        },
+        "constexprs": {
+          "BLOCK_N": 32
+        },
+        "eps_is_constexpr": false,
+        "status": "compiled",
+        "ttir_sha256": "93d1f23a75021423d53b10b3b51f582a5bc8abbf9e0731b7cd0cb445deaadd4a",
+        "ttir_signature": "tt.func public @_l2_norm_fwd_1pass_kernel(%X: !tt.ptr<f32> loc(\"X\"(#loc)), %Y: !tt.ptr<f32> loc(\"Y\"(#loc)), %stride_x_row: i32 loc(\"stride_x_row\"(#loc)), %N: i32 loc(\"N\"(#loc)), %eps: f32 loc(\"eps\"(#loc))) attributes {noinline = false} {",
+        "ptx_bytes": 12479
+      },
+      "ttir": "#loc = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":5:0)\n#loc2 = loc(unknown)\n#loc14 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":12:17)\n#loc22 = loc(\"X\"(#loc))\n#loc23 = loc(\"Y\"(#loc))\n#loc24 = loc(\"stride_x_row\"(#loc))\n#loc25 = loc(\"N\"(#loc))\n#loc26 = loc(\"eps\"(#loc))\n#loc38 = loc(\"var\"(#loc14))\n#loc43 = loc(callsite(#loc2 at #loc38))\nmodule {\n  tt.func public @_l2_norm_fwd_1pass_kernel(%X: !tt.ptr<f32> loc(\"X\"(#loc)), %Y: !tt.ptr<f32> loc(\"Y\"(#loc)), %stride_x_row: i32 loc(\"stride_x_row\"(#loc)), %N: i32 loc(\"N\"(#loc)), %eps: f32 loc(\"eps\"(#loc))) attributes {noinline = false} {\n    %rstd = arith.constant 1.000000e+00 : f32 loc(#loc27)\n    %cst = arith.constant dense<0.000000e+00> : tensor<32xf32> loc(#loc2)\n    %row = tt.get_program_id x : i32 loc(#loc28)\n    %X_0 = arith.muli %row, %stride_x_row : i32 loc(#loc29)\n    %X_1 = tt.addptr %X, %X_0 : !tt.ptr<f32>, i32 loc(#loc30)\n    %Y_2 = tt.addptr %Y, %X_0 : !tt.ptr<f32>, i32 loc(#loc31)\n    %cols = tt.make_range {end = 32 : i32, start = 0 : i32} : tensor<32xi32> loc(#loc32)\n    %x = tt.splat %N : i32 -> tensor<32xi32> loc(#loc33)\n    %x_3 = arith.cmpi slt, %cols, %x : tensor<32xi32> loc(#loc33)\n    %x_4 = tt.splat %X_1 : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc34)\n    %x_5 = tt.addptr %x_4, %cols : tensor<32x!tt.ptr<f32>>, tensor<32xi32> loc(#loc34)\n    %x_6 = tt.load %x_5, %x_3, %cst : tensor<32x!tt.ptr<f32>> loc(#loc35)\n    %xbar = arith.select %x_3, %x_6, %cst : tensor<32xi1>, tensor<32xf32> loc(#loc36)\n    %var = arith.mulf %xbar, %xbar : tensor<32xf32> loc(#loc37)\n    %var_7 = \"tt.reduce\"(%var) <{axis = 0 : i32}> ({\n    ^bb0(%var_12: f32 loc(callsite(#loc2 at #loc38)), %var_13: f32 loc(callsite(#loc2 at #loc38))):\n      %var_14 = arith.addf %var_12, %var_13 : f32 loc(#loc44)\n      tt.reduce.return %var_14 : f32 loc(#loc42)\n    }) : (tensor<32xf32>) -> f32 loc(#loc42)\n    %rstd_8 = arith.addf %var_7, %eps : f32 loc(#loc39)\n    %rstd_9 = math.sqrt %rstd_8 : f32 loc(#loc40)\n    %rstd_10 = arith.divf %rstd, %rstd_9 : f32 loc(#loc27)\n    %y = tt.splat %rstd_10 : f32 -> tensor<32xf32> loc(#loc41)\n    %y_11 = arith.mulf %x_6, %y : tensor<32xf32> loc(#loc41)\n    %0 = tt.splat %Y_2 : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc19)\n    %1 = tt.addptr %0, %cols : tensor<32x!tt.ptr<f32>>, tensor<32xi32> loc(#loc19)\n    tt.store %1, %y_11, %x_3 : tensor<32x!tt.ptr<f32>> loc(#loc20)\n    tt.return loc(#loc21)\n  } loc(#loc)\n} loc(#loc)\n#loc1 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":13:15)\n#loc3 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":6:24)\n#loc4 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":7:15)\n#loc5 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":7:9)\n#loc6 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":8:9)\n#loc7 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":9:24)\n#loc8 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":10:38)\n#loc9 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":10:20)\n#loc10 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":10:16)\n#loc11 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":11:33)\n#loc12 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":12:24)\n#loc13 = loc(\"/usr/local/lib/python3.12/site-packages/triton/language/standard.py\":293:36)\n#loc15 = loc(\"/usr/local/lib/python3.12/site-packages/triton/language/standard.py\":263:15)\n#loc16 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":13:29)\n#loc17 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":13:23)\n#loc18 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":15:12)\n#loc19 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":16:17)\n#loc20 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":16:23)\n#loc21 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_l2_norm_triton1.py\":16:4)\n#loc27 = loc(\"rstd\"(#loc1))\n#loc28 = loc(\"row\"(#loc3))\n#loc29 = loc(\"X\"(#loc4))\n#loc30 = loc(\"X\"(#loc5))\n#loc31 = loc(\"Y\"(#loc6))\n#loc32 = loc(\"cols\"(#loc7))\n#loc33 = loc(\"x\"(#loc8))\n#loc34 = loc(\"x\"(#loc9))\n#loc35 = loc(\"x\"(#loc10))\n#loc36 = loc(\"xbar\"(#loc11))\n#loc37 = loc(\"var\"(#loc12))\n#loc39 = loc(\"rstd\"(#loc16))\n#loc40 = loc(\"rstd\"(#loc17))\n#loc41 = loc(\"y\"(#loc18))\n#loc42 = loc(callsite(#loc13 at #loc38))\n#loc44 = loc(callsite(#loc15 at #loc42))\n"
+    },
+    "rms_norm_triton": {
+      "jit": "rms_norm_kernel",
+      "python": {
+        "eps": {
+          "object": "float",
+          "abi": "fp32"
+        }
+      },
+      "lean": {
+        "source": "rmsTyped%",
+        "args": {
+          "dtype": "tl.float32",
+          "weight": "tl.float32",
+          "version": "original"
+        }
+      },
+      "compiler": {
+        "triton_version": "3.7.1",
+        "target": "cuda sm90 warp32",
+        "kernel_launched": false,
+        "options": {
+          "num_warps": 4,
+          "num_stages": 3
+        }
+      },
+      "specialization": {
+        "1e-06": [
+          "fp32",
+          null
+        ],
+        "1.0": [
+          "fp32",
+          null
+        ],
+        "0.0": [
+          "fp32",
+          null
+        ],
+        "7": [
+          "i32",
+          null
+        ]
+      },
+      "native": {
+        "port": "rms_norm_triton",
+        "source_sha256": "dce88560afff1c21715628bab92d4ed89d0070ce6d3f343aa31e7c47c643498c",
+        "signature": {
+          "Y": "*fp32",
+          "X": "*fp32",
+          "W": "*fp32",
+          "y_stride_r": "i32",
+          "y_stride_c": "i32",
+          "x_stride_r": "i32",
+          "x_stride_c": "i32",
+          "N": "i32",
+          "eps": "fp32"
+        },
+        "constexprs": {
+          "BLOCK_SIZE": 32
+        },
+        "eps_is_constexpr": false,
+        "status": "compiled",
+        "ttir_sha256": "24fbc1c539725fd1e20c43703770abe175fcd84e8cf4fdf4e0c6f9616ceb9d07",
+        "ttir_signature": "tt.func public @rms_norm_kernel(%Y: !tt.ptr<f32> loc(\"Y\"(#loc)), %X: !tt.ptr<f32> loc(\"X\"(#loc)), %W: !tt.ptr<f32> loc(\"W\"(#loc)), %y_stride_r: i32 loc(\"y_stride_r\"(#loc)), %y_stride_c: i32 loc(\"y_stride_c\"(#loc)), %x_stride_r: i32 loc(\"x_stride_r\"(#loc)), %x_stride_c: i32 loc(\"x_stride_c\"(#loc)), %N: i32 loc(\"N\"(#loc)), %eps: f32 loc(\"eps\"(#loc))) attributes {noinline = false} {",
+        "ptx_bytes": 13344
+      },
+      "ttir": "#loc = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":5:0)\n#loc2 = loc(unknown)\n#loc15 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":12:17)\n#loc28 = loc(\"Y\"(#loc))\n#loc29 = loc(\"X\"(#loc))\n#loc30 = loc(\"W\"(#loc))\n#loc31 = loc(\"y_stride_r\"(#loc))\n#loc32 = loc(\"y_stride_c\"(#loc))\n#loc33 = loc(\"x_stride_r\"(#loc))\n#loc34 = loc(\"x_stride_c\"(#loc))\n#loc35 = loc(\"N\"(#loc))\n#loc36 = loc(\"eps\"(#loc))\n#loc49 = loc(\"var\"(#loc15))\n#loc58 = loc(callsite(#loc2 at #loc49))\nmodule {\n  tt.func public @rms_norm_kernel(%Y: !tt.ptr<f32> loc(\"Y\"(#loc)), %X: !tt.ptr<f32> loc(\"X\"(#loc)), %W: !tt.ptr<f32> loc(\"W\"(#loc)), %y_stride_r: i32 loc(\"y_stride_r\"(#loc)), %y_stride_c: i32 loc(\"y_stride_c\"(#loc)), %x_stride_r: i32 loc(\"x_stride_r\"(#loc)), %x_stride_c: i32 loc(\"x_stride_c\"(#loc)), %N: i32 loc(\"N\"(#loc)), %eps: f32 loc(\"eps\"(#loc))) attributes {noinline = false} {\n    %rrms = arith.constant 1.000000e+00 : f32 loc(#loc37)\n    %cst = arith.constant dense<0.000000e+00> : tensor<32xf32> loc(#loc2)\n    %pid = tt.get_program_id x : i32 loc(#loc38)\n    %Y_0 = arith.muli %pid, %y_stride_r : i32 loc(#loc39)\n    %Y_1 = tt.addptr %Y, %Y_0 : !tt.ptr<f32>, i32 loc(#loc40)\n    %X_2 = arith.muli %pid, %x_stride_r : i32 loc(#loc41)\n    %X_3 = tt.addptr %X, %X_2 : !tt.ptr<f32>, i32 loc(#loc42)\n    %mask = tt.make_range {end = 32 : i32, start = 0 : i32} : tensor<32xi32> loc(#loc43)\n    %mask_4 = tt.splat %N : i32 -> tensor<32xi32> loc(#loc44)\n    %mask_5 = arith.cmpi slt, %mask, %mask_4 : tensor<32xi32> loc(#loc44)\n    %x = tt.splat %x_stride_c : i32 -> tensor<32xi32> loc(#loc45)\n    %x_6 = arith.muli %mask, %x : tensor<32xi32> loc(#loc45)\n    %x_7 = tt.splat %X_3 : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc46)\n    %x_8 = tt.addptr %x_7, %x_6 : tensor<32x!tt.ptr<f32>>, tensor<32xi32> loc(#loc46)\n    %x_9 = tt.load %x_8, %mask_5, %cst : tensor<32x!tt.ptr<f32>> loc(#loc47)\n    %var = arith.mulf %x_9, %x_9 : tensor<32xf32> loc(#loc48)\n    %var_10 = \"tt.reduce\"(%var) <{axis = 0 : i32}> ({\n    ^bb0(%var_20: f32 loc(callsite(#loc2 at #loc49)), %var_21: f32 loc(callsite(#loc2 at #loc49))):\n      %var_22 = arith.addf %var_20, %var_21 : f32 loc(#loc59)\n      tt.reduce.return %var_22 : f32 loc(#loc57)\n    }) : (tensor<32xf32>) -> f32 loc(#loc57)\n    %var_11 = arith.sitofp %N : i32 to f32 loc(#loc50)\n    %var_12 = arith.divf %var_10, %var_11 : f32 loc(#loc50)\n    %rrms_13 = arith.addf %var_12, %eps : f32 loc(#loc51)\n    %rrms_14 = math.sqrt %rrms_13 : f32 loc(#loc52)\n    %rrms_15 = arith.divf %rrms, %rrms_14 : f32 loc(#loc37)\n    %w = tt.splat %W : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc53)\n    %w_16 = tt.addptr %w, %mask : tensor<32x!tt.ptr<f32>>, tensor<32xi32> loc(#loc53)\n    %w_17 = tt.load %w_16, %mask_5, %cst : tensor<32x!tt.ptr<f32>> loc(#loc54)\n    %y = tt.splat %rrms_15 : f32 -> tensor<32xf32> loc(#loc55)\n    %y_18 = arith.mulf %x_9, %y : tensor<32xf32> loc(#loc55)\n    %y_19 = arith.mulf %y_18, %w_17 : tensor<32xf32> loc(#loc56)\n    %0 = tt.splat %y_stride_c : i32 -> tensor<32xi32> loc(#loc24)\n    %1 = arith.muli %mask, %0 : tensor<32xi32> loc(#loc24)\n    %2 = tt.splat %Y_1 : !tt.ptr<f32> -> tensor<32x!tt.ptr<f32>> loc(#loc25)\n    %3 = tt.addptr %2, %1 : tensor<32x!tt.ptr<f32>>, tensor<32xi32> loc(#loc25)\n    tt.store %3, %y_19, %mask_5 : tensor<32x!tt.ptr<f32>> loc(#loc26)\n    tt.return loc(#loc27)\n  } loc(#loc)\n} loc(#loc)\n#loc1 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":13:15)\n#loc3 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":6:24)\n#loc4 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":7:15)\n#loc5 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":7:9)\n#loc6 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":8:15)\n#loc7 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":8:9)\n#loc8 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":9:24)\n#loc9 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":9:38)\n#loc10 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":11:27)\n#loc11 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":11:20)\n#loc12 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":11:39)\n#loc13 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":12:21)\n#loc14 = loc(\"/usr/local/lib/python3.12/site-packages/triton/language/standard.py\":293:36)\n#loc16 = loc(\"/usr/local/lib/python3.12/site-packages/triton/language/standard.py\":263:15)\n#loc17 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":12:34)\n#loc18 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":13:29)\n#loc19 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":13:23)\n#loc20 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":14:20)\n#loc21 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":14:16)\n#loc22 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":15:13)\n#loc23 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":15:44)\n#loc24 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":16:24)\n#loc25 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":16:17)\n#loc26 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":16:36)\n#loc27 = loc(\"/tmp/veritile-cast-diagnosis/veritile_eps_rms_norm_triton.py\":16:4)\n#loc37 = loc(\"rrms\"(#loc1))\n#loc38 = loc(\"pid\"(#loc3))\n#loc39 = loc(\"Y\"(#loc4))\n#loc40 = loc(\"Y\"(#loc5))\n#loc41 = loc(\"X\"(#loc6))\n#loc42 = loc(\"X\"(#loc7))\n#loc43 = loc(\"mask\"(#loc8))\n#loc44 = loc(\"mask\"(#loc9))\n#loc45 = loc(\"x\"(#loc10))\n#loc46 = loc(\"x\"(#loc11))\n#loc47 = loc(\"x\"(#loc12))\n#loc48 = loc(\"var\"(#loc13))\n#loc50 = loc(\"var\"(#loc17))\n#loc51 = loc(\"rrms\"(#loc18))\n#loc52 = loc(\"rrms\"(#loc19))\n#loc53 = loc(\"w\"(#loc20))\n#loc54 = loc(\"w\"(#loc21))\n#loc55 = loc(\"y\"(#loc22))\n#loc56 = loc(\"y\"(#loc23))\n#loc57 = loc(callsite(#loc14 at #loc49))\n#loc59 = loc(callsite(#loc16 at #loc57))\n"
+    }
+  }
+}

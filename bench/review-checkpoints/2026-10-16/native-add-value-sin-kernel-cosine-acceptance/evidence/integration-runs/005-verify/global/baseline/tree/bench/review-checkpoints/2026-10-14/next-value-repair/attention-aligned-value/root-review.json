@@ -1,0 +1,28 @@
+{
+  "reviewer": "root",
+  "status": "complete_original_accepted_fp16_source_backend_value_review_pass_pending_integration",
+  "receipt_sha256": "9ccce5c4be20b2d1870c51d5f4c7ce538117325183b3225c24035ae51517c128",
+  "input_sources_verified": 158,
+  "compiled_modules_verified": 12,
+  "native_artifacts_verified": 11,
+  "historical_source_whole_file_preserved": true,
+  "whole_typed_source_equal_except_explicit_storage": true,
+  "public_statements_verified": 2,
+  "reference_audit": {
+    "source": "AttentionAlignedReferenceAudit.lean",
+    "source_sha256": "1ed7a1fd4a41c30e560e878d27e021aa774d9193fbf5768e22cdf2155f5bed3d",
+    "log": "root-reference-audit.log",
+    "log_sha256": "6558fed37fc06f0058eab3e3c7e56f886b911f0ca3008c6994a81257ccd766c4",
+    "noncircular_checks": 7
+  },
+  "findings": [
+    "Complete original accepted source:19 prologue statements,15 body statements over arbitrary positive block count,3 epilogue statements. Exact original contiguous/shared-head layout and arbitrary bias stride, real scale, initial memory and logical aliases are retained; undef is unconstrained.",
+    "Independent initial-memory reference retains half input, query scaling and narrowing, half dot/bias additions, fp32 online recurrence and final half store. Full output and frame are proved without hfp16, hstep or finite-input assumptions.",
+    "The software specialization closes binary16 conversion/addition and fp32 scalar arithmetic/maxnum plus explicit valid reduction trees. Host real conversion, exp2 and typed dot are callbacks. Both public declarations count as backend contracts with partial scalar bindings, not fully closed software contracts.",
+    "Original offline fp16 TTIR fuses bias into QK dot accumulator and scaled online accumulator into PV dot accumulator. The proved source graph is unfused; no equivalence with that compiled graph is asserted. Original bf16 compilation failure is preserved.",
+    "The old whole source file and its refuted half=id historical claims remain archived. Scope-audit legacy statement extraction is only a descriptive prefix for a declaration containing nested :=; whole-file byte identity supplies preservation evidence.",
+    "Seven independent reference dependency audits exclude source execution. The two-block alias witness and scalar boundary examples support the unrestricted contract and are not counted as parametric or hardware proofs."
+  ],
+  "native_execution": false,
+  "canonical_acceptance_updated": false
+}

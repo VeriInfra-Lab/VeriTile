@@ -1,0 +1,12 @@
+{
+  "script": "audit_lowering.py",
+  "exit_code": 0,
+  "artifacts": {
+    "check_adapter.py.txt": "fabb9d4baa34863c99866c6c8f48102b69455beb482e6b7f66d913a7df4258ad",
+    "audit_lowering.py.txt": "e22de0a8287421ced3b2c4f5c9c41c06739b684a84cd67d0f99c1c429d170319",
+    "console.log": "7df013a05ff1fd378f55b6c5fac7faeb9bce936bda291fdb03923b7243c4f694",
+    "propose.py.txt": "ad102cedbb47757d4e3b7f7d42295bcbe5f9dba28098f8b6598a61ee008edb95",
+    "freeze.py.txt": "0aed1cb60e2182ccc3a64a858c28c1421993fae600b39ed5e6a6323043530a43",
+    "authority_adapter.py.txt": "e4b0b5fe5bd9f44ef37bc7466c4b1deee0b48d1863e86eee3ee40dc6c735764b"
+  }
+}

@@ -1,0 +1,31 @@
+import bench.tritonbench_g.add_value.Proofs.NativeAdmission
+namespace AddValueNative
+set_option maxHeartbeats 12000000
+set_option maxRecDepth 24000
+def recordedStages : List (InputType × Nat) := [
+  (.admitted .boolean,2),
+  (.admitted (.unsigned .w8),2),
+  (.admitted (.signed .w8),2),
+  (.admitted (.signed .w16),2),
+  (.admitted (.unsigned .w16),2),
+  (.admitted (.signed .w32),2),
+  (.admitted (.unsigned .w32),2),
+  (.admitted (.signed .w64),2),
+  (.admitted (.unsigned .w64),2),
+  (.admitted .fp16,2),
+  (.admitted .bf16,2),
+  (.admitted .fp32,2),
+  (.admitted .fp64,2),
+  (.admitted .f8e4fn,2),
+  (.admitted .f8e5,2),
+  (.fnuzE4,1),
+  (.fnuzE5,1),
+  (.complex32,0),
+  (.complex64,0),
+  (.complex128,0),
+  (.e8m0,0),
+  (.packedFP4,0)]
+theorem recorded_native_admission_agrees :
+  recordedStages.all (fun (t,s) => outcomeStage (admission t)==s)=Bool.true := by decide +kernel
+#axiomsClean recorded_native_admission_agrees
+end AddValueNative

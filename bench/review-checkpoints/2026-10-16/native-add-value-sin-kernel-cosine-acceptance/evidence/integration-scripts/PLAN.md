@@ -1,0 +1,30 @@
+# Future integration sequence
+
+Root must first commit the current four-task batch and then the independently reviewed numerical queue gzip migration. After those commits, root supplies the actual full resulting commit as `NEXT_BASE`, this candidate's frozen receipt hash as `NEXT_SCRIPTS`, and the actual reviewed migration `validation/check.json` hash as `NEXT_STORAGE_CHECK`. This package does not fill in or guess those future values. `NEXT_RUNS` must be a fresh `/tmp` directory outside the repository.
+
+All phases accept these shared arguments:
+
+```sh
+--root /mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile
+--packages /tmp/veritile-standardization-20261015
+--expected-base-commit "$NEXT_BASE"
+--scripts-receipt-sha256 "$NEXT_SCRIPTS"
+--storage-validation-sha256 "$NEXT_STORAGE_CHECK"
+```
+
+Use `python3 -B /tmp/veritile-standardization-20261015/next-three-source-integration-scripts-revision2/SCRIPT.py` for the scripts below. The ledger defaults to `bench/original_program_scope.json.gz`; both baseline and active path must stay equal. Predecessor catalog, supplement and review defaults are the explicit `.json.gz` files under the reviewed four-task checkpoint. The migration checkpoint is `bench/review-checkpoints/2026-10-16/numerical-queue-gzip-migration`.
+
+1. Run `check_prepare_plan.py` with the shared arguments and `--report "$NEXT_RUNS/preparation-plan.json"`. This executes only the read-only prefix of `prepare.py`, validates the actual clean committed base and migration evidence chain, and writes a concrete external report. Review its hash, input pins, source-view metadata and intended changes.
+2. Run `record_phase.py --phase prepare --run-dir "$NEXT_RUNS/001-prepare"` with the shared arguments. It copies exactly the frozen 24 sources and receipt-bound evidence, archives the current ledger and progress documents, creates the reviewed supplement/root metadata, copies the complete script closure, and updates only the workflow's two checkpoint paths. It authorizes no historical deletion.
+3. Run `record_phase.py --phase install --run-dir "$NEXT_RUNS/002-install"` with the shared arguments. It installs three AST-preserving archive adapters, appends their reviewed authority dispatch, and changes only numerical count assertions in the existing tests.
+4. Run `run_checks.py --phase generate --run-dir "$NEXT_RUNS/003-generate"` with the shared arguments. This records actual baseline materialization, catalog generation and queue regeneration into explicit gzip outputs. No placeholder catalog or queue is used.
+5. Run `record_phase.py --phase rebind --run-dir "$NEXT_RUNS/004-rebind"` with the shared arguments. Eight existing accepted rows change only their catalog-bound review reference. Three pending rows receive the frozen reviewed proposals. All 172 unrelated rows, old rules, old exact ports and old case tables remain identical; exact new deltas and all eleven accepted rows must validate. Progress documents retain the primary-version goal and label legacy counts explicitly.
+6. Run `run_checks.py --phase verify --run-dir "$NEXT_RUNS/005-verify"` with the shared arguments. This invokes the existing eight Lean targets, complete bench tests, shard tests and global runner while pinning before/after verification inputs. This source integration adds 24 proof modules and three authority extensions; these are actual future source-integration checks, not extra requirements for the preceding storage-only migration. Capture the real exits. Scope completeness is expected to remain failed for 172 pending tasks; comparator outcomes are reported independently.
+7. Run `finalize.py --runs-root "$NEXT_RUNS" --selected-verify "$NEXT_RUNS/005-verify"` with the shared arguments only after checking every actual run, including any failed attempts. Finalization verifies exact commands and logs, actual test counts, unchanged inputs and preservation; it archives all attempts and writes `validation.json`. It reports no numerical conformance or GPU success.
+8. After root reviews the final active/checkpoint diff, `stage.py` with the same shared arguments stages exactly the allowed paths, checks index/worktree equality and file sizes, and writes a staging review. The checkpoint file set must exactly equal the final validation seal plus `validation.json`; files added after finalization are rejected before `git add`. Its pathspec is a separate temporary file; it does not alter the frozen script package. All status/diff path-set comparisons use `--no-renames`. Commit and push are outside these scripts.
+
+Each failed run stays in its original directory. Use a fresh numbered attempt rather than overwriting logs. Completed mutation stages reject duplicate execution; inspect the partial state and prepare a reviewed repair when needed. The scripts do not roll back across unrelated work. The concrete plan is a JSON file at the runs-root level, not an attempt directory; finalization scans only child directories containing run manifests.
+
+Expected changes are the 24 new module sources, three new adapter files, appended authority dispatch, numerical count assertions, two workflow checkpoint references, the active gzip queue and its Markdown, the existing gzip ledger, two current progress documents, and the new checkpoint. No existing proof source, validator predicate, primary checker, source-variant ID, primary completion field, old historical file or dependency package is changed.
+
+Staging is intentionally not transactional. A failure before `git add` leaves the index unchanged. A failure after `git add` may leave reviewed paths staged, and a later failure after writing `staging-review.json` may retain that file too. Preserve the failed attempt and inspect its exact index/worktree state. A direct retry is rejected by the empty-index or existing-review guard; root must review an explicit repair before retry. These scripts never reset, unstage, roll back, delete evidence, or treat a prior partial staging attempt as success. Use the same validated files after a reviewed repair, or repeat validation when inputs changed.

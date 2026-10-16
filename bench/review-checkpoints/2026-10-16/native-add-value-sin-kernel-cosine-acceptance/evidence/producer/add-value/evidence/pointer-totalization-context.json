@@ -1,0 +1,11 @@
+{
+  "audit_receipt": "evidence/inherited/pointer-totalization-audit/receipt.json",
+  "sha256": "aa62e23414c2cafe4bc69906f304256e3bdeadc36b9bebe1cb3ebaf97b864d60",
+  "applies_directly_to": [
+    "vector_revision2",
+    "custom_revision1"
+  ],
+  "add_value_use": "Documentation support for identical actual-on-success and unused-total-on-failure metadata interpretation; this is not an independent add_value review.",
+  "witnesses": 5,
+  "add_value_independent_review": "pending"
+}

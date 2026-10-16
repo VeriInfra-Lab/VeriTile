@@ -1,0 +1,1100 @@
+{
+  "schema": 1,
+  "reviewed_on": "2026-10-14",
+  "review_mode": "read_only_preparation; no Lean build, GPU, source, or metadata mutation",
+  "baseline_counts": {
+    "cast_store_rounding_only": 23,
+    "numeric_model_revision_tasks": 3,
+    "missing_source_tasks": 6
+  },
+  "classification_changed": false,
+  "task_count": 23,
+  "public_specification_count": 63,
+  "groups": [
+    {
+      "id": "supplied_scalar_stages",
+      "count": 1,
+      "tasks": [
+        "flash_decode2_llama"
+      ],
+      "meaning": "给定中间值的 div / maximum / copy；原公开阶段不包含完整 stage2 exp 递推"
+    },
+    {
+      "id": "scalar_products_and_streams",
+      "count": 4,
+      "tasks": [
+        "token_attn_llama2",
+        "token_attn_reduceV",
+        "token_attn_mistral",
+        "lora_expand_gemv"
+      ],
+      "meaning": "逐元素乘法、指定顺序归约与动态循环；没有 tl.dot，但不能消掉 padding 或改写成无序 Real 求和"
+    },
+    {
+      "id": "mixed_quantizer",
+      "count": 1,
+      "tasks": [
+        "quantize_copy_kv"
+      ],
+      "meaning": "half / single 格式转换、abs/max/div、half scale、signed int8 转换与双输出"
+    },
+    {
+      "id": "normalization",
+      "count": 3,
+      "tasks": [
+        "layer_norm_liger",
+        "layer_norm_ops",
+        "layernorm_fwd_triton"
+      ],
+      "meaning": "均值/方差或梯度归约、sqrt/rsqrt/div 与输出；按各 headline 的 producer / supplied slice 分别覆盖"
+    },
+    {
+      "id": "online_exponential_stages",
+      "count": 2,
+      "tasks": [
+        "flash_decode2_phi",
+        "softmax_reducev"
+      ],
+      "meaning": "运行 maximum、exp、scale/add、归约与最终 div；Phi 仅已接受 step / recurrence faces"
+    },
+    {
+      "id": "floating_dot",
+      "count": 12,
+      "tasks": [
+        "iv_dependent_matmul",
+        "matmul_kernel",
+        "matmul_leakyrelu",
+        "matmul_leakyrelu_fp8",
+        "matmul_tma",
+        "matmul_triton1",
+        "matmul_triton2",
+        "matmul_triton_autotune",
+        "sgmv_expand_slice",
+        "triton_matmul",
+        "triton_linear_activation",
+        "lightning_attention"
+      ],
+      "meaning": "浮点 dot 与累积顺序、混合输入/输出格式；不能以整数 dot 或 opaque callback 当具体浮点实现"
+    }
+  ],
+  "tasks": [
+    {
+      "task": "flash_decode2_llama",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "supplied_scalar_stages",
+      "actual_public_scope": "归一化 store(Acc/SumExp)、running-max 单步、Final copy；完整 stage2 kernel 仅有 lowering conjunct。",
+      "missing_arithmetic_contract": "div32; maximum32 的 NaN / zero / tie 选择; typed load/store。未纳入阶段无须虚构 exp。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/flash_decode2_llama/FlashDecode2Llama.lean",
+          "declaration": "flash_decode2_llama_normalization_output_summary_general",
+          "line": 444,
+          "statement_sha256": "53abe2fcc664de46ad57b9a9d9cb860c3d3b22ea726ffe75e32ccbb59af539e4"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_decode2_llama/FlashDecode2Llama.lean",
+          "declaration": "flash_decode2_llama_running_max_output_summary_general",
+          "line": 484,
+          "statement_sha256": "7f7474a87e90b10035c56856be52548273647acaf22f427a3ba355ae780022ef"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_decode2_llama/FlashDecode2Llama.lean",
+          "declaration": "flash_decode2_llama_final_store_io_correctness",
+          "line": 681,
+          "statement_sha256": "165a5c2214463e77e4666cfe8e62d270e2157a8044ef65d1adab5d66aa404418"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_decode2_llama/FlashDecode2Llama.lean",
+          "declaration": "flash_decode2_llama_final_store_io_correctnessR",
+          "line": 769,
+          "statement_sha256": "4eaf5778ab965c5bf33ce9b4091bce499cb5e7f3c21369efe16698edec49e48a"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/flash_decode2_llama/FlashDecode2Llama.lean": "55e267f07839ccf896785374166470db8e883df9cde9b68022ec0bf534936edc",
+        "bench/tritonbench_g/flash_decode2_llama/flash_decode2_llama.py": "1cfd07deb430df37b6321e411c262fa7877d5adc80224ab66234ce8e6414ca62"
+      }
+    },
+    {
+      "task": "token_attn_llama2",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "scalar_products_and_streams",
+      "actual_public_scope": "完整 Q/K score-stage：block_mask∈{0,1}、B_Loc gather、axis1 product sum、任意 sm_scale 与地址/维度、masked output。",
+      "missing_arithmetic_contract": "mul32 +显式sum树+scale literal/operand转换+mul32；host scalar不能被默认 literal callback 偷偷留下。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/token_attn_llama2/TokenAttnLlama2.lean",
+          "declaration": "token_attn_llama2_output_summary_general",
+          "line": 1262,
+          "statement_sha256": "e13ffe200a321c7783743ed7f8e93006965461c592d09fc02ba6bc77c36d8565"
+        },
+        {
+          "file": "bench/tritonbench_g/token_attn_llama2/TokenAttnLlama2.lean",
+          "declaration": "token_attn_llama2_io_correctness",
+          "line": 2709,
+          "statement_sha256": "3e062ff5776d34557fd3e1f11d80b07a8054eee237e0b572d7cada9237c5da20"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/token_attn_llama2/TokenAttnLlama2.lean": "091fcba867e6c2f7877938abbc25031f0608dcf988e3d28a948229d309533e3f",
+        "bench/tritonbench_g/token_attn_llama2/token_attn_llama2.py": "3dccffd5a31077851127ee70f8ec64136fdc0872ef29399b3bf74a8223023d5f"
+      }
+    },
+    {
+      "task": "token_attn_reduceV",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "scalar_products_and_streams",
+      "actual_public_scope": "完整 suppliedProb/index PV stream；spbs=srts=1，B_N>0，S≤T*B_N 的 IO pre，任意循环/partialtail，完整 unmasked output vector。",
+      "missing_arithmetic_contract": "mul/reduce/add、initial +0、outputcast；不得缩为单block或把 paddingadd/signzero当自动恒等。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/token_attn_reduceV/TokenAttnReduceV.lean",
+          "declaration": "token_attn_reducev_output_summary_general",
+          "line": 1540,
+          "statement_sha256": "b3da76304d94f852029bc2dd1332cff53d843725e1c29e86c4c0d9b100ec47ea"
+        },
+        {
+          "file": "bench/tritonbench_g/token_attn_reduceV/TokenAttnReduceV.lean",
+          "declaration": "token_attn_reducev_io_correctness",
+          "line": 3238,
+          "statement_sha256": "6bf715f1cb7bcfbd54e4dce86fbf1d1aed4e0b7d03fe0216391b8b153a711605"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/token_attn_reduceV/TokenAttnReduceV.lean": "3a159912c5f9daefc11783a6468fcf70970242490499027811743379152263ef",
+        "bench/tritonbench_g/token_attn_reduceV/token_attn_reduceV.py": "cb2d1316c8c6eff4ee5220bf562596a8443639d65ada2c22c4c0054baa503165"
+      }
+    },
+    {
+      "task": "token_attn_mistral",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "scalar_products_and_streams",
+      "actual_public_scope": "完整 sliding-window PV stream；spbs=srts=1，B_N>0，任意 attSeq/window，attSeq≤T*B_N 的 IO pre，完整 unmasked output vector。",
+      "missing_arithmetic_contract": "mul/reduce/add/cast；Prob 与 V masks不同，必须保留末块完整 B_N arithmetic，0*Inf/NaN不得删除。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/token_attn_mistral/TokenAttnMistral.lean",
+          "declaration": "token_attn_mistral_output_summary_general",
+          "line": 1783,
+          "statement_sha256": "aff43fcedf55982f90dd897e59701ee265d53b61cf15c14df3956522b3272142"
+        },
+        {
+          "file": "bench/tritonbench_g/token_attn_mistral/TokenAttnMistral.lean",
+          "declaration": "token_attn_mistral_io_correctness",
+          "line": 3681,
+          "statement_sha256": "e6cdbf41f252e1537bbb0e97b8de78bd408feaadc91450f42fe0c79086293dbe"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/token_attn_mistral/TokenAttnMistral.lean": "517a7f3e104619e29086bccd2a83094afa04f3fdf35cbd7c0870136657a6d175",
+        "bench/tritonbench_g/token_attn_mistral/token_attn_mistral.py": "39c37c3f43353511cce0d0a3b63fc5e5f1602a41450a51ef4a89065869f8407a"
+      }
+    },
+    {
+      "task": "lora_expand_gemv",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "scalar_products_and_streams",
+      "actual_public_scope": "Full.bgmv_loop_surface：完整输出 n-loop，任意 split_n_length，B_N>0，K≤B_K，out≠lora，cn_stride>0；选定 ADD_INPUTS=false/CAST_TYPE=false 的 masked input active body，sentinel 已由阶段排除。",
+      "missing_arithmetic_contract": "逐元素 mul + axis1 sum + store、全部 output loop/tail；fp16/bf16 输入与 sum 提升需显式绑定。原公开范围不是任意 Python branch。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/lora_expand_gemv/LoraExpandGemv.lean",
+          "declaration": "gemv_full_output_summary",
+          "line": 1043,
+          "statement_sha256": "b62f5b877b8c8109b2ae2095bed33277f958a9adf3a084b84c2cdcccd8feccd0"
+        },
+        {
+          "file": "bench/tritonbench_g/lora_expand_gemv/LoraExpandGemv.lean",
+          "declaration": "gemv_full_io_correctness",
+          "line": 2293,
+          "statement_sha256": "c1af6112ac4bd2be2380849e972c54ca4fc9989422265904b52aff7d4cbfbada"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/lora_expand_gemv/LoraExpandGemv.lean": "c6eee47ffe5cab7cc42922ec07271871a2bfda249453d763d02a53064f24f1c5",
+        "bench/tritonbench_g/lora_expand_gemv/lora_expand_gemv.py": "212f030cd93c3381dc1fe6aab372d8568fbed9330954772cd49c69670575a3d3"
+      }
+    },
+    {
+      "task": "quantize_copy_kv",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "mixed_quantizer",
+      "actual_public_scope": "完整 accepted per-destination quantizer：每个 active head 的所有 BLOCK_DMODEL 列，max/127→half scale、src/scale→int8、双 store；hD>0及原两个 injectivity/region separation。",
+      "missing_arithmetic_contract": "真实 half/single arithmetic、finite toward-zero signed8 conversion、NaN/overflow undefined policy；inactive heads独立。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/quantize_copy_kv/QuantizeCopyKv.lean",
+          "declaration": "destindex_copy_quantize_kv_output_summary_general",
+          "line": 617,
+          "statement_sha256": "c7c552889f06fd254ecfc4217ef730236a2f4c4f2f36d01f055f62a38dab6368"
+        },
+        {
+          "file": "bench/tritonbench_g/quantize_copy_kv/QuantizeCopyKv.lean",
+          "declaration": "quantize_copy_kv_io_correctness",
+          "line": 1383,
+          "statement_sha256": "05fa2e9b3535395460ce54864192b02d6fac26ddc9e7e6484a9a969f5278f2f4"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/quantize_copy_kv/QuantizeCopyKv.lean": "384c6e52fc131521633902ce0f598d971bce17810efdaf5b7f615138ca53cde2",
+        "bench/tritonbench_g/quantize_copy_kv/quantize_copy_kv.py": "801d52d8ea544a71064012be94369ab1d7faf1e56a562f10184dcb6e7dda828c"
+      }
+    },
+    {
+      "task": "layer_norm_liger",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "normalization",
+      "actual_public_scope": "forward Y/Mean/RSTD 三输出和独立 supplied MeanPre/RSTDPre scalar stores；不包含 Python backward。",
+      "missing_arithmetic_contract": "sum/mean/sub/square/variance/eps/rsqrt/affine 的各次舍入与三次 store；原 wrapper 的 W/B 行 stride 使用范围以实际目标 kernel 为准。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/layer_norm_liger/LayerNormLiger.lean",
+          "declaration": "layer_norm_liger_forward_output_summary",
+          "line": 589,
+          "statement_sha256": "f6f86c39e4c635cb2ee2e56dad4457e2e314efb004e2c1af70436937ad852994"
+        },
+        {
+          "file": "bench/tritonbench_g/layer_norm_liger/LayerNormLiger.lean",
+          "declaration": "layer_norm_liger_scalar_stores_io_correctness",
+          "line": 803,
+          "statement_sha256": "295d17208d82961af7a2e1397b8228a0eafeffd1d47b7eceb0bd90c697aac1b5"
+        },
+        {
+          "file": "bench/tritonbench_g/layer_norm_liger/LayerNormLiger.lean",
+          "declaration": "layer_norm_liger_scalar_stores_io_correctnessR",
+          "line": 921,
+          "statement_sha256": "a50c5b45064c4391b6d4d1fc42b6586442c5146ee403dc09db881f935fd77f56"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/layer_norm_liger/LayerNormLiger.lean": "d4fae193cb438dca0ab567406a4f98983e208ffbbcc51a4f8fb2621dc2b55ddf",
+        "bench/tritonbench_g/layer_norm_liger/layer_norm_liger.py": "b00cec282bbcbea49c4be9cb867385f5deb5d64f869e7458624fb412a7a5000d"
+      }
+    },
+    {
+      "task": "layer_norm_ops",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "normalization",
+      "actual_public_scope": "forward plain/rms/residual headlines 仅 supplied value/statistic/residual stores；backward C1/C2 reduction、DX-from-C、one-row DW/DB、residual add 双 store。",
+      "missing_arithmetic_contract": "各 backward arithmetic producer 均要 typed 化；给出 forward copy 不能关闭整个任务，也无需把未接受的完整 forward producer加入本轮。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+          "declaration": "layer_norm_ops_fwd_plain_bias_all_outputs_compute_correct_general",
+          "line": 3903,
+          "statement_sha256": "cc02677a945389ccdf7534b2c4f1aef9f1cf9bbec872ac0ef15bedcb28d792d9"
+        },
+        {
+          "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+          "declaration": "layer_norm_ops_fwd_rms_bias_all_outputs_compute_correct_general",
+          "line": 3936,
+          "statement_sha256": "0d824af9e2837e3f5a8ccef7406b6b5768db304cdb9d0e2fc57b92e4798f3337"
+        },
+        {
+          "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+          "declaration": "layer_norm_ops_fwd_residual_bias_all_outputs_compute_correct_general",
+          "line": 3965,
+          "statement_sha256": "c212a534346329754c8e11275a091facab0860d99d92699d48f4a4b7ee997000"
+        },
+        {
+          "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+          "declaration": "layer_norm_ops_bwd_rms_core_outputs_compute_correct_general",
+          "line": 4011,
+          "statement_sha256": "81d8be9c3ea5a3ea5e9c8e3e65f368d26a74c0035291f4045b8fe3f17644820c"
+        },
+        {
+          "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+          "declaration": "layer_norm_ops_bwd_plain_bias_core_outputs_compute_correct_general",
+          "line": 4053,
+          "statement_sha256": "8ec3ea9d0f92a4b644f8fe11d8e0c4fe8cf1bda11dc23f4ef39da88cd40930dc"
+        },
+        {
+          "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+          "declaration": "layer_norm_ops_bwd_residual_add_all_outputs_compute_correct_general",
+          "line": 4125,
+          "statement_sha256": "ac2a94e0818928c36323a0a5098af642015740182661fa77df781e6b051a64c7"
+        },
+        {
+          "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+          "declaration": "layer_norm_ops_scalar_stores_io_correctness",
+          "line": 5499,
+          "statement_sha256": "fb6bb16d2c9719761ea71ab0c663b5eae504d60e4c2e21d9f38a7f7bc041ccb6"
+        },
+        {
+          "file": "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean",
+          "declaration": "layer_norm_ops_scalar_stores_io_correctnessR",
+          "line": 5607,
+          "statement_sha256": "ceebbb3f05ed027e42a7902e7a948545940c5d603c7bf3d1a200f8611ca6f85f"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/layer_norm_ops/LayerNormOps.lean": "eb73b9c1e52a86d4937180e9c3e8d1ff525f56ea30f1bdf0a9dedd68716bf9d1",
+        "bench/tritonbench_g/layer_norm_ops/layer_norm_ops.py": "f9c68234257d750d4b9a6950d586c2b8c9fe8347536fda6d0914f5c02a74b72c"
+      }
+    },
+    {
+      "task": "layernorm_fwd_triton",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "normalization",
+      "actual_public_scope": "strided full N row 的均值/方差/输出多次循环，B>0、X≠Y、W≠Y；原 IO stream extent 与读写布局保留。",
+      "missing_arithmetic_contract": "fp32 loop accumulation / reductions / div / sqrt / reciprocal / affine / y.to(output dtype)，所有 N 和 tail。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/layernorm_fwd_triton/LayernormFwdTriton.lean",
+          "declaration": "layernorm_fwd_triton_output_summary",
+          "line": 2524,
+          "statement_sha256": "d403b843e9ad553d43da4d3b6f9f627cf8dd081aa0edf7c811d8fe7fee9bd4aa"
+        },
+        {
+          "file": "bench/tritonbench_g/layernorm_fwd_triton/LayernormFwdTriton.lean",
+          "declaration": "layernorm_fwd_triton_io_correctness",
+          "line": 3899,
+          "statement_sha256": "b90432ccdef7a751fee1ccbce724ca342c4c5b62bc10b5a56f81a0a04ec610c2"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/layernorm_fwd_triton/LayernormFwdTriton.lean": "150242b739f3b5617b2d4c5576381eac476aae08b3fa106dcd88d332f058c532",
+        "bench/tritonbench_g/layernorm_fwd_triton/layernorm_fwd_triton.py": "9ad4b038ee7d5fff373705d8ef8c0a4a9a3100a064db07703f89d61b32de6c88"
+      }
+    },
+    {
+      "task": "flash_decode2_phi",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "online_exponential_stages",
+      "actual_public_scope": "masked accumulator step、sum-exp step、runningMaxAfter 初态/递推恒等式、masked normalization store、Final copy；full loop 仅 lowering。",
+      "missing_arithmetic_contract": "sub/exp/mul/add/div/max 的真实 profile；不能把 runningMaxAfter 定义递推本身算实际循环执行。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/flash_decode2_phi/FlashDecode2Phi.lean",
+          "declaration": "flash_decode2_phi_masked_accumulator_output_summary_general",
+          "line": 760,
+          "statement_sha256": "0bad205d1e852e686f3cb0cff49d27e71a0d922e7811c3a977455f49e313df3a"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_decode2_phi/FlashDecode2Phi.lean",
+          "declaration": "flash_decode2_phi_running_max_output_summary_general",
+          "line": 826,
+          "statement_sha256": "6e4c6fcc424926d50aa95d3a6a0be0f5a449bc0f2d98a81e05cfe2b80d641a98"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_decode2_phi/FlashDecode2Phi.lean",
+          "declaration": "flash_decode2_phi_normalization_output_summary_general",
+          "line": 866,
+          "statement_sha256": "6ff74d4ec23f5e6a26343fe93fa62301e1c503182692a347b5ee48ddc7cf224d"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_decode2_phi/FlashDecode2Phi.lean",
+          "declaration": "flash_decode2_phi_final_store_io_correctness",
+          "line": 1051,
+          "statement_sha256": "c211a0360c5dd105ab6a7339af91cf06c26b2680f641cfd13f02e01444b00fec"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_decode2_phi/FlashDecode2Phi.lean",
+          "declaration": "flash_decode2_phi_final_store_io_correctnessR",
+          "line": 1143,
+          "statement_sha256": "c8311bd33326f0ba069ed08b471be5f8fd70e2f05676196d23cce80bfbf5e2b4"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/flash_decode2_phi/FlashDecode2Phi.lean": "9c3404092163eb78dc9c45115cc4b34aa7eb55bfd93f96627ec3e8217433ea5c",
+        "bench/tritonbench_g/flash_decode2_phi/flash_decode2_phi.py": "ef7e4521d4c9c724b0200386466cf751ff7eaa73584cd4971280cd2c1cde10ff"
+      }
+    },
+    {
+      "task": "softmax_reducev",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "online_exponential_stages",
+      "actual_public_scope": "完整 modeled在线softmax-weighted V stream；genuine summary 原有 seq>0、seq%B_N=0、running maximum finite-witness；IO 自己的 pre 必须一起保留。",
+      "missing_arithmetic_contract": "max/sub/exp/sum/mul/add/div；保留 block carry 顺序与 masked metadata，不用 ideal exp identity 重排。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+          "declaration": "softmax_reducev_genuine_output_compute_correct_general",
+          "line": 2624,
+          "statement_sha256": "8d0a5c68c52218b2631484497f5fda16134ab16dfc66c4f2414f29872df4adda"
+        },
+        {
+          "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+          "declaration": "softmax_reducev_io_correctness",
+          "line": 4495,
+          "statement_sha256": "e554918cb2ebe4981271f669b2a636a492eb7c2f6bdb744694c6c347a2cf5584"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean": "2a1d3e907f86af031a31d59999eb2ff2a6186549cb375f037cd86d1a88c26899",
+        "bench/tritonbench_g/softmax_reducev/softmax_reducev.py": "a0bd951924ee2fdfc6380f00a8e5c30d60094c8480493c967c53732f94552f7f"
+      }
+    },
+    {
+      "task": "iv_dependent_matmul",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "floating_dot",
+      "actual_public_scope": "pre-load IV-dependent 完整已选 K=BK*numKBlocks；hBK>0，SCN=1，BN≤SCM，保留原输入边缘/输出约束。",
+      "missing_arithmetic_contract": "fp dot + 每轮 accumulator add + fp16 store；保留 preload 与 next-load 顺序。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/iv_dependent_matmul/IvDependentMatmul.lean",
+          "declaration": "iv_dependent_matmul_closed_form_correct",
+          "line": 966,
+          "statement_sha256": "0b2b539dbb6f7810cc353aa7da6bd13c3cea8f92898bb03910643bcca22f04c1"
+        },
+        {
+          "file": "bench/tritonbench_g/iv_dependent_matmul/IvDependentMatmul.lean",
+          "declaration": "iv_dependent_matmul_io_correctness",
+          "line": 1956,
+          "statement_sha256": "9fd3bbfa890a1b140b01bd9b21594ccccc22566a8bee9633979849d1b9ba4e2d"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/iv_dependent_matmul/IvDependentMatmul.lean": "9680c3e46830f67231b1cabd5b2a20e35a4af255615932a56332bc6099efed02",
+        "bench/tritonbench_g/iv_dependent_matmul/iv_dependent_matmul.py": "dfd772c19ff1b007b3e6c474fa984a460d0e135593cc3d0f05d279c8746997d7"
+      }
+    },
+    {
+      "task": "matmul_kernel",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "floating_dot",
+      "actual_public_scope": "固定布局 kernel 的 BM/BN/BK/T 参数，BN≤4096；完整指定 K stream。",
+      "missing_arithmetic_contract": "三参数 tl.dot(a,b,acc) 的 fused accumulate 语义、fp16 cast；不能把它当 dot 后独立 add。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/matmul_kernel/MatmulKernel.lean",
+          "declaration": "matmul_kernel_closed_form_correct",
+          "line": 712,
+          "statement_sha256": "b615acf0e25f802f6a8d48f4286212333eeb62b3518602e05cbd108b9f23adfb"
+        },
+        {
+          "file": "bench/tritonbench_g/matmul_kernel/MatmulKernel.lean",
+          "declaration": "matmul_kernel_io_correctness",
+          "line": 1389,
+          "statement_sha256": "f9be56048c6b72c23d24c7489b74e89a03b08828e421dd2312f98ce9f1c21b2f"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/matmul_kernel/MatmulKernel.lean": "835cd29d4561936ef9b15b635c8a1fe59fae7a969681ff9f3580286558a3b08d",
+        "bench/tritonbench_g/matmul_kernel/matmul_kernel.py": "143feeb84664dcfc2e82977432fcc5f3e06760d39d7d5c66d999b3f3561289ef"
+      }
+    },
+    {
+      "task": "matmul_leakyrelu",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "floating_dot",
+      "actual_public_scope": "grouped layout 下 K=BK*numKBlocks，BK>0，SCN=1，BN≤SCM 的已选 leaky-ReLU 路径。",
+      "missing_arithmetic_contract": "dot 后 add、>=0 compare、0.01 的 fp literal 与 mul、where、half store。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/matmul_leakyrelu/MatmulLeakyrelu.lean",
+          "declaration": "matmul_leakyrelu_closed_form_correct",
+          "line": 1078,
+          "statement_sha256": "2466b5528f5b783c7c5e9a27ec200508fab8db6cebdf3276b3b03dcc1ef09562"
+        },
+        {
+          "file": "bench/tritonbench_g/matmul_leakyrelu/MatmulLeakyrelu.lean",
+          "declaration": "matmul_leakyrelu_io_correctness",
+          "line": 2118,
+          "statement_sha256": "1aa60bcc646e0e845331da892b0bae99b6a0c7c9cafee82b8aa4ef7bbb00dd13"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/matmul_leakyrelu/MatmulLeakyrelu.lean": "95c355b42a1c34d9cb14c2ecc9938eb3d326ca5a52e4a5d09f60af4efb1298cd",
+        "bench/tritonbench_g/matmul_leakyrelu/matmul_leakyrelu.py": "dfc37b67a0ef1ea4aff482715d0fe3b48c08b7d841f5e72c2a89a91c1bb021d6"
+      }
+    },
+    {
+      "task": "matmul_leakyrelu_fp8",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "floating_dot",
+      "actual_public_scope": "与原声明一致的 whole-K grouped matmul + leaky-ReLU，SCN=1，BN≤SCM；文件名不保证任何 fp8编码。",
+      "missing_arithmetic_contract": "三参数 dot accumulate、compare/literal/mul、half output；输入真实格式必须按 source/profile 审核，不能因目录名用 f8e4。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/matmul_leakyrelu_fp8/MatmulLeakyreluFp8.lean",
+          "declaration": "matmul_leakyrelu_fp8_closed_form_correct",
+          "line": 1078,
+          "statement_sha256": "c5ddbf916549666111e63cfedba2e4e152fdde049acc654fab4301eafdb6ee64"
+        },
+        {
+          "file": "bench/tritonbench_g/matmul_leakyrelu_fp8/MatmulLeakyreluFp8.lean",
+          "declaration": "matmul_leakyrelu_fp8_io_correctness",
+          "line": 2117,
+          "statement_sha256": "794896c2c5b831c5e01127f02212104f9716ef5864321782a581555fa50bf525"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/matmul_leakyrelu_fp8/MatmulLeakyreluFp8.lean": "87fc4a2dd100c6ac962f5fd7e5498658539090082958842f63b7f7e8d54450f4",
+        "bench/tritonbench_g/matmul_leakyrelu_fp8/matmul_leakyrelu_fp8.py": "5d8796c8b490469195f1e25d4807e5a0a214ea65e4481e1b34075ce4b377fa55"
+      }
+    },
+    {
+      "task": "matmul_tma",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "floating_dot",
+      "actual_public_scope": "单个所建模 tile 的两个 output faces(fp32与fp16)，原 output injectivity；descriptor/TMA hardware 不在算法投影保证中。",
+      "missing_arithmetic_contract": "实际浮点 dot + optionalhalfcast；source/projection bridge 与 descriptor/native memory 同步分开列。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/matmul_tma/MatmulTma.lean",
+          "declaration": "matmul_tma_f32_closed_form_correct",
+          "line": 482,
+          "statement_sha256": "65a324fd592d03dfccdc8baae9f35226c8d9b7e969954c79128e53a58ca80e88"
+        },
+        {
+          "file": "bench/tritonbench_g/matmul_tma/MatmulTma.lean",
+          "declaration": "matmul_tma_f16_closed_form_correct",
+          "line": 627,
+          "statement_sha256": "25b8bfc667cc565b544c70195af0a3871aba7ca1c1d58c514f36564c2c03e2c0"
+        },
+        {
+          "file": "bench/tritonbench_g/matmul_tma/MatmulTma.lean",
+          "declaration": "matmul_tma_f32_io_correctness",
+          "line": 883,
+          "statement_sha256": "61ac325394dce0e744a95d557e6fcad2430e6a97719ebe5d6b68c140f80ecc9b"
+        },
+        {
+          "file": "bench/tritonbench_g/matmul_tma/MatmulTma.lean",
+          "declaration": "matmul_tma_f16_io_correctnessR",
+          "line": 1289,
+          "statement_sha256": "53a60e50940b8479efec7b43fee83a242dfec14c381a5fb7867fdc80eb92c928"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/matmul_tma/MatmulTma.lean": "08680556e9ca83a4344ef4bc2afa2d65d6df474ab0638633717961fe57212d11",
+        "bench/tritonbench_g/matmul_tma/matmul_tma.py": "6984cd3bad2b1d6b03d6d3f30b7cd2925430dc31d1c3f3a29168fd6aca1f5ae5"
+      }
+    },
+    {
+      "task": "matmul_triton1",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "floating_dot",
+      "actual_public_scope": "指定 contiguous surface 参数，K=BLOCK_K*numKBlocks，BLOCK_K>0，N≤NS。",
+      "missing_arithmetic_contract": "dot(..., allow_tf32=False) 后 add，保留 disabled TF32 选项；非所有 GPU dot 都同一个顺序。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/matmul_triton1/MatmulTriton1.lean",
+          "declaration": "matmul_triton1_closed_form_correct",
+          "line": 651,
+          "statement_sha256": "a192d0820cd4c2d9c0b00c015ce2e7b237e7166b13ce25bd75112826df49c2f5"
+        },
+        {
+          "file": "bench/tritonbench_g/matmul_triton1/MatmulTriton1.lean",
+          "declaration": "matmul_triton1_io_correctness",
+          "line": 1328,
+          "statement_sha256": "5d2e4782d90633bf22fee156d55be31647d5ede53ecb7cdd1891d9b48e8d5a0c"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/matmul_triton1/MatmulTriton1.lean": "eeb95d2c8250122dc6ebbbda64b8c134eacd041babdc3ff4c71900617d50c123",
+        "bench/tritonbench_g/matmul_triton1/matmul_triton1.py": "84e9a3565aff0b7302f61bfc37ea1b6b8cc8ca4543440908192661a2f0767ab4"
+      }
+    },
+    {
+      "task": "matmul_triton2",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "floating_dot",
+      "actual_public_scope": "grouped matmul whole-K，BK>0；summary injective cOffset，IO用 SCN=1 / BN≤SCM。",
+      "missing_arithmetic_contract": "dot 后独立 accumulator add、最终 store dtype，所有 accepted grouped addresses/masks。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/matmul_triton2/MatmulTriton2.lean",
+          "declaration": "matmul_triton2_output_summary_general",
+          "line": 993,
+          "statement_sha256": "2f64b465859aaa23f9cff64ceafe053feb4fe298b429900015fbc2274b19fa9c"
+        },
+        {
+          "file": "bench/tritonbench_g/matmul_triton2/MatmulTriton2.lean",
+          "declaration": "matmul_triton2_io_correctness",
+          "line": 1851,
+          "statement_sha256": "fae6bb37be6396e191c66685b43722dde3906709c80aef71e8e5ac5da0b76bd1"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/matmul_triton2/MatmulTriton2.lean": "606a19b319fb5149df1f2909833859e4db15dec5cc76694c592a64f1f7bc274f",
+        "bench/tritonbench_g/matmul_triton2/matmul_triton2.py": "2c1bdeb583346fe0259d113820739e87b00eb651274d5ebf186fd7cc104530ff"
+      }
+    },
+    {
+      "task": "matmul_triton_autotune",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "floating_dot",
+      "actual_public_scope": "K=BK*numKBlocks，SCN=1，BN≤SCM；ACTIVATION Bool 两分支均纳入；不验证 host tuner。",
+      "missing_arithmetic_contract": "三参数 dot accumulate、optional leaky-ReLU compare/0.01mul、halfcast；两分支均不能遗漏。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/matmul_triton_autotune/MatmulTritonAutotune.lean",
+          "declaration": "matmul_autotune_closed_form_correct",
+          "line": 1150,
+          "statement_sha256": "e3004eb5f949a6e94f0aefdd2da60bfabf3f75b91715184d08966357c3a49845"
+        },
+        {
+          "file": "bench/tritonbench_g/matmul_triton_autotune/MatmulTritonAutotune.lean",
+          "declaration": "matmul_autotune_io_correctness",
+          "line": 2175,
+          "statement_sha256": "c2d0b409157e778243b17c6ee7edf330e97c57a5a0ff446273368fbb28324216"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/matmul_triton_autotune/MatmulTritonAutotune.lean": "f688daf7409409884730a0e6499b54f053588a0b12b5868b7c022802ccfdd218",
+        "bench/tritonbench_g/matmul_triton_autotune/matmul_triton_autotune.py": "cec82107728549d9b604734597d8c4d355717dfb5e060b9cd4645e5990ab26ab"
+      }
+    },
+    {
+      "task": "sgmv_expand_slice",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "floating_dot",
+      "actual_public_scope": "一个 sequence-row block；K=BK*numKBlocks，BK>0，原 output injectivity；保留 supplied seq/adapter metadata 和 slice offset。",
+      "missing_arithmetic_contract": "mixed inputs dot、fp32 accumulate、output cast；当前 theorem 目标的 branch配置以 explicit surface 为准，不能用一块K witness替代完整 numKBlocks。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/sgmv_expand_slice/SgmvExpandSlice.lean",
+          "declaration": "sgmv_expand_slice_one_row_block_output_summary",
+          "line": 1062,
+          "statement_sha256": "560251e94b3fbe95015f04f73c3f7360fe6234c0af7bc66a8f05bbdb95443995"
+        },
+        {
+          "file": "bench/tritonbench_g/sgmv_expand_slice/SgmvExpandSlice.lean",
+          "declaration": "sgmv_expand_slice_io_correctness",
+          "line": 2168,
+          "statement_sha256": "8a6f123207da9d154599bf8099bd60d37d07881990831d51b7be21fd9420f76c"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/sgmv_expand_slice/SgmvExpandSlice.lean": "3ebfaa2e6bda59daa69a883850917f6d057f96ab894cd26ea4b47432c4444795",
+        "bench/tritonbench_g/sgmv_expand_slice/sgmv_expand_slice.py": "a3643842b99a76379b1a8c8be29b2f531186c776ddc3d0d1583edaccc7e1a281"
+      }
+    },
+    {
+      "task": "triton_matmul",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "floating_dot",
+      "actual_public_scope": "两个独立 output faces fp16 与 f8e4；K=BK*numKBlocks，SCN=1，BN≤SCM；whole-K grouped layout。",
+      "missing_arithmetic_contract": "三参数dot accumulate、half rounding 与真实 e4m3fn/f8e4 边界；MixedBits half不足以关闭 fp8分支。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/triton_matmul/TritonMatmul.lean",
+          "declaration": "triton_matmul_f16_closed_form_correct",
+          "line": 1280,
+          "statement_sha256": "332f0d56b050cc84c0181d167b18065acfcd48037b814e8fe89bb7fbad2c4dee"
+        },
+        {
+          "file": "bench/tritonbench_g/triton_matmul/TritonMatmul.lean",
+          "declaration": "triton_matmul_f8_closed_form_correct",
+          "line": 1328,
+          "statement_sha256": "811697b9cf7e8808bf7150381b9497bf11f0d8368fdc8e57b55ffeb465b9e322"
+        },
+        {
+          "file": "bench/tritonbench_g/triton_matmul/TritonMatmul.lean",
+          "declaration": "triton_matmul_f16_io_correctness",
+          "line": 2324,
+          "statement_sha256": "0ad605e4eb4d52ebe161d8d733e7cccbe07658a608339e7d37a97e85690fce57"
+        },
+        {
+          "file": "bench/tritonbench_g/triton_matmul/TritonMatmul.lean",
+          "declaration": "triton_matmul_f8_io_correctness",
+          "line": 2383,
+          "statement_sha256": "ac79d1886783e4ac0f38fc2f91ea5356c5ae8def7cb335af28cf4019c520e3c4"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/triton_matmul/TritonMatmul.lean": "9f4522e44ae9b68a02277bc0a3d63f66e2055a7173e16198d3ba5f868c5e8c78",
+        "bench/tritonbench_g/triton_matmul/triton_matmul.py": "5d64fb3c49162e09db20cd61dd720c2fefbbf4fadbcc20ecc7d51873431dc004"
+      }
+    },
+    {
+      "task": "triton_linear_activation",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "floating_dot",
+      "actual_public_scope": "完整 accepted K stream、HAS_BIAS/SHOULD_SAVE_ACT_INPUTS、ACTIVATION字符串路径，存 C和可选ACT_INPUTS；保留全layout和IO T>0条件。",
+      "missing_arithmetic_contract": "dot+add+bias、relu/tanh/erf/fast_gelu 常数和运算次序、typed output；所有实际支持 activation 分支，不接受只 identity。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/triton_linear_activation/TritonLinearActivation.lean",
+          "declaration": "triton_linear_activation_output_summary_general",
+          "line": 1598,
+          "statement_sha256": "ff4707b0af1afef9c254e045bb01fc9edcaa49ea88851007a071bd83669ed59d"
+        },
+        {
+          "file": "bench/tritonbench_g/triton_linear_activation/TritonLinearActivation.lean",
+          "declaration": "triton_linear_activation_io_correctness",
+          "line": 2712,
+          "statement_sha256": "dc9726c430d2d900f75eda8b1138fa4003f086a0d2eb3a5b6964a91336d83a2c"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/triton_linear_activation/TritonLinearActivation.lean": "257bee878e09c500706213ddb7868db76fea6cbab79682a262b03356d2aafd6b",
+        "bench/tritonbench_g/triton_linear_activation/triton_linear_activation.py": "f962d270863d07fdb3329d1b852b6678f7bc4e003c0311ceaba89af782ef75e3"
+      }
+    },
+    {
+      "task": "lightning_attention",
+      "status_unchanged": "cast_store_rounding_only",
+      "group": "floating_dot",
+      "actual_public_scope": "full fwd + two bwd surfaces 只有 lowering；数值结论是 forward KV carry step、o_inter dot、带输入 carry premises 的完整 causal forward body，及 supplied GradPre store。",
+      "missing_arithmetic_contract": "dot(K,V)、dot(Q,KV)、QK causal mask 后乘 V、add/casts；把 carry premise 改为独立机器状态 invariant，而非假设最终输出。不能宣称 backward producer 已被这些 headlines 覆盖。",
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/lightning_attention/LightningAttention.lean",
+          "declaration": "lightning_attention_output_summary_general",
+          "line": 1547,
+          "statement_sha256": "6e95f7e7f18cb4bc408afcc7b2b1a9e96ad89c4e1226fd5eebbec9eb2334d1ad"
+        },
+        {
+          "file": "bench/tritonbench_g/lightning_attention/LightningAttention.lean",
+          "declaration": "lightning_attention_bwd_grad_store_io_correctness",
+          "line": 1769,
+          "statement_sha256": "31824fba1f23ae7cc1855177dde2f83981c96c72121f2ffb76965656d6a3833b"
+        },
+        {
+          "file": "bench/tritonbench_g/lightning_attention/LightningAttention.lean",
+          "declaration": "lightning_attention_bwd_grad_store_io_correctnessR",
+          "line": 1846,
+          "statement_sha256": "659f2c57bc72c8d62b9783de0f5a1d789a232f757a54541995cefff00bc598c5"
+        }
+      ],
+      "source_hashes": {
+        "bench/tritonbench_g/lightning_attention/LightningAttention.lean": "8f3a673f025f5d4d4092195ef511eed7873ef2ef157184bc962488dd2b90a1e9",
+        "bench/tritonbench_g/lightning_attention/lightning_attention.py": "e53de8325844dd0e093ab119dd5a7a83406ff8f10a41f3eab731ecf6b1fae96a"
+      }
+    }
+  ],
+  "priority_candidates": [
+    {
+      "rank": 1,
+      "task": "flash_decode2_llama",
+      "why_direct": "无已接受 dot/exp/whole-loop 数值证明需要迁移；div32直接 ScalarBackend，最大选择用现有 FP.lt/eq 建立独立 bit spec，copy复用 typed load/store。",
+      "full_accepted_scope": [
+        "保留全部 4 个 public headline：normalization_output_summary_general、running_max_output_summary_general、final_store_io_correctness、final_store_io_correctnessR。",
+        "任意 BLOCK_DMODEL、所有现有 batch/head/stride/block_seq_n 参数；归一化和copy保持输出offset injectivity；两步/拷贝来自各自 supplied 输入，不能把它们称为完整 stage2循环。",
+        "Full flash_decode2_llama_surface 的 toAlgorithm? conjunct保留；Python未用的stride_mid_od/stride_mid_o_es/stride_od签名位置不擅自改变地址。"
+      ],
+      "dtype_profile": "本地4组调用 Mid_O/Mid_O_LogExpSum/O 均 fp32；新的 source/contract保留dtype参数或准确标注此原有 fp32 profile。Acc/SumExp/MaxLogic阶段寄存器用fp32编码；不能把未标记 .real当 fp32 cast=id。",
+      "independent_reference": [
+        "norm[i] = div_cfg(initial Acc[accOffset i], initial SumExp[sumOffset])，含 0/0、±Inf、NaN的具体软件语义；不额外加分母非零来省事。",
+        "maxStep = 已明确 NaN/tie/±0策略的二元 maximum(initial tlogic, initial max)，选择位模式或独立 selection relation；软件策略与GPU绑定分列。",
+        "copy[i] = initial Final[finalOffset i]，逐bit保留 + out frame。"
+      ],
+      "new_modules": [
+        "Proofs/FPTypedSource.lean — 保持原阶段数据流、所有 branch/loop/mask 与声明 dtype，并提供旧源/新typed源的可检查 projection。",
+        "Proofs/FPContract.lean — 独立初态/stream reference，exec成功、全部输出readback及memory frame；不是 reference自身的rfl。",
+        "Proofs/FPSoftware.lean — 明确每个实际使用 callback 的bit实现或标为backend-relative。",
+        "FPCorrect.lean — 参数化公开入口，保留原accepted全范围；固定witness仅作回归。",
+        "FPContract按三目标分条：Normalization / MaximumStep / FinalStore；source shape明确从full source对应fragment抽取，不新增完整exp递推声称。"
+      ],
+      "reuse": [
+        "VeriTile/Triton/Float/ScalarBackend.lean",
+        "VeriTile/Triton/Float/ScalarOps.lean",
+        "VeriTile/Triton/Float/BitValue.lean",
+        "bench/tritonbench_g/matrix_reduction/Proofs/MachineMax.lean"
+      ],
+      "native_primitives": [
+        "fp32 div 的rounding、FTZ/DAZ、0/0、Inf/NaN；PTX div还是rcp×mul lowering",
+        "fp32 maximum 的NaN传播、sNaN quieting、signed-zero/tie选择；FP.lt 本身不等于 tl.maximum全部语义",
+        "fp32typed load/store bit保持、metadata/address/mask绑定"
+      ],
+      "extra_obligations": [
+        "ScalarBackend未实现 .max；必须显式补，不能继承 rest.binary .max 后标为bit实现。",
+        "该accepted阶段不使用exp；native清单不要按整个Python文件加入exp。"
+      ],
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/flash_decode2_llama/FlashDecode2Llama.lean",
+          "declaration": "flash_decode2_llama_normalization_output_summary_general",
+          "line": 444,
+          "statement_sha256": "53abe2fcc664de46ad57b9a9d9cb860c3d3b22ea726ffe75e32ccbb59af539e4"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_decode2_llama/FlashDecode2Llama.lean",
+          "declaration": "flash_decode2_llama_running_max_output_summary_general",
+          "line": 484,
+          "statement_sha256": "7f7474a87e90b10035c56856be52548273647acaf22f427a3ba355ae780022ef"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_decode2_llama/FlashDecode2Llama.lean",
+          "declaration": "flash_decode2_llama_final_store_io_correctness",
+          "line": 681,
+          "statement_sha256": "165a5c2214463e77e4666cfe8e62d270e2157a8044ef65d1adab5d66aa404418"
+        },
+        {
+          "file": "bench/tritonbench_g/flash_decode2_llama/FlashDecode2Llama.lean",
+          "declaration": "flash_decode2_llama_final_store_io_correctnessR",
+          "line": 769,
+          "statement_sha256": "4eaf5778ab965c5bf33ce9b4091bce499cb5e7f3c21369efe16698edec49e48a"
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "task": "quantize_copy_kv",
+      "why_direct": "quantize_kv_transform 已有同型完整typed producer、MixedBits half↔fp32、max、signed8 conversion、双输出/frame；主要差异是transform多一个dimension mask。",
+      "full_accepted_scope": [
+        "保留2个public headline的全部功能：源tile→abs/max/127→真正fp16 scale→quotient→signedint8、目的地gather、值与scale两个maskedstore。",
+        "任意 BLOCK_HEAD/BLOCK_DMODEL/head_num、所有原strides与destination；原hD:0<BLOCK_DMODEL、Out≠OutScale、value/scaleoffset injectivity 保留。",
+        "每个activehead的所有 BLOCK_DMODEL 列均参与，原Python只有headmask，没有维度mask；不可新增dimension≤width限制或改变head/列范围。"
+      ],
+      "dtype_profile": "原本地输入 fp16、scale fp16、Out int8；复用 mixed carrier；若保留fp32输入补充profile须分列，不能抹掉fp16路径。原 host没有穷举dtype保证，测试dtype不是全域合同。",
+      "independent_reference": [
+        "loaded[h,d]按原headmask读取原状态半精度payload；abs清sign；按明确比较/NaN策略作非空max；scale=halfRound(div32(promote(max),127.0f))。",
+        "quotient=源实际promotion下的div，scale再widen；integer=toSigned8TowardZero(quotient)的defined值，否则任意明示u(width,bits)。",
+        "两次独立scatter输出和frame；可对所有bits给total-policy reference，再给active-defined域下TowardZero+SignedRange且与u无关的加强结论。"
+      ],
+      "new_modules": [
+        "Proofs/FPTypedSource.lean — 原head-only mask与dtype固定source；定义到TypedTransform.Parameters的mapping，dimension=width。",
+        "Proofs/FPProjection.lean — 对所有Fin width证明额外维度predicate恒真，证明source执行等价（不能仅声称源码文本一样）。",
+        "Proofs/FPContract.lean — 复用或移植transform typed执行/readback/frame，补active-defined independence；若只给InputDefined结论须明列域，不能称无域全值覆盖。",
+        "FPCorrect.lean — parameterized 两输出bit合同与source bridge；可单独FPWitness回归但不顶替主合同。"
+      ],
+      "reuse": [
+        "bench/tritonbench_g/quantize_kv_transform/Proofs/TypedSource.lean",
+        "bench/tritonbench_g/quantize_kv_transform/FPCorrect.lean",
+        "bench/tritonbench_g/quantize_kv_transform/Proofs/MixedBits.lean",
+        "bench/tritonbench_g/matrix_reduction/Proofs/MachineMax.lean",
+        "VeriTile/Triton/Float/IntegerConversionTotal.lean",
+        "VeriTile/Triton/Float/ScalarBackend.lean"
+      ],
+      "native_primitives": [
+        "half abs sign清除、max NaN/tie/zero及是否先提升精度",
+        "half→fp32、fp32/127、fp32→half round/overflow/subnormal/NaNpayload、halfscale→fp32",
+        "src/scale div的实际promotion和是否中间half再舍入；需编译trace/实验确认，不能由工具软件profile推断硬件",
+        "float→signedint8 toward-zero及defined range [-128,127]；undefined/NaN/overflow结果只做policy绑定，不暗称saturating",
+        "headmask、int8store、halfscale store、目的地元数据"
+      ],
+      "extra_obligations": [
+        "inactivehead会产生0/0，不能要求无padding或把u=0称硬件结果。",
+        "全0 activehead/scale下溢0也会undefined；以total-policy合同保留执行，再将finite/range精确域单列。",
+        "scalehalf路径必须是真32位中间+真16位编码，旧LegacyRealInt8仅历史数学桥。"
+      ],
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/quantize_copy_kv/QuantizeCopyKv.lean",
+          "declaration": "destindex_copy_quantize_kv_output_summary_general",
+          "line": 617,
+          "statement_sha256": "c7c552889f06fd254ecfc4217ef730236a2f4c4f2f36d01f055f62a38dab6368"
+        },
+        {
+          "file": "bench/tritonbench_g/quantize_copy_kv/QuantizeCopyKv.lean",
+          "declaration": "quantize_copy_kv_io_correctness",
+          "line": 1383,
+          "statement_sha256": "05fa2e9b3535395460ce54864192b02d6fac26ddc9e7e6484a9a969f5278f2f4"
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "task": "token_attn_llama2",
+      "why_direct": "没有tl.dot或transcendental，只有fp32 elementwise product、axis1 reduction、scalar scale multiply和一次guardedstore；可复用scalar与显式sum解释器。",
+      "full_accepted_scope": [
+        "保留output_summary_general与io_correctness两个参数化合同；任意BD/BN/所有strides/kv_group_num/max_input_len/sm_scale与program ids。",
+        "完整13-statement prelude、block_mask∈{0,1} guard、带变长起点B_Loc gather、Kmask、sum(q*k,1)*sm_scale及outputmask/frame。",
+        "IO T=1来自原guard不是人为单块假设；保持writeMask中的blockactive和windowactive双条件、原output injectivity。",
+        "数学summary的clean undef与IO pinning语义须在新typed状态对应，不以新增finite/nonzero输入限制替代。"
+      ],
+      "dtype_profile": "本地Q/K/Att_Out均fp32，scale为Python double计算的host标量；必须写清传参后scale实际fp32编码。保持source symbolic scalar contract，并给明确float32 profile；不把sm_scale固定为某个测试值。",
+      "independent_reference": [
+        "对active block，独立从initial Q/B_Loc/K地址读取q,k；P[d]=mul_cfg(q[d],k[i,d])；r=EvalSumTree(plan[BD],P,+0)；score=mul_cfg(r,scaleBits)。",
+        "sum保留全部BD叶与所有seed/padding；inactive block不执行、inactive output不写。",
+        "reference独立于Structural.exec，但可参数化一个明确sum树；不要求不同树浮点相等，不使用add_assoc/mul_distrib。"
+      ],
+      "new_modules": [
+        "Proofs/FPTypedSource.lean — 保持原阶段数据流、所有 branch/loop/mask 与声明 dtype，并提供旧源/新typed源的可检查 projection。",
+        "Proofs/FPContract.lean — 独立初态/stream reference，exec成功、全部输出readback及memory frame；不是 reference自身的rfl。",
+        "Proofs/FPSoftware.lean — 明确每个实际使用 callback 的bit实现或标为backend-relative。",
+        "FPCorrect.lean — 参数化公开入口，保留原accepted全范围；固定witness仅作回归。",
+        "Proofs/FPSumProfile.lean — scalar bitops + explicit tree reduction，声明所有callback关闭；ScaleEncoding明确symbolic literal→runtimebits，未绑定前不得bit全覆盖。"
+      ],
+      "reuse": [
+        "VeriTile/Triton/Float/ScalarBackend.lean",
+        "VeriTile/Triton/Float/ScalarOps.lean",
+        "VeriTile/Triton/Float/BitValue.lean",
+        "bench/tritonbench_g/matrix_vector_multip/Proofs/TypedSoftware.lean"
+      ],
+      "native_primitives": [
+        "fp32mul与后置scale mul；逐操作rounding/FTZ/DAZ/NaN/±0",
+        "tl.sum axis1按实际BD/BN/warp/layout的reductiontree及padding；是否有FMA fusion",
+        "host sm_scale的runtime dtype/常数转换/取整（不是重新实验数学1/sqrt精度）",
+        "maskedQ/K/gather/store与typed payload保持"
+      ],
+      "extra_obligations": [
+        "ScalarBackend只有literal0/1，任意sm_scale仍走rest.literal；需新scale编码binding而非假设最终score正确。",
+        "typed product/reduce compute precision必须用实际展开确认；sequentialSum可作为软件profile，不能自动叫GPU tree。"
+      ],
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/token_attn_llama2/TokenAttnLlama2.lean",
+          "declaration": "token_attn_llama2_output_summary_general",
+          "line": 1262,
+          "statement_sha256": "e13ffe200a321c7783743ed7f8e93006965461c592d09fc02ba6bc77c36d8565"
+        },
+        {
+          "file": "bench/tritonbench_g/token_attn_llama2/TokenAttnLlama2.lean",
+          "declaration": "token_attn_llama2_io_correctness",
+          "line": 2709,
+          "statement_sha256": "3e062ff5776d34557fd3e1f11d80b07a8054eee237e0b572d7cada9237c5da20"
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "task": "token_attn_reduceV",
+      "why_direct": "纯fp32 mul/sum/add，full-loop可沿已有forRangeDyn invariant；tokenllama建立sumprofile后复用。",
+      "full_accepted_scope": [
+        "保留两个 public headline、全部runtime sequence S与任意BD/BN，BN>0；保留spbs=1、srts=1、原outputoffset injectivity。",
+        "完整 range(0,S,BN)，包括S=0、任意多个block及partialtail；IO保持S≤T*BN，不以T=1或S%BN=0收窄。",
+        "metadata B_req_idx/B_Start_Loc/B_Seqlen、Req_to_tokens gather、kv grouping、每步p/V mask、initialfp32+0、输出cast与完整unmasked vectorstore/frame。"
+      ],
+      "dtype_profile": "本地Prob/V/Out均fp32；source output dtype cast要保留，generic typed合同可参数化其他dtype，而明确软件bitprofile仅声明所实现dtype。",
+      "independent_reference": [
+        "acc0[d]=+0；对每个真实loopstep t，读取完整BN个mask后的p和v，product=mul_cfg，blocksum=EvalSumTree(plan[BN],product,+0)，acc_next=add_cfg(acc,blocksum)。",
+        "最后按Outdtype cast并写所有BD；reference来自initialstate/pins和明确递推，不能用旧Real Σ_live做FP目标。"
+      ],
+      "new_modules": [
+        "Proofs/FPTypedSource.lean — 保持原阶段数据流、所有 branch/loop/mask 与声明 dtype，并提供旧源/新typed源的可检查 projection。",
+        "Proofs/FPContract.lean — 独立初态/stream reference，exec成功、全部输出readback及memory frame；不是 reference自身的rfl。",
+        "Proofs/FPSoftware.lean — 明确每个实际使用 callback 的bit实现或标为backend-relative。",
+        "FPCorrect.lean — 参数化公开入口，保留原accepted全范围；固定witness仅作回归。",
+        "Proofs/FPComplete.lean — 任意动态tripcount归纳、全部tail、初始+0、最终dtypecast；可和mistral复用PV循环lemma但mask函数作为显式输入。"
+      ],
+      "reuse": [
+        "VeriTile/Triton/Float/ScalarBackend.lean",
+        "VeriTile/Triton/Float/ScalarOps.lean",
+        "VeriTile/Triton/Float/BitValue.lean",
+        "bench/tritonbench_g/matrix_vector_multip/Proofs/TypedSoftware.lean"
+      ],
+      "native_primitives": [
+        "fp32mul/add的rounding/FTZ/NaN/±0与是否fusion",
+        "axis0 tl.sum的真实BN/tree/seed/padding，和跨blockaccadd顺序",
+        "outputcast实际dtype、maskedvalue/defaultzero、元数据gather与outputstore"
+      ],
+      "extra_obligations": [
+        "末块所有BN算术必须保留；即使load双mask产生0也不能凭Real零恒等消去fp加法的signedzero效果。",
+        "独立证明最终output对未使用rest callback不依赖；没有显式sum实现不能标bit contract。"
+      ],
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/token_attn_reduceV/TokenAttnReduceV.lean",
+          "declaration": "token_attn_reducev_output_summary_general",
+          "line": 1540,
+          "statement_sha256": "b3da76304d94f852029bc2dd1332cff53d843725e1c29e86c4c0d9b100ec47ea"
+        },
+        {
+          "file": "bench/tritonbench_g/token_attn_reduceV/TokenAttnReduceV.lean",
+          "declaration": "token_attn_reducev_io_correctness",
+          "line": 3238,
+          "statement_sha256": "6bf715f1cb7bcfbd54e4dce86fbf1d1aed4e0b7d03fe0216391b8b153a711605"
+        }
+      ]
+    },
+    {
+      "rank": 5,
+      "task": "token_attn_mistral",
+      "why_direct": "与reduceV同一mul/sum/add主干，多一个window起点和不同的p/V mask；复用完整PVloop，不是另造短prefix。",
+      "full_accepted_scope": [
+        "保留两个public headline；spbs=srts=1、BN>0、原outputinjectivity；任意batchSeq、attSeq、sliding_window及strides/kvgroup。",
+        "完整range(0,attSeq,BN)，包括0和tail，IO只使用原attSeq≤T*BN；不新增attSeq=min(batchSeq,window)等未有关系。",
+        "startIndex=max(batchSeq-sliding_window,0) 的元数据计算与B_Att_Start_Loc/B_req_idx/B_Att_Seqlen保持；Prob按attSeq mask，V/gather按startIndex+n<batchSeq mask；unmaskedfinalstore/frame。"
+      ],
+      "dtype_profile": "本地Prob/V/Out均fp32。整型window/metadata最大值是地址运算，不应把它误列为额外浮点maximum原语。",
+      "independent_reference": [
+        "acc0=+0；逐真实t对全部BN叶分别按两个不同mask构造p与v，mul_cfg后按axis0显式tree求和，再add_cfg到carry。",
+        "末块p=0但V可能active含Inf/NaN，0*Inf会NaN；必须保留这个源行为而非旧RealΣ_live或添加finiteV限制。",
+        "attSeq=0时写initial+0的Outcast；全部BD输出与frame。"
+      ],
+      "new_modules": [
+        "Proofs/FPTypedSource.lean — 保持原阶段数据流、所有 branch/loop/mask 与声明 dtype，并提供旧源/新typed源的可检查 projection。",
+        "Proofs/FPContract.lean — 独立初态/stream reference，exec成功、全部输出readback及memory frame；不是 reference自身的rfl。",
+        "Proofs/FPSoftware.lean — 明确每个实际使用 callback 的bit实现或标为backend-relative。",
+        "FPCorrect.lean — 参数化公开入口，保留原accepted全范围；固定witness仅作回归。",
+        "Proofs/FPComplete.lean — 从reduceV的通用PVloop实例化独立pMask/vMask，证明window/gather索引与源完全相同。"
+      ],
+      "reuse": [
+        "VeriTile/Triton/Float/ScalarBackend.lean",
+        "VeriTile/Triton/Float/ScalarOps.lean",
+        "VeriTile/Triton/Float/BitValue.lean",
+        "bench/tritonbench_g/matrix_vector_multip/Proofs/TypedSoftware.lean"
+      ],
+      "native_primitives": [
+        "与reduceV相同的fp32 mul/add、axis0sumtree、cast/load/store原语",
+        "实际pMask≠vMask的tail包含Inf/NaN回归；不以改变domain避开",
+        "metadata subtraction/max/group division按原整数域绑定；这不是floatmax实验"
+      ],
+      "extra_obligations": [
+        "不得增加窗口与attSeq一致性前提来让不同mask变相等。",
+        "泛型backend递推先参数化覆盖，再具体bitprofile关闭每一used callback；fixedtail witness只做检查。"
+      ],
+      "public_declarations": [
+        {
+          "file": "bench/tritonbench_g/token_attn_mistral/TokenAttnMistral.lean",
+          "declaration": "token_attn_mistral_output_summary_general",
+          "line": 1783,
+          "statement_sha256": "aff43fcedf55982f90dd897e59701ee265d53b61cf15c14df3956522b3272142"
+        },
+        {
+          "file": "bench/tritonbench_g/token_attn_mistral/TokenAttnMistral.lean",
+          "declaration": "token_attn_mistral_io_correctness",
+          "line": 3681,
+          "statement_sha256": "e6cdbf41f252e1537bbb0e97b8de78bd408feaadc91450f42fe0c79086293dbe"
+        }
+      ]
+    }
+  ],
+  "global_constraints": [
+    "保留原完整accepted stage/shape/loop/branch/dtype profile，不以singleblock、emptytile、固定witness替代参数化合同。",
+    "新增typedsource和独立value-spec必须实际绑定；旧Real evaluator或cast/store RoundingModel不构成机器算术闭合。",
+    "具体bit合同必须列出实际used primitive并证明不依赖未实现rest；backend-relative合同另记。",
+    "Software reduction/dot schedule、NaNpayload、±0/tie、FTZ/DAZ以及promotion/constantconversion均需native binding；本审查没有做native实验。",
+    "sum树直接执行即可，不需额外admitted标量重排律；禁止借ScalarReduction的associativity/distribution rules来自动证明不同FPtree相等。",
+    "固定样例能测非空性或边界，但不改变参数化保证层级。"
+  ],
+  "source_review_findings": [
+    {
+      "task": "flash_decode2_llama",
+      "finding": "旧report scope文字的producer/step泛称应读为两个分别有kernel的局部算术目标；fullstage只lowering。后续native不应误加exp。"
+    },
+    {
+      "task": "lightning_attention",
+      "finding": "旧report提到forward/backward producer/step容易让人误读；真实public数值只有上述forward slices及suppliedgradientstore，两个backward fullsurfaces只是lowering。"
+    },
+    {
+      "task": "layer_norm_ops",
+      "finding": "forward三类headline是suppliedstores；真正尚缺算术主要在backwardC1/C2/DX/DW/DB/residualadd，不应由forwardcopy完成去删除整项gap。"
+    }
+  ],
+  "shared_reuse_sources": {
+    "scalar": {
+      "file": "VeriTile/Triton/Float/ScalarBackend.lean",
+      "sha256": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a"
+    },
+    "ops": {
+      "file": "VeriTile/Triton/Float/ScalarOps.lean",
+      "sha256": "26bd46b941918c3a617cb6e15b2ddb2003a85c40cd69fca3a3905ba181bc6072"
+    },
+    "bits": {
+      "file": "VeriTile/Triton/Float/BitValue.lean",
+      "sha256": "92f8bf41aac7a1268815a58fea6e68475c134903893b8e075599c5427be6a1eb"
+    },
+    "sum_example": {
+      "file": "bench/tritonbench_g/matrix_vector_multip/Proofs/TypedSoftware.lean",
+      "sha256": "970685a2a8c0916802f1641b6261fe0e5145fd193bc5de403883ae62695e8784"
+    },
+    "half": {
+      "file": "bench/tritonbench_g/quantize_kv_transform/Proofs/MixedBits.lean",
+      "sha256": "5d774c65adefd8e9c46073c4d94a257ad8b57fbb8a7bcc6ebfe1df88e30513c3"
+    },
+    "quant_source": {
+      "file": "bench/tritonbench_g/quantize_kv_transform/Proofs/TypedSource.lean",
+      "sha256": "58310716ef5cac4cad9b038879b1e39854f8ba5da993ea5986df2e1c2db9b43c"
+    },
+    "quant_public": {
+      "file": "bench/tritonbench_g/quantize_kv_transform/FPCorrect.lean",
+      "sha256": "e7609d16b97ba314beb9c81e6a3bab8a06416b86fea4de4233f785af507d61f2"
+    },
+    "max": {
+      "file": "bench/tritonbench_g/matrix_reduction/Proofs/MachineMax.lean",
+      "sha256": "695a899065f4b1202c2e6a6057b1e6d303e8b4bb475caab70c7b7a032185fe20"
+    },
+    "integer": {
+      "file": "VeriTile/Triton/Float/IntegerConversionTotal.lean",
+      "sha256": "3f36ef1b3ff8dfb3fd3a2f4a4456ac7072190853d402ea256470b6e7960d282d"
+    }
+  },
+  "coverage_boundary": "All 23 existing cast-store task rows and all 63 public specification statements were inventoried. Python @triton.jit source graphs and public theorem targets were inspected; the five candidates received detailed range/mask/dtype/profile review. This is a source-level plan, not a new proof or complete native compiler semantic audit.",
+  "evidence": "source-evidence.json"
+}

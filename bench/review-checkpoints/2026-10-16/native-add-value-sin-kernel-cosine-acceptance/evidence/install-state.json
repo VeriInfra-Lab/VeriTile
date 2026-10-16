@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "kind": "observed_adapter_transform_checks",
+  "adapters": [
+    {
+      "task": "add_value",
+      "producer_sha256": "e4771f83d9590fcd69d6fb3dabeba3a06e19f8fa85bbda9fcf0468e81a2c6554",
+      "installed_sha256": "9e176131bc041fd5cfeec6e6f26e9d5cdca4f50de74d3e72be123b38a105cbbe",
+      "ast_preservation_check": "passed_except_single_archive_path_assignment_and_helper"
+    },
+    {
+      "task": "sin_kernel",
+      "producer_sha256": "e4b0b5fe5bd9f44ef37bc7466c4b1deee0b48d1863e86eee3ee40dc6c735764b",
+      "installed_sha256": "11a9f0d30b6a1dff1f5ffdabfc47abfb9bfbc58ae41ef5085441c6e8297d59c2",
+      "ast_preservation_check": "passed_except_single_archive_path_assignment_and_helper"
+    },
+    {
+      "task": "cosine_compute",
+      "producer_sha256": "c392daa28fd539f4504bde8dcdca1dc4c1e9ff34de0cd0d5d65e8d65c4ae58eb",
+      "installed_sha256": "39444bb584486aeea49dd4829c101417332ef1cfd613297f2ba8476cbed28625",
+      "ast_preservation_check": "passed_except_single_archive_path_assignment_and_helper"
+    }
+  ],
+  "installed_sha256": {
+    "bench/add_value_native_numerical_extension.py": "9e176131bc041fd5cfeec6e6f26e9d5cdca4f50de74d3e72be123b38a105cbbe",
+    "bench/sin_kernel_numerical_extension.py": "11a9f0d30b6a1dff1f5ffdabfc47abfb9bfbc58ae41ef5085441c6e8297d59c2",
+    "bench/cosine_native_numerical_extension.py": "39444bb584486aeea49dd4829c101417332ef1cfd613297f2ba8476cbed28625",
+    "bench/reviewed_numerical_extensions.py": "1b3134161fb2662c863a4dfc3b7de0ac661d460348fc48b7d1fa0f866207f562",
+    "bench/tests/test_exact_numerical_bindings.py": "c8b2e4138f1ac4718dc67175cd74b0d9453aece78045fe83061a1eb5a4c155ab"
+  },
+  "prior_validation_predicates_unchanged": true,
+  "full_tests": "not_run_by_install"
+}

@@ -1,0 +1,13 @@
+test_actual_full_base_is_required (test_candidate.IntegrationBarriers.test_actual_full_base_is_required) ... ok
+test_external_output_follows_symlinks (test_candidate.IntegrationBarriers.test_external_output_follows_symlinks) ... ok
+test_gzip_active_path_rejects_plain_and_dangling_duplicates (test_candidate.IntegrationBarriers.test_gzip_active_path_rejects_plain_and_dangling_duplicates) ... ok
+test_script_receipt_closure_is_copied_and_reverified (test_candidate.IntegrationBarriers.test_script_receipt_closure_is_copied_and_reverified) ... ok
+test_stage_paths_do_not_write_into_frozen_script_package (test_candidate.IntegrationBarriers.test_stage_paths_do_not_write_into_frozen_script_package) ... ok
+test_storage_receipt_chain_pins_sources_snapshot_plan_and_scripts (test_candidate.IntegrationBarriers.test_storage_receipt_chain_pins_sources_snapshot_plan_and_scripts) ... ok
+test_unsafe_artifact_paths_are_rejected (test_candidate.IntegrationBarriers.test_unsafe_artifact_paths_are_rejected) ... ok
+test_wrong_and_dirty_base_rejected (test_candidate.IntegrationBarriers.test_wrong_and_dirty_base_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.013s
+
+OK

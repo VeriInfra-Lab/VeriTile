@@ -1,0 +1,42 @@
+{
+  "reviewer": "root",
+  "receipt_sha256": "651ef98770ddb86d5350c59762b01808ce872c7ddff4e2f346539bd0b499da46",
+  "status": "pass_scope_and_value_review",
+  "classification": "full_original_pv_scope_in_local_fp32_profile; closed_explicit_software_schedule",
+  "review_findings": [
+    "Both complete arbitrary-tripcount loops preserve Ready invariants and initial memory until final output scatter.",
+    "Mistral probability and V/gather masks differ exactly as original source; all BN products survive, including zero times live infinity.",
+    "Actual probability start_n offset is added outside probTokenStride as in Python; original unit-stride IO scope retained.",
+    "Software result closes reached callbacks with FP.mul/add, fp32 storage casts and explicit ascending-lane seeded sum; GPU tree/fusion remain pending."
+  ],
+  "reviewed_input_sha256": {
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPTypedSource.lean": "ceb1d1a2b571863d0901e86e586f68c8f04ac074c39048476fe737c4ebefecba",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPModel.lean": "a2f3470690d51fdde017aef94451202478e2e1d5944631f066b44442cd18d9d5",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPComplete.lean": "e79cb06864d4f2bb9d8dbb6035c907e5507a855840595d7ebe30cb60f69fe101",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPContract.lean": "fe66f03b9ec0fa3264766164697481270a4915a9100dccad41d4bd126b98fe88",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPShape.lean": "403dc21665de33413a4db5609ebea74741359aca58dcbbd5fb26b270f81798b8",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPSoftware.lean": "bf8c04fd12109c2d40082a216c2cbf4c7221c7c175330217fb4051a18047f0ed",
+    "bench/tritonbench_g/token_attn_reduceV/FPCorrect.lean": "7b5bdef8fc4ec3348f794b624e47131c3b2c868272c3793da09ad93fec4b0a84",
+    "bench/tritonbench_g/token_attn_reduceV/Proofs/FPWitness.lean": "7a1d7a88b3ba378714b1a5251e2453aac008ca9ac8b402abc1c76dc7546dcd1d",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPTypedSource.lean": "b4528add4811f39eb19d4a358147f65321946b725237163adf5a5d283b53106d",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPModel.lean": "d35bbdf1429dc39fa6de23441732a63f0444573a2ce6bd524c7b245e2acca229",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPComplete.lean": "d2d84651e6a335a70174ff9ca73727dfe05f5ce8792a04ba95f17bf488098de4",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPContract.lean": "89483cc85ffa2735e2b6390528edc191433e6942f61988c5917979c06dec411f",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPShape.lean": "49e9a5cb88068ce37ebd908d7997ba808e76d9a083c56437bb5f9c6da0b4d9e4",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPSoftware.lean": "a49be32b33e9f0ed1daca199a957c4b19e679668e0048e0fb979080e560e39f8",
+    "bench/tritonbench_g/token_attn_mistral/FPCorrect.lean": "6d2ab7ba80a22a77af36c3ce9f369643963294c01ac5d9e759a12aa5b138fd76",
+    "bench/tritonbench_g/token_attn_mistral/Proofs/FPWitness.lean": "45328e388cfe325397448a0a6ec5d53c5bf514546ba89fe24f19ed80912ea676",
+    "bench/tritonbench_g/token_attn_reduceV/TokenAttnReduceV.lean": "3a159912c5f9daefc11783a6468fcf70970242490499027811743379152263ef",
+    "bench/tritonbench_g/token_attn_reduceV/token_attn_reduceV.py": "cb2d1316c8c6eff4ee5220bf562596a8443639d65ada2c22c4c0054baa503165",
+    "bench/tritonbench_g/token_attn_mistral/TokenAttnMistral.lean": "517a7f3e104619e29086bccd2a83094afa04f3fdf35cbd7c0870136657a6d175",
+    "bench/tritonbench_g/token_attn_mistral/token_attn_mistral.py": "39c37c3f43353511cce0d0a3b63fc5e5f1602a41450a51ef4a89065869f8407a"
+  },
+  "source_drift": [],
+  "native_status": "not_established",
+  "hardware_acceptance": false,
+  "total_task_count_promotion": "not_applied; canonical integration pending",
+  "additional_reference_audit": {
+    "path": "bench/review-checkpoints/2026-10-14/next-value-repair/reviewed-reference-audit.json",
+    "sha256": "faa45a7cdc2a7285ee6a90ff312fbb93b3f2c356ad947acb0c4c5e8d0e1761b9"
+  }
+}

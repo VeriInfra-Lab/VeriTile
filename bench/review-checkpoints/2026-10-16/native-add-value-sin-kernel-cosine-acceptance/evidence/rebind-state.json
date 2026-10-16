@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "scope_and_preservation_checks_passed",
+  "accepted": 11,
+  "pending": 172,
+  "unchanged_unrelated_rows": 172,
+  "catalog_sha256": "5588d2e1b843c458b75d54e6951e62ee7bbb502df9784b5a085bc33b96caed31",
+  "ledger_sha256": "a5b480d14e7593577f78e2302b900bd9cd318c93e0de77b1a61fa0ce972b0148",
+  "queue_sha256": "450a1464548b39059b1b46168f3c73a382c3ec9f1f4fd5acabdaa7999f5a63eb",
+  "exact": {
+    "status": "passed",
+    "exact_bindings": 2943,
+    "declaration_cases": 22875,
+    "native_executions": 0,
+    "structural_acceptance": false
+  }
+}

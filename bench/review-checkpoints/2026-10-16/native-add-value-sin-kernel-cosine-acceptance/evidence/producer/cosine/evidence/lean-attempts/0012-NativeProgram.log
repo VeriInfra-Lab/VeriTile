@@ -1,0 +1,11 @@
+CosineNative.programPlan: definition does not reference [CosineNative.executeProgram,
+ CosineNative.sourceWrites,
+ CosineNative.applyWrites,
+ CosineNative.source,
+ CosineNative.Expr.eval] — non-circular ✓
+CosineNative.source_writes_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+CosineNative.source_load_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+CosineNative.program_correspondence: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])
+CosineNative.program_plan_frame: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+CosineNative.program_write_bounds: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])
+CosineNative.no_access_program: axiom footprint ⊆ standard base ✓  ([propext, Classical.choice, Quot.sound])

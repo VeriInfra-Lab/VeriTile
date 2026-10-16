@@ -1,0 +1,2 @@
+AddValueFinite.parse_name: axiom footprint ⊆ standard base ✓  ([])
+AddValueFinite.launch_safety: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound, Classical.choice])

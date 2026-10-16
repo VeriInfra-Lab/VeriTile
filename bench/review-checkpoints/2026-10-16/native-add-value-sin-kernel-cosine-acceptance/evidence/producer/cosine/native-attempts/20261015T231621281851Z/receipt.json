@@ -1,0 +1,2696 @@
+{
+  "task": "cosine_compute",
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/cosine_compute/cosine_compute.py",
+  "source_sha256": "363fe81932ce7a18a907f330311e1214130e1c5cad0c0f7c91b476e6eca13d7a",
+  "production_ast_unchanged": true,
+  "torch_version": "2.13.0+cu130",
+  "torch_commit": "cf30153c4c131c8164ee7798e5022d810682e2cb",
+  "triton_version": "3.7.1",
+  "records": [
+    {
+      "dtype": "bool",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "bool"
+      ],
+      "exit_code": 0,
+      "log": "bool.log",
+      "log_sha256": "cb2e288575e271b298f601239a6a3619be4e8107b4d33335e67c59e6d766914c",
+      "result": {
+        "dtype": "bool",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*u1",
+          "b": "*u1",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*u1",
+            "D"
+          ],
+          [
+            "*u1",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "26912401ce87fd232eacedc2f55efa20a5258ce964444c1d22d87e9f725a42be"
+    },
+    {
+      "dtype": "uint8",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "uint8"
+      ],
+      "exit_code": 0,
+      "log": "uint8.log",
+      "log_sha256": "d15b96f6da5df76e4432831496fa6f2ae26df5c1fea7f55006171bfd697ec66d",
+      "result": {
+        "dtype": "uint8",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*u8",
+          "b": "*u8",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*u8",
+            "D"
+          ],
+          [
+            "*u8",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "c86abd882187431506cfb49cae7cb323b5abb84c7468471680e05330ceac5aea"
+    },
+    {
+      "dtype": "int8",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "int8"
+      ],
+      "exit_code": 0,
+      "log": "int8.log",
+      "log_sha256": "66294c9775ef36fefbf8e448933e38af5df2821a9c2b07bb042faa68c5cf41ba",
+      "result": {
+        "dtype": "int8",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*i8",
+          "b": "*i8",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*i8",
+            "D"
+          ],
+          [
+            "*i8",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "583080f80cd68a58c9ffa115639526936e1d192efe44cca033460690bc8304b1"
+    },
+    {
+      "dtype": "int16",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "int16"
+      ],
+      "exit_code": 0,
+      "log": "int16.log",
+      "log_sha256": "61635704460ae8d8784231861861ded26e25854fd65d333cb9be9a1c1c5d0584",
+      "result": {
+        "dtype": "int16",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*i16",
+          "b": "*i16",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*i16",
+            "D"
+          ],
+          [
+            "*i16",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "235fff66e1adbab69d518ed45e437275fc21de5a9b0984becdc1c2d4e62ce891"
+    },
+    {
+      "dtype": "uint16",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "uint16"
+      ],
+      "exit_code": 0,
+      "log": "uint16.log",
+      "log_sha256": "27d211b5f987dff10a222b70e95711d23815dc5ba8451e349f86fcb5d1824d58",
+      "result": {
+        "dtype": "uint16",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*u16",
+          "b": "*u16",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*u16",
+            "D"
+          ],
+          [
+            "*u16",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "57ea94ce0139f3e6f0ee055b298d50b88cd84b51bf25dc5f8af696fbea69a39a"
+    },
+    {
+      "dtype": "int32",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "int32"
+      ],
+      "exit_code": 0,
+      "log": "int32.log",
+      "log_sha256": "b2c272af0c53eaa1700160dff3e70ffe681b6802c3bedce2cb374b1c2feb22af",
+      "result": {
+        "dtype": "int32",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*i32",
+          "b": "*i32",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*i32",
+            "D"
+          ],
+          [
+            "*i32",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "f5b8f55f7fd600754b26ad78b6b13e7558faa0bb9e3b44a0f91a1a0dbb17db18"
+    },
+    {
+      "dtype": "uint32",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "uint32"
+      ],
+      "exit_code": 0,
+      "log": "uint32.log",
+      "log_sha256": "cfdad101639a5bf621f8f6baf0607dba73600ed16ba9a1b5d776c51d27d24321",
+      "result": {
+        "dtype": "uint32",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*u32",
+          "b": "*u32",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*u32",
+            "D"
+          ],
+          [
+            "*u32",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "cb11b0633fe85874d5943dabb53e7c60e8bda16705c02112a40d40f076ffb555"
+    },
+    {
+      "dtype": "int64",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "int64"
+      ],
+      "exit_code": 0,
+      "log": "int64.log",
+      "log_sha256": "5ef4f5b2e9126c21f10b1aa5958c8ae0666714c3b35ed90f0a933cfea80610c6",
+      "result": {
+        "dtype": "int64",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*i64",
+          "b": "*i64",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*i64",
+            "D"
+          ],
+          [
+            "*i64",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "9076e22a08e3281435aba59d8dffd0d16bdfb23ba4b01fb529ed34ddf72f6ad7"
+    },
+    {
+      "dtype": "uint64",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "uint64"
+      ],
+      "exit_code": 0,
+      "log": "uint64.log",
+      "log_sha256": "907dce2dc3bbc3760327f298244ebb999d74918355e6e8c18b0abab5ff9792e6",
+      "result": {
+        "dtype": "uint64",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*u64",
+          "b": "*u64",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*u64",
+            "D"
+          ],
+          [
+            "*u64",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "cc8d91c5ff25027d01af4e280417e082fb8aac67cd815c98f7ad9f1499716df3"
+    },
+    {
+      "dtype": "float16",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "float16"
+      ],
+      "exit_code": 0,
+      "log": "float16.log",
+      "log_sha256": "ec44ae16c7e81273a876903179ce8fe25b949e0642b673e6afcf8c9ef6951d24",
+      "result": {
+        "dtype": "float16",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*fp16",
+          "b": "*fp16",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*fp16",
+            "D"
+          ],
+          [
+            "*fp16",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "d3464387dbecf1b09f5848fb5a582c62316f91cb273e44790905c7dcf7a7daa3"
+    },
+    {
+      "dtype": "bfloat16",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "bfloat16"
+      ],
+      "exit_code": 0,
+      "log": "bfloat16.log",
+      "log_sha256": "29253c2657c96fd5e45752974b2f244d331f196ff186e1433fe9fb1e33582ffb",
+      "result": {
+        "dtype": "bfloat16",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*bf16",
+          "b": "*bf16",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*bf16",
+            "D"
+          ],
+          [
+            "*bf16",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "6819ced57fc55635257c0161d702cb58ecae333807bbda1d18c891601ac64352"
+    },
+    {
+      "dtype": "float32",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "float32"
+      ],
+      "exit_code": 0,
+      "log": "float32.log",
+      "log_sha256": "0ecc1143db95ca90c313d86351cf4089c819666ac01729c80334782a755ec0c8",
+      "result": {
+        "dtype": "float32",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*fp32",
+          "b": "*fp32",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*fp32",
+            "D"
+          ],
+          [
+            "*fp32",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "a970ba2e25833fb6aff7d2937f36fbe8f9180e6e14d7f0995230106b381b1505"
+    },
+    {
+      "dtype": "float64",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "float64"
+      ],
+      "exit_code": 0,
+      "log": "float64.log",
+      "log_sha256": "a0c1630a7062d834c56251f10e122840664b0ef1b8160fc72488c5973b096d1f",
+      "result": {
+        "dtype": "float64",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*fp64",
+          "b": "*fp64",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*fp64",
+            "D"
+          ],
+          [
+            "*fp64",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "ecf4f9ea81a748f792c9ae697a94a9315d7a557487b09b2f93f8e00208f8be94"
+    },
+    {
+      "dtype": "float8_e4m3fn",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "float8_e4m3fn"
+      ],
+      "exit_code": 0,
+      "log": "float8_e4m3fn.log",
+      "log_sha256": "a7958585a4df1397bd1d6619deaf34d7c2f313c4e27f1c7c16c3d55d83b14504",
+      "result": {
+        "dtype": "float8_e4m3fn",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*fp8e4nv",
+          "b": "*fp8e4nv",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*fp8e4nv",
+            "D"
+          ],
+          [
+            "*fp8e4nv",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "a862cd0968076820a444e252c0c73132a4ad16099a4aa027b12769e2462d3670"
+    },
+    {
+      "dtype": "float8_e5m2",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "float8_e5m2"
+      ],
+      "exit_code": 0,
+      "log": "float8_e5m2.log",
+      "log_sha256": "a22f5af30306139b78fd37346642db3a95fbef2ab394812a1f98b480adb48dcd",
+      "result": {
+        "dtype": "float8_e5m2",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*fp8e5",
+          "b": "*fp8e5",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*fp8e5",
+            "D"
+          ],
+          [
+            "*fp8e5",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "compiled"
+      },
+      "record_sha256": "8267be75b494b8289df03f5c686efc114a726d8e8b2d2c4c56168ee58f5f9fe1"
+    },
+    {
+      "dtype": "float8_e4m3fnuz",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "float8_e4m3fnuz"
+      ],
+      "exit_code": 0,
+      "log": "float8_e4m3fnuz.log",
+      "log_sha256": "38ca7319cc47caa6d1eb4555e19d40407140c7af8f9657461cf855289e9bc568",
+      "result": {
+        "dtype": "float8_e4m3fnuz",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*fp8e4b8",
+          "b": "*fp8e4b8",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*fp8e4b8",
+            "D"
+          ],
+          [
+            "*fp8e4b8",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "rejected",
+        "failure_stage": "frontend",
+        "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py\", line 33, in <module>\n    raw=src.make_ir(target,options,backend.get_codegen_implementation(options),backend.get_module_map(),context)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 80, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1651, in ast_to_ttir\n    generator.visit(fn.parse())\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1556, in visit\n    ret = super().visit(node)\n          ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 508, in visit_Module\n    ast.NodeVisitor.generic_visit(self, node)\n  File \"/usr/local/lib/python3.12/ast.py\", line 415, in generic_visit\n    self.visit(item)\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1564, in visit\n    raise CompilationError(self.jit_fn.src, self.cur_node, repr(e)) from None\ntriton.compiler.errors.CompilationError: at 1:0:\ndef cos_func(a: tl.tensor, b: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n^\nValueError(\"type fp8e4b8 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")\n"
+      },
+      "record_sha256": "e460bcff1fffbbbceb8fe26b3db5c49bc04e067a03de608667d9431ded28b0b3"
+    },
+    {
+      "dtype": "float8_e5m2fnuz",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "float8_e5m2fnuz"
+      ],
+      "exit_code": 0,
+      "log": "float8_e5m2fnuz.log",
+      "log_sha256": "a62c09ead13bd2e622935d866113c24c20ca6c2e6dbe9024817c5313cc08a50f",
+      "result": {
+        "dtype": "float8_e5m2fnuz",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "signature": {
+          "a": "*fp8e5b16",
+          "b": "*fp8e5b16",
+          "n_elements": "i32",
+          "BLOCK_SIZE": "constexpr"
+        },
+        "specialization": [
+          [
+            "*fp8e5b16",
+            "D"
+          ],
+          [
+            "*fp8e5b16",
+            "D"
+          ],
+          [
+            "i32",
+            "D"
+          ],
+          [
+            "constexpr",
+            64
+          ]
+        ],
+        "constexprs": {
+          "(3,)": 64
+        },
+        "attrs": {
+          "(0,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(1,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(2,)": [
+            [
+              "tt.divisibility",
+              16
+            ]
+          ],
+          "(3,)": []
+        },
+        "options": {
+          "num_warps": 4,
+          "num_ctas": 1,
+          "num_stages": 3,
+          "warp_size": 32,
+          "maxnreg": null,
+          "ptx_version": null,
+          "ptx_options": null,
+          "ir_override": null,
+          "enable_fp_fusion": true,
+          "enable_reflect_ftz": true,
+          "launch_cooperative_grid": false,
+          "launch_pdl": false,
+          "supported_fp8_dtypes": [
+            "fp8e4b15",
+            "fp8e4nv",
+            "fp8e5"
+          ],
+          "deprecated_fp8_dot_operand_dtypes": [
+            "fp8e4b15"
+          ],
+          "default_dot_input_precision": "tf32",
+          "allowed_dot_input_precisions": [
+            "tf32",
+            "tf32x3",
+            "ieee",
+            "bf16x3",
+            "bf16x6"
+          ],
+          "max_num_imprecise_acc_default": 1073741824,
+          "extern_libs": [
+            [
+              "libdevice",
+              "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+            ]
+          ],
+          "debug": false,
+          "backend_name": "cuda",
+          "sanitize_overflow": true,
+          "arch": "sm90",
+          "instrumentation_mode": ""
+        },
+        "parameters": [
+          {
+            "name": "a",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "b",
+            "annotation": "tensor",
+            "annotation_type": "",
+            "is_constexpr": false
+          },
+          {
+            "name": "n_elements",
+            "annotation": "i32",
+            "annotation_type": "i32",
+            "is_constexpr": false
+          },
+          {
+            "name": "BLOCK_SIZE",
+            "annotation": "constexpr",
+            "annotation_type": "",
+            "is_constexpr": true
+          }
+        ],
+        "status": "rejected",
+        "failure_stage": "frontend",
+        "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py\", line 33, in <module>\n    raw=src.make_ir(target,options,backend.get_codegen_implementation(options),backend.get_module_map(),context)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/compiler.py\", line 80, in make_ir\n    return ast_to_ttir(self.fn, self, context=context, options=options, codegen_fns=codegen_fns,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1651, in ast_to_ttir\n    generator.visit(fn.parse())\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1556, in visit\n    ret = super().visit(node)\n          ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 508, in visit_Module\n    ast.NodeVisitor.generic_visit(self, node)\n  File \"/usr/local/lib/python3.12/ast.py\", line 415, in generic_visit\n    self.visit(item)\n  File \"/usr/local/lib/python3.12/site-packages/triton/compiler/code_generator.py\", line 1564, in visit\n    raise CompilationError(self.jit_fn.src, self.cur_node, repr(e)) from None\ntriton.compiler.errors.CompilationError: at 1:0:\ndef cos_func(a: tl.tensor, b: tl.tensor, n_elements: tl.int32, BLOCK_SIZE: tl.constexpr):\n^\nValueError(\"type fp8e5b16 not supported in this architecture. The supported fp8 dtypes are ('fp8e4b15', 'fp8e4nv', 'fp8e5')\")\n"
+      },
+      "record_sha256": "7d543d536448e199b170998ce9b74cb87565905df25738dea1e64c2419f253ff"
+    },
+    {
+      "dtype": "complex32",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "complex32"
+      ],
+      "exit_code": 0,
+      "log": "complex32.log",
+      "log_sha256": "52121b9212fdc0ffafddf0d729a8bc996951a7efe97511b38933d01e0862b4a0",
+      "result": {
+        "dtype": "complex32",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "status": "rejected",
+        "failure_stage": "signature",
+        "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py\", line 26, in <module>\n    params,specialization,options=binder(jit.MockTensor(dtype),jit.MockTensor(dtype),4096,64)\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 4, in dynamic_func\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 123, in canonicalize_ptr_dtype\n    return f\"{'*k' if is_const else '*'}{canonicalize_dtype(dtype)}\"\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 119, in canonicalize_dtype\n    return type_canonicalisation_dict[dtype_str]\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\nKeyError: 'complex32'\n"
+      },
+      "record_sha256": "8aeb5121afef420bd55b22d0c10cfd3f1b2457b11b7e8f6d4ef08593455d7a72"
+    },
+    {
+      "dtype": "complex64",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "complex64"
+      ],
+      "exit_code": 0,
+      "log": "complex64.log",
+      "log_sha256": "c3e6822c8b59c2fe812ab5a4757998238c5ce7be10b3d9130a7f495a005b3ee7",
+      "result": {
+        "dtype": "complex64",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "status": "rejected",
+        "failure_stage": "signature",
+        "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py\", line 26, in <module>\n    params,specialization,options=binder(jit.MockTensor(dtype),jit.MockTensor(dtype),4096,64)\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 4, in dynamic_func\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 123, in canonicalize_ptr_dtype\n    return f\"{'*k' if is_const else '*'}{canonicalize_dtype(dtype)}\"\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 119, in canonicalize_dtype\n    return type_canonicalisation_dict[dtype_str]\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\nKeyError: 'complex64'\n"
+      },
+      "record_sha256": "1f7a4bd0f2ac0b99bbf79d1fc812db63a192c2cf944f69d5994dd70785046175"
+    },
+    {
+      "dtype": "complex128",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "complex128"
+      ],
+      "exit_code": 0,
+      "log": "complex128.log",
+      "log_sha256": "1168ec514bf47fbc046534d522e1b951a724167fd53f7eb355c2614be6cd43e4",
+      "result": {
+        "dtype": "complex128",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "status": "rejected",
+        "failure_stage": "signature",
+        "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py\", line 26, in <module>\n    params,specialization,options=binder(jit.MockTensor(dtype),jit.MockTensor(dtype),4096,64)\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 4, in dynamic_func\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 123, in canonicalize_ptr_dtype\n    return f\"{'*k' if is_const else '*'}{canonicalize_dtype(dtype)}\"\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 119, in canonicalize_dtype\n    return type_canonicalisation_dict[dtype_str]\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\nKeyError: 'complex128'\n"
+      },
+      "record_sha256": "b7ef79fe81e1749e68aaa839d7696926b2f8e95b68ff00fff445078df7dc2883"
+    },
+    {
+      "dtype": "float8_e8m0fnu",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "float8_e8m0fnu"
+      ],
+      "exit_code": 0,
+      "log": "float8_e8m0fnu.log",
+      "log_sha256": "46a793d8ea6714ac8657eb66ac8c9186ef08a243978c035ab8e729bc99c19bb6",
+      "result": {
+        "dtype": "float8_e8m0fnu",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "status": "rejected",
+        "failure_stage": "signature",
+        "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py\", line 26, in <module>\n    params,specialization,options=binder(jit.MockTensor(dtype),jit.MockTensor(dtype),4096,64)\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 4, in dynamic_func\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 123, in canonicalize_ptr_dtype\n    return f\"{'*k' if is_const else '*'}{canonicalize_dtype(dtype)}\"\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 119, in canonicalize_dtype\n    return type_canonicalisation_dict[dtype_str]\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\nKeyError: 'float8_e8m0fnu'\n"
+      },
+      "record_sha256": "9b1c0d7e92c09056361ba51fa780ad0b7ac6e0231e325703693f319aa00ea9e4"
+    },
+    {
+      "dtype": "float4_e2m1fn_x2",
+      "command": [
+        "/usr/local/bin/python",
+        "-B",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py",
+        "worker",
+        "/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/native-attempts/20261015T231621281851Z",
+        "float4_e2m1fn_x2"
+      ],
+      "exit_code": 0,
+      "log": "float4_e2m1fn_x2.log",
+      "log_sha256": "18259b400f0c77b52381062cce01151dda62561d6ea57916ab8497afc4661cef",
+      "result": {
+        "dtype": "float4_e2m1fn_x2",
+        "target": {
+          "backend": "cuda",
+          "arch": 90,
+          "warp_size": 32
+        },
+        "N_python": 4096,
+        "BLOCK_SIZE": 64,
+        "status": "rejected",
+        "failure_stage": "signature",
+        "exception": "Traceback (most recent call last):\n  File \"/tmp/veritile-standardization-20261015/cosine-native-finite-acceptance-revision1-wip/probe_native.py\", line 26, in <module>\n    params,specialization,options=binder(jit.MockTensor(dtype),jit.MockTensor(dtype),4096,64)\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 4, in dynamic_func\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 123, in canonicalize_ptr_dtype\n    return f\"{'*k' if is_const else '*'}{canonicalize_dtype(dtype)}\"\n                                         ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/triton/_utils.py\", line 119, in canonicalize_dtype\n    return type_canonicalisation_dict[dtype_str]\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^\nKeyError: 'float4_e2m1fn_x2'\n"
+      },
+      "record_sha256": "6861d1301fa2cbcbb7d1b61ccb4faee41220f8227dafe4902e3ad0b67685da11"
+    }
+  ],
+  "gpu_launches": 0,
+  "artifacts": {
+    "bfloat16.json": "6819ced57fc55635257c0161d702cb58ecae333807bbda1d18c891601ac64352",
+    "bfloat16.llir": "73ffd20844504abf4a31113cc6cb68e1e9f9930c02666704d8b3adba6557f3d6",
+    "bfloat16.log": "29253c2657c96fd5e45752974b2f244d331f196ff186e1433fe9fb1e33582ffb",
+    "bfloat16.ptx": "c89502d4ae807ff5de8219d38a7cb51798e39296c89f88d18e928ffe52ee6ecb",
+    "bfloat16.raw.ttir": "b28521ace537cb9b01ee83f0f67ac0285c6e8bd40208947f3dfba8119bcf8852",
+    "bfloat16.ttgir": "841e53b2fa3df53ef8e20b2940797b8a7666a729dc0806d4f4fac50462d31629",
+    "bfloat16.ttir": "5b9670db39a33c1c8368e41095030efbd647522dc82de2cf172d636cf0c568b6",
+    "bool.json": "26912401ce87fd232eacedc2f55efa20a5258ce964444c1d22d87e9f725a42be",
+    "bool.llir": "a3c41711ced09e8d9052618bef57c2bc0429226d0253aac20cb65f11ac619ef9",
+    "bool.log": "cb2e288575e271b298f601239a6a3619be4e8107b4d33335e67c59e6d766914c",
+    "bool.ptx": "826076725043a91dfda2a7f425112a8815a111cee00d673ba6ba049deb929a5c",
+    "bool.raw.ttir": "8747fa1e6280fe2499603732edf43609729075e75b63f64af1d015bccda96c00",
+    "bool.ttgir": "141be28b6dded69f07f6c7390cfb964692ff98f0ea716b725db171ee39d54eed",
+    "bool.ttir": "6182cbbc07cf5e034a6043d927732406dc3702504f8cf75543754f703cc4818b",
+    "complex128.json": "b7ef79fe81e1749e68aaa839d7696926b2f8e95b68ff00fff445078df7dc2883",
+    "complex128.log": "1168ec514bf47fbc046534d522e1b951a724167fd53f7eb355c2614be6cd43e4",
+    "complex32.json": "8aeb5121afef420bd55b22d0c10cfd3f1b2457b11b7e8f6d4ef08593455d7a72",
+    "complex32.log": "52121b9212fdc0ffafddf0d729a8bc996951a7efe97511b38933d01e0862b4a0",
+    "complex64.json": "1f7a4bd0f2ac0b99bbf79d1fc812db63a192c2cf944f69d5994dd70785046175",
+    "complex64.log": "c3e6822c8b59c2fe812ab5a4757998238c5ce7be10b3d9130a7f495a005b3ee7",
+    "driver.py.txt": "992ba21e12ee170a904f3a1caca24a78ce3dd66b661087faea5973b995480f63",
+    "float16.json": "d3464387dbecf1b09f5848fb5a582c62316f91cb273e44790905c7dcf7a7daa3",
+    "float16.llir": "de84c69a9970bb942e3a69c0fb0f19e7b75fcb1efcb3af8ffbdeb952560e2b86",
+    "float16.log": "ec44ae16c7e81273a876903179ce8fe25b949e0642b673e6afcf8c9ef6951d24",
+    "float16.ptx": "32197e3b52d4fbc633cee0e27a49e0fd01a79990afe598e1bfcb2626722dab11",
+    "float16.raw.ttir": "83a9fd19bed2bafcc92f30e94433e21e6a43b1eac9dae326fab07f22cccf19f1",
+    "float16.ttgir": "963bf6ed9a0d9f4857066e1bbdee437c94cb1f6255bfa1246e547bbebc4cc1c5",
+    "float16.ttir": "8a030a9edcedff82f8f12c3a0c553f0bc17916ea13c3788f425ae0825ca411ab",
+    "float32.json": "a970ba2e25833fb6aff7d2937f36fbe8f9180e6e14d7f0995230106b381b1505",
+    "float32.llir": "c7c6fc8e1fcb133e0ee6711870a7d86ed3cd47dfc654f41cdb385fbfd62fab7a",
+    "float32.log": "0ecc1143db95ca90c313d86351cf4089c819666ac01729c80334782a755ec0c8",
+    "float32.ptx": "1a304b348bb6e305727f9802a965b82b0700ee9738ae3a7b9d0d6ffeb4e41254",
+    "float32.raw.ttir": "d8c1731d80f3cdfd3d6cb786b83a19c1697badbe386dea4d9d23e2d258167e0d",
+    "float32.ttgir": "ee10ed5e8eced8d3532acf5f327c9c56c5a2c668fc936f50d79bd91af68f72d4",
+    "float32.ttir": "ee63580b36418b1e2a9fa7ab426d6ec2edc65a4798d98efab95a6b47113db60c",
+    "float4_e2m1fn_x2.json": "6861d1301fa2cbcbb7d1b61ccb4faee41220f8227dafe4902e3ad0b67685da11",
+    "float4_e2m1fn_x2.log": "18259b400f0c77b52381062cce01151dda62561d6ea57916ab8497afc4661cef",
+    "float64.json": "ecf4f9ea81a748f792c9ae697a94a9315d7a557487b09b2f93f8e00208f8be94",
+    "float64.llir": "7a853783067099f9a43df00606d16642147c81fa0271c218c1ecd7247dfa5ea0",
+    "float64.log": "a0c1630a7062d834c56251f10e122840664b0ef1b8160fc72488c5973b096d1f",
+    "float64.ptx": "729cf6d61b2c03950b9170fa59d06f0d87666385e6f5c2cfdbba99a82443d974",
+    "float64.raw.ttir": "144b50c269bbc9ce54afb00c4dabb6572006e280fe0d51709a33d944ccf1d631",
+    "float64.ttgir": "036aca442d02482b95737f644f047084bca8ccd650e82ea844319d58fb7f67cf",
+    "float64.ttir": "ebc06814a5caf5cbbdf41c6f29919b6d37b1f65b098557078e5bb47e6d169dd2",
+    "float8_e4m3fn.json": "a862cd0968076820a444e252c0c73132a4ad16099a4aa027b12769e2462d3670",
+    "float8_e4m3fn.llir": "7aeb56a5de9772ad2f2df2fd48c3aabe7ae37c046ece3d98577f5c570eb912dd",
+    "float8_e4m3fn.log": "a7958585a4df1397bd1d6619deaf34d7c2f313c4e27f1c7c16c3d55d83b14504",
+    "float8_e4m3fn.ptx": "d0c8482b025de1911af6a13710458a7111a9e6a2ad45ed4c102a87c2cbcce12d",
+    "float8_e4m3fn.raw.ttir": "59fd136422bef870ab0a0a1115c7e537264d40cbdca7339f6bca11dbf669e115",
+    "float8_e4m3fn.ttgir": "65fd313786ac4f3f040b0f0c8bd6b861de24c4f8ad738c2d65e0a0ec5eff5036",
+    "float8_e4m3fn.ttir": "7f80a1d468f80f5f95361115719fffd4fb16d29bbc835f627bb63a3fd949715d",
+    "float8_e4m3fnuz.json": "e460bcff1fffbbbceb8fe26b3db5c49bc04e067a03de608667d9431ded28b0b3",
+    "float8_e4m3fnuz.log": "38ca7319cc47caa6d1eb4555e19d40407140c7af8f9657461cf855289e9bc568",
+    "float8_e5m2.json": "8267be75b494b8289df03f5c686efc114a726d8e8b2d2c4c56168ee58f5f9fe1",
+    "float8_e5m2.llir": "d48f5da404889998acf32bb90914f57b584daa340aafa982abbe3076bba777ca",
+    "float8_e5m2.log": "a22f5af30306139b78fd37346642db3a95fbef2ab394812a1f98b480adb48dcd",
+    "float8_e5m2.ptx": "8d1bdde3241cc29beac6d6267514429e2d852c6a9cde2380197daf8f5c55197e",
+    "float8_e5m2.raw.ttir": "d0c934c2ba1ef2fef62b03a880ba1e4465b0ffb41e47bea4306d782ac3a42b86",
+    "float8_e5m2.ttgir": "f790888194280118f0c9e1552b642c2caea0f5c11404afab1bc5459cca0d82bc",
+    "float8_e5m2.ttir": "8344d378667d976ba8094dab93a11b7d5ae3cd8e248b4e4a1494036747d8b081",
+    "float8_e5m2fnuz.json": "7d543d536448e199b170998ce9b74cb87565905df25738dea1e64c2419f253ff",
+    "float8_e5m2fnuz.log": "a62c09ead13bd2e622935d866113c24c20ca6c2e6dbe9024817c5313cc08a50f",
+    "float8_e8m0fnu.json": "9b1c0d7e92c09056361ba51fa780ad0b7ac6e0231e325703693f319aa00ea9e4",
+    "float8_e8m0fnu.log": "46a793d8ea6714ac8657eb66ac8c9186ef08a243978c035ab8e729bc99c19bb6",
+    "int16.json": "235fff66e1adbab69d518ed45e437275fc21de5a9b0984becdc1c2d4e62ce891",
+    "int16.llir": "5e7853dc9aee96e9a6e27e93fdb73f60ddfe5349bb0dd7cccee07455239d4611",
+    "int16.log": "61635704460ae8d8784231861861ded26e25854fd65d333cb9be9a1c1c5d0584",
+    "int16.ptx": "80c6559f6309988d6e009a84122ef7d62ff10128f1ee98a3702d233fbae1fbde",
+    "int16.raw.ttir": "3201cb19f4f68c1675f76b0fed597ef0338e273f66f1a0277d07d76d3a3d3f50",
+    "int16.ttgir": "4b7210e83b4ac6d5a2a23c1ab4e1ff406272ae80f836f405fda52b432f709bc6",
+    "int16.ttir": "f690b2e85f5c4027c6c2217aa92630a3b03068e8f333b4137746cbd4995b85e0",
+    "int32.json": "f5b8f55f7fd600754b26ad78b6b13e7558faa0bb9e3b44a0f91a1a0dbb17db18",
+    "int32.llir": "2e0e915019a5fc876d8bc113936adda10cc4c69045b206e523b5508dcf50580d",
+    "int32.log": "b2c272af0c53eaa1700160dff3e70ffe681b6802c3bedce2cb374b1c2feb22af",
+    "int32.ptx": "ac103be4581a54c8e37f692d3053a925a7d8b5fb0a21a0f13bea91f4b1862ebc",
+    "int32.raw.ttir": "73e94499b0aadd95f4388a38afea5f267743cd4776aba4a8aedb157dbd29d187",
+    "int32.ttgir": "fa6dd6b9adb26d5dd10c9ae7761d05953f20a282035419ca2d8bd28f67599081",
+    "int32.ttir": "ae85fe03102c59d27e6b6359445a27f63515c343bbb6a53a741d1087305c5c18",
+    "int64.json": "9076e22a08e3281435aba59d8dffd0d16bdfb23ba4b01fb529ed34ddf72f6ad7",
+    "int64.llir": "86e66231a3bbdbb59cfec6738981b0e75b7f0886873a8ddd9696b9ffbb9d4b65",
+    "int64.log": "5ef4f5b2e9126c21f10b1aa5958c8ae0666714c3b35ed90f0a933cfea80610c6",
+    "int64.ptx": "337381946b36d7febe428215f48cbf84a05fd4aedf96134aa95c280f78034f8d",
+    "int64.raw.ttir": "53579f832252d2309cf4b448d4c087e72ccfeba9ce829962422d7c2f97dca878",
+    "int64.ttgir": "7d3b747a216f7c58199d7a6a47b27dffe180e4f348f2f24f30f94fa4caf82169",
+    "int64.ttir": "1aad8269864028c0c3b7280eaf2805a66c5959dda2f45454349fc15861d065a2",
+    "int8.json": "583080f80cd68a58c9ffa115639526936e1d192efe44cca033460690bc8304b1",
+    "int8.llir": "aad941b901cd011f06f39d4c9331d0c472a5e060d04510133610df3ac8e94006",
+    "int8.log": "66294c9775ef36fefbf8e448933e38af5df2821a9c2b07bb042faa68c5cf41ba",
+    "int8.ptx": "6e762ccb665bc413f7ee95d0e38775dd1619b43766b5917212a9523e8d1531c0",
+    "int8.raw.ttir": "c75cdeef03f0ba8da0912dcf72e665c3213918da8d06158b18c8ace01c82cb88",
+    "int8.ttgir": "8eb74d01a7563b5c65209851c8fb7e10aa7bfd00beac0f7379ae8c65fe1604a8",
+    "int8.ttir": "df788c7afca03aed5d03db0feea9aaf59ecbf890d6eb295bcdb0c8cb63dfcd99",
+    "jit.py.txt": "5fe46fbfac257a2b8645b7a2cc709232273d42dd5e1d55de9770b412a9476d77",
+    "probe_native.py": "7ebdafd1cc8b29a60850c72956ac8dbcb137e8ca2b0470bf0f362ef6db45da33",
+    "semantic.py.txt": "22b7669ff8ba591fc1540ce01a4030cf54aa2dccfdb21c2d31fa55d5cab77c7c",
+    "source.py": "96518c773ded0d36c6ddcc295d87bffacfa3c59184ea504e94a35ad95c0b2cd9",
+    "uint16.json": "57ea94ce0139f3e6f0ee055b298d50b88cd84b51bf25dc5f8af696fbea69a39a",
+    "uint16.llir": "467466121cd71ab22197b49b2faadf5f5f26ef49848d46b505eda349e83d9f76",
+    "uint16.log": "27d211b5f987dff10a222b70e95711d23815dc5ba8451e349f86fcb5d1824d58",
+    "uint16.ptx": "d5251f0485265ef7e56e83fb3953a3bbfc1e926f281fb8883964dbc34a8df8df",
+    "uint16.raw.ttir": "e6622353e94c2ef0ce7e8763ca0c47e69cecdc63cd0e4d9102769eed102917ef",
+    "uint16.ttgir": "fe3e4909e84668ca6ca327c03c290b78f19f01d30ff681231be0a3e8edd2bf8b",
+    "uint16.ttir": "71a6a85072ffaa6b7cb9d809beab3bdca64ef5f93387a9016e6f9e3765265693",
+    "uint32.json": "cb11b0633fe85874d5943dabb53e7c60e8bda16705c02112a40d40f076ffb555",
+    "uint32.llir": "131a5d707c5614b9ea1b2b129ab605abb2cced171b88f8464cf9273d12347666",
+    "uint32.log": "cfdad101639a5bf621f8f6baf0607dba73600ed16ba9a1b5d776c51d27d24321",
+    "uint32.ptx": "aa993a2f062775a43d7525cc9a7854a63fb002efd4bec0359a87ea385ae80311",
+    "uint32.raw.ttir": "1cb6c3eec96b484bf0114e79bdc3a8322fe0f9cc7b0612f30d8f4556610011cc",
+    "uint32.ttgir": "fab897b694f4059ed00f338b6f1d12d8e4da3487f527d1a14cdac2044414cdb1",
+    "uint32.ttir": "cc093a2d85d82b819e51c3f42c78aa35edd5969bf2726b110288fc2d032129fb",
+    "uint64.json": "cc8d91c5ff25027d01af4e280417e082fb8aac67cd815c98f7ad9f1499716df3",
+    "uint64.llir": "5af3c8afe384aaead390e7d8d9001c85160654c315a598c01e2569fbb0e9dc97",
+    "uint64.log": "907dce2dc3bbc3760327f298244ebb999d74918355e6e8c18b0abab5ff9792e6",
+    "uint64.ptx": "3fa49564b05e88af27518e8056844207ebed723ed4e743b2f6bb547edc79f66c",
+    "uint64.raw.ttir": "0daae2c67471e18a529b3aa8ccfc3f6b50edce29d02bde5fe4bef59b02957354",
+    "uint64.ttgir": "1534f7f270fd9ae09ff29467082087f6ee8bf9ed21f0431b9a15790fcad112d7",
+    "uint64.ttir": "1a1eb96b304092ad4f57a362a7fd705cb688b1b32e734afa53eb91a98d3b425e",
+    "uint8.json": "c86abd882187431506cfb49cae7cb323b5abb84c7468471680e05330ceac5aea",
+    "uint8.llir": "1fd74d38f7cc8665996e8a5cccedee4305ff22f963ad9f329589a0c9c141f85d",
+    "uint8.log": "d15b96f6da5df76e4432831496fa6f2ae26df5c1fea7f55006171bfd697ec66d",
+    "uint8.ptx": "e70bcee6cf150a295e5a1c81c732c16c71e0825e2517e9f8cd3e7b8a4b99dff7",
+    "uint8.raw.ttir": "7d72bd426e76655f0ffbc378d54daa252e3bd16b075bea44362d4690f8c98de5",
+    "uint8.ttgir": "7037c91b5775452e7f38d646d7ffef5ff5fa3f8d5cd45c7234a073951d3a6a9e",
+    "uint8.ttir": "7c9dedea125a9274e7c9b4166235af2bd77512a9a73f4ffd00b07d9758089ea7"
+  }
+}

@@ -1,0 +1,2138 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "task": "softmax_reducev full online-loop floating value repair",
+  "frozen_at_utc": "2026-10-14T20:53:11.341103+00:00",
+  "integration_status": "Private maximum overlay only; workspace/common iso untouched. Requires frozen maximum core, then task patch. Parent owns metadata/lake registration and combined-core rebuild.",
+  "required_core_receipt_sha256": "a1f2ce4adbf80b5ea3aac8b769c849eaa7eec7128648a59db2caada1f32b8395",
+  "required_core_patch_sha256": "061d9eef2b330a44dc2c9416568700264ef65f17245514f36b47feeb8668f339",
+  "changed_files": [
+    {
+      "path": "bench/tritonbench_g/softmax_reducev/FPCorrect.lean",
+      "before_sha256": null,
+      "after_sha256": "5326833ad89aa84b02d3944eb04718c1452d27230c23dae2f2efd07c02fb965e"
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_reducev/Proofs/FPBitContract.lean",
+      "before_sha256": null,
+      "after_sha256": "ae9ed31d1815995b963978d82b45568815ecfea801b0fc1532f49e8e3507e5fd"
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_reducev/Proofs/FPContract.lean",
+      "before_sha256": null,
+      "after_sha256": "9f91b6e69c4f9dd0844eb8e69bc4ab9583665a31e7226def2439e562dea1622b"
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_reducev/Proofs/FPLoop.lean",
+      "before_sha256": null,
+      "after_sha256": "a79ea0dc9824b470b7f0e9f274b6e18980dd8301b1c0433c339d2e007f33fb12"
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_reducev/Proofs/FPPrefix.lean",
+      "before_sha256": null,
+      "after_sha256": "6c04f975c17ea449ac878913df7dcb32a57d45561d1f184b895bd36cc6d2b62c"
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_reducev/Proofs/FPReference.lean",
+      "before_sha256": null,
+      "after_sha256": "96bc37e94a826d64e6829eab4adb51150af2a1a652c558b740552c63cdc36e4f"
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_reducev/Proofs/FPShape.lean",
+      "before_sha256": null,
+      "after_sha256": "0103140fad883f27f01d290f47031f30a1219002479d307c461be8ba31f19e00"
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_reducev/Proofs/FPSoftware.lean",
+      "before_sha256": null,
+      "after_sha256": "73c558021f079ce27ffcaacd378e5fac4437d697bb6765249bc0cfcbccd7ab9e"
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_reducev/Proofs/FPSource.lean",
+      "before_sha256": null,
+      "after_sha256": "c9216e0dc6ae4b4a7ddc5d9d4aa6375568d0b023c5eecd74315793c4922409c1"
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_reducev/Proofs/FPValueScope.md",
+      "before_sha256": null,
+      "after_sha256": "dfebd674f4dcd3fe6a765823887ec5e6803d433494bbc3b120084bff2e2413e8"
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_reducev/Proofs/FPWitness.lean",
+      "before_sha256": null,
+      "after_sha256": "b8fdd977d5a3cd761f33aa1118728e528af17666cd703e4dcbe596a6091dbfa1"
+    },
+    {
+      "path": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "before_sha256": "2a1d3e907f86af031a31d59999eb2ff2a6186549cb375f037cd86d1a88c26899",
+      "after_sha256": "80ebd839300341ee76b59711bd6f2c4165b2505df854a0e00c7bec39e116e509"
+    }
+  ],
+  "patch": "value-proof.patch",
+  "patch_sha256": "dfc696e661496b62e284919f57662a6243776aea9fd0e155e741cf719c75b733",
+  "final_task_run_modules": [
+    "bench.tritonbench_g.softmax_reducev.SoftmaxReducev",
+    "bench.tritonbench_g.softmax_reducev.Proofs.FPSource",
+    "bench.tritonbench_g.softmax_reducev.Proofs.FPReference",
+    "bench.tritonbench_g.softmax_reducev.Proofs.FPPrefix",
+    "bench.tritonbench_g.softmax_reducev.Proofs.FPLoop",
+    "bench.tritonbench_g.softmax_reducev.Proofs.FPContract",
+    "bench.tritonbench_g.softmax_reducev.Proofs.FPSoftware",
+    "bench.tritonbench_g.softmax_reducev.Proofs.FPBitContract",
+    "bench.tritonbench_g.softmax_reducev.Proofs.FPWitness",
+    "bench.tritonbench_g.softmax_reducev.Proofs.FPShape",
+    "bench.tritonbench_g.softmax_reducev.FPCorrect"
+  ],
+  "final_task_run_count": 11,
+  "compiled": [
+    {
+      "module": "VeriTile.Triton.Memory.View",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/View.lean",
+      "source_sha256": "81902179bc5303b70f7e76fa8896df3d3ac0c130e7b25950ab21c546f286f077",
+      "baseline_source_sha256": "81902179bc5303b70f7e76fa8896df3d3ac0c130e7b25950ab21c546f286f077",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.View.log",
+      "log_sha256": "18be43de83742fed98fbf06156e32a50c34cbfcc5101fad82b051332a801d08f",
+      "olean_sha256": "0b07e47b59d6a44d635862d47f4d86918421713ddca2f40ef1ea19ba9b9520a9",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Basic",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Frame/Basic.lean",
+      "source_sha256": "14e010c95c718cb6b994031fab88ee85da4fe0ad623c8adeadf3bb755bc1c593",
+      "baseline_source_sha256": "14e010c95c718cb6b994031fab88ee85da4fe0ad623c8adeadf3bb755bc1c593",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Frame.Basic.log",
+      "log_sha256": "eb8b2ebe657d99dfb4ddf7888e2991e3408b44a6bc7159b3cd55bd1076fb5f5d",
+      "olean_sha256": "b85a506795b344b2b06d91654cc43feee2837a527f9d02f793de1fc28c09beba",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Stmt",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Frame/Stmt.lean",
+      "source_sha256": "98a4a4032c574773dc719d85d79452c1d1c745f11db296da9ce78019cddbf116",
+      "baseline_source_sha256": "98a4a4032c574773dc719d85d79452c1d1c745f11db296da9ce78019cddbf116",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Frame.Stmt.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "42ee6fe6d606c083c873509264db8c6628821bf2f00696c6976364a2229d1c6b",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame.Kernel",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Frame/Kernel.lean",
+      "source_sha256": "d15f68b693226f9d4d6ac64428fca447e973a0141b5310e98026c755a293c0ee",
+      "baseline_source_sha256": "d15f68b693226f9d4d6ac64428fca447e973a0141b5310e98026c755a293c0ee",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Frame.Kernel.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "7c29f4b8c76cbe52fd8478743333e7e7bcc003e8dedf51e4c65dbde74b7aaef8",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Frame",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Frame.lean",
+      "source_sha256": "69ceb0d4ffea1563dcd1dd3a1ea1ca12f7d4f7a1bca192edd7c6a300091ad49e",
+      "baseline_source_sha256": "69ceb0d4ffea1563dcd1dd3a1ea1ca12f7d4f7a1bca192edd7c6a300091ad49e",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Frame.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "f86d117fa906a7d87ccff6e3fe778676207940f6e2c953277c1ca1f5794b96de",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Footprint",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Footprint.lean",
+      "source_sha256": "ef80d79ae760c927093577188f384f31aae7f54527dc67358308389ee0af7eb2",
+      "baseline_source_sha256": "ef80d79ae760c927093577188f384f31aae7f54527dc67358308389ee0af7eb2",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Footprint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "d90f32433ae68998401c5c492c55a458708da41ed4604fdf6e84c68a332b99dc",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Typing",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Typing.lean",
+      "source_sha256": "20ed89f4c6e4040275af913ce63ecc706bcbdb9a5b20ce4cbaed493cdc6542b6",
+      "baseline_source_sha256": "20ed89f4c6e4040275af913ce63ecc706bcbdb9a5b20ce4cbaed493cdc6542b6",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Typing.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8a95f89912a78f5d885086541e1abce52e7bd75a0d872d70018e5e9dff9c6db2",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.FlattenTolerant",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/FlattenTolerant.lean",
+      "source_sha256": "3465fcb1233e1ad47c3f7c89c3377fae203cd168f9cf47c34485ea480f71a66a",
+      "baseline_source_sha256": "3465fcb1233e1ad47c3f7c89c3377fae203cd168f9cf47c34485ea480f71a66a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.FlattenTolerant.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "861f5f0428874f9810d6a50a57d33ab835fe7d5d2b6a4c4f8401ad089925cd1f",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.Layout",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/Layout.lean",
+      "source_sha256": "e0532314b8f5de6b4abc349368cdf2fd369280ee2ce97eedf364cd12f847996a",
+      "baseline_source_sha256": "e0532314b8f5de6b4abc349368cdf2fd369280ee2ce97eedf364cd12f847996a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.Layout.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "76254a07f1217e29023d7f9d3df04e4980f4694f5f4c458ce1bc7c3dcef9928d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.MaskedND",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/MaskedND.lean",
+      "source_sha256": "e4056b3085024808ab8fc1e04d3af2381a879fea9374ab0f4751ba9fbdf15532",
+      "baseline_source_sha256": "e4056b3085024808ab8fc1e04d3af2381a879fea9374ab0f4751ba9fbdf15532",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.MaskedND.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "b446119e6b0b84abbe7f215eedb25e076c026a306cd8ce606b421f58fdf2141d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.BooleanMasked",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/BooleanMasked.lean",
+      "source_sha256": "7dc158c61ed167c2d6dcd50ebfb2285094ee5862195d2f50fe6446ed6fe628fb",
+      "baseline_source_sha256": "7dc158c61ed167c2d6dcd50ebfb2285094ee5862195d2f50fe6446ed6fe628fb",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.BooleanMasked.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "854b7870a1e65458c6d8e62caedda452b638957392a3dee7ecfe3a4c66273cc0",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Metadata",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Metadata.lean",
+      "source_sha256": "27672a7a080cce048c2556e3f9705abba985fc4c20b3e378e0ea31e929c01009",
+      "baseline_source_sha256": "27672a7a080cce048c2556e3f9705abba985fc4c20b3e378e0ea31e929c01009",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Metadata.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8089851794b910e5534252755a4343d640ac48db2fc30809b84626c062ea8d32",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Scatter",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Scatter.lean",
+      "source_sha256": "e32c3d321b97105b4ce5d192d87c94bed970c38b750f5b26ff10d71a237a4b24",
+      "baseline_source_sha256": "e32c3d321b97105b4ce5d192d87c94bed970c38b750f5b26ff10d71a237a4b24",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Scatter.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "80cd3933d784484e7dedd291908f12f2470d921489b93fcca3f25b3f6e45062c",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Gather",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Gather.lean",
+      "source_sha256": "aa6b2a6a0b9cfc873d3194a9ce4c8cad9c1f881e6c0e7454000065d0101ae457",
+      "baseline_source_sha256": "aa6b2a6a0b9cfc873d3194a9ce4c8cad9c1f881e6c0e7454000065d0101ae457",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Gather.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "52208b56018457626e3966f4f36bdc69bf2d6279bcfc9d70577fd449ff927f6c",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Grouped",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Grouped.lean",
+      "source_sha256": "809d66cfa5021f0ffc7f569ef5aa1b91edea5afafb56d123f8093ab24c18850f",
+      "baseline_source_sha256": "809d66cfa5021f0ffc7f569ef5aa1b91edea5afafb56d123f8093ab24c18850f",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Grouped.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "f9d1889f12c4f0ceba72df61bb7e48eb00b6af02776e3d8a31673c6dac5bec69",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Stream",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Stream.lean",
+      "source_sha256": "308da848372ad8982ece008ea561836d1b2f96bac711cef3436cc859c2aa254e",
+      "baseline_source_sha256": "308da848372ad8982ece008ea561836d1b2f96bac711cef3436cc859c2aa254e",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Stream.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "ef760db10a5bbed35d0366e281856c0a6cfa14417e14b29ada6608fbec66a295",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamEmit",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/StreamEmit.lean",
+      "source_sha256": "e723e4737a7384bd4ed69011b5d7135d8630f7c540c1848be3d18a8f1c94c02a",
+      "baseline_source_sha256": "e723e4737a7384bd4ed69011b5d7135d8630f7c540c1848be3d18a8f1c94c02a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.StreamEmit.log",
+      "log_sha256": "bf6d540f0ceaddcbf4395622aed7f2681d144543dedb56d082bc004de5fa2974",
+      "olean_sha256": "38cf761afb3888a79a9a0c09a5c9b67c90811d148a9ee2fa3144b71b1e752f86",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttention",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/StreamAttention.lean",
+      "source_sha256": "a3d9812b4dea7ab67edffe5d338f108f91464f79910fb88abed54b9dff2f7a30",
+      "baseline_source_sha256": "a3d9812b4dea7ab67edffe5d338f108f91464f79910fb88abed54b9dff2f7a30",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.StreamAttention.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "2de3a66af8bbf1cf9cbac8b21bb73f381a87e24bec5918326794e5ce3b479e91",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/StreamAttentionMetadata.lean",
+      "source_sha256": "c4d582356c4ced27762da21e73b7d22ffea362c2014dd336d1522de988998a99",
+      "baseline_source_sha256": "c4d582356c4ced27762da21e73b7d22ffea362c2014dd336d1522de988998a99",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.StreamAttentionMetadata.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "5427a8e184ed5efedbe0c375b4a3a53dad3c3cdf33574173639dd52ee88d79fc",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileIndex",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/TileIndex.lean",
+      "source_sha256": "07294995905ab00ee3c4981cbae5e18bf50796815cd9bd49e93b8d427e72c8b1",
+      "baseline_source_sha256": "07294995905ab00ee3c4981cbae5e18bf50796815cd9bd49e93b8d427e72c8b1",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.TileIndex.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "b6523b28b41b7d0d28a79e60c7a2bedd3db09bc2f689e78ee46c1d0946bcde07",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.Tile",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/Tile.lean",
+      "source_sha256": "6056b7cf40200213a953c9249bfc1ecdb81534363fc5686a7538220fbea66872",
+      "baseline_source_sha256": "6056b7cf40200213a953c9249bfc1ecdb81534363fc5686a7538220fbea66872",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.Tile.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "7e8a9f17374a5098d302cf393d8ec20f61bcdec701b72450e67c088da0131d19",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileND",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/TileND.lean",
+      "source_sha256": "d1b1fd6fd0be7fb1741e34d6bffec81b1f46db04eb7866db363e2d8cb7b4645a",
+      "baseline_source_sha256": "d1b1fd6fd0be7fb1741e34d6bffec81b1f46db04eb7866db363e2d8cb7b4645a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.TileND.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "e924557f3fad17406085eee90f3efc8ff3fff435890a77b77e8e7b83f777be7e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileMetadata",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/TileMetadata.lean",
+      "source_sha256": "c457a30724b6288584a6e2e5e8533bcdbf59300eb4b20f8d82ca9be36efbe77c",
+      "baseline_source_sha256": "c457a30724b6288584a6e2e5e8533bcdbf59300eb4b20f8d82ca9be36efbe77c",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.TileMetadata.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "0a22a2075a0c6da00670e1b480108474919d675c3f47d56ccbac4f11681bd122",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec.TileGather",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec/TileGather.lean",
+      "source_sha256": "964d1e68747a97b25d3f65d1728efc51d913d937ef5cb08e40ba991e99dbf0a9",
+      "baseline_source_sha256": "964d1e68747a97b25d3f65d1728efc51d913d937ef5cb08e40ba991e99dbf0a9",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.TileGather.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "32b40858c2e2eae1c9e8278f4c8e14361cdd4fe9bae8bb3319902f1f0eba272d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory.KernelSpec",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory/KernelSpec.lean",
+      "source_sha256": "f6e211da67da821f3853b0dbf6ce13b648bdb5df98816193024b94170758dbe3",
+      "baseline_source_sha256": "f6e211da67da821f3853b0dbf6ce13b648bdb5df98816193024b94170758dbe3",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.KernelSpec.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8e2b57c41662b550f6f392c9ea293f3505ce4d82fb3cfe1cab1b11082e90a95b",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Memory",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Memory.lean",
+      "source_sha256": "95ded98671abf69963028f62c116ea94ad838d2e784fe59f350f688f1c0618f0",
+      "baseline_source_sha256": "95ded98671abf69963028f62c116ea94ad838d2e784fe59f350f688f1c0618f0",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Memory.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "13b8aef98ec86b726acf6f4e43dd4dcc9ab25aa74dc25411d958d86bac8279d2",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.EvalHelpers",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/KernelLemmas/EvalHelpers.lean",
+      "source_sha256": "4a19550e09aabcadc3434134e8f6fdccf0dbcc3d634820c7b491d3bc3cecb9d9",
+      "baseline_source_sha256": "4a19550e09aabcadc3434134e8f6fdccf0dbcc3d634820c7b491d3bc3cecb9d9",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.EvalHelpers.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "85a75fbb25bb4c268a77022352fd704d297108a72165fb6118b0bb751a783129",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.Matmul",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/KernelLemmas/Matmul.lean",
+      "source_sha256": "93eee78a5a29fe9526eada5beb986df35c6f9a24768a20ff9c9a64f8b156ce80",
+      "baseline_source_sha256": "93eee78a5a29fe9526eada5beb986df35c6f9a24768a20ff9c9a64f8b156ce80",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.Matmul.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "da012e28328a4e22d6cb0d16667b6dc312608645291c18b72ae4e56ab0dfe946",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.ScatterStore",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/KernelLemmas/ScatterStore.lean",
+      "source_sha256": "b48c2d047c8ffc611d7791c14d4f98128bf17208f5a134edffe9c8678da7ff17",
+      "baseline_source_sha256": "b48c2d047c8ffc611d7791c14d4f98128bf17208f5a134edffe9c8678da7ff17",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.ScatterStore.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "97389129a7ed9703ce3ded8a80076c925b48848baab40bf3cc327dfe49c3cf0d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.LoopInvariant",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/KernelLemmas/LoopInvariant.lean",
+      "source_sha256": "ed17ccd8157fd3fd026d950a6b73eccd04fa13626048792e2d93ae7fcdf564f0",
+      "baseline_source_sha256": "ed17ccd8157fd3fd026d950a6b73eccd04fa13626048792e2d93ae7fcdf564f0",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.LoopInvariant.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "a2e427c3df632db334fc09904e50bcf8a93491d729c87ea4ff3de3f384abe125",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.StateErasure",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/StateErasure.lean",
+      "source_sha256": "d87d2d39b9cff48d8f7011f451329afefc3bc76ae600776bd599ec5b62b3b93e",
+      "baseline_source_sha256": "d87d2d39b9cff48d8f7011f451329afefc3bc76ae600776bd599ec5b62b3b93e",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.StateErasure.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "d545b5841a8c40cb9ef4f5b1de6a6af8496aa06d0ddcac9a4b55f284210f3e11",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.ExternalCheck",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/ExternalCheck.lean",
+      "source_sha256": "df0c83664a16531f22d5c4c7898d358dffbae95a64173cddc2ace6257feabb95",
+      "baseline_source_sha256": "df0c83664a16531f22d5c4c7898d358dffbae95a64173cddc2ace6257feabb95",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.ExternalCheck.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "e84af70d4e226dda18a6b7009a8e442ac961186fc16cf03a934c410cc175fb89",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Correctness",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Correctness.lean",
+      "source_sha256": "0e5c59fe03bdf99aa94059eb533b44bd5764fa48e844751e9603891b730a03ce",
+      "baseline_source_sha256": "0e5c59fe03bdf99aa94059eb533b44bd5764fa48e844751e9603891b730a03ce",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Correctness.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "e53773ccacdc1cb5b30c0d4867c9444ef047bb9aae380e256bfed975aa57d392",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas.CarryFold",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/KernelLemmas/CarryFold.lean",
+      "source_sha256": "652e516656ffb90b3e85d37f47942c4bfe1a26f1fbc98218879f5a47da03bd49",
+      "baseline_source_sha256": "652e516656ffb90b3e85d37f47942c4bfe1a26f1fbc98218879f5a47da03bd49",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.CarryFold.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "3619566e63902550d18cdb3225d719ff51cabaea1db8d3bda5dc4542acee998c",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.KernelLemmas",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/KernelLemmas.lean",
+      "source_sha256": "22dba3bab9b64beb95ccae479e1e4fd0df8982a30751b814bbd38cd8bac87d9d",
+      "baseline_source_sha256": "22dba3bab9b64beb95ccae479e1e4fd0df8982a30751b814bbd38cd8bac87d9d",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.KernelLemmas.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "07badf8ce7af9b35fd12577b69f808a503d5c243b8ed55a282a5f2ee445e734e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.Refine",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/Refine.lean",
+      "source_sha256": "fa767a47f0f9e79c951c2b5d074455612c3464438220ee829de29f17e5eabc83",
+      "baseline_source_sha256": "fa767a47f0f9e79c951c2b5d074455612c3464438220ee829de29f17e5eabc83",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.Refine.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "578129691695e9d16bf43e12572ce41aab68d29be8ebf95e53513984645899a3",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.Pipeline",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/Pipeline.lean",
+      "source_sha256": "5a892afbc554b181bcff18de0901bef31fa70f659fe420274e6c8cfcd5975646",
+      "baseline_source_sha256": "5a892afbc554b181bcff18de0901bef31fa70f659fe420274e6c8cfcd5975646",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.Pipeline.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "73be878c1ca3dcb51e6c253d70b830d319eadf16d272691c110777241fb0bf71",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float.lean",
+      "source_sha256": "92d888b138f8b593d5337806b3128af63832e8c2a1ab482efceedbd432821b7d",
+      "baseline_source_sha256": "92d888b138f8b593d5337806b3128af63832e8c2a1ab482efceedbd432821b7d",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "f4a8a5d99d3371c750f93e9ee496e0f80eaef414d7907ac48c07c108ac3d3d56",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Grid",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Launch/Grid.lean",
+      "source_sha256": "74c1c565e02dc30e35751531333bd59ba16f4f9305f40a7ca591e4b24e251925",
+      "baseline_source_sha256": "74c1c565e02dc30e35751531333bd59ba16f4f9305f40a7ca591e4b24e251925",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Launch.Grid.log",
+      "log_sha256": "8ecab4082a49010d4f59c08436ee4d0262e60ac57f7fb20e5e2a2b24969524b7",
+      "olean_sha256": "3e62ce6cbfb45ca277cf96b9381920b3582fe70d1ff87a8aefabb4421ea0ad0d",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Launch.Composition",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Launch/Composition.lean",
+      "source_sha256": "1a4db9f31530ff88a9727478b8cfa1df9de9934168c759a2934c4367877090a3",
+      "baseline_source_sha256": "1a4db9f31530ff88a9727478b8cfa1df9de9934168c759a2934c4367877090a3",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Launch.Composition.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "1aa7ce43cc7edeac38cd1339ec61d9b8de864ac601e3080da9ef4b541284e9ce",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Launch",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Launch.lean",
+      "source_sha256": "2dd3ea1acf4cecd1ba4f24dee9868bf5089fa898ca9bf73a6074b4717241b4e6",
+      "baseline_source_sha256": "2dd3ea1acf4cecd1ba4f24dee9868bf5089fa898ca9bf73a6074b4717241b4e6",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Launch.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "dcb2bd8c6bfd67c9d34ce7cae289252df42d9bdbff453aeaafd2ae57cf5ef09e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Trace",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Concurrency/Trace.lean",
+      "source_sha256": "85b2f0867c77795663ca6de96344f8896014bb919e9632ea400479138cc52c8c",
+      "baseline_source_sha256": "85b2f0867c77795663ca6de96344f8896014bb919e9632ea400479138cc52c8c",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.Trace.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "959ff12791dff190d9a0787a5967e4956b63a1d00ca4003d0aa4d9814c2b1f28",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Discipline",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Concurrency/Discipline.lean",
+      "source_sha256": "3901bcbadeaf513cb0723a0db9c77f23e8f4700bf6b076cb9da0869abf17395a",
+      "baseline_source_sha256": "3901bcbadeaf513cb0723a0db9c77f23e8f4700bf6b076cb9da0869abf17395a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.Discipline.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "2d994077b3a762f4367eb7863435ae81bfb7fe4b6a386342021abc9442d16e60",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Refinement",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Concurrency/Refinement.lean",
+      "source_sha256": "0baf4b34389f4d1b1ea978e8fd4525e306e8110733a33c9793f3cad851b93196",
+      "baseline_source_sha256": "0baf4b34389f4d1b1ea978e8fd4525e306e8110733a33c9793f3cad851b93196",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.Refinement.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "22d68f9546acbfe7e73e6da703982dcfb2b8b9c9ef688536f30d0238b78beddd",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.ProducerConsumer",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Concurrency/ProducerConsumer.lean",
+      "source_sha256": "0ba0c4c59a75b83b52782a2bc7f58880af134e9c2718e03fd8e5ca831d8de06a",
+      "baseline_source_sha256": "0ba0c4c59a75b83b52782a2bc7f58880af134e9c2718e03fd8e5ca831d8de06a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.ProducerConsumer.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "d4118d267f1c9f431b512d0da65929a66c9aac0806507aa70d5864d083ba9304",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency.Atomic",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Concurrency/Atomic.lean",
+      "source_sha256": "03dc2a7547ff4c90ca22d3af13867ca243306fbb06e73ddc424d41545129da52",
+      "baseline_source_sha256": "03dc2a7547ff4c90ca22d3af13867ca243306fbb06e73ddc424d41545129da52",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.Atomic.log",
+      "log_sha256": "8f42f9f70b56271c5c27b8a94701f60ff39f27b3d51fc028a36b9cec45f1e0c1",
+      "olean_sha256": "4b7c8600558b0897501716b930dba698bd20419ad222472af2dc91bc6172ebe7",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Concurrency",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Concurrency.lean",
+      "source_sha256": "b6312bcc71e3596bb9fbfd039b11b412a22df3a4cbcd6e740c703c9271739f6e",
+      "baseline_source_sha256": "b6312bcc71e3596bb9fbfd039b11b412a22df3a4cbcd6e740c703c9271739f6e",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Concurrency.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "28412cf13053906592ad3f13749029c692e3ac24c59974fca6af1f792e32999e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton.lean",
+      "source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "baseline_source_sha256": "0937879a78c271cce7beda0e77d0b0bcf90a23a2ce90485ab011a5472d75f9a0",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "d249fd2b9199806ebcc323be3b6a7a57d3cd8ee13aea3283320057a7932df9e9",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.ParallelAttention",
+      "role": "same_core_dependency",
+      "source": "bench/tritonbench_g/parallel_attention/ParallelAttention.lean",
+      "source_sha256": "986d5bb5d4007cf8f5327fc8b2a1ce6972d8f1799fb73415160598956cb6575f",
+      "baseline_source_sha256": "986d5bb5d4007cf8f5327fc8b2a1ce6972d8f1799fb73415160598956cb6575f",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.parallel_attention.ParallelAttention.log",
+      "log_sha256": "8dab04d3956e96d9ee6ea6a5cae464f09c8a3395b525db837dd4b2d135b3747d",
+      "olean_sha256": "67a5662ccd2d76435ca22e13e589e0540e30c7482796a02ba66b4f8d8ae3f68b",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Proofs.FPSources",
+      "role": "same_core_dependency",
+      "source": "bench/tritonbench_g/parallel_attention/Proofs/FPSources.lean",
+      "source_sha256": "0aeb6b26fe461fae7eb1ac966e9deca81af83248c7ca5e498f474be38ee54502",
+      "baseline_source_sha256": "0aeb6b26fe461fae7eb1ac966e9deca81af83248c7ca5e498f474be38ee54502",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.parallel_attention.Proofs.FPSources.log",
+      "log_sha256": "04b92e37e8431e34a59098a932b341d1f3dc607228d9847383a4aca9f4c82ec8",
+      "olean_sha256": "743e0cde511a206c459ed93704ebcc5d0cd35ceddd46d887b071aa7bea5ec24e",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Proofs.FPForwardGraph",
+      "role": "same_core_dependency",
+      "source": "bench/tritonbench_g/parallel_attention/Proofs/FPForwardGraph.lean",
+      "source_sha256": "bc938a8432d831494df61a6f0dfae1a448a1e2f0bf7372737bd31fb3b19a5026",
+      "baseline_source_sha256": "bc938a8432d831494df61a6f0dfae1a448a1e2f0bf7372737bd31fb3b19a5026",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.parallel_attention.Proofs.FPForwardGraph.log",
+      "log_sha256": "5af4c617f606598e033a3e57347c17e6f3c7fb21bbb16b8edc674b1427491cb5",
+      "olean_sha256": "c66c735aa53f9bd9bd73819539583ca47397a37808b24e2c99cc3b676df22dea",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.parallel_attention.Proofs.FPRange",
+      "role": "same_core_dependency",
+      "source": "bench/tritonbench_g/parallel_attention/Proofs/FPRange.lean",
+      "source_sha256": "f4d812c3efdbba2af1bd81053771565e05021f69bc2c02301b167a405b685351",
+      "baseline_source_sha256": "f4d812c3efdbba2af1bd81053771565e05021f69bc2c02301b167a405b685351",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.parallel_attention.Proofs.FPRange.log",
+      "log_sha256": "83e3412464abdc702a05e46d9936039309b665c6302d98f0032d08bce4a169c2",
+      "olean_sha256": "0635f36a4f5820a0ba288ee70d09900059dd9aae3c07eb0cc0b7375d87b31f58",
+      "axiom_checks": 1
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarBackend",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/ScalarBackend.lean",
+      "source_sha256": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a",
+      "baseline_source_sha256": "b53529209e20d55de6dbde031c19d5baf76032c1377ef84df6583d93295d2b0a",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.ScalarBackend.log",
+      "log_sha256": "87b0f7859d8d7cadb65b04d474526151d02e2be1ee5f7f3a4488d005f99e19f2",
+      "olean_sha256": "efb060cdbe8620637a01df038ccd6fc63919eeb90fd62407a2c26fb02d3c4db8",
+      "axiom_checks": 7
+    },
+    {
+      "module": "VeriTile.Triton.Float.LegacyRealInt8",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/LegacyRealInt8.lean",
+      "source_sha256": "23e468061b3bd66234309d7d354a68a2d7a8675feedc13ed68995f2cbeea9197",
+      "baseline_source_sha256": "23e468061b3bd66234309d7d354a68a2d7a8675feedc13ed68995f2cbeea9197",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.LegacyRealInt8.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8a3caf9352b30a080b3a7cd252658442c8b20e40ee1607b4a0c9206bd2fa6ecd",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerConversion",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/IntegerConversion.lean",
+      "source_sha256": "0a826b55abcd01350f0eb9832a54929d1e1481c2ea4e928bf3ba0888de7921c0",
+      "baseline_source_sha256": "0a826b55abcd01350f0eb9832a54929d1e1481c2ea4e928bf3ba0888de7921c0",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.IntegerConversion.log",
+      "log_sha256": "7f834ba7db55b296401086fb038bf0ea0fa07681164eb00ff1709dcaeab2bf58",
+      "olean_sha256": "1cd971ecd1988a390b2eda9b5ec6ff4d5e7c7ce5243c670d2ee6bdd579d448b2",
+      "axiom_checks": 6
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerConversionTotal",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/IntegerConversionTotal.lean",
+      "source_sha256": "3f36ef1b3ff8dfb3fd3a2f4a4456ac7072190853d402ea256470b6e7960d282d",
+      "baseline_source_sha256": "3f36ef1b3ff8dfb3fd3a2f4a4456ac7072190853d402ea256470b6e7960d282d",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.IntegerConversionTotal.log",
+      "log_sha256": "47b20d22bde4a1601371701115f4f5104a9b8197b99c8f27e305d5666ae9c4d9",
+      "olean_sha256": "838fe7bbc9c5f6c54d34fcbb56229707188f646680ee0587ec9f9fd1b74118cf",
+      "axiom_checks": 4
+    },
+    {
+      "module": "VeriTile.Triton.Source",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Source.lean",
+      "source_sha256": "41482321a17d14a5a2fe783f489d2aa95fc483e21760eb828c292d9785705f88",
+      "baseline_source_sha256": "41482321a17d14a5a2fe783f489d2aa95fc483e21760eb828c292d9785705f88",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Source.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "fe69f79ce68048a94a401d1273726811ead220a2c0ce6bc438fdb9bd3e366fb5",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.ScalarArithmeticLaws",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/ScalarArithmeticLaws.lean",
+      "source_sha256": "f1fd02ebbb34e2384c459a09ab2013837752133940f5ecd57809ed96cb240dad",
+      "baseline_source_sha256": "f1fd02ebbb34e2384c459a09ab2013837752133940f5ecd57809ed96cb240dad",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.ScalarArithmeticLaws.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "058e0381ebf06b593d85f83e58bab8117ec29f04dd594ed3735050079f3c9b72",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.GuardedRewrite",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/GuardedRewrite.lean",
+      "source_sha256": "f350311fea97fdf25597b2c5ebae9415718ad55e65a74e28b2331a27252b0854",
+      "baseline_source_sha256": "f350311fea97fdf25597b2c5ebae9415718ad55e65a74e28b2331a27252b0854",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.GuardedRewrite.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "c31aaba5c69cdc39f62e8a8e1c1b574fb817f8a93e68616a9a4285710e81d6fe",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.Loop",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/Loop.lean",
+      "source_sha256": "3b67954d45467ed5755158c9ef280e078c9fe911b5c906c34020249edc412336",
+      "baseline_source_sha256": "3b67954d45467ed5755158c9ef280e078c9fe911b5c906c34020249edc412336",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.Loop.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "8a030ffd722b2fad0432fd68a739e8c8d6a7421746b01352b9f67cc0a08423fc",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.ProfiledRewrite",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/ProfiledRewrite.lean",
+      "source_sha256": "3e6460ceec521965b756c66fa7a186a495b61a6f683da7044c1c410b6a3ba18b",
+      "baseline_source_sha256": "3e6460ceec521965b756c66fa7a186a495b61a6f683da7044c1c410b6a3ba18b",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.ProfiledRewrite.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "10f890ddde7a15b3c1d02a9ddb5224bb54a14330fe801eff5df79b5d3fc66081",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.IntegerDot",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/IntegerDot.lean",
+      "source_sha256": "c8aaf78b76b9b8ff27f835c18830f298911deecf040ca29c78e84ebdc0859251",
+      "baseline_source_sha256": "c8aaf78b76b9b8ff27f835c18830f298911deecf040ca29c78e84ebdc0859251",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.IntegerDot.log",
+      "log_sha256": "5ccfc676bdf17e368722a509b88ca023ed8675b719b7b1608ead5a4dc1a7b18b",
+      "olean_sha256": "48e14eef42d57e996f43dcb38b6d1b7a2851f761fd70976a4c4cb71ffbc2887c",
+      "axiom_checks": 5
+    },
+    {
+      "module": "VeriTile.Triton.Float.UnsignedCast",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/UnsignedCast.lean",
+      "source_sha256": "297f5a3cd7b5911ea8995a46b8c4d5f4dec4f9596475bcb6003ea27cdeb56b9d",
+      "baseline_source_sha256": "297f5a3cd7b5911ea8995a46b8c4d5f4dec4f9596475bcb6003ea27cdeb56b9d",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.UnsignedCast.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "992c5e12076506ba83b4c1335b0e41f902259ca6727438633d0a96631a9222de",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.FixedInteger",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/FixedInteger.lean",
+      "source_sha256": "376b99eb05cb9fa3433ea9fb3ebe3edb4aa90b535323b71eac600300bc40fdda",
+      "baseline_source_sha256": "376b99eb05cb9fa3433ea9fb3ebe3edb4aa90b535323b71eac600300bc40fdda",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.FixedInteger.log",
+      "log_sha256": "0f26c1631becf2033c19dda3edc53351be0f218be239fef2d38367f69f8e5f81",
+      "olean_sha256": "f6b5cfc071194e7ef3346f04a34dccb81baf589fee99ae395d04871fdbeb87a8",
+      "axiom_checks": 0
+    },
+    {
+      "module": "VeriTile.Triton.Float.SignedCast",
+      "role": "same_core_dependency",
+      "source": "VeriTile/Triton/Float/SignedCast.lean",
+      "source_sha256": "79fb0af591b285287bc861973fe18571f5ae8528605f0ee783d1417c6bbe8c6c",
+      "baseline_source_sha256": "79fb0af591b285287bc861973fe18571f5ae8528605f0ee783d1417c6bbe8c6c",
+      "exit_code": 0,
+      "log": "logs/VeriTile.Triton.Float.SignedCast.log",
+      "log_sha256": "b9a5caae01d933e142a6965cb5aa85c9f4206c36c295883cf96b951103f67adc",
+      "olean_sha256": "34f3dd45b160c80c49ac3f361d8e236a84413ec285665eca5a3a9fc0f1ddfff5",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.softmax_reducev.SoftmaxReducev",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "source_sha256": "80ebd839300341ee76b59711bd6f2c4165b2505df854a0e00c7bec39e116e509",
+      "baseline_source_sha256": "2a1d3e907f86af031a31d59999eb2ff2a6186549cb375f037cd86d1a88c26899",
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.softmax_reducev.SoftmaxReducev.log",
+      "log_sha256": "1b7542e00cd301887ff84d43b9fb7ffb92181d59b4dc2b684b28255f61bdf353",
+      "olean_sha256": "6872a504c8d5bd59277badca876fb92c36b92e96f1f84bc2097a2f7c857a5624",
+      "axiom_checks": 2
+    },
+    {
+      "module": "bench.tritonbench_g.softmax_reducev.Proofs.FPSource",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/softmax_reducev/Proofs/FPSource.lean",
+      "source_sha256": "c9216e0dc6ae4b4a7ddc5d9d4aa6375568d0b023c5eecd74315793c4922409c1",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.softmax_reducev.Proofs.FPSource.log",
+      "log_sha256": "62d92cd25b17a3f75c84bd3c4a26765b35bbe3ac0e6b5f6b4efa60cb4e75ec39",
+      "olean_sha256": "577a0bedeca7b1ff540078c7c2800d5ffb888820295a46bf7c22c6ca483591b5",
+      "axiom_checks": 1
+    },
+    {
+      "module": "bench.tritonbench_g.softmax_reducev.Proofs.FPReference",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/softmax_reducev/Proofs/FPReference.lean",
+      "source_sha256": "96bc37e94a826d64e6829eab4adb51150af2a1a652c558b740552c63cdc36e4f",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.softmax_reducev.Proofs.FPReference.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "olean_sha256": "6031787614be3ad948790e5c463fe25dfad6bbca3ff64b94d172750c54747eb1",
+      "axiom_checks": 0
+    },
+    {
+      "module": "bench.tritonbench_g.softmax_reducev.Proofs.FPPrefix",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/softmax_reducev/Proofs/FPPrefix.lean",
+      "source_sha256": "6c04f975c17ea449ac878913df7dcb32a57d45561d1f184b895bd36cc6d2b62c",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.softmax_reducev.Proofs.FPPrefix.log",
+      "log_sha256": "0fe77f1c19800218f6ef2badacb23ec1b0665813c972b1d2c631438a524ef49c",
+      "olean_sha256": "251aa2374d72c88e909e502b8b4684806cfef0c03614d5546c0f42d1c56f81dd",
+      "axiom_checks": 1
+    },
+    {
+      "module": "bench.tritonbench_g.softmax_reducev.Proofs.FPLoop",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/softmax_reducev/Proofs/FPLoop.lean",
+      "source_sha256": "a79ea0dc9824b470b7f0e9f274b6e18980dd8301b1c0433c339d2e007f33fb12",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.softmax_reducev.Proofs.FPLoop.log",
+      "log_sha256": "b9f62a309fac292eb70eec433b38c10bfbe8f110ebf2aa3867249c7e084eb077",
+      "olean_sha256": "6ed45d7f7ddec3ae65b04db66fed0662cf2f026afd9423fdb696079df1d33504",
+      "axiom_checks": 2
+    },
+    {
+      "module": "bench.tritonbench_g.softmax_reducev.Proofs.FPContract",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/softmax_reducev/Proofs/FPContract.lean",
+      "source_sha256": "9f91b6e69c4f9dd0844eb8e69bc4ab9583665a31e7226def2439e562dea1622b",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.softmax_reducev.Proofs.FPContract.log",
+      "log_sha256": "02b5b4522911870df07980cc99eeb52ec14394edc7da0d872bae10567b5c6b9c",
+      "olean_sha256": "270b6dc20eebc20f049418efb5a2b8d2fa2f8a34de540660cc461903967c933e",
+      "axiom_checks": 4
+    },
+    {
+      "module": "bench.tritonbench_g.softmax_reducev.Proofs.FPSoftware",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/softmax_reducev/Proofs/FPSoftware.lean",
+      "source_sha256": "73c558021f079ce27ffcaacd378e5fac4437d697bb6765249bc0cfcbccd7ab9e",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.softmax_reducev.Proofs.FPSoftware.log",
+      "log_sha256": "82777a5952239d1a47fd215623e33a2bd361749d82d1f42ee36987bc05ee7dbf",
+      "olean_sha256": "8367e3d2dfeff9b1126ad9782432b8fb1b14cd050f853fa99084fed1d31622a9",
+      "axiom_checks": 5
+    },
+    {
+      "module": "bench.tritonbench_g.softmax_reducev.Proofs.FPBitContract",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/softmax_reducev/Proofs/FPBitContract.lean",
+      "source_sha256": "ae9ed31d1815995b963978d82b45568815ecfea801b0fc1532f49e8e3507e5fd",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.softmax_reducev.Proofs.FPBitContract.log",
+      "log_sha256": "c2181c446d3e83c5e580ad275ab76cd8a890afca07f33bc2dd86d7419d014c4b",
+      "olean_sha256": "2b7683d20c569ba640c074713b0af4bbb9411dcd9dae0a188565d9bbdfc7fe16",
+      "axiom_checks": 1
+    },
+    {
+      "module": "bench.tritonbench_g.softmax_reducev.Proofs.FPWitness",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/softmax_reducev/Proofs/FPWitness.lean",
+      "source_sha256": "b8fdd977d5a3cd761f33aa1118728e528af17666cd703e4dcbe596a6091dbfa1",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.softmax_reducev.Proofs.FPWitness.log",
+      "log_sha256": "dd23e74530d517c0264b950eb70f86154c9365a9280748f70af17203616a7d5e",
+      "olean_sha256": "e3f85a1e129a49f70b4f0703bda9d0fbc373f249da579a0b17b6bce4e92d3ae4",
+      "axiom_checks": 6
+    },
+    {
+      "module": "bench.tritonbench_g.softmax_reducev.Proofs.FPShape",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/softmax_reducev/Proofs/FPShape.lean",
+      "source_sha256": "0103140fad883f27f01d290f47031f30a1219002479d307c461be8ba31f19e00",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.softmax_reducev.Proofs.FPShape.log",
+      "log_sha256": "5f7df34eb7ef7dc56c46915101d71284658be347daf3795bda0c2523b8ed7cd8",
+      "olean_sha256": "124447cfa88c9ba331f508d4fe70a95c281026cc75bf7e8cc082b2663264f21e",
+      "axiom_checks": 3
+    },
+    {
+      "module": "bench.tritonbench_g.softmax_reducev.FPCorrect",
+      "role": "final_task_run",
+      "source": "bench/tritonbench_g/softmax_reducev/FPCorrect.lean",
+      "source_sha256": "5326833ad89aa84b02d3944eb04718c1452d27230c23dae2f2efd07c02fb965e",
+      "baseline_source_sha256": null,
+      "exit_code": 0,
+      "log": "logs/bench.tritonbench_g.softmax_reducev.FPCorrect.log",
+      "log_sha256": "dc45a44d42598b49f32f6da87fd059caedf3187d88028f86a44d13ae8066301d",
+      "olean_sha256": "83957fe9bb4842aec4145d533ea7b444072911242f3c0e251a95a7f8722942ff",
+      "axiom_checks": 4
+    }
+  ],
+  "named_declarations": [
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/FPCorrect.lean",
+      "name": "whole_backend_values",
+      "kind": "specification",
+      "line": 13,
+      "statement_sha256": "c6176fe3d175cee7e46b4c6dd89a9ce04bac7792f72bbb1756e55bb9eabd6617",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/FPCorrect.lean",
+      "name": "fp32_software_values",
+      "kind": "specification",
+      "line": 20,
+      "statement_sha256": "b3aedf021193d7770e202f5fe933edcc8b28595e52626673fba4ad6e64455f47",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/FPCorrect.lean",
+      "name": "two_block_bit_success",
+      "kind": "theorem",
+      "line": 29,
+      "statement_sha256": "db3cc3f7030a47cf76e1360ee86c6117eea7d00f16c905d980d5c56b6714cbdd",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/FPCorrect.lean",
+      "name": "accepted_two_block_bit_success",
+      "kind": "theorem",
+      "line": 39,
+      "statement_sha256": "5ed9c036b7846050816d68cb0e0b5ba08924921a1f8f9d01a58b3b6aa2f29cd7",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPBitContract.lean",
+      "name": "software_correctness",
+      "kind": "theorem",
+      "line": 11,
+      "statement_sha256": "aa8aaafcdbae96991ae03c06f69717a25639ea96aa20d982fdd285a13130fa9c",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPContract.lean",
+      "name": "scatterMemory_congr",
+      "kind": "theorem",
+      "line": 9,
+      "statement_sha256": "18e768c8ac4cb4c994f6de2098a03646f4fd1001c49cf5d7b2691b0221ec8b89",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPContract.lean",
+      "name": "suffix_run",
+      "kind": "theorem",
+      "line": 19,
+      "statement_sha256": "500936b4a3b776175927874be3f9186561464cac73087abc6c37368e532cf35d",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPContract.lean",
+      "name": "execution_memory",
+      "kind": "theorem",
+      "line": 32,
+      "statement_sha256": "a5ebba4cd1159e5535313667722d965831e058c4ace8e42eef6113a2bc1b231e",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPContract.lean",
+      "name": "correctness",
+      "kind": "theorem",
+      "line": 50,
+      "statement_sha256": "0ff6f81e24eae0f086f47c4a8e9173527d30b3d401846d6798bca818920f649f",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPLoop.lean",
+      "name": "body_run",
+      "kind": "theorem",
+      "line": 10,
+      "statement_sha256": "2f89ec7236b5b3c15dbc2b2c3d90ded8632b07e3053f8a092bd157d9026b8ef4",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPLoop.lean",
+      "name": "loop_run",
+      "kind": "theorem",
+      "line": 26,
+      "statement_sha256": "2c27406bdbb867d630a5c70ce7059f9a41e0062012d686ab15fcb5d7dfc136cf",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPPrefix.lean",
+      "name": "prefix_run",
+      "kind": "theorem",
+      "line": 29,
+      "statement_sha256": "020fbf01c421bfaf876e19b939c2f412616f6ca6bdf3034d30ede106a640d2ce",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPShape.lean",
+      "name": "source_projection",
+      "kind": "theorem",
+      "line": 19,
+      "statement_sha256": "9ddcb7ee835f9838fec68957cf42752a0da78881a28b3b55803a88ff4c2f8afd",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPShape.lean",
+      "name": "parsed_maximum",
+      "kind": "theorem",
+      "line": 37,
+      "statement_sha256": "2f847410ebbfcc38c2839b6bc60d3e5e44325bfc4442fd472647f57c31f08f2f",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPShape.lean",
+      "name": "parsed_loop",
+      "kind": "theorem",
+      "line": 44,
+      "statement_sha256": "73555dd9e9d1449326e0913a625974c6e040f0a205e6a7d105624b4525bca11f",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPSoftware.lean",
+      "name": "storage_register_identity",
+      "kind": "theorem",
+      "line": 66,
+      "statement_sha256": "b70d68d82e236a1367065f2dcecd4fc98d9c14dc56ba948f4d4d014299aa5d06",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPSoftware.lean",
+      "name": "logits_software",
+      "kind": "theorem",
+      "line": 112,
+      "statement_sha256": "dca12bc2663c9cd37b07a37cb41e1bfeafb96df6f86c1ded26a5ec4520b6840d",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPSoftware.lean",
+      "name": "values_software",
+      "kind": "theorem",
+      "line": 118,
+      "statement_sha256": "c18d41a50ad86dece753ffd5593a3d331b24a6a531dd5db00244c9ca71b47d89",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPSoftware.lean",
+      "name": "update_software",
+      "kind": "theorem",
+      "line": 124,
+      "statement_sha256": "6948319a4601ce2762dec01e455b5efa071c5db41fd244427571c601a0a33c70",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPSoftware.lean",
+      "name": "output_software",
+      "kind": "theorem",
+      "line": 133,
+      "statement_sha256": "d6cca7804d494c0e70809a3324f2978e7280f565aa1ef9959d09b680b180bca6",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPSource.lean",
+      "name": "source_split",
+      "kind": "theorem",
+      "line": 87,
+      "statement_sha256": "af7c25d4d5b768ba59162e401d68be21c9e1590d7c674c995802fb29c9804bb8",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPWitness.lean",
+      "name": "witness_output",
+      "kind": "theorem",
+      "line": 59,
+      "statement_sha256": "c3f6605686b5333816cfa25e5ba8b3c07e63ce72777ec380876ce8f5082d3fcb",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPWitness.lean",
+      "name": "witness_layout",
+      "kind": "theorem",
+      "line": 66,
+      "statement_sha256": "584c49f09da9c7aea5fe362de01444755392b57be8c1bef27f601045822ed04c",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPWitness.lean",
+      "name": "nonempty_bit_success",
+      "kind": "theorem",
+      "line": 76,
+      "statement_sha256": "53b1894a7166002d5dc1c0f42d506d42fff94c5e7a774a10d146918f4aa2a3d6",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPWitness.lean",
+      "name": "accepted_witness_output",
+      "kind": "theorem",
+      "line": 107,
+      "statement_sha256": "8dbef74d772845a064f55aec46421f2f04de333b83b4bbb07743e2610c3341ab",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPWitness.lean",
+      "name": "accepted_witness_launch",
+      "kind": "theorem",
+      "line": 114,
+      "statement_sha256": "e7aed41927c3a93602d15f53aab0168828c5b870e33b1008a536b23ba070f263",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/Proofs/FPWitness.lean",
+      "name": "accepted_bit_success",
+      "kind": "theorem",
+      "line": 120,
+      "statement_sha256": "b9d2214f414b1e09f422c88126778fcd0a4da32bcefdeb654684d6bf8e9e345c",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "softmax_reducev_surface_toAlgorithm_supported",
+      "kind": "theorem",
+      "line": 132,
+      "statement_sha256": "f96eada795050bed89012dfd8b5b155fcb8b717e8c2386c9929cbb48e1aea0aa",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "softmaxReducevFinalSpec_eq_weightedSum",
+      "kind": "theorem",
+      "line": 253,
+      "statement_sha256": "19d7437d6c40075a4f12926157b8f02687554648945a4194737b52ebb4d88b44",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "softmax_reducev_final_store_slice_correct",
+      "kind": "theorem",
+      "line": 269,
+      "statement_sha256": "b16f3a840b7da4516a7b71c1712df5474aa7ff0799b05a805c4f2ffada58bd38",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "softmax_reducev_final_store_slice_compute_correct",
+      "kind": "theorem",
+      "line": 305,
+      "statement_sha256": "a6ac9fe2363aa30676d61fde682ad7d2bffd9cfd90979bbac8f68551a1c31d9a",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "softmax_reducev_final_store_slice_weighted_sum_correct",
+      "kind": "theorem",
+      "line": 342,
+      "statement_sha256": "a8b2058c70fa49311e8542b3c373346ae1df9aeebc9c8478f291eef3f88ebd48",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srOsStepBot_fst",
+      "kind": "theorem",
+      "line": 455,
+      "statement_sha256": "6c7bdf09f270bc907718503c5dc1df9f3917ba97f53c0a03a22390e15bdcaba7",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_foldl_sup_bot_eq_foldr",
+      "kind": "theorem",
+      "line": 463,
+      "statement_sha256": "0b6a42061406ee76218d822fd0b3fb2c4c540ae8351dbed769eb188a83c12cba",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srOsStepBot_foldl_consistent",
+      "kind": "theorem",
+      "line": 477,
+      "statement_sha256": "b131e075103633ee157735dca2b3976604420b153903cd6a990eac9333d8dab0",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srStateBot_fst_eq_runningMax",
+      "kind": "theorem",
+      "line": 541,
+      "statement_sha256": "5bb0b1cd8e96ff8f2fd4c0492d262be65023c19c64c94e6d119a2c486690a635",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srStateBot_snd_fst",
+      "kind": "theorem",
+      "line": 548,
+      "statement_sha256": "3886c6a9df96106a831bf226459ce742e513801be9afdc1269ff211afdfb34dd",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srStateBot_snd_snd",
+      "kind": "theorem",
+      "line": 564,
+      "statement_sha256": "50620c62c6fe38246b60e6f671d5f63c50f950931aecdbef36d6fae3daf9da50",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srKeysUpto_full",
+      "kind": "theorem",
+      "line": 581,
+      "statement_sha256": "492459a4fe297d973d47e6c7feeb0301e61a5605fe5408f100398d300b28e01a",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srKeys_full_denom",
+      "kind": "theorem",
+      "line": 593,
+      "statement_sha256": "3825f3eee933bf7b0822fa3c144de586b4032bff2e4a369fb1d64ade3417107c",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srKeys_full_acc",
+      "kind": "theorem",
+      "line": 610,
+      "statement_sha256": "4983b5928de5cd1975b091fd22200dd355f0a06072c993b38ce8b72554de3ba1",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srStateBot_full_acc",
+      "kind": "theorem",
+      "line": 628,
+      "statement_sha256": "10e3142e2c31a9062813a215f38e3f1c43d139ca8955c8c7779e9f0d2bfbc6c4",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srStateBot_full_denom",
+      "kind": "theorem",
+      "line": 637,
+      "statement_sha256": "a58d977537582ca73aecf05707a661ec2889de33024fc594ac5858410aa12119",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srStateBot_full_eq_weightedSum",
+      "kind": "theorem",
+      "line": 648,
+      "statement_sha256": "c76ebb19b20bdd089e14c371fa65bb466e8542d7a91acceb8e705b8991287071",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srRunningMax_zero",
+      "kind": "theorem",
+      "line": 666,
+      "statement_sha256": "6469350a8250aac1617e0d7340f5649efc76b29502469b817ff04d8b3a6efcee",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srStateBot_zero",
+      "kind": "theorem",
+      "line": 677,
+      "statement_sha256": "b4b7c4e666ce892c786f9f6efb5cc007ef6ea2094c19590a927a0d4337269ac5",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_filterMap_window_split",
+      "kind": "theorem",
+      "line": 689,
+      "statement_sha256": "48a3cd9a136bc65a19f754e28ea4040d94d5b5914d195cde04eb5c43aff705c6",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srKeysUpto_succ",
+      "kind": "theorem",
+      "line": 722,
+      "statement_sha256": "9ca9f70f23a6b73ea479d12c230dfa88d9cc9adec0b6d17599052f399f37f841",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srStateBot_succ",
+      "kind": "theorem",
+      "line": 735,
+      "statement_sha256": "5f47d600582421b4d5a56ca0f808a64e90cee4322746545f9a3d237076c59ff0",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_sum_map_exp_sub",
+      "kind": "theorem",
+      "line": 744,
+      "statement_sha256": "87dd8cd3d2cfcae6c6519e7880e4bd7b184c2fb2e520d7f55808813e6380cc91",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srOsStepBot_block_fst",
+      "kind": "theorem",
+      "line": 755,
+      "statement_sha256": "0a137b376c05fd5dd17dc0cae3ffd2f744bf630a182821393d37cdcfed693907",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srOsStepBot_block_eq",
+      "kind": "theorem",
+      "line": 775,
+      "statement_sha256": "14fd648fe98965baed09b1dd81c2986eab8b8c5251c2332e7f58c772b42c8f36",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_evalOp_castIntToNat",
+      "kind": "theorem",
+      "line": 862,
+      "statement_sha256": "214e66d687b03891726feccc9a9449a6871014dab388fee46d7c26f4e556bdab",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_oldscale_eval",
+      "kind": "theorem",
+      "line": 867,
+      "statement_sha256": "3cd6b3d82b230cadbccd1b3f7216e588cd819b92262cd3af5a537031be07bc81",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_filterMap_finRange_sum",
+      "kind": "theorem",
+      "line": 888,
+      "statement_sha256": "b2bf459e85f1a23129a9dfee960ae3b32c55e25cb922a7d8e4fd26e2868bc278",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_filterMap_foldr_sup",
+      "kind": "theorem",
+      "line": 905,
+      "statement_sha256": "0c5b4fc2a13440d15ab3d27109caa75d3e1af9f6b740b07b6127b4b95544f916",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_mem_le_foldr_sup",
+      "kind": "theorem",
+      "line": 939,
+      "statement_sha256": "bd853ebf42f220f47a28b182d4ea610c87cc5860457c06e91977a9c308cbb196",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srSeqLen_eq_of_mem_pids",
+      "kind": "theorem",
+      "line": 951,
+      "statement_sha256": "0c8390c492daeb6bd5f38a39cb0360d65938ebf4f4607f2a5e8a2d97e35a0921",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srStartLoc_eq_of_mem_pids",
+      "kind": "theorem",
+      "line": 957,
+      "statement_sha256": "bcfcb76452f9e38ad36af782ba6427916c7e0fff399de6956d0f4fe13eb0b5e2",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_window_sup_reindexG",
+      "kind": "theorem",
+      "line": 963,
+      "statement_sha256": "8201b2d2cfe6d632c33075abd2e391d37a68c5d3805c1a6515ef4410ea0eee27",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srBlock_sup_eqG",
+      "kind": "theorem",
+      "line": 994,
+      "statement_sha256": "00cc36ba4c363eeb27c2fe05711c3897b52ff6580f66328b29aee97065b14ea7",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srBlock_map_sumG",
+      "kind": "theorem",
+      "line": 1036,
+      "statement_sha256": "15f5145160694454a2be8ab5a099ada3fc5d66a727f2d980777f1fdc49089856",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srBlock_esum_sumG",
+      "kind": "theorem",
+      "line": 1083,
+      "statement_sha256": "7497046f86e18e563426fefc47b24cf3b131ba96e909368f3e0354b5df2f7d5f",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srBlock_acc_sumG",
+      "kind": "theorem",
+      "line": 1109,
+      "statement_sha256": "c47f8fc88896ed58e6a98342d95bbd64153d72025be36d5201bc9fb1f62a1cc5",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srRunningMax_eqG",
+      "kind": "theorem",
+      "line": 1149,
+      "statement_sha256": "854cf2a44b553a5b01cc058c54a5d30b3700bb90937c5a102073be57ce25af32",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srRunningMax_succG",
+      "kind": "theorem",
+      "line": 1160,
+      "statement_sha256": "4529adf4c2e36dbc039c88ac8cf2ccdfd8ce52757f42e26b1cf4c319eb193d8f",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srRunningMax_ne_botG",
+      "kind": "theorem",
+      "line": 1180,
+      "statement_sha256": "765243e40386d507f3f71fad2fac3953ae9066f0e5c494966e6353420fbf4b28",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_denom_anchorG",
+      "kind": "theorem",
+      "line": 1199,
+      "statement_sha256": "13d0b36531b02e7e411c8e1f8ef4c512aba9a850a2d8716cd2024445e7aa48b8",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_acc_anchorG",
+      "kind": "theorem",
+      "line": 1207,
+      "statement_sha256": "852c316664dfef131797f45228ceff47659629c5dcdb712466c0a4b000f0fe3a",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srKeysUpto_sum_zero_of_botG",
+      "kind": "theorem",
+      "line": 1215,
+      "statement_sha256": "68a4aa630fff0fb7ee4e8f1989880e46e9e6734261828bd9e38aba7061320803",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_nemax_reg_eqG",
+      "kind": "theorem",
+      "line": 1230,
+      "statement_sha256": "6ed068f85dc17514523efe58185af80f4f7559e3f70682df628cda928746ec5c",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_esum_reg_eqG",
+      "kind": "theorem",
+      "line": 1244,
+      "statement_sha256": "5d102023e2499e7f8478470b5227dd5a7ff2df3d82f93f8020611f148e47dd6e",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_acc_reg_eqG",
+      "kind": "theorem",
+      "line": 1322,
+      "statement_sha256": "2df86e09ba63c8849e7815722e3ec62a4a7958128c197374019a3cd63edd55de",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srVIndexG_eq_of_mem_pids",
+      "kind": "theorem",
+      "line": 1433,
+      "statement_sha256": "40fba38c14f9ff2d93e26a614d0166619534e9d59e6847301b9704029633a9ae",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srQkG_eq_of_mem_pids",
+      "kind": "theorem",
+      "line": 1438,
+      "statement_sha256": "e6695aa152d7b1153b36ae4aed316bfb051095e41d38b66b5775f37aff6a1d89",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srVG_eq_of_mem_pids",
+      "kind": "theorem",
+      "line": 1443,
+      "statement_sha256": "7a460a6ffef527a5100b7b37fe06d950914019b82c5c0d0c984338e17b30dbef",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_qk_load_evalG",
+      "kind": "theorem",
+      "line": 1455,
+      "statement_sha256": "a4296216d216ac388116a1177656e9c715d7b5d9788ec4d8bf686be3fe337350",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_vindex_gather_evalG",
+      "kind": "theorem",
+      "line": 1497,
+      "statement_sha256": "ec46353310e9b3c71f9a6e3c2dd6f1b065093623cf4e5ec25cc8c510a7f6c424",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_offv_evalG",
+      "kind": "theorem",
+      "line": 1530,
+      "statement_sha256": "fdec1ac474c39af214ba9c2e61c6cc8b15b14f1c6c458d6585d120a9d440bd1a",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_v_gather_evalG",
+      "kind": "theorem",
+      "line": 1550,
+      "statement_sha256": "c0aceb3fdf0504b981ebb8621061c147ccdde11ae7ac6d3f1ff2aa91c273b197",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_nemax_evalG",
+      "kind": "theorem",
+      "line": 1612,
+      "statement_sha256": "27329264a6ea9e3acce3df0ac9d2e97960d93efb915bc81145bbc22a35632caa",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_math_maximum_select",
+      "kind": "theorem",
+      "line": 1649,
+      "statement_sha256": "dcd07d985be9af8696fde080fe5ff89bfb048ca4985b82d84ee3552018a6d46b",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_primitive_nemax_evalG",
+      "kind": "theorem",
+      "line": 1661,
+      "statement_sha256": "3e3d2c49c582b847c97705ed1d5d4376ba4b9d661d19fa1ba01aa8c3b3640eb8",
+      "existing_statement_unchanged": null
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_p_evalG",
+      "kind": "theorem",
+      "line": 1676,
+      "statement_sha256": "4ae85436c5469dcbfe0ea66a46519a7ecdf7549ee4330c18247e9c06aa184451",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_esum_evalG",
+      "kind": "theorem",
+      "line": 1691,
+      "statement_sha256": "a6c2d8ce374bc11b053c9c1c8b4a6b0449cc46dac2e8298093eb165e22d000af",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_acc_evalG",
+      "kind": "theorem",
+      "line": 1719,
+      "statement_sha256": "d194ab69f869e4602f86d705a20bcdf8ebd13a5bf0e323f1d2c6bb20bf379375",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srBody_splitG",
+      "kind": "theorem",
+      "line": 1885,
+      "statement_sha256": "6acb5a5ac04b25d2e9b3b0d2c8f6555b4232495ebfbabc2c18b0f143c40659af",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_attn_stepG",
+      "kind": "theorem",
+      "line": 1945,
+      "statement_sha256": "9832e9757844489cdb791c81b7025f9cf7c95a947fd0ec62b7d048c50974edf8",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srPreLoopG_eval",
+      "kind": "theorem",
+      "line": 2286,
+      "statement_sha256": "b3a3d9deef550afa4283ba403bae33755f28a70ea034b62446b01d4789d703b0",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srInvariantG_zero_logics_irrel",
+      "kind": "theorem",
+      "line": 2371,
+      "statement_sha256": "f63147e3e9620ef46b2b34f147cc0dfa3e3fba41b59761925cad01912a80b96f",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "softmaxReducevWeightedSum_reindexG",
+      "kind": "theorem",
+      "line": 2384,
+      "statement_sha256": "e737a6e05247ce2cb23ec8c8d11e422409a51909e20f589de7b98179bb5971f3",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srRunningMax_reindexG",
+      "kind": "theorem",
+      "line": 2396,
+      "statement_sha256": "046b32125a8160187ac5e1baccc9ed69898e579df4316c14909597170f4b9749",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srPostLoopG_eval",
+      "kind": "theorem",
+      "line": 2413,
+      "statement_sha256": "a5dfe85979af10f9b32d29945a4a4c35e2e14da540df241849aeff51dd4e21b7",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "sr_execG",
+      "kind": "theorem",
+      "line": 2529,
+      "statement_sha256": "63c36980174b5d281b2f44039ca4a875c00c67235c4556f2cb7312e42f722850",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "softmax_reducev_genuine_output_compute_correct_general",
+      "kind": "specification",
+      "line": 2650,
+      "statement_sha256": "8d0a5c68c52218b2631484497f5fda16134ab16dfc66c4f2414f29872df4adda",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIOT_seq_le",
+      "kind": "theorem",
+      "line": 2727,
+      "statement_sha256": "6f54c5663cc8dc43a78d689020da73d2a6a8a79fbff63149be8f952a91abe8fc",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_step_lt",
+      "kind": "theorem",
+      "line": 2736,
+      "statement_sha256": "da011a28a4fc39e74a8ab2e039014bacfe6435301cc2121a18064e180d7b428c",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srWeightedSum_denom_shift",
+      "kind": "theorem",
+      "line": 2868,
+      "statement_sha256": "a14b5f7496a63faa0fe2b5740c448596a6625bd3c16a98d6b548e77a8f859d25",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srWeightedSum_acc_shift",
+      "kind": "theorem",
+      "line": 2876,
+      "statement_sha256": "47e9d83dfc3c25b4f5499af1467b31610d63417cc23e2bd766f8778d8a3e9774",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srWeightedSum_eq_unshifted",
+      "kind": "theorem",
+      "line": 2886,
+      "statement_sha256": "dede9198b70bbeefe1f4de5026f104b11e5c261b691bb77baa9b5e55b3d2ec15",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srWeightedSum_shift_invariant",
+      "kind": "theorem",
+      "line": 2896,
+      "statement_sha256": "01db1eacb73b6be333003ad3b3a5af138570227e5a9d41906cab5890eebbb0be",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIOSpec_eq_genuineG",
+      "kind": "theorem",
+      "line": 2915,
+      "statement_sha256": "1c9b806a12ab573eb889ad1050d668b0d0c8faa075d81d898851ad5571616f11",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_flattenOk",
+      "kind": "theorem",
+      "line": 3001,
+      "statement_sha256": "976a06db4af1fabb4d5bdac4419707199dc1d2996af2cabd184adc4342119c1a",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_stepStmtsR_castFree_of_stmts",
+      "kind": "theorem",
+      "line": 3017,
+      "statement_sha256": "b60292f2797a7a82ac4580e5adabe6b40d235f2259ead14436dd9c0333c5e0f4",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_preLoop_stmt_castFree",
+      "kind": "theorem",
+      "line": 3032,
+      "statement_sha256": "9ef5c9ea9061446f51cd2491a1583614b76ede940aeae1ab72f11472ffc917e8",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_body_stmt_castFree",
+      "kind": "theorem",
+      "line": 3048,
+      "statement_sha256": "c0a3a84c4aea86c6d207234c251d3ee92380b62e315642f3dc178e2d08d1f1dc",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_body_castFree",
+      "kind": "theorem",
+      "line": 3059,
+      "statement_sha256": "b83cfdf810cd01a2437d4297e609fb9cfa75c437fd18828807a2929d93682451",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_postLoop_stmt_castFree",
+      "kind": "theorem",
+      "line": 3074,
+      "statement_sha256": "ec15f12657da56fd50c99b670e34b5be6180b7c30e989d0f754aaa50638c97b3",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_evalOpR_constNat",
+      "kind": "theorem",
+      "line": 3086,
+      "statement_sha256": "96f835b1003c4cd78781097729baf1bbb5f59b35c110cabe54d54cea54a1b771",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_stopOpR_castFree",
+      "kind": "theorem",
+      "line": 3092,
+      "statement_sha256": "9ce90bb11baa40a12373135262e07ebba7ec53cc17c7bc0e956fa263930840a3",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_dyn_castFree",
+      "kind": "theorem",
+      "line": 3101,
+      "statement_sha256": "eb4092ec40a6d75b8d203dfb39aa197021989930c9d4ba3c790a8364d5a1f359",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_execR_collapse",
+      "kind": "theorem",
+      "line": 3126,
+      "statement_sha256": "a0f01b96cf9cb28e2e5d2656efe864126b1c20d5950440ae6b6e7ba1f54059c2",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_walkCons",
+      "kind": "theorem",
+      "line": 3164,
+      "statement_sha256": "8404527fac02ed742c47c5289e846ae68822566e436c020ccf8c758cd41d5425",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_walkNil",
+      "kind": "theorem",
+      "line": 3178,
+      "statement_sha256": "98e923aa358d837d7484bc772593c954326bc55150513dec5a7b5be9b13b975c",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_stepR_of_assign",
+      "kind": "theorem",
+      "line": 3186,
+      "statement_sha256": "b2872c0693d9b3078cb5b3272c9a2ea1da6e2561e7c7543d2235ad95ece8902f",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_blocOffsR_eval",
+      "kind": "theorem",
+      "line": 3195,
+      "statement_sha256": "4bbc2cfda263ab6ec306a91aef33220571eca6b2913c354af98761b11bb7d85b",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_liveMaskR_eval",
+      "kind": "theorem",
+      "line": 3228,
+      "statement_sha256": "df68591d134d243d9c036dd0109bf92c8a6c9bd3cc73521170d1fa0b1f7a9fb5",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_qkOffsR_eval",
+      "kind": "theorem",
+      "line": 3259,
+      "statement_sha256": "2bdc8c196731dedfe787528067cf0ac140909cf2536dd2f7808243ef82512add",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_vPtrR_eval",
+      "kind": "theorem",
+      "line": 3303,
+      "statement_sha256": "8cdd376d74198f6069c0a642006789af4798711cf25af7f7f6a7712fa155a600",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_offoR_eval",
+      "kind": "theorem",
+      "line": 3370,
+      "statement_sha256": "b92185c972766ac4d310582a745001d065d099a32f261b52529ba9c5f2609bc5",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_outPtrR_eval",
+      "kind": "theorem",
+      "line": 3405,
+      "statement_sha256": "f882f94a5c34b076306c63ca2c236374cd86f0c617f54bed28aa8b386074cc9d",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_readMemValue_of_mem",
+      "kind": "theorem",
+      "line": 3424,
+      "statement_sha256": "a0b7913a2c3c1ccb0c25ee3b045c8cb5a82da20d1a4cbf91dc30e0045af14b98",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_readMem_of_mem",
+      "kind": "theorem",
+      "line": 3430,
+      "statement_sha256": "3751b21e4a2ddbce92b651aac77410a9e9dfb18932505d1c618c31c3996feb60",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_vindex_eval",
+      "kind": "theorem",
+      "line": 3439,
+      "statement_sha256": "532636c1a14f803b20cadd7511999322d29b527bf32793b62b2be20f2500780f",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_qk_eval",
+      "kind": "theorem",
+      "line": 3479,
+      "statement_sha256": "fe056bf2b19cff13cab57d5dbe08113d99b3ad3493ad2a66ec538a939a874ecb",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_vload_eval",
+      "kind": "theorem",
+      "line": 3524,
+      "statement_sha256": "5e2038fca95ca214cd8ce4333e05a6a56ca2a32542ab218835807f54a31a4bac",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_preLoopW",
+      "kind": "theorem",
+      "line": 3584,
+      "statement_sha256": "25ae86608d115a1591ffbb474f15290cf36676d745cccd8364dc1b7efa006b72",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_bodyW",
+      "kind": "theorem",
+      "line": 3734,
+      "statement_sha256": "fadc18795de544e014d6dc9febb3d781763a1a7c57f57082ae529b8e72eb2047",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_traceSafeR",
+      "kind": "theorem",
+      "line": 4023,
+      "statement_sha256": "27e2281ff829a0910ad0c0fecceae8cf5ad6fc5567c3ec7a7a401e50268d696a",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_foldl_writeMem_frame",
+      "kind": "theorem",
+      "line": 4187,
+      "statement_sha256": "c9b8928f2f69854c3cef38f5c6ec1a092d8bca60e2426a34f3600d3da72b3711",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_postLoop_frame",
+      "kind": "theorem",
+      "line": 4206,
+      "statement_sha256": "6dfd0c0df34215f2f6f3e5915583152cdbe7e1022a7d5da7bfa9bc7111bdeb60",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "srIO_exec_framed",
+      "kind": "theorem",
+      "line": 4313,
+      "statement_sha256": "a1491c1d618d2877baddedf4546d9872aadc67e215260251407951aca45ae0c3",
+      "existing_statement_unchanged": true
+    },
+    {
+      "file": "bench/tritonbench_g/softmax_reducev/SoftmaxReducev.lean",
+      "name": "softmax_reducev_io_correctness",
+      "kind": "specification",
+      "line": 4521,
+      "statement_sha256": "e554918cb2ebe4981271f669b2a636a492eb7c2f6bdb744694c6c347a2cf5584",
+      "existing_statement_unchanged": true
+    }
+  ],
+  "old_public_and_helper_theorem_statements": {
+    "count": 104,
+    "all_unchanged": true,
+    "review": "softmax-legacy-statement-review.json"
+  },
+  "public_specification_count": 2,
+  "fixed_witness_public_theorem_count": 2,
+  "model": "backend_value_contract; concrete binary32 scalar add/sub/mul/div/maxnum, independent exact reduction plans, explicit exp32 callback. Not closed bit-interpreter/native semantics for the full parameterized task.",
+  "accepted_scope": "Entire original per-program online loop, all metadata and signed BLoc/V gather, all dimensions, original strides and sentinel, final divide and all stores. Original positive/divisible sequence <= max_input_len included; new theorem additionally executes empty/tail cases. No supplied-state/stage reduction.",
+  "new_conditions": "Only original positive BLOCK_N and output-address injectivity. No nonNaN/finite/positive-denominator/output premise. Whole memory effect theorem needs no write injectivity.",
+  "source_binding": [
+    "Full erasure correspondence to old source proves unchanged control/address statements. Actual physical cells are fp32; explicit same-format load/store annotations preserve all bits by storage_register_identity.",
+    "Actual parser maximumFloat at fp32, reduction-first operand order; old mathematical maximum helpers adapted via private WithBot bridge, not FP comparison/select identity."
+  ],
+  "numerical_result": "Pure foldRange of wordUpdate from initial typed memory, including masked -infinity, signed sentinel V loads and all fp32 rounds; independent of remaining arbitrary backend fields by output_software.",
+  "native_obligations": [
+    "Reachable exp32 arguments from oldMax-newMax and logit-newMax need actual compiled exp binding, including special values/FTZ.",
+    "Sum/max ReductionPlan shape/lane order/padding must match actual lowering; no reassociation law assumed.",
+    "FP32 rounding/FTZ and max-number NaN payload/signed-zero policy need native binding.",
+    "Source graph is unfused; compiler FMA contraction is not silently equated with separate mul/add. FP.div is not assumed equal to a native approximate division lowering.",
+    "Inherited metadata/address Nat/Int abstraction and signed multiply then toNat, including negative sentinel clamp, are preserved; native bounds/overflow/underflow and host production remain unproved.",
+    "Existing source test fp32 profile is the concrete profile; other native storage formats are not claimed."
+  ],
+  "witnesses": [
+    {
+      "scope": "original accepted S=4 BN=2 D=2",
+      "output_bits": [
+        "0x40900000",
+        "0x40b00000"
+      ],
+      "values": [
+        4.5,
+        5.5
+      ],
+      "note": "Two complete iterations, nonzero pid, gathered values, full readback/frame; positive/divisible/maxLength launch proven."
+    },
+    {
+      "scope": "additional S=3 BN=2 D=2 tail",
+      "output_bits": [
+        "0x40800000",
+        "0x40a00000"
+      ],
+      "values": [
+        4,
+        5
+      ],
+      "note": "Masked final logit and signed sentinel unmasked V read. Fixed exp table only covers reached zero/negative-infinity arguments."
+    }
+  ],
+  "native_source": {
+    "file": "bench/tritonbench_g/softmax_reducev/softmax_reducev.py",
+    "sha256": "a0bd951924ee2fdfc6380f00a8e5c30d60094c8480493c967c53732f94552f7f",
+    "kernel_lines": [
+      7,
+      56
+    ],
+    "fp32_test_lines": [
+      96,
+      98
+    ]
+  },
+  "axiom_checks": 60,
+  "final_public_audit": {
+    "file": "SoftmaxValueAudit.lean",
+    "log": "logs/SoftmaxValueAudit.log",
+    "source_sha256": "dd6967209850504f4265843ded1d44aa66d794b130f1d8848c3af004e6941586",
+    "log_sha256": "846d716a786334fe86d882c3dda47bb64796c993fe1521668a4910c646bb9c6e",
+    "checks": 8,
+    "exit_code": 0
+  },
+  "validation": "All final task modules direct Lean PASS after frozen maximum core; 8 explicit final public/source/model audits use only standard axioms. Ordinary kernel evaluation for bit witnesses. No GPU test, no native_decide, no admitted numeric rule."
+}

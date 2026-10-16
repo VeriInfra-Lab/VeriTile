@@ -1,0 +1,23 @@
+{
+  "reviewer": "root",
+  "status": "artifact_and_scope_review_pass_pending_integration",
+  "receipt_sha256": "f5e700c1ced40b0e00bdb64144bf442d5bd8d0e8b5043dca1f76a48e8e4e0aa2",
+  "reviewed_source_count": 172,
+  "checked_object_hashes": 169,
+  "compile_records_verified": 14,
+  "source_drift_count": 0,
+  "reference_audit_receipt": "../fp4-scaled-reference-audit.json",
+  "reference_audit_sha256": "78ac053a8d8eb3d2cae7b602c0e1320ca8a1c27274e90f564774e6f8b9f7527e",
+  "findings": [
+    "Complete47-statement candidate kernel has full final memory, active output and frame theorems for arbitrary count/groups/pid. Only active packed uint8 cell typing is required; no count%16, finite/nonNaN, scale-range or output equality premise.",
+    "Original Python fails5/5 offline profiles at pow(fp32,int16). The sole exponent.to(int32) candidate compiles5/5 profiles. Neither is a GPU value result.",
+    "All256 e8m0 scales are kernel-checked; explicit bf16 rounding and multiplication follow all16 e2m1 decodes. Software power is exact rational2^n rounded fp32; equivalence to native powif remains unproved.",
+    "Original floor-scale mask uses undef for a partial final group. A complete-source count17 witness yields active output32 bf16 one versus two for two native-valid undef bytes. This is a source discrepancy, not an added assumption. Main theorem retains tails; undef independence for complete groups is a separate corollary.",
+    "Five reference audits exclude complete source and execution. No region distinctness is added; memory alias/frame is logical cell semantics and needs byte-address/native composition binding.",
+    "This immutable receipt uses old frozen frontend plus exactly one documented statement32 int16 AST materialization. All other46 statements are kernel-checked unchanged. A newer int16 frontend package exists separately and is not silently used for this receipt.",
+    "Native powif, bitcast/cast/mul/specials/FTZ, physical storage/addresses/allocation and launch remain explicit obligations."
+  ],
+  "native_execution": false,
+  "canonical_acceptance_updated": false,
+  "native_artifacts_verified": 34
+}
