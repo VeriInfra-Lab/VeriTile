@@ -272,7 +272,7 @@ Run from the repository root:
 python3 -B bench/deferred_numerical_experiments.py --check
 ```
 
-The [JSON queue](deferred_numerical_experiments.json) contains all task scopes, declaration references, binding relations, existing job recipes, corner cases, report records and source hashes. The [Retention supplement](parallel_retention_attention/NUMERICAL_ASSUMPTIONS.json) gives per-obligation captures.
+The [compressed JSON queue](deferred_numerical_experiments.json.gz) contains all task scopes, declaration references, binding relations, existing job recipes, corner cases, report records and source hashes. The [Retention supplement](parallel_retention_attention/NUMERICAL_ASSUMPTIONS.json) gives per-obligation captures.
 
 Keep failed and not-run cases. A source/compiled graph mismatch requires a corrected graph or an explicit scoped relation before numerical comparison; do not silently reassociate arithmetic, replace undefined padding with zero, or substitute dotAcc for dot-from-zero plus add.
 

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-revision1-wip/audit_revision.py", line 41, in <module>
+    assert test_class(P / 'test_integration.py', 'IntegrationStorageTests') == test_class(W / 'test_integration.py', 'IntegrationStorageTests')
+                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-revision1-wip/audit_revision.py", line 40, in test_class
+    return ast.dump(next(node for node in ast.parse(path.read_text()).body if isinstance(node, ast.ClassDef) and node.name == name), include_attributes=False)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/ast.py", line 52, in parse
+    return compile(source, filename, mode, flags,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<unknown>", line 40
+    raw=b'policy @MIGRATION_CHECKPOINT@/before/bench/source.md'
+    ^^^
+IndentationError: expected an indented block after function definition on line 39

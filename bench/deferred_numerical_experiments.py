@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import gzip
 from collections import Counter
 import hashlib
 import json
@@ -221,7 +222,7 @@ def markdown(data):
     lines += ["", "## Reproduction and batch handoff", "",
               "Run from the repository root:", "", "```sh",
               "python3 -B bench/deferred_numerical_experiments.py --check", "```", "",
-              "The [JSON queue](deferred_numerical_experiments.json) contains all task scopes, "
+              "The [compressed JSON queue](deferred_numerical_experiments.json.gz) contains all task scopes, "
               "declaration references, binding relations, existing job recipes, corner cases, "
               "report records and source hashes. The [Retention supplement]"
               "(parallel_retention_attention/NUMERICAL_ASSUMPTIONS.json) gives per-obligation captures.", "",
@@ -243,21 +244,37 @@ def markdown(data):
     return "\n".join(lines)
 
 
+def write_outputs(root: Path, data, *, check: bool):
+    """Keep a single active queue; verify its exact decompressed JSON text."""
+    from adapter_common import write_json
+    legacy = root / (OUTPUT + ".json")
+    if legacy.exists() or legacy.is_symlink():
+        raise ValueError("Competing plain numerical queue; archive it before migration: " + str(legacy))
+    queue = root / (OUTPUT + ".json.gz")
+    expected = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+    document = root / (OUTPUT + ".md")
+    rendered = markdown(data)
+    if check:
+        if not queue.is_file():
+            raise ValueError("Missing compressed numerical queue: " + str(queue))
+        # Read to EOF so gzip CRC/length failures cannot pass --check.
+        with gzip.open(queue, "rt", encoding="utf-8") as stream:
+            if stream.read() != expected:
+                raise ValueError("Stale deferred experiment queue: " + str(queue))
+        if not document.is_file() or document.read_text() != rendered:
+            raise ValueError("Stale deferred experiment handoff: " + str(document))
+    else:
+        write_json(queue, data)
+        document.write_text(rendered)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     data = collect(args.root)
-    outputs = {OUTPUT + ".json": json.dumps(data, indent=2, ensure_ascii=False) + "\n",
-               OUTPUT + ".md": markdown(data)}
-    for name, content in outputs.items():
-        path = args.root / name
-        if args.check:
-            if not path.is_file() or path.read_text() != content:
-                raise SystemExit("Stale deferred experiment queue: " + name)
-        else:
-            path.write_text(content)
+    write_outputs(args.root, data, check=args.check)
     print(json.dumps(data["summary"], sort_keys=True))
 
 

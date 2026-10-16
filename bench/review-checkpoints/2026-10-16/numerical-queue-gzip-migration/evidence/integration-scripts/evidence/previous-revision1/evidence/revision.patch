@@ -1,0 +1,422 @@
+--- previous/integration.py
++++ revision1/integration.py
+@@ -68,12 +68,24 @@
+  with log.open('w') as f:r=subprocess.run(argv,cwd=cwd,env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1'),stdout=f,stderr=subprocess.STDOUT)
+  row={'command':list(map(str,argv)),'exit_code':r.returncode,'seconds':round(time.monotonic()-start,3),'log':log.name,'log_sha256':file_hash(log)};write(run/(name+'.command.json'),row);return row
+ def checkpoint(plan):return relative(Path(plan['repo']),plan['checkpoint'])
+-def verify_candidate(expected):
+- p=HERE/'receipt.json';require(p.is_file() and file_hash(p)==expected,'integration script receipt mismatch');receipt=load(p)
+- for rel,h in receipt['artifacts'].items():require(file_hash(relative(HERE,rel))==h,'integration candidate changed: '+rel)
++def external_run(repo,path):
++ run=Path(path).resolve();require(not run.is_relative_to(Path(repo).resolve()),'run output must be outside the repository and its checkpoint');return run
++def verify_script_package(root,expected):
++ root=Path(root);p=root/'receipt.json';require(p.is_file() and file_hash(p)==expected,'integration script receipt mismatch');receipt=load(p)
++ require(isinstance(receipt.get('artifacts'),dict) and bool(receipt['artifacts']) and 'receipt.json' not in receipt['artifacts'],'invalid integration script artifact closure')
++ for rel,h in receipt['artifacts'].items():require(file_hash(relative(root,rel))==h,'integration candidate changed: '+rel)
+  return receipt
++def verify_candidate(expected):return verify_script_package(HERE,expected)
++def copy_script_package(target,expected):
++ receipt=verify_candidate(expected);target=Path(target);require(not target.exists(),'integration script archive already exists');target.mkdir(parents=True)
++ pins={'receipt.json':expected,**receipt['artifacts']}
++ for rel,h in pins.items():
++  source=relative(HERE,rel);dest=relative(target,rel);dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source,dest)
++  require(file_hash(dest)==h and file_hash(source)==h,'integration script copy changed: '+rel)
++ verify_script_package(target,expected)
++ return {'path':'evidence/integration-scripts','receipt_sha256':expected,'artifact_count':len(receipt['artifacts']),'copied_files':len(pins),'copied_bytes':sum(relative(target,rel).stat().st_size for rel in pins)}
+ def read_plan(args):
+- require(file_hash(args.plan)==args.plan_sha256,'plan hash mismatch');plan=load(args.plan);verify_candidate(plan['scripts_receipt_sha256']);repo=Path(plan['repo']);commit_check(repo,plan['expected_base_commit'])
++ require(file_hash(args.plan)==args.plan_sha256,'plan hash mismatch');plan=load(args.plan);repo=Path(plan['repo']);external_run(repo,plan['run_directory']);verify_candidate(plan['scripts_receipt_sha256']);commit_check(repo,plan['expected_base_commit'])
+  require(args.expected_base_commit==plan['expected_base_commit'],'stage base commit differs from reviewed plan')
+  allowed=set(plan['mutation_paths']);unexpected={p for p in changed_paths(repo) if p not in allowed and not p.startswith(plan['checkpoint']+'/')}
+  require(not unexpected,'unrelated worktree mutation after planning: '+str(sorted(unexpected)))
+@@ -86,7 +98,7 @@
+ def render_doc(rel,data,cp):
+  return data.replace(b'@MIGRATION_CHECKPOINT@',cp.removeprefix('bench/').encode()) if rel.endswith('.md') else data
+ def plan_stage(args):
+- repo=args.repo.resolve();commit_check(repo,args.expected_base_commit,clean=True);verify_candidate(args.scripts_receipt_sha256)
++ repo=args.repo.resolve();run=external_run(repo,args.output);commit_check(repo,args.expected_base_commit,clean=True);verify_candidate(args.scripts_receipt_sha256)
+  cp=args.checkpoint;relative(repo,cp);require(cp.startswith('bench/review-checkpoints/') and not (repo/cp).exists(),'checkpoint must be a fresh review-checkpoint directory')
+  source=load(HERE/'evidence/source-plan.json');changes=source['changes'];plain=repo/PLAIN;require(plain.is_file() and not (repo/COMPRESSED).exists() and not (repo/COMPRESSED).is_symlink(),'expected exactly one plain pre-migration queue')
+  for rel,row in changes.items():
+@@ -96,7 +108,7 @@
+  catalog=relative(repo,args.catalog);ledger=load(repo/LEDGER);require(ledger['deferred_queue']=={'path':PLAIN,'sha256':file_hash(plain)},'legacy queue reference is not exact')
+  require(ledger['catalog_sha256']==digest(canonical(load(catalog))),'catalog/ledger mismatch')
+  require(len(ledger['tasks'])==183,'wrong legacy task population')
+- run=args.output.resolve();require(not run.exists(),'plan output must be fresh');run.mkdir(parents=True)
++ require(not run.exists(),'plan output must be fresh');run.mkdir(parents=True)
+  # Real before/after comparisons must be captured against this explicit committed base.
+  q=command(run,'baseline-queue-check',[sys.executable,'-B',str(repo/'bench/deferred_numerical_experiments.py'),'--check'],repo);require(q['exit_code']==0,'base queue does not reproduce')
+  scope=command(run,'baseline-scope-check',[sys.executable,'-B',str(repo/'bench/check_original_program_scope.py'),'--root',str(repo),'--catalog',str(catalog),'--ledger',str(repo/LEDGER),'--output',str(run/'baseline-scope.json')],repo)
+@@ -118,13 +130,13 @@
+   target=repo/rel;require((file_hash(target) if target.exists() else None)==row['before'],'preimage changed '+rel)
+   if target.exists():dest=cp/'before'/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(target,dest)
+  before=cp/'before/scope-ledger.json.gz';shutil.copyfile(repo/LEDGER,before);require(file_hash(before)==p['ledger_before_sha256'],'ledger archive changed')
+- write(cp/'plan.json',p);shutil.copyfile(HERE/'receipt.json',cp/'integration-scripts-receipt.json')
++ write(cp/'plan.json',p);scripts=copy_script_package(cp/'evidence/integration-scripts',p['scripts_receipt_sha256'])
+  for rel,row in p['replacements'].items():
+   data=render_doc(rel,(HERE/row['candidate_source']).read_bytes(),p['checkpoint']);require(digest(data)==row['after'],'candidate render changed');atomic_bytes(repo/rel,data)
+  require(file_hash(repo/PLAIN)==archived['decompressed_sha256'] and decompressed_hash(cp/'before/active-queue.plain-json.gz')==p['old_queue']['sha256'],'archive verification failed before deactivation')
+- (repo/PLAIN).unlink();stage_record(p,'install',{'status':'passed','archive':archived,'source_changes':p['replacements'],'active_plain_removed_after_archive_verification':True,'acceptance_increment':0});print('Installed source candidates and archived/deactivated plain queue. Generation is the next required stage.')
++ (repo/PLAIN).unlink();stage_record(p,'install',{'status':'passed','archive':archived,'source_changes':p['replacements'],'integration_scripts':scripts,'active_plain_removed_after_archive_verification':True,'acceptance_increment':0});print('Installed source candidates and archived/deactivated plain queue. Generation is the next required stage.')
+ def verify_installed(p):
+- repo=Path(p['repo']);stage_input(p,'install');require(not (repo/PLAIN).exists() and not (repo/PLAIN).is_symlink(),'competing plain queue')
++ repo=Path(p['repo']);stage_input(p,'install');verify_script_package(checkpoint(p)/'evidence/integration-scripts',p['scripts_receipt_sha256']);require(not (repo/PLAIN).exists() and not (repo/PLAIN).is_symlink(),'competing plain queue')
+  for rel,row in p['replacements'].items():require(file_hash(repo/rel)==row['after'],'installed source changed '+rel)
+ def generate_stage(args):
+  p=read_plan(args);verify_installed(p);repo=Path(p['repo']);run=Path(p['run_directory']);r=command(run,'generate-current-authority',[sys.executable,'-B',str(repo/'bench/deferred_numerical_experiments.py'),'--root',str(repo)],repo);require(r['exit_code']==0,'queue regeneration failed; preserved log and original compressed archive')
+@@ -191,7 +203,7 @@
+  for rel in changed_paths(repo):
+   file=repo/rel
+   if file.is_file():require(file.stat().st_size<100*1024*1024,'new/changed Git file >=100 MiB: '+rel)
+- data={'status':'passed','migration_storage_and_reference_checks':'passed','queue_bytes_and_all_legacy_rows_preserved':True,'legacy_scope_result_unchanged':True,'legacy_scope_status':load(run/'post-scope.json')['status'],'CI_deferred_numerics_gate_preserved':True,'coherent_snapshot':s,'full_global_build_comparator_gates':'not_run_by_storage_script; execute existing CI/global commands separately','primary_gate_installed':False,'acceptance_increment':0};stage_record(p,'check',data)
++ data={'status':'passed','migration_storage_and_reference_checks':'passed','queue_bytes_and_all_legacy_rows_preserved':True,'legacy_scope_result_unchanged':True,'legacy_scope_status':load(run/'post-scope.json')['status'],'CI_deferred_numerics_gate_preserved':True,'coherent_snapshot':s,'full_global_build_comparator_gates':'not_run_by_storage_script; report separately if actually run','primary_gate_installed':False,'acceptance_increment':0};stage_record(p,'check',data)
+  # Preserve exact commands/results; the checkpoint and run directories remain reviewable.
+  for file in run.iterdir():
+   if file.is_file():dest=checkpoint(p)/'validation'/file.name;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(file,dest)
+--- previous/test_integration.py
++++ revision1/test_integration.py
+@@ -1,5 +1,8 @@
+ from pathlib import Path
+ from unittest.mock import patch
++from types import SimpleNamespace
++from contextlib import redirect_stdout
++from io import StringIO
+ import gzip,json,tempfile,unittest,sys
+ sys.path.insert(0,str(Path(__file__).resolve().parent))
+ import integration as m
+@@ -36,4 +39,74 @@
+  def test_doc_checkpoint_render_is_explicit(self):
+   raw=b'policy @MIGRATION_CHECKPOINT@/before/bench/source.md'
+   self.assertEqual(m.render_doc('bench/source.md',raw,'bench/review-checkpoints/new'),b'policy review-checkpoints/new/before/bench/source.md')
++
++class IntegrationRevisionTests(unittest.TestCase):
++ def package(self,root):
++  files={'integration.py':b'# frozen script\n','after/bench/consumer.py':b'QUEUE = "compressed"\n','evidence/nested/result.json':b'{"result":"preserved"}\n'}
++  for name,data in files.items():
++   p=root/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data)
++  receipt={'schema':1,'frozen':True,'artifacts':{name:m.digest(data) for name,data in files.items()}};m.write(root/'receipt.json',receipt)
++  return m.file_hash(root/'receipt.json'),receipt
++ def test_run_directory_rejects_repo_checkpoint_and_accepts_external_without_writes(self):
++  with tempfile.TemporaryDirectory() as temp:
++   root=Path(temp);repo=root/'repo';repo.mkdir()
++   for output in [repo,repo/'run',repo/'bench/review-checkpoints/new/run']:
++    with self.subTest(output=output),self.assertRaisesRegex(ValueError,'outside'):m.external_run(repo,output)
++   out=root/'external'/'fresh';self.assertEqual(m.external_run(repo,out),out);self.assertFalse(out.exists())
++ def test_run_directory_rejects_symlink_into_repo(self):
++  with tempfile.TemporaryDirectory() as temp:
++   root=Path(temp);repo=root/'repo';repo.mkdir();alias=root/'external-alias';alias.symlink_to(repo,target_is_directory=True)
++   with self.assertRaisesRegex(ValueError,'outside'):m.external_run(repo,alias/'new-output')
++ def test_plan_rejects_internal_output_before_git_or_commands(self):
++  with tempfile.TemporaryDirectory() as temp:
++   repo=Path(temp)/'repo';repo.mkdir();out=repo/'bench/review-checkpoints/new/run';args=SimpleNamespace(repo=repo,output=out)
++   with patch.object(m,'commit_check') as commit,patch.object(m,'command') as command,self.assertRaisesRegex(ValueError,'outside'):m.plan_stage(args)
++   commit.assert_not_called();command.assert_not_called();self.assertFalse(out.exists())
++ def test_read_plan_rejects_internal_run_before_candidate_or_git(self):
++  with tempfile.TemporaryDirectory() as temp:
++   root=Path(temp);repo=root/'repo';repo.mkdir();plan=root/'plan.json';m.write(plan,{'repo':str(repo),'run_directory':str(repo/'run')})
++   args=SimpleNamespace(plan=plan,plan_sha256=m.file_hash(plan))
++   with patch.object(m,'verify_candidate') as candidate,patch.object(m,'commit_check') as commit,self.assertRaisesRegex(ValueError,'outside'):m.read_plan(args)
++   candidate.assert_not_called();commit.assert_not_called()
++ def test_script_archive_copies_and_reverifies_complete_relative_closure(self):
++  with tempfile.TemporaryDirectory() as temp:
++   root=Path(temp);source=root/'source';expected,receipt=self.package(source);target=root/'checkpoint/evidence/integration-scripts'
++   with patch.object(m,'HERE',source):result=m.copy_script_package(target,expected)
++   self.assertEqual(result['artifact_count'],len(receipt['artifacts']));self.assertEqual(result['copied_files'],len(receipt['artifacts'])+1)
++   self.assertEqual(m.verify_script_package(target,expected),receipt)
++   actual={p.relative_to(target).as_posix() for p in target.rglob('*') if p.is_file()}
++   self.assertEqual(actual,{'receipt.json',*receipt['artifacts']})
++   for name in actual:self.assertEqual((target/name).read_bytes(),(source/name).read_bytes())
++   with patch.object(m,'HERE',source),self.assertRaisesRegex(ValueError,'already exists'):m.copy_script_package(target,expected)
++ def test_script_archive_rejects_corrupt_source_and_escaping_artifact(self):
++  with tempfile.TemporaryDirectory() as temp:
++   root=Path(temp);source=root/'source';expected,receipt=self.package(source);target=root/'checkpoint/evidence/integration-scripts'
++   (source/'integration.py').write_bytes(b'changed')
++   with patch.object(m,'HERE',source),self.assertRaisesRegex(ValueError,'changed'):m.copy_script_package(target,expected)
++   self.assertFalse(target.exists())
++   (source/'integration.py').write_bytes(b'# frozen script\n');receipt['artifacts']['../outside']=m.digest(b'outside');m.write(source/'receipt.json',receipt)
++   with patch.object(m,'HERE',source),self.assertRaisesRegex(ValueError,'unsafe'):m.copy_script_package(target,m.file_hash(source/'receipt.json'))
++   self.assertFalse(target.exists())
++ def test_script_archive_rejects_missing_or_tampered_artifacts(self):
++  with tempfile.TemporaryDirectory() as temp:
++   root=Path(temp);source=root/'source';expected,receipt=self.package(source);target=root/'archive'
++   with patch.object(m,'HERE',source):m.copy_script_package(target,expected)
++   victim=target/'evidence/nested/result.json';original=victim.read_bytes();victim.write_bytes(b'tampered')
++   with self.assertRaisesRegex(ValueError,'changed'):m.verify_script_package(target,expected)
++   victim.unlink()
++   with self.assertRaises(FileNotFoundError):m.verify_script_package(target,expected)
++   victim.write_bytes(original);self.assertEqual(m.verify_script_package(target,expected),receipt)
++ def test_install_archives_complete_script_closure_before_deactivating_queue(self):
++  with tempfile.TemporaryDirectory() as temp:
++   root=Path(temp);source=root/'source';expected,receipt=self.package(source);repo=root/'repo';run=root/'run';run.mkdir()
++   plain=repo/m.PLAIN;plain.parent.mkdir(parents=True);plain.write_bytes(b'{"old_queue":true}\n')
++   ledger=repo/m.LEDGER;ledger.write_bytes(gzip.compress(b'{"tasks":[]}\n',mtime=0))
++   installed=repo/'bench/consumer.py';installed.write_bytes(b'old source\n');candidate=source/'after/bench/consumer.py'
++   p={'repo':str(repo),'expected_base_commit':'a'*40,'checkpoint':'bench/review-checkpoints/fresh','run_directory':str(run),'old_queue':{'sha256':m.file_hash(plain)},'ledger_before_sha256':m.file_hash(ledger),'scripts_receipt_sha256':expected,'replacements':{'bench/consumer.py':{'before':m.file_hash(installed),'after':m.file_hash(candidate),'candidate_source':'after/bench/consumer.py'}}}
++   with patch.object(m,'HERE',source),patch.object(m,'read_plan',return_value=p),patch.object(m,'commit_check'),redirect_stdout(StringIO()):m.install_stage(SimpleNamespace())
++   archive=m.checkpoint(p)/'evidence/integration-scripts';self.assertEqual(m.verify_script_package(archive,expected),receipt)
++   record=m.load(run/'install.json');self.assertEqual(record['integration_scripts']['artifact_count'],len(receipt['artifacts']));self.assertTrue(record['active_plain_removed_after_archive_verification'])
++   self.assertFalse(plain.exists());self.assertEqual(installed.read_bytes(),candidate.read_bytes());m.verify_installed(p)
++   (archive/'integration.py').write_bytes(b'changed')
++   with self.assertRaisesRegex(ValueError,'changed'):m.verify_installed(p)
+ if __name__=='__main__':unittest.main()
+--- previous/PLAN.md
++++ revision1/PLAN.md
+@@ -1,9 +1,9 @@
+ # Exact installation plan
+ 
+-Root first completes the current four-task commit and independently reviews this package's delta. Then root supplies the full resulting commit SHA as `MIGRATION_BASE_COMMIT` and this package's frozen receipt SHA as `MIGRATION_SCRIPTS_SHA`. These values are intentionally not inferred or filled in here. `MIGRATION_RUN` must name a fresh directory outside the repository. The checkpoint below must also be absent.
++Root first completes the current four-task commit and independently reviews this package's delta. Then root supplies the full resulting commit SHA as `MIGRATION_BASE_COMMIT` and this package's frozen receipt SHA as `MIGRATION_SCRIPTS_SHA`. These values are intentionally not inferred or filled in here. `MIGRATION_RUN` must name a fresh directory outside the repository. The code checks its resolved path before any Git check, subprocess or output creation, including aliases through symlinks. Later stages recheck the saved run path; the checkpoint is inside the repository and is also excluded. The checkpoint below must also be absent.
+ 
+ ```sh
+-python3 -B /tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-wip/integration.py plan \
++python3 -B /tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-revision1-wip/integration.py plan \
+   --repo /mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile \
+   --expected-base-commit "$MIGRATION_BASE_COMMIT" \
+   --scripts-receipt-sha256 "$MIGRATION_SCRIPTS_SHA" \
+@@ -15,24 +15,27 @@
+ The read-only plan stage verifies a clean committed base, all candidate preimages and consumer pins, exact catalog/ledger/queue correspondence, current queue `--check`, and the baseline original-scope report. It rejects any previously accepted legacy row that no longer validates. It writes a concrete `plan.json` with rendered document hashes and prints its hash. Root reviews that exact plan and supplies `MIGRATION_PLAN_SHA` before running the following commands sequentially:
+ 
+ ```sh
+-python3 -B /tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-wip/integration.py install --plan "$MIGRATION_RUN/plan.json" --plan-sha256 "$MIGRATION_PLAN_SHA" --expected-base-commit "$MIGRATION_BASE_COMMIT"
+-python3 -B /tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-wip/integration.py generate --plan "$MIGRATION_RUN/plan.json" --plan-sha256 "$MIGRATION_PLAN_SHA" --expected-base-commit "$MIGRATION_BASE_COMMIT"
+-python3 -B /tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-wip/integration.py rebind --plan "$MIGRATION_RUN/plan.json" --plan-sha256 "$MIGRATION_PLAN_SHA" --expected-base-commit "$MIGRATION_BASE_COMMIT"
+-python3 -B /tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-wip/integration.py snapshot --plan "$MIGRATION_RUN/plan.json" --plan-sha256 "$MIGRATION_PLAN_SHA" --expected-base-commit "$MIGRATION_BASE_COMMIT"
+-python3 -B /tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-wip/integration.py check --plan "$MIGRATION_RUN/plan.json" --plan-sha256 "$MIGRATION_PLAN_SHA" --expected-base-commit "$MIGRATION_BASE_COMMIT"
++python3 -B /tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-revision1-wip/integration.py install --plan "$MIGRATION_RUN/plan.json" --plan-sha256 "$MIGRATION_PLAN_SHA" --expected-base-commit "$MIGRATION_BASE_COMMIT"
++python3 -B /tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-revision1-wip/integration.py generate --plan "$MIGRATION_RUN/plan.json" --plan-sha256 "$MIGRATION_PLAN_SHA" --expected-base-commit "$MIGRATION_BASE_COMMIT"
++python3 -B /tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-revision1-wip/integration.py rebind --plan "$MIGRATION_RUN/plan.json" --plan-sha256 "$MIGRATION_PLAN_SHA" --expected-base-commit "$MIGRATION_BASE_COMMIT"
++python3 -B /tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-revision1-wip/integration.py snapshot --plan "$MIGRATION_RUN/plan.json" --plan-sha256 "$MIGRATION_PLAN_SHA" --expected-base-commit "$MIGRATION_BASE_COMMIT"
++python3 -B /tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-revision1-wip/integration.py check --plan "$MIGRATION_RUN/plan.json" --plan-sha256 "$MIGRATION_PLAN_SHA" --expected-base-commit "$MIGRATION_BASE_COMMIT"
+ ```
+ 
+ Stages reject unrelated worktree changes. Each subprocess writes a distinct command record and log. A failed stage stops; inspect and preserve that attempt before preparing a repair. The scripts do not overwrite an existing archive or an existing command log, do not stage/commit, and do not automatically roll back over new work. The original queue survives in the real base Git blob and in a verified compressed archive. An interrupted installation can be repaired from those exact preimages, without discarding failure evidence.
+ 
+ Expected Git changes are the two Python consumers, two storage tests, two active progress documents, removal of the active plain queue, addition of its gzip replacement, regenerated queue Markdown, two queue-reference fields in the existing compressed legacy ledger, and a fresh migration checkpoint. No catalog, policy, source proof, source variant, task row, task review, numerical authority, primary checker or primary completion field changes.
+ 
+-Run the existing CI/global commands against the same current catalog and ledger after the storage checks. In particular retain `bench/deferred_numerical_experiments.py --check`, `bench/check_original_program_scope.py`, catalog reproduction, the full `bench/tests` suite, and the current global runner. Its baseline scope completeness result remains pending/failing for 175 legacy tasks. Build/comparator outcomes must be reported as actually run or not run; no prior result is rebound by this migration. Freeze the actual logs and inspect the Git diff before a separate root commit decision.
++The required storage validation is the 14 focused producer/scope tests, current queue `--check`, exact equality of the before/after scope reports, unchanged queue bytes and ledger rows, snapshot pins, and file-size checks. No Lean proof or acceptance predicate changes, so this migration does not add a requirement to repeat all eight Lean targets, the full `bench/tests` suite or the global runner. Existing CI configuration remains unchanged. If root separately runs broader CI/build/comparator checks, record their actual commands and outcomes; never claim a previous result as a fresh execution. The baseline scope completeness result still has 175 legacy tasks pending. Freeze the actual logs and inspect the Git diff before a separate root commit decision.
++
++Baseline queue and scope checks remain fresh executions against the explicit clean committed base. This revision does not offer a cached-validation bypass: proving the previous successful run and its complete checked-input closure belongs to the exact current base would require an additional reviewed interface.
+ 
+ The final migration checkpoint contains:
+ 
+ - `before/active-queue.plain-json.gz`, with the original uncompressed SHA and size in the stage receipt.
+ - `before/scope-ledger.json.gz` and both old active documents under `before/bench/`.
+-- `plan.json`, the integration-scripts receipt, and exact subprocess records under `validation/`.
++- `plan.json` and exact subprocess records under `validation/`.
++- `evidence/integration-scripts/receipt.json` plus every artifact listed in that frozen receipt, copied at its original relative path and individually hash-verified. This includes the small preserved prior candidate, its historical failure evidence and its receipt closure. Later stages reverify the copied closure; the committed checkpoint does not need the original `/tmp` script package to resolve these receipt pins.
+ - `snapshot/{catalog,legacy,queue}.json.gz` and a compressed manifest containing real base/overlay origins, exact helper/source/authority pins, unchanged legacy row hash, policy and eight-task map references.
+ 
+ The snapshot is future-sidecar input only. The fixed-baseline prototype needs a separate source/API delta review before consuming it. Existing frozen prototype and review receipts must remain unchanged. No version completion number is synthesized from legacy counts or current proof inventory.
+--- previous/README.md
++++ revision1/README.md
+@@ -1,21 +1,23 @@
+-# Queue gzip integration scripts — review candidate
++# Queue gzip integration scripts — revision 1 review candidate
++
++This revision preserves the original frozen script candidate (receipt `18f8b40a7718ef958edad7ef67dad8bbe919732ec1572c9a600e8cf4a7ed29d4`) and all its artifacts under `evidence/previous-candidate/`. Its six proposed consumer/test/document files are byte-identical to that reviewed candidate. The revision adds complete script-evidence copying into the checkpoint and rejects a plan output inside the repository before writing anything.
+ 
+ This package prepares the storage migration. It has not installed anything, supplied a live base commit, regenerated the active queue, rebound the live ledger, or changed a primary-version gate. Finish and commit the current four-task batch first. The six proposed source/document changes require an independent delta review before installation.
+ 
+ The reviewed storage producer is `/tmp/veritile-standardization-20261015/queue-gzip-migration-wip`, receipt `2b5c5d20c5113565e82f28422c6300a4debd5705b798f196cac70fd7b2e578ba`. Its independent review receipt is `f7c52e0e79159a613dbb7ef6249ca118ccee454de99b14438e0a96a43593f855`. Both packages remain unchanged. This package adds a standalone scope-checker single-active-path guard and reviewable integration stages.
+ 
+-`integration.py` has six commands: `plan`, `install`, `generate`, `rebind`, `snapshot`, and `check`. `plan` requires a caller-supplied full `--expected-base-commit`, checks that HEAD equals it, and rejects a dirty tree. No historical commit is hardcoded or substituted. Later stages require the exact plan hash and the same explicit base SHA. The plan pins the frozen scripts receipt, current catalog, original source preimages, unchanged consumers, approved primary-version policy, and eight-task evidence map. If the current batch changes those source preimages before committing, preparation fails for a new delta review.
++`integration.py` has six commands: `plan`, `install`, `generate`, `rebind`, `snapshot`, and `check`. `plan` requires a caller-supplied full `--expected-base-commit`, checks that HEAD equals it, and rejects a dirty tree. The resolved output path must be outside the repository and checkpoint, including through symlink aliases; later stages recheck the saved path. No historical commit is hardcoded or substituted. Later stages require the exact plan hash and the same explicit base SHA. The plan pins the frozen scripts receipt, current catalog, original source preimages, unchanged consumers, approved primary-version policy, and eight-task evidence map. If the current batch changes those source preimages before committing, preparation fails for a new delta review.
+ 
+-`install` first creates and verifies a deterministic compressed archive of the original plain queue, and saves both old active progress documents and the old ledger byte-for-byte. Only then does it install the proposed sources and deactivate the plain queue path. `generate` invokes the actual current source-derived authority producer and requires the new gzip to decompress to exactly the original queue bytes. This proves that all rules, tasks, bindings, callbacks and other queue contents are preserved. A storage-only migration cannot absorb unrelated new authority entries.
++`install` first creates and verifies a deterministic compressed archive of the original plain queue, and saves both old active progress documents and the old ledger byte-for-byte. It also copies its frozen receipt and every receipt-listed artifact to `checkpoint/evidence/integration-scripts/` using original relative paths, verifies every destination hash, and later stages reverify that complete closure. Only then does it install the proposed sources and deactivate the plain queue path. `generate` invokes the actual current source-derived authority producer and requires the new gzip to decompress to exactly the original queue bytes. This proves that all rules, tasks, bindings, callbacks and other queue contents are preserved. A storage-only migration cannot absorb unrelated new authority entries.
+ 
+ `rebind` changes exactly `/deferred_queue/path` and `/deferred_queue/sha256`. It performs a byte splice of that JSON block; every byte outside it, including all 183 task rows and review references, is retained. The hash is the hash of the compressed active file, matching the existing artifact-binding convention. The active path becomes `bench/tritonbench_g/deferred_numerical_experiments.json.gz`.
+ 
+ `snapshot` captures current catalog/ledger/queue documents and all required source, authority and helper pins without copying dependency trees. It records the actual pre-migration base commit and marks changed files as a reviewed storage overlay. It does not claim that generated worktree bytes already belong to the base commit; `post_migration_commit` remains null. This is a coherent input snapshot for a later independently reviewed sidecar refresh, not an installation of the fixed-97e11a9 prototype or a new primary acceptance decision.
+ 
+-`check` runs the 14 producer/scope storage regressions, active producer `--check`, and the original scope checker. It requires the full legacy scope report to equal the baseline report, including its existing pending failures. It also checks the active gzip/ledger, every snapshot pin, and changed-file sizes below 100 MiB. The existing full CI/global build/comparator commands remain separate gates; this storage check does not report those as run or turn the legacy 175 pending scopes into success.
++`check` runs the 14 producer/scope storage regressions, active producer `--check`, and the original scope checker. It requires the full legacy scope report to equal the baseline report, including its existing pending failures. It also checks the active gzip/ledger, every snapshot pin, and changed-file sizes below 100 MiB. Existing CI configuration remains unchanged; this storage change does not require rerunning all Lean targets or all bench tests. Broader CI/global build/comparator outcomes are recorded separately if actually executed; this storage check does not report those as run or turn the legacy 175 pending scopes into success.
+ 
+ The active progress document candidates now lead with the approved Real / FP32 / BF16 plus source-required-types goal. They label 8 accepted / 175 pending as **legacy full-source scope counts**, explicitly distinguish those counts from three-version completion, and link the already-reviewed policy and eight-task evidence map in the current four-task checkpoint. Existing wider proofs and numerical registrations are retained. The new documents link their archived pre-migration originals using an explicit checkpoint placeholder rendered by `plan`.
+ 
+-Twenty-two small tests pass: fourteen active producer/scope storage tests and eight integration utility tests. The real current ledger was rebound in memory only, retaining all 183 rows. The current 93,383,777-byte plain queue was checked against the already-reviewed gzip replay without copying it. Source AST checks show unchanged numerical collection and unchanged acceptance predicates; only queue loading/storage plumbing differs. The first AST comparison harness incorrectly compared blank lines after factoring the loader; its failed log and source snapshot are retained, and the corrected check compares ASTs.
++The prior frozen candidate passed 22 tests: fourteen producer/scope storage tests and eight integration utility tests. Revision 1 reruns the 16 integration tests (the original eight plus eight focused evidence-copy/output-path tests). Its fourteen consumer tests and six candidate files are byte-identical, so the earlier consumer result is explicitly inherited rather than claimed as a new execution. The real current ledger was rebound in memory only, retaining all 183 rows. The current 93,383,777-byte plain queue was checked against the already-reviewed gzip replay without copying it. Source AST checks show unchanged numerical collection and unchanged acceptance predicates; only queue loading/storage plumbing differs. The first AST comparison harness incorrectly compared blank lines after factoring the loader; its failed log and source snapshot are retained, and the corrected check compares ASTs.
+ 
+-See `PLAN.md` for concrete staged commands and `CONSUMERS.md` for the consumer audit. No dtype expansion, proof rebuild, GPU work, dependency installation, Git staging or commit occurs in this package. Acceptance increment is zero.
++Fresh baseline producer/scope checks remain unchanged; no cached-validation reuse option was introduced. See `REVISION.md` for the exact delta and its current replay evidence. See `PLAN.md` for concrete staged commands and `CONSUMERS.md` for the consumer audit. No dtype expansion, proof rebuild, GPU work, dependency installation, Git staging or commit occurs in this package. Acceptance increment is zero.
+--- previous/run_checks.py
++++ revision1/run_checks.py
+@@ -1,13 +1,29 @@
++"""Run the revision audit and changed integration suite; retain inherited consumer results."""
+ from pathlib import Path
+-import subprocess,sys,os,json,hashlib,time
+-W=Path(__file__).resolve().parent;E=W/'evidence';R=Path('/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile');stamp=time.time_ns();A=E/'attempts'/str(stamp);A.mkdir(parents=True)
+-sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+-for p in [W/'audit_candidate.py',W/'integration.py',W/'test_integration.py']:(A/(p.name+'.txt')).write_bytes(p.read_bytes())
+-commands=[('candidate-audit',[sys.executable,'-B',str(W/'audit_candidate.py')]),('integration-tests',[sys.executable,'-B','-m','unittest','discover','-s',str(W),'-p','test_integration.py','-v']),('consumer-tests',[sys.executable,'-B','-m','unittest','discover','-s',str(W/'after/bench/tests'),'-p','test_numerical_queue*.py','-v'])]
+-records=[];env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',PYTHONPATH=str(W/'after/bench')+':'+str(R/'bench'))
+-for name,cmd in commands:
+- start=time.monotonic();log=A/(name+'.log')
+- with log.open('w') as f:r=subprocess.run(cmd,cwd=W,env=env,stdout=f,stderr=subprocess.STDOUT)
+- record={'name':name,'command':cmd,'exit_code':r.returncode,'seconds':round(time.monotonic()-start,3),'log':str(log.relative_to(W)),'log_sha256':sha(log)};records.append(record);(A/'records.json').write_text(json.dumps(records,indent=2)+'\n');print(log.read_text())
+- if r.returncode:raise SystemExit(r.returncode)
+-out={'status':'passed','commands':records,'unit_tests':22,'live_migration_run':False,'base_commit_supplied':False,'acceptance_increment':0};(E/'checks.json').write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({'status':'passed','unit_tests':22,'attempt':str(A)}))
++import subprocess, sys, os, json, hashlib, time
++
++sys.dont_write_bytecode = True
++W = Path(__file__).resolve().parent
++A = W / 'evidence/revision-attempts' / str(time.time_ns())
++A.mkdir(parents=True)
++sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
++for name in ['audit_revision.py', 'integration.py', 'test_integration.py']:
++    (A / (name + '.txt')).write_bytes((W / name).read_bytes())
++commands = [
++    ('revision-audit', [sys.executable, '-B', str(W / 'audit_revision.py')]),
++    ('integration-tests', [sys.executable, '-B', '-m', 'unittest', 'discover', '-s', str(W), '-p', 'test_integration.py', '-v']),
++]
++records = []
++for name, cmd in commands:
++    log = A / (name + '.log')
++    start = time.monotonic()
++    with log.open('w') as stream:
++        result = subprocess.run(cmd, cwd=W, env=dict(os.environ, PYTHONDONTWRITEBYTECODE='1'), stdout=stream, stderr=subprocess.STDOUT)
++    records.append({'name': name, 'command': cmd, 'exit_code': result.returncode, 'seconds': round(time.monotonic() - start, 3), 'log': str(log.relative_to(W)), 'log_sha256': sha(log)})
++    (A / 'records.json').write_text(json.dumps(records, indent=2) + '\n')
++    print(log.read_text())
++    if result.returncode:
++        raise SystemExit(result.returncode)
++data = {'status': 'passed', 'commands': records, 'integration_tests_run': 16, 'new_revision_tests': 8, 'consumer_tests_inherited_from_unchanged_candidate': 14, 'consumer_tests_rerun': False, 'live_plan_or_migration_run': False, 'acceptance_increment': 0}
++(W / 'evidence/revision-checks.json').write_text(json.dumps(data, indent=2) + '\n')
++print(json.dumps(data))
+--- previous/freeze.py
++++ revision1/freeze.py
+@@ -1,12 +1,41 @@
+ from pathlib import Path
+-import json,hashlib
+-W=Path(__file__).resolve().parent;R=Path('/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile')
+-sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();load=lambda p:json.loads(Path(p).read_text())
+-source=load(W/'evidence/source-plan.json');audit=load(W/'evidence/candidate-audit.json');checks=load(W/'evidence/checks.json')
+-assert audit['status']==checks['status']=='passed' and checks['unit_tests']==22
+-for rel,row in source['changes'].items():assert sha(W/'after'/rel)==row['after'] and (sha(R/rel) if (R/rel).exists() else None)==row['before']
+-for rel,h in {**source['unchanged_consumers'],**source['policy_inputs']}.items():assert sha(R/rel)==h
+-for row in checks['commands']:assert row['exit_code']==0 and sha(W/row['log'])==row['log_sha256']
+-artifacts={str(p.relative_to(W)):sha(p) for p in sorted(W.rglob('*')) if p.is_file() and p.name!='receipt.json' and '__pycache__' not in p.parts and p.suffix!='.pyc'}
+-r={'schema':1,'frozen':True,'status':'integration_scripts_and_consumer_delta_pending_independent_review','producer':'/root/matrix_transpose_acceptance','storage_candidate_receipt_sha256':source['original_candidate_receipt_sha256'],'storage_independent_review_receipt_sha256':source['independent_receipt_sha256'],'proposed_installed_files':source['changes'],'unchanged_consumers':source['unchanged_consumers'],'policy_inputs':source['policy_inputs'],'expected_base_commit':None,'base_commit_must_be_supplied_after_current_batch_commit':True,'live_plan_executed':False,'migration_performed':False,'repository_source_modified':False,'frozen_packages_modified':False,'primary_gate_installed_or_changed':False,'legacy_task_rows_preserved_by_candidate':183,'legacy_ledger_fields_allowed_to_change':['/deferred_queue/path','/deferred_queue/sha256'],'real_ledger_rebind_test':'in-memory only; all bytes outside the deferred_queue block preserved','unit_tests':22,'retained_failed_harness_attempts':1,'actual_plain_queue_bytes':audit['checks']['live_plain_queue_bytes'],'new_dtype_profiles':0,'dependency_files_copied':0,'acceptance_increment':0,'artifacts':artifacts}
+-p=W/'receipt.json';assert not p.exists();p.write_text(json.dumps(r,indent=2)+'\n');print(json.dumps({'receipt':str(p),'sha256':sha(p),'artifacts':len(artifacts),'installed_candidate_files':len(source['changes']),'tests':22,'live_installation':False}))
++import hashlib
++import json
++
++W = Path(__file__).resolve().parent
++sha = lambda p: hashlib.sha256(Path(p).read_bytes()).hexdigest()
++load = lambda p: json.loads(Path(p).read_text())
++parent_path = W / 'evidence/previous-candidate/receipt.json'
++parent_hash = '18f8b40a7718ef958edad7ef67dad8bbe919732ec1572c9a600e8cf4a7ed29d4'
++assert sha(parent_path) == parent_hash
++parent = load(parent_path)
++for rel, h in parent['artifacts'].items():
++    assert sha(parent_path.parent / rel) == h
++for rel, row in parent['proposed_installed_files'].items():
++    assert sha(W / 'after' / rel) == row['after']
++audit = load(W / 'evidence/revision-audit.json')
++checks = load(W / 'evidence/revision-checks.json')
++assert audit['status'] == checks['status'] == 'passed'
++assert checks['integration_tests_run'] == 16 and checks['new_revision_tests'] == 8
++for row in checks['commands']:
++    assert row['exit_code'] == 0 and sha(W / row['log']) == row['log_sha256']
++artifacts = {str(p.relative_to(W)): sha(p) for p in sorted(W.rglob('*')) if p.is_file() and p != W / 'receipt.json' and '__pycache__' not in p.parts and p.suffix != '.pyc'}
++receipt = {key: value for key, value in parent.items() if key not in ['artifacts', 'unit_tests', 'status']}
++receipt.update(
++    revision=1, status='integration_script_revision_pending_independent_delta_review',
++    previous_scripts_receipt_sha256=parent_hash,
++    exact_previous_package_preserved='evidence/previous-candidate',
++    six_installed_candidates_byte_identical=True,
++    checkpoint_script_receipt_and_all_artifacts_copied_and_reverified=True,
++    run_directory_resolved_outside_repository_and_checkpoint=True,
++    current_integration_tests=16, new_revision_tests=8,
++    retained_failed_revision_audit_attempts=2,
++    inherited_consumer_tests=14, consumer_tests_rerun=False,
++    fresh_baseline_checks_retained=True, baseline_validation_reuse_added=False,
++    broader_Lean_or_global_test_reruns_required_by_this_storage_delta=False,
++    artifacts=artifacts,
++)
++target = W / 'receipt.json'
++assert not target.exists()
++target.write_text(json.dumps(receipt, indent=2) + '\n')
++print(json.dumps({'receipt': str(target), 'sha256': sha(target), 'artifacts': len(artifacts), 'files_bytes': sum(p.stat().st_size for p in W.rglob('*') if p.is_file()), 'current_integration_tests': 16, 'live_installation': False}))
+--- previous/audit_revision.py
++++ revision1/audit_revision.py
+@@ -0,0 +1,62 @@
++"""Check only the independently requested revision; preserve previous replay evidence."""
++from pathlib import Path
++import ast
++import difflib
++import json
++import sys
++
++sys.dont_write_bytecode = True
++W = Path(__file__).resolve().parent
++R = Path('/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile')
++P = W.parent / 'queue-gzip-integration-scripts-wip'
++sys.path.insert(0, str(W))
++import integration as m
++
++parent_hash = '18f8b40a7718ef958edad7ef67dad8bbe919732ec1572c9a600e8cf4a7ed29d4'
++parent = m.verify_script_package(P, parent_hash)
++preserved = m.verify_script_package(W / 'evidence/previous-candidate', parent_hash)
++assert preserved == parent
++for rel, row in parent['proposed_installed_files'].items():
++    assert m.file_hash(W / 'after' / rel) == row['after']
++    assert (m.file_hash(R / rel) if (R / rel).exists() else None) == row['before']
++for rel, h in {**parent['unchanged_consumers'], **parent['policy_inputs']}.items():
++    assert m.file_hash(R / rel) == h
++
++changed_functions = {'verify_candidate', 'read_plan', 'plan_stage', 'install_stage', 'verify_installed', 'check_stage'}
++new_functions = {'external_run', 'verify_script_package', 'copy_script_package'}
++def bodies(path):
++    return {node.name: ast.dump(node, include_attributes=False) for node in ast.parse(path.read_text()).body if isinstance(node, ast.FunctionDef)}
++before = bodies(P / 'integration.py')
++after = bodies(W / 'integration.py')
++assert set(after) - set(before) == new_functions
++assert set(before) - set(after) == set()
++assert {name for name in before if before[name] != after[name]} == changed_functions
++def unchanged_ast(path):
++    tree = ast.parse(path.read_text())
++    tree.body = [node for node in tree.body if not isinstance(node, ast.FunctionDef) or node.name not in changed_functions | new_functions]
++    return ast.dump(tree, include_attributes=False)
++assert unchanged_ast(P / 'integration.py') == unchanged_ast(W / 'integration.py')
++def test_class(path, name):
++    return ast.dump(next(node for node in ast.parse(path.read_text()).body if isinstance(node, ast.ClassDef) and node.name == name), include_attributes=False)
++assert test_class(P / 'test_integration.py', 'IntegrationStorageTests') == test_class(W / 'test_integration.py', 'IntegrationStorageTests')
++
++patch = []
++for name in ['integration.py', 'test_integration.py', 'PLAN.md', 'README.md', 'run_checks.py', 'freeze.py', 'audit_revision.py', 'REVISION.md']:
++    old = (P / name).read_text().splitlines(True) if (P / name).is_file() else []
++    new = (W / name).read_text().splitlines(True)
++    patch.extend(difflib.unified_diff(old, new, fromfile='previous/' + name, tofile='revision1/' + name))
++(W / 'evidence/revision.patch').write_text(''.join(patch))
++data = {
++    'status': 'passed', 'previous_receipt_sha256': parent_hash,
++    'previous_artifacts_reverified': len(parent['artifacts']),
++    'preserved_previous_artifacts_reverified': len(preserved['artifacts']),
++    'six_installed_candidates_byte_identical': True,
++    'source_plan_candidate_patch_and_previous_checks_retained': all(m.file_hash(W / rel) == parent['artifacts'][rel] for rel in ['evidence/source-plan.json', 'evidence/candidate.patch', 'evidence/candidate-audit.json', 'evidence/checks.json']),
++    'unchanged_consumers_and_policy_pins_reverified': True,
++    'changed_integration_functions': sorted(changed_functions), 'new_integration_functions': sorted(new_functions),
++    'all_other_integration_ast_unchanged': True, 'original_eight_integration_tests_unchanged': True,
++    'baseline_validation_reuse_added': False, 'repository_modified': False,
++    'live_plan_or_migration_run': False, 'acceptance_increment': 0,
++}
++m.write(W / 'evidence/revision-audit.json', data)
++print(json.dumps(data))
+--- previous/REVISION.md
++++ revision1/REVISION.md
+@@ -0,0 +1,13 @@
++# Revision 1 delta
++
++The original script candidate receipt is `18f8b40a7718ef958edad7ef67dad8bbe919732ec1572c9a600e8cf4a7ed29d4`. That frozen directory is unchanged. This revision also preserves its receipt and all 31 listed artifacts in `evidence/previous-candidate/`, including the earlier failed audit-harness attempt. All six installable consumer/test/document candidates and the original source plan, candidate patch, audit and consumer test evidence retain their original bytes.
++
++The first change makes the committed migration checkpoint contain a resolvable script receipt closure. Installation copies the current frozen `receipt.json` and every listed artifact, preserving relative paths under `evidence/integration-scripts/`. Every copied file is checked against its pinned hash and source hash; the copied package is checked again as a whole before source installation or plain-queue removal. Subsequent stages reverify this checkpoint copy. No dependency tree is copied; the preserved scripts and history are small text artifacts.
++
++The second change rejects a resolved run output equal to or below the repository before any Git query, subprocess or output creation. This also excludes the checkpoint and symlink aliases into the repository. Later stages recheck the stored run directory. This prevents the supposedly read-only planning phase from creating its own dirty worktree.
++
++The PLAN now states the required storage checks without requiring an unrelated repeat of all Lean targets, the full bench test suite or global runner. The existing 14 focused storage tests, producer check, exact baseline/post-scope equality, queue/ledger equality, snapshot pins and size bound remain required. CI configuration is unchanged. Broader checks are recorded only if actually run. The script's result wording likewise records broader gates as not run rather than instructing an automatic full rerun.
++
++The optional reuse of a prior validation was deliberately not implemented. The plan still runs fresh baseline queue/scope checks against the explicit clean commit. There is no unchecked shortcut around a run's provenance or checked-input closure.
++
++The revision audit verifies both the original frozen package and its local historical copy, all six current source candidates, live preimages, unchanged consumer/policy pins, exact allowed integration function changes and unchanged remaining AST. The current test command runs 16 integration tests: eight unchanged utility tests and eight new tests for external output paths, symlink aliases, fail-before-side-effects ordering, complete relative artifact copies, source/archive corruption, missing files, path traversal and a tiny install-stage replay. The 14 unchanged consumer tests are inherited from the original receipt, not reported as a new execution. Two failed revision audit attempts are retained with script snapshots: the inserted test block initially changed indentation in the preceding original test; the AST audit detected the error before any integration test ran. Restoring both lines made the original class AST identical again. A separate patch-format rejection made no file changes. No live plan, migration, Lean/GPU work, proof change, primary-gate change, Git operation or repository write occurs here. Acceptance increment is zero.

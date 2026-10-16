@@ -1,0 +1,33 @@
+[
+  {
+    "name": "revision-audit",
+    "command": [
+      "/usr/local/bin/python",
+      "-B",
+      "/tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-revision1-wip/audit_revision.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.139,
+    "log": "evidence/revision-attempts/1792114299185407224/revision-audit.log",
+    "log_sha256": "de6d71ce90dd4a80a36cfd71458d998a471e868d3a2b6af1e39e41b051556597"
+  },
+  {
+    "name": "integration-tests",
+    "command": [
+      "/usr/local/bin/python",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/tmp/veritile-standardization-20261015/queue-gzip-integration-scripts-revision1-wip",
+      "-p",
+      "test_integration.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "seconds": 0.129,
+    "log": "evidence/revision-attempts/1792114299185407224/integration-tests.log",
+    "log_sha256": "b6e223623717847453b3431543f4016cd3b75ce1d1446db737e8f0f1c16b8422"
+  }
+]

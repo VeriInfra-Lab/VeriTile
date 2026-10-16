@@ -1,7 +1,16 @@
 # Current development and acceptance
 
-The requested scope is **183 original programs, covering all declared stages,
-dtypes and branches**. **8 source scopes are accepted and 175 remain pending.**
+The current goal is **183 original programs with Real, FP32 and BF16 as the
+three primary versions, plus source-required types**, under the approved
+[primary-version policy](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/primary-version-policy.md). Each selected version retains its actual
+stages, branches, layouts, memory behavior and failure paths. The
+[eight-task evidence map](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/evidence/three-version-inventory/eight-task-mapping.md) records reusable proofs and remaining
+version-specific gaps.
+
+The **legacy full-source scope ledger records 8 accepted and 175 pending**.
+These counts retain the earlier wider-domain work; they do not mean that eight
+tasks have completed all three versions. This storage migration assigns no new
+version-completion counts.
 `matrix_transpose` is verified under explicit primitive contracts. Seven tasks
 are verified with exactly registered numerical deferrals: `quantize_global`,
 `vector_addition`, `quant_transpose_kernel`, `triton_mul2`, `relu_triton_kernel`,
@@ -22,7 +31,7 @@ registered modules**. The
 has 62 execution and six protocol declarations. These are proof-inventory
 counts, separate from original-program acceptance.
 
-The [plain numerical queue](tritonbench_g/deferred_numerical_experiments.json)
+The [compressed numerical queue](tritonbench_g/deferred_numerical_experiments.json.gz)
 contains 239 rules and 2,366 exact bindings across 22,317 cases in 12 declarations.
 The queue remains fail-closed against the reviewed source-derived authority;
 these registrations do not establish native scalar conformance. Existing
@@ -45,3 +54,5 @@ are preserved byte-for-byte. Their 0/183 or 4/183 summaries, host-and-LoRA catal
 previous build/test counts, partial-scope tables and historical comparator
 results describe earlier states. Their proof evidence and checkpoint links
 remain available; the current summary above supersedes their progress claims.
+
+The [pre-migration summary](review-checkpoints/2026-10-16/numerical-queue-gzip-migration/before/bench/current_source_acceptance.md) is preserved byte-for-byte with the gzip migration evidence.

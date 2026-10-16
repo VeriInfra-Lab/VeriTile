@@ -19,7 +19,7 @@ from current_source_catalog import validate_catalog
 from exact_scope_gate import validated_exact_requirements, validate_exact_case_links
 
 EXCLUDED_TASK = 'fp4_to_bf16_conversion'
-QUEUE = BASE + 'deferred_numerical_experiments.json'
+QUEUE = BASE + 'deferred_numerical_experiments.json.gz'
 DIMENSIONS = ('stages', 'dtypes', 'branches')
 ACCEPTED = {'verified', 'verified_with_deferred_numerics'}
 RULE_STATES = {'pending_exact_binding', 'existing_report_optional_replay', 'shared_model_check', 'pending_numeric_validation'}
@@ -434,10 +434,7 @@ def check(root, catalog, ledger):
     errors = []
     if ledger.get('catalog_sha256') != sha(canonical(catalog)):
         errors.append('scope ledger is unbound or belongs to another catalog')
-    queue_ref = ledger.get('deferred_queue') or {}
-    if queue_ref.get('path') != QUEUE:
-        raise ValueError('scope ledger must bind the unified numerical queue')
-    queue = load(checked(root, QUEUE, queue_ref.get('sha256')))
+    queue = load_active_queue(root, ledger.get('deferred_queue') or {})
     counts = Counter()
     results = []
     for name in expected:
@@ -453,6 +450,17 @@ def check(root, catalog, ledger):
     return {'schema': 1, 'status': 'failed' if errors else 'passed',
         'requested_tasks': 183, 'counts': dict(counts), 'errors': errors, 'tasks': results,
         'boundary': 'Source-scope review only; full build, axiom and official comparator replay are independent gates. Deferred numerical rules remain assumptions, not validated hardware facts.'}
+
+
+def load_active_queue(root, queue_ref):
+    """The standalone scope gate must also reject a competing plain queue."""
+    root = Path(root)
+    plain = root / (BASE + 'deferred_numerical_experiments.json')
+    if plain.exists() or plain.is_symlink():
+        raise ValueError('Competing plain numerical queue; only .json.gz may be active')
+    if queue_ref.get('path') != QUEUE:
+        raise ValueError('scope ledger must bind the unified numerical queue')
+    return load(checked(root, QUEUE, queue_ref.get('sha256')))
 
 
 def main():

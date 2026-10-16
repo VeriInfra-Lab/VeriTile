@@ -1,12 +1,20 @@
 # Original-program scope review
 
-The requested standard covers **all declared stages, dtypes and branches of
-183 original programs**. `fp4_to_bf16_conversion` is excluded because its existing
-contract covers a repaired candidate; the separate `fp4_to_bf16` original task
-remains in the requested set.
+The current development target is **Real, FP32 and BF16 for 183 original
+programs, plus source-required types**, as specified by the approved
+[primary-version policy](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/primary-version-policy.md). The
+[eight-task evidence map](review-checkpoints/2026-10-16/native-mul2-relu-custom-add-example-acceptance/evidence/three-version-inventory/eight-task-mapping.md) preserves existing proofs and records the
+work still needed for each selected version. No new three-version completion
+count is assigned by the queue storage migration.
+
+This page describes the retained **legacy full-source scope checker**, whose
+contract covers all declared stages, dtypes and branches. Its earlier wider
+proofs remain reusable evidence; its counts do not establish completion of the
+three selected versions. `fp4_to_bf16_conversion` remains the separate repaired
+candidate, and the `fp4_to_bf16` original task remains in the requested set.
 
 The active [`original_program_scope.json.gz`](original_program_scope.json.gz)
-records **8 source scopes accepted and 175 pending**. `matrix_transpose` is
+records **8 legacy full-source scopes accepted and 175 pending**. `matrix_transpose` is
 verified under explicit primitive contracts. `quantize_global`, `vector_addition`,
 `quant_transpose_kernel`, `triton_mul2`, `relu_triton_kernel`,
 `vector_addition_custom` and `add_example` are verified with exactly registered
@@ -49,7 +57,7 @@ remain substantive review duties.
 Numerical conformance may remain conditional through
 `verified_with_deferred_numerics`. Every used law/model ID and every unclosed
 numerical callback must map to an explicit rule in the unified
-[`deferred_numerical_experiments.json`](tritonbench_g/deferred_numerical_experiments.json)
+[`deferred_numerical_experiments.json.gz`](tritonbench_g/deferred_numerical_experiments.json.gz)
 queue, with its exact rule hash, dtype profile, configuration and required future
 validation. A callback without a registered rule stays blocked. Refuted rules,
 missing translations, omitted stages/branches/dtypes, host composition, value
@@ -63,7 +71,7 @@ callback links reference both the rule ID and the scope-binding ID. A matching
 rule name or arbitrary free-text configuration is insufficient: a fp32 rule
 cannot certify fp64, and an exp2 callback cannot borrow a rounding-only binding.
 
-The current plain JSON numerical queue has **239 rules, 2,366 exact bindings,
+The current compressed JSON numerical queue has **239 rules, 2,366 exact bindings,
 22,317 cases and 12 declarations**. Empty, all-masked and rejected cases require
 no unused numerical callbacks. Prior 153 rules, 1,642 exact bindings and eight
 callback tables remain unchanged. New numerical relations remain unvalidated.
@@ -106,3 +114,5 @@ contracts, scope reopenings, withdrawn quant-transpose recommendations, partial
 extensions and numerical registrations remain in their frozen checkpoints.
 The new reviewed contracts supersede the older pending conclusions for the
 four tasks accepted in this batch; historical evidence itself is unchanged.
+
+The [pre-migration summary](review-checkpoints/2026-10-16/numerical-queue-gzip-migration/before/bench/original_program_scope.md) is preserved byte-for-byte with the gzip migration evidence.
