@@ -1,0 +1,38 @@
+"""Legacy path and additional ordering checks, without repeating the main suite."""
+from pathlib import Path
+from copy import deepcopy
+import json
+W=Path(__file__).resolve().parent
+ns={'__file__':str(W/'test_candidates.py')}
+exec((W/'test_candidates.py').read_text().split('\ndef test(',1)[0],ns)
+sources,make_runner,fixture=ns['sources'],ns['make_runner'],ns['fixture']
+sha,canonical,shared=ns['sha'],ns['canonical'],ns['shared']
+checks=[]
+def check(name,f,success,expected_derivations,early=False):
+ results={};calls={}
+ for label,source in sources.items():
+  run,c,trace=make_runner(source,deepcopy(f));results[label]=run();calls[label]=dict(c)
+ assert results['baseline']==results['A']==results['B']==results['AB'],(name,results)
+ assert all(r['ok']==success for r in results.values())
+ for label in sources:
+  expected=0 if early and label in ('B','AB') else expected_derivations
+  assert calls[label].get('derive_authority',0)==expected,(name,label,calls)
+ checks.append({'test':name,'passed':True,'results':results,'calls':calls})
+callback='Synthetic.Numerics.multiply'
+f=fixture();f['queue']={'rules':deepcopy(f['queue']['rules'])}
+f['queue']['rules'][0]['status']='shared_model_check'
+for d in f['row']['deferred_numerical_assumptions']:d['rule_sha256']=sha(canonical(f['queue']['rules'][0]))
+check('legacy_nonexact_success_preserves_no_derive_behavior',f,True,0)
+f=fixture();f['row']['deferred_numerical_assumptions'][0]['rule_sha256']='0'*64;f['row']['callback_assumptions']=[]
+check('invalid_deferral_still_precedes_invalid_callback_mapping',f,False,0)
+f=fixture();f['row']['callback_assumptions'][callback][0]['assumption_id']=[]
+check('unhashable_reference_preserves_TypeError_but_fails_earlier',f,False,1,early=True)
+f=fixture();rule=f['authority']['rules'][0]
+for binding in rule['scope_bindings']:binding['callbacks'].append('Extra.callback')
+f['queue']=shared['extend_queue'](f['legacy'],f['authority'])
+for d in f['row']['deferred_numerical_assumptions']:d['rule_sha256']=sha(canonical(rule))
+f['row']['callback_assumptions']['Extra.callback']=[deepcopy(f['row']['callback_assumptions'][callback][0])]
+check('compatible_extra_callback_name_waits_for_required_name_equality',f,False,1)
+report={'status':'passed','scenarios':len(checks),'function_executions':4*len(checks),'checks':checks,'full_authority_run':False}
+(W/'evidence/edge-tests.json').write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps({k:v for k,v in report.items() if k!='checks'}))

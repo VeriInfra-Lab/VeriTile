@@ -1,0 +1,578 @@
+{
+  "status": "passed",
+  "production_tables": 7,
+  "omitted_deferral_cases": 15,
+  "fast_rejection_executions": 30,
+  "valid_shaped_rows_reach_authority_entry": 28,
+  "baseline_and_A_missing_reference_entry_comparisons": 14,
+  "queue_sha256": "450a1464548b39059b1b46168f3c73a382c3ec9f1f4fd5acabdaa7999f5a63eb",
+  "queue_rule_count": 273,
+  "queue_declaration_cases": 22875,
+  "seconds": 112.39980902406387,
+  "checks": [
+    {
+      "task": "triton_mul2",
+      "declaration": {
+        "file": "bench/tritonbench_g/triton_mul2/FiniteCorrect.lean",
+        "declaration": "triton_mul2_finite_source_outcomes",
+        "statement_sha256": "bf5fc417c4b43f31cff3b85fedcf54d876bbe225598f03388b0a4676e85919a3"
+      },
+      "omitted": {
+        "assumption_id": "TRITON-MUL2-FINITE-MULTIPLY-FP16",
+        "scope_binding_id": "triton_mul2:finite:d94b695ebadeaea0650746f8d5e8ada1"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "baseline": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        },
+        "A": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {},
+        "baseline": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        },
+        "A": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        }
+      }
+    },
+    {
+      "task": "relu_triton_kernel",
+      "declaration": {
+        "file": "bench/tritonbench_g/relu_triton_kernel/ActualCorrect.lean",
+        "declaration": "relu_actual_source_outcomes",
+        "statement_sha256": "44f2ef429cb69fa382dc74c122ea8ae5d3dabae0acec5203703528a084bb6bbd"
+      },
+      "omitted": {
+        "assumption_id": "RELU-ACTUAL-UINT32",
+        "scope_binding_id": "relu_triton_kernel:actual:682fd4b770b6515be8b5216b83762fa1"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "baseline": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        },
+        "A": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {},
+        "baseline": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        },
+        "A": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        }
+      }
+    },
+    {
+      "task": "vector_addition_custom",
+      "declaration": {
+        "file": "bench/tritonbench_g/vector_addition_custom/NativeCorrect.lean",
+        "declaration": "vector_addition_custom_native_source_outcomes",
+        "statement_sha256": "cf664860c1a6ec09372f7f7a4624dc93c1acac42875db6170666b825e7d07a84"
+      },
+      "omitted": {
+        "assumption_id": "VECTOR-CUSTOM-NATIVE-MIXEDSMALL-INTEGERROUNDED",
+        "scope_binding_id": "vector_addition_custom:native:d94e55f826a148a7073c125c0255ce3a"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "baseline": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        },
+        "A": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {},
+        "baseline": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        },
+        "A": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        }
+      }
+    },
+    {
+      "task": "vector_addition_custom",
+      "declaration": {
+        "file": "bench/tritonbench_g/vector_addition_custom/NativeCorrect.lean",
+        "declaration": "vector_addition_custom_native_source_outcomes",
+        "statement_sha256": "cf664860c1a6ec09372f7f7a4624dc93c1acac42875db6170666b825e7d07a84"
+      },
+      "omitted": {
+        "assumption_id": "VECTOR-CUSTOM-NATIVE-MIXEDSMALL-ADDTARGET-FP16",
+        "scope_binding_id": "vector_addition_custom:native:e0dae511dc2e8c213408bc7355bd93d3"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {}
+      }
+    },
+    {
+      "task": "vector_addition_custom",
+      "declaration": {
+        "file": "bench/tritonbench_g/vector_addition_custom/NativeCorrect.lean",
+        "declaration": "vector_addition_custom_native_source_outcomes",
+        "statement_sha256": "cf664860c1a6ec09372f7f7a4624dc93c1acac42875db6170666b825e7d07a84"
+      },
+      "omitted": {
+        "assumption_id": "VECTOR-CUSTOM-NATIVE-MIXEDSMALL-WIDENHALF",
+        "scope_binding_id": "vector_addition_custom:native:f5aaacf0d1a20f5d151c240f36fc40cf"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {}
+      }
+    },
+    {
+      "task": "vector_addition_custom",
+      "declaration": {
+        "file": "bench/tritonbench_g/vector_addition_custom/NativeCorrect.lean",
+        "declaration": "vector_addition_custom_native_source_outcomes",
+        "statement_sha256": "cf664860c1a6ec09372f7f7a4624dc93c1acac42875db6170666b825e7d07a84"
+      },
+      "omitted": {
+        "assumption_id": "VECTOR-CUSTOM-NATIVE-FP-INTEGERCONVERSION-TOSIGNED",
+        "scope_binding_id": "vector_addition_custom:native:82b6e64e49933d0aa3e55164bce12454"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {}
+      }
+    },
+    {
+      "task": "add_example",
+      "declaration": {
+        "file": "bench/tritonbench_g/add_example/FiniteCorrect.lean",
+        "declaration": "add_example_actual_source_outcomes",
+        "statement_sha256": "508207088924a33110b60f931868c3dcae65e0fde34f21a48f5dfd9a99c83493"
+      },
+      "omitted": {
+        "assumption_id": "ADD-EXAMPLE-ACTUAL-MIXEDSMALL-INTEGERROUNDED",
+        "scope_binding_id": "add_example:actual:b9da74033c29e2b70378955216c69a5d"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "baseline": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        },
+        "A": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {},
+        "baseline": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        },
+        "A": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        }
+      }
+    },
+    {
+      "task": "add_example",
+      "declaration": {
+        "file": "bench/tritonbench_g/add_example/FiniteCorrect.lean",
+        "declaration": "add_example_actual_source_outcomes",
+        "statement_sha256": "508207088924a33110b60f931868c3dcae65e0fde34f21a48f5dfd9a99c83493"
+      },
+      "omitted": {
+        "assumption_id": "ADD-EXAMPLE-ACTUAL-MIXEDSMALL-ADDTARGET-FP16",
+        "scope_binding_id": "add_example:actual:25fe4fd7c4bd1b5990ffbb0931a18405"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {}
+      }
+    },
+    {
+      "task": "add_example",
+      "declaration": {
+        "file": "bench/tritonbench_g/add_example/FiniteCorrect.lean",
+        "declaration": "add_example_actual_source_outcomes",
+        "statement_sha256": "508207088924a33110b60f931868c3dcae65e0fde34f21a48f5dfd9a99c83493"
+      },
+      "omitted": {
+        "assumption_id": "ADD-EXAMPLE-ACTUAL-MIXEDSMALL-WIDENHALF",
+        "scope_binding_id": "add_example:actual:d348925eb8b97203e4f6a5b4fd3918ef"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {}
+      }
+    },
+    {
+      "task": "add_example",
+      "declaration": {
+        "file": "bench/tritonbench_g/add_example/FiniteCorrect.lean",
+        "declaration": "add_example_actual_source_outcomes",
+        "statement_sha256": "508207088924a33110b60f931868c3dcae65e0fde34f21a48f5dfd9a99c83493"
+      },
+      "omitted": {
+        "assumption_id": "ADD-EXAMPLE-ACTUAL-FP-INTEGERCONVERSION-TOSIGNED",
+        "scope_binding_id": "add_example:actual:68c04089c5d30c71bf8a4f0fe54d03ee"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {}
+      }
+    },
+    {
+      "task": "add_value",
+      "declaration": {
+        "file": "bench/tritonbench_g/add_value/NativeCorrect.lean",
+        "declaration": "add_value_native_source_outcomes",
+        "statement_sha256": "a63f6673991eae5bb39b7fb9095b5f7170713d9c129766286185f53540981d8e"
+      },
+      "omitted": {
+        "assumption_id": "ADD-VALUE-NATIVE-ADD32",
+        "scope_binding_id": "add_value:native:1b3ad24aa3ffe2b506776c882ac8e4e4"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "baseline": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        },
+        "A": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {},
+        "baseline": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        },
+        "A": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        }
+      }
+    },
+    {
+      "task": "add_value",
+      "declaration": {
+        "file": "bench/tritonbench_g/add_value/NativeCorrect.lean",
+        "declaration": "add_value_native_source_outcomes",
+        "statement_sha256": "a63f6673991eae5bb39b7fb9095b5f7170713d9c129766286185f53540981d8e"
+      },
+      "omitted": {
+        "assumption_id": "ADD-VALUE-NATIVE-FP-INTEGERCONVERSION-TOSIGNED",
+        "scope_binding_id": "add_value:native:818777abf4373a67765a8fc2220d6433"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {}
+      }
+    },
+    {
+      "task": "sin_kernel",
+      "declaration": {
+        "file": "bench/tritonbench_g/sin_kernel/NativeCorrect.lean",
+        "declaration": "sin_kernel_native_source_outcomes",
+        "statement_sha256": "8dd5d8a4010a567f2da733f66023700c8e5c86350a7188c1bf3f09c9fddcda3e"
+      },
+      "omitted": {
+        "assumption_id": "SIN-KERNEL-NATIVE-SIN32",
+        "scope_binding_id": "sin_kernel:native:757eebdbf20eb03ae132227e6cfad58a"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "baseline": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        },
+        "A": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {},
+        "baseline": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        },
+        "A": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        }
+      }
+    },
+    {
+      "task": "cosine_compute",
+      "declaration": {
+        "file": "bench/tritonbench_g/cosine_compute/NativeCorrect.lean",
+        "declaration": "cosine_native_source_outcomes",
+        "statement_sha256": "1455600d97339fdf59e2297584b93dd0c694771ab2bd3f58326d72ad70855ed8"
+      },
+      "omitted": {
+        "assumption_id": "COSINE-NATIVE-HOSTMATH-INTEGER64",
+        "scope_binding_id": "cosine_compute:native:505d46b6e3e313a6549ea4f8311811b6"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "baseline": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        },
+        "A": {
+          "ok": false,
+          "type": "AuthorityReached",
+          "error": "full authority derivation sentinel"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {},
+        "baseline": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        },
+        "A": {
+          "validated_exact_requirements": 1,
+          "derive_authority": 1
+        }
+      }
+    },
+    {
+      "task": "cosine_compute",
+      "declaration": {
+        "file": "bench/tritonbench_g/cosine_compute/NativeCorrect.lean",
+        "declaration": "cosine_native_source_outcomes",
+        "statement_sha256": "1455600d97339fdf59e2297584b93dd0c694771ab2bd3f58326d72ad70855ed8"
+      },
+      "omitted": {
+        "assumption_id": "COSINE-NATIVE-HOSTMATH-SQRTSIGNIFICAND",
+        "scope_binding_id": "cosine_compute:native:bb5e9d11b19bc2a3887b7ab0f6780fc0"
+      },
+      "passed": true,
+      "results": {
+        "B": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        },
+        "AB": {
+          "ok": false,
+          "type": "ValueError",
+          "error": "callback is incompatible with registered numerical rule"
+        }
+      },
+      "calls": {
+        "B": {},
+        "AB": {}
+      }
+    }
+  ],
+  "full_authority_run": false,
+  "production_acceptance_claimed": false,
+  "scope": "Exact shipped production queue and original test usage generator. All next_batch_required_port_omissions rows are checked. Candidate B and AB reject each omitted deferral before the unchanged authority entry. Baseline/A reach an explicit sentinel for one omission per table. Valid-shaped rows also reach that sentinel for all four implementations; no positive production result or full authority derivation is claimed."
+}

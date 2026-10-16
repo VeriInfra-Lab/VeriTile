@@ -1,0 +1,321 @@
+{
+  "schema": 1,
+  "kind": "reviewed_numerical_validator_integration",
+  "base_commit": "52dda73eebf4d8f134f6f80343f79f10a54cdde8",
+  "status": "installed_from_real_passing_candidate_run",
+  "installed_sha256": {
+    "bench/check_original_program_scope.py": "91c18e19f04f50a0d36ac698b4512bca23559cdfecbb11efad8d5d24c03e3f33",
+    "bench/tests/test_numerical_scope_precheck.py": "1408280cedbecc85a43340e01106df52dd2df693856fa944f59dede48e4c6db1",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/PROPOSAL.md": "fcf8e21dc9d77e151c786425ade66a3c1085202776f8d2e0840b01f8fce7c2cb",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/candidate/callback-reference-failfast.patch": "e446980eb6680221914f4df90c33b39fcfc24c3b78ab16b9cad284a26de49286",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/candidate/check_original_program_scope.py.txt": "20a806dfce9e14d5a78c2c8e18715e23c7be9736110938265827667dcd7abc3f",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/candidate/combined-A-B.patch": "99278ad451498811929723cac363ed2740e6449ce80bb2a09072203822e4f897",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/candidate/combined-A-C.patch": "99278ad451498811929723cac363ed2740e6449ce80bb2a09072203822e4f897",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/candidate/combined-check_original_program_scope.py.txt": "91c18e19f04f50a0d36ac698b4512bca23559cdfecbb11efad8d5d24c03e3f33",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/check_structure.py.txt": "ff5f00b65ca6508f18d91554227117cf1f450bde826327268297cb67e84bf0a6",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/baseline-check_original_program_scope.py.txt": "8a5fccb70fa937d5f6696905a530d6cafd2a0bb2256a55d4f3baaf3e5b74fd72",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/candidate-labels.json": "74db5db966fb1667f540f8707ebdb13c3102debf74453c11fc6a059296614cab",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/combined-input-pins.json": "3c816cc9df0f96467d9399d3f0e25ffcdebc6da7b15a8f3d58e6dcf3fa8becfd",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/edge-tests.json": "aa7aae7242afde3b732c7f73d3f09e1b19c50ba52ac12d3a7ff7f3f1f7b657ec",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/input-pins-after.json": "9bd97d0db20f5314da3987ec6771a9b979996542dc0d8f14eabb1853f16fdd8a",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/input-pins-before.json": "ec85cd80b2bd6a716331759d63a9ab8665f499b7cc02cbcbf1871ddc96d9a95e",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/production-row-tests.json": "44603c2fc14f8cc694fb7dcff746d00fe7cb3da85db00cbdff6e465ccd0c5bd9",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/reconstructed-A.py.txt": "61ea6fa91fdb15350e55ae084d39787886676e7169ce1c517fca938c9cf4965f",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0001-prepare.json": "0d79fe643c23d012eb42f2069e76d0e3296b4ca1748e1adbeb7b7896b45bd91a",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0001-prepare.log": "62e11e0950174c3bd10e82b954cab79d4e0684e49150823fdb326d51f0fb04d9",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0001-prepare.py.txt": "cb8783c40e4c8e294b040dce3a053a3e4e9a2242403c57b92e27952c46c79839",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0002-prepare_combined.json": "b67fa44a6f36ee7b910008f0d3df41a36bc8e82578b4a754c15f46a9c0ade615",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0002-prepare_combined.log": "eac244a342ddeaeb333eda52d34158770c970265e197140b93400112d2cfebe5",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0002-prepare_combined.py.txt": "e597d155a14d5fa400b5e3190e917d84dbe906cf280a7d5ab40f99371b5340db",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0003-test_candidates.json": "701e081f33e7419b86c4e04816e4b400bd4dbd52fa93c58eb17bf84450292778",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0003-test_candidates.log": "9c0e5b62f18b9cecaf3d9a4dd7eda98a79ea9db7e372b73e586b0c8bc60f5c4d",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0003-test_candidates.py.txt": "8e93d80fd23ea3dd263d9ae9f76bf56a2264eb4f6fdb74eaa652568eef612944",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0004-test_production_rows.json": "6e9527075c6fa0bb1e1ef44161592711c73567ae0431d53284ff4db1ba167b35",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0004-test_production_rows.log": "2e92e242cc25fb171d5af44cb5e3edcb1b1985f1be46ab93b093e7f5df97d63b",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0004-test_production_rows.py.txt": "c8a1d7a7f29d0ed9c3bae3c83397be641cde0b8a91ea377af5c0b7ce24b32365",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0005-test_edges.json": "8b3f9da4d957f3c7f80056303141c46f417e27b8c4536485b899bf77ca1f595d",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0005-test_edges.log": "7aabbd2ebff76521dc0163ec54eea2580fa6d19eb97a35c3d7aa988b00306daa",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0005-test_edges.py.txt": "6d16f5d27a6364224515a13c8f36c2614838bff616e80525a510de54d2150860",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0005-test_production_rows.json": "4b80b473105b08584134d0acf81b1d9040a0d459d8098a2257f75e1995a108c0",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0005-test_production_rows.log": "6c3f98a82d6ede6965acdbfa79b468c40b581aafba70ebe899e62606d1aaf33b",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0005-test_production_rows.py.txt": "c07f3c5c230c0f08f92130e96b62ec28bb3b4e85ad8b01b6c020d52ff378bea9",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0007-check_structure.json": "cbe686c05c9eacd62af1b6d077de48a80576a87284316a2ecd669380b381bbf3",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0007-check_structure.log": "b608e96d53d7e77534cf1ed474fff2db0ab3c67bdda7a7e1a5af695172e1a231",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0007-check_structure.py.txt": "ff5f00b65ca6508f18d91554227117cf1f450bde826327268297cb67e84bf0a6",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/structure-checks.json": "b608e96d53d7e77534cf1ed474fff2db0ab3c67bdda7a7e1a5af695172e1a231",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/synthetic-tests.json": "3d6677e19c8167d650e955118f8a69c9103a6230e94347352017abb93f25bb84",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/validation-summary.json": "04338bda926571f5ce541028cddd9c5ce3af764dca2acfad2e55cff0a48a3d7d",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/freeze.py.txt": "f8067337ef80682163c3cec3fb4c82ed3e8ec6908e7df2ce038a42e4497c5014",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/prepare.py.txt": "cb8783c40e4c8e294b040dce3a053a3e4e9a2242403c57b92e27952c46c79839",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/prepare_combined.py.txt": "e597d155a14d5fa400b5e3190e917d84dbe906cf280a7d5ab40f99371b5340db",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/run-script.py.txt": "348c31a56a329361aa6a3621488f343dca90bae0e01c60740c2fcc87560ab35e",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/test_candidates.py.txt": "8e93d80fd23ea3dd263d9ae9f76bf56a2264eb4f6fdb74eaa652568eef612944",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/test_edges.py.txt": "6d16f5d27a6364224515a13c8f36c2614838bff616e80525a510de54d2150860",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/test_production_rows.py.txt": "c07f3c5c230c0f08f92130e96b62ec28bb3b4e85ad8b01b6c020d52ff378bea9",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/receipt.json": "a0df46dc028fa7fb267a048948131130572a9acb8c15e6a6800dfb11f63d3e29",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/REVIEW.md": "a00f67b9a86447ad537eda92fe920e0a277fbe6e89478c9ecc7a169baa83f41f",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/checks.json": "36bc5556da7fb3d1b3e139df281ade554453a15aa31e41c5c0e85adaf9031834",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/input-pins.json": "32bc92fe763d500dacdc03263d2689ea3ad582ba59578f88f25d656b77fbf71b",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/review.json": "7688c70d2daba4449e481f0f7b14d5b4337b36a1ced157651664702a9387b662",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/review_check.py.txt": "b731a01f2a710f8af7230617aa13c7bd0ffdd023d3fc9f38e6f4b839a8fe28d2",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/six_full_module_tests.log": "ac93baf41b2ad0c2455d4a64a68ee38b5768910f4b0ce0a22a4a2735fa57754b",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/receipt.json": "edf88af3f3eb5178a8c8e9a08e080858643d5e80e7b727978d42c50b7ead022b",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/root-code-review.json": "68f2558a61ae1257218c3f7467b7f44f10ee628de5c2ed9fc804f4880d16cbaa",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/production-regression/run.json": "a3db1f0063445d18135a3d58d2625c98ddc816c04d18f7da387cdc7ff0f99dd5",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/production-regression/tests.log": "2d84d8c6188097344b9a99bffb973aaa7ae95121af3f0ba71b254db466ce21a9",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/integration/run_production_candidate_tests.py.txt": "315c0c38fc5ac6014ee03693f8a508c05ac94dd0d759169707d3b6b73d3f076d",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/integration/test_numerical_scope_precheck.py.txt": "1408280cedbecc85a43340e01106df52dd2df693856fa944f59dede48e4c6db1",
+    "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/integration/install_reviewed_candidate.py.txt": "ad0b57db11ce51a37ca82832bd951770ecee474717ad98a389c9dbf82c135186"
+  },
+  "archive_mapping": {
+    "proposal/PROPOSAL.md": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/PROPOSAL.md",
+      "sha256": "fcf8e21dc9d77e151c786425ade66a3c1085202776f8d2e0840b01f8fce7c2cb"
+    },
+    "proposal/candidate/callback-reference-failfast.patch": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/candidate/callback-reference-failfast.patch",
+      "sha256": "e446980eb6680221914f4df90c33b39fcfc24c3b78ab16b9cad284a26de49286"
+    },
+    "proposal/candidate/check_original_program_scope.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/candidate/check_original_program_scope.py.txt",
+      "sha256": "20a806dfce9e14d5a78c2c8e18715e23c7be9736110938265827667dcd7abc3f"
+    },
+    "proposal/candidate/combined-A-B.patch": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/candidate/combined-A-B.patch",
+      "sha256": "99278ad451498811929723cac363ed2740e6449ce80bb2a09072203822e4f897"
+    },
+    "proposal/candidate/combined-A-C.patch": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/candidate/combined-A-C.patch",
+      "sha256": "99278ad451498811929723cac363ed2740e6449ce80bb2a09072203822e4f897"
+    },
+    "proposal/candidate/combined-check_original_program_scope.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/candidate/combined-check_original_program_scope.py.txt",
+      "sha256": "91c18e19f04f50a0d36ac698b4512bca23559cdfecbb11efad8d5d24c03e3f33"
+    },
+    "proposal/check_structure.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/check_structure.py.txt",
+      "sha256": "ff5f00b65ca6508f18d91554227117cf1f450bde826327268297cb67e84bf0a6"
+    },
+    "proposal/evidence/baseline-check_original_program_scope.py.txt": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/baseline-check_original_program_scope.py.txt",
+      "sha256": "8a5fccb70fa937d5f6696905a530d6cafd2a0bb2256a55d4f3baaf3e5b74fd72"
+    },
+    "proposal/evidence/candidate-labels.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/candidate-labels.json",
+      "sha256": "74db5db966fb1667f540f8707ebdb13c3102debf74453c11fc6a059296614cab"
+    },
+    "proposal/evidence/combined-input-pins.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/combined-input-pins.json",
+      "sha256": "3c816cc9df0f96467d9399d3f0e25ffcdebc6da7b15a8f3d58e6dcf3fa8becfd"
+    },
+    "proposal/evidence/edge-tests.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/edge-tests.json",
+      "sha256": "aa7aae7242afde3b732c7f73d3f09e1b19c50ba52ac12d3a7ff7f3f1f7b657ec"
+    },
+    "proposal/evidence/input-pins-after.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/input-pins-after.json",
+      "sha256": "9bd97d0db20f5314da3987ec6771a9b979996542dc0d8f14eabb1853f16fdd8a"
+    },
+    "proposal/evidence/input-pins-before.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/input-pins-before.json",
+      "sha256": "ec85cd80b2bd6a716331759d63a9ab8665f499b7cc02cbcbf1871ddc96d9a95e"
+    },
+    "proposal/evidence/production-row-tests.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/production-row-tests.json",
+      "sha256": "44603c2fc14f8cc694fb7dcff746d00fe7cb3da85db00cbdff6e465ccd0c5bd9"
+    },
+    "proposal/evidence/reconstructed-A.py.txt": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/reconstructed-A.py.txt",
+      "sha256": "61ea6fa91fdb15350e55ae084d39787886676e7169ce1c517fca938c9cf4965f"
+    },
+    "proposal/evidence/script-attempts/0001-prepare.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0001-prepare.json",
+      "sha256": "0d79fe643c23d012eb42f2069e76d0e3296b4ca1748e1adbeb7b7896b45bd91a"
+    },
+    "proposal/evidence/script-attempts/0001-prepare.log": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0001-prepare.log",
+      "sha256": "62e11e0950174c3bd10e82b954cab79d4e0684e49150823fdb326d51f0fb04d9"
+    },
+    "proposal/evidence/script-attempts/0001-prepare.py.txt": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0001-prepare.py.txt",
+      "sha256": "cb8783c40e4c8e294b040dce3a053a3e4e9a2242403c57b92e27952c46c79839"
+    },
+    "proposal/evidence/script-attempts/0002-prepare_combined.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0002-prepare_combined.json",
+      "sha256": "b67fa44a6f36ee7b910008f0d3df41a36bc8e82578b4a754c15f46a9c0ade615"
+    },
+    "proposal/evidence/script-attempts/0002-prepare_combined.log": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0002-prepare_combined.log",
+      "sha256": "eac244a342ddeaeb333eda52d34158770c970265e197140b93400112d2cfebe5"
+    },
+    "proposal/evidence/script-attempts/0002-prepare_combined.py.txt": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0002-prepare_combined.py.txt",
+      "sha256": "e597d155a14d5fa400b5e3190e917d84dbe906cf280a7d5ab40f99371b5340db"
+    },
+    "proposal/evidence/script-attempts/0003-test_candidates.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0003-test_candidates.json",
+      "sha256": "701e081f33e7419b86c4e04816e4b400bd4dbd52fa93c58eb17bf84450292778"
+    },
+    "proposal/evidence/script-attempts/0003-test_candidates.log": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0003-test_candidates.log",
+      "sha256": "9c0e5b62f18b9cecaf3d9a4dd7eda98a79ea9db7e372b73e586b0c8bc60f5c4d"
+    },
+    "proposal/evidence/script-attempts/0003-test_candidates.py.txt": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0003-test_candidates.py.txt",
+      "sha256": "8e93d80fd23ea3dd263d9ae9f76bf56a2264eb4f6fdb74eaa652568eef612944"
+    },
+    "proposal/evidence/script-attempts/0004-test_production_rows.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0004-test_production_rows.json",
+      "sha256": "6e9527075c6fa0bb1e1ef44161592711c73567ae0431d53284ff4db1ba167b35"
+    },
+    "proposal/evidence/script-attempts/0004-test_production_rows.log": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0004-test_production_rows.log",
+      "sha256": "2e92e242cc25fb171d5af44cb5e3edcb1b1985f1be46ab93b093e7f5df97d63b"
+    },
+    "proposal/evidence/script-attempts/0004-test_production_rows.py.txt": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0004-test_production_rows.py.txt",
+      "sha256": "c8a1d7a7f29d0ed9c3bae3c83397be641cde0b8a91ea377af5c0b7ce24b32365"
+    },
+    "proposal/evidence/script-attempts/0005-test_edges.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0005-test_edges.json",
+      "sha256": "8b3f9da4d957f3c7f80056303141c46f417e27b8c4536485b899bf77ca1f595d"
+    },
+    "proposal/evidence/script-attempts/0005-test_edges.log": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0005-test_edges.log",
+      "sha256": "7aabbd2ebff76521dc0163ec54eea2580fa6d19eb97a35c3d7aa988b00306daa"
+    },
+    "proposal/evidence/script-attempts/0005-test_edges.py.txt": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0005-test_edges.py.txt",
+      "sha256": "6d16f5d27a6364224515a13c8f36c2614838bff616e80525a510de54d2150860"
+    },
+    "proposal/evidence/script-attempts/0005-test_production_rows.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0005-test_production_rows.json",
+      "sha256": "4b80b473105b08584134d0acf81b1d9040a0d459d8098a2257f75e1995a108c0"
+    },
+    "proposal/evidence/script-attempts/0005-test_production_rows.log": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0005-test_production_rows.log",
+      "sha256": "6c3f98a82d6ede6965acdbfa79b468c40b581aafba70ebe899e62606d1aaf33b"
+    },
+    "proposal/evidence/script-attempts/0005-test_production_rows.py.txt": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0005-test_production_rows.py.txt",
+      "sha256": "c07f3c5c230c0f08f92130e96b62ec28bb3b4e85ad8b01b6c020d52ff378bea9"
+    },
+    "proposal/evidence/script-attempts/0007-check_structure.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0007-check_structure.json",
+      "sha256": "cbe686c05c9eacd62af1b6d077de48a80576a87284316a2ecd669380b381bbf3"
+    },
+    "proposal/evidence/script-attempts/0007-check_structure.log": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0007-check_structure.log",
+      "sha256": "b608e96d53d7e77534cf1ed474fff2db0ab3c67bdda7a7e1a5af695172e1a231"
+    },
+    "proposal/evidence/script-attempts/0007-check_structure.py.txt": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/script-attempts/0007-check_structure.py.txt",
+      "sha256": "ff5f00b65ca6508f18d91554227117cf1f450bde826327268297cb67e84bf0a6"
+    },
+    "proposal/evidence/structure-checks.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/structure-checks.json",
+      "sha256": "b608e96d53d7e77534cf1ed474fff2db0ab3c67bdda7a7e1a5af695172e1a231"
+    },
+    "proposal/evidence/synthetic-tests.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/synthetic-tests.json",
+      "sha256": "3d6677e19c8167d650e955118f8a69c9103a6230e94347352017abb93f25bb84"
+    },
+    "proposal/evidence/validation-summary.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/evidence/validation-summary.json",
+      "sha256": "04338bda926571f5ce541028cddd9c5ce3af764dca2acfad2e55cff0a48a3d7d"
+    },
+    "proposal/freeze.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/freeze.py.txt",
+      "sha256": "f8067337ef80682163c3cec3fb4c82ed3e8ec6908e7df2ce038a42e4497c5014"
+    },
+    "proposal/prepare.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/prepare.py.txt",
+      "sha256": "cb8783c40e4c8e294b040dce3a053a3e4e9a2242403c57b92e27952c46c79839"
+    },
+    "proposal/prepare_combined.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/prepare_combined.py.txt",
+      "sha256": "e597d155a14d5fa400b5e3190e917d84dbe906cf280a7d5ab40f99371b5340db"
+    },
+    "proposal/run-script.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/run-script.py.txt",
+      "sha256": "348c31a56a329361aa6a3621488f343dca90bae0e01c60740c2fcc87560ab35e"
+    },
+    "proposal/test_candidates.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/test_candidates.py.txt",
+      "sha256": "8e93d80fd23ea3dd263d9ae9f76bf56a2264eb4f6fdb74eaa652568eef612944"
+    },
+    "proposal/test_edges.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/test_edges.py.txt",
+      "sha256": "6d16f5d27a6364224515a13c8f36c2614838bff616e80525a510de54d2150860"
+    },
+    "proposal/test_production_rows.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/test_production_rows.py.txt",
+      "sha256": "c07f3c5c230c0f08f92130e96b62ec28bb3b4e85ad8b01b6c020d52ff378bea9"
+    },
+    "proposal/receipt.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/proposal/receipt.json",
+      "sha256": "a0df46dc028fa7fb267a048948131130572a9acb8c15e6a6800dfb11f63d3e29"
+    },
+    "independent-review/REVIEW.md": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/REVIEW.md",
+      "sha256": "a00f67b9a86447ad537eda92fe920e0a277fbe6e89478c9ecc7a169baa83f41f"
+    },
+    "independent-review/checks.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/checks.json",
+      "sha256": "36bc5556da7fb3d1b3e139df281ade554453a15aa31e41c5c0e85adaf9031834"
+    },
+    "independent-review/input-pins.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/input-pins.json",
+      "sha256": "32bc92fe763d500dacdc03263d2689ea3ad582ba59578f88f25d656b77fbf71b"
+    },
+    "independent-review/review.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/review.json",
+      "sha256": "7688c70d2daba4449e481f0f7b14d5b4337b36a1ced157651664702a9387b662"
+    },
+    "independent-review/review_check.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/review_check.py.txt",
+      "sha256": "b731a01f2a710f8af7230617aa13c7bd0ffdd023d3fc9f38e6f4b839a8fe28d2"
+    },
+    "independent-review/six_full_module_tests.log": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/six_full_module_tests.log",
+      "sha256": "ac93baf41b2ad0c2455d4a64a68ee38b5768910f4b0ce0a22a4a2735fa57754b"
+    },
+    "independent-review/receipt.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/independent-review/receipt.json",
+      "sha256": "edf88af3f3eb5178a8c8e9a08e080858643d5e80e7b727978d42c50b7ead022b"
+    },
+    "root-code-review.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/root-code-review.json",
+      "sha256": "68f2558a61ae1257218c3f7467b7f44f10ee628de5c2ed9fc804f4880d16cbaa"
+    },
+    "production-regression/run.json": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/production-regression/run.json",
+      "sha256": "a3db1f0063445d18135a3d58d2625c98ddc816c04d18f7da387cdc7ff0f99dd5"
+    },
+    "production-regression/tests.log": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/production-regression/tests.log",
+      "sha256": "2d84d8c6188097344b9a99bffb973aaa7ae95121af3f0ba71b254db466ce21a9"
+    },
+    "integration/run_production_candidate_tests.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/integration/run_production_candidate_tests.py.txt",
+      "sha256": "315c0c38fc5ac6014ee03693f8a508c05ac94dd0d759169707d3b6b73d3f076d"
+    },
+    "integration/test_numerical_scope_precheck.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/integration/test_numerical_scope_precheck.py.txt",
+      "sha256": "1408280cedbecc85a43340e01106df52dd2df693856fa944f59dede48e4c6db1"
+    },
+    "integration/install_reviewed_candidate.py": {
+      "archived_path": "bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance/integration/install_reviewed_candidate.py.txt",
+      "sha256": "ad0b57db11ce51a37ca82832bd951770ecee474717ad98a389c9dbf82c135186"
+    }
+  },
+  "production_tests": 93,
+  "existing_tests_used_real_source_authority": true,
+  "six_additional_tests_use_documented_authority_fixtures": true,
+  "checker_preimage_sha256": "8a5fccb70fa937d5f6696905a530d6cafd2a0bb2256a55d4f3baaf3e5b74fd72",
+  "checker_sha256": "91c18e19f04f50a0d36ac698b4512bca23559cdfecbb11efad8d5d24c03e3f33",
+  "cross_call_cache": false,
+  "exact_scope_gate_changed": false,
+  "acceptance_increment": 0,
+  "git_modified": false
+}

@@ -1,0 +1,8 @@
+{
+  "script": "test_edges.py",
+  "source_sha256": "6d16f5d27a6364224515a13c8f36c2614838bff616e80525a510de54d2150860",
+  "exit_code": 0,
+  "log": "evidence/script-attempts/0005-test_edges.log",
+  "log_sha256": "7aabbd2ebff76521dc0163ec54eea2580fa6d19eb97a35c3d7aa988b00306daa",
+  "seconds": 0.4755976009182632
+}

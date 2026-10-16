@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-standardization-20261015/numerical-callback-failfast-proposal-f2759fe/test_production_rows.py", line 21, in <module>
+    row,public,proof_cases=ns['usage'](table['task'],lambda t,c:t['declaration']==table['declaration'] and c==case)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 16, in usage
+KeyError: 'scope_bindings'

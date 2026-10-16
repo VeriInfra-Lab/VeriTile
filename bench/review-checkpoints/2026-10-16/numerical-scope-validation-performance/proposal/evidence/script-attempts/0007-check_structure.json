@@ -1,0 +1,8 @@
+{
+  "script": "check_structure.py",
+  "source_sha256": "ff5f00b65ca6508f18d91554227117cf1f450bde826327268297cb67e84bf0a6",
+  "exit_code": 0,
+  "log": "evidence/script-attempts/0007-check_structure.log",
+  "log_sha256": "b608e96d53d7e77534cf1ed474fff2db0ab3c67bdda7a7e1a5af695172e1a231",
+  "seconds": 0.08117820997722447
+}

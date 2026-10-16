@@ -1,0 +1,164 @@
+"""Install the reviewed numerical validator only after its real regression run.
+
+Root-owned integration, not a validator or acceptance gate. Git remains read-only.
+"""
+from pathlib import Path
+import argparse
+import hashlib
+import json
+import re
+import shutil
+import subprocess
+
+B = Path('/tmp/veritile-standardization-20261015')
+CHECKER = 'bench/check_original_program_scope.py'
+TEST = 'bench/tests/test_numerical_scope_precheck.py'
+BEFORE = '8a5fccb70fa937d5f6696905a530d6cafd2a0bb2256a55d4f3baaf3e5b74fd72'
+AFTER = '91c18e19f04f50a0d36ac698b4512bca23559cdfecbb11efad8d5d24c03e3f33'
+TEST_SHA = '1408280cedbecc85a43340e01106df52dd2df693856fa944f59dede48e4c6db1'
+CHECKPOINT = 'bench/review-checkpoints/2026-10-16/numerical-scope-validation-performance'
+
+
+def need(ok, message):
+    if not ok:
+        raise ValueError(message)
+
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def exact(path, expected):
+    path = Path(path)
+    need(path.is_file() and not path.is_symlink() and sha(path) == expected,
+         'Missing or changed file: ' + str(path))
+    return path
+
+
+def load(path):
+    return json.loads(Path(path).read_text())
+
+
+def archived(relative):
+    path = Path(relative)
+    need(not path.is_absolute() and '..' not in path.parts and path.as_posix() == relative,
+         'Unsafe archive path')
+    return relative + '.txt' if path.suffix in {'.py', '.lean'} else relative
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--repo', type=Path, required=True)
+    p.add_argument('--base-commit', required=True)
+    p.add_argument('--report', type=Path, required=True)
+    a = p.parse_args()
+    root = a.repo.resolve()
+    need(re.fullmatch('[0-9a-f]{40}', a.base_commit), 'Explicit full commit required')
+    need(a.report.is_absolute() and a.report.resolve().is_relative_to(Path('/tmp'))
+         and not a.report.exists() and not a.report.is_symlink(), 'Fresh /tmp report required')
+
+    def git(*args):
+        return subprocess.run(['git', '--no-optional-locks', '-C', str(root), *args],
+                              check=True, capture_output=True).stdout
+
+    need(git('rev-parse', 'HEAD').decode().strip() == a.base_commit, 'HEAD differs')
+    need(git('branch', '--show-current').decode().strip() == 'fp-examples', 'Wrong branch')
+    need(not git('status', '--porcelain'), 'Checkout must be clean after next-three commit')
+    exact(root / CHECKER, BEFORE)
+    need(not (root / TEST).exists() and not (root / CHECKPOINT).exists(), 'New targets already exist')
+    need((root / TEST).parent.resolve() == (root / TEST).parent, 'Symlinked target parent')
+    candidate = exact(B / 'numerical-callback-failfast-proposal-f2759fe/candidate/combined-check_original_program_scope.py', AFTER)
+    test = exact(B / 'numerical-validator-integration-prep-001/test_numerical_scope_precheck.py', TEST_SHA)
+    run_dir = B / 'numerical-validator-production-candidate-tests-001'
+    run = load(run_dir / 'run.json')
+    need(run['state'] == 'completed' and run['successful'] is True
+         and run['tests_run'] == run['test_count'] == 93
+         and run['failures'] == run['errors'] == 0
+         and run['source_inputs_unchanged'] is True
+         and run['input_sha256_before'] == run['input_sha256_after']
+         and run['candidate_sha256'] == AFTER
+         and run['authority_mocked_for_existing_tests'] is False,
+         'Real candidate regression run did not pass exactly')
+    for relative, expected in run['input_sha256_after'].items():
+        exact(root / relative, expected)
+    log = (run_dir / 'tests.log').read_text()
+    need(len(re.findall(r'^Ran 93 tests in .+$', log, re.M)) == 1
+         and len(re.findall(r'^OK$', log, re.M)) == 1
+         and not re.search(r'^(FAILED|ERROR:|FAIL:)', log, re.M), 'Regression summary differs')
+
+    files = {CHECKER: candidate, TEST: test}
+    mappings = {}
+
+    def add(source, relative, expected):
+        source = exact(source, expected)
+        target = CHECKPOINT + '/' + archived(relative)
+        need(target not in files, 'Duplicate integration target')
+        files[target] = source
+        mappings[relative] = {'archived_path': target, 'sha256': expected}
+
+    packages = [
+        ('proposal', B / 'numerical-callback-failfast-proposal-f2759fe',
+         'a0df46dc028fa7fb267a048948131130572a9acb8c15e6a6800dfb11f63d3e29'),
+        ('independent-review', B / 'numerical-combined-independent-review-6mmeny5r',
+         'edf88af3f3eb5178a8c8e9a08e080858643d5e80e7b727978d42c50b7ead022b'),
+    ]
+    for label, package, expected in packages:
+        receipt = exact(package / 'receipt.json', expected)
+        for relative, entry in load(receipt)['artifacts'].items():
+            add(package / relative, label + '/' + relative,
+                entry if isinstance(entry, str) else entry['sha256'])
+        add(receipt, label + '/receipt.json', expected)
+    prep = B / 'numerical-validator-integration-prep-001'
+    add(prep / 'root-code-review.json', 'root-code-review.json',
+        '68f2558a61ae1257218c3f7467b7f44f10ee628de5c2ed9fc804f4880d16cbaa')
+    for relative in ['run.json', 'tests.log']:
+        add(run_dir / relative, 'production-regression/' + relative, sha(run_dir / relative))
+    for relative in ['run_production_candidate_tests.py', 'test_numerical_scope_precheck.py',
+                     'install_reviewed_candidate.py']:
+        add(prep / relative, 'integration/' + relative, sha(prep / relative))
+    before = {target: sha(source) for target, source in files.items()}
+    need(git('rev-parse', 'HEAD').decode().strip() == a.base_commit
+         and not git('status', '--porcelain'), 'Checkout changed during preflight')
+    # All inputs are checked before the first write. An interruption retains
+    # already written files for review and is not automatically rolled back.
+    for target, source in files.items():
+        destination = root / target
+        need(destination.resolve() == destination, 'Target traverses symlink')
+        if target != CHECKER:
+            need(not destination.exists(), 'Unexpected target collision')
+        else:
+            exact(destination, BEFORE)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(exact(source, before[target]), destination)
+        exact(destination, before[target])
+    record = {'schema': 1, 'kind': 'reviewed_numerical_validator_integration',
+              'base_commit': a.base_commit, 'status': 'installed_from_real_passing_candidate_run',
+              'installed_sha256': before, 'archive_mapping': mappings,
+              'production_tests': 93, 'existing_tests_used_real_source_authority': True,
+              'six_additional_tests_use_documented_authority_fixtures': True,
+              'checker_preimage_sha256': BEFORE, 'checker_sha256': AFTER,
+              'cross_call_cache': False, 'exact_scope_gate_changed': False,
+              'acceptance_increment': 0, 'git_modified': False}
+    dest = root / CHECKPOINT / 'validation.json'
+    dest.write_text(json.dumps(record, indent=2) + '\n')
+    (root / CHECKPOINT / 'README.md').write_text(
+        'Numerical scope validation now reuses local rule/binding indexes within each call '
+        'and rejects malformed callback references before deriving source authority. '
+        'Otherwise-valid calls still derive the full authority and check exact queue, '
+        'ports, callback names and usage sets. There is no cross-call cache. '
+        'Multiply-invalid input may report errors in a different order.\n\n'
+        'The exact candidate passed 93 production regression tests against unchanged '
+        'repository inputs. Existing tests used real source authority; the six added '
+        'tests use explicitly labelled authority fixtures. Source, review, tests and '
+        'actual logs are retained with exact hashes. No task acceptance is added.\n')
+    record['validation_sha256'] = sha(dest)
+    a.report.parent.mkdir(parents=True, exist_ok=True)
+    with a.report.open('x') as stream:
+        json.dump(record, stream, indent=2)
+        stream.write('\n')
+    print(json.dumps({'files_installed': len(files) + 2, 'validation_sha256': sha(dest),
+                      'production_tests': 93, 'acceptance_increment': 0}))
+
+
+if __name__ == '__main__':
+    main()
