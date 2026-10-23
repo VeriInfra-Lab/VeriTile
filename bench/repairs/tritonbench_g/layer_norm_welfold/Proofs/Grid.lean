@@ -8,13 +8,13 @@ set_option linter.unusedSimpArgs false
 
 theorem mean_congr {α : Type} [Inhabited α] (M : Algebra α) (s t : State α)
     (X : RegionName) (D B row : Nat) (tree : ReductionTree B) (hm : s.mem X=t.mem X) :
-    meanValue M (atRow s row) X D B tree=meanValue M (atRow t row) X D B tree := by
+    meanValue M (atRow s row) X D B tree = meanValue M (atRow t row) X D B tree := by
   unfold meanValue allLanes
   rw [recurrence_congr M Bool.false (atRow s row) (atRow t row) X D B 0 (blockCount D B) _ _ hm rfl]
 
 theorem inverse_congr {α : Type} [Inhabited α] (M : Algebra α) (s t : State α)
     (X : RegionName) (D B row : Nat) (tree : ReductionTree B) (hm : s.mem X=t.mem X) :
-    inverseValue M (atRow s row) X D B tree=inverseValue M (atRow t row) X D B tree := by
+    inverseValue M (atRow s row) X D B tree = inverseValue M (atRow t row) X D B tree := by
   unfold inverseValue
   rw [mean_congr M s t X D B row tree hm]
   unfold allLanes
@@ -54,9 +54,9 @@ theorem whole_grid {α : Type} [Inhabited α] (M : Algebra α)
       intro q hq
       funext off
       exact he.frame q off ⟨.inl (sep.inputs q hq).1, .inl (sep.inputs q hq).2.1, .inl (sep.inputs q hq).2.2⟩
-    have hm : ∀ r, meanValue M (atRow u r) X D B tree=meanValue M (atRow s r) X D B tree :=
+    have hm : ∀ r, meanValue M (atRow u r) X D B tree = meanValue M (atRow s r) X D B tree :=
       fun r => mean_congr M u s X D B r tree (hinput X (.inl rfl))
-    have hv : ∀ r, inverseValue M (atRow u r) X D B tree=inverseValue M (atRow s r) X D B tree :=
+    have hv : ∀ r, inverseValue M (atRow u r) X D B tree = inverseValue M (atRow s r) X D B tree :=
       fun r => inverse_congr M u s X D B r tree (hinput X (.inl rfl))
     have ho : ∀ r col, rowOutput M u X W Bias D B r col tree = rowOutput M s X W Bias D B r col tree := by
       intro r col

@@ -26,7 +26,7 @@ theorem prelude_safe (P : Source.Arithmetic α α) (p : Parameters)
   apply safe_list
   intro st hs t
   rw [prelude_raw] at hs
-  simp only [rawPrelude,TypedSource.kernel,ComputeKernel.surfaceBody,List.take,List.mem_cons,List.not_mem_nil,or_false] at hs
+  simp only [rawPrelude,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,List.take,List.mem_cons,List.not_mem_nil,or_false] at hs
   rcases hs with h|h|h|h|h|h|h|h|h|h|h|h|h|h|h
   all_goals subst st
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,
@@ -41,7 +41,7 @@ theorem tile_prelude_safe (P : Source.Arithmetic α α) (p : Parameters)
   apply safe_list
   intro st hs t
   rw [tilePrelude_raw] at hs
-  simp [rawTilePrelude,TypedSource.kernel,ComputeKernel.surfaceBody,List.getElem?_eq_getElem,
+  simp [rawTilePrelude,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,List.getElem?_eq_getElem,
     List.take,List.mem_cons,List.not_mem_nil,or_false] at hs
   rcases hs with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]

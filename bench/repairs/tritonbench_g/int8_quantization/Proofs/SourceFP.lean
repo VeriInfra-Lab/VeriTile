@@ -15,14 +15,14 @@ def constants (M : Algebra α) (p : Parameters) : Floating.Constants α :=
     M.literal none .real 340282346638528859811704183484516925440.0,scalar32 M p.factor⟩
 
 /-- Extraction of exactly the production FP32 primitive calls. The upper
-clamp remains comparison/select, and the maximum preserves padded lane order. -/
+clamp uses the source minimum primitive, and the maximum preserves padded lane order. -/
 def numerics (M : Algebra α) (ops : Model.Primitives α) : Floating.Numerics α where
   abs:=M.unary (some .fp32) (.abs .real)
   mul:=M.binary (some .fp32) .real .mul
   div:=M.binary (some .fp32) .real .div
   add:=M.binary (some .fp32) .real .add
   max:=M.binary (some .fp32) .real .max
-  min:=fun x y=> if ops.less x y then x else y
+  min:=ops.minimum
   le:=ops.le
   lt:=ops.less
   maximum:=fun {n} x=> M.reduceMax (some .fp32) (shape:=[n]) ⟨0,by simp⟩ Bool.false

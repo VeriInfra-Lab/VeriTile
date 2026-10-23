@@ -1,5 +1,5 @@
 import VeriTile.Torch.FP32
-import bench.repairs.tritonbench_g.square_matrix.Kernels
+import bench.repairs.tritonbench_g.square_matrix.Contract
 import bench.repairs.tritonbench_g.flash_decode2_phi.Proofs.Geometry
 
 namespace VeriTile.Bench.Repairs.FlashDecode2.Checked

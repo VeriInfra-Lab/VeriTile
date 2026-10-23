@@ -19,15 +19,29 @@ theorem legal (total segment : Nat) (active : base segment < total) :
   dsimp [size,limit] at *
   omega
 
+private theorem coverage_for (span total p : Nat) (positive : 0 < span) (live : p < total) :
+    p / span < (total + span - 1) / span ∧
+    p % span < min (total - p / span * span) span ∧ p / span * span + p % span = p := by
+  have split := Nat.div_add_mod p span
+  rw [Nat.mul_comm span] at split
+  have remBound := Nat.mod_lt p positive
+  have product := Nat.div_mul_le_self p span
+  have quotient : p / span + 1 ≤ (total + span - 1) / span := by
+    apply (Nat.le_div_iff_mul_le positive).mpr
+    simp only [Nat.add_mul, one_mul]
+    omega
+  constructor
+  · omega
+  constructor
+  · apply lt_min
+    · omega
+    · exact remBound
+  · simpa [Nat.mul_comm] using split
+
 theorem coverage (total p : Nat) (live : p < total) :
     p / limit < count total ∧ p % limit < size total (p / limit) ∧
-    program (p / limit) (p % limit) = p := by
-  have split := Nat.div_add_mod p limit
-  have remBound := Nat.mod_lt p (by decide : 0 < limit)
-  have totalSplit := Nat.div_add_mod (total + limit - 1) limit
-  have totalRem := Nat.mod_lt (total + limit - 1) (by decide : 0 < limit)
-  dsimp [count,size,program,base,limit] at *
-  omega
+    program (p / limit) (p % limit) = p :=
+  coverage_for limit total p (by norm_num [limit]) live
 
 theorem no_extra (total segment lane : Nat)
     (inside : lane < size total segment) : program segment lane < total := by

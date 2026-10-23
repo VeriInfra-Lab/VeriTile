@@ -18,7 +18,7 @@ def tilePreludeExecution (P : Source.Arithmetic α α) (p : Parameters)
   refine ⟨?_,?_⟩
   swap
   rw [tilePrelude_raw]
-  simp [rawTilePrelude,TypedSource.kernel,ComputeKernel.surfaceBody,run,step,
+  simp [rawTilePrelude,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,run,step,
     evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
     ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
     Region.cast,Option.bind,integralFloorDiv,integralMod,backend,h.start,h.rows,h.columns,

@@ -19,7 +19,7 @@ def preludeExecution (P : Source.Arithmetic α α) (p : Parameters) (s : State �
     refine ⟨?_,?_⟩
     swap
     rw [prelude_raw]
-    simp [rawPrelude,TypedSource.kernel,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
+    simp [rawPrelude,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,
       evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,ComputeDType.eraseDType,
       ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,Region.cast,Option.bind,
       integralFloorDiv,integralMod,backend,hm,hn,hk,hs,Broadcast.leftIndex,Broadcast.rightIndex]

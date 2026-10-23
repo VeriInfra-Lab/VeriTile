@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.diag_ssm_triton.Kernels
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.ReadableSource
 import bench.tritonbench_g.diag_ssm_triton.Proofs.BackwardProjection
 import bench.tritonbench_g.diag_ssm_triton.Proofs.ComplexForwardLoop
 import bench.tritonbench_g.diag_ssm_triton.Proofs.ComplexBackwardRun
@@ -107,7 +107,7 @@ theorem forward (p : ForwardLayout) (length : Nat) :
   refine ⟨v, ?_, ho, hf⟩
   have hb := ForwardProjection.real_source_exec p.s p.x p.l p.y length p.batch p.dim p.B u
   have he' := (execR_triv _ _).symm.trans he
-  simpa only [exec, Kernels.forwardTyped, Erasure.forward_body] using hb.trans he'
+  simpa only [exec, Kernels.ReadableSource.forward_preserved, Erasure.forward_body] using hb.trans he'
 
 theorem backward (p : BackwardLayout) (length : Nat) :
     Backward (Kernels.backwardTyped p.s p.l p.y p.gs p.gx p.gl p.gy
@@ -119,7 +119,7 @@ theorem backward (p : BackwardLayout) (length : Nat) :
   refine ⟨v, ?_, hx, hs, hl, hf⟩
   have hb := backward_source_exec p length u
   have he' := (execR_triv _ _).symm.trans he
-  simpa only [exec, Kernels.backwardTyped, Erasure.backward_body] using hb.trans he'
+  simpa only [exec, Kernels.ReadableSource.backward_preserved, Erasure.backward_body] using hb.trans he'
 
 theorem complex_forward (p : ForwardLayout) (length : Nat) :
     ComplexForward (Kernels.complexForwardTyped p.s p.x p.y p.l
@@ -127,7 +127,7 @@ theorem complex_forward (p : ForwardLayout) (length : Nat) :
   intro u
   obtain ⟨v, he, hi⟩ := ComplexForwardLoop.run p u length
   refine ⟨v, ?_, hi.outputs, hi.frame⟩
-  simpa only [exec, Kernels.complexForwardTyped, Erasure.complexForward_body] using he
+  simpa only [exec, Kernels.ReadableSource.complex_forward_preserved, Erasure.complexForward_body] using he
 
 theorem complex_backward (p : BackwardLayout) (length : Nat) :
     ComplexBackward (Kernels.complexBackwardTyped p.s p.l p.y p.gs p.gx p.gl p.gy
@@ -135,7 +135,7 @@ theorem complex_backward (p : BackwardLayout) (length : Nat) :
   intro sep u
   obtain ⟨v, he, hx, hs, hl, hf⟩ := ComplexBackwardRun.run p u length sep
   refine ⟨v, ?_, hx, hs, hl, hf⟩
-  simpa only [exec, Kernels.complexBackwardTyped, Erasure.complexBackward_body] using he
+  simpa only [exec, Kernels.ReadableSource.complex_backward_preserved, Erasure.complexBackward_body] using he
 
 #guard_msgs (drop info) in
 #auditModuleAxioms

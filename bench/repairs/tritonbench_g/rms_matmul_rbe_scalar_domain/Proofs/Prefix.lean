@@ -16,7 +16,7 @@ def prefixExecution {α : Type} [Inhabited α] (M : Algebra α)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp [prelude,source,TypedSource.kernel,ComputeKernel.surfaceBody,run,
+    simp [prelude,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,run,
       FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
       numeric,bop,natLt,numericLt,ComputeDType.eraseDType,ofFloat,toFloat,
       Region.cast,Option.bind,integralFloorDiv,integralMod]

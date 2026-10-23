@@ -47,7 +47,7 @@ theorem advance_correct (M : Algebra α) (round : α → BitVec 64) (equal : α 
     (p : Launch) (s : State α) (r : Nat) :
     (∀ i : TileIndex [p.width], i.1.val < p.columns →
       (advance M round equal p s r).mem "q" (r*p.columns+i.1.val) =
-        .mk .int ((round (KernelResult.scaledValue M equal (parameters p) (atRow s r) i)).toInt)) ∧
+        .mk .int ((KernelExecution.signedByte (round (KernelResult.scaledValue M equal (parameters p) (atRow s r) i))))) ∧
     (advance M round equal p s r).mem "m" r =
       .mk .fp16 (KernelResult.maximumStored M (parameters p) (atRow s r)) ∧
     (∀ region offset, KernelResult.Outside (parameters p) (atRow s r) region offset →
@@ -114,7 +114,7 @@ theorem final_quantized (M : Algebra α) (round : α → BitVec 64) (equal : α 
     (p : Launch) (order : List Nat) (s : State α) (r : Nat) (hr : r ∈ order)
     (i : TileIndex [p.width]) (hi : i.1.val < p.columns) :
     (finalState M round equal p order s).mem "q" (r*p.columns+i.1.val) =
-      .mk .int ((round (KernelResult.scaledValue M equal (parameters p) (atRow s r) i)).toInt) := by
+      .mk .int ((KernelExecution.signedByte (round (KernelResult.scaledValue M equal (parameters p) (atRow s r) i)))) := by
   induction order generalizing s with
   | nil => simp at hr
   | cons q tail ih =>

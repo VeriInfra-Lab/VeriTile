@@ -22,7 +22,7 @@ theorem x_binding (M : Algebra A) (R : Reduction A) (project : A → A)
     (h : Call) (xs : Inputs A h) (s : State A)
     (hin : (sourceIO M R project h).InputBinding xs s)
     (batch : Fin h.batches) (positive : 0<h.N) (active : index xs batch≠-1)
-    (k : Nat) (hk : k<inputWidth h) :
+    (k : Nat) (hk : k < inputWidth h) :
     (PublicExecution.data s).input (batch.val*h.K+k)=input xs batch k := by
   have bind := hin ⟨0,by simp [sourceIO,inputs]⟩ (batch,⟨k,hk⟩,PUnit.unit) ⟨positive,active⟩
   change (s.mem _ _).read .real=_ at bind

@@ -21,7 +21,7 @@ theorem native_body (a : Arithmetic α) (fp8 outputFP8 : Bool) (p : Arguments) (
   simp only [liveKey] at hx hw hr
   cases fp8 <;> cases outputFP8
   all_goals
-    simp [selectedBody,dotIndex,carryDotNode,fp,matrixRef,body,source,TypedSource.kernel,ComputeKernel.surfaceBody,
+    simp [selectedBody,dotIndex,carryDotNode,fp,matrixRef,body,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold,
       addressSafe_unfold,maskActive_unfold,
       FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,

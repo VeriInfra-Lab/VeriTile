@@ -36,7 +36,7 @@ def headExecution (rest : Algebra α) (P : Primitives α) (p : Parameters) (s : 
     {t : State α // run (backend rest P) (headCode p) s = some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [headCode, prologue, source, original, ComputeKernel.surfaceBody,
+  simp [headCode, prologue, source, original, Source.original, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, FP.Structural.evalOp, backend,
     FP.Structural.numeric, FP.Structural.natLt, FP.Structural.bop,
     Broadcast.leftIndex, Broadcast.rightIndex, Region.cast, Option.bind,
@@ -118,7 +118,7 @@ def lastExecution (rest : Algebra α) (P : Primitives α) (p : Parameters) (s : 
       Random.IntegerType.i64.inRange (seedValue p s (a,b)) = Bool.true := h (a,b)
   refine ⟨?_,?_⟩
   swap
-  simp [lastCode, prologue, source, original, ComputeKernel.surfaceBody,
+  simp [lastCode, prologue, source, original, Source.original, ComputeKernel.surfaceBody,
     run, step, evalExpr, evalComputeOp, FP.Structural.evalOp, backend,
     hs, narrowed32_bmod_inRange, offsetValue, FP.Structural.numeric, FP.Structural.bop,
     Broadcast.leftIndex, Broadcast.rightIndex, Region.cast, Option.bind,

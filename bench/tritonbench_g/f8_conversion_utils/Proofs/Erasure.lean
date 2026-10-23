@@ -20,7 +20,7 @@ theorem to_half_body (format : Format) (swapped : Bool) (Y X : RegionName) (N B 
     (TypedSource.toHalf format swapped Y X N B).eraseDType.toAlgKernel.body =
       (toHalf swapped Y X N B).toAlgKernel.body := by
   cases format <;> cases swapped
-  all_goals simp only [TypedSource.toHalf,toHalf,
+  all_goals simp only [TypedSource.toHalf,toHalf,realForward,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,
@@ -34,7 +34,7 @@ theorem to_fp8_body (input : Input) (format : Format) (swapped : Bool) (Y X : Re
     (TypedSource.toFP8 input format swapped Y X N B).eraseDType.toAlgKernel.body =
       (toFP8 swapped Y X N B).toAlgKernel.body := by
   cases input <;> cases format <;> cases swapped
-  all_goals simp only [TypedSource.toFP8,toFP8,
+  all_goals simp only [TypedSource.toFP8,toFP8,realReverse,
     ComputeKernel.surfaceBody,ComputeKernel.eraseDType,
     ComputeKernel.toAlgorithm?,ComputeKernel.toAlgKernel,ComputeKernel.fromKernelBody,
     ComputeStmt.listToAlgorithm?,ComputeStmt.toAlgorithm?,ComputeExpr.toAlgorithm?,ComputeOp.toAlgorithm?,

@@ -16,7 +16,8 @@ theorem stage (e : Source.Engine α) (second candidate : Bool) (inp out : Region
     (ho : stageOutput second (s.pids 0)<bounds out) :
     TraceSafe e.algebra bounds (stageSource second candidate inp out N B) s := by
   cases second <;> cases candidate <;>
-    simp [stageSource,stage1,stage1Commuted,stage2,stage2Complement,TraceSafe,
+    simp [stageSource,stage1,stage1Commuted,stage2,stage2Complement,VeriTile.Bench.TritonBenchG.MaxReduction.stage1,
+      VeriTile.Bench.TritonBenchG.MaxReduction.stage2,TraceSafe,
       ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
@@ -35,7 +36,7 @@ theorem dimension (e : Source.Engine α) (candidate : Bool) (inp ov oi : RegionN
     TraceSafe e.algebra bounds
       (if candidate then dimensionCommuted inp ov oi M N K BM BN else MaxReduction.dimension inp ov oi M N K BM BN) s := by
   cases candidate <;>
-    simp [MaxReduction.dimension,dimensionCommuted,TraceSafe,ComputeKernel.surfaceBody,
+    simp [MaxReduction.dimension,dimensionCommuted,VeriTile.Bench.TritonBenchG.MaxReduction.dimensionSource,TraceSafe,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
       Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,

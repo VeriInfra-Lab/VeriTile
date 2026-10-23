@@ -73,7 +73,7 @@ private theorem address_run {α : Type} [Inhabited α] (M : Algebra α)
       bodyRun M round p (addressBody p Bool.true) s := by
   cases hr : s.regs .nat [128] "rm" <;>
     cases hc : s.regs .nat [128] "rn" <;>
-    simp (config := { maxSteps := 1000000 }) [bodyRun, addressBody, kernel,
+    simp (config := { maxSteps := 1000000 }) [bodyRun, addressBody, kernel, quotedOriginal, quotedCommuted,
       ComputeKernel.surfaceBody, List.drop, List.take,
       QuantizeIntegerStage.run, QuantizeIntegerStage.step, QuantizeIntegerStage.evalExpr,
       FP.Structural.evalOp_unfold, FP.Structural.numeric, FP.Structural.bop,

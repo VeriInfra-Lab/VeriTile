@@ -135,7 +135,7 @@ theorem matches_ready (p : Layout) (M : Algebra α) (a : Inputs α) (acc : Acc p
 theorem prelude (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α) (s : State α) :
     ∃ t,run (M.withDefaultPrecision .fp32) (parts p r scale).before s=some t ∧
       Matches p M (inputs p r s) (initial p M) t ∧ t.mem=s.mem := by
-  simp (config := {maxSteps := 500000}) [parts,kernel,
+  simp (config := {maxSteps := 500000}) [parts,kernel,originalFP32,
     VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -157,7 +157,7 @@ theorem body (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
       Matches p M (inputs p r initialState) (advance p M dots scale (inputs p r initialState) cur old) t ∧
       t.mem=initialState.mem := by
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
-  simp (config := {maxSteps := 1000000}) [parts,kernel,
+  simp (config := {maxSteps := 1000000}) [parts,kernel,originalFP32,
     VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,

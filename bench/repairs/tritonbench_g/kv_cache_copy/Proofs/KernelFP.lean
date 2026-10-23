@@ -93,21 +93,21 @@ theorem decomposition (v : Bool) (p : Parameters) :
 
 theorem prelude_run {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (s : State α) :
     run M (prelude p) s=some (preludeState p s) := by
-  simp [prelude,originalKernel,kernel,ComputeKernel.surfaceBody,run,step,evalExpr,
+  simp [prelude,originalKernel,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,numeric,numericLt,bop,Region.cast,Option.bind,
     FP.Structural.eval_truncDiv,FP.Structural.eval_truncMod,preludeState,position,selectedBlock,
     Broadcast.leftIndex,Broadcast.rightIndex]
   all_goals try dsimp only [bop,Broadcast.leftIndex,Broadcast.rightIndex,IntegerExpr.sameShape]
   all_goals simp [integralFloorDiv,←IntegerExpr.tdiv_formula,Int.tmod_def,
     Broadcast.leftIndex,Broadcast.rightIndex,IntegerExpr.same_left,IntegerExpr.same_right]
-  all_goals congr 20 <;> funext <;> simp [bop,Broadcast.leftIndex,Broadcast.rightIndex]
+  all_goals congr 20 <;> funext <;> try simp [bop,Broadcast.leftIndex,Broadcast.rightIndex]
 
 theorem body_run {α : Type} [Inhabited α] (M : Algebra α) (v : Bool) (p : Parameters)
     (s t : State α) (q : Nat) (hc : Controls p s t) (hf : Frozen s t) :
     run M (body v p) (t.setReg "split_x" .nat [] (fun _ => q))=some (finalStep M p s q t) := by
   rcases hc with ⟨hs,hh,hb,hslot,hl⟩
   rcases hf with ⟨hk,hv⟩
-  cases v <;> simp [body,kernel,ComputeKernel.surfaceBody,run,step,evalExpr,
+  cases v <;> simp [body,kernel,quotedOriginal,quotedCommuted,ComputeKernel.surfaceBody,run,step,evalExpr,
     evalComputeOp,evalOp_unfold,store,numeric,bop,ComputeDType.eraseDType,Region.cast,Option.bind,
     finalStep,preparedState,scatterOne,sourceOffset,targetInt,outputRegion,inputRegion,
     hs,hh,hb,hslot,hl,hk,hv,Broadcast.leftIndex,Broadcast.rightIndex]
@@ -118,7 +118,7 @@ theorem body_run {α : Type} [Inhabited α] (M : Algebra α) (v : Bool) (p : Par
   all_goals funext
   all_goals try simp [bop,Broadcast.leftIndex,Broadcast.rightIndex,sourceOffset,targetInt,Nat.add_comm,Nat.add_left_comm,Nat.add_assoc]
   all_goals try ring
-  all_goals simp
+  all_goals try simp
 
 
 theorem scatter_memory {α : Type} [Inhabited α] {I : Type} (xs : List I)

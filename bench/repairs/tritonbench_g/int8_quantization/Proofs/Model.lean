@@ -17,9 +17,11 @@ structure Primitives (α : Type) where
   less : α → α → Bool
   le : α → α → Bool
   int8 : α → Int
+  minimum : α → α → α
 
 def backend (M : Algebra α) (ops : Primitives α) : Algebra α :=
-  { M with compareLt := fun _ _=> some ops.less
+  { M with minimum := fun _ _ => some ops.minimum
+           compareLt := fun _ _=> some ops.less
            compareLe := fun _ _=> some ops.le
            floatToInt := fun _ _ _=> some (fun x=> some (ops.int8 x)) }
 

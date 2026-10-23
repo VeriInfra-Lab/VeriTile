@@ -22,6 +22,7 @@ structure Instructions where
   div32 : Word → Word → Word
   add32 : Word → Word → Word
   max32 : Word → Word → Word
+  min32 : Word → Word → Word
   less32 : Word → Word → Bool
   le32 : Word → Word → Bool
   int8RTZ : Word → Int
@@ -66,7 +67,7 @@ def algebra (rest : Algebra Word) (op : Instructions) (plans : Plans) : Algebra 
     reduceMax := fun _ => reduce op plans }
 
 def comparisons (op : Instructions) : Model.Primitives Word :=
-  ⟨op.less32,op.le32,op.int8RTZ⟩
+  ⟨op.less32,op.le32,op.int8RTZ,op.min32⟩
 
 /-- Independently stated numerical graph; the maximum expands only binary
 scalar calls, with the compiler's explicit operand order. -/
@@ -76,7 +77,7 @@ def numerics (op : Instructions) (plans : Plans) : Floating.Numerics Word where
   div := op.div32
   add := op.add32
   max := op.max32
-  min := fun x y => if op.less32 x y then x else y
+  min := op.min32
   le := op.le32
   lt := op.less32
   maximum := fun {n} xs => maximum op xs (plans n).tree

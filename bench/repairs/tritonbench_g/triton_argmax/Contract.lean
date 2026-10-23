@@ -1,6 +1,6 @@
 import bench.repairs.tritonbench_g.triton_argmax.Proofs.RequestBinding
 import bench.repairs.tritonbench_g.triton_argmax.Proofs.RealScratch
-import bench.repairs.tritonbench_g.square_matrix.Kernels
+import bench.repairs.tritonbench_g.square_matrix.Contract
 
 namespace VeriTile.Bench.Repairs.TritonArgmax.Checked
 open Source

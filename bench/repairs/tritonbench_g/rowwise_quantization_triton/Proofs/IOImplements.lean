@@ -99,7 +99,7 @@ theorem outside_bounds (M : Algebra α) (round : α → BitVec 64) (equal : α �
 
 def target (ops : Operations α) (half : α → α) (round : α → BitVec 64) (p : Launch) :=
   IO.result p
-    (fun values row col => (round (rowScaled ops (values row col) (rowMaximum ops p (values row)))).toInt)
+    (fun values row col => (KernelExecution.signedByte (round (rowScaled ops (values row col) (rowMaximum ops p (values row))))))
     (fun values row => half (rowMaximum ops p (values row)))
 
 /-- Reuse the exact complete-grid result after identifying each source
@@ -119,8 +119,8 @@ theorem implements (ops : Operations α) (half : α → α) (round : α → BitV
     · intro o j _
       fin_cases o
       · change mapCell id (final.mem "q" (j.1.val*p.columns+j.2.1.val))=
-          Cell.mk .int ((round (rowScaled ops (IO.values p vals j.1.val j.2.1.val)
-            (rowMaximum ops p (IO.values p vals j.1.val)))).toInt)
+          Cell.mk .int ((KernelExecution.signedByte (round (rowScaled ops (IO.values p vals j.1.val j.2.1.val)
+            (rowMaximum ops p (IO.values p vals j.1.val))))))
         rw [hq _ _ j.1.isLt j.2.1.isLt]
         rfl
       · change mapCell id (final.mem "m" j.1.val)=
@@ -153,7 +153,8 @@ theorem observed (ops : Operations α) (half : α → α) (round : α → BitVec
       (IO.byteView p) (target ops half round p vals))=observedTarget ops half round p := by
     funext vals o j
     fin_cases o
-    · exact unsigned8 _
+    · exact (unsigned8 _).trans
+        (congrArg Fin.val (KernelExecution.narrow_signedByte _))
     · rfl
   rw [mapped] at base
   exact base

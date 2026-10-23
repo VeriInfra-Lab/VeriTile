@@ -18,7 +18,7 @@ theorem candidate_safe {α : Type} [Inhabited α] (algebra : Algebra α)
     TraceSafe (engine algebra) bounds (Kernels.indexCommuted h c) s := by
   have prefixSafe : Safety.traceSafeList (engine algebra) bounds
       ((Kernels.indexCommuted h c).surfaceBody.take 4) s := by
-    simp (config := {maxSteps := 300000}) [Kernels.indexCommuted,Kernels.bindMain,
+    simp (config := {maxSteps := 300000}) [Kernels.indexCommuted,Kernels.bindMain,Kernels.mainSource,Kernels.mainIndexCommuted,
       ComputeKernel.surfaceBody,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,
       Safety.safeCompute,Safety.safeAlg,Safety.safeOp.eq_def,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
@@ -26,7 +26,7 @@ theorem candidate_safe {α : Type} [Inhabited α] (algebra : Algebra α)
       numeric,bop,State.setReg,integralFloorDiv,integralMod]
   have prefixEq : run (engine algebra) ((Kernels.fp32Source h c).surfaceBody.take 4) s=
       run (engine algebra) ((Kernels.indexCommuted h c).surfaceBody.take 4) s := by
-    simp (config := {maxSteps := 300000}) [Kernels.fp32Source,Kernels.indexCommuted,Kernels.bindMain,
+    simp (config := {maxSteps := 300000}) [Kernels.fp32Source,Kernels.indexCommuted,Kernels.bindMain,Kernels.mainSource,Kernels.mainIndexCommuted,
       ComputeKernel.surfaceBody,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
       numeric,bop,State.setReg,integralFloorDiv,integralMod,Nat.mul_comm]

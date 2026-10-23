@@ -66,7 +66,7 @@ structure DataContract (x : Layout) (rows cols k v : Storage) : Prop where
     ∀ db,db<x.shape.blocks → ∀ d,d<x.shape.blockD → ∀ n,n<x.shape.blockN →
     let w:=laneWork x.shape l
     let key:=x.csr.key x.shape w.head w.row visit n
-    (x.evenN=true ∨ key<(x.shape.length:Int)) →
+    (x.evenN=Bool.true ∨ key<(x.shape.length:Int)) →
       Allocated k (signedAddress x.k w.batch (kvHead x.shape w.head) key (db*x.shape.blockD+d)) ∧
       Allocated v (signedAddress x.v w.batch (kvHead x.shape w.head) key (l.channelProgram*x.shape.blockD+d))
 

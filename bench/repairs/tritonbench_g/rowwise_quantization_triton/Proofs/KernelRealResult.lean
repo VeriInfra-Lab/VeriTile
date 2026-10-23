@@ -29,6 +29,9 @@ theorem kernel_correct (rest : Algebra ℝ) (p : Launch) (schedule : Schedule p)
   refine ⟨final, run, ?_, ?_, hf⟩
   · intro r c hr hc
     rw [hq r c hr hc]
+    change narrow8 (KernelExecution.signedByte (round
+      (rowScaled ops (values r c) (rowMaximum ops p (values r))))) = _
+    rw [KernelExecution.narrow_signedByte]
     change narrow8 (BitVec.ofInt 64 (roundEven
       (rowScaled ops (values r c) (rowMaximum ops p (values r))))).toInt = _
     rw [KernelEncoding.narrow64]

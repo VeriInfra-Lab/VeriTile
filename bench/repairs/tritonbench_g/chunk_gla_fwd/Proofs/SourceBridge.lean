@@ -23,7 +23,7 @@ theorem inter_body (p : VeriTile.Bench.TritonBenchG.ChunkGlaFwd.RealInterMath.La
     (interNew p r scale).eraseDType.toAlgKernel.body =
       ZeroPadding.statements (interOld p r scale).eraseDType.toAlgKernel.body := by
   simp only [interNew, interOld, VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.original, VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedInter.original,
-    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.source, VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedInter.source, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.source, VeriTile.Bench.Repairs.ChunkGlaFwd.TypedInter.fp32Original, VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedInter.source, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
     ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType,
@@ -53,7 +53,7 @@ theorem intra_body (p : VeriTile.Bench.TritonBenchG.ChunkGlaFwd.RealIntraMath.La
     (intraNew p r scale).eraseDType.toAlgKernel.body =
       ZeroPadding.statements (intraOld p r scale).eraseDType.toAlgKernel.body := by
   simp only [intraNew, intraOld, VeriTile.Bench.Repairs.ChunkGlaFwd.TypedIntra.original, VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedIntra.original,
-    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedIntra.source, VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedIntra.source, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedIntra.source, VeriTile.Bench.Repairs.ChunkGlaFwd.TypedIntra.fp32Original, VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedIntra.source, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
     ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType,
@@ -83,7 +83,7 @@ theorem split_body (p : VeriTile.Bench.TritonBenchG.ChunkGlaFwd.RealSplitMath.La
     (splitNew p r scale).eraseDType.toAlgKernel.body =
       ZeroPadding.statements (splitOld p r scale).eraseDType.toAlgKernel.body := by
   simp only [splitNew, splitOld, VeriTile.Bench.Repairs.ChunkGlaFwd.TypedSplit.original, VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedSplit.original,
-    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedSplit.source, VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedSplit.source, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedSplit.source, VeriTile.Bench.Repairs.ChunkGlaFwd.TypedSplit.fp32Original, VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedSplit.source, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
     ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType,
@@ -143,7 +143,7 @@ theorem output_body (p : VeriTile.Bench.TritonBenchG.ChunkGlaFwd.RealOutputIO.La
     (outputNew p r scale).eraseDType.toAlgKernel.body =
       ZeroPadding.statements (outputOld p r scale).eraseDType.toAlgKernel.body := by
   simp only [outputNew, outputOld, VeriTile.Bench.Repairs.ChunkGlaFwd.TypedOutput.original, VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedOutput.original,
-    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedOutput.source, VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedOutput.source, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
+    VeriTile.Bench.Repairs.ChunkGlaFwd.TypedOutput.source, VeriTile.Bench.Repairs.ChunkGlaFwd.TypedOutput.fp32Original, VeriTile.Bench.TritonBenchG.ChunkGlaFwd.TypedOutput.source, ComputeKernel.surfaceBody, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
     ComputeKernel.toAlgorithm?, ComputeKernel.fromKernelBody, ComputeStmt.listToAlgorithm?,
     ComputeStmt.toAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Op.eraseDType, MemAccess.eraseDType,

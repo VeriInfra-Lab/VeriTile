@@ -27,7 +27,7 @@ def rotationExecution {α : Type} [Inhabited α] (a : Arithmetic α)
     {next : State α // run a.model (rotation p) s=some next} := by
   refine ⟨?_,?_⟩
   swap
-  simp [rotation,rotaryBody,epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody,run,
+  simp [rotation,rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,run,
     FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
     numeric,bop,natLt,numericLt,ComputeDType.eraseDType,ofFloat,toFloat,
     Region.cast,Option.bind,integralFloorDiv,integralMod,Arithmetic.model,ht,hm,hn,ha,

@@ -35,7 +35,7 @@ def algebra (rest : Algebra ℝ) : Algebra ℝ :=
     reduceMax:=fun _=> realMaximum}
 
 def primitives : Model.Primitives ℝ :=
-  ⟨fun x y=> decide (x< y),fun x y=> decide (x≤ y),tritonTruncTowardZero⟩
+  ⟨fun x y=> decide (x< y),fun x y=> decide (x≤ y),tritonTruncTowardZero,min⟩
 
 def raw (p : Parameters) (entry : State ℝ) (i : Lane p) : ℝ :=
   (entry.mem xRegion (Model.offset p entry i)).read .real

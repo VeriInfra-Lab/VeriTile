@@ -33,7 +33,7 @@ theorem prefix_safe (M : Algebra α) (fp8 outputFP8 : Bool) (p : Arguments)
   apply pure_trace
   intro st member t
   cases fp8 <;> cases outputFP8 <;>
-    simp only [prelude,source,TypedSource.kernel,ComputeKernel.surfaceBody,
+    simp only [prelude,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,
       List.take,List.drop,List.mem_cons,List.not_mem_nil,or_false] at member
   all_goals rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold]

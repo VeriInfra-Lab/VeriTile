@@ -54,7 +54,7 @@ theorem bodyExecution (P : Source.Arithmetic α α) (p : Parameters)
     change run (backend P) (inner p) (current.setReg "ki" .nat [] (fun _ => block))=
       some (bodyResult P p initial current tile block)
     have h : InnerInvariant P p initial tile block current := h
-    simp [p,inner,outer,source,TypedSource.kernel,ComputeKernel.surfaceBody,run,step,
+    simp [p,inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
       Region.cast,Option.bind,integralFloorDiv,integralMod,backend,matrix,h.offAM,h.offBN,h.offK,h.acc,
@@ -75,7 +75,7 @@ theorem bodyExecution (P : Source.Arithmetic α α) (p : Parameters)
     change run (backend P) (inner p) (current.setReg "ki" .nat [] (fun _ => block))=
       some (bodyResult P p initial current tile block)
     have h : InnerInvariant P p initial tile block current := h
-    simp [p,inner,outer,source,TypedSource.kernel,ComputeKernel.surfaceBody,run,step,
+    simp [p,inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,run,step,
       evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,store,numeric,bop,natLt,numericEq,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,FloatDType.numericDType,FloatDType.toTileDType,
       Region.cast,Option.bind,integralFloorDiv,integralMod,backend,matrix,h.offAM,h.offBN,h.offK,h.acc,

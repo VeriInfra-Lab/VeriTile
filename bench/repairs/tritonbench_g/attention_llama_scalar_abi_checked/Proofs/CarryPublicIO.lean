@@ -46,7 +46,7 @@ theorem implements (A : Target.Ops α) (C : ScalarABI.Conversions α) (arg : Sca
       ⟨(Fintype.equivFin (CarryIO.Program B c)) (owner (index i)),by
         simpa only [io,CarryIO.io,CarryIO.schedule_length] using
           ((Fintype.equivFin (CarryIO.Program B c)) (owner (index i))).isLt⟩
-    have pk : p k=owner (index i) := by simp [p,k,CarryIO.program]
+    have pk : p k=owner (index i) := by simp [p,k,CarryIO.program,NativeIO.program]
     have hit : io.writes vals k c.Out (IOLayout.output c i) := by
       change CarryIO.writes B c (p k) _ _
       rw [pk]

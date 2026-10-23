@@ -256,7 +256,7 @@ theorem fused_recurrent_hgrn_fwd_body_split
     (USE_INITIAL_STATE STORE_FINAL_STATE : Bool) :
     (fused_recurrent_hgrn_fwd_surface x g o h0 ht T D BD
         USE_INITIAL_STATE STORE_FINAL_STATE).toAlgorithm?
-      = Except.ok (Kernel.mk [x, x, g, g, o, o, h0, h0, ht, ht] []
+      = Except.ok (Kernel.mk [] [o, ht]
           (hgrnFwdPrologue x g o h0 T D BD USE_INITIAL_STATE
             ++ [Stmt.forRange "_i" 0 T 1 (hgrnFwdOuterBody D BD)]
             ++ hgrnFwdEpilogue ht D BD STORE_FINAL_STATE)) := by

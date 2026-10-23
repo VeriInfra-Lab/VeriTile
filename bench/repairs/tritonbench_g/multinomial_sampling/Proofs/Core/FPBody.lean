@@ -35,7 +35,7 @@ theorem bodyExecution (rest : Algebra α) (P : Primitives α) (d : Storage) (p :
       some (bodyResult P d p initial current b st) := by
   have hn : 0<p.blockTokens := p.tokensDomain.1
   cases d <;>
-    simp [body,source,original,original16,originalBfloat16,original64,ComputeKernel.surfaceBody,Random.i32ArangeSize,
+    simp [body,source,original,original16,originalBfloat16,original64,Source.original,Source.original16,Source.originalBfloat16,Source.original64,ComputeKernel.surfaceBody,Random.i32ArangeSize,
       run,step,evalExpr,evalComputeOp,FP.Structural.evalOp,backend,
       h.memory,h.off,h.n_off,h.mask,h.samp,h.acc,h.output,
       FP.Structural.numeric,FP.Structural.natLt,FP.Structural.numericLt,FP.Structural.numericLe,

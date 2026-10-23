@@ -19,7 +19,7 @@ theorem storing_safe (a : Arithmetic α) (outputFP8 : Bool) (p : Arguments) (s :
     traceSafeList a.model capacity (storing outputFP8 p) s := by
   cases outputFP8
   all_goals
-    simp [storing,epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody,
+    simp [storing,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,
       traceSafeList_unfold,stepSafe_unfold,safeAddress_unfold,safeMask_unfold,
       safeExpr_unfold,safeCompute_unfold,safeOp_unfold,addressSafe_unfold,maskActive_unfold,
       FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,

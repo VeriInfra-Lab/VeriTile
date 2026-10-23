@@ -21,8 +21,8 @@ theorem source_correct (ops : Operations α) (half : α → α)
       KernelGrid.run (KernelProfile.algebra ops half p.tree rest) round (KernelProfile.equal ops)
         p schedule.order s = some final ∧
       (∀ r c, r < p.rows → c < p.columns →
-        final.mem "q" (r*p.columns+c) = .mk .int ((round
-          (rowScaled ops (values r c) (rowMaximum ops p (values r)))).toInt)) ∧
+        final.mem "q" (r*p.columns+c) = .mk .int (KernelExecution.signedByte (round
+          (rowScaled ops (values r c) (rowMaximum ops p (values r)))))) ∧
       (∀ r, r < p.rows → final.mem "m" r = .mk .fp16 (half (rowMaximum ops p (values r)))) ∧
       (∀ (region : RegionName) offset, (region ≠ "q" ∨ p.rows*p.columns ≤ offset) →
         (region ≠ "m" ∨ p.rows ≤ offset) → final.mem region offset = s.mem region offset) := by

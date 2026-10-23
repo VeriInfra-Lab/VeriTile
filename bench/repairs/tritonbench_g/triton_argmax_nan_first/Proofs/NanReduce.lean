@@ -43,7 +43,7 @@ theorem flag_exists {n : Nat} (input : Fin n → Word) (tree : Tree n)
 
 theorem hasNaN_iff {n : Nat} (input : Fin n → Word) (tree : Tree n)
     (complete : tree.Complete) :
-    hasNaN input tree=Bool.true ↔ ∃ i,MachineMax.isNaN .fp32 (input i)=Bool.true := by
+    hasNaN input tree = Bool.true ↔ ∃ i,MachineMax.isNaN .fp32 (input i)=Bool.true := by
   simpa only [hasNaN,decide_eq_true_eq,flag_positive] using flag_exists input tree complete
 
 theorem flag_first {n : Nat} (input : Fin n → Word) (tree : Tree n)

@@ -888,7 +888,11 @@ globs = [
 # Complete enumeration of legacy standalone ports. Build membership is not proof acceptance.
 [[lean_lib]]
 name = "TritonBenchGLegacy"
+# Resolve imported legacy helpers from source, including modules outside the
+# explicit build target list. Membership does not imply task acceptance.
+roots = ["bench.tritonbench_g"]
 globs = [
+  "bench.tritonbench_g",
   "bench.tritonbench_g.attention_kernel_aligned.AttentionKernelAligned",
   "bench.tritonbench_g.fifth_order_sph_harmonics.+",
   "bench.tritonbench_g.flash_decode2_llama.FlashDecode2Llama",

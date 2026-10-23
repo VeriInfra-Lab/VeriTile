@@ -63,7 +63,7 @@ def normalized (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
 def clipped (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (positive : 0< p.width) (entry : State α) : Lane p → α :=
   fun i=> let lower:=M.binary (some .fp32) .real .max (normalized M ops p positive entry i) (scalar32 M (-127.0))
-    if ops.less lower (scalar32 M 127.0) then lower else scalar32 M 127.0
+    ops.minimum lower (scalar32 M 127.0)
 
 def biased (M : Algebra α) (ops : Model.Primitives α) (p : Parameters)
     (positive : 0< p.width) (entry : State α) : Lane p → α :=

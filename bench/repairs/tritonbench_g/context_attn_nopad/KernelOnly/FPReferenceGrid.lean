@@ -50,6 +50,10 @@ theorem whole (c : Call) (r : Regions) (o : FPBackend.Ops α)
     obtain ⟨final,hfinal,hfm⟩ := ih mid
     refine ⟨final,?_,?_⟩
     · simp only [runGrid,kernel,Call.source] at *
+      change (do
+        let t ← FP.Structural.exec (engine o.algebra)
+          (FPSymbolic.program c.layout r c.scale) (FPHost.atProgram c idx s)
+        runGrid c r o rest t) = some final
       rw [he]
       exact hfinal
     · exact hfm.trans (grid_mem_congr c r o rest mid (tile c r o idx s) hm)

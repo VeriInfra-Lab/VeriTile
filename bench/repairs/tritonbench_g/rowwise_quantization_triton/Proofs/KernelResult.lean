@@ -38,7 +38,7 @@ def maximumStored {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters) (
 def rowWritten {α : Type} [Inhabited α] (M : Algebra α) (round : α → BitVec 64)
     (equal : α → α → Bool) (p : Parameters) (s : State α) : State α :=
   (TileShape.allIndices [p.width]).foldl (fun t i => if i.1.val < p.columns then
-    t.write p.out (offset p s i) (.mk .int ((round (scaledValue M equal p s i)).toInt)) else t) s
+    t.write p.out (offset p s i) (.mk .int ((KernelExecution.signedByte (round (scaledValue M equal p s i))))) else t) s
 
 def reference {α : Type} [Inhabited α] (M : Algebra α) (round : α → BitVec 64)
     (equal : α → α → Bool) (p : Parameters) (s : State α) : State α :=
@@ -116,6 +116,7 @@ theorem source_run {α : Type} [Inhabited α] (M : Algebra α) (round : α → B
     split
     · rename_i h
       simp [h.1, show (0.0 : ℝ) = 0 by norm_num, show (1.0 : ℝ) = 1 by norm_num]
+      exact signedBits_int_mod 8 _
     · rfl
 
 theorem offset_injective {α : Type} (p : Parameters) (s : State α) : Function.Injective (offset p s) := by
@@ -132,7 +133,7 @@ theorem source_correct {α : Type} [Inhabited α] (M : Algebra α) (round : α �
     (hwidth : 0 < p.width) (hregions : p.out ≠ p.maxOut) :
     ∃ t, KernelExecution.exec (backend M equal) round (kernel p) s = some t ∧
       (∀ i : TileIndex [p.width], i.1.val < p.columns →
-        t.mem p.out (offset p s i) = .mk .int ((round (scaledValue M equal p s i)).toInt)) ∧
+        t.mem p.out (offset p s i) = .mk .int ((KernelExecution.signedByte (round (scaledValue M equal p s i))))) ∧
       t.mem p.maxOut (s.pids 0) = .mk .fp16 (maximumStored M p s) ∧
       (∀ r o, Outside p s r o → t.mem r o = s.mem r o) := by
   obtain ⟨t, he, hm⟩ := source_run M round equal p s hwidth

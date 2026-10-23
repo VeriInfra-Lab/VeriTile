@@ -12,7 +12,7 @@ theorem normalization_safe (M : Algebra α) (p : Arguments) (capacity : RegionNa
     traceSafeList M capacity (normalization p) s := by
   apply pure_trace
   intro st member t
-  simp only [normalization,epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody,
+  simp only [normalization,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,
     List.take,List.drop,List.getElem?_cons_zero,List.getElem?_cons_succ,List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl|rfl|rfl
   all_goals simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold]
@@ -21,7 +21,7 @@ theorem rotation_safe (M : Algebra α) (p : Arguments) (capacity : RegionName �
     traceSafeList M capacity (rotation p) s := by
   apply pure_trace
   intro st member t
-  simp only [rotation,rotaryBody,epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody,
+  simp only [rotation,rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,
     List.take,List.drop,List.getElem?_cons_zero,List.getElem?_cons_succ,List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp [stepSafe_unfold,safeExpr_unfold,safeCompute_unfold,safeOp_unfold]
@@ -31,7 +31,7 @@ theorem native_rotation_safe (M : Algebra α) (plan : RotaryPlan) (p : Arguments
     traceSafeList M capacity (nativeRotation plan p) s := by
   apply pure_trace
   intro st member t
-  simp only [nativeRotation,selectedRotary,rotaryBody,epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody,
+  simp only [nativeRotation,selectedRotary,rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,
     List.take,List.drop,List.getElem?_cons_zero,List.getElem?_cons_succ,List.cons_append,List.nil_append,List.mem_cons,List.not_mem_nil,or_false] at member
   rcases member with rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl|rfl
   all_goals simp [nativeRealNode,nativeImagNode,fp,pairRef,pairMul,

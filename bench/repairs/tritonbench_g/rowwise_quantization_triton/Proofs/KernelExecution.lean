@@ -1,5 +1,6 @@
 import bench.repairs.tritonbench_g.rowwise_quantization_triton.Kernels
 import VeriTile.Triton.Float.Structural
+import VeriTile.Triton.Float.SignedCast
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.Repairs.RowwiseQuantizationTriton.KernelExecution
@@ -24,6 +25,17 @@ def eval {α : Type} [Inhabited α] (M : Algebra α) (round : α → BitVec 64) 
   | .int, sh, .opaque label, s =>
       if label = "runtime compute value `output`" then s.regs .int sh "output" else none
   | _, _, e, s => FP.Structural.evalExpr M e s
+
+/-- Signed value stored after the source INT8 narrowing of llrint. -/
+def signedByte (word : BitVec 64) : Int := (BitVec.ofInt 8 word.toInt).toInt
+
+/-- Narrowing changes the signed representative, preserving its observed byte. -/
+theorem narrow_signedByte (word : BitVec 64) :
+    narrow8 (signedByte word) = narrow8 word.toInt := by
+  have same : (BitVec.ofInt 8 word.toInt).toInt % 256 = word.toInt % 256 := by
+    simpa only [BitVec.toInt_ofInt] using (Int.bmod_emod (x := word.toInt) (m := 256))
+  simp only [signedByte, narrow8, same]
+
 
 def step {α : Type} [Inhabited α] (M : Algebra α) (round : α → BitVec 64) :
     ComputeStmt → State α → Option (State α)

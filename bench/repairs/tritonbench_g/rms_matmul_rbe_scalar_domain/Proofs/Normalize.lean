@@ -31,7 +31,7 @@ def normalizationExecution {α : Type} [Inhabited α] (a : Arithmetic α)
     {next : State α // run a.model (normalization p) s=some next} := by
   refine ⟨?_,?_⟩
   swap
-  simp [normalization,epilogue,source,TypedSource.kernel,ComputeKernel.surfaceBody,run,
+  simp [normalization,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,ComputeKernel.surfaceBody,run,
     FP.Structural.step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
     numeric,bop,natLt,numericLt,ComputeDType.eraseDType,ofFloat,toFloat,
     Region.cast,Option.bind,integralFloorDiv,integralMod,Arithmetic.model,he,hm,ha,

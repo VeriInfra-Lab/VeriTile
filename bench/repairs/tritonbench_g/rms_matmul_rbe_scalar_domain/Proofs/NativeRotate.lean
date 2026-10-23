@@ -29,7 +29,7 @@ def nativeRotationExecution {α : Type} [Inhabited α] (a : Arithmetic α)
     refine ⟨?_,?_⟩
     swap
     simp [nativeRotation,selectedRotary,nativeRealNode,nativeImagNode,orderedFactors,
-      fp,pairRef,pairMul,samePair,rotaryBody,epilogue,source,TypedSource.kernel,
+      fp,pairRef,pairMul,samePair,rotaryBody,epilogue,source,TypedSource.kernel,TypedSource.halfHalf,TypedSource.halfFP8,TypedSource.fp8Half,TypedSource.fp8FP8,
       ComputeKernel.surfaceBody,run,FP.Structural.step,evalExpr,evalComputeOp,
       evalOp_unfold,evalOffsets,evalDeltas,numeric,bop,natLt,numericLt,
       ComputeDType.eraseDType,ofFloat,toFloat,Region.cast,Option.bind,
