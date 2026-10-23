@@ -1,0 +1,50 @@
+✖ [1/452] Running bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedTarget
+error: no such file or directory (error code: 4294967294)
+  file: /tmp/veritile-pr18-source-clean/bench/repairs/tritonbench_g/kv_cache_filling/Proofs/SharedTarget.lean
+ℹ [934/945] Replayed VeriTile.Triton.Float.ProgramEquivalenceSyntax
+info: VeriTile/Triton/Float/ProgramEquivalenceSyntax.lean:93:0: VeriTile.Triton.FP.Structural.ProgramIO.Implementation.of_equivalentOn: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+info: VeriTile/Triton/Float/ProgramEquivalenceSyntax.lean:94:0: VeriTile.Triton.FP.Structural.ProgramIO.Implementation.of_equivalentOnCells: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+✖ [935/945] Running bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.IO
+error: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean: bad import 'bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedTarget'
+✖ [936/945] Running bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.RowCongruence
+error: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/RowCongruence.lean: bad import 'bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.IO'
+✖ [937/945] Running bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedReadback
+error: no such file or directory (error code: 4294967294)
+  file: /tmp/veritile-pr18-source-clean/bench/repairs/tritonbench_g/kv_cache_filling/Proofs/SharedReadback.lean
+✖ [938/945] Running bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.AccessSafety
+error: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/AccessSafety.lean: bad import 'bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedReadback'
+✖ [939/945] Running bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.Interface
+error: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/Interface.lean: bad import 'bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.RowCongruence'
+error: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/Interface.lean: bad import 'bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.AccessSafety'
+✖ [940/945] Running bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.Readback
+error: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/Readback.lean: bad import 'bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.IO'
+error: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/Readback.lean: bad import 'bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedReadback'
+✖ [941/945] Running bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IOCorrect
+error: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/IOCorrect.lean: bad import 'bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.Interface'
+error: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/IOCorrect.lean: bad import 'bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.Readback'
+✖ [942/945] Running bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IOReal
+error: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/IOReal.lean: bad import 'bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IOCorrect'
+✖ [943/945] Running bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Correct
+error: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean: bad import 'bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IOReal'
+✖ [944/945] Running bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IONative
+error: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/IONative.lean: bad import 'bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IOCorrect'
+✖ [945/945] Running bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.FPEquiv
+error: bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean: bad import 'bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IONative'
+Some required targets logged failures:
+- bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedTarget
+- bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.IO
+- bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.RowCongruence
+- bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedReadback
+- bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.AccessSafety
+- bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.Interface
+- bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.Readback
+- bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IOCorrect
+- bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IOReal
+- bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Correct
+- bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IONative
+- bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.FPEquiv
+error: build failed
