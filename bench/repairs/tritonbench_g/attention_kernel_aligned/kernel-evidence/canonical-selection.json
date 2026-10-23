@@ -1,0 +1,95 @@
+{
+  "ledger_observation": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/task_progress.json",
+    "sha256": "f3e40ee10262cdf2a419297ea613ca0a9e453ce9eeef4708ed76510a9dc5799e"
+  },
+  "entry": {
+    "task": "attention_kernel_aligned",
+    "original_status": "source_defect_pending_repair",
+    "original_review": {
+      "kind": "not_accepted",
+      "review": null
+    },
+    "selected_precision": {
+      "review": "reviewed_selected_precision_source_defect",
+      "rule": "source_specified_else_fp32",
+      "source_files": {
+        "bench/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned.py": "ca0ecc71aeb5d33c1e216ec1891a726281fae909e8ee765945a3bb12414453b9"
+      },
+      "summary": "\u5bbf\u4e3b\u660e\u786e\u5141\u8bb8FP16/BF16\u5e76\u68c0\u67e5\u5404tensor\u540cdtype\uff1b\u4e3b\u53cd\u4f8bFP16\u3002\u4fdd\u7559Q\u7f29\u653e/\u7a84\u5316\u3001\u663e\u5f0f\u5b58\u50a8dtype QK dot\u3001FP32\u72b6\u6001\u3001P/\u8f93\u51fa\u8f6c\u6362\uff1b\u5386\u53f2BF16\u7f16\u8bd1\u62d2\u7edd\u4ec5\u9650\u8bb0\u5f55profile\u3002"
+    },
+    "retained_acceptance": {
+      "status": "verified_with_deferred_numerics",
+      "variant": "separate_repair",
+      "review": {
+        "path": "bench/review-checkpoints/2026-10-18/attention-kernel-aligned-whole-family001/repair-review.json",
+        "sha256": "7bf7a0730ff4944bb273e6a8a32b3d36ce89637d6e01d529ac08a5c97f869777"
+      },
+      "scope": "Exactly the historical review domain; not automatically the changed current contract.",
+      "numerical_validation": "deferred_as_recorded_in_review",
+      "repair_candidate": {
+        "review": {
+          "path": "bench/review-checkpoints/2026-10-18/attention-kernel-aligned-whole-family001/repair-review.json",
+          "sha256": "7bf7a0730ff4944bb273e6a8a32b3d36ce89637d6e01d529ac08a5c97f869777"
+        },
+        "source": {
+          "path": "bench/repairs/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned.py",
+          "sha256": "06c352a76c19886de6c0e28c32e479e67afbd9eaa809f55b6dafa60b8105f76d"
+        },
+        "status": "verified_with_deferred_numerics"
+      }
+    },
+    "contract_revision": {
+      "status": "verified_with_deferred_numerics",
+      "stage": "accepted",
+      "owner": "masked_add_cuda",
+      "blockers": [],
+      "independent_replay": "root_targeted_CPU_source_AST_and_host_checks_passed",
+      "gpu_execution": "not_run_cuda_unavailable",
+      "variant": "checked_source_revision",
+      "source": "bench/repairs/tritonbench_g/attention_kernel_aligned/attention_kernel_aligned_repaired.py",
+      "source_sha256": "365cda104f62655345ad002a7d2815fba0d3c812e20c5a569e9b0214c92c85ea",
+      "public_entries": [
+        "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Contract.lean",
+        "bench/repairs/tritonbench_g/attention_kernel_aligned/Correct.lean",
+        "bench/repairs/tritonbench_g/attention_kernel_aligned/FPEquiv.lean"
+      ],
+      "public_entry_sha256": {
+        "bench/repairs/tritonbench_g/attention_kernel_aligned/Proofs/Contract.lean": "08ad0f8e0c525caa7e9ea4c33a5414d85a1d8b334aff6ecc513cf7a25b56627a",
+        "bench/repairs/tritonbench_g/attention_kernel_aligned/Correct.lean": "425173c0035b8b74b68f14ca44886f691d87ae572655f54490544f550bb6e500",
+        "bench/repairs/tritonbench_g/attention_kernel_aligned/FPEquiv.lean": "16791e16c5a65178baf712e372bc48d37aec00213d86fea53e5cb8bc799657ad"
+      },
+      "readme": "bench/repairs/tritonbench_g/attention_kernel_aligned/README.md",
+      "precision": "FP16 or BF16 storage and bias; distinct QK precision branches; FP32 online/PV state",
+      "independent_native_replay": "not_run",
+      "validation": {
+        "lean": "TritonBenchGContracts batch006 and independent-reader correction passed with standard-base axiom audits.",
+        "root_review": "Checked contract, whole independent mathematical/native result, physical returned Tensor/frame and local numerical scope; norm optional returns and arbitrary-Real/source connections included.",
+        "batch_log": "/tmp/veritile-contract-batch006-build.log",
+        "corrections_log": "/tmp/veritile-contract-batch006-corrections.log",
+        "python_log": "/tmp/veritile-root-attention_kernel_aligned-checks.log"
+      },
+      "numerical_assumptions": [
+        {
+          "declaration": "Local interfaces documented in public FPEquiv and task README",
+          "statement": "Local scalar/cast and fixed seeded m16n8k16 coordinate laws with exact QK half/bfloat profile, live PV seeds, complete reductions and output cast. All input words remain structural; eight offline profiles are compilation evidence, no native numerical validation.",
+          "precision": "FP16 or BF16 storage and bias; distinct QK precision branches; FP32 online/PV state",
+          "domain": "Actual reached scalar/instruction operands and exact selected profiles; mathematical Real model and all-word structural source behavior remain separate.",
+          "validation": "GPU numerical experiment deferred",
+          "reference": "bench/repairs/tritonbench_g/attention_kernel_aligned/README.md"
+        }
+      ]
+    },
+    "kernel_revision": {
+      "status": "pending",
+      "stage": "not_started",
+      "owner": null,
+      "blockers": [
+        "Kernel-only source, contract, mathematical result, implementation equivalence and numerical classification await complete-task review. Prior accepted results remain retained."
+      ],
+      "gpu_execution": "not_run_in_this_revision",
+      "independent_numerical_replay": "not_run_in_this_revision",
+      "deferred_experiments": []
+    }
+  }
+}

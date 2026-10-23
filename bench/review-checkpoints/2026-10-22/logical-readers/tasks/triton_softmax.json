@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "task": "triton_softmax",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue15/release-result.json",
+    "sha256": "8a77b0f84470ab4da972410dbbbda5acec548d388b18f6f9a69f4a2366f55ee6",
+    "task_index": 7
+  },
+  "finding": "The row formula exposed TileIndex/PUnit and Fin.castLE bound plumbing inside the denominator.",
+  "resolution": "Added a logical row containing all B values plus an active Fin n accessor. The input view also preserves PID, and the output view preserves all B lanes.",
+  "mathematical_target": "Unshifted exp(row[i]) / sum over exactly Fin n active logical columns.",
+  "conditions_and_scope": "Original 0<B, n≤B, active-address injectivity, arbitrary offsets/row/column strides and complete per-row invocation. Inactive B−n input values remain arbitrary and are not projected away.",
+  "proof_connection": "IO.row_iff is exact full-judgment iff with the previous active-column formula. The bijective rowInputs/rowOutputs retain PID, padding, masks, safety/termination and complete frame; LogicalColumns.sum_eq reuses the old source theorem.",
+  "fp_review": "Actual fixed-four-warp FP32 source pair changes only integer input-row multiplication order. Native max/sub/exp/sum/div graph, owner observations and frames remain unchanged, R=[].",
+  "numerical_dependencies": "No new numerical rule, experiment or hardware claim. Main FP experimental rule set remains empty; existing strict source models/certificates and explicit primitive/domain premises are reused.",
+  "previous_formula_scope": {
+    "mathematical_target": "exp(xs[i]) / sum_{j : Fin n} exp(xs[castLE cover j])",
+    "required_conditions": [
+      "0<B; n≤B explicitly public; active output address injectivity over i<n",
+      "FP pair: output/input row+column shape equality, y.Injective, 0<B, x.cols≤B, p<x.rows",
+      "Contract reuses checked contiguous CUDA FP32 rank-2 domain, row grid/front-end bounds and nonempty alignment; actual launch blockSize derives coverage"
+    ],
+    "scope": "Complete actual FP32 row invocation at arbitrary source/storage offsets and row/column strides, n logical columns inside B-lane block. FP row owns each actual output thread in the fixed-four-warp native graph.",
+    "canonical_connection": "LogicalColumns.sum_eq proves masked-B denominator equals full Fin n denominator under unchanged n≤B. RealIOImplements.correct proves actual source safety, success, active values and exterior frame; headline now shows that logical-column sum.",
+    "fp_program_pair": "IO.original inst x y B p vs IO.indexCommuted: complete actual sources, integer input-row product commutation only.",
+    "numerical_dependencies": "Empty experimental set. Fixed-four-warp native max/sub/exp/sum/div graph and original FP32 precision unchanged; both source executions/frames connected by native implementations."
+  },
+  "verification": [
+    {
+      "kind": "main",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/build.py",
+        "bench/repairs/tritonbench_g/triton_softmax/IO.lean",
+        "bench/repairs/tritonbench_g/triton_softmax/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/triton_softmax/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/logs/triton_softmax-main.log",
+      "log_sha256": "d483d2cba4f608655d31f0bd8d0810b9c46ed2991efa4c7f909c2f60926fcec5",
+      "evidence_source": "frozen_base"
+    },
+    {
+      "kind": "fp",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/build.py",
+        "bench/repairs/tritonbench_g/triton_softmax/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/logs/triton_softmax-fp.log",
+      "log_sha256": "5d5c402ad8b70edc63e447ac647efffae08904b83780e200b1dc22bc33905b8b",
+      "evidence_source": "frozen_base"
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue15/checks/triton_softmax-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/logs/triton_softmax-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "evidence_source": "frozen_base"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/triton_softmax/Contract.lean": "d8552fac8148e2d0ebe9f7e5d228abdb66760f744d4413fa87bde85930e37bd5",
+    "bench/repairs/tritonbench_g/triton_softmax/Correct.lean": "0e54a258aadce7c04d0c7bb49ee7b919a14c5feea7b61e1bc8239b9621a72f27",
+    "bench/repairs/tritonbench_g/triton_softmax/FPEquiv.lean": "ec8384cd80265860deb7b559b3b1efed2e09ddae88d7dc65b6d60de82e6daab3",
+    "bench/repairs/tritonbench_g/triton_softmax/IO.lean": "7e6d8a9e7792533867799fbb41487751d3a8944165f323c62afa0207fe23ff4c",
+    "bench/repairs/tritonbench_g/triton_softmax/Proofs/LogicalIO.lean": "44cd2cdc74c01e6e8d64ca27d9f6cce2bf27ef77114df85801fadebeee122a13",
+    "bench/repairs/tritonbench_g/triton_softmax/Proofs/LogicalColumns.lean": "ece926e6af28b06f0cc1f4419c89dc2dbcf905575b810e63e6527a0fb98f451d",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

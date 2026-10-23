@@ -25,6 +25,7 @@ private def model : Algebra ℚ where
     | .div => a / b
     | _ => 0
   unary := fun _ op a => match op with
+    | .abs _ => if a < 0 then -a else a
     | .libdeviceExp => 1
     | .libdeviceLog => a + 10
     | .log => a + 100

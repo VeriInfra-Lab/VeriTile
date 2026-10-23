@@ -1,0 +1,894 @@
+{
+  "schema": 1,
+  "task": "lightning_attention",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue08/result.json",
+    "sha256": "922e544649f351824076d5d21febe4e592eea0ac9b43f8118af45e6b8652cafa",
+    "task_index": 11
+  },
+  "reason": "Memory IO and the existing named mathematical input/output adapters now live in the single task IO.lean; all public Lean names and complete bridge judgments are preserved.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Contract.lean",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Correct.lean",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "lightning_attention"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/IO.lean",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/NativeIO.lean",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOBounds.lean",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOExecution.lean",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOSafetyBounds.lean",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/LogicalIO.lean",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/PairSource.lean",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/StageSafety.lean",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Reference.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/LogicalIO.lean",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/SourceIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/SourceIO.lean",
+      "to": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/IO.lean",
+      "body_sha256": "28d1d8c13efbbc5becc5ab32493a8b3c197d4bce2e07288abe6c621ba5877be8",
+      "declarations": [
+        "invocation",
+        "stageSchedule",
+        "inputChannels",
+        "forwardChannels",
+        "backwardChannels",
+        "denseIndex",
+        "inputIndex",
+        "backwardIndex",
+        "forwardIO",
+        "backwardIO"
+      ],
+      "namespaces": [
+        "VeriTile.Bench.Repairs.LightningAttention.KernelOnly"
+      ],
+      "byte_identical_in_target": true
+    },
+    {
+      "from": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/LogicalIO.lean",
+      "to": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/IO.lean",
+      "body_sha256": "59185852b86f0ae5d05d2dbd8d8d4f0e6799e4739b0c7b94f6e3773d673cf16f",
+      "declarations": [
+        "Inputs",
+        "inputs",
+        "Outputs",
+        "outputs",
+        "io",
+        "forwardOutputs",
+        "forward"
+      ],
+      "namespaces": [
+        "VeriTile.Bench.Repairs.LightningAttention.KernelOnly.LogicalIO"
+      ],
+      "byte_identical_in_target": true
+    }
+  ],
+  "preservation": {
+    "evidence": ".veritile-cache/io-unification-20261023/queue08/preservation.json",
+    "complete_bridge_and_public_types_unchanged": true,
+    "checks": [
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Correct.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "4afcb47da16a298a90b86e8cd87603cea46db58949d884111716db8da3a31c66"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/FPEquiv.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "84b043424b6303f276a47104dfbe2c5edef80046a0bdfb88e5e83add32e43abf"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Contract.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "bf32509631095407d865cf80ab9c1beba1ac5d74a4621c296117b728ed46aaf1"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Correct.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "cfab5d14a27fc5fbc8fbfccb3305cae048cd58d387e44e2974b90f65d3fa63e0"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/FPEquiv.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "cb32988f1155188b26d2c4bb1d28955f5fcd76e6fa89f947b5420e44da7e1de4"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Kernels.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "07d16dfd8a1fc8b4ca90dd66dfb879769c93c86232ee0c77af9e45ef5063f018"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/ForwardSafety.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "4b40378002c4ac17cfde44beaeff49eafe9c962b8d394a02b11e49ec4d12dcbd"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOBounds.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "535946fd8531a7e431b2d08465d4ffab23b48ab5aee9e0ddf5ec9211f84a18e0"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOExecution.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "e495a5a941d2ce7864fc4e0a9601da1021a473731afe843b903cced103169924"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOResults.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "0b441ee7c80ceae12ce8352ce9fb6a5dffcefa4fc3a5e1b7b6bb066454063055"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOSafety.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "a9b7ec1fbf1f94771c7d75906e7ccb8ea9146b9018d910918ff4f749d9df1bae"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOSafetyBounds.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "a46534f901cef936903045dd2e3ae8b7680b5ad1b4cf1e4da37028693f60968f"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/InputBinding.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "8b2c8e38847e2b279122ebf6d06edc679905cd1cdb04e08622e5a963f386aaf9"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/InterBodySafety.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "567fc1c73ad13125721fddc4b7b8b96a167812b3c91ee4d1fb3ee1ac49017a2c"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/InterLoopSafety.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "71a03b31579ce47c3ff00b62e62a8472e5b2cb55cfc5dedeeccb5213301b0098"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/InterPureSafety.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "b6413f9e022fae20445464cf0c568e87a0414267951ef5c3c9bb159e0938dde9"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/InterScanSafety.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "1f12dce5e42e44cc139ea726e5b9baa41c6a73f09876a17c0a67816ae29f9c54"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IntraSafety.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "2d8dfdb72a336ab9713d146965a54e7b78da4a7758ad9441c3d764701d4819b1"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/LogicalIO.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "fa2109a09eecbb7fda5a9dc4316a1e387684191974722ddb0f2eec6fbd12e447"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/NativeConnection.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "46c33b54c9fef274dfd09f7d23034edb1da55fac72b4171f0f2146d2dd77d792"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/NativeCoverage.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "5b042c4535f558c0a69aadc9b913e9b6fb20c92578219714a653b8a1eaf4b42a"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/NativeHeadLocality.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "7395e58bd9dd5771f2e3b79c94a0b8f88e45b7c7c4a7ef4c314bffaad9d71bb8"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/NativeLocality.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "8f029efc67aecef62059c2a90bb0d86a9ef6dbce95fa16c54faa9caf28f92afe"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/NativeMaterialization.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "fa4cba76de928967627ef38dc93ee317ecd80956da4cb94936643aab80b679c1"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/NativePhysicalIO.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "41c1cf661c99fdd513255da5603d600347becbe37b42f83571aa3908b711eaf6"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/NativeResults.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "a2b3be12cddd641da06c8de59073d47d9004480cdce2316f2ad46800259a0841"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/NativeSafety.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "c03de7cf1ba663159dc7c920b164c47e8adbb77399ee1109f4ea6aa193b83e23"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/NativeTags.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "e1a84d147122f17cd8e8e5d8acbf5728068a408ce0cc429db5c09fd67960da13"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/PairExecution.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "c9f7987c2248aa72d3429cf6c337d6e937156b95e9824ce611064f31d3141b47"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/PairSource.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "a84e3c0fc73604f30e3d0b49a6f3f2354bc5663690978ac7d29c94db496ee351"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/SafetyComposition.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "26c37d2f8ca4732f0cc87e1328462307af098aa3d08e5fdedfafbc6e1b9d3a3e"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/SourceSafetyBounds.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "56534ee2f12bda078bcbdb5364a1e374efbfd2d1b6a2704d205e25e876a13458"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/StageSafety.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "5976dd9bf6fe0638cd8298a0f2fbdda0f6eccc062266d4d3d0015b876aba23f7"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Kernels.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "7f2747e11ee6a08ce6206b39354f14cd3b7137588b25687167179f1760990b64"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/AddressBounds.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "d5b4c820d1bec02c7d7fc3cc9d06b7bed292ea0839cc6dfd5296e44e69a13590"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/ByteHost.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "acbf95112ba26b165d126424373d2c31fca0e17ac5fe692647cc4fd4418d779e"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/Complete.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "1ba7f9e513d286ce5548323ef18eacd9b9efec0e7305c711dc25f8ccc54c8683"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/Contract.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "00ea9b50d64f60060b94555f22e578869626287da73d54b8800deabf72811178"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/CurrentInterReadback.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "26d379c811c82eb845255e689891cde0038484abaff7a338187fcca8e2f8aa55"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/CurrentQueryScan.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "04765a0963f11e608d8c42e8694b6f6ee4432da7b4b81473519a71927583841f"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/CurrentReadback.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "35c048fcc2a8b074c8eaf04205b0c3796cd704ad8a40650d4ad2453bfc5d2454"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/CurrentReverseScan.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "a93c97e30735fa472099c29f39f58760416e5ca3dc1ec3184dfb2bb9fe44310f"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/CurrentScanBase.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "c2e5743ded1f952d039192ffd5065e6aec0c65ebf089e5a2d9c2c1d3f726e7fa"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/DirectInputs.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "b64ed144dad4d1d49986fe2c09f32420b28bbfb47a0702fc502bec43adadfa18"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/Endpoint.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "32a933693ff180c7c7724ae2d179f4b87b47d7cefa95885b04b11a509b22210d"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/EndpointInputs.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "06f2b4f1b97ca0fe66d6af594263da751f756ec7118a253606f81b0c2ac42699"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/ForwardBody.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "cc7f313781f94eb39d6790b5ca3f4c8d939e4e518018855477bda6e80e82a675"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/ForwardEntry.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "38fe7302f849a429beb53c5fcb3bb9d918bcd60d536e235d4118c01098279b33"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/ForwardProgram.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "a1723f58eecd8f26b87c1d631b464ec21147ce696c32a74a96259d2c47492017"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/Frame.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "cab6fa0cc042a15a6914e78f0ac2744fcd27488271adfa49b04058cd336984d2"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/Geometry.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "c12522122f77485cf6c3347f5a5fb06f6181799422b771494471404e4966b38f"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/Grid.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "f9b8917c1b16bba0bd26036113f9c392879436371effc3fa9619804aa4a46e0a"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/GridInterValues.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "75b8a60b75fbefb453bdea7512ca73a9a6ad466ac226a7a6a220f14b842c511c"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/GridRead.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "c904959022114d04d032c17cdd9bd8ee6a01f2a690ebff6dc27d652a4949d52e"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/GridValues.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "8248361a7173da04ceba68ab8dbeb46df2a66184b72105237fe7b12411db53d6"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/HostAPI.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "7a5f304c128715debfa2fd9c87d9609c66450ea34ef68e8f244d47830bd3e3bc"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/HostIngress.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "07a0b9523d98e82dd661d44616ae4a6420bafaaf2d36a3dc2a65f0dff868b83a"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/HostMetadata.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "c802fa00de4abb229382b8b231dc4b0f7adaaa42a6a50fbdcd1919cc41f6a399"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/HostPhysical.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "bd48f26de95e120e470a5489a0f82c5d19507b3fea7072f35d92480047de08f5"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/Inputs.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "bbd91636a7add09624b6b0ef41a4e8d5a08f30a998e980ecc033cde7d3630f91"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/InterDeltaBody.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "7519c233d8c8b91eee737e677e5127869bb49da02620e31e15a892bc88a7529f"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/InterForwardEntry.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "87e6c39bb2736bc25980f35301de7cbf55b67b23463f266191eb97e17fc3f476"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/InterForwardLoops.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "85bc783a11ab3a8cd14db09eb48f46e108a794eee20def7245163592c6333778"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/InterForwardProgram.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "c5dc3f5b3947df93c83a0a88fd9c53b96c87547bba429915b2c8cc37bfd0f853"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/InterModel.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "bc02bf56cad84b3a84319f9d20124b297c4dc838c611eee2c5d79cbfcc4e37dd"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/InterProgram.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "749c18e0cccba5fe076269640f34ff711702123f1fefdf1a28b1ff467d755191"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/InterQueryBody.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "3e7f74bf1c95374998ad1ce827b65539dd4d1f31d96933f72d6de4117db1e817"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/InterReverseDelta.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "7f67873675ffeee2823f7197a90bf7478d17874213d09e4fa23c66907da6bd21"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/InterReverseEntry.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "6a70b233c7baca1bc0ccf5afe59231e11a2c98bd88d585370555642bdaa688e6"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/InterReverseLoops.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "a905cf3706436aba6a06017338285dfe6c6a80789be9d3bad44ea4dba9c9266c"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/InterReverseProgram.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "75887c6ed7de18cc5a8dcde4e5d86a38a74009881bcff8e642a11e9f20788f70"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/InterReverseUpdate.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "c0dbfcbeb74a243f174a828b591654983088f19090ee8abbeda1ea546dec572c"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/IntraExecution.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "2220ab8bc35e24715fd19074e343e998519b7725b6fb6be137ec5a98b7b6599a"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/IntraModel.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "1cb5dcde993c3343987e857a2322a3c8206cd13b7b3ce91fb5fee88ec9b55a7a"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/LogicalTarget.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "9d43fb70e7170a5c4bd84ddb667aeca8336eb00841db245d14b42bf08876e124"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/Model.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "1918cd486e2f4aa8b969a724babac710fb0efbe6dbf1e32199dea678a0e99151"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/NativeBytes.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "ee431d1b6036d456afeda56461d0954e1b85207e6a151d671b55bc7580a9ee8d"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/NativeComposition.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "1d0bc37a81d7d992d06bb078574bdecb04bdebf7f65d5e16d15f1dcb2bb293d1"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/NativeEndpoint.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "a11077034db8405996e28b3cfdfae3bc07c8165ce2a11f62649b3f459f9ec4d9"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/NativeIngress.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "dfc598456ab5c713fbdc92dbae988cf5d6b2a9d65559c9bad9b5dc47eaaf4d33"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/NativeInstructions.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "4bc4cf9ca28d966d487a2b829f9c6061faea75772f98a202d12a6a145f5ef324"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/NativeMask.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "4392e0d93919e6d867de07db2b8c6c0bf8b596c16ed9f63ff2838ab39a52c2a4"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/NativePhases.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "e99a05cf9d45e4e83e1fc2e61b5942e6aa6f02d59b970dbca3870ba90e534ae6"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/NativeTerms.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "c80997a7faaf6a282059d5c50074eb012a375a3a2168ef013c08a837eaa24704"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/Ownership.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "3aa20116d21800e7cb1ee02ccd392246f9340db2ae65f4b4f2f3b0f65583634d"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/PhasePrograms.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "2a8ff7011901abdaf2ec1cf9e01ffce1df85b47342a88a17f016d6a179ea6db9"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/PhaseReal.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "12234935dae25cacb1850068055616b221fbb48ad174f495a8154c65ca7c1f96"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/PhaseRealTiles.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "f0529833410ef16d879a3444dba5258cdba599dc3c595bd69c5d3f454c65bace"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/PublicFrame.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "fdba645cb5fffe841ecb4f9e24ace5805c3a83f9f04f16403da7e82b644295eb"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/Readback.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "7c0bff511b1d325637b8955d510ff9ce12a50b4090882580580a3b2a0013fbd8"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/Reader.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "6f81bbe31b66e8cb91d2abc95cf72b24be58469da58bfe5ab0c3e6a4de411e3d"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/RealBridges.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "3b1ea5f68a1eba906558acf73cc6511b62f2c49fc7cd2717fb507adcefcbbae5"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/RealInputs.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "12807eca2647e76e3122c02df4d8ab363d897449f89dc9683b66f818044fdb16"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/RealPartitions.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "a7a8db0b61725ed870c7b2f20f972ce8bbd22a54d9b37c5b684331357a4a7452"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/RealTiles.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "d8cd3eb19d14be3e9628ac2b0e66f0326b9ccde80dfae7b43df1ad6c11158705"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/SourceHost.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "bb8772815beb5a37558e9ce399a0752d5a68673be01fe0fbcc687293433a5dd8"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/SourceNormalization.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "fb87b12a0e04c702379f45c96e20a14078271150337caa54db5c70bc45b298ed"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/Target.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "815f881e7fe551287330b3e8c915720b43a5f9ff6381ec30333139ebb8f5d72a"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/TargetLoss.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "f9cb7e75b15fb372c9aa7797903b0115e62cafba69a451fff845c2de31cbf2a8"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/WholeReal.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "594517f3dda3e0b75821122bdcb162716fc3273c56c9c573b8e993dc824b1885"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/lightning_attention/Proofs/WholeRealTiles.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "0812e8e589e4bb9d004bcdd3b044e5db121e50b48ab7344a9d0cdd4842ebd21c"
+      }
+    ],
+    "sha256": "cabaee83f1057a8aee2a51b18657262941fe440ada2e725906a5a5309e032144"
+  },
+  "verification": [
+    {
+      "task": "lightning_attention",
+      "kind": "build-IO",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.lightning_attention.KernelOnly.IO"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/072-lightning_attention-build-IO.log",
+      "log_sha256": "6843c429e6f0c2acbf496fec603c3d75a46cadcd2691f2a67b674f168f6d8aa4",
+      "seconds": 0.27382707595825195
+    },
+    {
+      "task": "lightning_attention",
+      "kind": "build-NativeIO",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.lightning_attention.KernelOnly.NativeIO"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/073-lightning_attention-build-NativeIO.log",
+      "log_sha256": "308fa5cb8a06653e2321de41f9a97e4971ecefa4e5cf1a07bccdb3b56f2fce66",
+      "seconds": 7.196578502655029
+    },
+    {
+      "task": "lightning_attention",
+      "kind": "build-IOBounds",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.lightning_attention.KernelOnly.Proofs.IOBounds"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/074-lightning_attention-build-IOBounds.log",
+      "log_sha256": "744ad0ce62da4531a4d3fb760e2771ec2272d8b2e9d89b228e1ddec5a5c4a87b",
+      "seconds": 8.674515962600708
+    },
+    {
+      "task": "lightning_attention",
+      "kind": "build-IOExecution",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.lightning_attention.KernelOnly.Proofs.IOExecution"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/075-lightning_attention-build-IOExecution.log",
+      "log_sha256": "e70510b39915009f16ba8f5e6c6c216f1ead1041858da9e6c4b1ea8250518087",
+      "seconds": 9.347654819488525
+    },
+    {
+      "task": "lightning_attention",
+      "kind": "build-IOSafetyBounds",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.lightning_attention.KernelOnly.Proofs.IOSafetyBounds"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/076-lightning_attention-build-IOSafetyBounds.log",
+      "log_sha256": "b2bc0a92c66d97d6de3efc63dd9da3cbf3b7d8a1c6999de82447309ae204d953",
+      "seconds": 8.04388165473938
+    },
+    {
+      "task": "lightning_attention",
+      "kind": "build-LogicalIO",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.lightning_attention.KernelOnly.Proofs.LogicalIO"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/077-lightning_attention-build-LogicalIO.log",
+      "log_sha256": "cf228d8235032e366ed94ef291cbdbb4b7acd2ff7c342f2f81617bcfded3c124",
+      "seconds": 7.157987594604492
+    },
+    {
+      "task": "lightning_attention",
+      "kind": "build-PairSource",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.lightning_attention.KernelOnly.Proofs.PairSource"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/078-lightning_attention-build-PairSource.log",
+      "log_sha256": "09deb6d1ebe5b6bbf26d7745c703bd333a34698fb7b2e1c9dcdd14a0c88e3209",
+      "seconds": 9.219080686569214
+    },
+    {
+      "task": "lightning_attention",
+      "kind": "build-StageSafety",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.lightning_attention.KernelOnly.Proofs.StageSafety"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/079-lightning_attention-build-StageSafety.log",
+      "log_sha256": "dd4c23b475104adafa9532f992a92c89f21baba9da9ccf2adec4a2ab04d1b190",
+      "seconds": 8.382558345794678
+    },
+    {
+      "task": "lightning_attention",
+      "kind": "build-Reference",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.lightning_attention.KernelOnly.Reference"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/080-lightning_attention-build-Reference.log",
+      "log_sha256": "e7d0e027bb107a6e277f776c773e70d6fb260b4a83b50c13bb464e403d26a734",
+      "seconds": 7.79232120513916
+    },
+    {
+      "task": "lightning_attention",
+      "kind": "build-SourceIO",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.lightning_attention.KernelOnly.SourceIO"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/081-lightning_attention-build-SourceIO.log",
+      "log_sha256": "5f92bc2538dfd2d7e96560fcb1ae6189952197e86105fa09668fecc0cf7e89c5",
+      "seconds": 0.24401164054870605
+    },
+    {
+      "task": "lightning_attention",
+      "kind": "Correct",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.lightning_attention.KernelOnly.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/082-lightning_attention-Correct.log",
+      "log_sha256": "979a649eb6346da01072b48349e241a04eecd6cbcd6b61f9321c7f4dcd3bd954",
+      "seconds": 9.419063568115234
+    },
+    {
+      "task": "lightning_attention",
+      "kind": "FPEquiv",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.lightning_attention.KernelOnly.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/083-lightning_attention-FPEquiv.log",
+      "log_sha256": "1140be52d4fb34fb7b31ce1a5e30c897a83f6e059348d425d44f926b66c4aca3",
+      "seconds": 11.395756006240845
+    },
+    {
+      "task": "lightning_attention",
+      "kind": "public-joint",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "--check",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/lightning_attention-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/084-lightning_attention-public-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "seconds": 6.732944965362549
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Contract.lean": "bf32509631095407d865cf80ab9c1beba1ac5d74a4621c296117b728ed46aaf1",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Correct.lean": "cfab5d14a27fc5fbc8fbfccb3305cae048cd58d387e44e2974b90f65d3fa63e0",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/FPEquiv.lean": "cb32988f1155188b26d2c4bb1d28955f5fcd76e6fa89f947b5420e44da7e1de4",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/LogicalIO.lean": "fa2109a09eecbb7fda5a9dc4316a1e387684191974722ddb0f2eec6fbd12e447",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/IO.lean": "bbfba71223a8e622f58248bc4f5948c09aa920e0a679f673be87cb60b25477cc",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/NativeIO.lean": "2aafc6b9066ecc9d7e9772e50560604cd937971dd57eb6bc7583e45772635cb2",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOBounds.lean": "535946fd8531a7e431b2d08465d4ffab23b48ab5aee9e0ddf5ec9211f84a18e0",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOExecution.lean": "e495a5a941d2ce7864fc4e0a9601da1021a473731afe843b903cced103169924",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOSafetyBounds.lean": "a46534f901cef936903045dd2e3ae8b7680b5ad1b4cf1e4da37028693f60968f",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/PairSource.lean": "a84e3c0fc73604f30e3d0b49a6f3f2354bc5663690978ac7d29c94db496ee351",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/StageSafety.lean": "5976dd9bf6fe0638cd8298a0f2fbdda0f6eccc062266d4d3d0015b876aba23f7",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Reference.lean": "0ca969da7a39dcfe085bda3378a6d74e97e7e2f9d9b3b9fdf1b7dd09ed70bbcd",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/CandidateIO.lean": "741b58c736250aa6bcaa48ccc77dd74a40b267a28cf59dd0a6362a301676b4e5",
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/PairIO.lean": "a88a65256e0c2c9ca086d8e386e4c5db230b85d32dcca8dfaa0d1de111ad51fc"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Contract.lean": {
+      "owner_tasks": [
+        "lightning_attention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Correct.lean": {
+      "owner_tasks": [
+        "lightning_attention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/FPEquiv.lean": {
+      "owner_tasks": [
+        "lightning_attention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/LogicalIO.lean": {
+      "owner_tasks": [
+        "lightning_attention"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/IO.lean": {
+      "owner_tasks": [
+        "lightning_attention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/NativeIO.lean": {
+      "owner_tasks": [
+        "lightning_attention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOBounds.lean": {
+      "owner_tasks": [
+        "lightning_attention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOExecution.lean": {
+      "owner_tasks": [
+        "lightning_attention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/IOSafetyBounds.lean": {
+      "owner_tasks": [
+        "lightning_attention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/PairSource.lean": {
+      "owner_tasks": [
+        "lightning_attention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Proofs/StageSafety.lean": {
+      "owner_tasks": [
+        "lightning_attention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/Reference.lean": {
+      "owner_tasks": [
+        "lightning_attention"
+      ]
+    },
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/CandidateIO.lean": {
+      "unchanged_prior_io_pin": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json"
+    },
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/PairIO.lean": {
+      "unchanged_prior_io_pin": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json"
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/lightning_attention/KernelOnly/LogicalIO.lean": "9ae9324774b2a97673417585ff0ce580a95b98278462a6ca95b499d300a0547d"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

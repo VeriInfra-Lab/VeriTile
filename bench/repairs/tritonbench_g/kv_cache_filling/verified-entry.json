@@ -1,0 +1,321 @@
+{
+  "schema": "veritile-isolated-verified-entry-v1",
+  "task": "kv_cache_filling",
+  "status": "ACCEPTED_ISOLATED_KERNEL_REVISION",
+  "accepted": true,
+  "intended_delivery": "isolated_generation",
+  "live_default_lake_changed": false,
+  "selected_python": {
+    "path": "bench/repairs/tritonbench_g/kv_cache_filling/kv_cache_filling_repaired.py",
+    "sha256": "c2652aa0fca4bb8343693e3ae35b749ba36eb28c1e18ad4a04d52ba213508506"
+  },
+  "frozen_standard_entries": {
+    "Kernels": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+      "sha256": "d65ad3651787ac243ef91f16385a376b5581d0b16173a62af71961f4127f67fe",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.Kernels"
+    },
+    "Contract": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean",
+      "sha256": "3a3a64622fd3d16001768f523f77d38adf1d4c54d18f28bdbc337b9851dfd5c5",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.Contract"
+    },
+    "Correct": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/Correct.lean",
+      "sha256": "97751424caa9a4c403adeeec6a048f1a7317eee88c0119cd768e8b619d0267af",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.Correct"
+    },
+    "FPEquiv": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/FPEquiv.lean",
+      "sha256": "9049c85156c92fb317a4ea327ed338292eeb90070cf586327087db6bc55ca5b4",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.FPEquiv"
+    }
+  },
+  "public_endpoints": {
+    "real": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.whole_shared_real",
+    "native": "VeriTile.Bench.Repairs.KvCacheFilling.FPEquiv.kernel_native"
+  },
+  "scope": [
+    "Policies 0, 4, and 8: actual shared DSL source/candidate executions, independent output targets, and complete logical frame.",
+    "Real theorem: arbitrary mathematical Real input states; no finite byte codec restriction.",
+    "Native kernel theorem: raw per-job typed states, decoded integer src/dst reads, complete output projections and frame, and equal source/candidate store lists. TensorBridge.Native.whole_shared_native retains the complete actual Tensor and byte-heap statement.",
+    "Metadata strides are actual Tensor.stride query observations paired with descriptors, explicitly carried in the ABI because shared TensorMetadata lacks stride fields.",
+    "Native FP32 scalar/reduction and byte codec operations remain ordinary primitive boundaries; no compiler, allocator, or host implementation proof."
+  ],
+  "shared_build": {
+    "status": "passed",
+    "receipt": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/shared-build-receipt.json",
+      "sha256": "e41196ffafb88a2092d4fee91784b39c7bf89ba7d15a20548b10e876879a9a90"
+    },
+    "shared_delivery": {
+      "path": ".veritile-cache/minimum-staging/frozen-v1/packet.json",
+      "sha256": "184033d8cb218d6a4efba8ccdc2bc43d7dc35fb96d0d38c15e2e9cd746451685"
+    },
+    "root_review": {
+      "path": ".veritile-cache/minimum-staging/root-review.json",
+      "sha256": "a04d3ff49d2a5888058cd49a43b6feff42ac41ef6a19c67e224a1bdbb020a4d6"
+    },
+    "independent_review": {
+      "path": ".veritile-cache/independent-reviews/minimum-support-kldiv_ops_kernel/review.json",
+      "sha256": "c7f4110820e3b0690235d2d6c2fed618793d2b478b02b7e6c2258101231fc01b"
+    }
+  },
+  "consumer_build": {
+    "status": "passed",
+    "receipt": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/consumer-build-receipt.json",
+      "sha256": "9324095e397705f55796e2040a9a275d50b52f8655ba2db56752e48703ac0a77"
+    },
+    "targets": [
+      "bench.repairs.tritonbench_g.kv_cache_filling.Contract",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Correct",
+      "bench.repairs.tritonbench_g.kv_cache_filling.FPEquiv",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Kernels",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Contract",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.CopyBinding",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.CopyExecution",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.CopySource",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Counterexamples",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Execution",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.FP",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Host",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Ideal",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Memory",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.MetadataABI",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Native",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.NativeProfile",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Order",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.PtxCast",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.PublicAudit",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.PublicNative",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.PublicReal",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantExecution",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantNative",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantProfile",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantReal",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantSource",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantStores",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantValues",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Real",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Schedule",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedExecution",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedReadback",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedTarget",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Source",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SourceBacking",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SourceTensor",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Store",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.Tensor",
+      "bench.repairs.tritonbench_g.kv_cache_filling.Proofs.WholeBacking"
+    ],
+    "repository_modules": 83,
+    "cache": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/consumer-build-cache.json",
+      "sha256": "8aab68bb5f9d1c151d155e6332acd4e26b9cd4fd7f8e4444dc50294b0461bc9f"
+    }
+  },
+  "replay": {
+    "status": "pins_and_import_closure_pass",
+    "full_replay_ran": false,
+    "plan": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/replay-plan.json",
+      "sha256": "eb14b133c0b840756440b9673c66865b9cfddaa0cb9c79d1ab47a7bd6961ac5b"
+    },
+    "driver": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/scripts/replay_generation.py",
+      "sha256": "ffa13bf73eb2c2acb3438ffa8ab185db0bf43a98e66a7dc543f9d0fc98b0adc8"
+    },
+    "repository_root_command": "python .veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/scripts/replay_generation.py .veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/replay-plan.json",
+    "external_environment_boundary": "Pins the Lean binary and directly imported external object families, including Init. Transitive external artifacts and runtime libraries remain installed-environment prerequisites; this is not a complete offline external environment."
+  },
+  "review": {
+    "status": "ACCEPT",
+    "binding_delta": ".veritile-cache/independent-reviews/kv_cache_filling-minimum-resume_attention_score/binding-delta-review.json",
+    "final_review": {
+      "path": ".veritile-cache/independent-reviews/kv_cache_filling-minimum-resume_attention_score/final-review.json",
+      "sha256": "89e4874df0aa16b1b116bb5284a4585b10c9f0757ba9035991ed75cd1bef823f"
+    }
+  },
+  "not_a_completion_claim": false,
+  "task_acceptance": "verified",
+  "effective_public_entries": {
+    "Kernels": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+      "sha256": "d65ad3651787ac243ef91f16385a376b5581d0b16173a62af71961f4127f67fe",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.Kernels"
+    },
+    "Contract": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean",
+      "sha256": "3a3a64622fd3d16001768f523f77d38adf1d4c54d18f28bdbc337b9851dfd5c5",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.Contract"
+    },
+    "Correct": {
+      "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
+      "sha256": "86738f314bf61eb0739e899c0d63e4f5fc067cccc64c794fc795a6056abd12a8",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Correct"
+    },
+    "FPEquiv": {
+      "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean",
+      "sha256": "a10961278e0daf6c4c5136837573ac4f6feb424f780f13d45ffceca2f38d30ef",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.FPEquiv"
+    },
+    "IO": {
+      "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/IO.lean",
+      "sha256": "9f3bbbfe082d413334d808ccac03b2c2ffabcc24a37e221f84bea949a0c6395c",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.IO"
+    }
+  },
+  "root_review": {
+    "path": ".veritile-cache/kernel-batch064/root-review.json",
+    "sha256": "0f828cd840210e070d66f45f03b45e9d3ca9c475c62bfb7a4e3ae13f014dad9f"
+  },
+  "independent_review": {
+    "path": ".veritile-cache/independent-reviews/kv_cache_filling-minimum-resume_attention_score/final-review.json",
+    "sha256": "89e4874df0aa16b1b116bb5284a4585b10c9f0757ba9035991ed75cd1bef823f"
+  },
+  "root_integration": {
+    "path": ".veritile-cache/kernel-batch064/integration-receipt.json",
+    "sha256": "187c8f49697d9513ecf110f4e75b63d2a912fae65401400a63ee12acf28786a9"
+  },
+  "object_storage": "Frozen sources with exact PASS-bound consumer OUT object-family references. The binaries are pinned cache references, not archived objects; no live workspace/default Lake fallback.",
+  "default_lake_generation": "historical; minimum not promoted",
+  "new_numerical_experiment_deferral": false,
+  "deferred_experiments": [],
+  "previous_effective_public_entries": {
+    "Kernels": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+      "sha256": "d65ad3651787ac243ef91f16385a376b5581d0b16173a62af71961f4127f67fe",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.Kernels"
+    },
+    "Contract": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean",
+      "sha256": "3a3a64622fd3d16001768f523f77d38adf1d4c54d18f28bdbc337b9851dfd5c5",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.Contract"
+    },
+    "Correct": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/Correct.lean",
+      "sha256": "97751424caa9a4c403adeeec6a048f1a7317eee88c0119cd768e8b619d0267af",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.Correct"
+    },
+    "FPEquiv": {
+      "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/FPEquiv.lean",
+      "sha256": "9049c85156c92fb317a4ea327ed338292eeb90070cf586327087db6bc55ca5b4",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.FPEquiv"
+    }
+  },
+  "auxiliary_entries": [
+    {
+      "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/TensorBridge.lean",
+      "sha256": "abc8d744cce4b39fc31a2c0436886be594f2a1268021d6b90d18936cf26727b1",
+      "module": "bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.TensorBridge"
+    }
+  ],
+  "organization_validation": {
+    "receipt": ".veritile-cache/tensor-bridge-rollout-20261020/kv-build-receipt.json",
+    "command": "python3 .veritile-cache/tensor-bridge-rollout-20261020/build_kv.py",
+    "scope": "Three organized entries against the accepted isolated dependency objects; frozen sources and original full replay remain unchanged.",
+    "exit_code": 0
+  },
+  "previous_interface_selection": {
+    "effective_public_entries": {
+      "Kernels": {
+        "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+        "sha256": "d65ad3651787ac243ef91f16385a376b5581d0b16173a62af71961f4127f67fe",
+        "module": "bench.repairs.tritonbench_g.kv_cache_filling.Kernels"
+      },
+      "Contract": {
+        "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean",
+        "sha256": "3a3a64622fd3d16001768f523f77d38adf1d4c54d18f28bdbc337b9851dfd5c5",
+        "module": "bench.repairs.tritonbench_g.kv_cache_filling.Contract"
+      },
+      "Correct": {
+        "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
+        "sha256": "6de9ba9383ff7453bc8b4bd899cb97164fc1cab236b4c1d6ba7e00e6a2484009"
+      },
+      "FPEquiv": {
+        "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean",
+        "sha256": "42dec793c878eeb2d9704bea81d2310ccbae1a397c81c1746e5bd136d259b49c"
+      }
+    },
+    "public_endpoints": {
+      "real": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.whole_shared_real",
+      "native": "VeriTile.Bench.Repairs.KvCacheFilling.FPEquiv.whole_shared_native"
+    },
+    "auxiliary_entries": [
+      {
+        "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/TensorBridge.lean",
+        "sha256": "20320ba05a89819fa73cca7122e231392dc301b103905a38556b7268728a4fb0"
+      }
+    ]
+  },
+  "tensor_endpoints": [
+    "VeriTile.Bench.Repairs.KvCacheFilling.TensorBridge.Native.whole_shared_native"
+  ],
+  "kernel_interface_split": {
+    "status": "built",
+    "tensor_free_main": true,
+    "full_previous_tensor_statements_retained": true,
+    "logs": [
+      ".veritile-cache/kernel-interface-split-20261020/kv_cache_filling/native-build.log",
+      ".veritile-cache/kernel-interface-split-20261020/kv_cache_filling/bridge-build002.log"
+    ],
+    "exit_code": 0,
+    "scope": "Current raw interfaces and Tensor bridge compiled against accepted isolated dependencies; frozen sources, source precision, Tensor input domain and model boundaries unchanged. No independent full replay or GPU experiment."
+  },
+  "previous_public_io_selection": {
+    "effective_public_entries": {
+      "Kernels": {
+        "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/Kernels.lean",
+        "sha256": "d65ad3651787ac243ef91f16385a376b5581d0b16173a62af71961f4127f67fe",
+        "module": "bench.repairs.tritonbench_g.kv_cache_filling.Kernels"
+      },
+      "Contract": {
+        "path": ".veritile-cache/task-deliveries/kv_cache_filling_shared_revision002/sources/bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean",
+        "sha256": "3a3a64622fd3d16001768f523f77d38adf1d4c54d18f28bdbc337b9851dfd5c5",
+        "module": "bench.repairs.tritonbench_g.kv_cache_filling.Contract"
+      },
+      "Correct": {
+        "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
+        "sha256": "6de9ba9383ff7453bc8b4bd899cb97164fc1cab236b4c1d6ba7e00e6a2484009",
+        "module": "bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Correct"
+      },
+      "FPEquiv": {
+        "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean",
+        "sha256": "db5df5ac8d636cddcafa9717b91d3668cb5a84a89c3faa19ce588015ef47dbdc",
+        "module": "bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.FPEquiv"
+      }
+    },
+    "auxiliary_entries": [
+      {
+        "path": "bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/TensorBridge.lean",
+        "sha256": "abc8d744cce4b39fc31a2c0436886be594f2a1268021d6b90d18936cf26727b1",
+        "module": "bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.TensorBridge"
+      }
+    ],
+    "public_endpoints": {
+      "real": "VeriTile.Bench.Repairs.KvCacheFilling.Correct.whole_shared_real",
+      "native": "VeriTile.Bench.Repairs.KvCacheFilling.FPEquiv.kernel_native"
+    }
+  },
+  "public_io_format": {
+    "status": "built",
+    "format": "standard_typed_regional_io",
+    "report": ".veritile-cache/public-io-format-20261020/kv_cache_filling/report.json",
+    "log": ".veritile-cache/public-io-format-20261020/kv_cache_filling/final-build.log",
+    "exit_code": 0,
+    "actual_source_trace_safety": true,
+    "scope": "all scheduled jobs; both versions; policies copy/int4/int8; full cache and metadata rows; exact frame",
+    "family_entry_state_semantics": "independent per-job entry states, as in the previous family theorem",
+    "raw_family_helpers": [
+      "RawReal.whole_shared_real",
+      "RawNative.kernel_native"
+    ],
+    "same_store_lists_retained": true,
+    "tensor_statements_preserved": true,
+    "isolated_minimum": true,
+    "frozen_generation_unchanged": true,
+    "independent_full_replay": false,
+    "gpu_execution": false
+  }
+}

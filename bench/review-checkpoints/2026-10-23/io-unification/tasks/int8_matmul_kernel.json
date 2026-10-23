@@ -1,0 +1,384 @@
+{
+  "schema": 1,
+  "task": "int8_matmul_kernel",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue07/result.json",
+    "sha256": "7964422efcf832f57a9615026903fd10ee02cb3188002bf24c266dd4cf0792ea",
+    "task_index": 1
+  },
+  "reason": "The corresponding core memory interface and main-theorem logical view already reside in the same IO module; no separate logical adapter remains.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Contract.lean",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Correct.lean",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "int8_matmul_kernel"
+  },
+  "changed_files": [],
+  "removed_files": [],
+  "moved_declarations": [],
+  "preservation": {
+    "before_snapshot_root": ".veritile-cache/io-unification-20261023/queue07/before",
+    "byte_check": {
+      "path": ".veritile-cache/io-unification-20261023/queue07/preservation-check.json",
+      "sha256": "ff9a03759bf3db7fa79553e98b102ed7cd8b3a71a548249d0bd2aa8efdcc87ff"
+    },
+    "all_unlisted_sources_unchanged": true,
+    "Kernels_Contract_Correct_FPEquiv_byte_unchanged": true,
+    "all_Proofs_nonimport_bodies_byte_unchanged": true,
+    "original_public_names_and_full_judgment_types_preserved": "Public theorem source is byte-identical; moved IO definition blocks remain contiguous and byte-identical with original namespaces. Existing complete iff/execution/safety/frame proofs retain their original bodies. Changed-task public Lean checks display those full judgments."
+  },
+  "verification": [
+    {
+      "kind": "fresh_byte_preservation_and_cached_baseline_revalidation",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue07/check_preservation.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue07/preservation-check.log",
+      "log_sha256": "f06de954e93b646a070b504edeaab5faf886654019bf4e78431fa2f8ad4df319",
+      "artifact": {
+        "path": ".veritile-cache/io-unification-20261023/queue07/preservation-check.json",
+        "sha256": "ff9a03759bf3db7fa79553e98b102ed7cd8b3a71a548249d0bd2aa8efdcc87ff"
+      },
+      "fresh_lean_source_compile": false
+    },
+    {
+      "kind": "reused_previous_successful_current_source_build_and_joint",
+      "fresh_source_compile": false,
+      "owner_report": ".veritile-cache/logical-reader-review-20261022/queue07/result.json",
+      "owner_report_sha256": "583e8d793cba1d71d000c2bdd3e45247f36f7ed54dadb5684382c4c861f64a4b",
+      "previous_verification": [
+        {
+          "kind": "final_current_source_build",
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+            "bench.repairs.tritonbench_g.int8_matmul_kernel_modular_checked.IO",
+            "bench.repairs.tritonbench_g.int8_matmul_kernel_modular_checked.Proofs.LogicalReader",
+            "bench.repairs.tritonbench_g.int8_matmul_kernel_modular_checked.Correct",
+            "bench.repairs.tritonbench_g.int8_matmul_kernel_modular_checked.FPEquiv"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue07/int8_matmul_kernel_modular_checked-verified-build.log",
+          "log_sha256": "7fc75a46fdf9bfd057b29a152cefa45491d8ee113ba8f8eff6ce401502736b12"
+        },
+        {
+          "kind": "joint_import_current_entries",
+          "command": [
+            "python",
+            "-u",
+            ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+            "--check",
+            ".veritile-cache/logical-reader-review-20261022/queue07/int8_matmul_kernel_modular_checked-joint.lean"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/logical-reader-review-20261022/queue07/int8_matmul_kernel_modular_checked-verified-joint.log",
+          "log_sha256": "3c5255678a00fcfa52768eb79c4ba5de0dccbf49de54aee49695c48833649508"
+        }
+      ],
+      "freshly_revalidated_pins": {
+        "path": ".veritile-cache/io-unification-20261023/queue07/preservation-check.json",
+        "sha256": "ff9a03759bf3db7fa79553e98b102ed7cd8b3a71a548249d0bd2aa8efdcc87ff"
+      }
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Contract.lean": "bdafc2cd6dda2f4c1e97131199d0b0ffa4acc1a83425fdba5ebc801b4e09f307",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Correct.lean": "ed3a4821262d722ced63449f54e4f7ea3d54262f31a20036e306e5af6484d356",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/FPEquiv.lean": "455fa7d3088b42e78fa9971e6a44f8860c1d32712ebb40ffb5ca90420606a3c7",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/IO.lean": "33a81217f7bb0b60114c06789442f14d77b602d08f9e55165c0ac10fe7901017",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Kernels.lean": "df95f31068da17f237f900e09e1a162aa0bd36aa44d1bcdc5643613736fa2caf",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/LogicalReader.lean": "c80a1ab3ddf6f67ffecb7275f53188e603bc62194e6a701502d4a81005bc13fe",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/ConfigurationEquivalence.lean": "dc1bcf4ef607911b29c3638300cb9c95a6c38f7ff933f00034c12d2c0b9f71a1",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/Arithmetic.lean": "b2e71b1b957b87cf9631bc4ab4a30aaf785903746224472eb05f4d771626ec0f",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/GridIO.lean": "baa72dc7df6cf53b418fbb86f60243abf176b32d2fecca68293a79cf2b43017a",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Misc/Audit.lean": "6c25592631ab36ef93f27d06867c3243ff1a26904b1a66d320ef147e78e0d0e2",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Misc/NativeCorrect.lean": "d2b3896dede42b274596c5db1a1beb781b3613d1d6c2839c7b6b495898aedadd",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Misc/TensorBridge.lean": "c342d1adeef34e31dd2ac203c57e12e528dd7be43462e9f864c2496b2e988f5d",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/AccessSafety.lean": "4ebd842d35dc8713caf2bde3a55641e75870d009a751f1d04858def463e996cc",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/BlockBound.lean": "96bef7e6ade77584f7cf36ceb54609367b060d9df1c0a42fd5060c5e30e8ca68",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/BoundBridge.lean": "d6e29f638313b031e5187f2a2e0693a09f577b7e617d38433d61a65686736fc9",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/GridExecution.lean": "42010078791e9b1e3b43ae0865831a043692ab6b1f2a26bd685411834a08ae20",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/GridOutput.lean": "ffb2638e01808bc52c2d0618fdb946d6ea846418274154083ece32496720e393",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/KernelResults.lean": "2953b5f68858678ae3e88e0460037915e31ab55d29b268c3213bfe721c3a93b5",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/LegacySource.lean": "432fa8d63bb25ff229e306c516160ac11b3d9d4918bfb5dd537f8fd882c62251",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/NativeArithmetic.lean": "b79180987b4138246876ee9a013b5159311185102e62c4d86297c6d9d460f382",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/NativeIO.lean": "6c571679874959b3717738628e7b3be344083557ada1e81828d5da71ebc47bad",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/PublicIO.lean": "fa90d6d4e4aec6ebe545c949cfb26bd056cd0520bd90f4adad385cf9e56a5ea9",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/SourcePreservation.lean": "13ce5c26f4bf5d8cf34e780c27313a9b8ae0d5491d62cd0951511c1d8459602d",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/StorageProfile.lean": "a11662e1f9c43b4850b5121de290b5c69cf1996a9619b5e2abe0b5ec6ec40e17",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/StoreABI.lean": "1067e0069024c1e18bc29f4b6f417f320a3c6e8f86624a348b32b24f98b021eb",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TensorStorage.lean": "790ea375060b258a095d5f6b8a6d76b0d138a14899a751c1fe24d8b365465f07",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileComplete.lean": "121a7e1db251df1004056b9d2d3e16c80314db84a1747c0a4b4b62f5ae78aa5e",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileConfig.lean": "d652ae998d71217e956fb91db363b6ae9634fbe6477bc050512012fcfeb280f9",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileDense.lean": "cab8d6c06d67fd8103bc813aaab8027d3f5e33801096e0f9f05910dd6437abe7",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileDot.lean": "225a36f553a27f71c383aed706e882f9460b3d6da686c6557e32f9171ffb0df4",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileExecution.lean": "eb142467b564496979c2089cfa3f592810c518815e94b15cbb3c0323e8ebc720",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileInnerExecution.lean": "d9c29536a570e48094b77ad26e88066a20c5d3b61235fb9ec3a98abe69e2a4a7",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileInvariant.lean": "3df4483b12ad8482bf597301e9c24a3a187d8997834c3dddb382793b82d4b6c3",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileOutput.lean": "79b86a63e82df16e7deddc39baa46b0c09360f80e746e079325a5b1da364fb1d",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileReference.lean": "93508a79dca404b3c86fd239b1626284f900540662124c3ced9a96357bcb9624",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileSource.lean": "590e1e46fcb713784d5a14e97d15840a492d26e650daa95b06adf8ec4a8c5141",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileValue.lean": "611e0a1ba0c1a143a5c542fdf04c966b30beef769059a36a7ba51cfc676e8885",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TorchInput.lean": "dedbc274cd0bf2f720f11e03b72ac0411ec1991d39a1fe24263876ffb6ce3c5b",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/WordAdd.lean": "1de4af0e594a410a9ccc2b39fc5b7d2fea17882715f95f01ccb9f4bb9c15e370",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/WordAddBridge.lean": "e8f8eadeb7bd0ef3c7c595ffecebf8118a98ba8c1c36385809a2b105476ba989",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/WordAddControls.lean": "64cae348f59110249aa6bca0d0fb3adb72a742209b8826ed7743ce96bef87225",
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/WordAddQuotation.lean": "8f1c7e9403348bb5e5e41965c32c7f27b9163892fc49f1580b37ff0872842c07"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Contract.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Correct.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/FPEquiv.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/IO.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Kernels.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/LogicalReader.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/ConfigurationEquivalence.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/Arithmetic.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/GridIO.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Misc/Audit.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Misc/NativeCorrect.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/AccessSafety.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/BlockBound.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/BoundBridge.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/GridExecution.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/GridOutput.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/KernelResults.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/LegacySource.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/NativeArithmetic.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/NativeIO.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/PublicIO.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/SourcePreservation.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/StorageProfile.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/StoreABI.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TensorStorage.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileComplete.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileConfig.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileDense.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileDot.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileExecution.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileInnerExecution.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileInvariant.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileOutput.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileReference.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileSource.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TileValue.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/TorchInput.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/WordAdd.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/WordAddBridge.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/WordAddControls.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/int8_matmul_kernel_modular_checked/Proofs/WordAddQuotation.lean": {
+      "owner_tasks": [
+        "int8_matmul_kernel"
+      ]
+    }
+  },
+  "retired_current_source_pins": {},
+  "limits": [
+    "No source changed for this task. Previous successful source builds and public joint evidence were hash-revalidated; no new Lean source replay is claimed."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

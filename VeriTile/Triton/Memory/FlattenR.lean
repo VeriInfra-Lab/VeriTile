@@ -198,6 +198,7 @@ def Op.SafeAtR (R : RoundingModel) (bounds : RegionBounds) (s : BlockState) : Op
   | .boolNot a => a.SafeAtR R bounds s
   | .max2 _ a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
   | .maximumFloat _ _ a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
+  | .minimumFloat _ _ a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
   | .pow _ a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
   | .libdevicePowi _ a b => a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
   | .where c a b => c.SafeAtR R bounds s ∧ a.SafeAtR R bounds s ∧ b.SafeAtR R bounds s
@@ -581,6 +582,16 @@ theorem FlatAlloc.evalOpR_flatten (A : FlatAlloc) (hd : A.Disjoint)
         A.trTileFun_data (d := .real) (by decide) (by decide),
         Option.map_id, id_eq]
   | _, _, .maximumFloat dtype bc a b, s, hms, hok, hu => by
+      simp only [Op.SafeAtR] at hms
+      simp only [Op.FlattenOkR] at hok
+      obtain ⟨hma, hmb⟩ := hms
+      obtain ⟨hka, hkb⟩ := hok
+      simp only [flattenOp, evalOpR,
+        evalOpR_flatten A hd hcov R a s hma hka hu,
+        evalOpR_flatten A hd hcov R b s hmb hkb hu,
+        A.trTileFun_data dtype.toTileDType_ne_ptr dtype.toTileDType_ne_blockPtr,
+        Option.map_id, id_eq]
+  | _, _, .minimumFloat dtype bc a b, s, hms, hok, hu => by
       simp only [Op.SafeAtR] at hms
       simp only [Op.FlattenOkR] at hok
       obtain ⟨hma, hmb⟩ := hms

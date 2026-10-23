@@ -4,7 +4,9 @@ import VeriTile.Meta.StatementAudit
 
 /-! Complete typed source of `bmm_chunk_bwd.py`'s `_bmm_chunk_bwd_kernel` (line 21). The in-body chunk limit,
 both residual choices, every tail mask, dot casts and output conversion are
-retained. The candidate only changes the final acc+res to res+acc.
+retained. The historical residualLeft candidate changes acc+res to res+acc.
+The current indexCommuted candidate commutes only pid_c*ngroups; all floating
+operations are unchanged. All versions use this single readable source template.
 
 A and Dout may independently use fp32/fp16/bf16. Dot storage follows the Python
 host's priority: bf16, then fp16, then fp32. Residual/output dtypes remain
@@ -28,11 +30,14 @@ syntax "bmmChunkBwdSource%" "[" tritonDType "," tritonDType "," tritonDType "," 
 set_option hygiene false in
 macro_rules
   | `(bmmChunkBwdSource%[$aTy:tritonDType, $dTy:tritonDType, $dotTy:tritonDType, $version:ident]) => do
-    unless version.getId == `original || version.getId == `residualLeft do
-      Macro.throwError "expected original or residualLeft"
+    unless version.getId == `original || version.getId == `residualLeft || version.getId == `indexCommuted do
+      Macro.throwError "expected original, residualLeft or indexCommuted"
     let add : TSyntax `tritonStmt ←
       if version.getId == `residualLeft then `(tritonStmt| acc = res + acc)
       else `(tritonStmt| acc += res)
+    let head : TSyntax `tritonStmt ←
+      if version.getId == `indexCommuted then `(tritonStmt| pid_h = pid_ch - $(ngroups) * pid_c)
+      else `(tritonStmt| pid_h = pid_ch - pid_c * $(ngroups))
     `(fun (dtype out_dtype : FloatDType) (a_ptr dout_ptr db_ptr res_ptr : RegionName)
         (seqlen chunk_size K ngroups stride_a_batch stride_a_seqlen stride_a_head stride_ak
           stride_dout_batch stride_dout_chunk stride_dout_head stride_dout_csize_m stride_dout_csize_n
@@ -44,7 +49,7 @@ macro_rules
       pid_b = tl.program_id(axis=1)
       pid_ch = tl.program_id(axis=2)
       pid_c = pid_ch // $(ngroups)
-      pid_h = pid_ch - pid_c * $(ngroups)
+      $head
       num_pid_n = tl.cdiv($(K), $(BLOCK_SIZE_N))
       pid_m = tl.program_id(axis=0) // num_pid_n
       pid_n = tl.program_id(axis=0) % num_pid_n

@@ -1,0 +1,435 @@
+{
+  "schema": 1,
+  "task": "layernorm_fwd_triton",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue08/result.json",
+    "sha256": "922e544649f351824076d5d21febe4e592eea0ac9b43f8118af45e6b8652cafa",
+    "task_index": 10
+  },
+  "reason": "Memory IO and the existing named mathematical input/output adapters now live in the single task IO.lean; all public Lean names and complete bridge judgments are preserved.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Contract.lean",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Correct.lean",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "layernorm_fwd_triton"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/IO.lean",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/LogicalIO.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/LogicalIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/layernorm_fwd_triton/LogicalIO.lean",
+      "to": "bench/repairs/tritonbench_g/layernorm_fwd_triton/IO.lean",
+      "body_sha256": "b8ef756abaced5f6ab408fc64d6363d1e24266e1cb2bf99888738a1e98c9198f",
+      "declarations": [
+        "Inputs",
+        "inputs",
+        "outputs",
+        "io"
+      ],
+      "namespaces": [
+        "VeriTile.Bench.Repairs.LayernormFwdTriton.LogicalIO"
+      ],
+      "byte_identical_in_target": true
+    }
+  ],
+  "preservation": {
+    "evidence": ".veritile-cache/io-unification-20261023/queue08/preservation.json",
+    "complete_bridge_and_public_types_unchanged": true,
+    "checks": [
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Contract.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "93acd8c533549aadddc4ffcd7b3002476616bdc56924eccb72f73ada69c8d8f8"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Correct.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "6fada16aa4d69db12364a7b27b10993995ee1a365cb77c235cd9a6575bb24f0e"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "94fce7b4e4bfb5a2e3bae21f39854bc31433a200f7c2e9d402e708980cbe8086"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Kernels.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "bff47ea85c7e34b5da27bcf0910aee9cc74386cd8a4b71bf5dbc421b3c7fc7d7"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Address.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "bb89eeedd64c10649d72a41ca85f751d1adb520f46f5ad00395a84d9d092bf40"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Binding.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "93dafaeba3411489048be038921f148738aea63e368fac60ad317c684c5a9be4"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/CallFP.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "99ce8c8b93f775925ca6ae71cd4f1dfea437c2084200abf58075de78177f5843"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/CallReal.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "0240ee11da1647ea55bda00c6e2b57610724f0ab4c7b2d7b98c1e83d86b3c565"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Compiler.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "a72b6e63ed82b209e5af1038f7c5e0932518d881cdca08e659b89e5ca6076f53"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/CompilerControl.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "4f04bc28b67425842275a68b7528464c2d7d34fd739baecbb8e9d1733debea89"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Contract.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "8994617bce890eb42f15e81dbc79ccd37bda1871f4386fb2a5594b78ed34740a"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Execution.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "b259595b02099266ededf220dd0d9155ec0b7f45f01a21dfc35af45ab11b784d"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Grid.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "2d718a1edd752c9e7cba9f77e29ac52e52f03e41d8140074d63f0f4012ae7656"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/HostLayout.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "c570c77da4f4c644975dbbecaed34d62b2234686d4b46cc98a413667eb401ce0"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/HostPrelude.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "9b20ab0af671658003537cf374d0a5330a1ea1907ac0a67b14de7ea2075eb21c"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/HostPrepared.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "6103da1bacf0e25f6a81d76f3b991794cc96f25ccb45c999cebb1ec68e40c0d7"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelABI.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "3c720fa8595b752b85499ccfbf6b72a4eb5ce651b35ca0591b9b74a31bdfda6b"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelBoundary.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "820fd740876afce178541e7fd58d15a105cb38c6cbb0ca27b0ebf33dd497300d"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelGraph.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "e6b8315c4af79e8e7f5ccca6f29591347b91e42f2a6e06052c33332b55a1178b"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelGrid.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "236bd58d48e69b8787dfab81e75e6ccd2eceb8a4d263c40d7bdb5a8fb522d6bc"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelInputs.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "c92fef5fdd129229ddad101ab376f19bb294ad896649813ba65b49b0d97c9b67"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelMath.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "431970c7e67dd95641fa37bfd75807e163c37f532d6fa7c1395e2110588b65c0"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelNative.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "c5e7ed82a862ce7c9baf68593cd3c7842a51791d52183a81e0ca5fe750d56baa"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelNativeResult.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "94326922eddea4ce3890fa2c41cad8a50b528eb1b34b857df3e662577dd75630"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelPhysical.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "72316d919b3d4a4f5382e0a5455fb9309642ecd57821c7bb15494cecf11f22d4"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/KernelRealResult.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "7f2ba05e848c964223d8280a312fcbe21b01d3b4f6367596c4843aa35e24db1f"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/LogicalIO.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "f72d81fc1b21779976515db6bd1173ad2001935905197a80f6fbf1d69128746b"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Memory.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "34629cd17fc0428b494daac791e091cfe15c29ac406b505b22820f291bfeb24c"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Model.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "e0827e06fbe7f1feab23b84070bc62e2baddefd2548083419ee4549024bc0309"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/NativeAddress.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "2d1d16b743f90a40c3b90a6449960b1671c82aa40f6bd4774a7238343383e6d7"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/PairExecution.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "81055d2eb25117118e775eea988f04fbc58e9b69a08d084141ddca048d1a815a"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/PairSource.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "f55b0c5ea1ec2efcbb174575fce874384398a9d20a9f032ef7a9f1b9e3f124ef"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Primitives.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "414d1ac5f1c599de31a5109a6a1eafcaf1721755e98324745849035c05674159"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/PublicIO.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "2ea5b8c2d75ff66ad99c18c49a7d8375d8a8fb089fcf19cbc10dee046e47c0d0"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Real.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "857e44aff6ce43821bf2d39b62de4153d6c1e3d4ff0edb5c1ecd8eba38e7fdc0"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Runtime.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "890e96d754c65665f45eb8ffebcb4ad4e9eace3e3b0f18643afb06ad25b2a97b"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceAccumulate.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "0a0899f7854130749115be0c9a16e052e067c46b4e791e51c390a51080f1cecb"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceCall.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "a3861b0f34d8f0c43c57fbb8619546de1f92604cec469fa171baae42a453b3d8"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceComplete.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "9220f7d341afd87ea03c5ed8a3f749a83c786498bf04fd601816b63da939a3e8"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceContract.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "8ac67053ce0c43e0acbf3d309e96bbe1a3a5a58d979a95c9e8588d8af0a4b305"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceModel.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "8d9565f8d399ba5dc2497b747fc3c9b8201908f35c19e666fa0f75b26ddf7ff1"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceOutput.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "0a990549a4445a2951c920ca0650e5cd18e1befabe91362f2666881f8b795490"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafety.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "1b728be18101d2e79405c0d95eeaa6ffc6fa431508acf39cae22c5e56c59eb76"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SourceSafetySteps.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "2733731f65d5cc2803379b19cbba1b4938e59142698919a2ebc2618533df3a6f"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/SuccessfulCall.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "e9ac3bf3cc33e0febbeaf73f0236e473abd243b3da4f2b71351b539c9d49f0de"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Torch.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "8bc8bea834e5a7db6240101a30c3e558fa667af67b9b985347d607b4ef6baf4f"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/Wrapper.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "c8fcdeb3c86fd95cd4f18061bff0803b0d870bcb3062f46e10e7fefe2ddb57c2"
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/layernorm_fwd_triton/revision005/Proofs/Storage.lean",
+        "non_import_content_identical": true,
+        "source_sha256": "28bc80835e6212564f1a32fee92bf889f01091c9588f673f4f618ada0d272156"
+      }
+    ],
+    "sha256": "cabaee83f1057a8aee2a51b18657262941fe440ada2e725906a5a5309e032144"
+  },
+  "verification": [
+    {
+      "task": "layernorm_fwd_triton",
+      "kind": "build-IO",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.layernorm_fwd_triton.IO"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/036-layernorm_fwd_triton-build-IO.log",
+      "log_sha256": "128aa87dedf2a8c38ce4824670ec0288b5bc980b1d1cd9d708c037a3ba036a92",
+      "seconds": 5.775300741195679
+    },
+    {
+      "task": "layernorm_fwd_triton",
+      "kind": "build-LogicalIO",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.layernorm_fwd_triton.Proofs.LogicalIO"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/037-layernorm_fwd_triton-build-LogicalIO.log",
+      "log_sha256": "299aff5d7ffb990c4064d020e1c1c4715a1320c753566a323702a69c47c255b0",
+      "seconds": 6.873157739639282
+    },
+    {
+      "task": "layernorm_fwd_triton",
+      "kind": "Correct",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.layernorm_fwd_triton.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/038-layernorm_fwd_triton-Correct.log",
+      "log_sha256": "115af66e466a02b9e4a7a91ccd1634fb9f39acfb5c913e4f3a9a0873e70f45ea",
+      "seconds": 6.220586061477661
+    },
+    {
+      "task": "layernorm_fwd_triton",
+      "kind": "FPEquiv",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "bench.repairs.tritonbench_g.layernorm_fwd_triton.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/039-layernorm_fwd_triton-FPEquiv.log",
+      "log_sha256": "c79427d848e97d701a57bd74f34328e1d5c02ac422bfae52377c7dead47c4bf6",
+      "seconds": 7.850787401199341
+    },
+    {
+      "task": "layernorm_fwd_triton",
+      "kind": "public-joint",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/build.py",
+        "--check",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue08/layernorm_fwd_triton-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue08/040-layernorm_fwd_triton-public-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "seconds": 5.5830771923065186
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Contract.lean": "93acd8c533549aadddc4ffcd7b3002476616bdc56924eccb72f73ada69c8d8f8",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Correct.lean": "6fada16aa4d69db12364a7b27b10993995ee1a365cb77c235cd9a6575bb24f0e",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean": "94fce7b4e4bfb5a2e3bae21f39854bc31433a200f7c2e9d402e708980cbe8086",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/LogicalIO.lean": "f72d81fc1b21779976515db6bd1173ad2001935905197a80f6fbf1d69128746b",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/IO.lean": "7abd10ceee48ce244b8fc01b9809d27103f94c26b7e95e5ed6c35c22a2c6a208"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Contract.lean": {
+      "owner_tasks": [
+        "layernorm_fwd_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Correct.lean": {
+      "owner_tasks": [
+        "layernorm_fwd_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/FPEquiv.lean": {
+      "owner_tasks": [
+        "layernorm_fwd_triton"
+      ]
+    },
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/Proofs/LogicalIO.lean": {
+      "owner_tasks": [
+        "layernorm_fwd_triton"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/IO.lean": {
+      "owner_tasks": [
+        "layernorm_fwd_triton"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/layernorm_fwd_triton/LogicalIO.lean": "87ab238ae7c4228d191296f0dec4f0aa99e364bf122c221f59f4af5e100965a0"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

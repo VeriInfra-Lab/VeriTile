@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "task": "rms_norm_triton",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue12/result.json",
+    "sha256": "1acd093fdb5df5a7fed2f0fba54b4e617613726893846119a55bbd0b72bb6386",
+    "task_index": 2
+  },
+  "finding": "The displayed RMS formula selected raw channels, destructured an output channel with Fin.cases and reconstructed finite row reads from raw channel data.",
+  "resolution": "LogicalProgramIO exposes a full matrix X and weight vector, and a curried matrix result. Compatibility rmsIO/formula/expected definitions keep their names in IO.lean.",
+  "mathematical_target": "xs row col * (1 / sqrt ((sum k:Fin N, xs row k * xs row k)/N + eps)) * weights col.",
+  "conditions_and_scope": {
+    "scope": "Whole M-row grid in any complete row launch order, including empty grids, with dense X/Y and shared W windows.",
+    "public_conditions": [
+      "c:Whole.Layout, whose complete field proves N≤B",
+      "X≠Y and W≠Y; X/W read-only aliases allowed",
+      "rows.Perm(List.range c.M)",
+      "ProgramIO retains coherent input binding, safe accesses, successful grid execution, every logical output and exterior frame."
+    ],
+    "contract_connection": "Whole.realFormula in the original Contract is the independent unpadded N-term RMS formula. Existing Layout.complete explicitly relates logical N to source block B; no new Python limit or domain was added.",
+    "preserved": "Same complete original judgment: input binding/bounds, source safety, successful execution, all specified output observations and exact exterior frame."
+  },
+  "proof_connection": [
+    "LogicalIO.inputs/outputs are inverse equivalences over every original matrix/vector cell, including empty dimensions.",
+    "LogicalIO.logical_iff proves the complete lifted formula equals GridPublic.target realFormula and hence the complete original Implements judgment.",
+    "Correct applies GridPublic.implements and rowValue_real with the unchanged layout coverage, separation and complete row permutation."
+  ],
+  "fp_review": {
+    "pair": "Actual full-row original grid versus existing candidate commuting integer X/Y row-base products.",
+    "scope": "Both complete grids, all logical outputs, safety/success and dual exterior frames, all original exceptional words.",
+    "model_precision_and_domain": "NativeModel(BitVec 32), runtime epsilonWord binding, ReductionFamily and region separations/complete row order remain explicit. Source pre-weight cast retained. R=[].",
+    "source_changed": false,
+    "candidate_changed": false,
+    "actual_rule_set": "[]"
+  },
+  "numerical_dependencies": {
+    "actual_experimental_rule_instances": 0,
+    "experimental_rules": [],
+    "missing_evidence": [],
+    "new_experiments": false,
+    "source_precision_casts_FMA_and_order_changed": false,
+    "note": "Empty experiment set is interpreted under the retained fixed program/model theory; no universal arbitrary-opaque-model or hardware bit-equality claim."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "x[i]*(1/sqrt((sum j<N of x[j]*x[j])/N+eps))*w[i], over logical N.",
+    "required_conditions": {
+      "explicit_conditions": [
+        "c:Whole.Layout, whose complete field proves N≤B",
+        "X≠Y and W≠Y; X/W read-only aliases allowed",
+        "rows.Perm(List.range c.M)",
+        "ProgramIO retains coherent input binding, safe accesses, successful grid execution, every logical output and exterior frame."
+      ],
+      "contract_correspondence": "Whole.realFormula in the original Contract is the independent unpadded N-term RMS formula. Existing Layout.complete explicitly relates logical N to source block B; no new Python limit or domain was added."
+    },
+    "scope": "Whole M-row grid in any complete row launch order, including empty grids, with dense X/Y and shared W windows.",
+    "canonical_connection": "Inline output-channel lambda is definitionally Correct.expected after unfolding Correct.formula and Whole.realFormula. GridPublic.implements with rowValue_real proves the actual source grid.",
+    "fp_program_pair": {
+      "fp_pair": "Actual full-row original grid versus existing candidate commuting integer X/Y row-base products.",
+      "fp_scope": "Both complete grids, all logical outputs, safety/success and dual exterior frames, all original exceptional words.",
+      "fp_model_domain": "NativeModel(BitVec 32), runtime epsilonWord binding, ReductionFamily and region separations/complete row order remain explicit. Source pre-weight cast retained. R=[]."
+    },
+    "numerical_dependencies": "No numerical rewrite; exact integer row addresses only."
+  },
+  "verification": [
+    {
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+        "bench/repairs/tritonbench_g/rms_norm_triton/IO.lean",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/LogicalReader.lean",
+        "bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue12/rms_norm_triton-verified-readers.log",
+      "kind": "targeted_readers",
+      "log_sha256": "106b089b4e9c2d39b9f0929ab3adaf0330784fc7cf2679d935d3780d9d1eccf7",
+      "compile_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rms_norm_triton/IO.workspace-build.json",
+          "sha256": "ef75503f0e1d150a879fb7b0f2e14f8a64a523439cbd19d3a50ed9e95bee94ad"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rms_norm_triton/Proofs/LogicalReader.workspace-build.json",
+          "sha256": "25ae4f2e5496255cd980a14f0d318bc5bc2ccd1db649c35aecad1ce95d96266a"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rms_norm_triton/Correct.workspace-build.json",
+          "sha256": "a82b378a33afd190106802bc61f6f383257dfa20cd277fb268335f542d1404d7"
+        }
+      ],
+      "note": "Successful queue12 targeted compilation receipts; final validation reuses only source/dependency-hash-matching successful objects."
+    },
+    {
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+        "bench/repairs/tritonbench_g/rms_norm_triton/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue12/rms_norm_triton-fp-build.log",
+      "kind": "targeted_fp_reader",
+      "log_sha256": "13927dce0a800c0f19260a549629176b408aee62bd60ba36f039d60df138dffd",
+      "compile_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rms_norm_triton/FPEquiv.workspace-build.json",
+          "sha256": "16277e1b4d1dbcc9ba049d7ee98f1898201d4ac9a8696ab4c3dcfb64e1363d7b"
+        }
+      ],
+      "note": "Successful queue12 targeted compilation receipts; final validation reuses only source/dependency-hash-matching successful objects."
+    },
+    {
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue12/joint/rms_norm_triton.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue12/rms_norm_triton-joint.log",
+      "fixture": ".veritile-cache/logical-reader-review-20261022/queue12/joint/rms_norm_triton.lean",
+      "fixture_sha256": "fb8523762171302c95bbcbdf31c1a50737039c8c56cc7a3d74239426cbc8c642",
+      "kind": "per_task_joint",
+      "log_sha256": "003bcf6ad3ddecc37688905c4187d68d5c018f7166bdda2e809782998a545ab8"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/rms_norm_triton/Contract.lean": "c4f9509274cbaace8ad227192d2cb3be00e165a90d84e7a0e2ec94d3d2df70a0",
+    "bench/repairs/tritonbench_g/rms_norm_triton/Correct.lean": "8065e623589c627683b923296cbeff947a159700c29e4a6de6bfefcb0dd89f27",
+    "bench/repairs/tritonbench_g/rms_norm_triton/FPEquiv.lean": "53a696d891527d9cdc96a449f1d7f3354b63d93c824efe8c240ad668b821d39e",
+    "bench/repairs/tritonbench_g/rms_norm_triton/IO.lean": "614e99048791c86fc59d3870907bc5c8d01f336215d5ba8f601ce18dc3516fbe",
+    "bench/repairs/tritonbench_g/rms_norm_triton/Kernels.lean": "d55925365f493edcd1b71be578e0ec0b0ff2e7ecac272b69514e211ff70c5aa0",
+    "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/LogicalReader.lean": "d821d5085c3fc32e9d3a50cfb20e8a5c851173e2ef77f1c6f50d9b6657667640",
+    "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/Pair.lean": "4a99bcf73b76fc088ccddbe6ac1ea3d4449b8c3faeb7196ee3d88b4613dc3bcd",
+    "bench/repairs/tritonbench_g/rms_norm_triton/Proofs/PublicIO.lean": "339c28b6bca86d740e15ef973cb9f519fca1265e7850b564ba22d3e9aadd5904",
+    "bench/tritonbench_g/rms_norm_triton/Contract.lean": "c93ee3383d2f78569913922465ccb27853035d97e52efaf5558feba31faed8f6",
+    "bench/tritonbench_g/rms_norm_triton/Proofs/WholeTile.lean": "0e1963daede250320cb9563d5c1cbe145492aa3b22fac8d3907562b3591d85b3",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing applicable internal proof objects reused; no full transitive proof-closure replay or new host/native/Tensor/hardware/numerical task."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

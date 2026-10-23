@@ -1,3 +1,4 @@
+import bench.tritonbench_g.attention_fwd_triton3.SourceParameters
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.RealHeaderSource
 
 /-! Execute the complete source prologue from the initial state. Program IDs,
@@ -7,20 +8,6 @@ Memory validity remains part of the later whole-kernel IO contract. -/
 namespace VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.RealPrologue
 open VeriTile.Triton RealScores
 noncomputable section
-
-structure Parameters where
-  heads : Nat
-  kvHeads : Nat
-  strides : RealHeader.Strides
-  layout : RealPointers.Layout
-  scale : ℝ
-  init : Nat
-  evenM : Nat
-  evenN : Nat
-  window : Nat
-  complement : Nat
-  offset : Int
-  size : Int
 
 def code (BM BN BD : Nat) (p : Parameters) : List Stmt :=
   RealHeader.code p.heads p.kvHeads p.strides ++ RealPointers.code BM BN BD p.layout ++

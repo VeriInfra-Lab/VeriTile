@@ -1,4 +1,4 @@
-import bench.tritonbench_g.relu_triton_kernel.WordGridCorrect
+import bench.tritonbench_g.relu_triton_kernel.Proofs.WordGrid
 
 /-! Fixed-1024 ReLU index arithmetic on an explicit nonnegative signed-i32
 domain. All launched lanes, including inactive tail lanes, satisfy the

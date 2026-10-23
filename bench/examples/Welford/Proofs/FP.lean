@@ -527,7 +527,7 @@ theorem same_signature (x mean variance : RegionName) (N stride : Nat) (empty : 
 
 /-- Both original runs, both typed output cells, and both memory frames under
 the syntactic contract. This is a support theorem, not a completed `≡[R]`
-specification: the final composition supplies CountConversion within its admitted bound. -/
+specification: the final composition supplies CountConversion within its certified bound. -/
 theorem original_runs_under_count {α : Type} [Inhabited α] (R : Rules) (M : Algebra α)
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α) (plans : Schedules)
     (x mean variance : RegionName) (N stride : Nat) (hN : 0 < N) (hdistinct : mean ≠ variance)
@@ -548,8 +548,9 @@ theorem original_runs_under_count {α : Type} [Inhabited α] (R : Rules) (M : Al
   exact original_runs R M D hM s plans x mean variance N stride hN hdistinct
     (rowValues s x stride) empty (fun _ => rfl) hc hi hs
 
-/-- Compose bounded count conversion with the two executions and both output
-frames. The nonempty-row and count-bound premises stay explicit. -/
+/-- Compose strictly certified bounded count conversion and the admitted
+arithmetic relaxations with both executions and output frames. The nonempty-row
+and count-bound premises stay explicit. -/
 theorem equivalent (N stride : Nat) (hN : 0 < N) (hBound : N ≤ FP.CountConversion.limit)
     (empty : ReductionPlan 0) (R : FP.CountConversion.Rules) :
     FP.Scheduled.Equivalent₁ₓ₂ R.assumptions

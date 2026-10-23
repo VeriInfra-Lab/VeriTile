@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "task": "fused_rwkv6_kernel",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue06/result.json",
+    "sha256": "7ae7b1cff07a7eae50c418a92a90a26cc367270bb529c13f49c0bf8e5d0f06ea",
+    "task_index": 7
+  },
+  "finding": "The selected scalar-ABI reader exposed raw channel values and flattened output access instead of logical per-key-shard tensors.",
+  "resolution": "TensorInputs names q/k/v/w/u/initialState and TensorOutputs names partials/finalState through bijective finite tensor coordinates. tensorData is exactly the prior mathematical extension. The adjacent finite-BK sum is unchanged and is displayed over logical shard coordinates.",
+  "mathematical_target": "fused_rwkv6_kernel_scalar_abi_checked.rwkv_real: kernelIO implements per-key-shard partialValue and optional terminal recurrence over named tensors.",
+  "conditions_and_scope": "This assignment selects fused_rwkv6_kernel_scalar_abi_checked. Retains Sizes, full source grid, original head pitches, reverse-visit composition, optional seed/final state and no-launch branches. Outputs are key-shard partials; no host reduction is introduced. Actual access safety, typed outputs and full raw exterior frame remain in the judgment.",
+  "proof_connection": "Interface.Result.logical_iff is the full old/new judgment equivalence against independent Reference.real. logical_real applies existing IOResults.real. Input/output curry equivalences retain all finite cells and optional fields.",
+  "fp_review": "Unchanged Pair.original ≡[[]] Pair.earlyU, moving the U load earlier before unrelated pointer work. Original PythonNumber value, Native.ScalarBinding, native reduction plan and unchanged FP32 graph are retained. No numerical operation changes.",
+  "numerical_dependencies": {
+    "experimental_rule_instances": [],
+    "strict_rewrite_certificates": [],
+    "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Independent RWKV state H_(n+1)=H_n*exp(w_visit(n))+k_visit(n)*v_visit(n), with optional H0. Each key-shard output is Σ_j active (H_n+k*v*u)*(q*scale); second channel is optional H_T. visit keeps forward or reverse traversal.",
+    "required_conditions": {
+      "public_conditions": [
+        "Shape and Sizes c",
+        "Runtime Real scale is explicit in kernelIO",
+        "Native comparison retains ScalarBinding/raw PythonNumber and ReductionPlan",
+        "ProgramIO physical binding, active output masks, source safety and full exterior frame"
+      ],
+      "contract_and_domain_correspondence": "Contract keeps original Checked.Guards and branch-local integer ScalarABI range -(2^63)<=n<2^64 only when a launch occurs; floating payloads (including exceptional words) are unrestricted in the native model. Real kernel result is independent exact arithmetic, not an extra host/FP32 hardware requirement."
+    },
+    "scope": "Full key/value/head grid, all T steps, optional initial/final state, all key-shard partial outputs and no-launch behavior. No host key-shard sum is asserted.",
+    "canonical_connection": "Interface.Result.real -> full source IOResults and independent Reference.real. New local partialValue/formula explicitly expand the canonical shard sum and output channels; complete headline Iff.rfl passes.",
+    "fp_program_pair": {
+      "fp_actual_pair": "Pair.original versus Pair.earlyU: issue the unchanged U load earlier in the prologue, before unrelated pointer construction/optional initial-state load; full suffix and all numerical operations are unchanged.",
+      "fp_conditions_and_model_binding": [
+        "Native scalar ABI binding, actual raw number and reduction plan remain explicit",
+        "Both source schedules safely succeed and preserve all outputs and exterior frames",
+        "No finite-value or pitch restriction and no numerical rewrite"
+      ]
+    },
+    "numerical_dependencies": {
+      "experimental_rule_instances": [],
+      "strict_rewrite_certificates": [],
+      "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_current_sources",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Proofs/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean",
+        "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/fused_rwkv6_kernel.targeted.log",
+      "log_sha256": "3f54f311c49732ac724814dbf18478c2735468726f3e2ed7ae426d25aa08fa87"
+    },
+    {
+      "kind": "task_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue06/fused_rwkv6_kernel.joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/fused_rwkv6_kernel.joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/fused_rwkv6_kernel/Proofs/Checked.lean": "717974f53e1f64132cf6129fac4d4181431643da0180d8d92eb5e0bd05356e37",
+    "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Contract.lean": "8605bbbfaa05f9d169f45a47bbfe8d6a600424136d611fd0b370e74ac3d319f7",
+    "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Correct.lean": "218b5146b75ae3f9d84ee83a0bf65c4923c7dbcbf7d6ea2aa38f69520fe1eb3c",
+    "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/FPEquiv.lean": "dd41e3c775d025982704483dcfc49154304bf4af78e65e045861509f9fbb177f",
+    "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/LogicalCoordinates.lean": "217c4c34af148fa221be5c7d7be2378194331a8b5e3b6cb2e27284da4ee11f4b",
+    "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Proofs/IOResults.lean": "164d18b144fbe088fa6f6420d0d6dedb47361ff6c84d3e013c731a8563f1f592",
+    "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Proofs/LogicalCoordinates.lean": "3907d2826bd5cc9653f1aae2437fe10a7ce00bab3f304f8c58bb1f69827420c7",
+    "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/Proofs/Pair.lean": "8a29085b3bb1832289b211abf0e9476ce949afa6fefea1c322e98ace9900109d",
+    "bench/repairs/tritonbench_g/fused_rwkv6_kernel_scalar_abi_checked/SourceIO.lean": "37e91dfe87c8e904193514f5e2fbfce3f9c03a04682887e928e5433acd7bfbc9",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

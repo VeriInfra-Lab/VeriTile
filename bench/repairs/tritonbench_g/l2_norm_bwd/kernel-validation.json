@@ -1,0 +1,135 @@
+{
+  "task": "l2_norm_bwd",
+  "status": "verified",
+  "stage": "ready_for_root_review",
+  "blockers": [],
+  "scope": "Kernel-only public Real and native graph proofs, successful complete source execution and physical grid, full DX output and exterior byte frames. Historical wrapper proofs isolated.",
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/l2_norm_bwd/l2_norm_bwd_repaired.py",
+  "kernel_source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/l2_norm_bwd/Kernels.lean",
+  "public_entries": [
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/l2_norm_bwd/Contract.lean",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/l2_norm_bwd/Correct.lean",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/l2_norm_bwd/FPEquiv.lean"
+  ],
+  "selected_precision": "FP32 X/DY/eps/DX; signed64 N and all six strides; raw FP32 epsilon ABI retained",
+  "source_changed": false,
+  "python_input_domain_changed": false,
+  "frozen_l2_forward_files_changed": false,
+  "independent_formula": "Math.derivative in Contract.lean: dy_i/sqrt(sum(x_j*x_j)+eps) - sum(dy_j*x_j)*(1/(sum(x_j*x_j)+eps))*(1/sqrt(sum(x_j*x_j)+eps))*x_i",
+  "proofs": {
+    "real_kernel": "VeriTile.Bench.Repairs.L2NormBwd.Correct.kernel_correctness",
+    "real_grid": "VeriTile.Bench.Repairs.L2NormBwd.Correct.grid_correctness",
+    "native_kernel": "VeriTile.Bench.Repairs.L2NormBwd.FPEquiv.kernel_native",
+    "native_grid": "VeriTile.Bench.Repairs.L2NormBwd.FPEquiv.grid_native",
+    "physical_safety": "VeriTile.Bench.Repairs.L2NormBwd.Correct.kernel_address_safety",
+    "tensor_binding": [
+      "Kernel.source_input_pointers",
+      "Kernel.source_loads",
+      "Kernel.logical_loads"
+    ],
+    "successful_execution": "Every row executes all fourteen canonical source statements at its preceding physical heap. Certificates carry success and full logical frame; sourceRows is proved equal to physical grid execution.",
+    "frame": "All logical cells outside each active DX row and every physical byte outside complete DX; native output includes exact words and all four backing bytes.",
+    "axioms": "Only propext, Quot.sound, Classical.choice; current public and helper audits passed."
+  },
+  "validation": {
+    "lean": {
+      "result": "passed",
+      "log": {
+        "path": "/tmp/l2-norm-bwd-kernel-final-build2.log",
+        "sha256": "3777d1e302817fe1ef2fbf07ec8c02b08e20b408b2f9c2d7720ff99dac9cf32e"
+      },
+      "targets": [
+        "bench.repairs.tritonbench_g.l2_norm_bwd.Correct",
+        "bench.repairs.tritonbench_g.l2_norm_bwd.FPEquiv",
+        "bench.repairs.tritonbench_g.l2_norm_bwd.Proofs.LegacyCorrect",
+        "bench.repairs.tritonbench_g.l2_norm_bwd.Proofs.LegacyFPEquiv"
+      ],
+      "command": "env PATH=/tmp/veritile-lean-toolchain/bin:$PATH LAKE_HOME=/tmp/veritile-lean-toolchain LEAN_NUM_THREADS=2 /tmp/veritile-lean-toolchain/bin/lake build <listed targets>"
+    },
+    "python": {
+      "result": "passed",
+      "log": {
+        "path": "/tmp/l2-norm-bwd-kernel-python.log",
+        "sha256": "4d04077c4cf70085f16776e510474c29b3f942a1baac632b34d9ed003db5220e"
+      },
+      "script": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/l2_norm_bwd/check_contract.py",
+        "sha256": "d7b8762b6090c22477522cb6b48e846743e6519bd323733b3e43f0615164620b"
+      },
+      "rejections": 24,
+      "admissions": 23,
+      "original_defects_reproduced": [
+        "wrong DY row from shared X stride",
+        "out-of-bounds DX from shared X stride"
+      ],
+      "scope": "Actual Python AST/host exercised using CPU Torch storage and CUDA facade; not native GPU."
+    },
+    "offline_profile": {
+      "result": "passed",
+      "report": {
+        "path": "/tmp/l2-norm-bwd-kernel-profile/report.json",
+        "sha256": "c34668d00169439a0750de6c4bc90ce52d1c315a4ce6ce3be5bc1a7923027d30"
+      },
+      "log": {
+        "path": "/tmp/l2-norm-bwd-kernel-profile.log",
+        "sha256": "a3ed8b44fc562049675112488406d2a4cb9744355e7d73266fba6e1665fabdf8"
+      },
+      "script": {
+        "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/l2_norm_bwd/check_native_profile.py",
+        "sha256": "c31ea8ced853ed7723d48cfbcb160887d837b832cbda50d7df3eff5750ff9697"
+      },
+      "blocks": 15,
+      "target": "Triton 3.7.1 CUDA SM90 / four warps / one CTA / three stages / fusion",
+      "checks": "FP32 scalar b32 memory, signed64 mask, sqrt.approx.ftz, div.full, FMA, explicit negation; TTIR/TTGIR/PTX hashes recorded. Does not prove compiler correctness."
+    }
+  },
+  "model_boundaries": [
+    "Ordinary Tensor shape/device/negative-flag/storage/data-pointer observations and direct-view key/stride semantics, with a fresh backed injective four-byte-aligned DX allocation.",
+    "Ops read/write/frame laws and little-endian Words.Codec; no input-value or output-value postcondition is assumed.",
+    "Signed64 Tensor stride and FP32 scalar ABI. Native launch program-ID interface uses rows <= 2^31 via separate LaunchCompatible; unused DY suffix has no PID bound.",
+    "Selected Native.algebra compiler/fusion/reduction interpretation and six opaque primitive instruction functions over all raw32 words. These are semantic model bindings, not experiments."
+  ],
+  "transformation_rules": [],
+  "deferred_experiments": [],
+  "gpu_execution": "not_run_cuda_unavailable",
+  "independent_numerical_replay": "not_run_not_required_for_a_transformation",
+  "limitations": [
+    "Exact Real theorem uses total sqrt/division; derivative interpretation requires q > 0 and is not an FP accuracy bound.",
+    "Native raw-word program proof is under explicit primitive/compiler/storage model boundaries. Offline compilation provides profile evidence, not verified compiler correctness or GPU conformance."
+  ],
+  "hashes": {
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Contract.lean": "ff4de06fba48f7776cccc8392f875d38bca43f2a8bd19f909b14d6336307f043",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Correct.lean": "2be566d1fcf99e12973912da105f2ba224fc576556125051624b27541f5a2976",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/FPEquiv.lean": "084f482fe9953f5a69418f49d249f41e118f5db22bd9af8ffd55760c522e0cf8",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Kernels.lean": "81e84456f81df015449f4d82d3ad4ed787c8af659dc6bbf7f356db21c69120d2",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/NUMERICS.md": "214bce2fcac9b7c3ce51f60506b56db1f3385f69df10efacf435893c9e45c0be",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Binding.lean": "8b55de79b3389bab9f8ccbacdd7e50a191b1bdd44b9c47303dd1f0dedd8f3af4",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Body.lean": "ef334c32580dd8fa72b97b4be2193ac0014acd44338ab465dc96cf24bc7791db",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Bridge.lean": "0b89640973674cbe1b31dbade2159a6b99d818ab52c2396905e18c1dd8226cd7",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Certified.lean": "dc6f0fa01e6b119449f7b54b71d8a5d6f3ee449069acacd83fd92c149c1122dd",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Context.lean": "47020ed6d4613e70c490ab22b61646566aea1e2837f4ce0248b3fba7576e2a85",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Contract.lean": "1518fc60878b1c0100a097725bce9ec2a821b62f9af3538fb2a4249978cbdd55",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Execution.lean": "bbd680df1dbb37ef07387d745c06b733453d21b3fe2c690e90798e788f62ec78",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/HostBridge.lean": "ea143869daff1ead099b9a5ca201ac6b84dd56457caa289c1f77765102be4d0f",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Integer.lean": "0e6689da799b9f7c503f0ae4bbe0d1fd9a788d666e7cac910d0f8b7fdb879da7",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Kernel.lean": "cc39dfe4b419f7527207412fa3ca6d7b31aabea41a6e4d51290d68e8a21c3653",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/LegacyCorrect.lean": "f6c5d514ba7dd11975d23be294d35d776b20bd217e71f08679835cc5dc734080",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/LegacyFPEquiv.lean": "e50c80b138dfbc6211fb736288de5b4f1af79d076cf91187376fce4438e0c820",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Machine.lean": "a6488cd7640721f0bdde468abcb4ecdbc9756a2d44df6ef884edb3a6d09ffa24",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Native.lean": "aff14cfa3a7550ec867b67e58bb400f3e9cdeabf7e5267714285ab9ba9cc4e86",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Normalize.lean": "26b766be21321ce6db271dee96f70d8e839f08bd22938e59a708ecd5155c9859",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Physical.lean": "849d7ed51c81c36d5f3bd6a7edaba487d92843c7ec6f9a4c938eb16313d0d674",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Profile.lean": "f574b4a410cadb34c844baa0fdb1c381aa94532fc27cfbea849fb731c7b06e13",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Real.lean": "f237dd67349d214629df517c8350602bd9fd64b56941696b272f47e684cc238c",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Runtime.lean": "4e8fbfdb77469dcc03ac0a819ccd1194e0e0640872399d59e84f1b0fea5813f9",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Scalar.lean": "e7f49933e45c2d73c22bf37403cf73a0e906d662eefd3882c3d368bb1486bd35",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Statement.lean": "d803fafd3ee50f38443fccf432c47c2d341bc6b34042b65de813568a6f804ce7",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Tile.lean": "8e3bed273a3718ec58f4464f290bc7d0631666e5af9b28632387418b66ac42e6",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/Proofs/Whole.lean": "18a45cdc08fc8d8cc60c3d484a3fa56c2b481a3f38751a74df949f3c20764715",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/README.md": "cdbb556abf4595bb1ac9a56d95183a6c78a59b5e2f269f0b106818c1108a7189",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/check_contract.py": "d7b8762b6090c22477522cb6b48e846743e6519bd323733b3e43f0615164620b",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/check_native_profile.py": "c31ea8ced853ed7723d48cfbcb160887d837b832cbda50d7df3eff5750ff9697",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/l2_norm_bwd_repaired.py": "903617999fe0163c1ca94565c57df91d295f5c62358ffe2129249cc2211cdcb1",
+    "bench/repairs/tritonbench_g/l2_norm_bwd/source_pin.json": "58648a4cf9917ea1adae7dc42bf87344eddc0f107dff36b4900cada997795517"
+  }
+}

@@ -1,0 +1,12 @@
+import bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Misc.NativeCorrect
+import bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Correct
+import bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.FPEquiv
+import bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Misc.TensorBridge
+import bench.repairs.tritonbench_g.flash_decode2_phi_block_checked.Misc.SourceAudit
+
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.Correct.kernel_real
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.FPEquiv.kernel_native
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.TensorBridge.real
+#axiomsClean VeriTile.Bench.Repairs.FlashDecode2PhiBlockChecked.TensorBridge.native
+#guard_msgs (drop info) in
+#auditModuleAxioms

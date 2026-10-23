@@ -15,12 +15,23 @@ def PhysicalView.Inside (v : PhysicalView) (address : Nat) : Prop :=
 def PhysicalView.Disjoint (a b : PhysicalView) : Prop :=
   a.base+a.capacity≤b.base ∨ b.base+b.capacity≤a.base
 
+/-- Applicability of an active scalar load. Natural alignment follows
+[PTX ISA 8.7, Addresses as Operands, section 6.4.1](https://docs.nvidia.com/cuda/archive/12.8.0/parallel-thread-execution/index.html#addresses-as-operands):
+the address must be a multiple of the instruction's total access size;
+misaligned behavior is undefined. Here `bytes v.dtype` is the scalar access
+size. Vector instructions need their full instruction width, not just one
+element's width. Bounds and device permissions are separate launch conditions.
+See `bench/repairs/tritonbench_g/add_example/LOAD_STORE_AUDIT.md` for the
+observed scalar `.b32` lowering. This predicate does not model GPU faults. -/
 def ReadOK {M A : Type} (ops : MemoryPrimitives M A) (v : PhysicalView) (address : Nat) : Prop :=
   v.Inside (v.toBacking address) ∧ address%bytes v.dtype=0 ∧
     v.deviceBase≤address ∧ address+bytes v.dtype≤v.deviceBase+v.capacity ∧ address+bytes v.dtype≤2^64 ∧
     ∀ k,k<bytes v.dtype → ops.readableByte ops.launchDevice (address+k) ∧
       v.toBacking (address+k)=v.toBacking address+k
 
+/-- Active scalar-store applicability uses the same PTX access-size alignment
+rule as `ReadOK`, with writable rather than readable allocation permissions.
+See [PTX st](https://docs.nvidia.com/cuda/archive/12.8.0/parallel-thread-execution/index.html#data-movement-and-conversion-instructions-st). -/
 def WriteOK {M A : Type} (ops : MemoryPrimitives M A) (v : PhysicalView) (address : Nat) : Prop :=
   v.Inside (v.toBacking address) ∧ address%bytes v.dtype=0 ∧
     v.deviceBase≤address ∧ address+bytes v.dtype≤v.deviceBase+v.capacity ∧ address+bytes v.dtype≤2^64 ∧

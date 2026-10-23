@@ -55,6 +55,9 @@ Currently supported statements: assignment (`name := expr`),
 follows body occurrence; no macro-time dedup since regions are Lean terms
 (possibly equal at runtime but not statically). `Kernel.inputs/outputs` is
 metadata only (not consumed by `exec`), so duplicates are harmless.
+An optional top-level `tl.ports inputs=[...], outputs=[...]` declares the
+ordered interface explicitly, including optional regions. It emits no runtime
+statement, changes no memory operation, and does not establish memory safety.
 
 This module owns macro expansion only. Surface syntax, macro-time typing
 helpers, and metadata scanning live in sibling `DSL.*` modules.
@@ -68,6 +71,7 @@ import VeriTile.Triton.DSL.Metadata
 import VeriTile.Triton.DSL.Inference
 import VeriTile.Triton.DSL.RandomProfile
 import VeriTile.Triton.DSL.FiniteHelperSource
+import VeriTile.Triton.DSL.WelfordSource
 import VeriTile.Triton.DSL.Expansion.Common
 import VeriTile.Triton.DSL.Expansion.Memory
 import VeriTile.Triton.DSL.Expansion.Compute
@@ -176,6 +180,9 @@ private def expandIdentRefByName (env : Env) (name : String) : MacroM EOut := do
   let dt ← dtype.term
   let sh ← shape.term
   let term ← `(Op.ref $dt $sh $s)
+  if dtype == .fp32Argument then
+    let bridge ← `(Op.castFloat FloatDType.fp32 FloatDType.real $term)
+    return ⟨bridge, .real, shape, some (← fp32ComputeExpr bridge), some .fp32⟩
   match lookupComputeDType? env name with
   | some .fp32 =>
       pure ⟨term, dtype, shape, some (← fp32ComputeExpr term), some .fp32⟩
@@ -253,11 +260,21 @@ private def floatingIntegerCast? (dst : TSyntax `tritonDType) (src : EOut) :
     .nat, src.shape, none, none⟩
 
 /-- Machine casts must be evaluated before forgetting source storage width.
-Signed i16/i32 narrowing keeps the low word and reinterprets its sign.
+Signed i8/i16/i32 narrowing keeps the low word and reinterprets its sign.
 This preserves explicit casts; it does not attach i16 width to all arithmetic. -/
 private def machineIntegerCast? (dst : TSyntax `tritonDType) (src : EOut) :
     MacroM (Option EOut) := do
   if let some cast ← floatingIntegerCast? dst src then return some cast
+  if let `(tritonDType| tl.int8) := dst then
+    match src.dtype with
+    | .nat => return some ⟨← `(Op.intToSigned 8 (Op.castNatToInt $src.term)), .int8,
+        src.shape, none, none⟩
+    | .int | .int32 => return some ⟨← `(Op.intToSigned 8 $src.term), .int8,
+        src.shape, none, none⟩
+    | .bool => return some ⟨← `(Op.boolToInt $src.term), .int8,
+        src.shape, none, none⟩
+    | .int8 => return some src
+    | _ => return none
   if let `(tritonDType| tl.int16) := dst then
     let term ← match src.dtype with
       | .nat => `(Op.intToSigned 16 (Op.castNatToInt $src.term))
@@ -286,7 +303,7 @@ private def machineIntegerCast? (dst : TSyntax `tritonDType) (src : EOut) :
 
 private def signedMachineCast (dt : TSyntax `tritonDType) : Bool :=
   match dt with
-  | `(tritonDType| tl.int16) | `(tritonDType| tl.int32) => Bool.true
+  | `(tritonDType| tl.int8) | `(tritonDType| tl.int16) | `(tritonDType| tl.int32) => Bool.true
   | _ => Bool.false
 
 /-- Facts about immutable, external constexpr parameters on the current path.
@@ -1240,26 +1257,7 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
         if env.any (fun entry => entry.1 == rawName) then rawName
         else if env.any (fun entry => entry.1 == userName) then userName
         else erasedName
-      let (dtype, shape) ← lookupEnv env name
-      let s : TSyntax `term := Syntax.mkStrLit name
-      let dt ← dtype.term
-      let sh ← shape.term
-      let term ← `(Op.ref $dt $sh $s)
-      match lookupComputeDType? env name with
-      | some .fp32 =>
-          pure ⟨term, dtype, shape,
-            some (← fp32ComputeExpr term),
-            some .fp32⟩
-      | some .real =>
-          pure ⟨term, dtype, shape,
-            some (← fp64ComputeExpr term),
-            some .real⟩
-      | some _ =>
-          pure ⟨term, dtype, shape,
-            some (← `(ComputeExpr.opaque ("runtime compute value `" ++ $s ++ "`"))),
-            lookupComputeDType? env name⟩
-      | none =>
-          pure ⟨term, dtype, shape, none, none⟩
+      expandIdentRefByName env name
   | `(tritonExpr| $(($t:term : ℝ))) =>
       pure ⟨← `(Op.const $t), .real, SInfo.scalar, none, none⟩
   | `(tritonExpr| $(($t:term : Real))) =>
@@ -1426,6 +1424,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       let cond ← `(Op.ge ComparableDType.real $cmpBc $eTerm $zero)
       let scaled ← `(Op.mul NumericDType.real $mulBc $slope $eTerm)
       pure ⟨← `(Op.where $cond $eTerm $scaled), .real, e'.shape, none, none⟩
+  | `(tritonExpr| tl.fma($a:tritonExpr, $b:tritonExpr, $c:tritonExpr)) =>
+      expandFma expandExpr env a b c
   | `(tritonExpr| tl.sqrt($e:tritonExpr)) => do
       let e' ← expandExpr env e
       let eTerm ← realMathTerm "tl.sqrt" e'
@@ -1597,6 +1597,19 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       expandArgReduce expandExpr env "tl.argmin" (← `(Op.argMin)) e kwargs
   | `(tritonExpr| tl.sort($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
       expandSort expandExpr env e kwargs
+  | `(tritonExpr| tl.sum($e:tritonExpr, axis=1, tree=$($tree:term), keep_dims=true)) => do
+      let input ← expandExpr env e
+      ensureDType .real input.dtype "ordered tl.sum"
+      unless input.computeDType? == some .fp32 do
+        Macro.throwError "ordered tl.sum requires explicit FP32 input precision"
+      let .dims [row, _] := input.shape
+        | Macro.throwError "ordered tl.sum requires a [1, N] tile"
+      unless termIsOne row do
+        Macro.throwError "ordered tl.sum requires a [1, N] tile"
+      let inputTerm ← input.scopedFloatingTerm
+      let term ← `(Op.full [1,1] (WelfordSource.sumExpression $inputTerm $tree))
+      pure ⟨term, .real, .dims [← `(1), ← `(1)],
+        some (← fp32ComputeExpr term), some .fp32⟩
   | `(tritonExpr| tl.sum($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
       expandReduce expandExpr env "tl.sum" (← `(Op.reduceSum)) e kwargs
   | `(tritonExpr| tl.max($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
@@ -2144,6 +2157,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       let e' ← expandExpr env e
       let zero ←
         match e'.dtype with
+        | .fp32Argument =>
+            Macro.throwError "tl.zeros_like: external FP32 argument must be read first"
         | .real => `(Op.const 0.0)
         | .fp32 => `(Op.constFloat FloatDType.fp32 0.0)
         | .fp16 => `(Op.constFloat FloatDType.fp16 0.0)
@@ -3217,6 +3232,77 @@ partial def expandStmt (env : Env) (pinned intPinned : List String)
       let compute ← `(ComputeStmt.assign $dt $sh $nameLit $exprTerm)
       let env' := (lhs0.getId.toString, aOut.dtype, aOut.shape, aOut.computeDType?) :: env
       pure (stmt, compute, env', aOut.computeTerm.isSome)
+  | `(tritonStmt| $outMean:ident, $outM2:ident, $outWeight:ident = triton_helpers.welford_reduce($x:tritonExpr, $mean:tritonExpr, $m2:tritonExpr, $weight:tritonExpr, $first:tritonExpr)) => do
+      let values ← #[x, mean, m2, weight].mapM (expandExpr env)
+      for value in values do
+        ensureDType .real value.dtype "welford_reduce"
+        ensureShape values[0]!.shape value.shape "welford_reduce"
+        unless value.computeDType? == some .fp32 do
+          Macro.throwError "welford_reduce requires explicit FP32 operands"
+      let targets := [outMean.getId.toString, outM2.getId.toString, outWeight.getId.toString]
+      unless targets.eraseDups.length == 3 do
+        Macro.throwError "welford_reduce requires three distinct targets"
+      let rec mentionsReduce (stx : Syntax) : Bool :=
+        (stx.isIdent && targets.contains stx.getId.toString) || stx.getArgs.any mentionsReduce
+      if (#[x, mean, m2, weight, first]).any (fun expr => mentionsReduce expr.raw) then
+        Macro.throwError "welford_reduce targets must be separate from its input expressions"
+      let .dims dims := values[0]!.shape
+      let shape ← dims.toArray.mapM (fun dim => `(tritonExpr| $($dim:term)))
+      let dtypeName := mkIdent `dtype
+      let (alg, compute, nextEnv, hasCompute) ←
+        expandStmt env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts
+        (← `(tritonStmt| if $first:tritonExpr {
+          $outWeight:ident = tl.full([$shape,*], 1.0, $dtypeName:ident=tl.float32)
+          $outMean:ident = $x:tritonExpr
+          $outM2:ident = tl.zeros([$shape,*], tl.float32)
+        } else {
+          $outWeight:ident = $weight:tritonExpr + 1.0
+          $outMean:ident = $mean:tritonExpr + ($x:tritonExpr - $mean:tritonExpr) / $outWeight:ident
+          $outM2:ident = $m2:tritonExpr + ($x:tritonExpr - $mean:tritonExpr) * ($x:tritonExpr - $outMean:ident)
+        }))
+      -- Shape annotations emitted through the inline source can contain an
+      -- extra `(dim : Nat)` wrapper. Both branches have the checked input
+      -- shape definitionally; keep that original macro-time shape key.
+      let nextEnv := targets.foldl (fun result name =>
+        (name, DInfo.real, values[0]!.shape, some DInfo.fp32) :: result) nextEnv
+      pure (alg, compute, nextEnv, hasCompute)
+  | `(tritonStmt| $outMean:ident, $outM2:ident, $outWeight:ident = triton_helpers.welford($mean:tritonExpr, $m2:tritonExpr, $weight:tritonExpr, 1, tree=$($tree:term))) => do
+      let values ← #[mean, m2, weight].mapM (expandExpr env)
+      for value in values do
+        ensureDType .real value.dtype "welford"
+        ensureShape values[0]!.shape value.shape "welford"
+        unless value.computeDType? == some .fp32 do
+          Macro.throwError "welford requires explicit FP32 operands"
+      let .dims [row, _] := values[0]!.shape
+        | Macro.throwError "welford requires [1, N] tiles and axis 1"
+      unless termIsOne row do
+        Macro.throwError "welford requires [1, N] tiles and axis 1"
+      let targets := [outMean.getId.toString, outM2.getId.toString, outWeight.getId.toString]
+      unless targets.eraseDups.length == 3 do
+        Macro.throwError "welford requires three distinct targets"
+      let rec mentionsTree (stx : Syntax) : Bool :=
+        (stx.isIdent && targets.contains stx.getId.toString) || stx.getArgs.any mentionsTree
+      if (#[mean, m2, weight]).any (fun expr => mentionsTree expr.raw) then
+        Macro.throwError "welford targets must be separate from its input expressions"
+      let meanTerm ← values[0]!.scopedFloatingTerm
+      let m2Term ← values[1]!.scopedFloatingTerm
+      let weightTerm ← values[2]!.scopedFloatingTerm
+      let triple ← `(WelfordSource.expressions $meanTerm $m2Term $weightTerm $tree)
+      let exprs : Array (TSyntax `term) := #[← `(Op.full [1] ($triple).mean),
+        ← `(Op.full [1] ($triple).m2), ← `(Op.full [1] ($triple).weight)]
+      let mut alg : Array (TSyntax `term) := #[]
+      let mut compute : Array (TSyntax `term) := #[]
+      let mut nextEnv := env
+      for (name, expr) in #[outMean, outM2, outWeight].zip exprs do
+        let nameLit ← identAsStr name
+        alg := alg.push (← `(Stmt.assign .real [1] $nameLit $expr))
+        compute := compute.push (← `(ComputeStmt.assign TileDType.real [1] $nameLit
+          (ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 $expr))))
+        nextEnv := (name.getId.toString, DInfo.real, .dims [← `(1)], some DInfo.fp32) :: nextEnv
+      pure (← `(Stmt.ifThen (Op.constBool Bool.true) [$alg,*]),
+        ← `(ComputeStmt.ifThen (Op.constBool Bool.true) [$compute,*]), nextEnv, Bool.true)
+  | `(tritonStmt| $_outMean:ident, $_outM2:ident, $_outWeight:ident = triton_helpers.welford($_mean:tritonExpr, $_m2:tritonExpr, $_weight:tritonExpr, $_axis:num, tree=$($_tree:term))) =>
+      Macro.throwError "welford requires [1, N] tiles and axis 1"
   | `(tritonStmt| $_lhs0:ident, $_lhs1:ident = $_fn:ident($_args:tritonExpr,*)) => do
       pure (← `(Stmt.ifThen (Op.constBool Bool.true) []),
         ← `(ComputeStmt.ifThen (Op.constBool Bool.true) []),
@@ -3986,6 +4072,28 @@ partial def expandStmts (env : Env) (pinned intPinned : List String)
   | st :: rest => do
       if Inference.isRegionDirective st then
         return ← expandStmts env pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts rest
+      if let `(tritonStmt| tl.param $name:ident : $dt:tritonDType (carrier=$carrier:tritonDType)) := st then
+        let key := name.getId.toString
+        if env.any (fun binding => binding.1 == key) then
+          Macro.throwError ("tl.param: register already bound: " ++ key)
+        unless (← expandDType dt) == .fp32 && (← expandDType carrier) == .fp32 do
+          Macro.throwError "tl.param: explicit carrier requires FP32 precision and FP32 carrier"
+        let nextEnv := (key, DInfo.fp32Argument, SInfo.scalar, some DInfo.fp32) :: env
+        return ← expandStmts nextEnv pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts rest
+      if let `(tritonStmt| tl.param $name:ident : $dt:tritonDType) := st then
+        let key := name.getId.toString
+        if env.any (fun binding => binding.1 == key) then
+          Macro.throwError ("tl.param: register already bound: " ++ key)
+        let binding ← match dt with
+          | `(tritonDType| tl.int64) =>
+              pure (key, DInfo.int, SInfo.scalar, none)
+          | _ => do
+              let precision ← expandDType dt
+              unless precision == .fp32 || precision == .real do
+                Macro.throwError "tl.param: only FP32, FP64 and Int64 scalar arguments are supported"
+              pure (key, DInfo.real, SInfo.scalar, some precision)
+        let nextEnv := binding :: env
+        return ← expandStmts nextEnv pinned intPinned regionDTypes ptrElems fpSource fpPtrElems facts rest
       match ← ifReturnCond? st with
       | some cond => do
           if let some value := knownStaticBool? env facts cond then
@@ -4164,9 +4272,18 @@ elab_rules : term
       let expanded ← liftMacroM do
         let sourceStmts ← stmts.toList.mapM fun st => do
           return (⟨← Inference.normalizeControlFlow st.raw⟩ : TSyntax `tritonStmt)
+        let mut explicitPorts : Option (Array (TSyntax `term) × Array (TSyntax `term)) := none
+        let mut sourceBody : List (TSyntax `tritonStmt) := []
+        for st in sourceStmts do
+          match st with
+          | `(tritonStmt| tl.ports inputs=[$ins:term,*], outputs=[$outs:term,*]) =>
+              if explicitPorts.isSome then
+                Macro.throwError "triton: only one top-level tl.ports declaration is allowed"
+              explicitPorts := some (ins, outs)
+          | _ => sourceBody := sourceBody ++ [st]
         -- Validate the original declaration names before equality aliases can
         -- rewrite syntax. Source helper metadata has its own lexical scope.
-        let finiteStmts ← FiniteHelperSource.prepare sourceStmts finiteSourceExternalNames
+        let finiteStmts ← FiniteHelperSource.prepare sourceBody finiteSourceExternalNames
         let stmtList : List (TSyntax `tritonStmt) :=
           finiteStmts.map fun st => ⟨rewriteIdentAliases natEqAliases st.raw⟩
         let stmtList ← RandomProfile.prepare stmtList
@@ -4187,7 +4304,7 @@ elab_rules : term
         let fpSource : FPSourceContext := {
           regions := fpRegions
           legacyPointerCasts := fpRegions.isEmpty &&
-            !(sourceStmts.any (fun st => Inference.hasConcreteRegionStorage st.raw ||
+            !(sourceBody.any (fun st => Inference.hasConcreteRegionStorage st.raw ||
               st.raw.getKind == ``tritonSourceFiniteAlias ||
               st.raw.getKind == ``tritonSourceFiniteHelper)) }
         -- Evidence starts at the source ports and follows execution order;
@@ -4199,9 +4316,10 @@ elab_rules : term
         -- and `tl.store(...)` (outputs). Order = body occurrence; no macro-time
         -- dedup (a mix of literals and Lean terms can't be statically deduped, and
         -- `Kernel.inputs/outputs` is metadata-only, so duplicates are harmless).
-        let (allIns, allOuts) := Metadata.blockRegions sourceStmts
-        let insArr  : Array (TSyntax `term) := allIns.toArray
-        let outsArr : Array (TSyntax `term) := allOuts.toArray
+        let (insArr, outsArr) := match explicitPorts with
+          | some ports => ports
+          | none => let (ins, outs) := Metadata.blockRegions sourceBody
+                    (ins.toArray, outs.toArray)
         let result ← `(ComputeKernel.mk [$insArr,*] [$outsArr,*] [$computeStmtTerms,*])
         normalizePrecisionScopes none result.raw
       let e ← elabTerm expanded none

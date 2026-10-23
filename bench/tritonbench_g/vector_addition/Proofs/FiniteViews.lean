@@ -1,4 +1,5 @@
 import bench.tritonbench_g.vector_addition.TypedHostCorrect
+import VeriTile.Triton.Semantics.LaunchIndex
 
 namespace VeriTile.Bench.TritonBenchG.VectorAddition.Finite
 open VeriTile.Triton DTypeScope TypedHost
@@ -115,10 +116,8 @@ theorem separated_accesses (a b : View) (nA nB totalA totalB i j : Nat)
 /-- All launched lanes, including masked tails, have a nonnegative signed-i32
 index. Thus signed multiplication/addition/comparison agree with this Nat model. -/
 theorem launched_index_i32 (n pid lane : Nat) (hn : n<2^31)
-    (hp : pid<(n+1023)/1024) (hl : lane<1024) : pid*1024+lane<2^31 := by
-  have hcount : (n+1023)/1024≤2^21 := by omega
-  have hpid : pid<2^21 := hp.trans_le hcount
-  omega
+    (hp : pid<(n+1023)/1024) (hl : lane<1024) : pid*1024+lane<2^31 :=
+  VeriTile.Triton.LaunchIndex.launched_index_i32 n pid lane hn hp hl
 
 theorem active_owner (n i : Nat) (hi : i<n) :
     i/1024<(n+1023)/1024 ∧ i%1024<1024 ∧ (i/1024)*1024+i%1024=i := by

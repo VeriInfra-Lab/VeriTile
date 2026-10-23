@@ -82,6 +82,7 @@ private def isNoneExpr (e : TSyntax `tritonExpr) : Bool :=
   isNoneSyntax e.raw
 
 private def dtypeName : DInfo → String
+  | .fp32Argument => "external fp32 argument"
   | .real => "real"
   | .fp32 => "fp32"
   | .fp16 => "fp16"

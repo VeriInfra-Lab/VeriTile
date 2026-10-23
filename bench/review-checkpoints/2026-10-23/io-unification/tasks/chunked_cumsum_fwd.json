@@ -1,0 +1,279 @@
+{
+  "schema": 1,
+  "task": "chunked_cumsum_fwd",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue03/result-metadata-supplement.json",
+    "sha256": "df6d43a409aacf78752e64a27561a49d53956c4277a5ed8d7fd71c8dded57140",
+    "task_index": 8
+  },
+  "reason": "Merged the existing logical tensor view into the existing KernelOnly memory IO with all definitions unchanged. The selected archived Contract is unchanged and separately fresh-checked.",
+  "selected_public_entries": [
+    ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Correct.lean",
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "chunked_cumsum_fwd"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/IO.lean",
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Proofs/LogicalIO.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/LogicalIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "task": "chunked_cumsum_fwd",
+      "from_path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/LogicalIO.lean",
+      "to_path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/IO.lean",
+      "kind": "logical_view",
+      "names": [
+        "Inputs",
+        "Outputs",
+        "inputs",
+        "outputs",
+        "inputArrays",
+        "io"
+      ],
+      "byte_sha256": "3299e2e1a64293fd73908c5aa98755a3ca26699d48fcb5df47e30a98ac2452dc",
+      "byte_length": 2857
+    }
+  ],
+  "preservation": {
+    "evidence": ".veritile-cache/io-unification-20261023/queue03/preservation-verification.json",
+    "evidence_sha256": "0b8e73f469f3de3296274d701faf1ea6a1b38630ee3563a79d35db0efdca15ef",
+    "moved_blocks": [
+      {
+        "task": "chunked_cumsum_fwd",
+        "from_path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/LogicalIO.lean",
+        "to_path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/IO.lean",
+        "kind": "logical_view",
+        "names": [
+          "Inputs",
+          "Outputs",
+          "inputs",
+          "outputs",
+          "inputArrays",
+          "io"
+        ],
+        "byte_sha256": "3299e2e1a64293fd73908c5aa98755a3ca26699d48fcb5df47e30a98ac2452dc",
+        "byte_length": 2857,
+        "original_snapshot": ".veritile-cache/io-unification-20261023/queue03/before/bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/LogicalIO.lean",
+        "snapshot_sha256": "1591e36bd656a3b6c7ae0bd253622e4c6d86f34803f5f0e8f410324b505c21b8",
+        "current_contains_identical_block": true,
+        "identical_after_documented_proof_only_normalization": true,
+        "block_sha256": "3299e2e1a64293fd73908c5aa98755a3ca26699d48fcb5df47e30a98ac2452dc"
+      }
+    ],
+    "changed_file_checks": [
+      {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/IO.lean",
+        "kind": "original_memory_IO_body_byte_preserved",
+        "before_sha256": "e0c9afb3a7d0d44ce15296f624421eafad0cc3d149d02bd9f6dc47fcdf537dea",
+        "current_sha256": "17cc5396efe37f18c9a3dbb60c8f75b59e053ca9adec8067360580bbd84b6e16"
+      },
+      {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Proofs/LogicalIO.lean",
+        "kind": "only_imports",
+        "before_sha256": "6e81b82bd5a79dca1783b3f38bf86dc1e857f13d73bcf9945f998ebe899a8e13",
+        "current_sha256": "6444225edb9871ce9da66d1d6b67ec3e6d0b57ef20da585d584988082d8b1df0"
+      }
+    ],
+    "original_public_Lean_names": "Namespace and declaration spellings are preserved; extraction wrappers use the original namespace. No public alias or replacement judgment is introduced.",
+    "complete_public_judgment": "All three selected Correct/FPEquiv/Contract sources are byte-identical to the before snapshot/current selected pins. Proofs helper non-import bytes are unchanged. Existing full-judgment equivalence, execution, safety, output/frame, domain/coverage and mathematical connection proofs remain in Proofs and compile against the same definitions now owned by IO.",
+    "exceptions": []
+  },
+  "verification": [
+    {
+      "kind": "targeted_changed_chain_and_public_build",
+      "task": "chunked_cumsum_fwd",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue03/build.py",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/IO.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Correct.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue03/chunked_cumsum_fwd-build-1.log",
+      "modules": [
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/IO.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Correct.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/FPEquiv.lean"
+      ],
+      "log_sha256": "bd5513fea294eaa13e42235732d5fbfa6bc1ed097f8ace4e1f414a82b926d974",
+      "disposition": "success"
+    },
+    {
+      "kind": "targeted_changed_chain_and_public_build",
+      "task": "chunked_cumsum_fwd",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue03/build.py",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/IO.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Correct.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue03/chunked_cumsum_fwd-build-2.log",
+      "modules": [
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/IO.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Correct.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/FPEquiv.lean"
+      ],
+      "log_sha256": "d0db6829bb23bdeb3e5f23dd394536c3e088f2f1d49bd803278dbf2cc833a530",
+      "disposition": "success"
+    },
+    {
+      "task": "chunked_cumsum_fwd",
+      "kind": "fresh_source_check_public_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue03/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue03/chunked_cumsum_fwd-joint.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/io-unification-20261023/queue03/chunked_cumsum_fwd-joint.lean",
+      "source_sha256": "315cbca78da063cccf4a7c657521c49d0e811775edb9c205e1cbe9e1ecb30e5d",
+      "log": ".veritile-cache/io-unification-20261023/queue03/chunked_cumsum_fwd-public_joint-1.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "task": "chunked_cumsum_fwd",
+      "kind": "fresh_source_check_selected_archived_contract",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue03/build.py",
+        "--check",
+        ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
+      "source_sha256": "8f4a97e7b335ed58a77b0ae3694caa167ffc5988b34e036f7cd5b167544f5c7a",
+      "log": ".veritile-cache/io-unification-20261023/queue03/chunked_cumsum_fwd-selected_archived_contract-1.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "current_source_artifacts_and_direct_dependency_hash_check",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue03/verify_receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue03/receipt-verification.log",
+      "log_sha256": "7f5b1f4ac628a4ec73f85105119d0cb0ab77462e4147a65a428dc8caa18528b9",
+      "record": ".veritile-cache/io-unification-20261023/queue03/receipt-verification.json",
+      "record_sha256": "908882afe759c062cf2e64ebc56f264484d17a191849ac8015953dcdf81dad84",
+      "module_count": 4
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean": "8f4a97e7b335ed58a77b0ae3694caa167ffc5988b34e036f7cd5b167544f5c7a",
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Correct.lean": "0aefea73e87f57d27d434ac71a67547f0f7587d4218f98b5dcc53ae22f36ef74",
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/FPEquiv.lean": "1a5bfc703e07cdedadf424813fc8299b6c3a4f69b45cad9762ed2d541b55745a",
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Proofs/LogicalIO.lean": "6444225edb9871ce9da66d1d6b67ec3e6d0b57ef20da585d584988082d8b1df0",
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/IO.lean": "17cc5396efe37f18c9a3dbb60c8f75b59e053ca9adec8067360580bbd84b6e16",
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/PairIO.lean": "25e1e3e37a346f7859a3ee23e8b1a5a34b0f1edf420d66e3387d1f940c87bf8b",
+    ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelRealTarget.lean": "618d2163fd7ec232d479724639c7944e9557af4507ef68ad264366e5238267b5",
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/PairSemantics.lean": "757a252cf5b11ca7793899aab4e213ebaa8f97c2ea827fc7cdd212b02f3edca5",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Kernels.lean": "6629723f4bf952554d4e423633420e2646b86cd264f4175f37ba4c889aad8061"
+  },
+  "source_pin_provenance": {
+    ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean": {
+      "owner_tasks": [
+        "chunked_cumsum_fwd"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Correct.lean": {
+      "owner_tasks": [
+        "chunked_cumsum_fwd"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/FPEquiv.lean": {
+      "owner_tasks": [
+        "chunked_cumsum_fwd"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Proofs/LogicalIO.lean": {
+      "owner_tasks": [
+        "chunked_cumsum_fwd"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/IO.lean": {
+      "owner_tasks": [
+        "chunked_cumsum_fwd"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/PairIO.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelRealTarget.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "byte_identical_selected_alias_of": {
+        "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelRealTarget.lean",
+        "sha256": "618d2163fd7ec232d479724639c7944e9557af4507ef68ad264366e5238267b5"
+      }
+    },
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/PairSemantics.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Kernels.lean": {
+      "owner_tasks": [
+        "chunked_cumsum_fwd"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/LogicalIO.lean": "1591e36bd656a3b6c7ae0bd253622e4c6d86f34803f5f0e8f410324b505c21b8"
+  },
+  "limits": [
+    "Only the changed chains, selected public modules and explicitly missing/stale baseline prerequisites were rebuilt. Unchanged dependency proof objects are reused from read-only prior successful overlays; this is not a rebuild of the complete proof closure.",
+    "This organization-only campaign changes no numerical rule, precision, arithmetic order, actual FP pair, schedule, admissible domain, mathematical formula or public premise; no new GPU/native/host/numerical experiment acceptance was introduced.",
+    "The public joint imports only the selected KernelOnly Correct/FPEquiv. The exact selected authorized-minimum-v1 archived Contract is separately fresh-checked; no live Contract replacement or claim about live-Contract joint import is made."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

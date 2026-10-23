@@ -55,9 +55,9 @@ abbrev Rules := FP.ScalarArithmetic.Rules
 
 open scoped VeriTile.Spec
 
-/-- Reversal is derived from scalar commutation, association and the zero
-identity used by tree normalization. Every intermediate guard is retained.
-The statement includes successful execution and both memory frames. -/
+/-- Reversal uses strictly certified scalar commutation together with the
+admitted association and zero rules used by tree normalization. Every
+intermediate guard, successful execution and both memory frames are retained. -/
 specification rowwise_sum_equiv (nCol B : Nat) (R : Rules) :
     original nCol B ≡[R] reversed nCol B := by
   apply Spec.FloatingPoint.ofNumerical (lhs := original nCol B) (rhs := reversed nCol B)

@@ -80,4 +80,23 @@ theorem subtract_loaded_natural_offset (Left : RegionName) :
 
 #axiomsClean subtract_loaded_signed
 #axiomsClean subtract_loaded_natural_offset
+
+/-- Narrowing a signed or natural input to an INT8 value must retain the low
+byte and reinterpret its sign before any later widening or arithmetic. -/
+def signedByte (Input : RegionName) : ComputeKernel := triton {
+  tl.region Input = tl.int64
+  a = tl.load(Input).to(tl.int8)
+  b = tl.cast(tl.load(Input), tl.int8)
+  c = tl.cast(tl.program_id(0), tl.int8)
+  widened = a.to(tl.int32)
+}
+
+theorem signed_byte_forms (Input : RegionName) : (signedByte Input).surfaceBody = [
+    .assign .int [] "a" (.alg (.intToSigned 8 (.load .int (.region Input (.constNat 0)) .none .zero))),
+    .assign .int [] "b" (.alg (.intToSigned 8 (.load .int (.region Input (.constNat 0)) .none .zero))),
+    .assign .int [] "c" (.alg (.intToSigned 8 (.castNatToInt (.programId 0)))),
+    .assign .int [] "widened" (.alg (.ref .int [] "a"))] := rfl
+
+#axiomsClean signed_byte_forms
+
 end VeriTile.Tests.SignedIntegerCastContexts

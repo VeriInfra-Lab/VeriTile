@@ -30,6 +30,10 @@ inductive DInfo where
   | ptr
   | blockPtr
   | floatVar : String → DInfo
+  /-- Incoming FP32 word register viewed through the real algorithm carrier.
+  Only external-argument lookup constructs this bridge; arithmetic never
+  receives this metadata tag as its dtype. -/
+  | fp32Argument
   deriving BEq, Inhabited
 
 inductive SInfo where
@@ -70,6 +74,7 @@ def setNthOne : List (TSyntax `term) → Nat → MacroM (List (TSyntax `term))
   | x :: xs, n + 1 => return x :: (← setNthOne xs n)
 
 def DInfo.term : DInfo → MacroM (TSyntax `term)
+  | .fp32Argument => `(TileDType.fp32)
   | .real => `(TileDType.real)
   | .fp32 => `(TileDType.fp32)
   | .fp16 => `(TileDType.fp16)
@@ -86,6 +91,7 @@ def DInfo.term : DInfo → MacroM (TSyntax `term)
       `(($t).toTileDType)
 
 def DInfo.floatProof : DInfo → MacroM (TSyntax `term)
+  | .fp32Argument => Macro.throwError "external FP32 argument must be read before a float cast"
   | .real => `(FloatDType.real)
   | .fp32 => `(FloatDType.fp32)
   | .fp16 => `(FloatDType.fp16)
@@ -109,6 +115,7 @@ def SInfo.term : SInfo → MacroM (TSyntax `term)
       go ds
 
 def DInfo.numericProof : DInfo → MacroM (TSyntax `term)
+  | .fp32Argument => Macro.throwError "external FP32 argument must be read before arithmetic"
   | .real => `(NumericDType.real)
   | .fp32 => `(NumericDType.fp32)
   | .fp16 => `(NumericDType.fp16)
@@ -127,6 +134,7 @@ def DInfo.numericProof : DInfo → MacroM (TSyntax `term)
       `(FloatDType.numericDType $t)
 
 def DInfo.integralProof : DInfo → MacroM (TSyntax `term)
+  | .fp32Argument => Macro.throwError "integer division/remainder on floating arguments is not supported"
   | .int => `(IntegralDType.int)
   | .int8 => Macro.throwError "integer arithmetic: int8 storage width must be erased first"
   | .int32 => Macro.throwError "integer arithmetic: int32 storage width must be erased first"
@@ -143,6 +151,7 @@ def DInfo.integralProof : DInfo → MacroM (TSyntax `term)
   | .floatVar _ => Macro.throwError "integer division/remainder on floating values is not supported"
 
 def DInfo.comparableProof : DInfo → MacroM (TSyntax `term)
+  | .fp32Argument => Macro.throwError "external FP32 argument must be read before comparison"
   | .real => `(ComparableDType.real)
   | .fp32 => `(ComparableDType.fp32)
   | .fp16 => `(ComparableDType.fp16)

@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fp4_to_bf16.FPCorrect
+import bench.tritonbench_g.fp4_to_bf16.Proofs.KernelCorrect
 
 /-! The original wrapper's packed-uint8, contiguous logical tensor profile.
 The wrapper allocates a fresh bf16 output, doubles its final dimension, and

@@ -1,5 +1,8 @@
 import bench.tritonbench_g.quant_transpose_kernel.Proofs.FiniteHost
 
+local macro "true" : term => `(Bool.true)
+local macro "false" : term => `(Bool.false)
+
 namespace QuantTransposeFinite
 set_option maxHeartbeats 8000000
 

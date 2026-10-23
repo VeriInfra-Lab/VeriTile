@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fp4_to_bf16.HostCorrect
+import bench.tritonbench_g.fp4_to_bf16.Proofs.HostCorrect
 
 /-! Order independence for the complete original logical FP4 grid. Every
 scheduled program executes the existing source with fresh registers and the

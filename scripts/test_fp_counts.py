@@ -1,4 +1,4 @@
-"""Bounded count admission completes the original Welford and LayerNorm pairs."""
+"""Strict bounded counts and empirical arithmetic in Welford and LayerNorm."""
 from pathlib import Path
 import subprocess
 import tempfile
@@ -30,21 +30,26 @@ class FPCountTests(unittest.TestCase):
         self.check((ROOT / 'bench/tests/FPCountConversion.lean').read_text())
 
     def test_original_public_transforms_and_used_atoms_at_default_print_settings(self):
-        output = self.check('''
-import bench.examples.Welford.FPEquiv
-import bench.examples.FusedLayerNorm.FPEquiv
-#print_fp_assumptions VeriTile.Bench.Examples.WelfordFPEquiv.welford_equiv
-#print_fp_assumptions VeriTile.Bench.Examples.FusedLayerNormFPEquiv.layernorm_equiv
+        expected = {'add_zero', 'cancel', 'add_assoc', 'mul_distrib', 'mul_assoc',
+                    'mul_rcp_cancel', 'div_mul_rcp'}
+        # Each recurrence proof gets the existing per-check time budget.
+        for module, theorem in (('Welford', 'welford_equiv'),
+                                ('FusedLayerNorm', 'layernorm_equiv')):
+            with self.subTest(theorem=theorem):
+                output = self.check(f'''
+import bench.examples.{module}.FPEquiv
+#print_fp_assumptions VeriTile.Bench.Examples.{module}FPEquiv.{theorem}
 ''')
-        expected = {'count_zero', 'count_successor', 'add_commute', 'add_zero', 'cancel',
-                    'div_one', 'add_assoc', 'mul_distrib', 'mul_assoc', 'mul_rcp_cancel',
-                    'mul_one', 'mul_commute', 'div_mul_rcp'}
-        sections = output.split('FP assumptions used by ')[1:]
-        self.assertEqual(len(sections), 2)
-        for section in sections:
-            lines = section.splitlines()[1:]
-            self.assertEqual({s.strip() for s in lines}, expected)
-            self.assertEqual(len(lines), len(expected))
+                empirical, separator, strict = output.partition('Strict model certificates used by ')
+                self.assertEqual(empirical.splitlines()[0], f'FP assumptions used by {theorem}:')
+                lines = empirical.splitlines()[1:]
+                self.assertEqual({s.strip() for s in lines}, expected)
+                self.assertEqual(len(lines), len(expected))
+                self.assertTrue(separator)
+                for atom in ('addCommute', 'mulCommute', 'mulOne', 'divOne'):
+                    self.assertIn(f'ScalarArithmetic.Atom.{atom}', strict)
+                for atom in ('zero', 'successor'):
+                    self.assertIn(f'CountConversion.Atom.{atom}', strict)
 
     def test_upper_bound_and_layernorm_empty_case_are_public(self):
         self.check('''

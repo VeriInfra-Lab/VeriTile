@@ -24,3 +24,17 @@ combined in-place execution of both stores or all heads of the original loop.
 The supplied cosine/sine tables remain inputs. Binding the software execution
 to a specific Triton/CUDA compiler and runtime remains the shared native
 refinement boundary; it is not an additional mathematical law assumed here.
+
+## Checked FP32 entrypoints
+
+The separate [checked repair](../../repairs/tritonbench_g/rope_embedding/README.md)
+preserves original forward clone, actual squeeze returns, and backward reshape
+storage reuse. Its complete source and physical-return theorems derive finite
+ABI conditions from executable guards. Original conditional proofs remain.
+
+The selected repair now exposes kernel-only `Correct.lean` and `FPEquiv.lean`
+entries, with a local complete typed source, independent polynomial, successful
+whole-memory native-graph relation, and shared Tensor pointer/value binding.
+The prior host results remain optional helpers. See the checked repair README
+for the exact current domain, original short-sine counterexample, and explicit
+compiler/primitive model boundary; no numerical rewrite experiment is pending.

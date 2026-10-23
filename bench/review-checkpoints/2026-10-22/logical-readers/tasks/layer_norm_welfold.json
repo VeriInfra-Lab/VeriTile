@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "task": "layer_norm_welfold",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue08/result.json",
+    "sha256": "630f3362c51d29799697ba294a8b7e466ce28e565c6f87c5da9515ca1c6ffcef",
+    "task_index": 7
+  },
+  "finding": "Reader used list-oriented X and IO.result packing rather than logical matrix/statistic outputs.",
+  "resolution": "Added named X matrix and weight/bias vectors, with mean/inverse/Y outputs and explicit finite population formulas.",
+  "mathematical_target": "Mean = ∑j:Fin D X[s,j]/D; population variance and sqrt inverse; affine Y.",
+  "conditions_and_scope": "Full streaming D retained with no new D≤block condition; complete reduction tree, configuration, separation and original Real statistics/BF16 Y dtype retained.",
+  "proof_connection": "LogicalIO.judgment_iff proves the complete previous IO.result/Readable.realFormula judgment using proved list-to-finite-sum conversion.",
+  "fp_review": "Actual original/rowOffsetReused source pair unchanged, R=[].",
+  "numerical_dependencies": {
+    "experimental_rule_instances": 0,
+    "new_numerical_experiments": 0,
+    "change": "No FP theorem, precision, cast, computation order or numerical dependency changed."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Already-visible logical D-column mean, population variance, inverse sqrt with fixed epsilon=1e-05 and affine normalization. FP32 statistics and BF16 Y conversion are interpreted as identity for the independent Real formula.",
+    "required_conditions": [
+      "Configuration c retains block=1024 or 2048 and its reduction topology; Real proof retains c.tree.Complete.",
+      "Original Separation X/W/Bias/Y/Mean/Rstd remains explicit.",
+      "Contract retains FP32 CUDA0 metadata, logical/affine shapes, contiguous stride/offset checks, positive D, extents/alignment. General theorem is not narrowed to finite-only payloads."
+    ],
+    "scope": "Complete S-row grid over the original streaming two-pass source. All D columns are covered by chunk loops, so no spurious D≤block restriction is added. Empty row grids and exact exterior frames remain supported.",
+    "canonical_connection": "Existing same-reader formula is definitionally Readable.realFormula via independent Math.mean/inverse/output. Readable.real transports the canonical mathematical result only after full readable-source memory preservation and safety.",
+    "fp_program_pair": {
+      "actual_program_pairs": [
+        "Actual complete original versus rowOffsetReused row grids, arbitrary Algebra/all words, fixed reduction topology and source casts."
+      ],
+      "transformation_and_model_binding": "Reuse the integer D*xrow offset for X loads and BF16 Y stores. All FP32 statistics and both output store precisions are retained.",
+      "ruleset": "[] (kv_cache_copy uses the definitionally empty assumptions list)",
+      "main_empirical_rule_instances_used": 0,
+      "new_numerical_experiments_required": 0,
+      "precision_domain_note": "Typed original source precision, casts, storage, operation order and explicit backend/model binding retained. Empty experimental R does not assert equality for unrelated hardware or arbitrary models outside that binding."
+    },
+    "numerical_dependencies": {
+      "actual_program_pairs": [
+        "Actual complete original versus rowOffsetReused row grids, arbitrary Algebra/all words, fixed reduction topology and source casts."
+      ],
+      "transformation_and_model_binding": "Reuse the integer D*xrow offset for X loads and BF16 Y stores. All FP32 statistics and both output store precisions are retained.",
+      "ruleset": "[] (kv_cache_copy uses the definitionally empty assumptions list)",
+      "main_empirical_rule_instances_used": 0,
+      "new_numerical_experiments_required": 0,
+      "precision_domain_note": "Typed original source precision, casts, storage, operation order and explicit backend/model binding retained. Empty experimental R does not assert equality for unrelated hardware or arbitrary models outside that binding."
+    }
+  },
+  "verification": [
+    {
+      "kind": "reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue08/build.py",
+        "bench.repairs.tritonbench_g.layer_norm_welfold.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/layer_norm_welfold-reader.log",
+      "log_sha256": "f05e6e7e7c39f9c1589e8c5ba19456f51968e34756d6cd87568b1e4c397e149d",
+      "seconds": 0.12917017936706543
+    },
+    {
+      "kind": "fp_source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue08/build.py",
+        "--check",
+        "bench/repairs/tritonbench_g/layer_norm_welfold/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/layer_norm_welfold-fp_source.log",
+      "log_sha256": "3b97942bee3a0c9bae139addb7ed8c1b2b4234d4c3c4e3459e10586ea145a17b",
+      "seconds": 5.970211029052734
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue08/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue08/layer_norm_welfold-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/layer_norm_welfold-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "seconds": 3.5339913368225098
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/layer_norm_welfold/Contract.lean": "b0615a26b70c92c70760282fdf49db2c8ca8b938992c6998cff2f2b32b1415e8",
+    "bench/repairs/tritonbench_g/layer_norm_welfold/Correct.lean": "9b05fddde5936c057b16d2224895fa5b9b603e3a302b618cb5fa1ce99f101e86",
+    "bench/repairs/tritonbench_g/layer_norm_welfold/FPEquiv.lean": "4ddc099e963b8cd60d0f808f5eb08c5bd89dc21e113210350139cba52df32b7b",
+    "bench/repairs/tritonbench_g/layer_norm_welfold/LogicalIO.lean": "9239cf17557a6a06932ab30d4715ef5d3dabd08692352d617f014251b20b2c39",
+    "bench/repairs/tritonbench_g/layer_norm_welfold/Proofs/LogicalIO.lean": "5f9b3889a5bb80600abaecf30b3852c9842ff8d5397279c2d0ba8b409b1c2862",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

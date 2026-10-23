@@ -1,5 +1,5 @@
 import bench.tritonbench_g.matmul_tma.Proofs.FPSource
-import bench.tritonbench_g.matmul_tma.MatmulTma
+import bench.tritonbench_g.matmul_tma.Proofs.LegacyReal
 namespace VeriTile.Bench.TritonBenchG.MatmulTma.FPValue
 open VeriTile.Triton
 noncomputable section

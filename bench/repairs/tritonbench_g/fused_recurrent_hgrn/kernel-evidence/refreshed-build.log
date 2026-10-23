@@ -1,0 +1,393 @@
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/fused_recurrent_hgrn/FusedRecurrentHgrn.lean:330:69: warning: '(try rfl)' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/fused_recurrent_hgrn/FusedRecurrentHgrn.lean:330:65: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/fused_recurrent_hgrn/FusedRecurrentHgrn.lean:1602:2: warning: 'all_goals try exact fun a ha => h2 a ha' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/fused_recurrent_hgrn/FusedRecurrentHgrn.lean:1614:2: warning: 'all_goals try exact fun a ha => h1 a ha' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/fused_recurrent_hgrn/FusedRecurrentHgrn.lean:1616:2: warning: 'all_goals try exact fun a ha => h3 a ha' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/tritonbench_g/fused_recurrent_hgrn/FusedRecurrentHgrn.lean:1616:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+{"module": "bench/tritonbench_g/fused_recurrent_hgrn/FusedRecurrentHgrn.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/tritonbench_g/fused_recurrent_hgrn/FusedRecurrentHgrn.olean"}
+VeriTile.Bench.TritonBenchG.FusedRecurrentHgrn.FPStages.forward_fp32_stage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FusedRecurrentHgrn.FPStages.dx_fp32_stage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FusedRecurrentHgrn.FPStages.dx_two_fp32_stage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.TritonBenchG.FusedRecurrentHgrn.FPStages.dg_fp32_stage: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/tritonbench_g/fused_recurrent_hgrn/Proofs/FPStages.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/tritonbench_g/fused_recurrent_hgrn/Proofs/FPStages.olean"}
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Base.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Base.olean"}
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.state: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.adjoint: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Reference.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Reference.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Execution.lean:109:12: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Execution.lean:112:12: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Execution.lean:115:12: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Execution.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Execution.olean"}
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.forward_loop: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/ForwardLoop.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/ForwardLoop.olean"}
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.forward_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Forward.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Forward.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/BackwardExecution.lean:47:2: warning: 'all_goals funext j' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/BackwardExecution.lean:48:2: warning: 'all_goals rcases j with ⟨j, ⟨⟩⟩' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/BackwardExecution.lean:49:2: warning: 'all_goals
+  first
+  | rfl
+  | simp [FP.Structural.bop, Broadcast.leftIndex, Broadcast.rightIndex]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/BackwardExecution.lean:47:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/BackwardExecution.lean:48:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/BackwardExecution.lean:49:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.backward_step: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/BackwardExecution.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/BackwardExecution.olean"}
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.backward_loop: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/BackwardLoop.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/BackwardLoop.olean"}
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.backward_complete: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.dx: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.dg: definition does not reference [VeriTile.Triton.FP.Structural.exec] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Backward.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Backward.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Grid.lean:101:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.fWrites_enter`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Grid.lean:108:0: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.bWrites_enter`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Grid.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Grid.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/WholeGrid.lean:11:8: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.lane_enter`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/WholeGrid.lean:13:8: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.row_enter`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/WholeGrid.lean:15:8: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.slot_enter`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/WholeGrid.lean:19:8: warning: automatically included section variable(s) unused in theorem `VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.enter_bh`:
+  [Inhabited α]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Inhabited α] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.forward_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.backward_program: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/WholeGrid.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/WholeGrid.olean"}
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.forward_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.backward_grid: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.whole_result: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Whole.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Whole.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Gradient.lean:35:22: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Gradient.lean:35:66: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.loss_derivative: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.pathState: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.gridRun] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Gradient.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Gradient.olean"}
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Native.eval: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.gridRun] — non-circular ✓
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Native.whole_native: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Native.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Native.olean"}
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Native.eval_software: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Native.LocalConformance: definition does not reference [VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.gridRun,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.state,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.dx,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.dg,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.Native.eval] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Scalar.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Scalar.olean"}
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Checked.forward_nodes_bound: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Checked.reverse_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Checked.checked_i32: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Bounds.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Bounds.olean"}
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Physical.caller_frame: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Physical.key_bounds: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Physical.key_disjoint: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Physical.readback: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Physical.frame: axiom footprint ⊆ standard base ✓  ([propext])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Physical.forward_keeps: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Physical.backward_keeps_outputs: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound])
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Physical.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Physical.olean"}
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.forward_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.backward_unique: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Ownership.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Ownership.olean"}
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Checked.checked_safety: axiom footprint ⊆ standard base ✓  ([propext,
+ Quot.sound,
+ Classical.choice])
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.Checked.Safety: definition does not reference [VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.gridRun,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.state,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.dx,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.dg] — non-circular ✓
+{"module": "bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Safety.lean", "exit_code": 0, "output": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/Safety.olean"}
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:38:32: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Decidable (recognized r)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:43:60: error: unsolved goals
+case x
+c : Shape
+U S V : Bool
+runtime : Runtime c U S V
+α : Type
+inst✝ : Inhabited α
+t : Arguments c U S V runtime
+memory : Role → ℕ → α
+other : State α
+i : ℕ
+⊢ (if h : (sorry ()).1 = TileDType.real then ⋯ ▸ (sorry ()).2 else defaultValue TileDType.real) =
+    memory Role.x ((t.tensor Role.x).metadata.dataPtr.toNat + 4 * i)
+
+case g
+c : Shape
+U S V : Bool
+runtime : Runtime c U S V
+α : Type
+inst✝ : Inhabited α
+t : Arguments c U S V runtime
+memory : Role → ℕ → α
+other : State α
+i : ℕ
+⊢ (if h : (sorry ()).1 = TileDType.real then ⋯ ▸ (sorry ()).2 else defaultValue TileDType.real) =
+    memory Role.g ((t.tensor Role.g).metadata.dataPtr.toNat + 4 * i)
+
+case h0
+c : Shape
+U S V : Bool
+runtime : Runtime c U S V
+α : Type
+inst✝ : Inhabited α
+t : Arguments c U S V runtime
+memory : Role → ℕ → α
+other : State α
+i : ℕ
+⊢ (if h : (sorry ()).1 = TileDType.real then ⋯ ▸ (sorry ()).2 else defaultValue TileDType.real) =
+    memory Role.h0 ((t.tensor Role.h0).metadata.dataPtr.toNat + 4 * i)
+
+case o
+c : Shape
+U S V : Bool
+runtime : Runtime c U S V
+α : Type
+inst✝ : Inhabited α
+t : Arguments c U S V runtime
+memory : Role → ℕ → α
+other : State α
+i : ℕ
+⊢ (if h : (sorry ()).1 = TileDType.real then ⋯ ▸ (sorry ()).2 else defaultValue TileDType.real) =
+    memory Role.o ((t.tensor Role.o).metadata.dataPtr.toNat + 4 * i)
+
+case ht
+c : Shape
+U S V : Bool
+runtime : Runtime c U S V
+α : Type
+inst✝ : Inhabited α
+t : Arguments c U S V runtime
+memory : Role → ℕ → α
+other : State α
+i : ℕ
+⊢ (if h : (sorry ()).1 = TileDType.real then ⋯ ▸ (sorry ()).2 else defaultValue TileDType.real) =
+    memory Role.ht ((t.tensor Role.ht).metadata.dataPtr.toNat + 4 * i)
+
+case incoming
+c : Shape
+U S V : Bool
+runtime : Runtime c U S V
+α : Type
+inst✝ : Inhabited α
+t : Arguments c U S V runtime
+memory : Role → ℕ → α
+other : State α
+i : ℕ
+⊢ (if h : (sorry ()).1 = TileDType.real then ⋯ ▸ (sorry ()).2 else defaultValue TileDType.real) =
+    memory Role.incoming ((t.tensor Role.incoming).metadata.dataPtr.toNat + 4 * i)
+
+case dht
+c : Shape
+U S V : Bool
+runtime : Runtime c U S V
+α : Type
+inst✝ : Inhabited α
+t : Arguments c U S V runtime
+memory : Role → ℕ → α
+other : State α
+i : ℕ
+⊢ (if h : (sorry ()).1 = TileDType.real then ⋯ ▸ (sorry ()).2 else defaultValue TileDType.real) =
+    memory Role.dht ((t.tensor Role.dht).metadata.dataPtr.toNat + 4 * i)
+
+case dx
+c : Shape
+U S V : Bool
+runtime : Runtime c U S V
+α : Type
+inst✝ : Inhabited α
+t : Arguments c U S V runtime
+memory : Role → ℕ → α
+other : State α
+i : ℕ
+⊢ (if h : (sorry ()).1 = TileDType.real then ⋯ ▸ (sorry ()).2 else defaultValue TileDType.real) =
+    memory Role.dx ((t.tensor Role.dx).metadata.dataPtr.toNat + 4 * i)
+
+case dg
+c : Shape
+U S V : Bool
+runtime : Runtime c U S V
+α : Type
+inst✝ : Inhabited α
+t : Arguments c U S V runtime
+memory : Role → ℕ → α
+other : State α
+i : ℕ
+⊢ (if h : (sorry ()).1 = TileDType.real then ⋯ ▸ (sorry ()).2 else defaultValue TileDType.real) =
+    memory Role.dg ((t.tensor Role.dg).metadata.dataPtr.toNat + 4 * i)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:44:35: warning: declaration uses `sorry`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:44:40: warning: This simp argument is unused:
+  recognized
+
+Hint: Omit it from the simp argument list.
+  simp [̵E̵x̵e̵c̵u̵t̵i̵o̵n̵.̵r̵e̵a̵d̵,̵l̵i̵f̵t̵,̵r̵e̵c̵o̵g̵n̵i̵z̵e̵d̵,̵a̵t̵P̵o̵i̵n̵t̵e̵r̵,̵C̵e̵l̵l̵.̵r̵e̵a̵d̵,̵n̵a̵m̵e̵,̵r̵o̵l̵e̵]̵[̲E̲x̲e̲c̲u̲t̲i̲o̲n̲.̲r̲e̲a̲d̲,̲ ̲l̲i̲f̲t̲,̲ ̲a̲t̲P̲o̲i̲n̲t̲e̲r̲,̲ ̲C̲e̲l̲l̲.̲r̲e̲a̲d̲,̲ ̲n̲a̲m̲e̲,̲ ̲r̲o̲l̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:44:51: warning: This simp argument is unused:
+  atPointer
+
+Hint: Omit it from the simp argument list.
+  simp [̵E̵x̵e̵c̵u̵t̵i̵o̵n̵.̵r̵e̵a̵d̵,̵l̵i̵f̵t̵,̵r̵e̵c̵o̵g̵n̵i̵z̵e̵d̵,̵a̵t̵P̵o̵i̵n̵t̵e̵r̵,̵C̵e̵l̵l̵.̵r̵e̵a̵d̵,̵n̵a̵m̵e̵,̵r̵o̵l̵e̵]̵[̲E̲x̲e̲c̲u̲t̲i̲o̲n̲.̲r̲e̲a̲d̲,̲ ̲l̲i̲f̲t̲,̲ ̲r̲e̲c̲o̲g̲n̲i̲z̲e̲d̲,̲ ̲C̲e̲l̲l̲.̲r̲e̲a̲d̲,̲ ̲n̲a̲m̲e̲,̲ ̲r̲o̲l̲e̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:44:76: warning: This simp argument is unused:
+  role
+
+Hint: Omit it from the simp argument list.
+  simp [Execution.read, ̲lift, ̲recognized, ̲atPointer, ̲Cell.read, ̲name,̵r̵o̵l̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:55:13: warning: This simp argument is unused:
+  tensorCheck
+
+Hint: Omit it from the simp argument list.
+  simp only [̵t̵e̵n̵s̵o̵r̵C̵h̵e̵c̵k̵]̵ ̵at a
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:63:93: error: unsolved goals
+c : Shape
+U S V : Bool
+runtime : Runtime c U S V
+accepted : check c U S V runtime = «true»
+t : Arguments c U S V runtime
+r : Role
+active : present U S V r = «true»
+h :
+  (runtime.tensor r).shape = shape c r ∧ (runtime.tensor r).contiguous = «true» ∧ (runtime.tensor r).negative = «false»
+⊢ (if stateRole r = «true» then [c.B, c.H, c.D] else [c.B, c.H, c.T, c.D]).prod =
+    if stateRole r = «true» then c.B * (c.H * c.D) else c.B * (c.H * (c.T * c.D))
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:67:36: warning: This simp argument is unused:
+  List.prod_cons
+
+Hint: Omit it from the simp argument list.
+  simp [̵V̵e̵r̵i̵T̵i̵l̵e̵.̵T̵o̵r̵c̵h̵.̵T̵e̵n̵s̵o̵r̵M̵e̵t̵a̵d̵a̵t̵a̵.̵n̵u̵m̵e̵l̵,̵t̵.̵s̵h̵a̵p̵e̵,̵h̵.̵1̵,̵C̵h̵e̵c̵k̵e̵d̵.̵s̵h̵a̵p̵e̵,̵e̵x̵t̵e̵n̵t̵,̵
+  ̵ ̵ ̵ ̵ ̵S̵h̵a̵p̵e̵.̵r̵o̵w̵s̵,̵S̵h̵a̵p̵e̵.̵s̵l̵o̵t̵s̵,̵S̵h̵a̵p̵e̵.̵B̵H̵,̵L̵i̵s̵t̵.̵p̵r̵o̵d̵_̵c̵o̵n̵s̵,̵N̵a̵t̵.̵m̵u̵l̵_̵a̵s̵s̵o̵c̵]̵[̲V̲e̲r̲i̲T̲i̲l̲e̲.̲T̲o̲r̲c̲h̲.̲T̲e̲n̲s̲o̲r̲M̲e̲t̲a̲d̲a̲t̲a̲.̲n̲u̲m̲e̲l̲,̲ ̲t̲.̲s̲h̲a̲p̲e̲,̲ ̲h̲.̲1̲,̲ ̲C̲h̲e̲c̲k̲e̲d̲.̲s̲h̲a̲p̲e̲,̲ ̲e̲x̲t̲e̲n̲t̲,̲ ̲S̲h̲a̲p̲e̲.̲r̲o̲w̲s̲,̲
+  ̲ ̲ ̲ ̲ ̲S̲h̲a̲p̲e̲.̲s̲l̲o̲t̲s̲,̲ ̲S̲h̲a̲p̲e̲.̲B̲H̲,̲ ̲N̲a̲t̲.̲m̲u̲l̲_̲a̲s̲s̲o̲c̲]̲
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:115:0: error: VeriTile.Bench.Repairs.FusedRecurrentHgrn.KernelTensor.coordinates: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:116:0: error: VeriTile.Bench.Repairs.FusedRecurrentHgrn.KernelTensor.logical_read: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/fused_recurrent_hgrn/Proofs/KernelTensor.lean:117:0: error: VeriTile.Bench.Repairs.FusedRecurrentHgrn.KernelTensor.result_eq: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.FusedRecurrentHgrn.KernelTensor.Arguments: definition does not reference [VeriTile.Bench.Repairs.FusedRecurrentHgrn.Execution.gridRun,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.state,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.dx,
+ VeriTile.Bench.Repairs.FusedRecurrentHgrn.dg] — non-circular ✓

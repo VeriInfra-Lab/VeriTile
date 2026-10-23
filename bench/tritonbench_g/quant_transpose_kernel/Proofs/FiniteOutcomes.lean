@@ -1,4 +1,4 @@
-import bench.tritonbench_g.quant_transpose_kernel.FiniteCorrect
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.FiniteAPI
 
 namespace QuantTransposeFinite
 set_option maxRecDepth 24000

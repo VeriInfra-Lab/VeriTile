@@ -1,3 +1,4 @@
+import bench.tritonbench_g.matrix_reduction.Proofs.GraphBase
 import bench.tritonbench_g.matrix_reduction.Proofs.MachineMax
 import bench.tritonbench_g.matrix_reduction.Proofs.BinaryConversion
 
@@ -13,8 +14,6 @@ set_option linter.unusedSimpArgs false
 noncomputable section
 
 abbrev Word := BitVec 32
-
-def channel : Storage → FloatDType | .fp16 => .fp16 | .fp32 => .real
 
 def encode : (storage : Storage) → Bits storage → Word
   | .fp16, x => x.zeroExtend 32
@@ -79,15 +78,6 @@ def writtenMemory (storage : Storage) (s : State Word) (X Y : RegionName)
     t.write Y i.1.val (.mk (channel storage).toTileDType
       (ofFloat (channel storage) (output storage s X sm sn M N i.1)))) s).mem
 
-private theorem fold_memory {α ι : Type} (l : List ι) (Y : RegionName)
-    (off : ι → Nat) (value : ι → Cell α) (s : State α) :
-    (l.foldl (fun t i => t.write Y (off i) (value i)) s).mem =
-      l.foldl (fun mem i => fun r o =>
-        if r = Y ∧ o = off i then value i else mem r o) s.mem := by
-  induction l generalizing s with
-  | nil => rfl
-  | cons i l ih => simp only [List.foldl_cons, ih]; rfl
-
 theorem source_run (storage : Storage) (rest : Algebra Word)
     (s : State Word) (X Y : RegionName) (sm sn sy M N : Nat) (hN : 0 < N) :
     ∃ t, FP.Structural.exec (backend rest) (kernel storage X Y sm sn sy M N) s = some t ∧
@@ -101,14 +91,6 @@ theorem source_run (storage : Storage) (rest : Algebra Word)
       ofFloat, toFloat, Region.cast, ComputeDType.eraseDType]
   all_goals simp only [fold_memory]
   all_goals rfl
-
-private theorem lane_injective (M : Nat) :
-    Function.Injective (fun i : TileIndex [M] => i.1.val) := by
-  rintro ⟨i, u⟩ ⟨j, v⟩ h
-  have : i = j := Fin.ext h
-  subst j
-  cases u; cases v
-  rfl
 
 theorem written_readback (storage : Storage) (s : State Word) (X Y : RegionName)
     (sm sn M N : Nat) (i : Fin M) :

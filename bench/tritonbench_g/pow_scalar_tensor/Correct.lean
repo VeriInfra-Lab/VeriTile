@@ -1,3 +1,6 @@
+import bench.tritonbench_g.pow_scalar_tensor.Proofs.WholeReal
+import bench.tritonbench_g.pow_scalar_tensor.Proofs.WholeAccess
+import bench.tritonbench_g.pow_scalar_tensor.Proofs.WholeMetadata
 import bench.tritonbench_g.pow_scalar_tensor.Proofs.IntegerContracts
 import bench.tritonbench_g.pow_scalar_tensor.Proofs.IntegerWitness
 import bench.tritonbench_g.pow_scalar_tensor.Proofs.IntegerFailure
@@ -130,3 +133,70 @@ specification integer_grid_correct (output : TypedSource.FloatingOutput) (candid
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.TritonBenchG.PowScalarTensor
+
+namespace VeriTile.Bench.TritonBenchG.PowScalarTensor.Whole
+open VeriTile.Triton FP.Structural WholeSource
+open VeriTile.Bench.TritonBenchG.ReluStridedBuffer
+open HostPlan SignedView SignedGrid
+noncomputable section
+/-- Complete original/candidate host call under the independent real-power
+interpretation. Valid signed strides include reverse/broadcast input views;
+no contiguous-layout assumption is added. The result is the exact out0 object,
+all logical outputs use entry input, and every output-exterior cell is framed.
+The ordinary scalar domain excludes non-real power results. Native indices,
+logical masks, complete four-byte addresses and allocation separation are proved. -/
+specification pow_scalar_tensor_real_source_outcomes
+    (rest : Algebra ℝ) (base : ℝ) (candidate : Bool)
+    (input output : Buffer) {n inputCapacity outputCapacity device : Nat}
+    (positive : 0 < n) (bounded : n < SignedIndex32.indexLimit) (sx sy : Int)
+    (hshapeIn : input.shape = [n]) (hshapeOut : output.shape = [n])
+    (hstrideIn : input.strides = [sx]) (hstrideOut : output.strides = [sy])
+    (_deviceIn : input.deviceIndex = some device) (_deviceOut : output.deviceIndex = some device)
+    (_inputStrideWord : -(2^63 : Int) ≤ sx ∧ sx < 2^63)
+    (_outputStrideWord : -(2^63 : Int) ≤ sy ∧ sy < 2^63)
+    (hin : (input.view sx).Valid n inputCapacity)
+    (hout : (output.view sy).Valid n outputCapacity) (hstride : sy ≠ 0)
+    (hsep : FootprintsDisjoint (input.view sx) (output.view sy) n)
+    (buffers : NativeBuffers input output inputCapacity outputCapacity)
+    (s : State ℝ) (xs : Nat → ℝ)
+    (mathematical : ∀ i, i < n → powerDefined base (xs i))
+    (values : ∀ i, i < n → s.mem input.region ((input.view sx).address i) = .mk .fp32 (xs i)) :
+    VeriTile.Spec.Real (∃ final,
+      runHost (realBackend rest) base candidate input output Bool.true s = .returned output final ∧
+      (∀ i, i < n → final.mem output.region ((output.view sy).address i) =
+        Cell.mk .fp32 (realResult base xs i)) ∧
+      (∀ i, i < n → final.mem input.region ((input.view sx).address i) =
+        s.mem input.region ((input.view sx).address i)) ∧
+      (∀ r a, (r ≠ output.region ∨ ∀ i, i < n → a ≠ (output.view sy).address i) →
+        final.mem r a = s.mem r a) ∧
+      (∀ i, i < n → (input.view sx).address i < inputCapacity ∧
+        (output.view sy).address i < outputCapacity) ∧
+      NativeAccess input output n sx sy buffers ∧
+      SourceAddressLowering input output n sx sy buffers ∧
+      (∀ i j u v, i < n → j < n → u < 4 → v < 4 →
+        buffers.inputBase + 4 * (input.view sx).address i + u ≠
+          buffers.outputBase + 4 * (output.view sy).address j + v)) := by
+  obtain ⟨final, run, outputValues, inputValues, frame, bounds⟩ :=
+    real_complete rest base candidate input output positive sx sy hshapeIn hshapeOut hstrideIn hstrideOut
+      hin hout hstride hsep s xs mathematical values
+  refine ⟨final, run, outputValues, inputValues, frame, bounds,
+    native_access input output positive bounded sx sy hin hout buffers,
+    source_address_lowering input output positive bounded sx sy hin hout buffers, ?_⟩
+  intro i j u v hi hj hu hv
+  exact input_output_bytes_disjoint input output sx sy hin hout hsep buffers hi hj hu hv
+
+/-- Original empty-input exception, before guard/launch, with unchanged entry state. -/
+theorem pow_scalar_tensor_empty (rest : Algebra ℝ) (base : ℝ) (candidate : Bool)
+    (input output : Buffer) (guardSucceeds : Bool) (s : State ℝ)
+    (hin : input.shape = [0]) (hout : output.shape = [0]) :
+    VeriTile.Spec.Real (runHost (realBackend rest) base candidate input output guardSucceeds s =
+      .hostFailure .tileDivision s) :=
+  WholeHost.empty_failure _ base candidate input output guardSucceeds s hin hout
+
+#axiomsClean pow_scalar_tensor_real_source_outcomes
+#axiomsClean pow_scalar_tensor_empty
+
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.PowScalarTensor.Whole

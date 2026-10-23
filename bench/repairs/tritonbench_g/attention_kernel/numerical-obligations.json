@@ -1,0 +1,32 @@
+{
+  "task": "attention_kernel",
+  "kernel_public_entry": "VeriTile.Bench.Repairs.AttentionKernel.FPEquiv.kernel_native",
+  "independent_native_target": "VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.nativeReference",
+  "independent_mathematical_target": "VeriTile.Bench.Repairs.AttentionKernel.KernelOnly.mathematicalTarget",
+  "deferred_numerical_equalities": [],
+  "deferred_numerical_experiments": [],
+  "new_numerical_transformations": [],
+  "native_model": {
+    "one_instruction_model": true,
+    "raw_word_leaf_identity": true,
+    "instruction_families": ["literal32 conversion", "unary exp2 and FP16/BF16 conversion", "binary scalar operations", "ternary FMA operations", "fixed seeded m16n8k16 output coordinates"],
+    "structural_boundaries": ["Selected complete reduction trees and integer routing", "Fixed seeded MMA structure and fusion", "Compiler/source/ISA correspondence"],
+    "forbidden_whole_result_ports": ["arbitrary-size dot", "whole reduction", "softmax row", "kernel output", "complete-execution equality"],
+    "output_storage": "Original FP16/BF16 word, lower 16 bits after explicit source output cast",
+    "input_special_values": "All tensor words, including NaN and infinity, remain in the structural domain",
+    "native_to_Real_identity_claim": false,
+    "legacy_local_transport": "Retained optional two-model mathematical theorem, not a premise of the kernel endpoint"
+  },
+  "external_execution_conditions": ["Truthful ordinary Tensor/JIT observations and stable caller memory", "Driver and device resource availability", "Applicability of the selected compiler/hardware profile"],
+  "validation_limits": {
+    "GPU_execution": false,
+    "CPU_nonempty_FP16_cases": 4,
+    "CPU_empty_cases": 6,
+    "CPU_nonempty_BF16": "unsupported by installed Triton interpreter: missing get_bf16; raw failure retained",
+    "actual_binder_SM80_profiles": 10,
+    "profiles_within_SM80_shared_limit": 6,
+    "profiles_exceeding_SM80_shared_limit": 4,
+    "compiler_artifacts_claim": "Precision and binder checks for saved profiles only, not universal compiler or runtime conformance"
+  },
+  "shared_grid_product_compatibility": "Deferred outside this task; no new guard or implementation"
+}

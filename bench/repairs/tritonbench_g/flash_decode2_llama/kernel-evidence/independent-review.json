@@ -1,0 +1,116 @@
+{
+  "task": "flash_decode2_llama",
+  "reviewer": "/root/cross_entropy1_kernel",
+  "reviewed_at_utc": "2026-10-19 20:02:28 UTC",
+  "decision": "accept",
+  "whole_task_accepted": true,
+  "kernel_formal_endpoints_accepted": true,
+  "review_scope": "Complete kernel-only delivery under its declared scalar-instruction and two fixed compiler-pattern models: actual quoted source grid execution, independent arbitrary-Real and native targets, caller Tensor input observations, every output Tensor physical index, full tagged-memory frame, complete grid order and index/pointer safety. No universal final-byteheap, host invocation, allocator, driver or runtime-resource certification is asserted or required by this review.",
+  "delivery": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/kernel-evidence/delivery.json",
+    "sha256": "6076a3874e2cbaada6085f901898b84924c736d42f6134abb76c8a231389b442"
+  },
+  "canonical_python": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_llama/flash_decode2_llama_repaired.py",
+    "sha256": "2d8a58c053404bcc7b8b58117aaea53cb4eed4742ddcadc90c8eaa6075e34c85",
+    "normalized_JIT_AST_sha256": "291edeb85857e096f069b1dbe4ac55ef65a9afb388825d3c20f40300d281da02"
+  },
+  "authoritative_quotation": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/flash_decode2_phi/Kernels.lean",
+    "sha256": "a192aa5048ba756999d430ac84f46fdf476ec8795ffaa7b46438a7ca815c541e",
+    "declaration": "VeriTile.Bench.Repairs.FlashDecode2.llama"
+  },
+  "public_entries": {
+    "real": "VeriTile.Bench.Repairs.FlashDecode2Llama.flash_decode2_llama_correct",
+    "native": "VeriTile.Bench.Repairs.FlashDecode2Llama.flash_decode2_llama_fp32"
+  },
+  "conclusion": "The unchanged Python and guards match the recorded canonical source. The new public endpoints derive successful complete source execution and every output from caller input memory, rather than requiring successful execution or output equality. The independent native recurrence explicitly expands exp32 into rounded log2(e) multiplication and exp2, and correctly distinguishes carry-first loop FMA from the maximal-Q zero-second form. All 20 saved compiler profiles agree with those declared patterns. No actionable source, proof, binding, contract or evidence defect was found in the assigned kernel scope.",
+  "checks": {
+    "requested_delivery_hash_matches": true,
+    "independent_hash_checks_passed": 737,
+    "distinct_hashed_paths": 505,
+    "source_doc_checker_files_pinned": 21,
+    "exact_repository_source_import_closure": 179,
+    "successful_current_source_fresh_receipts": 28,
+    "task_local_fresh_modules_read_and_receipt_matched": 12,
+    "unchanged_shared_Phi_fresh_modules": 16,
+    "fresh_ilean_direct_import_lists_compared_with_source": 28,
+    "fresh_direct_import_resolutions_checked": 51,
+    "closure_current_source_receipts_checked": 27,
+    "closure_ilean_direct_import_lists_matching_source": 178,
+    "source_import_object_resolution_and_common_LEAN_PATH_checked": true,
+    "namespace_shadowing_found": false,
+    "new_Lean_sorry_admit_or_axiom_declarations": 0,
+    "saved_actual_binder_compiler_profiles_audited": 20,
+    "saved_TTIR_PTX_artifacts_pinned": 40,
+    "saved_accepted_CPU_AST_cases_audited": 11,
+    "saved_rejection_cases_audited": 30,
+    "final_log_successful_module_records": 5,
+    "final_log_non_circular_audits": 5,
+    "final_log_clean": true,
+    "Python_or_guards_changed_by_delivery": false,
+    "shared_Phi_sources_changed_by_delivery": false,
+    "task_sources_frozen_evidence_core_Lake_ledger_or_selection_modified_by_reviewer": false,
+    "new_Lean_builds_compiler_or_GPU_runs_during_review": 0,
+    "new_CPU_wrapper_or_numerical_experiments_during_review": 0,
+    "numerical_deferrals": 0
+  },
+  "source_and_contract_review": {
+    "unchanged_source": "The complete Python source hash matches both delivery and the preflight canonical-source record; the independently normalized JIT AST hash also matches. Kernel instructions, precision, launch arguments, guards and input domain are unchanged.",
+    "domain": "Contiguous zero-offset strided CUDA argument handles on one owner device; FP32 Mid[B,H,S,D], Log[B,H,S] and Out[B,H,D]; signed INT32 Length[B]; D in {16,32,64,128}; positive signed-INT32 block_seq; existing per-axis grid, formed-address and storage-separation checks. Active lengths satisfy 0<Length[b]<=min(S*block_seq,2^31-1). Mid and Log may overlap read-only.",
+    "empty_domain": "Metadata, dimension, sequence-block and formed-address checks still precede the empty batch/head return; pointer/storage and length-content checks remain active-only. The formal contract preserves this division, and source empty-grid execution is identity.",
+    "contract_consistency": "The local Call is the original Checked.Call subtype with masked=false. InputContract and executable checks remain aliases of the shared original definitions, including the existing admission equivalence theorems. Importing square_matrix.Contract locally resolves the relocated SquareMatrix.block declaration without a new guard or assumption.",
+    "quotation_binding": "KernelModel.source identifies kernel(masked=false) with the authoritative llama quotation. The quotation mirrors the unmasked loads/stores, max/exp update order, dynamic loop and shape-derived offsets of the selected JIT. Natural index/count semantics are connected separately to the signed INT32/INT64 and pointer domain by the safety results."
+  },
+  "complete_kernel_review": {
+    "execution": "KernelModel.run is shared Grid.source, which runs actual FP.Structural.exec of the quotation for each row with Grid.setup. KernelModel.typed derives successful complete execution using Grid.source_complete, the source output for every row/lane, and every untouched tagged memory cell. No successful execution premise is supplied.",
+    "grid": "Coverage maps each (batch,head) to its row and back. A permutation of List.range(B*H) is the complete schedule premise. KernelModel.order proves equal complete final memories for any two such orders. KernelModel.empty proves identity execution for zero batch or zero heads.",
+    "actual_arguments": "KernelTensor.Arguments contains actual FP32 Tensor handles with their ordinary API laws, the INT32 LengthArgument, and observed metadata equalities. It has no run, result, allocation, output or reference-equality field. Heap is Nat->Byte; word decodes four little-endian bytes at the observed dataPtr+4*i. The same heap supplies signed lengths, and the public InputContract is applied to these actual lengths.",
+    "input_binding": "mid_read and log_read prove the raw-word reader equals Torch.FP32.logicalValue for the actual supplied Tensor handles. output_index proves their contiguous zero-offset output physicalIndex equals the flattened output coordinate. signed_length proves the same raw INT32 word sign-extends correctly to INT64. Overlapping permitted Mid/Log observations use one physical reader.",
+    "Real_target": "KernelReal.target reaches the independent unshifted stage-2 formula sum(exp(Log)*Mid)/sum(exp(Log)). It does not invoke source execution or the source recurrence. The Real reader is arbitrary at actual Tensor addresses; it is a separate ideal mathematical interpretation, not a finite-FP32 decoding restriction. Option Real represents the initial negative infinity. KernelReal.value proves the actual max/rescale recurrence equals the independent formula using the contract's positive and bounded iteration count.",
+    "native_target": "KernelNative.initial, merge, scan and target independently define a raw-word scalar recurrence from caller Mid/Log words and lengths. The target does not invoke KernelModel.run, Grid.source, Structural.exec, shared values or Native.eval. All FP32 encodings remain admitted; no finite-input, non-NaN or nonzero-native-denominator restriction is added.",
+    "output_and_frame": "KernelEndpoints.real and native derive the actual final typed source state, then prove every (b,head,d) at the actual output Tensor physicalIndex equals its independent target. The native observation evaluates the final source term under the declared scalar/compiler model. Both endpoints prove after.mem r i equals the initial lifted memory for every non-output tag and every output index outside B*H*D. This is the complete tagged-state result with actual Tensor index binding; it is not presented as a newly proved universal final byteheap or post-store Torch.logicalValue theorem.",
+    "premises": "Public premises are actual argument handles and API laws, stable caller input memory, the unchanged input contract, a complete grid schedule and the declared scalar model. Arbitrary unrelated initial registers/tags remain allowed. There is no Host.Preparation, successful invocation, allocator, returned-object or final-output-equality gate.",
+    "safety": "KernelSafety derives storage capacity and pointer facts from the actual handles, active exact uint64 pointer additions/alignment, every unmasked input/output index bound, signed INT64 byte-offset bounds, signed length addition and positive capacity-bounded loop counts. With block=width there are no padding lanes. The maximal-Q theorem derives exactly one iteration for every active row."
+  },
+  "native_instruction_model_review": {
+    "primitive_families": ["sub", "mul", "div.full", "max", "exp2.approx", "fma.rn"],
+    "exp32": "Ops.exp32 p x = p.exp2(p.mul x 0x3fb8aa3b), preserving the explicit rounded FP32 log2(e) multiplier and subsequent approximate exp2. Neither operation is replaced by ideal Real.exp.",
+    "ordinary_pattern": "For block_seq != 2^31-1, fma(carry,old_scale,fresh) retains carry first. The numerator fresh term is mul(exp_logic,tv); the denominator fresh term is exp_logic. Max takes the loaded current log before the old maximum, and final output uses full division of numerator by denominator.",
+    "maximal_Q_pattern": "For block_seq=2^31-1, schedule swaps only accumulator-shaped left-product multiplicands, and the independent recurrence uses fma(old_scale,carry,fresh). KernelSafety.maximal_q_once proves the admitted count is exactly one, so carry is the original positive-zero word and the saved PTX form is fma(old_scale,0,fresh). The ordinary loop graph is not incorrectly reused for this operand order.",
+    "structural_selection": "The fixed schedule chooses left adjacent FP32 multiply/add fusion. Swapping depends only on maximal Q and Shape.literal/Shape.add accumulator structure. Fresh exp*value products, max inputs, loads and other boundaries retain their specified order. No selector reads payload words, and no commutativity or actual/reference scalar-equivalence law is assumed.",
+    "six_family_sufficiency": "The inherited lower interface's add fallback is fixed to zero, but it is not reached by a source accumulator update: the proved recurrence contracts every such adjacent left multiply/add with RN FMA. KernelNative.recurrence and the final native endpoint explicitly establish the six-family behavior.",
+    "model_boundary": "These are total raw-word scalar semantics and two declared compiler patterns. The 20 saved compiler observations support those patterns; neither the theorem nor this review claims a full correctness theorem for every Triton backend lowering. There are zero numerical-experiment deferrals or new scalar-equality gates."
+  },
+  "compiler_evidence_review": {
+    "profile_count": 20,
+    "dimensions": [16, 32, 64, 128],
+    "sequence_blocks": [1, 4, 1073741824, 2147483646, 2147483647],
+    "ordinary_loop_profiles": 16,
+    "maximal_Q_single_iteration_profiles": 4,
+    "target": "Default Triton 3.7.1 CUDA SM80, warp size 32, num_warps=4, num_stages=2, FP fusion enabled; offline compilation only.",
+    "actual_binder": "The checker loads the unchanged actual JIT and invokes its create_function_from_signature binder and _pack_args on arguments captured from the unchanged wrapper AST. The wrapper runs through the existing CPU Tensor metadata/context facade; capture unwraps genuine underlying CPU Torch tensors before binding. Unit-valued integer strides receive the actual constexpr specialization rather than a manually forced all-runtime signature.",
+    "signature_audit": "Independently checked every captured grid, shape-derived stride value, expected unit specialization and constexpr dictionary. The pointer signature is Length *i32 and three *fp32 pointers; non-unit captured stride scalars are i32 for these profiles. All four D values and all five Q values occur exactly once each.",
+    "dataflow_audit": "Independently followed all 20 saved PTX scalar dataflows: global Mid/Log loads, current/old maximum order, old and fresh subtractions, both log2(e) multiplications feeding exp2, fresh product operand order, numerator/denominator FMA operands and initial constants, final div.full numerator/denominator order and the output store. The saved source-and-compiler audit agrees. TTIR names the actual source and contains the expected typed pointers, lane dimensions and promoted integer operations.",
+    "evidence_limits": "No compiler, wrapper, CPU regression or GPU run was repeated. The saved CPU AST harness checks source/summary/tail/empty/alias behavior and storage frames, not exact native rounding. Offline compiler samples are not GPU numerical validation or universal runtime compatibility."
+  },
+  "build_and_preservation_review": {
+    "receipts": "All 28 required fresh receipts have exit_code=0 and match current source and object hashes: 12 local task modules and 16 unchanged shared Phi modules. All 28 ilean direct-import lists match source imports. The independently reconstructed 179-module source closure exactly matches the frozen manifest, including selected object paths and symlink resolutions. The task Kernels import stub is freshly built but not needed by the three public closure roots, leaving 27 fresh receipts within that closure.",
+    "shared_reuse": "All 16 refreshed shared source hashes match the independently reviewed Phi predecessor pins. SourceConnection/Execution/Grid, Real/native helpers and Tensor/pointer bindings were reused without source changes. Fresh task proofs exercise the current structural algebra through definitional constructor/evaluation lemmas and complete recurrence proofs.",
+    "cache_boundary": "178 available closure ilean direct-import lists match source imports. The unchanged shared flash_decode2_phi/Contract.lean object has no ilean file or fresh receipt; its source and resolved object are pinned, and this inherited-cache boundary is retained rather than described as a cold whole-core rebuild. The local SquareMatrix.Contract import compatibility fix is explicit.",
+    "builder": "The pinned driver invokes Lean directly on the unchanged source path, verifies source hash stability, and records actual olean/ilean hashes and LEAN_PATH. Package/toolchain namespaces precede the task overlay with a disjointness check, while the task overlay precedes the baseline repository objects. No namespace shadowing was found and no source transformation is performed.",
+    "audits": "The final log is clean, records five successful final module builds, five noncircularity audits, and only standard-base axiom footprints. The target, actual argument bundle, scalar Ops and schedule audits agree with manual source inspection. The other current modules are established by their successful hash-matched receipts.",
+    "historical_wrappers": "HistoricalCorrect.lean and HistoricalFPEquiv.lean exactly match their preflight public-entry hashes after removing only the added .Historical namespace component. They are preserved outside the new default public import closure. The new endpoints do not depend on their old host or scalar-law premises.",
+    "review_mutation": "Only this independent-review.json was written. Sources, compiled objects, frozen delivery/evidence, canonical selection, Lake and ledger were not modified by the reviewer."
+  },
+  "scope_boundaries": [
+    "The mathematical target is the supplied stage-1-summary API, not a raw-token attention specification.",
+    "Arbitrary Real observations and all-word native observations are separate interpretations, with no native-to-Real accuracy claim.",
+    "Ordinary actual Tensor API laws, stable caller memory and the declared six scalar primitives/two fixed compiler patterns remain explicit model boundaries.",
+    "Output equality and frame are established for the complete typed/tagged source state at actual Tensor physical indices; this kernel task does not require a new unified final byteheap, allocator or host-return proof.",
+    "Grid-product runtime compatibility and universal backend/resource/driver behavior remain outside the assigned scope."
+  ],
+  "required_packet_corrections": [],
+  "remaining_review_findings": [],
+  "integration_recommendation": "Accept the complete kernel-only delivery with zero numerical deferrals and the explicit scalar/compiler/cache boundaries above. Root retains ownership of integration, canonical selection, Lake, ledger and aggregate counts."
+}

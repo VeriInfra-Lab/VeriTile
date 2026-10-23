@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "task": "matmul_kernel",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue09/result.json",
+    "sha256": "d3044f04d5d54ca9192fc48af4b7e45f6ff6fef98b03ff13785e6812e7152b4f",
+    "task_index": 9
+  },
+  "finding": "The matrix sum still reconstructed A/B from numbered flat channels.",
+  "resolution": "Actual finite A(row,k), B(k,column) input fields with complete two-channel Equiv; visible finite K sum and finite matrix output.",
+  "mathematical_target": [
+    {
+      "name": "correct",
+      "statement": "VeriTile.Spec.Real (ReaderIO.view p ⊨ fun xs r c => ∑ t : Fin p.K, xs.A r t * xs.B t c)"
+    }
+  ],
+  "conditions_and_scope": {
+    "actual_scope": "Complete two-dimensional grid and full M*N result, K-tail masks/modulo loads, K=0 and empty outer axes, exact exterior frame.",
+    "retained_conditions": [
+      "p.Valid is unchanged: original block, matrix view, writable output geometry and source index domain.",
+      "ProgramIO logical M*K/K*N input channels, original typed binding and ordinary access bounds remain; no desired-result or callback premise is public.",
+      "Contract.admitted_domain retains the original checked guard-to-domain correspondence."
+    ],
+    "parameter_audit": "All original specification parameter prefixes equal modulo whitespace; see parameter-audit.json."
+  },
+  "proof_connection": "ReaderProof.target_eq/judgment_iff connect finite sums and exact input/output Equivs to the full original PublicIO program judgment.",
+  "fp_review": {
+    "source": "unchanged byte-for-byte from before snapshot",
+    "pair": "original p M D vs remainingK p M D: strength-reduce both K-tail load masks.",
+    "scope": "Full two-dimensional source grids on the original Valid and IO domain, all words/empty cases, both safe successful launches, complete typed outputs and dual exact frames.",
+    "interpretation": "Original typed operations, precision, conversions, order, domains, schedule and frame remain. Empty experimental R may rely on the fixed strict software theory; no universal opaque-model or hardware equality is inferred."
+  },
+  "numerical_dependencies": {
+    "new_rule_or_experiment_count": 0,
+    "actual_FP_dependencies": "R=[]; exact discrete arithmetic under existing signed32 bounds. FP32 loads/live dot, FP16 narrowing and FP32 output widening are unchanged.",
+    "current_main_experimental_rule_instances": [],
+    "retained_pending_experiments": []
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "sum_{k<K} A[r,k]*B[k,n] on the complete logical input matrices.",
+    "required_conditions": [
+      "p.Valid is unchanged: original block, matrix view, writable output geometry and source index domain.",
+      "ProgramIO logical M*K/K*N input channels, original typed binding and ordinary access bounds remain; no desired-result or callback premise is public.",
+      "Contract.admitted_domain retains the original checked guard-to-domain correspondence."
+    ],
+    "scope": "Complete two-dimensional grid and full M*N result, K-tail masks/modulo loads, K=0 and empty outer axes, exact exterior frame.",
+    "canonical_connection": [
+      "matrixProduct already displays the independent full-K sum adjacent to the theorem; the edit only selects the common Implements notation.",
+      "PublicIO.implements applies the proved KernelInputs.real result, actual full launch, safety, finite input/output binding and frame."
+    ],
+    "fp_program_pair": {
+      "fp_pair": "original p M D vs remainingK p M D: strength-reduce both K-tail load masks.",
+      "fp_scope": "Full two-dimensional source grids on the original Valid and IO domain, all words/empty cases, both safe successful launches, complete typed outputs and dual exact frames."
+    },
+    "numerical_dependencies": "R=[]; exact discrete arithmetic under existing signed32 bounds. FP32 loads/live dot, FP16 narrowing and FP32 output widening are unchanged."
+  },
+  "verification": [
+    {
+      "kind": "validate_current_targeted_compiler_receipts_and_unchanged_FP_Contract_objects",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue09/verify-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/verified-receipts.log",
+      "log_sha256": "8450288bd288828f3a671e55276af8205457512dc32a7d50e76db613efa1dc0f"
+    },
+    {
+      "kind": "joint_import_36_selected_public_entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue09/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue09/Joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "preserved_all_16_original_parameter_prefixes_modulo_whitespace",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue09/audit-parameters.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/parameter-audit.log",
+      "log_sha256": "029e5c767dd5644931d7ec3c332990352c88ddd3c640a65fd4561d74ce27305b"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/matmul_kernel/Contract.lean": "720157c2faa22750eeed6c06b6e30a9df0077db662d64a04cb87d40ea44b6533",
+    "bench/repairs/tritonbench_g/matmul_kernel/Correct.lean": "d8e45ffcfe8adee1d1b25bd4035cfc13c40e3b1f1613cfadb8b9a36a2f2635e6",
+    "bench/repairs/tritonbench_g/matmul_kernel/FPEquiv.lean": "31ad346eba5ae2e082840650f8c91389df76c1648bc94e1850986dc3ee3a90f1",
+    "bench/repairs/tritonbench_g/matmul_kernel/IO.lean": "ac7e1054ae62ccd1f77644e60fa9eacdcb5332eb8d2e82e8e2f1a1c971959bb0",
+    "bench/repairs/tritonbench_g/matmul_kernel/LogicalIO.lean": "9c46ad7d20ce813cb35038a84e418819ba759353a3a35673a3826b9d759b042b",
+    "bench/repairs/tritonbench_g/matmul_kernel/Proofs/LogicalReader.lean": "dcee2212e2e290b063ed44b3218a29f61e5af009615515052cfea0c5641734d6",
+    "bench/repairs/tritonbench_g/matmul_kernel/Proofs/PublicIO.lean": "91b2c8a03ab2b82f0d911610680648a7b8ec125a1bc8b20aa156a7b0d67a3913",
+    "bench/repairs/tritonbench_g/matmul_kernel/Kernels.lean": "ea9bd27db35e82716d4d4484ee5cc37605051588eb5dab36ed3b5e2e9b8f808c",
+    "bench/repairs/tritonbench_g/matmul_kernel/Proofs/PairIO.lean": "bc6158de857d5a5703e5ff2f6d723bc659c37c4825f35b7a27355af6059b983c",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Unchanged FP and Contract objects were reused only after exact source/receipt/object matching; joint imports passed. Internal/optional native, host and Tensor closures were not replayed; no hardware conformance or new numerical experiment is claimed."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

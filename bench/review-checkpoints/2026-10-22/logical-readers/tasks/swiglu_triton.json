@@ -1,0 +1,167 @@
+{
+  "schema": 1,
+  "task": "swiglu_triton",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue14/review-supplement/result.json",
+    "sha256": "200c835b2865a3754511626b67c3dd83da5915c23edcd916bf72095c1e08fe74",
+    "task_index": 7
+  },
+  "finding": "Main target hid the logical a/b/dc inputs and c/da/db output coordinates behind PublicIO.formula.",
+  "resolution": "Added named inputs and typed multi-output logical rows, retaining every channel even when masked. Independent review also moved all scalar/stage proof assembly into Proofs, preserving the adjacent explicit pure mathematics and leaving a thin theorem application.",
+  "mathematical_target": "fun xs ch i => scalarFormula ch (xs.a i) (xs.b i) (xs.dc i)",
+  "conditions_and_scope": "cols≤block; selected row and both actual forward/backward stages; original C versus DA/DB masks, FP32 source casts/FMA/order and frame retained.",
+  "proof_connection": {
+    "full_old_new_iff": "VeriTile.Bench.Repairs.SwigluTriton.Logical.judgment_iff",
+    "canonical_source_connection": [
+      "local scalarFormula_eq proves channelwise definitional equality to Math.formula",
+      "PublicIO.implements and Math.scalar_real connect source arithmetic to independent forward/derivative formulas"
+    ],
+    "coordinate_and_connection_build_receipts": [
+      {
+        "source": "bench/repairs/tritonbench_g/swiglu_triton/LogicalIO.lean",
+        "source_sha256": "8d1e3daaa0683e3c2db5736114ae4db7cb5c9b1f527e9b04e965847b5a789924",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/LogicalIO.workspace-build.json",
+        "receipt_sha256": "843af0ed168b9a2d9faaf654382bea103c5bad87eb96abf732e2c6181c58202e",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/LogicalIO.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/LogicalIO.ilean": "bcc4188d6f20973bf3d2e5fcedcfb90258331ddf438dbd3a771fa30d7a48a8f0",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/LogicalIO.olean": "7ada25c14bac63d443db1dab3f06842661209f7479d4d272b077e8da9269da50"
+        }
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/swiglu_triton/Proofs/LogicalIO.lean",
+        "source_sha256": "067ca45a81bfcccd1b6e1f393cafbdedc7144a7174e9fff87404ffafd15f16a0",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/Proofs/LogicalIO.workspace-build.json",
+        "receipt_sha256": "3877dda2761394e365f93250190879220cb5bd3c4cc5296ea0ffb418338fa834",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/Proofs/LogicalIO.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/Proofs/LogicalIO.ilean": "5f3437f47df58b1dc2918253878924119c289a4fd05163ea52a347109a4109c1",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/Proofs/LogicalIO.olean": "516c87f3ca1eb94eb4aba75d9556f8103e1bd83142299490767bdb1028dc0ecd"
+        }
+      }
+    ],
+    "main_build_receipts": [
+      {
+        "source": "bench/repairs/tritonbench_g/swiglu_triton/Correct.lean",
+        "source_sha256": "9ec20470f496193f78776740da4ae1f87298fe0df2e60ecfb48b14a73b7a309d",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/Correct.workspace-build.json",
+        "receipt_sha256": "608cf27759fc126df15b7f46b0c21a7d80e17360cd5d6f1726f654de8d6812d3",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/Correct.olean": "e35b0d9068cf20274ebcf3657d07701936cba749a55b5d01c20fa1bda1d646bd",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/Correct.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/Correct.ilean": "8cd07e7f72efa99b925a221d4c334fddf2b4a9a15a18cf550537658da47d58de"
+        }
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/swiglu_triton/FPEquiv.lean",
+        "source_sha256": "495bd2d697ce7184998e328adc1a80022fa9cc93b385a82e67c167b4b5a2ebe9",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/FPEquiv.workspace-build.json",
+        "receipt_sha256": "41c17806a8bf346062effe88f56849deedf0b1a9534475abc1ae6a8c9d91161d",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/FPEquiv.ilean": "02b9e15d869a23f8d09867577470a100594aab1bcc5491c06a8cb1de59c33b24",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/FPEquiv.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/swiglu_triton/FPEquiv.olean": "3a441bcc2f218a09deb727d0ca5b6c1da1b2f4029ea4312e0332e5442b596cb6"
+        }
+      }
+    ],
+    "reader_theorem": "Logical.reader_implements; scalar/stage formula identities and proof assembly live in Proofs/LogicalIO.lean."
+  },
+  "fp_review": {
+    "headline": "forward_index_equiv and backward_index_equiv: Pair.original ≡[[]] Pair.indexCommuted",
+    "source": "Both complete original forward/backward FP32 source bodies and existing signed row-base candidate",
+    "connection": "PairProof.equivalent in each stage; address-only source transformation",
+    "source_unchanged": true
+  },
+  "numerical_dependencies": {
+    "experimental_rules": [],
+    "qualification": "Empty experimental rule set in the stated program view. Fixed strict/software/native primitives, precision, conversions, reduction trees and observers remain part of that view; no arbitrary opaque-model or hardware-wide bit-equality claim.",
+    "strict_model": "Pair fixed guarded/native FP32 view retains conversions, backward FMA and ordered in-place stores.",
+    "main_experimental_rules_used_count": 0,
+    "new_experiments": 0,
+    "new_deferred_experiments": [],
+    "counting_scope": "Actual main-pair dependencies only; imported/available rule tables and optional native results are not counted as used."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Adjacent scalarFormula: s=(1+exp(-a))⁻¹; C=a*b*s; DA=dc*b*s*(1+a*(1-s)); DB=dc*a*s.",
+    "required_conditions": [
+      "Original cols≤block retained",
+      "PublicIO.formula/output masks select the correct channels per stage",
+      "Public ProgramIO carries input/output windows, safety/success/frame"
+    ],
+    "scope": "One selected contiguous row, parameterized forward/backward stage. Forward writes C; backward reads DC and overwrites A/B, using logical input snapshots and original ordered stores. Main is not a new full-grid result.",
+    "canonical_connection": [
+      "local scalarFormula_eq proves channelwise definitional equality to Math.formula",
+      "PublicIO.implements and Math.scalar_real connect source arithmetic to independent forward/derivative formulas"
+    ],
+    "fp_program_pair": {
+      "headline": "forward_index_equiv and backward_index_equiv: Pair.original ≡[[]] Pair.indexCommuted",
+      "source": "Both complete original forward/backward FP32 source bodies and existing signed row-base candidate",
+      "connection": "PairProof.equivalent in each stage; address-only source transformation"
+    },
+    "numerical_dependencies": {
+      "experimental_rules": [],
+      "qualification": "Empty experimental rule set in the stated program view. Fixed strict/software/native primitives, precision, conversions, reduction trees and observers remain part of that view; no arbitrary opaque-model or hardware-wide bit-equality claim.",
+      "strict_model": "Pair fixed guarded/native FP32 view retains conversions, backward FMA and ordered in-place stores."
+    }
+  },
+  "verification": [
+    {
+      "kind": "Correct-FPEquiv",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue14/build.py",
+        "bench/repairs/tritonbench_g/swiglu_triton/Correct.lean",
+        "bench/repairs/tritonbench_g/swiglu_triton/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue14/review-supplement/verify-four/swiglu_triton/Correct-FPEquiv.log",
+      "log_sha256": "4ed07f92210f2c18bf747dbb97e6d284112444c9d379e889ded1c4a7c4b30c86",
+      "elapsed_seconds": 5.893
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue14/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue14/review-supplement/verify-four/swiglu_triton/joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue14/review-supplement/verify-four/swiglu_triton/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_seconds": 3.946
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/swiglu_triton/Contract.lean": "5ffb65fd67319259a749419641a2fd5c8da1cc6b5d0f7f2be6a73ab17fd4a40f",
+    "bench/repairs/tritonbench_g/swiglu_triton/Correct.lean": "9ec20470f496193f78776740da4ae1f87298fe0df2e60ecfb48b14a73b7a309d",
+    "bench/repairs/tritonbench_g/swiglu_triton/FPEquiv.lean": "495bd2d697ce7184998e328adc1a80022fa9cc93b385a82e67c167b4b5a2ebe9",
+    "bench/repairs/tritonbench_g/swiglu_triton/IO.lean": "4bb4395f4c8137fa781558fc6224c06f2f704e7c8a2d78074cd051a0fb44c2bd",
+    "bench/repairs/tritonbench_g/swiglu_triton/Kernels.lean": "b2c2fab06deabad3e7e7c52ec79c22ae92f28e648985ca82c1f97cca95dd5728",
+    "bench/repairs/tritonbench_g/swiglu_triton/LogicalIO.lean": "8d1e3daaa0683e3c2db5736114ae4db7cb5c9b1f527e9b04e965847b5a789924",
+    "bench/repairs/tritonbench_g/swiglu_triton/Proofs/LogicalIO.lean": "067ca45a81bfcccd1b6e1f393cafbdedc7144a7174e9fff87404ffafd15f16a0",
+    "bench/repairs/tritonbench_g/swiglu_triton/Proofs/Math.lean": "6fae8e141f010403f8f4e20d81be04a83d098b299c6a758f7242e5207f04bee5",
+    "bench/repairs/tritonbench_g/swiglu_triton/Proofs/PublicIO.lean": "a7be4a1ef73fefce8012f530e4b94f07dbe58769301c4f94b6ec6fa8d0b38713",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Targeted modified IO/connection/reader replay and per-task Contract+Correct+FPEquiv imports; cached established internal proof dependencies reused. No new GPU/native/host or numerical obligation, and no full dependency-closure replay."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

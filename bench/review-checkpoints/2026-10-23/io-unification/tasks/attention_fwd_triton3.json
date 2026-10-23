@@ -1,0 +1,445 @@
+{
+  "schema": 1,
+  "task": "attention_fwd_triton3",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue01/result.json",
+    "sha256": "cfb479f908d5426d98c40cfd1fdea7ec2146753315def173692f0d665dc60dd7",
+    "task_index": 7
+  },
+  "reason": "Moved existing same-kernel memory/Real IO adapters and the main-reader logical view into IO.lean, preserving namespaces and definition bodies.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Contract.lean",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Correct.lean",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "attention_fwd_triton3"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/IO.lean",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/NativeIO.lean",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Proofs/LogicalReader.lean",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/RealIO.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/LogicalIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/RealIO.lean",
+      "to": "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/IO.lean",
+      "body_sha256": "96b7ddb25b4173f7a7b4d880cae4aae0ce995726c19edeee0ca28a439ff9c47e",
+      "bytes": 2792,
+      "declarations": [
+        "inputShape",
+        "outputShape",
+        "InputPoint",
+        "OutputPoint",
+        "inputArity",
+        "outputArity",
+        "inputCoordinates",
+        "outputCoordinates",
+        "Inputs",
+        "Outputs",
+        "inputRegion",
+        "outputRegion",
+        "inputAddress",
+        "inputActive",
+        "outputAddress",
+        "outputActive",
+        "source_erasure",
+        "selectedSource",
+        "programIO"
+      ],
+      "qualified_declarations": [
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.inputShape",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.outputShape",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.InputPoint",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.OutputPoint",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.inputArity",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.outputArity",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.inputCoordinates",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.outputCoordinates",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.Inputs",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.Outputs",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.inputRegion",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.outputRegion",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.inputAddress",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.inputActive",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.outputAddress",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.outputActive",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.source_erasure",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.selectedSource",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.programIO"
+      ]
+    },
+    {
+      "from": "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/NativeIO.lean",
+      "to": "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/IO.lean",
+      "body_sha256": "e96e023780f6299d2a484016bfd687d8ffd7177ba5a6a070cace3e642b538e2f",
+      "bytes": 2962,
+      "declarations": [
+        "inputPorts",
+        "outputPorts",
+        "input_port",
+        "output_port",
+        "Inputs",
+        "arrayValues",
+        "outputIndex",
+        "outputPoint",
+        "outputEncoded",
+        "outputPoint_encoded",
+        "reads",
+        "job",
+        "programIO"
+      ],
+      "qualified_declarations": [
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.NativeInterface.inputPorts",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.NativeInterface.outputPorts",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.NativeInterface.input_port",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.NativeInterface.output_port",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.NativeInterface.Inputs",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.NativeInterface.arrayValues",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.NativeInterface.outputIndex",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.NativeInterface.outputPoint",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.NativeInterface.outputEncoded",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.NativeInterface.outputPoint_encoded",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.NativeInterface.reads",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.NativeInterface.job",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.NativeInterface.programIO"
+      ]
+    },
+    {
+      "from": "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/LogicalIO.lean",
+      "to": "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/IO.lean",
+      "body_sha256": "0260eb8e3800316d11c5af34af32751ef91131973a9e62cb58810774f5878da4",
+      "bytes": 4013,
+      "declarations": [
+        "Inputs",
+        "Outputs",
+        "inputsEquiv",
+        "outputsEquiv",
+        "io"
+      ],
+      "qualified_declarations": [
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.LogicalIO.Inputs",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.LogicalIO.Outputs",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.LogicalIO.inputsEquiv",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.LogicalIO.outputsEquiv",
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.LogicalIO.io"
+      ]
+    },
+    {
+      "from": "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/RealIO.lean",
+      "to": "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/IO.lean",
+      "body_sha256": "f13cd22a98e6d448a957159c5730990b3344d798b32a7f2b127f842e072393c8",
+      "bytes": 530,
+      "declarations": [
+        "localInputs"
+      ],
+      "qualified_declarations": [
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.localInputs"
+      ]
+    },
+    {
+      "from": "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/RealIO.lean",
+      "to": "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/IO.lean",
+      "body_sha256": "4c352a215a2a0b0cf8ed293ba6818d61787b841439d4c6e761c862793fce59fc",
+      "bytes": 157,
+      "declarations": [
+        "finiteTile"
+      ],
+      "qualified_declarations": [
+        "VeriTile.Bench.Repairs.AttentionFwdTriton3ScalarCast.RealInterface.finiteTile"
+      ]
+    }
+  ],
+  "preservation": {
+    "byte_move_evidence": {
+      "path": ".veritile-cache/io-unification-20261023/queue01/byte-preservation.json",
+      "sha256": "eb181e7e53783503e3b909a6fa0a5c5a9b8822ed718f8d7ff9819de7ed8cf851"
+    },
+    "public_judgment_evidence": {
+      "path": ".veritile-cache/io-unification-20261023/queue01/public-entry-preservation.json",
+      "sha256": "1c94235d9b21c8a05159930320ebc2c42ba4c061c2b2f9c7e8f47032d58d96ff"
+    },
+    "public_entries": {
+      "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Contract.lean": {
+        "before_sha256": "0939b58ee39229f3e070a98a245bef37fa77b952e74ecbc1c6d669fae5aadfdd",
+        "source_sha256": "0939b58ee39229f3e070a98a245bef37fa77b952e74ecbc1c6d669fae5aadfdd",
+        "byte_identical": true,
+        "complete_non_import_body_identical": true
+      },
+      "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Correct.lean": {
+        "before_sha256": "ff9b8269a8988d0554c83b866ccb21ff5339342148d4e23da69c14dd97140458",
+        "source_sha256": "ff9b8269a8988d0554c83b866ccb21ff5339342148d4e23da69c14dd97140458",
+        "byte_identical": true,
+        "complete_non_import_body_identical": true
+      },
+      "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/FPEquiv.lean": {
+        "before_sha256": "ea4c27ab7df661095b1de7314366c19f36593bbc8fc2927b1d90e3380114c2b2",
+        "source_sha256": "ea4c27ab7df661095b1de7314366c19f36593bbc8fc2927b1d90e3380114c2b2",
+        "byte_identical": true,
+        "complete_non_import_body_identical": true
+      },
+      "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Kernels.lean": {
+        "before_sha256": "45081420bbb259a55c0bb4897c3a0c99b1b0fda36ca2a26b5b1176add480c3ab",
+        "source_sha256": "45081420bbb259a55c0bb4897c3a0c99b1b0fda36ca2a26b5b1176add480c3ab",
+        "byte_identical": true,
+        "complete_non_import_body_identical": true
+      }
+    },
+    "connection_proof_bodies": "Proofs/LogicalReader.lean is identical after removing import lines; all entire-judgment equivalence/execution/safety proofs remain in Proofs.",
+    "baseline_binding": {
+      "path": ".veritile-cache/io-unification-20261023/queue01/baseline-binding.json",
+      "sha256": "050c94762f8e4d617cdfc3c7882f248df151e061427610eb493fcbcddd9c5b91"
+    },
+    "description": "Existing definitions are relocated with unchanged names and bodies. No source program, formula, premise, mathematical range, schedule, frame, observer, cast, rule set, or numeric classification changed."
+  },
+  "verification": [
+    {
+      "kind": "targeted_build_failed",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue01/build.py",
+        "bench.repairs.tritonbench_g.adam_update_triton.IO",
+        "bench.repairs.tritonbench_g.apply_penalty.IO",
+        "bench.repairs.tritonbench_g.attention_forward_triton.IO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton1_tile_checked.IO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton2.IO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.IO",
+        "bench.repairs.tritonbench_g.attention_kernel.IO",
+        "bench.repairs.tritonbench_g.attention_kernel_aligned.IO",
+        "bench.repairs.tritonbench_g.attention_llama_scalar_abi_checked.IO",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.IO",
+        "bench.repairs.tritonbench_g.attn_fwd_causal.IO"
+      ],
+      "exit_code": 1,
+      "log": ".veritile-cache/io-unification-20261023/queue01/io-build-attempt1.log",
+      "log_sha256": "c82df870ca9b5c1f3b845ad4db1390a1c2eb49cdd84e15c5945db5e5dc20089d",
+      "note": "Default sandbox toolchain launch failed to locate application; no module succeeded."
+    },
+    {
+      "kind": "targeted_build_failed",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue01/build.py",
+        "bench.repairs.tritonbench_g.adam_update_triton.IO",
+        "bench.repairs.tritonbench_g.apply_penalty.IO",
+        "bench.repairs.tritonbench_g.attention_forward_triton.IO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton1_tile_checked.IO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton2.IO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.IO",
+        "bench.repairs.tritonbench_g.attention_kernel.IO",
+        "bench.repairs.tritonbench_g.attention_kernel_aligned.IO",
+        "bench.repairs.tritonbench_g.attention_llama_scalar_abi_checked.IO",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.IO",
+        "bench.repairs.tritonbench_g.attn_fwd_causal.IO"
+      ],
+      "exit_code": 1,
+      "log": ".veritile-cache/io-unification-20261023/queue01/io-build-attempt2.log",
+      "log_sha256": "3965f6489f7aeaa98d4d68392415d32c909e1864765859bbef10c5497b45d0c2",
+      "note": "Elevated retry: first five IO modules succeeded; fwd3 needed the existing localInputs definition. Later arguments were not reached."
+    },
+    {
+      "kind": "targeted_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue01/build.py",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.IO",
+        "bench.repairs.tritonbench_g.attention_kernel.IO",
+        "bench.repairs.tritonbench_g.attention_kernel_aligned.IO",
+        "bench.repairs.tritonbench_g.attention_llama_scalar_abi_checked.IO",
+        "bench.repairs.tritonbench_g.attention_score_tile_checked.IO",
+        "bench.repairs.tritonbench_g.attn_fwd_causal.IO"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue01/io-build-attempt3.log",
+      "log_sha256": "594bfc9deca72ee136a0d282ef1194a6daf82fee62a29612d354de17deb6edc4"
+    },
+    {
+      "task": "attention_fwd_triton3",
+      "kind": "targeted_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue01/build.py",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.IO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.RealIO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.Correct",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.NativeIO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.FPEquiv"
+      ],
+      "exit_code": 1,
+      "log": ".veritile-cache/io-unification-20261023/queue01/attention_fwd_triton3-targeted-attempt1.log",
+      "log_sha256": "4125982859584ab49eaccea570fa2a0e22f148836243fc873d0bb625ba556f9b"
+    },
+    {
+      "kind": "targeted_build_failed",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue01/build.py",
+        "bench.repairs.tritonbench_g.attention_forward_triton.Proofs.HoistedIO",
+        "bench.repairs.tritonbench_g.attention_forward_triton.FPEquiv",
+        "bench.repairs.tritonbench_g.attention_fwd_triton2.Proofs.Pair",
+        "bench.repairs.tritonbench_g.attention_fwd_triton2.FPEquiv",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.RealIO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.Correct",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.NativeIO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.FPEquiv"
+      ],
+      "exit_code": 1,
+      "log": ".veritile-cache/io-unification-20261023/queue01/remaining-retries-attempt1.log",
+      "log_sha256": "4a71e36487206b9d54e275aaebff13d9d550d201b6654db6c069d8100519b729",
+      "note": "All requested preceding modules succeeded; final fwd3 FPEquiv exposed a stale CSEIO object, then refreshed separately."
+    },
+    {
+      "kind": "targeted_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue01/build.py",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.Proofs.CSEIO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton3_scalar_cast.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue01/attention_fwd_triton3-targeted-attempt3.log",
+      "log_sha256": "d5399ff65ba609ab574baed408424cb5ade2445301dbdf329b9dbb8852a9eaaf"
+    },
+    {
+      "task": "attention_fwd_triton3",
+      "kind": "public_joint_fresh_check",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue01/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue01/joint/joint_attention_fwd_triton3.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/io-unification-20261023/queue01/joint/joint_attention_fwd_triton3.lean",
+      "source_sha256": "97b242b60cac050eddea5544f17f65a1744ef786097783b0f00463540c28d609",
+      "log": ".veritile-cache/io-unification-20261023/queue01/attention_fwd_triton3-joint-attempt1.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "final_source_object_dependency_pin_check",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue01/verify_pins.py"
+      ],
+      "exit_code": 0,
+      "path": ".veritile-cache/io-unification-20261023/queue01/final-pin-validation.json",
+      "sha256": "a299236114ff823b92144e3ee386f72aa127a50aaccbc8841a9671aabc2eeafd",
+      "note": "Checks current source hashes, all emitted object hashes and direct dependency hashes. Deleted shim objects are checked against saved compatibility build sources."
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Contract.lean": "0939b58ee39229f3e070a98a245bef37fa77b952e74ecbc1c6d669fae5aadfdd",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Correct.lean": "ff9b8269a8988d0554c83b866ccb21ff5339342148d4e23da69c14dd97140458",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/FPEquiv.lean": "ea4c27ab7df661095b1de7314366c19f36593bbc8fc2927b1d90e3380114c2b2",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/IO.lean": "d0b8b0cf10fabb914204854d6e384fd7ea9b24c3c7ad3e58b43b9b9326f4aea6",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/RealIO.lean": "0b7e79d9e435dc71a9ed6489c835e2de1d8d2654e0c8b55e8d97eff90afe416f",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Proofs/LogicalReader.lean": "0c533dcb2fe985a476e5738d3979010c110155c082e8333c37f2d6556c5fbb16",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Kernels.lean": "45081420bbb259a55c0bb4897c3a0c99b1b0fda36ca2a26b5b1176add480c3ab",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Proofs/RealImplementation.lean": "0f898677aa730d84be6fab51ada52283af7a81d2f642c32772a730cd3c08b0c1",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Proofs/CSEIO.lean": "546b5b6acc709d5ec5d22f8ee2aac5af6e7c6afbe09d971756a71359b958db25",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/NativeIO.lean": "80ce2d06b2bfc5f8c89c4645bef151be15f71eb2a867f5a2b7cada7c6f508a04"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Contract.lean": {
+      "owner_tasks": [
+        "attention_fwd_triton3"
+      ]
+    },
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Correct.lean": {
+      "owner_tasks": [
+        "attention_fwd_triton3"
+      ]
+    },
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/FPEquiv.lean": {
+      "owner_tasks": [
+        "attention_fwd_triton3"
+      ]
+    },
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/IO.lean": {
+      "owner_tasks": [
+        "attention_fwd_triton3"
+      ]
+    },
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/RealIO.lean": {
+      "owner_tasks": [
+        "attention_fwd_triton3"
+      ]
+    },
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Proofs/LogicalReader.lean": {
+      "owner_tasks": [
+        "attention_fwd_triton3"
+      ]
+    },
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Kernels.lean": {
+      "owner_tasks": [
+        "attention_fwd_triton3"
+      ]
+    },
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Proofs/RealImplementation.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/Proofs/CSEIO.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/NativeIO.lean": {
+      "owner_tasks": [
+        "attention_fwd_triton3"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/attention_fwd_triton3_scalar_cast/LogicalIO.lean": "906bf5c07dd425c7f7783d679295cd77c00508b3410478c3bbdbce1df3a47362"
+  },
+  "limits": [
+    "Only migrated source modules, their changed import helpers, selected public entries, demonstrated stale direct FP helpers and one unchanged Math dependency were compiled; the full proof closure was not rebuilt.",
+    "No new numerical experiment, GPU, native/host correctness requirement, or broad ledger acceptance is claimed."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

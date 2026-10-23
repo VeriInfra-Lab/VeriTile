@@ -1,3 +1,18 @@
+# Original source status
+
+The original wrapper is defective on admitted input views. A CUDA FP32 slice
+`backing[2:5]` from eight elements passes `N=8` to a three-element output;
+stride-two FP32 and packed-int8 inputs are also admitted but loaded densely.
+`Proofs/SourceDefect.lean` and `Proofs/check_original_defects.py` retain exact
+metadata/address proofs and execution of the original wrapper AST. The Lean
+file also records signed-i32 offset overflow independently of the count ABI.
+These are source defects, not numerical obligations.
+
+The complete canonical kernel contract for the unchanged checked repair is
+in `bench/repairs/tritonbench_g/f8_conversion_utils/{Contract,Correct,FPEquiv}.lean`.
+Both variants share the typed source in this directory. Historical one-program
+natural-index theorems below retain their explicit limited scope.
+
 # f8_conversion_utils
 
 `Kernels.lean` retains both complete conversion kernels and their integer-index

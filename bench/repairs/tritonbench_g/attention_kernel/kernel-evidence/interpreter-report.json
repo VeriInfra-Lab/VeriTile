@@ -1,0 +1,194 @@
+{
+  "source": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_kernel/attention_kernel_repaired.py",
+  "source_sha256": "e7aaea2b35aff93f2f92b1a6d4e50a824259cbf38205346b731dfc8d0ae9e77a",
+  "backend": "actual Triton CPU interpreter; exact-class CUDA metadata facade",
+  "GPU_execution": false,
+  "runtime_profile_conformance_claim": false,
+  "reference": "Q=K=bias=0, V=2 gives every admitted output exactly 2; entire gapped output backing and all read backings checked",
+  "cases": [
+    {
+      "dtype": "torch.float16",
+      "shape": [
+        1,
+        1,
+        1,
+        16
+      ],
+      "blocks": [
+        16,
+        16
+      ],
+      "all_logical_outputs": "exact constant 2",
+      "full_backing_frame": true,
+      "input_frame": true,
+      "empty": false,
+      "result_is_None": true
+    },
+    {
+      "dtype": "torch.float16",
+      "shape": [
+        1,
+        2,
+        17,
+        16
+      ],
+      "blocks": [
+        16,
+        16
+      ],
+      "all_logical_outputs": "exact constant 2",
+      "full_backing_frame": true,
+      "input_frame": true,
+      "empty": false,
+      "result_is_None": true
+    },
+    {
+      "dtype": "torch.float16",
+      "shape": [
+        2,
+        2,
+        65,
+        32
+      ],
+      "blocks": [
+        32,
+        64
+      ],
+      "all_logical_outputs": "exact constant 2",
+      "full_backing_frame": true,
+      "input_frame": true,
+      "empty": false,
+      "result_is_None": true
+    },
+    {
+      "dtype": "torch.float16",
+      "shape": [
+        1,
+        2,
+        129,
+        16
+      ],
+      "blocks": [
+        16,
+        32
+      ],
+      "all_logical_outputs": "exact constant 2",
+      "full_backing_frame": true,
+      "input_frame": true,
+      "empty": false,
+      "result_is_None": true
+    },
+    {
+      "dtype": "torch.float16",
+      "shape": [
+        0,
+        2,
+        16,
+        16
+      ],
+      "blocks": [
+        16,
+        16
+      ],
+      "all_logical_outputs": "exact constant 2",
+      "full_backing_frame": true,
+      "input_frame": true,
+      "empty": true,
+      "result_is_None": true
+    },
+    {
+      "dtype": "torch.float16",
+      "shape": [
+        2,
+        0,
+        16,
+        16
+      ],
+      "blocks": [
+        16,
+        16
+      ],
+      "all_logical_outputs": "exact constant 2",
+      "full_backing_frame": true,
+      "input_frame": true,
+      "empty": true,
+      "result_is_None": true
+    },
+    {
+      "dtype": "torch.float16",
+      "shape": [
+        2,
+        2,
+        0,
+        16
+      ],
+      "blocks": [
+        16,
+        16
+      ],
+      "all_logical_outputs": "exact constant 2",
+      "full_backing_frame": true,
+      "input_frame": true,
+      "empty": true,
+      "result_is_None": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        0,
+        2,
+        16,
+        16
+      ],
+      "blocks": [
+        16,
+        16
+      ],
+      "all_logical_outputs": "exact constant 2",
+      "full_backing_frame": true,
+      "input_frame": true,
+      "empty": true,
+      "result_is_None": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        2,
+        0,
+        16,
+        16
+      ],
+      "blocks": [
+        16,
+        16
+      ],
+      "all_logical_outputs": "exact constant 2",
+      "full_backing_frame": true,
+      "input_frame": true,
+      "empty": true,
+      "result_is_None": true
+    },
+    {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        2,
+        2,
+        0,
+        16
+      ],
+      "blocks": [
+        16,
+        16
+      ],
+      "all_logical_outputs": "exact constant 2",
+      "full_backing_frame": true,
+      "input_frame": true,
+      "empty": true,
+      "result_is_None": true
+    }
+  ],
+  "case_count": 10,
+  "complete_FP16_kernel_cases": 4,
+  "empty_calls": 6,
+  "CPU_interpreter_limitation": "BF16 nonempty source execution is unsupported: InterpreterBuilder.get_bf16 is absent. Initial failure script and raw log retained; no backend workaround or GPU result."
+}

@@ -248,6 +248,7 @@ def flattenOp (A : FlatAlloc) :
   | _, _, .boolNot a => .boolNot (A.flattenOp a)
   | _, _, .max2 bc a b => .max2 bc (A.flattenOp a) (A.flattenOp b)
   | _, _, .maximumFloat dtype bc a b => .maximumFloat dtype bc (A.flattenOp a) (A.flattenOp b)
+  | _, _, .minimumFloat dtype bc a b => .minimumFloat dtype bc (A.flattenOp a) (A.flattenOp b)
   | _, _, .pow bc a b => .pow bc (A.flattenOp a) (A.flattenOp b)
   | _, _, .libdevicePowi bc a b => .libdevicePowi bc (A.flattenOp a) (A.flattenOp b)
   | _, _, .where c a b => .where (A.flattenOp c) (A.flattenOp a) (A.flattenOp b)
@@ -570,6 +571,7 @@ def Op.FlattenOk : Op dtype shape → Prop
   | .boolNot a => a.FlattenOk
   | .max2 _ a b => a.FlattenOk ∧ b.FlattenOk
   | .maximumFloat _ _ a b => a.FlattenOk ∧ b.FlattenOk
+  | .minimumFloat _ _ a b => a.FlattenOk ∧ b.FlattenOk
   | .pow _ a b => a.FlattenOk ∧ b.FlattenOk
   | .libdevicePowi _ a b => a.FlattenOk ∧ b.FlattenOk
   | .where c a b => c.FlattenOk ∧ a.FlattenOk ∧ b.FlattenOk
@@ -702,6 +704,7 @@ def Op.FlattenOkR : Op dtype shape → Prop
   | .boolNot a => a.FlattenOkR
   | .max2 _ a b => a.FlattenOkR ∧ b.FlattenOkR
   | .maximumFloat _ _ a b => a.FlattenOkR ∧ b.FlattenOkR
+  | .minimumFloat _ _ a b => a.FlattenOkR ∧ b.FlattenOkR
   | .pow _ a b => a.FlattenOkR ∧ b.FlattenOkR
   | .libdevicePowi _ a b => a.FlattenOkR ∧ b.FlattenOkR
   | .where c a b => c.FlattenOkR ∧ a.FlattenOkR ∧ b.FlattenOkR
@@ -985,6 +988,7 @@ def Op.SafeAt (bounds : RegionBounds) (s : BlockState) : Op dtype shape → Prop
   | .boolNot a => a.SafeAt bounds s
   | .max2 _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .maximumFloat _ _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
+  | .minimumFloat _ _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .pow _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .libdevicePowi _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .where c a b => c.SafeAt bounds s ∧ a.SafeAt bounds s ∧ b.SafeAt bounds s
@@ -1364,6 +1368,16 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
         A.trTileFun_data (d := .real) (by decide) (by decide),
         Option.map_id, id_eq]
   | _, _, .maximumFloat dtype bc a b, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      obtain ⟨hma, hmb⟩ := hms
+      obtain ⟨hka, hkb⟩ := hok
+      simp only [flattenOp, evalOp,
+        evalOp_flatten A hd hcov a s hma hka hu,
+        evalOp_flatten A hd hcov b s hmb hkb hu,
+        A.trTileFun_data dtype.toTileDType_ne_ptr dtype.toTileDType_ne_blockPtr,
+        Option.map_id, id_eq]
+  | _, _, .minimumFloat dtype bc a b, s, hms, hok, hu => by
       simp only [Op.SafeAt] at hms
       simp only [Op.FlattenOk] at hok
       obtain ⟨hma, hmb⟩ := hms

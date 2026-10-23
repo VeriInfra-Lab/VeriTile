@@ -43,3 +43,11 @@ comparator/trust replay accepts all 52 selected source/proof/test files, with
 current fingerprints and named theorem inventories. Receipt: `Logs/comparator-check-pq1sfkt8`.
 This case's source/contract/equivalence review is **complete**, within the
 explicit per-program mathematical/typed model and source behaviors above.
+
+## Checked FP32 entrypoints
+
+The separate [checked repair](../../repairs/tritonbench_g/fast_rope_embedding/README.md)
+preserves original reshape reuse, two apply calls, plain cached coefficient
+objects and exact backward triple. Complete public source/physical-return
+theorems use executable ABI guards and current cached coefficient values; no
+coefficient snapshot or altered autograd path is introduced.

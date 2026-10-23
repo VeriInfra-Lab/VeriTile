@@ -40,7 +40,12 @@ theorem loop_add_commute (R : FP.ScalarArithmetic.Rules) (stop : Nat) :
 
 /-- info: FP assumptions used by loop_add_commute:
 ---
-info:   add_commute -/
+info:   none
+---
+info: Strict model certificates used by loop_add_commute:
+---
+info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions loop_add_commute
 
@@ -79,7 +84,12 @@ theorem nested_ranges (R : FP.ScalarArithmetic.Rules) (outer innerStop : Nat) :
 
 /-- info: FP assumptions used by nested_ranges:
 ---
-info:   add_commute -/
+info:   none
+---
+info: Strict model certificates used by nested_ranges:
+---
+info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions nested_ranges
 
@@ -111,13 +121,10 @@ example (R : FP.ScalarArithmetic.Rules) : True := by
       all_goals fp_prove
   trivial
 
-example : True := by
-  fail_if_success
-    have : program false 2 ≡[([] : Spec.Assumptions FP.GuardedFragment)]
-        program true 2 := by
-      equiv_decompose
-      all_goals fp_prove
-  trivial
+example : program false 2 ≡[([] : Spec.Assumptions FP.GuardedFragment)]
+    program true 2 := by
+  equiv_decompose
+  all_goals fp_prove
 
 private def model : Algebra Nat where
   literal := fun _ _ _ => 1
@@ -201,7 +208,12 @@ theorem explicit_cast_preserved (R : FP.ScalarArithmetic.Rules) :
 
 /-- info: FP assumptions used by explicit_cast_preserved:
 ---
-info:   mul_commute -/
+info:   none
+---
+info: Strict model certificates used by explicit_cast_preserved:
+---
+info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.mulCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions explicit_cast_preserved
 

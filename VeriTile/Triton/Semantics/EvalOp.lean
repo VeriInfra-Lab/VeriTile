@@ -164,6 +164,11 @@ noncomputable def evalOp : Op dtype shape → BlockState → Option (Tile dtype 
       let vb ← evalOp b s
       some (Tile.bop (fun x y => dtype.ofWithBot
         (max (dtype.toWithBot x) (dtype.toWithBot y))) bc va vb)
+  | .minimumFloat dtype bc a b, s => do
+      let va ← evalOp a s
+      let vb ← evalOp b s
+      some (Tile.bop (fun x y => dtype.ofWithBot
+        (min (dtype.toWithBot x) (dtype.toWithBot y))) bc va vb)
   | .pow bc a b, s => do
       let va ← evalOp a s
       let vb ← evalOp b s

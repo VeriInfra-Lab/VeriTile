@@ -418,6 +418,11 @@ inductive Op : TileDType → TileShape → Type where
                 MaskOpt dtype shape → (padding : PaddingOption := .zero) → Op dtype shape
   | natToReal : Op .nat shape → Op .real shape
   | intToReal : Op .int shape → Op .real shape
+  /-- Default Triton floating minimum, retaining its storage channel and
+  broadcasting. Its FP backend is independent of comparisons and maximum;
+  NaN, signed-zero and payload behavior come from the selected profile. -/
+  | minimumFloat : (dtype : FloatDType) → Broadcast a b out →
+      Op dtype.toTileDType a → Op dtype.toTileDType b → Op dtype.toTileDType out
 
 /-- Memory address form shared by load and store nodes.
 
@@ -904,6 +909,20 @@ inductive ComputeExpr : AlgDType → TileShape → Type where
   /-- IEEE finite classification is a compute-only Bool operation. The child
   retains every source load/cast and its independent arithmetic precision. -/
   | isFinite : FinitePrecision → ComputeExpr .real shape → ComputeExpr .bool shape
+  /-- Explicit fused multiply-add. The operands keep their individual compute
+  graphs and are broadcast before a single precision-selected FMA. Its Real
+  projection is mathematical multiplication plus addition; FP execution must
+  retain this node and must never substitute separately rounded operations.
+  See https://triton-lang.org/main/python-api/generated/triton.language.fma.html. -/
+  | fma : IndexComputePrecision → Broadcast a b ab → Broadcast ab c out →
+      ComputeExpr .real a → ComputeExpr .real b → ComputeExpr .real c →
+      ComputeExpr .real out
+  /-- Storage-typed fused multiply-add. All operands and the result retain the
+  same floating dtype, including FP16. This is one primitive operation; the
+  mathematical projection does not assert equality with rounded mul/add. -/
+  | fmaTyped : (dtype : FloatDType) → Broadcast a b ab → Broadcast ab c out →
+      ComputeExpr dtype.toTileDType a → ComputeExpr dtype.toTileDType b →
+      ComputeExpr dtype.toTileDType c → ComputeExpr dtype.toTileDType out
 
 namespace ComputeExpr
 
@@ -913,6 +932,16 @@ def toAlgorithm? : ComputeExpr dtype shape → Except EraseDTypeError (Op dtype 
   | .opaque op => Except.error (.requiresComputeSemantics op)
   | .llrint _ => Except.error (.requiresComputeSemantics "runtime CUDA llrint")
   | .isFinite _ _ => Except.error (.requiresComputeSemantics "libdevice finite classification")
+  | .fma _ bcAB bcC a b c => do
+      let a' ← a.toAlgorithm?
+      let b' ← b.toAlgorithm?
+      let c' ← c.toAlgorithm?
+      return Op.add NumericDType.real bcC (Op.mul NumericDType.real bcAB a' b') c'
+  | .fmaTyped dtype bcAB bcC a b c => do
+      let a' ← a.toAlgorithm?
+      let b' ← b.toAlgorithm?
+      let c' ← c.toAlgorithm?
+      return Op.add dtype.numericDType bcC (Op.mul dtype.numericDType bcAB a' b') c'
 
 @[simp] theorem toAlgorithm?_isFinite (p : FinitePrecision) (e : ComputeExpr .real shape) :
     (ComputeExpr.isFinite p e).toAlgorithm? =

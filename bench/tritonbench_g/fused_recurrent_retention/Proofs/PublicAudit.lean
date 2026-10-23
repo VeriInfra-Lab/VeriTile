@@ -1,5 +1,5 @@
-import bench.tritonbench_g.fused_recurrent_retention.Correct
-import bench.tritonbench_g.fused_recurrent_retention.FPEquiv
+import bench.tritonbench_g.fused_recurrent_retention.Proofs.CorrectPublic
+import bench.tritonbench_g.fused_recurrent_retention.Proofs.FPEquivPublic
 import VeriTile.Meta.StatementAudit
 
 namespace VeriTile.Bench.TritonBenchG.FusedRecurrentRetention.Full

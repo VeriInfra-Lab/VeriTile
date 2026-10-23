@@ -1,3 +1,4 @@
+import bench.tritonbench_g.swiglu_fwd.Proofs.WholeIndex
 import bench.tritonbench_g.swiglu_fwd.Proofs.Precision
 import bench.tritonbench_g.swiglu_fwd.Proofs.Math
 import bench.tritonbench_g.swiglu_fwd.Proofs.Candidate
@@ -67,3 +68,25 @@ specification typed_real_correct (input partner output : Storage) (v : Bool)
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.TritonBenchG.SwigluFwd
+
+namespace VeriTile.Bench.TritonBenchG.SwigluFwd.Whole
+open VeriTile.Triton
+noncomputable section
+
+/-- Whole original FP32-selected wrapper under its independent Real
+interpretation. Torch metadata/copy/allocation and setup can fail; successful
+results contain the entry-input SwiGLU values at every logical output cell. -/
+specification swiglu_fwd_real_source_outcomes (rt : Runtime ℝ input supplied entry preexisting)
+    (_inputValid : InputDomain input)
+    (valid : ∀ p, rt.prepare = .ok p → checks p = Bool.true → Domain p)
+    (finite : ∀ p (hp : rt.prepare = .ok p) (hc : checks p = Bool.true),
+      FiniteAdmission p (valid p hp hc)) :
+    VeriTile.Spec.Real (HostSpec Math.forward rt (executeHost realAlgebra rt) ∧
+      ∀ p hp hc, IndexCorrespondence p (valid p hp hc) (finite p hp hc)) := by
+  exact ⟨real_host_outcomes rt valid,fun p hp hc => index_correspondence p (valid p hp hc) (finite p hp hc)⟩
+
+#axiomsClean swiglu_fwd_real_source_outcomes
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.SwigluFwd.Whole

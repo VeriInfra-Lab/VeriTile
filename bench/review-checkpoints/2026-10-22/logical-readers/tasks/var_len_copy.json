@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "task": "var_len_copy",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue15/release-result.json",
+    "sha256": "8a77b0f84470ab4da972410dbbbda5acec548d388b18f6f9a69f4a2366f55ee6",
+    "task_index": 9
+  },
+  "finding": "The regional 3D headline exposed signed metadata ports and a numeric source selector.",
+  "resolution": "Added named signed length/oldStart/newStart and source segment, destination lanes and all three PID axes via a bijective LogicalDomainIO fixed to RegionalImplementsOn3D.",
+  "mathematical_target": "Every logical destination lane equals the corresponding initial source lane.",
+  "conditions_and_scope": "Original segment size and signed length domain; all metadata cells read even for nonpositive length, starts unrestricted then; original 3D PID-state semantics, source safety, execution and exact raw-cell exterior frame remain.",
+  "proof_connection": "PublicIO.logical_iff is iff of the full previous RegionalImplementsOn3D metadataDomain/formula. Coordinate inverses retain every signed metadata/source value and every PID axis. SourceProjection imports the existing KernelRealStep to reuse its generated source equations consistently.",
+  "fp_review": "Actual raw FP32 copy kernels differ only in integer source-address multiplication order; all raw values remain opaque/unrestricted and R=[].",
+  "numerical_dependencies": "No new numerical rule, experiment or hardware claim. Main FP experimental rule set remains empty; existing strict source models/certificates and explicit primitive/domain premises are reused.",
+  "previous_formula_scope": {
+    "mathematical_target": "destination[a.dest+j] = initialSource[a.old+j] for every j<max(signed_length,0)",
+    "required_conditions": [
+      "RegionalImplementsOn3D segmentDomain pins signed length and only pins nonnegative starts for positive a.len",
+      "InputContract has signed int32 metadata, FP32 payload, counts/extents, physical separation, positive-segment source/destination bounds and disjoint destination intervals",
+      "Actual source widens int32 metadata to int64 before loop/address arithmetic; no floating arithmetic or finite-value guard"
+    ],
+    "scope": "One complete dynamic segment program, all length iterations/tail lanes; all three signed metadata values read even when length≤0, no stores then and arbitrary signed starts retained. Whole independent segment schedule remains optional.",
+    "canonical_connection": "Headline now directly selects logical source port 3 at j. It is definitionally PublicIO.formula/copyFormula; PublicIO.implements proves actual dynamic source safety/run, every destination lane and exact raw-cell exterior frame.",
+    "fp_program_pair": "original Source.originalKernel vs commuted Source.commutedKernel, integer old_start+i address addition only; both complete typed memories agree.",
+    "numerical_dependencies": "Empty experimental set; FP32 words are opaque copies with original casts/loads/stores, all words including inactive values allowed."
+  },
+  "verification": [
+    {
+      "kind": "projection_and_regional_connection_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/build.py",
+        "bench.repairs.tritonbench_g.var_len_copy.Proofs.SourceProjection",
+        "bench.repairs.tritonbench_g.var_len_copy.IO",
+        "bench.repairs.tritonbench_g.var_len_copy.Proofs.IOLayout",
+        "bench.repairs.tritonbench_g.var_len_copy.Proofs.IOExecution",
+        "bench.repairs.tritonbench_g.var_len_copy.Proofs.PublicIO",
+        "bench.repairs.tritonbench_g.var_len_copy.Proofs.LogicalIO",
+        "bench.repairs.tritonbench_g.var_len_copy.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/logs/varlen-final.log",
+      "log_sha256": "4b1e073d356c2e4d0258ca593125be7c1c52490ac6e6b6ca33ab568ac14d3d74",
+      "evidence_source": "frozen_base"
+    },
+    {
+      "kind": "main",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/build.py",
+        "bench/repairs/tritonbench_g/var_len_copy/IO.lean",
+        "bench/repairs/tritonbench_g/var_len_copy/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/var_len_copy/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/logs/var_len_copy-main.log",
+      "log_sha256": "8ac04b5e6e56104d06485987b4ec8169e833ebc8792e91baa30da50cc0507e76",
+      "evidence_source": "frozen_base"
+    },
+    {
+      "kind": "fp",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/build.py",
+        "bench/repairs/tritonbench_g/var_len_copy/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/logs/var_len_copy-fp.log",
+      "log_sha256": "0b751946ac088c7fe8da5e6bf3b3b7afe5687a2e0c6a5c4f3891dfde5386defc",
+      "evidence_source": "frozen_base"
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue15/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue15/checks/var_len_copy-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue15/logs/var_len_copy-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "evidence_source": "frozen_base"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/var_len_copy/Contract.lean": "fdbfd2c2af9a03f5b09a97cb3f19125ec7779bf35f5c281d449630ac83d68a71",
+    "bench/repairs/tritonbench_g/var_len_copy/Correct.lean": "f3152dd167d32dd6a3caa1cdf41c8430cadde94e407c953f83633ac81d315b2e",
+    "bench/repairs/tritonbench_g/var_len_copy/FPEquiv.lean": "628080b937d8776da25386469c927839b01a3d7ca376296da93ec4972913a2cf",
+    "bench/repairs/tritonbench_g/var_len_copy/IO.lean": "1ed82a62e8d701d254d22a7734ef866f2c27dc3edc2ca80addf793ac2c3a07cb",
+    "bench/repairs/tritonbench_g/var_len_copy/Proofs/LogicalIO.lean": "1c073f4d5a47af80713b42d3e87e4882fd0248620f87b2b02515ecef1ede98ae",
+    "bench/repairs/tritonbench_g/var_len_copy/Proofs/SourceProjection.lean": "2efda079da65dbbf4f6bd16b1252504afb194bca2fee9f95ee1d0ff9e8817054",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

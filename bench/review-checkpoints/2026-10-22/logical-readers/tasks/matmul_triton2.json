@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "task": "matmul_triton2",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue10/max-reduction-supplement/result.json",
+    "sha256": "8ffac003658bf3b8618f2ca937ddbd10c9bfe4ce7fc10a113549bfb37b70b112",
+    "task_index": 3
+  },
+  "finding": "Main formula used Fin.cases, numeric channels, Nat readers and recursive RealSum.sum.",
+  "resolution": "Full input/output matrix equivalences and a proved recursive-sum/finite-sum equality expose the independent grouped-grid matrix product.",
+  "mathematical_target": "fun (a,b) row col => ∑ k : Fin innerSize, a row k * b k col",
+  "conditions_and_scope": {
+    "scope": "Complete selected grouped launch grid; strided matrix channels, empty/tail behavior and original accumulator-fed padded TF32 dot graph retained.",
+    "conditions": [
+      "Geometry.Valid (Core.geometry p)",
+      "0 < p.blockInner",
+      "input/output and weight/output region separation",
+      "ProgramIO binding and bounds supply all logical outputs, access safety and frame"
+    ],
+    "complete_source_domain_precision_masks_safety_success_and_frames_preserved": true
+  },
+  "proof_connection": {
+    "helpers": [
+      "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/Proofs/LogicalIO.lean"
+    ],
+    "full_declaration_type_iff": {
+      "fixture": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton2/Preservation.lean",
+      "fixture_sha256": "6d141b3b99fa26752615406422144dd9f38dfade8486d614d3044733855a89db",
+      "actual_current_and_before_declarations": [
+        "VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.kernel_real ↔ VeriTile.Bench.Repairs.MatmulTriton2.KernelOnly.kernel_real_before"
+      ],
+      "method": "declarationType% reads actual full declaration types, then forall_congr retains every parameter and premise; task headline_iff proves equality/iff of the complete underlying judgment."
+    }
+  },
+  "fp_review": {
+    "actual_pair": "original versus existing maskHoisted complete grouped source grids.",
+    "model_and_domain": "Explicit Algebra/Core.Primitives; source FP32 storage, padded live TF32 dot/carry, casts and order unchanged for original geometry/domain.",
+    "selected_fp_source_unchanged": true,
+    "main_experimental_rules": []
+  },
+  "numerical_dependencies": {
+    "experimental_rules": [],
+    "strict_rewrite_certificates": [],
+    "reason": "Loop-invariant integer/boolean mask hoisting only."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "C[r,c] = RealSum.sum (fun k => A[r,k]*B[k,c]) p.innerSize, over the original logical K rather than padded blockInner.",
+    "required_conditions": {
+      "public_conditions": [
+        "Geometry.Valid (Core.geometry p)",
+        "0 < p.blockInner",
+        "input/output and weight/output region separation",
+        "ProgramIO binding and bounds supply all logical outputs, access safety and frame"
+      ],
+      "contract_relation": "Selected KernelOnly/Contract keeps revision001 input admission and existing output shape/layout/device/alignment/disjoint allocation facts; no source or Python contract changed."
+    },
+    "scope": "Complete selected grouped launch grid; strided matrix channels, empty/tail behavior and original accumulator-fed padded TF32 dot graph retained.",
+    "canonical_connection": "PublicIO.implements and KernelInputs.real_reference discharge the complete source lowering; the headline is definitionally IO.formula p (target p.innerSize).",
+    "fp_program_pair": {
+      "fp_pair": "original versus existing maskHoisted complete grouped source grids.",
+      "fp_model_domain": "Explicit Algebra/Core.Primitives; source FP32 storage, padded live TF32 dot/carry, casts and order unchanged for original geometry/domain."
+    },
+    "numerical_dependencies": {
+      "experimental_rules": [],
+      "strict_rewrite_certificates": [],
+      "reason": "Loop-invariant integer/boolean mask hoisting only."
+    }
+  },
+  "verification": [
+    {
+      "kind": "logical-data",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/IO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton2/logical-data.log",
+      "log_sha256": "b1ceb1784510928656d2896a99f19083a89d9b92c510857f9d58f5508fdcbb8c"
+    },
+    {
+      "kind": "complete-connection",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/Proofs/LogicalIO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton2/complete-connection.log",
+      "log_sha256": "2712e9e6369d99f1e939c95787c8bdcbb28dc397700050d78174d1ca49de8593"
+    },
+    {
+      "kind": "reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton2/reader.log",
+      "log_sha256": "824e8a4f23bff2276406baccace3791e95b99bd7825ed619ad748e97541a7ccc"
+    },
+    {
+      "kind": "complete-old-new-iff",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton2/Preservation.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton2/complete-old-new-iff.log",
+      "log_sha256": "95549318e35913f0acd1e9c36e05306b2f8c3fe078904d9110fcb6098d4e21eb"
+    },
+    {
+      "kind": "fp-reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton2/fp-reader.log",
+      "log_sha256": "be81c2c81b1b9e923f302ec7eefd858f7179a30fab1bfa16371e5b10e9ab3836"
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton2/Joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matmul_triton2/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/Contract.lean": "15cc814a1f8a4aa3140d746223509fbc116738c7cce2a38cf35ac987b724e335",
+    "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/Correct.lean": "7b5ebdb61f3b0aae503e89cc333a9bf35ee81feb5aef4ccd5e73553c36da7d4d",
+    "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/FPEquiv.lean": "aefdcb50d1ba447a86f041581b9bdf4bb8e359db642dc261a03581bb26bbd657",
+    "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/IO.lean": "3d3f5c932f621a62e25528cd04816ece7a2598406d7a541659f671b7f34487b3",
+    "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/Proofs/LogicalIO.lean": "c728fe7a935c2889586c28ff2affa4da65c59cbd1d04c67e60b62cc3f3f51b36",
+    "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/Proofs/PublicIO.lean": "2864d4c1f13577cf7f2a889140a509cec98903f333b5a2d13e1cc0d39c144b9e",
+    "bench/repairs/tritonbench_g/matmul_triton2/KernelOnly/Kernels.lean": "717661157c9dd1af7567e6967e07c00ca6be35b34e6120a19a8f3a2471ee2173",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing internal execution/safety/numerical objects are reused; no full proof-closure replay claimed."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

@@ -1,58 +1,31 @@
 /- Conditional scalar theories and successful kernel execution.
 Numerical premises apply only to admitted scalar fragments in their declared
 operand domain. Program signatures retain the input contract and IO windows. -/
-import VeriTile.Triton.Float.GuardedRules
-import VeriTile.Triton.Float.StructuralIO
-import VeriTile.Triton.Float.ExecutionProfile
+import VeriTile.Triton.Float.GuardedStrict
 
 namespace VeriTile.Triton.FP.Guarded
 open Structural
 
-/-- Domain predicates are interpreted alongside the opaque FP operations. -/
-abbrev Domain (α : Type) := GuardKind → α → Prop
-
-def ScalarDomain {α : Type} (D : Domain α) (guards : List OperandGuard)
-    (s : State α) : Prop :=
-  ∀ g ∈ guards, ∃ v, s.regs .real [] g.operand = some v ∧ D g.kind (v PUnit.unit)
-
-/-- A typed scalar fragment guards its actual input channel. `.real` reduces
-exactly to the original `ScalarDomain`. No casts or coherence laws are inserted. -/
-def TypedScalarDomain {α : Type} (D : Domain α) (dtype : FloatDType)
-    (guards : List OperandGuard) (s : State α) : Prop :=
-  ∀ g ∈ guards, ∃ v, s.regs dtype.toTileDType [] g.operand = some v ∧
-    D g.kind (toFloat dtype (v PUnit.unit))
-
-@[simp] theorem typedScalarDomain_real {α : Type} (D : Domain α)
-    (guards : List OperandGuard) (s : State α) :
-    TypedScalarDomain D .real guards s = ScalarDomain D guards s := rfl
-
-def scalarOutput {α : Type} (dtype : FloatDType) (s : State α) : Option (TileIndex [] → α) :=
-  (s.regs dtype.toTileDType [] "out").map (fun v i => toFloat dtype (v i))
-
-@[simp] theorem scalarOutput_real {α : Type} (s : State α) :
-    scalarOutput .real s = s.regs .real [] "out" := by
-  simp [scalarOutput, toFloat]
-
-/-- A fragment may select a default precision without changing explicit tags. -/
-def fragmentAlgebra {α : Type} (f : GuardedFragment) (M : Algebra α) : Algebra α :=
-  match f.defaultPrecision with
-  | none => M
-  | some p => M.withDefaultPrecision p
-
-@[simp] theorem fragmentAlgebra_none {α : Type} (f : GuardedFragment) (M : Algebra α)
-    (h : f.defaultPrecision = none) : fragmentAlgebra f M = M := by
-  simp [fragmentAlgebra, h]
-
-/-- A model of the admitted scalar theory, observed at the scalar `out` register.
-This does not assert that the theory is an exact IEEE identity. Both executions
+/-- An interpretation of the fixed strict FP32 theory plus the displayed
+experimental assumptions, observed at scalar `out`. The strict theory's
+software identity is fixed in this type; this does not assert that its software
+model satisfies the additional experimental equalities. Both executions
 must exist, and both operand domains must hold, before a law can be used. -/
 def Models {α : Type} [Inhabited α] (R : Spec.Assumptions GuardedFragment)
     (M : Algebra α) (D : Domain α) : Prop :=
-  ∀ lhs rhs, Spec.Derivation R [lhs] [rhs] →
+  ∀ lhs rhs, @Spec.Derivation GuardedFragment fp32Theory R [lhs] [rhs] →
     ∀ s, TypedScalarDomain D lhs.dtype lhs.guards s → TypedScalarDomain D rhs.dtype rhs.guards s →
       ∀ a b, run (fragmentAlgebra lhs M) lhs.code s = some a →
         run (fragmentAlgebra rhs M) rhs.code s = some b →
         scalarOutput lhs.dtype a = scalarOutput rhs.dtype b
+
+/-- A concrete witness for the strict theory with no experimental rules.
+This does not assert that the same implementation models any relaxed atom. -/
+theorem strict_models_empty (rest : Algebra (FP.Value .fp32)) :
+    Models [] (Software.strictFP32 rest) strictDomain := by
+  intro lhs rhs proof s hl _ a b ha hb
+  have certificate := (List.forall₂_cons.mp (certified_of_empty proof)).1
+  simpa only [ha, hb, Option.map_some, Option.some.injEq] using certificate.2 rest s hl
 
 structure RegisterGuard where
   name : RegName
@@ -95,6 +68,7 @@ def Equivalent (R : Spec.Assumptions GuardedFragment) (lhs rhs : IO) : Prop :=
 
 instance : Spec.ProgramSyntax IO where
   Statement := GuardedFragment
+  theory := fp32Theory
   Signature := IO₁Signature × Precondition × Option ComputeDType
   signature p := (io₁Signature p.io, p.domain, p.defaultPrecision)
   body p := [⟨[], p.io.kernel.surfaceBody, .real, none⟩]
@@ -124,6 +98,7 @@ theorem Equivalent₁ₓ₂.ofStructural (R : Spec.Assumptions GuardedFragment) 
 
 instance : Spec.ProgramSyntax IO₁ₓ₂ where
   Statement := GuardedFragment
+  theory := fp32Theory
   Signature := IO₁ₓ₂Signature × Precondition
   signature p := (io₁ₓ₂Signature p.io, p.domain)
   body p := [⟨[], p.io.kernel.surfaceBody, .real, none⟩]

@@ -1,0 +1,19 @@
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Inputs.lean:131:13: error: not a positivity goal
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Inputs.lean:131:13: error: not a positivity goal
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Inputs.lean:131:13: error: not a positivity goal
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Inputs.lean:131:13: error: not a positivity goal
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Inputs.lean:131:13: error: not a positivity goal
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Inputs.lean:131:13: error: not a positivity goal
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.accepted_iff: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.domain: axiom footprint ⊆ standard base ✓  ([propext, Quot.sound])
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Inputs.lean:179:0: error: VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.actual_address: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Inputs.lean:180:0: error: VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.actual_read: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.scale_offset: axiom footprint ⊆ standard base ✓  ([propext,
+ Classical.choice,
+ Quot.sound])
+/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Inputs.lean:182:0: error: VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.scale_read: DISALLOWED axioms [sorryAx] (sorryAx ⇒ fake proof)
+VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelOnly.InputContract: definition does not reference [VeriTile.Triton.FP.Structural.exec,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.runPrograms,
+ VeriTile.Bench.Repairs.AttentionFwdTriton2.Whole001.Whole.answer] — non-circular ✓

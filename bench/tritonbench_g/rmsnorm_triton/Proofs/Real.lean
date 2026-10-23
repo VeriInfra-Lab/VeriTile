@@ -1810,10 +1810,11 @@ step index `i / B < ⌈N/B⌉` the windows are phrased over, and
 `hox`/`how`/`hsok` feed the `wbInv` step (its readback clause needs the
 store not to clobber the streamed inputs and the write window to be
 injective). -/
-private theorem rmsnorm_traceSafeR (R : RoundingModel) (bounds : RegionBounds)
+theorem rmsnorm_traceSafeR_of_injective (R : RoundingModel) (bounds : RegionBounds)
     (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat) (eps : ℝ)
-    (hB : 0 < B) (hox : o ≠ x) (how : o ≠ w) (hsok : 0 < sok)
+    (hB : 0 < B) (hox : o ≠ x) (how : o ≠ w)
     (s : BlockState)
+    (hinj : Function.Injective (fun k : Fin N => outOff s sob som sok k.val))
     (hbx : ∀ (t : Fin (rmsNumSteps N B)) (j : Fin B), t.val * B + j.val < N →
       s.pids 0 * sxb + s.pids 1 * sxm + (t.val * B + j.val) * sxk < bounds x)
     (hbw : ∀ (t : Fin (rmsNumSteps N B)) (j : Fin B), t.val * B + j.val < N →
@@ -1821,8 +1822,6 @@ private theorem rmsnorm_traceSafeR (R : RoundingModel) (bounds : RegionBounds)
     (hbo : ∀ (t : Fin (rmsNumSteps N B)) (j : Fin B), t.val * B + j.val < N →
       s.pids 0 * sob + s.pids 1 * som + (t.val * B + j.val) * sok < bounds o) :
     ((rmsnorm_triton x w o sxb sxm sxk srw sob som sok N B eps).toAlgKernel).TraceSafeR R bounds s := by
-  have hinj : Function.Injective (fun k : Fin N => outOff s sob som sok k.val) :=
-    outOff_injective_of_pos s sob som sok N hsok
   -- window instantiators at a raw in-range counter
   have hstepT : ∀ i, B ∣ i → ∀ j : Fin B, i + j.val < N →
       ∃ t : Fin (rmsNumSteps N B), t.val * B + j.val = i + j.val := by
@@ -1932,6 +1931,20 @@ private theorem rmsnorm_traceSafeR (R : RoundingModel) (bounds : RegionBounds)
             (fun j hj => hbo' i hiBQ j hj), ?_⟩
         obtain ⟨st', hstep, hQ'⟩ := wbInv_step x w o sxb sxm sxk srw sob som sok N B s RS s hB hinj hox how i stt hi hQ
         exact ⟨st', by rw [rmsWbBody_castFree]; exact hstep, hQ'⟩
+
+private theorem rmsnorm_traceSafeR (R : RoundingModel) (bounds : RegionBounds)
+    (x w o : RegionName) (sxb sxm sxk srw sob som sok N B : Nat) (eps : ℝ)
+    (hB : 0 < B) (hox : o ≠ x) (how : o ≠ w) (hsok : 0 < sok)
+    (s : BlockState)
+    (hbx : ∀ (t : Fin (rmsNumSteps N B)) (j : Fin B), t.val * B + j.val < N →
+      s.pids 0 * sxb + s.pids 1 * sxm + (t.val * B + j.val) * sxk < bounds x)
+    (hbw : ∀ (t : Fin (rmsNumSteps N B)) (j : Fin B), t.val * B + j.val < N →
+      (t.val * B + j.val) * srw < bounds w)
+    (hbo : ∀ (t : Fin (rmsNumSteps N B)) (j : Fin B), t.val * B + j.val < N →
+      s.pids 0 * sob + s.pids 1 * som + (t.val * B + j.val) * sok < bounds o) :
+    ((rmsnorm_triton x w o sxb sxm sxk srw sob som sok N B eps).toAlgKernel).TraceSafeR R bounds s :=
+  rmsnorm_traceSafeR_of_injective R bounds x w o sxb sxm sxk srw sob som sok N B eps
+    hB hox how s (outOff_injective_of_pos s sob som sok N hsok) hbx hbw hbo
 
 /-! ### The rounded Hoare triple (`hrun`) -/
 

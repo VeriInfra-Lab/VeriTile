@@ -27,6 +27,8 @@ Documentation Map):
 | How does dtype erasure work? | [EraseDType.md](./EraseDType.md) |
 | How does memory safety / framing work? | [MemorySafety.md](./MemorySafety.md) |
 | What's the GPU memory model? | [GpuMemoryModel.md](./GpuMemoryModel.md) |
+| What justifies physical load/store alignment, masks and Torch bindings? | [Physical byte-address contracts](./GpuMemoryModel.md#physical-byte-address-contracts) |
+| How are Tensor owning devices connected to CUDA launches? | [LaunchDeviceAudit.md](./LaunchDeviceAudit.md) |
 | How are atomics / async copies modeled? | [ConcurrencySemantics.md](./ConcurrencySemantics.md) |
 | ApproxGeLU midrange certified-error strategy | [ApproxGeluPhiStrategy.md](./ApproxGeluPhiStrategy.md) |
 

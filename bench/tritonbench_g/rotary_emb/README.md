@@ -108,3 +108,5 @@ machine integer overflow, native `arange` shape restrictions, and valid launches
 are separate backend boundaries. The host head grid is based on `HEAD_Q`; a
 per-program theorem alone does not certify coverage of extra K heads beyond that
 grid.
+
+The separate [checked direct FP32 repair](../../repairs/tritonbench_g/rotary_emb/README.md) preserves the original in-place API and documents its executable input contract and complete proofs.

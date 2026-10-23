@@ -1,0 +1,1771 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "scope": "Finite FP rule catalogue and consumer delta; not a new 183-task rescan.",
+  "recorded_utc": "2026-10-21T06:49:03.923802+00:00",
+  "policy": {
+    "path": "AGENTS.md",
+    "sha256": "8da7bbd5eaae7799518d6ed2d04775dcaaca43919d90a6db139310081fd6681b"
+  },
+  "historical_baseline": {
+    "audit": {
+      "path": "bench/review-checkpoints/2026-10-21/fp-rule-rescan/audit.json",
+      "sha256": "aa931f05bdbc8e1c0a76bf4e24deff017935caa3a37f88dd72a50f8422fbe8ca"
+    },
+    "validation": {
+      "path": "bench/review-checkpoints/2026-10-21/fp-rule-rescan/validation.json",
+      "sha256": "266fc760a0199166e67781d34691c3e3fcbb7c1fc46052d2891740a3286f16fe"
+    },
+    "readme_before_link_sha256": "4332d386290737d566d542659cb1ba144c15adaff703e3f12b0c421f44555753",
+    "counts": {
+      "tasks": 183,
+      "rule_status": {
+        "exact_or_structural": 173,
+        "admitted_numerics": 10
+      },
+      "rule_issue_tasks": 0,
+      "uncertain_tasks": 0,
+      "real_specification_pending": 0,
+      "active_admitted_rule_tasks": 10,
+      "new_experiment_tasks": 0,
+      "interface_pending": 0,
+      "no_interface_action": 183,
+      "withdrawn_mandatory_interface_todos": 43,
+      "shared_scalar_laws_extracted": 5
+    }
+  },
+  "task_ledger_baseline": {
+    "path": "bench/tritonbench_g/task_progress.json",
+    "sha256_before_rule_migration": "0771b0731a3b7576fe21495f9f7b9dc569bcef367ba50eb91e5b758bc69926d9",
+    "task_count": 183,
+    "kernel_acceptance_counts": {
+      "verified": 181,
+      "verified_with_deferred_numerics": 2
+    },
+    "non_fp_rule_review_canonical_sha256": "d2978384c1bc6c607b96df46b57428559bdc9216d28a89333e74cbd0d41bae1b",
+    "active_admitted_tasks": [
+      "add_example",
+      "add_value",
+      "apply_penalty",
+      "chunk_cumsum_kernel",
+      "chunk_cumsum_vector",
+      "fused_activation",
+      "softmax_triton1",
+      "triton_mul2",
+      "vector_addition",
+      "vector_addition_custom"
+    ],
+    "acceptance_fields_canonical_sha256": "3b0965ae16b432926db9d4a324463d28da1f7d9a2e1a92272b59fa965795e065"
+  },
+  "method": {
+    "rescan_183_tasks": false,
+    "new_numerical_experiments": 0,
+    "new_gpu_experiments": 0,
+    "historical_experiments_modified": false,
+    "historical_audit_json_modified": false,
+    "classification_candidates_are_completed_proofs": false,
+    "full_corpus_source_proof_replay": false,
+    "syntactic_api_compatibility_scan_is_a_semantic_task_rescan": false
+  },
+  "final_counts": {
+    "rule_catalogue": {
+      "empirical_historical_rows": 37,
+      "empirical_instances": 36,
+      "historical_instances": 78,
+      "historical_rows": 81,
+      "strict_historical_rows": 44,
+      "strict_instances": 42
+    },
+    "task_rule_evidence": {
+      "exact_or_structural": 181,
+      "admitted_numerics": 2
+    },
+    "selected_task_migrations": 8,
+    "other_task_classifications_inherited": 175,
+    "kernel_acceptance_unchanged": {
+      "verified": 181,
+      "verified_with_deferred_numerics": 2
+    },
+    "new_numerical_experiments": 0
+  },
+  "pending": [],
+  "model_scope": [
+    {
+      "family": "scalar arithmetic and casts",
+      "model": "FP.Config.ieeeValue (nearest-even, no input/result flushing)",
+      "scope": "Typed BF16/FP32 values; both zero signs and subnormals retained. ADD/MUL commutation have more general local model theorems, but current original-probe certificates use their exact load/rnd/store profile. MUL-ONE/DIV-ONE are finite-input identities; ordinary Triton / has an explicit division-model binding."
+    },
+    {
+      "family": "source precision identities",
+      "model": "PrecisionIdentityLaws.sourceCopies plus concrete preserving BF16/FP32 casts where needed",
+      "scope": "FP32 same-type copies are identities; BF16-input CAST-MOVE and repeated round/return compose the exact conversion theorem. Ordered arithmetic remains opaque. ACC-WIDEN only the FP32-input instance is strict; both BF16-input instances remain empirical."
+    },
+    {
+      "family": "maximum",
+      "model": "Selected maxnum profile, +0 selected over -0, no flush",
+      "scope": "Finite domain includes signed zero and subnormals. Actual original maximum probes always use FP32 nodes and only the final output store changes format; no artificial intermediate BF16 round is added."
+    },
+    {
+      "family": "count conversion",
+      "model": "Actual FP32 rounder and signed int32 conversion",
+      "scope": "COUNT-ZERO is constant. COUNT-SUCCESSOR retains 0 <= i < 2^24 and no int32 overflow, including exact representation of terminal 2^24."
+    },
+    {
+      "family": "exponential special values",
+      "model": "Separate documented PTX ex2.approx.f32 and libdevice __nv_expf profiles",
+      "scope": "tl.exp retains FP32 multiplication by its log2(e) constant before ex2. Finite nonzero approximation behavior remains parameterized. The documented special-value dispatch is implemented in the model, not passed in as the target equality. Original typed input widening, every marked rnd, and final store are preserved."
+    }
+  ],
+  "limitations": [
+    "Selected-model theorems do not imply arbitrary opaque primitives satisfy the identities or all GPU implementations conform to the model.",
+    "An empty experimental rule set (≡[[]]) can still use the program view's fixed strict software theory. It does not assert equality for every arbitrary opaque algebra, syntax identity, or existence of arbitrary empirical Models.",
+    "No source precision, signed-zero, subnormal, primitive identity, FMA distinction, computation order, or existing guard is silently removed.",
+    "The 33 genuinely relaxed instances and three ADD-ZERO instances retain numerical evidence; adding +0 fails bit identity at -0.",
+    "Experiment passing records remain historical data. No experiment is rerun merely to establish the same already proved model property.",
+    "Whole-kernel connections are checked only for the affected consumer delta; this audit does not rerun or newly certify all 183 tasks."
+  ],
+  "scope_checks": [
+    {
+      "check": "selected cumsum entry identity",
+      "result": "passed_selected_repair_memory_equiv_entries",
+      "required_entries": [
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean:memory_equiv",
+        "bench/repairs/tritonbench_g/chunk_cumsum_vector/FPEquiv.lean:memory_equiv"
+      ],
+      "initial_auxiliary_receipt": ".veritile-cache/strict-fp-laws-20261021/chunk-cumsum-strict-result.json",
+      "disposition": "Both exact ledger-selected repair memory_equiv headlines and their dependency closures passed. Original-tree helper receipts are retained only as auxiliary history and were not used to promote task evidence.",
+      "final_evidence": {
+        "path": ".veritile-cache/strict-fp-laws-20261021/chunk-cumsum-repair-strict-result.json",
+        "sha256": "c08a7f3685b40e4cc865ddbadd456e4dd839ea364cd66d87a7fe931b0d03976f"
+      }
+    }
+  ],
+  "selected_consumer_delta": [
+    {
+      "task": "add_example",
+      "status": "validated_strict_migration",
+      "previous_rule_status": "admitted_numerics",
+      "previous_active_admitted_rules": [
+        "FP32 ADD-COMMUTE"
+      ],
+      "selected_public_entries": [
+        "bench/repairs/tritonbench_g/add_example/Contract.lean",
+        "bench/repairs/tritonbench_g/add_example/Correct.lean",
+        "bench/repairs/tritonbench_g/add_example/FPEquiv.lean"
+      ],
+      "selected_public_certificates": [
+        "VeriTile.Bench.Repairs.AddExample.Contiguous.Correct.add_kernel_correctness",
+        "VeriTile.Bench.Repairs.AddExample.Contiguous.FPEquiv.add_commuted_equiv"
+      ],
+      "new_strict_law": "ADD-COMMUTE",
+      "scope": "Keep the existing selected repair source, active-lane domain, source precision, output/frame observations, and independent Real correctness statement.",
+      "consumer_evidence": {
+        "path": ".veritile-cache/strict-fp-laws-20261021/consumer09-result.json",
+        "sha256": "7484cbd3eefcf44567f5df5a34059ba568dc0f60b2720f1978aaae0f67264957"
+      },
+      "current_rule_status": "exact_or_structural",
+      "current_active_admitted_rules": [],
+      "selected_fp_receipts": [
+        {
+          "source": {
+            "path": "bench/repairs/tritonbench_g/add_example/FPEquiv.lean",
+            "sha256": "4ba34d93e17aaa9aafcb7786ce845543ff55e32535e4db21e581d5d4ee7e2078"
+          },
+          "receipt": {
+            "path": ".veritile-cache/strict-fp-laws-20261021/build/lib/lean/bench/repairs/tritonbench_g/add_example/FPEquiv.workspace-build.json",
+            "sha256": "78c34dccf6d9db97463f199500edb69dd840abe32a59e923269b3a978d52168d"
+          },
+          "model_boundary": "Fixed strict FP32 software theory; native fused add uses its explicit AddBinding ops cfg."
+        }
+      ]
+    },
+    {
+      "task": "add_value",
+      "status": "validated_strict_migration",
+      "previous_rule_status": "admitted_numerics",
+      "previous_active_admitted_rules": [
+        "FP32 ADD-COMMUTE"
+      ],
+      "selected_public_entries": [
+        "bench/repairs/tritonbench_g/add_value/Contract.lean",
+        "bench/repairs/tritonbench_g/add_value/Correct.lean",
+        "bench/repairs/tritonbench_g/add_value/FPEquiv.lean"
+      ],
+      "selected_public_certificates": [
+        "VeriTile.Bench.Repairs.AddValue.Contiguous.Correct.puzzle1_kernel_correctness",
+        "VeriTile.Bench.Repairs.AddValue.Contiguous.FPEquiv.add_value_commuted_equiv"
+      ],
+      "new_strict_law": "ADD-COMMUTE",
+      "scope": "Keep the existing selected repair source, active-lane domain, source precision, output/frame observations, and independent Real correctness statement.",
+      "consumer_evidence": {
+        "path": ".veritile-cache/strict-fp-laws-20261021/consumer09-result.json",
+        "sha256": "7484cbd3eefcf44567f5df5a34059ba568dc0f60b2720f1978aaae0f67264957"
+      },
+      "current_rule_status": "exact_or_structural",
+      "current_active_admitted_rules": [],
+      "selected_fp_receipts": [
+        {
+          "source": {
+            "path": "bench/repairs/tritonbench_g/add_value/FPEquiv.lean",
+            "sha256": "55a5a5abb667c9321a968fc14c78aa88753e1eb8dd945ec10c0ef287191885d0"
+          },
+          "receipt": {
+            "path": ".veritile-cache/strict-fp-laws-20261021/build/lib/lean/bench/repairs/tritonbench_g/add_value/FPEquiv.workspace-build.json",
+            "sha256": "4a1f56e0b06ac6f9e06b9f5c208a5b1348d8cd10edbbac6b6f0bae6d2c504508"
+          },
+          "model_boundary": "Fixed strict FP32 software theory; native fused add uses its explicit AddBinding ops cfg."
+        }
+      ]
+    },
+    {
+      "task": "chunk_cumsum_kernel",
+      "status": "validated_strict_migration",
+      "previous_rule_status": "admitted_numerics",
+      "previous_active_admitted_rules": [
+        "ADD-COMMUTE"
+      ],
+      "selected_public_entries": [
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Contract.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/Correct.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean"
+      ],
+      "selected_public_certificates": [
+        "VeriTile.Bench.Repairs.ChunkCumsumKernel.Correct.memory_correct",
+        "VeriTile.Bench.Repairs.ChunkCumsumKernel.FPEquiv.memory_equiv"
+      ],
+      "new_strict_law": "ADD-COMMUTE",
+      "scope": "Keep the existing selected repair source, active-lane domain, source precision, output/frame observations, and independent Real correctness statement.",
+      "current_rule_status": "exact_or_structural",
+      "current_active_admitted_rules": [],
+      "consumer_evidence": {
+        "path": ".veritile-cache/strict-fp-laws-20261021/chunk-cumsum-repair-strict-result.json",
+        "sha256": "c08a7f3685b40e4cc865ddbadd456e4dd839ea364cd66d87a7fe931b0d03976f"
+      },
+      "selected_fp_receipts": [
+        {
+          "source": {
+            "path": "bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.lean",
+            "sha256": "42fb0915e2bc181ceaa5e34213a62705f1c0b9b04536d6fb632715afd440abe6"
+          },
+          "receipt": {
+            "path": ".veritile-cache/strict-fp-laws-20261021/build/lib/lean/bench/repairs/tritonbench_g/chunk_cumsum_kernel/FPEquiv.workspace-build.json",
+            "sha256": "a1a14a4b3006e08b39e18006fdc810b7a38a22776c8d55c9564b9debc1527ce3"
+          },
+          "model_boundary": "Fixed strict FP32 software theory; native fused add uses its explicit AddBinding ops cfg."
+        }
+      ]
+    },
+    {
+      "task": "chunk_cumsum_vector",
+      "status": "validated_strict_migration",
+      "previous_rule_status": "admitted_numerics",
+      "previous_active_admitted_rules": [
+        "ADD-COMMUTE"
+      ],
+      "selected_public_entries": [
+        "bench/repairs/tritonbench_g/chunk_cumsum_vector/Contract.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_vector/Correct.lean",
+        "bench/repairs/tritonbench_g/chunk_cumsum_vector/FPEquiv.lean"
+      ],
+      "selected_public_certificates": [
+        "VeriTile.Bench.Repairs.ChunkCumsumVector.Correct.memory_correct",
+        "VeriTile.Bench.Repairs.ChunkCumsumVector.FPEquiv.memory_equiv"
+      ],
+      "new_strict_law": "ADD-COMMUTE",
+      "scope": "Keep the existing selected repair source, active-lane domain, source precision, output/frame observations, and independent Real correctness statement.",
+      "current_rule_status": "exact_or_structural",
+      "current_active_admitted_rules": [],
+      "consumer_evidence": {
+        "path": ".veritile-cache/strict-fp-laws-20261021/chunk-cumsum-repair-strict-result.json",
+        "sha256": "c08a7f3685b40e4cc865ddbadd456e4dd839ea364cd66d87a7fe931b0d03976f"
+      },
+      "selected_fp_receipts": [
+        {
+          "source": {
+            "path": "bench/repairs/tritonbench_g/chunk_cumsum_vector/FPEquiv.lean",
+            "sha256": "6d7f6dbce9140aadb0c911d86f0918babda87a4c43b63c2898511626794c1ffc"
+          },
+          "receipt": {
+            "path": ".veritile-cache/strict-fp-laws-20261021/build/lib/lean/bench/repairs/tritonbench_g/chunk_cumsum_vector/FPEquiv.workspace-build.json",
+            "sha256": "757de9265ad2553f6bf5e7d6dbc9fa68d376fb50b3f27a1c6a1e1d136cd95004"
+          },
+          "model_boundary": "Fixed strict FP32 software theory; native fused add uses its explicit AddBinding ops cfg."
+        }
+      ]
+    },
+    {
+      "task": "fused_activation",
+      "status": "validated_strict_migration",
+      "previous_rule_status": "admitted_numerics",
+      "previous_active_admitted_rules": [
+        "FP32 ADD-COMMUTE"
+      ],
+      "selected_public_entries": [
+        "bench/repairs/tritonbench_g/fused_activation/Contract.lean",
+        "bench/repairs/tritonbench_g/fused_activation/Correct.lean",
+        "bench/repairs/tritonbench_g/fused_activation/FPEquiv.lean"
+      ],
+      "selected_public_certificates": [
+        "VeriTile.Bench.Repairs.FusedActivation.Correct.fused_activation_kernel_correctness",
+        "VeriTile.Bench.Repairs.FusedActivation.FPEquiv.fused_activation_commuted_equiv",
+        "VeriTile.Bench.Repairs.FusedActivation.FPEquiv.fused_activation_native_equiv"
+      ],
+      "new_strict_law": "ADD-COMMUTE",
+      "scope": "Keep the existing selected repair source, active-lane domain, source precision, output/frame observations, and independent Real correctness statement.",
+      "consumer_evidence": {
+        "path": ".veritile-cache/strict-fp-laws-20261021/consumer09-result.json",
+        "sha256": "7484cbd3eefcf44567f5df5a34059ba568dc0f60b2720f1978aaae0f67264957"
+      },
+      "current_rule_status": "exact_or_structural",
+      "current_active_admitted_rules": [],
+      "selected_fp_receipts": [
+        {
+          "source": {
+            "path": "bench/repairs/tritonbench_g/fused_activation/FPEquiv.lean",
+            "sha256": "6053973e531a7a377566b8c23c205fe48023b887119753860ee89c02dbc78ba4"
+          },
+          "receipt": {
+            "path": ".veritile-cache/strict-fp-laws-20261021/build/lib/lean/bench/repairs/tritonbench_g/fused_activation/FPEquiv.workspace-build.json",
+            "sha256": "a36b2f7e719e58b4dda616da01a0d4cd2fa4cd01fb5f41fa7c0fc3477c33ccfd"
+          },
+          "model_boundary": "Fixed strict FP32 software theory; native fused add uses its explicit AddBinding ops cfg."
+        }
+      ]
+    },
+    {
+      "task": "triton_mul2",
+      "status": "validated_strict_migration",
+      "previous_rule_status": "admitted_numerics",
+      "previous_active_admitted_rules": [
+        "FP32 MUL-COMMUTE"
+      ],
+      "selected_public_entries": [
+        "bench/repairs/tritonbench_g/triton_mul2/Contract.lean",
+        "bench/repairs/tritonbench_g/triton_mul2/Correct.lean",
+        "bench/repairs/tritonbench_g/triton_mul2/FPEquiv.lean"
+      ],
+      "selected_public_certificates": [
+        "VeriTile.Bench.Repairs.TritonMul2.Correct.mul2_kernel_correctness",
+        "VeriTile.Bench.Repairs.TritonMul2.Correct.mul2_inplace_kernel_correctness",
+        "VeriTile.Bench.Repairs.TritonMul2.Correct.mul2_commuted_correctness",
+        "VeriTile.Bench.Repairs.TritonMul2.Correct.mul2_inplace_commuted_correctness",
+        "VeriTile.Bench.Repairs.TritonMul2.FPEquiv.mul2_commuted_equiv",
+        "VeriTile.Bench.Repairs.TritonMul2.FPEquiv.mul2_inplace_commuted_equiv"
+      ],
+      "new_strict_law": "MUL-COMMUTE",
+      "scope": "Keep the existing selected repair source, active-lane domain, source precision, output/frame observations, and independent Real correctness statement.",
+      "consumer_evidence": {
+        "path": ".veritile-cache/strict-fp-laws-20261021/consumer09-result.json",
+        "sha256": "7484cbd3eefcf44567f5df5a34059ba568dc0f60b2720f1978aaae0f67264957"
+      },
+      "current_rule_status": "exact_or_structural",
+      "current_active_admitted_rules": [],
+      "selected_fp_receipts": [
+        {
+          "source": {
+            "path": "bench/repairs/tritonbench_g/triton_mul2/FPEquiv.lean",
+            "sha256": "e5a46216f0c28157d35174c5b25e01652aab108fc25edcd7dcd2ca3e935f9cea"
+          },
+          "receipt": {
+            "path": ".veritile-cache/strict-fp-laws-20261021/build/lib/lean/bench/repairs/tritonbench_g/triton_mul2/FPEquiv.workspace-build.json",
+            "sha256": "18d79bf625753cb00d0ca14b1a87872643477394743cc17c605edf5bec1a7034"
+          },
+          "model_boundary": "Fixed strict FP32 software theory; native fused add uses its explicit AddBinding ops cfg."
+        }
+      ]
+    },
+    {
+      "task": "vector_addition",
+      "status": "validated_strict_migration",
+      "previous_rule_status": "admitted_numerics",
+      "previous_active_admitted_rules": [
+        "FP32 ADD-COMMUTE"
+      ],
+      "selected_public_entries": [
+        "bench/repairs/tritonbench_g/vector_addition/Contract.lean",
+        "bench/repairs/tritonbench_g/vector_addition/Correct.lean",
+        "bench/repairs/tritonbench_g/vector_addition/FPEquiv.lean"
+      ],
+      "selected_public_certificates": [
+        "VeriTile.Bench.Repairs.VectorAddition.Contiguous.Correct.add_kernel_correctness",
+        "VeriTile.Bench.Repairs.VectorAddition.Contiguous.FPEquiv.add_commuted_equiv"
+      ],
+      "new_strict_law": "ADD-COMMUTE",
+      "scope": "Keep the existing selected repair source, active-lane domain, source precision, output/frame observations, and independent Real correctness statement.",
+      "consumer_evidence": {
+        "path": ".veritile-cache/strict-fp-laws-20261021/consumer09-result.json",
+        "sha256": "7484cbd3eefcf44567f5df5a34059ba568dc0f60b2720f1978aaae0f67264957"
+      },
+      "current_rule_status": "exact_or_structural",
+      "current_active_admitted_rules": [],
+      "selected_fp_receipts": [
+        {
+          "source": {
+            "path": "bench/repairs/tritonbench_g/vector_addition/FPEquiv.lean",
+            "sha256": "8590009672bd5b27eb207d74c952b09beac31a0d21d8d322dc7f987d43ac93f2"
+          },
+          "receipt": {
+            "path": ".veritile-cache/strict-fp-laws-20261021/build/lib/lean/bench/repairs/tritonbench_g/vector_addition/FPEquiv.workspace-build.json",
+            "sha256": "b67d7854e5d8f674799675984297545a134cd8f772b51c7e5e0ba0f69f45994e"
+          },
+          "model_boundary": "Fixed strict FP32 software theory; native fused add uses its explicit AddBinding ops cfg."
+        }
+      ]
+    },
+    {
+      "task": "vector_addition_custom",
+      "status": "validated_strict_migration",
+      "previous_rule_status": "admitted_numerics",
+      "previous_active_admitted_rules": [
+        "FP32 ADD-COMMUTE"
+      ],
+      "selected_public_entries": [
+        "bench/repairs/tritonbench_g/vector_addition_custom/Contract.lean",
+        "bench/repairs/tritonbench_g/vector_addition_custom/Correct.lean",
+        "bench/repairs/tritonbench_g/vector_addition_custom/FPEquiv.lean"
+      ],
+      "selected_public_certificates": [
+        "VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous.Correct.add_kernel_correctness",
+        "VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous.FPEquiv.add_commuted_equiv"
+      ],
+      "new_strict_law": "ADD-COMMUTE",
+      "scope": "Keep the existing selected repair source, active-lane domain, source precision, output/frame observations, and independent Real correctness statement.",
+      "consumer_evidence": {
+        "path": ".veritile-cache/strict-fp-laws-20261021/consumer09-result.json",
+        "sha256": "7484cbd3eefcf44567f5df5a34059ba568dc0f60b2720f1978aaae0f67264957"
+      },
+      "current_rule_status": "exact_or_structural",
+      "current_active_admitted_rules": [],
+      "selected_fp_receipts": [
+        {
+          "source": {
+            "path": "bench/repairs/tritonbench_g/vector_addition_custom/FPEquiv.lean",
+            "sha256": "401576ce498a4a1424e7fe9ae484d84386ec924a30ef2de3b702ad7cd522569c"
+          },
+          "receipt": {
+            "path": ".veritile-cache/strict-fp-laws-20261021/build/lib/lean/bench/repairs/tritonbench_g/vector_addition_custom/FPEquiv.workspace-build.json",
+            "sha256": "b371cfd227077a786ede6f541f660d03c23642391b66fa440cec73f3a65dbadb"
+          },
+          "model_boundary": "Fixed strict FP32 software theory; native fused add uses its explicit AddBinding ops cfg."
+        }
+      ]
+    }
+  ],
+  "retained_actual_empirical_consumers": [
+    {
+      "task": "apply_penalty",
+      "rules": [
+        "FP32 DIV-MUL-RCP"
+      ],
+      "scope": "Existing FP32 DIV-MUL-RCP domain/evidence retained; optional native/deferred records are not silently discharged."
+    },
+    {
+      "task": "softmax_triton1",
+      "rules": [
+        "FP32 DIV-MUL-RCP"
+      ],
+      "scope": "Existing FP32 DIV-MUL-RCP domain/evidence retained; optional native/deferred records are not silently discharged."
+    }
+  ],
+  "reproduction": {
+    "current_export": {
+      "command": "python scripts/export_current_fp_rules.py --output /tmp/current-fp-rules.json",
+      "behavior": "Build CurrentAdmission and evaluate the typed Lean evidence view; validate exact precision/domain/provenance matches; write only the new current-view output."
+    },
+    "workspace_receipt_arguments": [
+      "--receipt",
+      ".veritile-cache/strict-fp-laws-20261021/build/lib/lean/VeriTile/Triton/Float/CurrentAdmission.workspace-build.json",
+      "--lean",
+      "/tmp/veritile-lean-toolchain/bin/lean"
+    ],
+    "inventory_current": {
+      "command": "python scripts/fp_rule_inventory.py --current",
+      "behavior": "Receipt/Lean arguments and --catalogue are supported. Without --current it conservatively inventories historical 81 rows/78 instances and never removes a row from candidate names alone."
+    },
+    "baseline_boundary": "The final current-registry export verifies all 104 local project source/object/import receipts. Its 34 external Lean/Mathlib compiled dependencies are explicit baseline boundaries, not freshly source-replayed modules. Consumer closure boundaries are recorded separately by final validation."
+  },
+  "catalogue_counts": {
+    "empirical_historical_rows": 37,
+    "empirical_instances": 36,
+    "historical_instances": 78,
+    "historical_rows": 81,
+    "strict_historical_rows": 44,
+    "strict_instances": 42
+  },
+  "current_inventory": {
+    "path": ".veritile-cache/strict-fp-laws-20261021/current-registry.json",
+    "sha256": "34b70dcdefe782a7f53d64f064e48a36c8e2fcc9a31233be373f53ade9df6aa8",
+    "validation": {
+      "path": ".veritile-cache/strict-fp-laws-20261021/current-registry-validation.txt",
+      "sha256": "498f263011b978c532d62d00f2593c1dbf9f278d3ecb0f736085aff482ec305d"
+    },
+    "counts": {
+      "empirical_historical_rows": 37,
+      "empirical_instances": 36,
+      "historical_instances": 78,
+      "historical_rows": 81,
+      "strict_historical_rows": 44,
+      "strict_instances": 42
+    },
+    "checked_project_source_receipts": 104,
+    "unreceipted_project_modules": 0,
+    "external_compiled_baseline_dependencies": 34,
+    "guard_provenance": "Legacy raw rows use current source/policy domains; this is not historical sampler evidence."
+  },
+  "strict_family_counts": {
+    "scalar": 12,
+    "maximum": 12,
+    "precision": 8,
+    "count_conversion": 2,
+    "exponential_special_values": 8
+  },
+  "strict_rule_instance_counts": {
+    "ACC-WIDEN": 1,
+    "ADD-COMMUTE": 3,
+    "BF16-WIDEN-RETURN": 2,
+    "CAST-MOVE": 2,
+    "COUNT-SUCCESSOR": 1,
+    "COUNT-ZERO": 1,
+    "DIV-ONE": 3,
+    "EXP-NEG-INF-SUB": 3,
+    "EXP-NEG-INF-SUB-LIBDEVICE": 1,
+    "EXP-ZERO": 3,
+    "EXP-ZERO-LIBDEVICE": 1,
+    "MAX-ASSOC": 3,
+    "MAX-COMMUTE": 3,
+    "MAX-IDEM": 3,
+    "MAX-NEG-INF": 3,
+    "MUL-COMMUTE": 3,
+    "MUL-ONE": 3,
+    "ROUND-IDEM": 3
+  },
+  "strict_instance_evidence": [
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ScalarProbeExact.all_certificates",
+      "model_id": "VeriTile.ScalarProbeExact/ieeeValue/typed-load-rnd-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "ADD-COMMUTE",
+        "syntax_domain": null
+      },
+      "instance_id": "ADD-COMMUTE::fp32/fp32/fp32/fp32::a:finite,b:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ScalarProbeExact.all_certificates",
+      "model_id": "VeriTile.ScalarProbeExact/ieeeValue/typed-load-rnd-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "MUL-COMMUTE",
+        "syntax_domain": null
+      },
+      "instance_id": "MUL-COMMUTE::fp32/fp32/fp32/fp32::a:finite,b:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ScalarProbeExact.all_certificates",
+      "model_id": "VeriTile.ScalarProbeExact/ieeeValue/typed-load-rnd-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "MUL-ONE",
+        "syntax_domain": null
+      },
+      "instance_id": "MUL-ONE::fp32/fp32/fp32/fp32::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ScalarProbeExact.all_certificates",
+      "model_id": "VeriTile.ScalarProbeExact/ieeeValue/typed-load-rnd-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "DIV-ONE",
+        "syntax_domain": null
+      },
+      "instance_id": "DIV-ONE::fp32/fp32/fp32/fp32::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.MaximumProbeExact.all_certificates",
+      "model_id": "VeriTile.MaximumProbeExact/ieeeValue/maxnum/fp32-nodes-typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "MAX-COMMUTE",
+        "syntax_domain": null
+      },
+      "instance_id": "MAX-COMMUTE::fp32/fp32/fp32/fp32::a:finite,b:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.MaximumProbeExact.all_certificates",
+      "model_id": "VeriTile.MaximumProbeExact/ieeeValue/maxnum/fp32-nodes-typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          },
+          {
+            "operand": "c",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "MAX-ASSOC",
+        "syntax_domain": null
+      },
+      "instance_id": "MAX-ASSOC::fp32/fp32/fp32/fp32::a:finite,b:finite,c:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.MaximumProbeExact.all_certificates",
+      "model_id": "VeriTile.MaximumProbeExact/ieeeValue/maxnum/fp32-nodes-typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "MAX-IDEM",
+        "syntax_domain": null
+      },
+      "instance_id": "MAX-IDEM::fp32/fp32/fp32/fp32::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.MaximumProbeExact.all_certificates",
+      "model_id": "VeriTile.MaximumProbeExact/ieeeValue/maxnum/fp32-nodes-typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "MAX-NEG-INF",
+        "syntax_domain": null
+      },
+      "instance_id": "MAX-NEG-INF::fp32/fp32/fp32/fp32::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ScalarProbeExact.all_certificates",
+      "model_id": "VeriTile.ScalarProbeExact/ieeeValue/typed-load-rnd-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "bf16",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "ADD-COMMUTE",
+        "syntax_domain": null
+      },
+      "instance_id": "ADD-COMMUTE::bf16/bf16/fp32/bf16::a:finite,b:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ScalarProbeExact.all_certificates",
+      "model_id": "VeriTile.ScalarProbeExact/ieeeValue/typed-load-rnd-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "bf16",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "MUL-COMMUTE",
+        "syntax_domain": null
+      },
+      "instance_id": "MUL-COMMUTE::bf16/bf16/fp32/bf16::a:finite,b:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ScalarProbeExact.all_certificates",
+      "model_id": "VeriTile.ScalarProbeExact/ieeeValue/typed-load-rnd-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "bf16",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "MUL-ONE",
+        "syntax_domain": null
+      },
+      "instance_id": "MUL-ONE::bf16/bf16/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ScalarProbeExact.all_certificates",
+      "model_id": "VeriTile.ScalarProbeExact/ieeeValue/typed-load-rnd-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "bf16",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "DIV-ONE",
+        "syntax_domain": null
+      },
+      "instance_id": "DIV-ONE::bf16/bf16/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.MaximumProbeExact.all_certificates",
+      "model_id": "VeriTile.MaximumProbeExact/ieeeValue/maxnum/fp32-nodes-typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "bf16",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "MAX-COMMUTE",
+        "syntax_domain": null
+      },
+      "instance_id": "MAX-COMMUTE::bf16/bf16/fp32/bf16::a:finite,b:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.MaximumProbeExact.all_certificates",
+      "model_id": "VeriTile.MaximumProbeExact/ieeeValue/maxnum/fp32-nodes-typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          },
+          {
+            "operand": "c",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "bf16",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "MAX-ASSOC",
+        "syntax_domain": null
+      },
+      "instance_id": "MAX-ASSOC::bf16/bf16/fp32/bf16::a:finite,b:finite,c:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.MaximumProbeExact.all_certificates",
+      "model_id": "VeriTile.MaximumProbeExact/ieeeValue/maxnum/fp32-nodes-typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "bf16",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "MAX-IDEM",
+        "syntax_domain": null
+      },
+      "instance_id": "MAX-IDEM::bf16/bf16/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.MaximumProbeExact.all_certificates",
+      "model_id": "VeriTile.MaximumProbeExact/ieeeValue/maxnum/fp32-nodes-typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "bf16",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "MAX-NEG-INF",
+        "syntax_domain": null
+      },
+      "instance_id": "MAX-NEG-INF::bf16/bf16/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ScalarProbeExact.all_certificates",
+      "model_id": "VeriTile.ScalarProbeExact/ieeeValue/typed-load-rnd-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "ADD-COMMUTE",
+        "syntax_domain": null
+      },
+      "instance_id": "ADD-COMMUTE::bf16/fp32/fp32/bf16::a:finite,b:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ScalarProbeExact.all_certificates",
+      "model_id": "VeriTile.ScalarProbeExact/ieeeValue/typed-load-rnd-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "MUL-COMMUTE",
+        "syntax_domain": null
+      },
+      "instance_id": "MUL-COMMUTE::bf16/fp32/fp32/bf16::a:finite,b:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ScalarProbeExact.all_certificates",
+      "model_id": "VeriTile.ScalarProbeExact/ieeeValue/typed-load-rnd-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "MUL-ONE",
+        "syntax_domain": null
+      },
+      "instance_id": "MUL-ONE::bf16/fp32/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ScalarProbeExact.all_certificates",
+      "model_id": "VeriTile.ScalarProbeExact/ieeeValue/typed-load-rnd-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "DIV-ONE",
+        "syntax_domain": null
+      },
+      "instance_id": "DIV-ONE::bf16/fp32/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.MaximumProbeExact.all_certificates",
+      "model_id": "VeriTile.MaximumProbeExact/ieeeValue/maxnum/fp32-nodes-typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "MAX-COMMUTE",
+        "syntax_domain": null
+      },
+      "instance_id": "MAX-COMMUTE::bf16/fp32/fp32/bf16::a:finite,b:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.MaximumProbeExact.all_certificates",
+      "model_id": "VeriTile.MaximumProbeExact/ieeeValue/maxnum/fp32-nodes-typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          },
+          {
+            "operand": "c",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "MAX-ASSOC",
+        "syntax_domain": null
+      },
+      "instance_id": "MAX-ASSOC::bf16/fp32/fp32/bf16::a:finite,b:finite,c:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.MaximumProbeExact.all_certificates",
+      "model_id": "VeriTile.MaximumProbeExact/ieeeValue/maxnum/fp32-nodes-typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "MAX-IDEM",
+        "syntax_domain": null
+      },
+      "instance_id": "MAX-IDEM::bf16/fp32/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.MaximumProbeExact.all_certificates",
+      "model_id": "VeriTile.MaximumProbeExact/ieeeValue/maxnum/fp32-nodes-typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "MAX-NEG-INF",
+        "syntax_domain": null
+      },
+      "instance_id": "MAX-NEG-INF::bf16/fp32/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.PrecisionProbeExact.all_certificates",
+      "model_id": "VeriTile.PrecisionIdentityLaws/sourceCopies/opaque-ordered-arithmetic/typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "ROUND-IDEM",
+        "syntax_domain": null
+      },
+      "instance_id": "ROUND-IDEM::fp32/fp32/fp32/fp32::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.PrecisionProbeExact.all_certificates",
+      "model_id": "VeriTile.PrecisionIdentityLaws/sourceCopies/opaque-ordered-arithmetic/typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          },
+          {
+            "operand": "c",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "ACC-WIDEN",
+        "syntax_domain": null
+      },
+      "instance_id": "ACC-WIDEN::fp32/fp32/fp32/fp32::a:finite,b:finite,c:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.PrecisionProbeExact.all_certificates",
+      "model_id": "VeriTile.PrecisionIdentityLaws/ieeeValue-bf16-fp32-casts/opaque-ordered-arithmetic/typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "bf16",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "ROUND-IDEM",
+        "syntax_domain": null
+      },
+      "instance_id": "ROUND-IDEM::bf16/bf16/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.PrecisionProbeExact.all_certificates",
+      "model_id": "VeriTile.PrecisionIdentityLaws/ieeeValue-bf16-fp32-casts/opaque-ordered-arithmetic/typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "ROUND-IDEM",
+        "syntax_domain": null
+      },
+      "instance_id": "ROUND-IDEM::bf16/fp32/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.PrecisionProbeExact.all_certificates",
+      "model_id": "VeriTile.PrecisionIdentityLaws/ieeeValue-bf16-fp32-casts/opaque-ordered-arithmetic/typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "bf16",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "BF16-WIDEN-RETURN",
+        "syntax_domain": null
+      },
+      "instance_id": "BF16-WIDEN-RETURN::bf16/bf16/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.PrecisionProbeExact.all_certificates",
+      "model_id": "VeriTile.PrecisionIdentityLaws/ieeeValue-bf16-fp32-casts/opaque-ordered-arithmetic/typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "BF16-WIDEN-RETURN",
+        "syntax_domain": null
+      },
+      "instance_id": "BF16-WIDEN-RETURN::bf16/fp32/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.PrecisionProbeExact.all_certificates",
+      "model_id": "VeriTile.PrecisionIdentityLaws/ieeeValue-bf16-fp32-casts/opaque-ordered-arithmetic/typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "bf16",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "CAST-MOVE",
+        "syntax_domain": null
+      },
+      "instance_id": "CAST-MOVE::bf16/bf16/fp32/bf16::a:finite,b:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.PrecisionProbeExact.all_certificates",
+      "model_id": "VeriTile.PrecisionIdentityLaws/ieeeValue-bf16-fp32-casts/opaque-ordered-arithmetic/typed-store",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          },
+          {
+            "operand": "b",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "CAST-MOVE",
+        "syntax_domain": null
+      },
+      "instance_id": "CAST-MOVE::bf16/fp32/fp32/bf16::a:finite,b:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.CurrentAdmission.StrictSource.certificate",
+      "model_id": "VeriTile.CountConversion/ieeeValue/signed-int32/bounded-2^24",
+      "signature": {
+        "guards": [],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "int32",
+          "output": "fp32"
+        },
+        "rule_id": "COUNT-ZERO",
+        "syntax_domain": "constant int32 zero"
+      },
+      "instance_id": "COUNT-ZERO::int32/fp32/fp32/fp32::none::constant int32 zero"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.CurrentAdmission.StrictSource.certificate",
+      "model_id": "VeriTile.CountConversion/ieeeValue/signed-int32/bounded-2^24",
+      "signature": {
+        "guards": [],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "int32",
+          "output": "fp32"
+        },
+        "rule_id": "COUNT-SUCCESSOR",
+        "syntax_domain": "0 <= i < 16777216; int32 i+1 cannot overflow"
+      },
+      "instance_id": "COUNT-SUCCESSOR::int32/fp32/fp32/fp32::none::0 <= i < 16777216; int32 i+1 cannot overflow"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ExponentialProbeExact.certificate",
+      "model_id": "VeriTile.ExponentialProbeExact/ieeeValue/tl-exp-log2e-ptx-ex2-special-values",
+      "signature": {
+        "guards": [],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "EXP-ZERO",
+        "syntax_domain": null
+      },
+      "instance_id": "EXP-ZERO::fp32/fp32/fp32/fp32::none"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ExponentialProbeExact.certificate",
+      "model_id": "VeriTile.ExponentialProbeExact/ieeeValue/tl-exp-log2e-ptx-ex2-special-values",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "EXP-NEG-INF-SUB",
+        "syntax_domain": null
+      },
+      "instance_id": "EXP-NEG-INF-SUB::fp32/fp32/fp32/fp32::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ExponentialProbeExact.certificate",
+      "model_id": "VeriTile.ExponentialProbeExact/ieeeValue/tl-exp-log2e-ptx-ex2-special-values",
+      "signature": {
+        "guards": [],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "bf16",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "EXP-ZERO",
+        "syntax_domain": null
+      },
+      "instance_id": "EXP-ZERO::bf16/bf16/fp32/bf16::none"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ExponentialProbeExact.certificate",
+      "model_id": "VeriTile.ExponentialProbeExact/ieeeValue/tl-exp-log2e-ptx-ex2-special-values",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "bf16",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "EXP-NEG-INF-SUB",
+        "syntax_domain": null
+      },
+      "instance_id": "EXP-NEG-INF-SUB::bf16/bf16/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ExponentialProbeExact.certificate",
+      "model_id": "VeriTile.ExponentialProbeExact/ieeeValue/tl-exp-log2e-ptx-ex2-special-values",
+      "signature": {
+        "guards": [],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "EXP-ZERO",
+        "syntax_domain": null
+      },
+      "instance_id": "EXP-ZERO::bf16/fp32/fp32/bf16::none"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ExponentialProbeExact.certificate",
+      "model_id": "VeriTile.ExponentialProbeExact/ieeeValue/tl-exp-log2e-ptx-ex2-special-values",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "bf16",
+          "output": "bf16"
+        },
+        "rule_id": "EXP-NEG-INF-SUB",
+        "syntax_domain": null
+      },
+      "instance_id": "EXP-NEG-INF-SUB::bf16/fp32/fp32/bf16::a:finite"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ExponentialProbeExact.certificate",
+      "model_id": "VeriTile.ExponentialProbeExact/ieeeValue/libdevice-expf-special-values",
+      "signature": {
+        "guards": [],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "EXP-ZERO-LIBDEVICE",
+        "syntax_domain": null
+      },
+      "instance_id": "EXP-ZERO-LIBDEVICE::fp32/fp32/fp32/fp32::none"
+    },
+    {
+      "certificate_declaration": "VeriTile.Triton.FP.ExponentialProbeExact.certificate",
+      "model_id": "VeriTile.ExponentialProbeExact/ieeeValue/libdevice-expf-special-values",
+      "signature": {
+        "guards": [
+          {
+            "operand": "a",
+            "predicate": "finite"
+          }
+        ],
+        "precision": {
+          "accumulator": "fp32",
+          "compute": "fp32",
+          "input": "fp32",
+          "output": "fp32"
+        },
+        "rule_id": "EXP-NEG-INF-SUB-LIBDEVICE",
+        "syntax_domain": null
+      },
+      "instance_id": "EXP-NEG-INF-SUB-LIBDEVICE::fp32/fp32/fp32/fp32::a:finite"
+    }
+  ],
+  "retained_empirical_rule_instance_counts": {
+    "ACC-WIDEN": 2,
+    "ADD-ASSOC": 3,
+    "ADD-ZERO": 3,
+    "CANCEL": 3,
+    "CAST-REMOVE": 2,
+    "DIV-MUL-RCP": 3,
+    "DIV-RCP": 1,
+    "EXP-SUB": 3,
+    "FMA-CONTRACT": 3,
+    "LOG-EXP": 1,
+    "LOG-EXP-GUARDED": 1,
+    "LOG-EXP-GUARDED-INTRINSIC": 1,
+    "LOG-MUL-GUARDED": 1,
+    "LOG-MUL-GUARDED-INTRINSIC": 1,
+    "MUL-ASSOC": 3,
+    "MUL-DISTRIB": 3,
+    "MUL-RCP-CANCEL": 2
+  },
+  "retained_empirical_instance_ids": [
+    "ACC-WIDEN::bf16/bf16/fp32/bf16::a:finite,b:finite,c:finite",
+    "ACC-WIDEN::bf16/fp32/fp32/bf16::a:finite,b:finite,c:finite",
+    "ADD-ASSOC::bf16/bf16/fp32/bf16::a:finite,b:finite,c:finite",
+    "ADD-ASSOC::bf16/fp32/fp32/bf16::a:finite,b:finite,c:finite",
+    "ADD-ASSOC::fp32/fp32/fp32/fp32::a:finite,b:finite,c:finite",
+    "ADD-ZERO::bf16/bf16/fp32/bf16::a:finite",
+    "ADD-ZERO::bf16/fp32/fp32/bf16::a:finite",
+    "ADD-ZERO::fp32/fp32/fp32/fp32::a:finite",
+    "CANCEL::bf16/bf16/fp32/bf16::a:finite,b:finite",
+    "CANCEL::bf16/fp32/fp32/bf16::a:finite,b:finite",
+    "CANCEL::fp32/fp32/fp32/fp32::a:finite,b:finite",
+    "CAST-REMOVE::bf16/bf16/fp32/bf16::a:finite,b:finite,c:finite",
+    "CAST-REMOVE::bf16/fp32/fp32/bf16::a:finite,b:finite,c:finite",
+    "DIV-MUL-RCP::bf16/fp32/fp32/bf16::a:finite,b:finite,b:nonzero",
+    "DIV-MUL-RCP::fp32/fp32/fp32/fp32::a:finite,b:finite,b:nonzero",
+    "DIV-MUL-RCP::fp64/fp64/fp64/fp32::a:finite,b:finite,b:nonzero",
+    "DIV-RCP::bf16/fp32/fp32/bf16::a:finite,b:finite,b:nonzero",
+    "EXP-SUB::bf16/bf16/fp32/bf16::a:finite,b:finite",
+    "EXP-SUB::bf16/fp32/fp32/bf16::a:finite,b:finite",
+    "EXP-SUB::fp32/fp32/fp32/fp32::a:finite,b:finite",
+    "FMA-CONTRACT::bf16/bf16/fp32/bf16::a:finite,b:finite,c:finite",
+    "FMA-CONTRACT::bf16/fp32/fp32/bf16::a:finite,b:finite,c:finite",
+    "FMA-CONTRACT::fp32/fp32/fp32/fp32::a:finite,b:finite,c:finite",
+    "LOG-EXP-GUARDED-INTRINSIC::fp32/fp32/fp32/fp32::a:finite",
+    "LOG-EXP-GUARDED::fp32/fp32/fp32/fp32::a:finite",
+    "LOG-EXP::bf16/fp32/fp32/bf16::a:finite",
+    "LOG-MUL-GUARDED-INTRINSIC::fp32/fp32/fp32/fp32::a:finite,a:positive,b:finite,b:positive",
+    "LOG-MUL-GUARDED::fp32/fp32/fp32/fp32::a:finite,a:positive,b:finite,b:positive",
+    "MUL-ASSOC::bf16/bf16/fp32/bf16::a:finite,b:finite,c:finite",
+    "MUL-ASSOC::bf16/fp32/fp32/bf16::a:finite,b:finite,c:finite",
+    "MUL-ASSOC::fp32/fp32/fp32/fp32::a:finite,b:finite,c:finite",
+    "MUL-DISTRIB::bf16/bf16/fp32/bf16::a:finite,b:finite,c:finite",
+    "MUL-DISTRIB::bf16/fp32/fp32/bf16::a:finite,b:finite,c:finite",
+    "MUL-DISTRIB::fp32/fp32/fp32/fp32::a:finite,b:finite,c:finite",
+    "MUL-RCP-CANCEL::bf16/fp32/fp32/bf16::a:finite,a:nonzero",
+    "MUL-RCP-CANCEL::fp32/fp32/fp32/fp32::a:finite,a:nonzero"
+  ],
+  "consumer09_evidence": {
+    "path": ".veritile-cache/strict-fp-laws-20261021/consumer09-result.json",
+    "sha256": "7484cbd3eefcf44567f5df5a34059ba568dc0f60b2720f1978aaae0f67264957",
+    "receipt_audit": {
+      "path": ".veritile-cache/strict-fp-laws-20261021/consumer09-receipt-audit.json",
+      "sha256": "d96ccfcc443aea88266a7108513c4ab780e8c3a540e1aeb1e68a63b00f5b7944"
+    },
+    "scope": "Selected six repair FP entries plus example consumers; final aggregate validation remains separate.",
+    "validated_bench_modules": 111,
+    "migrated_specifications": 16,
+    "empty_empirical_program_specifications": 15,
+    "native_explicit_primitive_binding_specifications": 1,
+    "retained_empirical_regression": {
+      "file": "bench/examples/HyperConnectionsWidth/FPEquiv.lean",
+      "name": "mhc_width_matrix_equiv",
+      "assumptions": [
+        "div_mul_rcp"
+      ],
+      "statement_and_proof_unchanged": true
+    },
+    "strict_source_connection": "original Program -> contextual/full-memory proofs -> ScalarArithmetic.add_comm_strict/mul_comm_strict -> fixed Guarded.fp32Theory strict_certificate -> shared ScalarOpsLaws",
+    "strict_native_connection": "NativeRewrite.AddBinding ops cfg identifies add32 with FP.add cfg on FP32 words; add_comm applies congrArg FP.Value.bits to ScalarOpsLaws.add_comm; actual FMA result, remaining graph ports, original domain, safety, success, typed outputs and exterior frames are preserved",
+    "protected_kernel_correct_files": 26
+  },
+  "core_validation": {
+    "path": ".veritile-cache/strict-fp-laws-20261021/validation-summary.json",
+    "sha256": "bba72918c4749e0c7aeeb721b26823518ae73b9a1370dba17461b8fa47397476",
+    "status": "passed",
+    "root_count": 68,
+    "main_module_count": 837,
+    "workspace_receipts": 755,
+    "compiled_baseline_boundaries": 82
+  },
+  "task_rule_migration": {
+    "path": ".veritile-cache/strict-fp-laws-20261021/task-ledger-rule-migration-check.json",
+    "sha256": "cc4757f2a9dfc79f282da76379d5cffbe8d9ff43b3c18918618b461ae4e40485",
+    "status": "passed",
+    "rule_status": {
+      "exact_or_structural": 181,
+      "admitted_numerics": 2
+    },
+    "kernel_acceptance_unchanged": {
+      "verified": 181,
+      "verified_with_deferred_numerics": 2
+    },
+    "non_review_ledger_canonical_sha256": "d2978384c1bc6c607b96df46b57428559bdc9216d28a89333e74cbd0d41bae1b"
+  },
+  "validation_inputs": [
+    ".veritile-cache/strict-fp-laws-20261021/current-registry.json",
+    ".veritile-cache/strict-fp-laws-20261021/validation-summary.json"
+  ],
+  "historical_tables_unchanged": [
+    {
+      "id": "ReportedAdmission",
+      "path": "VeriTile/Triton/Float/ReportedAdmission.lean",
+      "sha256": "12513789960352cefe7de70a2f1e8221bef281929bc97e4a785303ab2cc78fce"
+    },
+    {
+      "id": "SupplementalAdmission",
+      "path": "VeriTile/Triton/Float/SupplementalAdmission.lean",
+      "sha256": "557870486ad5b86f158cd92c21c7387b21b3a3ac91c2c5fe80b4226615b3c141"
+    },
+    {
+      "id": "ExpAdmission",
+      "path": "VeriTile/Triton/Float/ExpAdmission.lean",
+      "sha256": "04cb865e129612788d14dcdc3c54bf2d40dfab28b3bd9323d3571bf7357c9940"
+    },
+    {
+      "id": "LogAdmission",
+      "path": "VeriTile/Triton/Float/LogAdmission.lean",
+      "sha256": "bf1ec95ab765b0677de3f40691382a4667340aa350e4cd81aa371cd6ad57aa93"
+    },
+    {
+      "id": "CountAdmission",
+      "path": "VeriTile/Triton/Float/CountAdmission.lean",
+      "sha256": "715d8f32cabccd5b6469e1eef7da8a8b440697bc78e79c4f8de2cfb24d49c6e7"
+    }
+  ],
+  "task_ledger_after_rule_migration": {
+    "path": "bench/tritonbench_g/task_progress.json",
+    "sha256": "c4a6d237a83a7db70b34d4d50ebd1f4b6e2931c9df13da0d3d5be61a019cd79c",
+    "rendered_markdown": {
+      "path": "bench/tritonbench_g/task_progress.md",
+      "sha256": "eaf4aa5defa9e033726141421ca55e9dea6016167b00ed83f63b8a5278511f57"
+    },
+    "verification": {
+      "path": ".veritile-cache/strict-fp-laws-20261021/task-ledger-rule-migration-check.json",
+      "sha256": "cc4757f2a9dfc79f282da76379d5cffbe8d9ff43b3c18918618b461ae4e40485"
+    },
+    "non_fp_rule_review_canonical_sha256": "d2978384c1bc6c607b96df46b57428559bdc9216d28a89333e74cbd0d41bae1b",
+    "only_rule_review_fields_changed": true,
+    "all_183_report_links_point_to_this_review": true,
+    "other_175_task_reviews_changed_only_in_report_link": true
+  },
+  "final_aggregate_validation": {
+    "path": ".veritile-cache/strict-fp-laws-20261021/validation-summary.json",
+    "sha256": "bba72918c4749e0c7aeeb721b26823518ae73b9a1370dba17461b8fa47397476",
+    "status": "passed",
+    "root_count": 68,
+    "module_count": 837,
+    "checked_workspace_module_receipts": 755,
+    "compiled_baseline_boundaries": 82,
+    "main_module_count_excludes_isolated_generations": true,
+    "isolated_generation_checks": {
+      "bench.repairs.tritonbench_g.chunked_cumsum_fwd.KernelOnly.FPEquiv": {
+        "generation": "accepted isolated-minimum/public-io-format dependency generation; live_core_promotion=false",
+        "checked_workspace_module_receipts": 18,
+        "compiled_baseline_boundaries": 11
+      }
+    },
+    "scope": "targeted strict-rule integration, selected public FP entries and affected proof/helper regressions; not independent whole-corpus replay",
+    "generation_boundary_note": "Accepted isolated proof generations are checked against their own receipts and compiled dependencies; they are not silently replaced by the current live-core generation.",
+    "independent_source_replay": false,
+    "gpu_experiments_run": false
+  },
+  "consumer_validation_reports": {
+    "selected_cumsum": {
+      "path": ".veritile-cache/strict-fp-laws-20261021/chunk-cumsum-repair-strict-result.json",
+      "sha256": "c08a7f3685b40e4cc865ddbadd456e4dd839ea364cd66d87a7fe931b0d03976f"
+    },
+    "commutation_consumers": {
+      "path": ".veritile-cache/strict-fp-laws-20261021/consumer09-result.json",
+      "sha256": "7484cbd3eefcf44567f5df5a34059ba568dc0f60b2720f1978aaae0f67264957"
+    },
+    "commutation_receipts": {
+      "path": ".veritile-cache/strict-fp-laws-20261021/consumer09-receipt-audit.json",
+      "sha256": "d96ccfcc443aea88266a7108513c4ab780e8c3a540e1aeb1e68a63b00f5b7944"
+    },
+    "shared_closure_and_six_examples": {
+      "path": ".veritile-cache/strict-fp-laws-20261021/consumer10-result.json",
+      "sha256": "e6be4eac85c26aa3e9617128548ff2f3379cf2ba15834fbcd64d28d39aa13ef9"
+    },
+    "shared_closure_receipts": {
+      "path": ".veritile-cache/strict-fp-laws-20261021/consumer10-final-receipts.json",
+      "sha256": "339596ff09a4ebe58dff956da06ee84ba8d32444d6a3b45d72eaa6bcf63e9fbe"
+    },
+    "six_example_source_preservation": {
+      "path": ".veritile-cache/strict-fp-laws-20261021/consumer10-source-preservation.json",
+      "sha256": "12b2adb6a8ba71fe905ba5d31f705072a9ee2f5067fb13bf56b2e661b8b5fd9b"
+    }
+  },
+  "six_example_rule_audits": {
+    "rowwise_sum_equiv": {
+      "empirical_rules": [
+        "add_assoc",
+        "add_zero"
+      ],
+      "strict_certificate_count": 1
+    },
+    "softmax_stable_equiv": {
+      "empirical_rules": [
+        "exp_sub(libdevice.exp)",
+        "div_mul_rcp",
+        "add_zero",
+        "cancel",
+        "add_assoc",
+        "mul_distrib",
+        "mul_assoc",
+        "mul_rcp_cancel"
+      ],
+      "strict_certificate_count": 3
+    },
+    "online_softmax_equiv": {
+      "empirical_rules": [
+        "exp_sub(libdevice.exp)",
+        "div_mul_rcp",
+        "add_zero",
+        "cancel",
+        "add_assoc",
+        "mul_distrib",
+        "mul_assoc",
+        "mul_rcp_cancel"
+      ],
+      "strict_certificate_count": 3
+    },
+    "welford_equiv": {
+      "empirical_rules": [
+        "add_zero",
+        "cancel",
+        "add_assoc",
+        "mul_distrib",
+        "mul_assoc",
+        "mul_rcp_cancel",
+        "div_mul_rcp"
+      ],
+      "strict_certificate_count": 6
+    },
+    "layernorm_equiv": {
+      "empirical_rules": [
+        "add_zero",
+        "cancel",
+        "add_assoc",
+        "mul_distrib",
+        "mul_assoc",
+        "mul_rcp_cancel",
+        "div_mul_rcp"
+      ],
+      "strict_certificate_count": 6
+    },
+    "logsumexp_equiv": {
+      "empirical_rules": [
+        "log_mul_split(tl.log)",
+        "log_exp_cancel(tl.log, libdevice.exp)",
+        "exp_sub(libdevice.exp)",
+        "div_mul_rcp",
+        "add_zero",
+        "cancel",
+        "add_assoc",
+        "mul_distrib",
+        "mul_assoc",
+        "mul_rcp_cancel"
+      ],
+      "strict_certificate_count": 3
+    }
+  },
+  "python_regressions": {
+    "status": "passed",
+    "unique_tests_passed": 55,
+    "expectation_tests": 43,
+    "primitive_candidate_tests": 9,
+    "matrix_tests": 3,
+    "expectations": {
+      "path": ".veritile-cache/strict-fp-laws-20261021/expectations08-result.json",
+      "sha256": "45a2167122087de305f38f8a0f939fc55d2736eed9d99512c116286edd7df9c5"
+    },
+    "primitive_candidates_log": {
+      "path": ".veritile-cache/strict-fp-laws-20261021/primitive-candidates-python.log",
+      "sha256": "d3f744455a20fd52e58839647ef53e21eff19f43011434528ccba2735030e2a2"
+    },
+    "matrix_log": {
+      "path": ".veritile-cache/strict-fp-laws-20261021/matrix-examples-python.log",
+      "sha256": "bdb13f78fdc208227b232ad5eef34cadaf1bcca41438ef67eacf42a2c1a3e5e9"
+    },
+    "harness": {
+      "path": ".veritile-cache/strict-fp-laws-20261021/expectations-harness08.py",
+      "sha256": "0b59d2f588aa61c3a697544a1b6f4de0c4e3551e6971b33f80dc2e7402ae9479"
+    },
+    "harness_limitation": "Actual Python suites with only lake subprocess substitution: lake env lean uses build.py --check; lake build is import validation of current overlay, not dependency rebuild or a successful Lake initialization.",
+    "expected_nonzero_lean_checks_in_expectations": 4,
+    "initial_fixture_failures_retained_and_repaired_by_targeted_reruns": true,
+    "count_headlines_checked_separately_with_original_300_second_limits": true
+  }
+}

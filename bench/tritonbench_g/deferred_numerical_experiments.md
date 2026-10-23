@@ -1,8 +1,29 @@
 # Deferred numerical experiments
 
+Current-scope correction (2026-10-19): the active experiment queue is the
+`kernel_revision.deferred_experiments` field of each reviewed task in
+[the single task ledger](task_progress.json). It contains only actual numerical
+transformation rules, with their precision and applicability domain. Published
+rule evidence and optional independent replay are recorded separately.
+Native-to-IEEE primitive conformance is a modeling boundary, not a per-task
+transformation experiment. An unreviewed task's empty queue is not acceptance.
+The legacy inventory below retains its original scopes and wider dtype variants;
+it does not add them to the current queue. See [the scope policy](../TODO.md).
+
+Current completion campaign: `matmul_leakyrelu` has one deferred local rule,
+`MATMUL-LEAKYRELU-FP32-K32-DOT-ADD-TO-DOTACC`. It compares the original separate
+FP32 add after a default-TF32 K32 dot with the corresponding seeded dotAcc,
+on the original all-word operands and live accumulator domain. Both numerical
+gates are `NOT_RUN`; no evidence artifact or accepted rule instance has been
+manufactured. The complete program proof explicitly takes the future rule
+evidence/admission as a parameter. See its
+[precision, domain and validation plan](../repairs/tritonbench_g/matmul_leakyrelu/KernelOnly/NUMERICAL_VALIDATION.md).
+The strict slope-multiplication commutation is already proved and is excluded
+from this experiment. This entry adds no GPU or native-conformance obligation.
+
 This is a handoff for later experiments. No GPU experiment was run by this work. The existing software/backend proofs keep their exact scopes.
 
-The inventory covers 184 tasks: 77 have concrete native-binding recipes, and the others retain their relative-equivalence/historical review scope. An empty callback list is not hardware validation.
+The historical inventory below covers 184 entries: 77 have concrete native-binding recipes, and the others retain their relative-equivalence/historical review scope. The active ledger has 183 distinct tasks. An empty callback list is not hardware validation.
 
 ## Numerical rule profiles
 

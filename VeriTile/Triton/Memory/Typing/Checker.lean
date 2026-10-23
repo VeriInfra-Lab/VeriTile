@@ -411,6 +411,7 @@ def Op.check (ctx : CheckCtx) : Op dtype shape → Except CheckError Unit
   | .boolNot a => a.check ctx
   | .max2 _ a b => a.check ctx *> b.check ctx
   | .maximumFloat _ _ a b => a.check ctx *> b.check ctx
+  | .minimumFloat _ _ a b => a.check ctx *> b.check ctx
   | .pow _ a b => a.check ctx *> b.check ctx
   | .libdevicePowi _ a b => a.check ctx *> b.check ctx
   | .where c a b => c.check ctx *> a.check ctx *> b.check ctx

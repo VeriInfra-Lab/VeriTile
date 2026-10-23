@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "count": 6,
+  "checks": [
+    {
+      "mutation": "normalizer_wrong_xor",
+      "source": "/tmp/parallel-attention-lowering/actual-binder-ordinary-scaled-forward/kernel.ptx",
+      "mutant": "/tmp/parallel-attention-mutations/normalizer_wrong_xor.ptx",
+      "sha256": "69bb074935194de541cad755682593410e33ecceceda87f5d904bc1111888e57",
+      "rejected": true,
+      "diagnostic": "(PosixPath('/tmp/parallel-attention-mutations/normalizer_wrong_xor.ptx'), 3151, 'norm tree mismatch')"
+    },
+    {
+      "mutation": "normalizer_wrong_square_seed",
+      "source": "/tmp/parallel-attention-lowering/actual-binder-ordinary-scaled-forward/kernel.ptx",
+      "mutant": "/tmp/parallel-attention-mutations/normalizer_wrong_square_seed.ptx",
+      "sha256": "241bdcc6c9f9f511a1306592f095edf8e4f18b2fafe3c45caba846a4fd89f31c",
+      "rejected": true,
+      "diagnostic": "(PosixPath('/tmp/parallel-attention-mutations/normalizer_wrong_square_seed.ptx'), 57, [{'row_register': 7, 'ptx_line': 3144, 'destination': '%r3155'}, {'row_register': 6, 'ptx_line': 3145, 'destination': '%r3156'}, {'row_register': 5, 'ptx_line': 3146, 'destination': '%r3157'}, {'row_register': 4, 'ptx_line': 3147, 'destination': '%r3158'}, {'row_register': 3, 'ptx_line': 3148, 'destination': '%r3159'}, {'row_register': 2, 'ptx_line': 3149, 'destination': '%r3160'}, {'row_register': 1, 'ptx_line': 3150, 'destination': '%r3161'}])"
+    },
+    {
+      "mutation": "coefficient_operand_swap",
+      "source": "/tmp/parallel-attention-lowering/actual-binder-ordinary-scaled-backward/kernel.ptx",
+      "mutant": "/tmp/parallel-attention-mutations/coefficient_operand_swap.ptx",
+      "sha256": "0a20301522dc696ccf1a4a8c28202caf094117f2ba7cf9480f67bdfd950965cb",
+      "rejected": true,
+      "diagnostic": "(PosixPath('/tmp/parallel-attention-mutations/coefficient_operand_swap.ptx'), 3036, ('mul.f32', ('add.f32', 'D149', 'D149'), 'D154'), ('mul.f32', 'D154', ('add.f32', 'D149', 'D149')))"
+    },
+    {
+      "mutation": "sharded_dq_seed_order",
+      "source": "/tmp/parallel-attention-lowering/actual-binder-sharded-scaled-backward/kernel.ptx",
+      "mutant": "/tmp/parallel-attention-mutations/sharded_dq_seed_order.ptx",
+      "sha256": "861a0dfb158439aa87237826fe28a56e2f8cd2422addaecdf501cec7f59740e1",
+      "rejected": true,
+      "diagnostic": "(PosixPath('/tmp/parallel-attention-mutations/sharded_dq_seed_order.ptx'), 7241, ('mul.f32', ('add.f32', ('shard-select', ('add.f32', 'D149', 'X'), 'D149'), ('shard-select', ('add.f32', 'D149', 'X'), 'D149')), 'D154'), ('mul.f32', ('add.f32', ('shard-select', ('add.f32', 'X', 'D149'), 'D149'), ('shard-select', ('add.f32', 'X', 'D149'), 'D149')), 'D154'))"
+    },
+    {
+      "mutation": "tiny_padded_coefficient_order",
+      "source": "/tmp/parallel-attention-lowering/actual-binder-tiny-scaled-backward/kernel.ptx",
+      "mutant": "/tmp/parallel-attention-mutations/tiny_padded_coefficient_order.ptx",
+      "sha256": "21fb98aff4c636f57dfd142844245ef7c0c7af8e3ba7537d947465ee2c451bea",
+      "rejected": true,
+      "diagnostic": ""
+    },
+    {
+      "mutation": "dot_dropped_carry_edge",
+      "source": "/tmp/parallel-attention-lowering/actual-binder-ordinary-scaled-forward/kernel.llir",
+      "mutant": "/tmp/parallel-attention-mutations/dot_dropped_carry_edge.llir",
+      "sha256": "06f1e18f8829b04cb8088d20a79dd01ef44fe83a58f71e1f36ab2a2ed85f9d2e",
+      "rejected": true,
+      "diagnostic": "(PosixPath('/tmp/parallel-attention-mutations/dot_dropped_carry_edge.llir'), '%2612', 55, 1, 64)"
+    }
+  ],
+  "compiler_or_gpu_invocations": 0,
+  "producer_files_modified": false,
+  "source_sha256": "3cf92301a18073573c84be1bf775440e9f7b234dba9dd7c37f9d94eb15eb8fe4",
+  "script_sha256": "10193121d63ae6b937b8967adb9feb6f290b6f552f4373c164a7c4ecb2e18e94"
+}

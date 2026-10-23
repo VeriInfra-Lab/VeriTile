@@ -63,6 +63,11 @@ structure Algebra (α : Type) where
   literal : Option ComputeDType → FloatDType → ℝ → α
   negInf : α
   binary : Option ComputeDType → FloatDType → Binary → α → α → α
+  /-- Explicit source FMA is a separate primitive with a single result rounding.
+  Missing support fails, including empty results. No identity with ordinary
+  multiplication/addition, contraction law, or native-conformance premise is
+  built into structural execution. -/
+  fma : IndexComputePrecision → Option (α → α → α → α) := fun _ => none
   /-- Atomic addition has its own backend, selected by storage dtype. Its
   rounding and special-value behavior need not equal ordinary addition.
   Missing support fails; scalar rewrite assumptions impose no atomic laws. -/
@@ -171,6 +176,15 @@ structure Algebra (α : Type) where
   integerDot : DotOptions → {batch : TileShape} → {m k n : Nat} →
     Values α .int (batch ++ [m,k]) → Values α .int (batch ++ [k,n]) →
     Option (Values α .int (batch ++ [m,n])) := fun _ {_} {_} {_} {_} _ _ => none
+  /-- A separate fused primitive for explicitly typed floating operands and
+  result. No widening, cast or separately rounded mul/add fallback is implied.
+  Missing support fails, including on an empty tile. -/
+  fmaTyped : FloatDType → Option (α → α → α → α) := fun _ => none
+  /-- Default floating minimum is an independent primitive, preserving dtype
+  and local precision. Missing support fails even for an empty result tile.
+  No comparison/select, negated-maximum, NaN or zero-tie law is assumed. -/
+  minimum : Option ComputeDType → FloatDType → Option (α → α → α) :=
+    fun _ _ => none
 
 /-- Interpret explicit zero padding in the access channel.
 Floating zero is interpreted by the algebra, never by the carrier's arbitrary
@@ -571,6 +585,12 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
   | .maximumFloat dtype bc a b, s =>
       return bop (fun x y => ofFloat dtype (M.binary p dtype .max
         (toFloat dtype x) (toFloat dtype y))) bc (← evalOp M p a s) (← evalOp M p b s)
+  | .minimumFloat dtype bc a b, s => do
+      let minimum ← M.minimum p dtype
+      let va ← evalOp M p a s
+      let vb ← evalOp M p b s
+      return bop (fun x y => ofFloat dtype
+        (minimum (toFloat dtype x) (toFloat dtype y))) bc va vb
   | .pow bc a b, s => return bop (M.binary p .real .pow) bc (← evalOp M p a s) (← evalOp M p b s)
   | .libdevicePowi bc a b, s => do
       let va ← evalOp M p a s
@@ -839,6 +859,24 @@ noncomputable def evalExpr {α : Type} [Inhabited α] (M : Algebra α) :
       let values ← evalExpr M e s
       let classify ← M.isFinite precision
       return fun i => classify (values i)
+  | .fma precision bcAB bcC a b c, s => do
+      let fused ← M.fma precision
+      let av ← evalExpr M a s
+      let bv ← evalExpr M b s
+      let cv ← evalExpr M c s
+      return fun i => fused
+        (av (bcAB.leftIndex (bcC.leftIndex i)))
+        (bv (bcAB.rightIndex (bcC.leftIndex i)))
+        (cv (bcC.rightIndex i))
+  | .fmaTyped dtype bcAB bcC a b c, s => do
+      let fused ← M.fmaTyped dtype
+      let av ← evalExpr M a s
+      let bv ← evalExpr M b s
+      let cv ← evalExpr M c s
+      return fun i => ofFloat dtype (fused
+        (toFloat dtype (av (bcAB.leftIndex (bcC.leftIndex i))))
+        (toFloat dtype (bv (bcAB.rightIndex (bcC.leftIndex i))))
+        (toFloat dtype (cv (bcC.rightIndex i))))
   | .opaque _, _ => none
   | .llrint _, _ => none
 termination_by structural e _ => e

@@ -1,0 +1,124 @@
+{
+  "status": "PASS",
+  "original_sha256": "b22af1e5429eef6c1371c6b786821f7082df54da10868001acdbb5007972ac9e",
+  "candidate_sha256": "37ad52bccd9a329291c6509200adfb8a3125975225685c9e2c4f300578a8561b",
+  "kernel_ast_sha256": "47385885cfc1ca3aefb7040beb22506c0d4ee28e9b9654c14a42173012cdf545",
+  "kernel_edits": [
+    "tl.load(curr_input_pointer, mask=input_mask, other=0.0)",
+    "tl.load(curr_weight_pointer, mask=weight_mask, other=0.0)"
+  ],
+  "kernel_docstring_correction": "grouped weights have C/groups channels",
+  "host_edits": [
+    "explicit checked metadata/storage/signed32/direct-grid domain",
+    "empty batch returns fresh output without launch"
+  ],
+  "preserved": [
+    "original direct three-dimensional grid including redundant grouped feature programs",
+    "128x32x32 tiles",
+    "h/w/channel loop order and all source pointer expressions",
+    "FP32 inputs and output",
+    "fp16/tf32 flags and defaults with fp16 precedence",
+    "default compiler options",
+    "original fresh torch.empty and returned tensor",
+    "no copies or layout normalization"
+  ],
+  "contract": [
+    "resolved rank4 positive-stride FP32 CUDA tensors on the same current device",
+    "actual data pointers/storage offsets; input and weight may alias",
+    "N may be zero; other dimensions/kernel/stride/group positive; padding nonnegative",
+    "divisible channels/features, exact grouped weight shape, positive output dimensions",
+    "actual storage span bounds; checked signed32 envelope for all padded formed expressions",
+    "nonempty launch grid Y and Z at most 65535"
+  ],
+  "formal_route": "same repaired shared typed DSL, complete original grid, independent initial-array Real/native references, actual Tensor readback, per-store concrete bytes and full frames",
+  "readable_DSL": [
+    {
+      "branch": "KernelHalf",
+      "sha256": "e3dfb3ca1024a17a4c6df2aa14642205f22243e33ee90b6ee8b938ba017c447f",
+      "explicit_zero_loads": 2,
+      "operand_half_casts": 2
+    },
+    {
+      "branch": "KernelDefault",
+      "sha256": "e55eed45fd7d4508101106f7069f4c3ddd83d13640e1df6ee005890e8638267c",
+      "explicit_zero_loads": 2,
+      "operand_half_casts": 0
+    }
+  ],
+  "domain_unchanged": {
+    "Contract.lean": {
+      "initial_sha256": "e48da79b356be7ffaa0cd7fdca78132974c421bea97309836387845c47cbefc3",
+      "current_sha256": "b90c5a99e90b960b94c9fa11bb52683d08df829e13fca36faeab6cec71a5e994",
+      "only_change": "qualify true as Bool.true for the imported Triton parser"
+    },
+    "Proofs/Contract.lean": {
+      "initial_sha256": "f13e7a2914d0ffebf3ef92eb2f993ce3f4430465c09711136a796b603e2d4cf2",
+      "current_sha256": "b99a4f6a6db1e407048f7303ad944c09160591806ee1b10d449bd449b7c4471c",
+      "only_change": "qualify true as Bool.true for the imported Triton parser"
+    }
+  },
+  "source_binding_scope": "Python AST preservation and quotation structure/hash checks; not a verified Python-to-DSL translator",
+  "compiler_carry_lowering": "source dot remains pending until outer add; compiler interpretation supplies the old carry to the first native instruction without asserting rounded split/fused equality",
+  "compiler_scope": "pinned concrete Triton 3.7.1 SM90 profiles and symbolic PTX binding; not universal compiler correctness",
+  "numerical_boundary": [
+    "scalar fma.rn.f32 equality to IEEE RN-even software profile",
+    "scalar FP32-to-FP16 RN conversion",
+    "one fixed output lane of literal WGMMA m64n32k16 f32.f16.f16",
+    "one fixed output lane of literal WGMMA m64n32k8 f32.tf32.tf32"
+  ],
+  "real_target": "independent grouped cross-correlation on original caller values",
+  "GPU_execution": false,
+  "native_numerical_conformance": false,
+  "lean_sources": {
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Contract.lean": "b90c5a99e90b960b94c9fa11bb52683d08df829e13fca36faeab6cec71a5e994",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Correct.lean": "390e1a8faad7e4e5215e90f063bcf1a829d8a5dffc99555500e73fc84af720d5",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/FPEquiv.lean": "895dd334db1cc17116bc1bc72fce90ddf7251decfeae9275fbf86c2733410df0",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Kernels.lean": "af613bc3e68205e6646950ab6156e89eb3b2d0643ef087dfbb78174593dcf4f4",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Arithmetic.lean": "527e978ceb2eb7f192cf3d65f4d4040ba6da12dee4b77c1cd5b591d207cbd080",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Contract.lean": "b99a4f6a6db1e407048f7303ad944c09160591806ee1b10d449bd449b7c4471c",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Coordinates.lean": "569d99fc33399548bdc23443033aed6ee88072180abfaf31e44c4d61b4cddf67",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Formed.lean": "8fe4921dc5d3e96665b1487cb6865dec44612ff00f58bb4245d3ebcf115eaed4",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Grid.lean": "57b484e6db399e03ea3c0fb9b6612e78f0ebd3525addf3a426cef6bee1b8815d",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Host.lean": "071b32c5d013713da9b9b6fec20cdb1d989ec02c23c178070b1c848f3e6c7829",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/ISA.lean": "3e23f1ac934d5cb3b732df75d1370530aa83dfecca99f2a196e3968bc25cad4d",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelBinding.lean": "c12e1eb77ec9f59d78b3f26e97d9535563ee562286bcc63be15a3000b090570f",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelDefaultComplete.lean": "4bf2608e3b44c1b4109ace2b9e8f9ca4ccb02f89db1e33148f747e025be19240",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelDefaultExecution.lean": "41b45318fe8a46e59e1fb8f234106576c9cd5bacc51754cfc55d61fe2364d9b3",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelDefaultGraph.lean": "ba867e635a6ce06c0dd2b2e8e2aa0eb2728021998f5c91a267067b7a4befbb52",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelDefaultLoops.lean": "d8ec471a4e0e3fcfd2e84ea1c15e90eb137da7d8e4a7faa69d3d1159879bd382",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelDefaultNative.lean": "a66d4bcde342b57ad6713fc17f6d6c32e23ba63f71fcdb10da607af4eb030e51",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelDefaultSource.lean": "b5314447c98a63a9c357baf9ab46c24da93190bca0e3ae51314ef7ff78283703",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelEntries.lean": "cf4eca794e8041b7f7b6503c90d8c0c29816b0866936171d73318423e32f96e4",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelExecution.lean": "0ad92f9bb7e10ace651725b0bed275bbf786fc60106f6ed0ae985d0e25efc7f5",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelGrid.lean": "9a58981b82031c742e29deec26d77a356199908eb1ec095c482ca6789cee0ea7",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfComplete.lean": "fd07ea5f12d4cd97a123eb2191a049066dad23a5bb49b0701591ea2ebe5f877e",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfExecution.lean": "87e55d2bc942800b90d7cdd1a3212634249f7a9535119ecd5c9c5145666518da",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfGraph.lean": "5b7be9bb7c00ca5b83e082d26b48595e44da6bde954ce919ca1c56d58cc37e1c",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfLoops.lean": "ba009ed25ba38d10b87455e25e8053d611fbc84a390de9a4fba94a44e60d36df",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelHalfSource.lean": "765d11c92ad010aa43e4d1eb36e899ccdb577e1ab5b036b184b2d832399aeedd",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelInputs.lean": "217ea977429c9628d33ab71df1b89dbabbdfc1547d770d40c5409a9e7ec0a4c1",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelLaunch.lean": "a78efab9378563128341451977af1c4fdd42d36c3c3d4b3233599e70df938fca",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelNative.lean": "0ef3792765440721a81b419acefb4cd09744e3f704f7e4e54e21e0bc4a593007",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelNumeric.lean": "5ac8be2e92f6d99f24afac1f911bf1767124ce8af26277212355c02a387a7874",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelNumericProof.lean": "53f5be3b87d0b6878f14a6bd51f4560df8967f788d9dd77fd93fd65f44f7160d",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelOperands.lean": "65dc88fa658b52ae6a5cc48ae0d8514e927b89546556b01b9e8e5502d43c6345",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelReal.lean": "765863ce7505ec729527c8ccf6b40a2794241d28ef9c18559b6e71c4e98d977c",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelReference.lean": "bdd6956c9a15b2e5038e5416a64e7c6ca06f79d85fd34d1902a0e1183b17905a",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelStorage.lean": "ff38a72f1a5a18562f11c26da4c9c1a7000be3fcc2b18bf7707154279439d507",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelStores.lean": "7e52099d1fd011e9e004d0a69ec90c41ccb1d2b0011a211f6f4da23869295068",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/KernelTensor.lean": "a187b6280e570f0428268088415751e692aec4da8275310401278d62432e58ee",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Lowering.lean": "1363222687cc370013cd3cb22d2923bf51a49044660a2dd659a7bf1840d9a7c1",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Memory.lean": "ccf7eaf1b363caf77077de5b3013609672509cf9d4029a3ab95feceba37d331d",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Native.lean": "c0da46166df3a588a460aa21507418e0407e3d9cd0645cb7a34299555ab7dd0b",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Ownership.lean": "9760dca9c3ec4f3fa87e3bf0559b1cb28669809a05588e81f172ad9db746ca6f",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Physical.lean": "e3b2fd5daee7134cc5446e50f52b08c7d12fcc2144f1a77e783e5e1327bb103e",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Reader.lean": "ec3afb412f0104c0dfb648902688ae78af5a70fedf72b01b2e546b1e297113af",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Real.lean": "e31e775a90d92ce087878225fdab7ee07e3da3ee1d31f1d618d299ffe47345f5",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Safety.lean": "08bea521e0808f298eaa1618fcdf914a7d561f7ac17703503c2b16d9f98ce3c7",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Scatter.lean": "a4bf711273383aaab8af9e1d44ecbf8576dc30591d37ab0e11efc6e83ff0741c",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Software.lean": "7e3d080b9fa0128e35e34a2d77829ec49b3099833f6d79f6320d10bbf0668f16",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/SourceIndex.lean": "77431115f7a6480b5409e4fefad41a9d0b45587bfc70ae3c47a6e9039a70a21b",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Proofs/Witness.lean": "840087c3f5fda628a6a795926d4d598bfc9e2c4597905b6a9b2bc54a43bbc0c2",
+    "bench/repairs/tritonbench_g/triton_conv2d_fwd/Spec.lean": "db08acee7689e8048f163dc5e6c37fbb7c394d2e5044badff8e49e5e9c3bc4be"
+  }
+}

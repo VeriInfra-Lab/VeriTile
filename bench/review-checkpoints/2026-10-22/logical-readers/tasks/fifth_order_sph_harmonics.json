@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "task": "fifth_order_sph_harmonics",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue05/result.json",
+    "sha256": "b7855ba15faaf5e2f177961e4a8a89181354e8928bbce04e8519a187efbab386",
+    "task_index": 8
+  },
+  "finding": "Coordinate/upstream channels used raw tuple/port plumbing; derivative/VJP bridge was assembled in the reader.",
+  "resolution": "Bijective row-coordinate and harmonic tensors, named backward coordinates/upstream/initial gradients, and logical output components. Derivative connection moved to Proofs/ReaderConnections.",
+  "mathematical_target": "Eleven exact decimal-coefficient degree-five polynomials and their mathematical Jacobian-transpose application.",
+  "conditions_and_scope": "Complete forward/backward grids, columnOffset+11≤outputWidth and existing prepared-zero active initial gradients. Arbitrary old inactive words and exterior frame retained. These are the source decimal polynomials, not ideal irrational normalization coefficients.",
+  "proof_connection": "LogicalIO.forward_iff/backward_iff with complete tensor Equiv; HeadlinePolynomial.jacobian_eq_deriv and ReaderConnections.backward connect the canonical table/VJP to displayed derivatives.",
+  "fp_review": "Existing common-power reuse candidate in both complete FP32 grids; identically rounded left-associated powers and all eleven upstream channels retained, without numerical relaxation.",
+  "numerical_dependencies": {
+    "experimental_rules_used": [],
+    "missing_experimental_evidence": [],
+    "note": "Existing actual source pair retained; no numerical operation/order rewrite or new admission obligation. Empty experimental rules do not assert arbitrary opaque-model/hardware identity."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Visible exact eleven-channel degree-five rational coefficient table and Jacobian transpose sum_channel upstream[channel]*partial_coordinate harmonic[channel]. These decimal coefficients are not replaced by ideal square-root normalization constants.",
+    "required_conditions": [
+      "Real backward retains prepared p: actual active initial coordinate-gradient inputs are zero. This is independent initial data, not a source run/result premise.",
+      "Forward/backward IO retains actual row count, tile count, output strides, all channel masks and bounds/bindings.",
+      "Contract preserves positive valid block metadata and destination coverage/separation; no extra numerical input restriction is added."
+    ],
+    "scope": "Both complete forward/backward grids. Forward computes all eleven output channels at columnOffset; backward sums all eleven upstream channels into all three coordinate gradients. Source width fit columnOffset+11≤outputWidth remains explicit.",
+    "canonical_connection": "Forward harmonic is definitionally equal to canonical Polynomial.value. New Proofs/HeadlinePolynomial.jacobian_eq_deriv reuses Polynomial.exact_partial_derivative (Mathlib HasDerivAt); a function equality connects visible Jacobian transpose to realBackward/Polynomial.vjp. IOCorrect.real_forward/backward retain full source-grid execution/output/frame proofs.",
+    "fp_program_pair": {
+      "actual_pairs": [
+        "forwardKernel vs forwardPowersKernel",
+        "backwardKernel vs backwardPowersKernel"
+      ],
+      "source_precision": "Original explicit FP32 arithmetic/storage and rounded left-associated power trees preserved; backward FP pair includes arbitrary initial gradient words, not just prepared-zero Real inputs.",
+      "transformation": "Reuse already identically rounded x²,x³,x⁴,(x⁵), likewise y/z; only distinct local register assignments reorder. No reassociation/FMA rule.",
+      "model_domain_and_guarantees": "IOPair domain=True, rules=[] and explicit width fit. SourcePair.group_exec proves equality for every Structural algebra by exact register evaluation, without multiplication associativity. IOPair transports whole-grid success, safety, outputs and both frames.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    },
+    "numerical_dependencies": {
+      "source_precision": "Original explicit FP32 arithmetic/storage and rounded left-associated power trees preserved; backward FP pair includes arbitrary initial gradient words, not just prepared-zero Real inputs.",
+      "transformation": "Reuse already identically rounded x²,x³,x⁴,(x⁵), likewise y/z; only distinct local register assignments reorder. No reassociation/FMA rule.",
+      "model_domain_and_guarantees": "IOPair domain=True, rules=[] and explicit width fit. SourcePair.group_exec proves equality for every Structural algebra by exact register evaluation, without multiplication associativity. IOPair transports whole-grid success, safety, outputs and both frames.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    }
+  },
+  "verification": [
+    {
+      "task": "fifth_order_sph_harmonics",
+      "kind": "targeted_reader_helpers",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/IO.lean",
+        "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/ReaderConnections.lean",
+        "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Correct.lean",
+        "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/supplement/fifth_order_sph_harmonics-targeted_reader_helpers.log",
+      "log_sha256": "a0c5142348ce0d45082b468d5ca18161cb87d611064ccc6304bb7fd16ff19efb"
+    },
+    {
+      "task": "fifth_order_sph_harmonics",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue05/supplement/joint_fifth_order_sph_harmonics.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/supplement/fifth_order_sph_harmonics-task_joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": ".veritile-cache/logical-reader-review-20261022/queue05/supplement/joint_fifth_order_sph_harmonics.lean",
+      "source_sha256": "f1003a1e7d6823d3f2fc5582af65b8f4a836a35109accf96c2fa98d8faa4493f"
+    },
+    {
+      "kind": "receipt_source_object_direct_dependency_audit",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue05/audit-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/receipts-final.json",
+      "log_sha256": "a3a64928712915a8204fd3fec33335656e18e0542b5c5ab22d8bdec24b8df76e"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Contract.lean": "f74de5d7245447c90af0b8891e12301c54e943d38c3246fc02f27e5327e4e44a",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Correct.lean": "5d85cdb0c20f5c8eb9a0bc6ca9fa7c1e8cd890bcea918a92dc6dc03421bb6403",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/FPEquiv.lean": "6016f9f05b0f6bfbf3964c4c84a33d221c431eca607dc8650073a494d0f2a862",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/IO.lean": "c1e60188bc6ef1e91188d45cdd7a096641369c9cd9f4db9636cea9c1d8eaca96",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Kernels.lean": "4ee5c43aca05f4f9d0e83f07de7236c59eb22f80b38f412a319111138a51fd23",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/PairIO.lean": "3d9306ab38167c45beba8f5ea017bdf6bece7dcb793a7770bbd66a84eef2e52f",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/HeadlinePolynomial.lean": "c0454a721db5f734fd9dc9a460e1f77b309b9d5831e631b12199cbcede1ef914",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/IOPair.lean": "fbe9796dab4805b342ad30ff94ec0740657da233443ce7eb2cb6b53239cba38c",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/LogicalIO.lean": "efa1c57670595b25f05263af30b4578a88b2d0b9bfc014e28adf6b4a06ba3627",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/ReaderConnections.lean": "6bdc828e7725109aaca73edd2fcae5c9bd397e0f4c8386625aac3fb7cfab8b92",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/Polynomial.lean": "601bb4416ec111154362fa65550f28ca5bea4069e756bad76505ba70959564d2",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/IOCorrect.lean": "32d449f0abfab66cfc7399d7b3c0d164c2cba106ea766d6c7fa37bf59d74fdef",
+    "bench/repairs/tritonbench_g/fifth_order_sph_harmonics/Proofs/SourcePair.lean": "3c45a3341682a73430ae0ad16c5515b45b970e2bf07f0bf49355fe2bb8b4f865",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

@@ -1,10 +1,10 @@
+import bench.tritonbench_g.iv_dependent_matmul.HostDefinitions
 import bench.tritonbench_g.iv_dependent_matmul.Proofs.FPSource
 import bench.tritonbench_g.sgmv_expand_slice.Proofs.FPFusedSoftware
 namespace VeriTile.Bench.TritonBenchG.IvDependentMatmul.FPValue
 open VeriTile.Triton FP.Structural
 open ParallelAttention.FPStages (foldRange range_values)
 noncomputable section
-abbrev Word := FP.Value .fp32
 abbrev Dot := SgmvExpandSlice.FPValue.Dot
 abbrev DotAcc := SgmvExpandSlice.FPValue.DotAcc
 abbrev castWord := LoraExpandGemv.FPValue.castWord

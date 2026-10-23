@@ -142,6 +142,50 @@ partial def expandArith (expandExpr : ExprExpander) (env : Env) (ctx : String) (
   let (computeTerm?, computeDType?) ← floatingComputeArith? ctx algTerm a' b'
   pure ⟨algTerm, a'.dtype, outShape, computeTerm?, computeDType?⟩
 
+/-- The selected fp32/fp64 FMA is a distinct compute expression. Every operand
+keeps its own expression and load/conversion precision. Unannotated floating
+scalars receive the selected source precision. Mixed explicit precisions and
+nested FMA composition are rejected until their conversion path is modeled. -/
+partial def expandFma (expandExpr : ExprExpander) (env : Env)
+    (a b c : TSyntax `tritonExpr) : MacroM EOut := do
+  let a' ← expandExpr env a
+  let b' ← expandExpr env b
+  let c' ← expandExpr env c
+  let values := [a', b', c']
+  for value in values do
+    ensureDType .real value.dtype "tl.fma: operands must have explicit fp32/fp64 floating interpretation"
+    if let some ct := value.computeTerm then
+      match ct with
+      | `(ComputeExpr.fma $_ $_ $_ $_ $_ $_) =>
+          Macro.throwError "tl.fma: materialize a nested FMA before using it as an operand"
+      | _ => pure ()
+  let precisions := values.filterMap (·.computeDType?)
+  let some selected := precisions.head? |
+    Macro.throwError "tl.fma: an operand must establish explicit fp32/fp64 precision"
+  unless selected == .fp32 || selected == .real do
+    Macro.throwError "tl.fma: only explicit fp32/fp64 precision is supported"
+  unless precisions.all (· == selected) do
+    Macro.throwError "tl.fma: explicitly convert mixed-precision operands before fused arithmetic"
+  let precision ← if selected == .fp32 then `(IndexComputePrecision.fp32)
+    else `(IndexComputePrecision.fp64)
+  let operand (e : EOut) : MacroM (TSyntax `term) := do
+    if let some ct := e.computeTerm then
+      if e.computeDType?.isSome then return ct
+      match ct with
+      | `(ComputeExpr.alg $op) =>
+          if selected == .fp32 then fp32ComputeExpr op else fp64ComputeExpr op
+      | _ => Macro.throwError "tl.fma: unsupported compute operand; materialize it first"
+    else if selected == .fp32 then fp32ComputeExpr e.term else fp64ComputeExpr e.term
+  let av ← operand a'
+  let bv ← operand b'
+  let cv ← operand c'
+  let (bcAB, abShape) ← broadcastTerm a'.shape b'.shape "tl.fma multiplicands"
+  let (bcC, outShape) ← broadcastTerm abShape c'.shape "tl.fma addend"
+  let alg ← `(Op.add NumericDType.real $bcC
+    (Op.mul NumericDType.real $bcAB $a'.term $b'.term) $c'.term)
+  let compute ← `(ComputeExpr.fma $precision $bcAB $bcC $av $bv $cv)
+  return ⟨alg, .real, outShape, some compute, some selected⟩
+
 /-- `tl.extra.cuda.libdevice.pow(base, exponent)`: element-wise real power,
 lowering to `Op.pow` (`Real.rpow` semantics). Operands are coerced onto the
 ℝ channel like the other real math calls (`$(...)` antiquotes reinterpreted
@@ -497,6 +541,12 @@ partial def expandMinMax (expandExpr : ExprExpander) (env : Env) (ctx : String) 
       | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => do
           let dtype ← a'.dtype.floatProof
           `(Op.maximumFloat $dtype $bc $a'.term $b'.term)
+      | _ => `(Op.where ($cmp $cp $bc $a'.term $b'.term) $aTerm $bTerm)
+    else if ctx == "tl.minimum" then
+      match a'.dtype with
+      | .real | .fp32 | .fp16 | .bf16 | .f8e4 | .f8e5 | .floatVar _ => do
+          let dtype ← a'.dtype.floatProof
+          `(Op.minimumFloat $dtype $bc $a'.term $b'.term)
       | _ => `(Op.where ($cmp $cp $bc $a'.term $b'.term) $aTerm $bTerm)
     else `(Op.where ($cmp $cp $bc $a'.term $b'.term) $aTerm $bTerm)
   let (computeTerm?, computeDType?) ← floatingComputeArith? ctx algTerm a' b'

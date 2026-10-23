@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "task": "l2_norm_triton1",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue08/result.json",
+    "sha256": "630f3362c51d29799697ba294a8b7e466ce28e565c6f87c5da9515ca1c6ffcef",
+    "task_index": 2
+  },
+  "finding": "Reader used flat-address GridIO values and output packing in the ordinary norm formula.",
+  "resolution": "Added a bijection to finite logical input/output matrices and exposed the finite norm sum.",
+  "mathematical_target": "fun x row col => x row col / sqrt(∑j:Fin N,(x row j)^2+eps)",
+  "conditions_and_scope": "Same full grid, rows/N/B, coverage N≤B, runtime eps, masks and exterior frame.",
+  "proof_connection": "LogicalIO.judgment_iff transports the complete previous GridIO.mathematical judgment with the finite-sum identity.",
+  "fp_review": "Actual original/commuted source pair unchanged, R=[].",
+  "numerical_dependencies": {
+    "experimental_rule_instances": 0,
+    "new_numerical_experiments": 0,
+    "change": "No FP theorem, precision, cast, computation order or numerical dependency changed."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Y[row,i]=x[row,i]/sqrt(Σ(j in range N) x[row,j]^2+eps).",
+    "required_conditions": [
+      "N≤B remains explicit for connecting padded reductions to the logical sum.",
+      "Real sqrt/division are total and eps is unrestricted in the mathematical theorem.",
+      "Contract keeps the original FP32/CUDA/contiguous/nonempty-last-axis/width/alignment domain; the general theorem does not impose extra numeric restrictions."
+    ],
+    "scope": "The complete actual dense row grid, all N logical columns, typed output values and full exterior frame; epsilon stays a runtime scalar on every invocation.",
+    "canonical_connection": "GridIO.real_implements directly elaborates against the visible lambda, definitionally expanding GridIO.mathematical/formula without modifying the canonical specification.",
+    "fp_program_pair": {
+      "actual_program_pairs": [
+        "The actual source and indexCommuted complete row schedules, arbitrary Algebra and all epsilon/input words."
+      ],
+      "transformation_and_model_binding": "Only the existing integer row-base product changes; FP32 loads, arithmetic order and reductions remain fixed.",
+      "ruleset": "[] (kv_cache_copy uses the definitionally empty assumptions list)",
+      "main_empirical_rule_instances_used": 0,
+      "new_numerical_experiments_required": 0,
+      "precision_domain_note": "Typed original source precision, casts, storage, operation order and explicit backend/model binding retained. Empty experimental R does not assert equality for unrelated hardware or arbitrary models outside that binding."
+    },
+    "numerical_dependencies": {
+      "actual_program_pairs": [
+        "The actual source and indexCommuted complete row schedules, arbitrary Algebra and all epsilon/input words."
+      ],
+      "transformation_and_model_binding": "Only the existing integer row-base product changes; FP32 loads, arithmetic order and reductions remain fixed.",
+      "ruleset": "[] (kv_cache_copy uses the definitionally empty assumptions list)",
+      "main_empirical_rule_instances_used": 0,
+      "new_numerical_experiments_required": 0,
+      "precision_domain_note": "Typed original source precision, casts, storage, operation order and explicit backend/model binding retained. Empty experimental R does not assert equality for unrelated hardware or arbitrary models outside that binding."
+    }
+  },
+  "verification": [
+    {
+      "kind": "reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue08/build.py",
+        "bench.repairs.tritonbench_g.l2_norm_triton1.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/l2_norm_triton1-reader.log",
+      "log_sha256": "eaff81df866fae069d3b04bdd78bb1847afae68c419629f810d144acdcbe3d8e",
+      "seconds": 0.14615869522094727
+    },
+    {
+      "kind": "fp_source",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue08/build.py",
+        "--check",
+        "bench/repairs/tritonbench_g/l2_norm_triton1/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/l2_norm_triton1-fp_source.log",
+      "log_sha256": "bdff2cdfd88103ab16a86a9e86d16f40c0928ea2fb655de2ed6f676eeb2106b4",
+      "seconds": 5.935744285583496
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue08/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue08/l2_norm_triton1-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/l2_norm_triton1-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "seconds": 3.6972713470458984
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/l2_norm_triton1/Contract.lean": "9bd73481215eb7b67cdb604fbd6c0e7677764f8fb10967f97934315edfed8fd3",
+    "bench/repairs/tritonbench_g/l2_norm_triton1/Correct.lean": "ef193b62e03929af5ec06ef934a27f2ef92ee601006f8dfbe4b7eefdc98fe317",
+    "bench/repairs/tritonbench_g/l2_norm_triton1/FPEquiv.lean": "5d5a045ba71a16afd63fe46b84ee352d5b36b5bf3d96016e72970d1b70f1b85a",
+    "bench/repairs/tritonbench_g/l2_norm_triton1/LogicalIO.lean": "c658adb5eba4d138aa028309937c8de01a20eb72ffffa6ae357023acf71c0133",
+    "bench/repairs/tritonbench_g/l2_norm_triton1/Proofs/LogicalIO.lean": "fbc2b2627dcede234a7fac511b393c36bd015970a657599e404bc8aa4bdc64f6",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

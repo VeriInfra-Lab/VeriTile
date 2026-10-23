@@ -1,5 +1,5 @@
 import bench.tritonbench_g.quant_transpose_kernel.Proofs.FiniteGrid
-import bench.tritonbench_g.quant_transpose_kernel.IntegerCorrect
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.IntegerSource
 
 namespace QuantTransposeFinite
 open VeriTile.Triton

@@ -15,6 +15,7 @@ def Algebra.withDefaultPrecision {α : Type} (M : Algebra α) (p : ComputeDType)
   { M with
     literal := fun q => M.literal (resolvePrecision p q)
     binary := fun q => M.binary (resolvePrecision p q)
+    minimum := fun q => M.minimum (resolvePrecision p q)
     unary := fun q => M.unary (resolvePrecision p q)
     libdevicePowi := fun q => M.libdevicePowi (resolvePrecision p q)
     compareLt := fun q => M.compareLt (resolvePrecision p q)

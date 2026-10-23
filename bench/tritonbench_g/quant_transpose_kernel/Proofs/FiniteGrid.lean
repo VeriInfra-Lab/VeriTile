@@ -1,4 +1,5 @@
-import bench.tritonbench_g.quant_transpose_kernel.Proofs.FiniteMapping
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.FiniteScalar
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.GroupedGrid
 
 namespace QuantTransposeFinite
 set_option maxRecDepth 24000
@@ -15,41 +16,6 @@ def readCell (d : Storage) : Option Cell → Option (Word d)
 
 def write (m : Memory) (r : String) (o : Nat) (v : Option Cell) : Memory :=
   fun r' o' => if r'=r ∧ o'=o then v else m r' o'
-
-/-- Two distinct decorator entries with identical actual launch metadata. -/
-inductive Config where | first | second
-  deriving DecidableEq, Repr
-
-def Config.blockM (_ : Config) : Nat := 128
-def Config.blockN (_ : Config) : Nat := 128
-def Config.groupM (_ : Config) : Nat := 8
-def Config.warps (_ : Config) : Nat := 4
-def Config.stages (_ : Config) : Nat := 3
-
-structure Parameters where
-  M : Nat
-  N : Nat
-  sam : Nat
-  san : Nat
-  x : String
-  scale : String
-  output : String
-
-def Parameters.n (p : Parameters) := p.M*p.N
-def programs (p : Parameters) (_ : Config) : Nat := gridM p.M*gridN p.N
-def offset (p : Parameters) (pid lane : Nat) := col p.M p.N pid lane*p.M+row p.M p.N pid lane
-def inputOffset (p : Parameters) (i : Nat) := (i%p.M)*p.sam+(i/p.M)*p.san
-def laneInput (p : Parameters) (pid lane : Nat) := row p.M p.N pid lane*p.sam+col p.M p.N pid lane*p.san
-def active (p : Parameters) (pid lane : Nat) : Prop := row p.M p.N pid lane<p.M ∧ col p.M p.N pid lane<p.N
-instance (p : Parameters) (pid lane : Nat) : Decidable (active p pid lane) := inferInstanceAs (Decidable (_ ∧ _))
-
-def laneIndices (p : Parameters) (pid : Nat) (lanes : List Nat) :=
-  lanes.filterMap (fun lane => if active p pid lane then some (offset p pid lane) else none)
-
-theorem active_index (p : Parameters) (pid lane : Nat) (h : active p pid lane) :
-    offset p pid lane<p.n ∧ inputOffset p (offset p pid lane)=laneInput p pid lane := by
-  have he := encode_decode p.M (row p.M p.N pid lane) (col p.M p.N pid lane) h.1
-  exact ⟨active_encode_bound _ _ _ _ h.1 h.2,by simp [inputOffset,offset,laneInput,he]⟩
 
 def Separated (p : Parameters) : Prop := p.x≠p.output ∧ p.scale≠p.output
 
@@ -134,9 +100,6 @@ def runGrid (b : Numerics) (d : Storage) (p : Parameters) (c : Config) : List Na
   | [],initial => .ok initial
   | pid::pids,initial => do runGrid b d p c pids (← runProgram b d p c pid initial)
 
-def footprint (p : Parameters) (pids : List Nat) : List Nat :=
-  pids.flatMap (fun pid => laneIndices p pid (List.range (128*128)))
-
 theorem lanes_success (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
     (v : Word (compute d)) (snapshot : Memory) (inputs : Inputs d p xs v snapshot)
     (defined : Defined b d p xs v) (c : Config) (pid : Nat) (lanes : List Nat) (working : Memory) :
@@ -182,16 +145,6 @@ theorem grid_success (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat →
     rw [ih _ (reference_inputs b d p xs v _ initial sep inputs),reference_append]
     rfl
 
-theorem footprint_complete (p : Parameters) (c : Config) (i : Nat) (hi : i<p.n) :
-    i∈footprint p (List.range (programs p c)) := by
-  obtain ⟨hr,hc,he⟩ := decode_bounds p.M p.N i hi
-  obtain ⟨pid,hp,lane,hl,hm,hn⟩ := coordinate_preimage p.M p.N (i%p.M) (i/p.M) hr hc
-  apply List.mem_flatMap.mpr
-  refine ⟨pid,List.mem_range.mpr hp,?_⟩
-  apply List.mem_filterMap.mpr
-  refine ⟨lane,List.mem_range.mpr hl,?_⟩
-  simp [active,offset,hm,hn,hr,hc,he]
-
 theorem complete_grid (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat → Word d)
     (v : Word (compute d)) (sep : Separated p) (defined : Defined b d p xs v)
     (c : Config) (initial : Memory) (inputs : Inputs d p xs v initial) :
@@ -236,53 +189,10 @@ theorem trials_correct (b : Numerics) (d : Storage) (p : Parameters) (xs : Nat �
     change runTrials b d p (cs++[last]) _ = _
     rw [ih _ (full_reference_inputs b d p xs v initial sep inputs),reference_idempotent]
 
-/-- Every source lane coordinate, including masked lanes, lies within the
-padded tile extent; masks are applied only to actual loads and stores. -/
-theorem lane_bounds (p : Parameters) (c : Config) (pid lane : Nat)
-    (hn : 0<p.N) (hp : pid<programs p c) (hl : lane<128*128) :
-    row p.M p.N pid lane<gridM p.M*128 ∧ col p.M p.N pid lane<gridN p.N*128 := by
-  have hg : 0<gridN p.N := by dsimp [gridN]; omega
-  obtain ⟨_,hr,hc⟩ := tile_bounds (gridM p.M) (gridN p.N) pid hg hp
-  dsimp [row,col]
-  omega
-
-/-- Distinct active source lanes in one whole grid have distinct output
-addresses, including small M where inactive padded rows would collide. -/
-theorem output_ownership (p : Parameters) (c : Config) (pid lane pid' lane' : Nat)
-    (hn : 0<p.N) (hp : pid<programs p c) (hp' : pid'<programs p c)
-    (hl : lane<128*128) (hl' : lane'<128*128)
-    (ha : active p pid lane) (ha' : active p pid' lane')
-    (he : offset p pid lane=offset p pid' lane') : pid=pid' ∧ lane=lane' := by
-  have hd := encode_decode p.M (row p.M p.N pid lane) (col p.M p.N pid lane) ha.1
-  have hd' := encode_decode p.M (row p.M p.N pid' lane') (col p.M p.N pid' lane') ha'.1
-  have hr : row p.M p.N pid lane=row p.M p.N pid' lane' := by
-    have hh := congrArg (fun i => i%p.M) he
-    dsimp only [offset] at hh
-    rw [hd.1,hd'.1] at hh
-    exact hh
-  have hc : col p.M p.N pid lane=col p.M p.N pid' lane' := by
-    have hh := congrArg (fun i => i/p.M) he
-    dsimp only [offset] at hh
-    rw [hd.2,hd'.2] at hh
-    exact hh
-  have hrt : tileRow (gridM p.M) (gridN p.N) pid=tileRow (gridM p.M) (gridN p.N) pid' := by
-    dsimp [row] at hr; omega
-  have hct : tileCol (gridM p.M) (gridN p.N) pid=tileCol (gridM p.M) (gridN p.N) pid' := by
-    dsimp [col] at hc; omega
-  have hgn : 0<gridN p.N := by dsimp [gridN]; omega
-  have hepid := tile_injective (gridM p.M) (gridN p.N) pid pid' hgn hp hp' hrt hct
-  refine ⟨hepid,?_⟩
-  subst pid'
-  dsimp [row] at hr
-  dsimp [col] at hc
-  omega
-
 #specNonCircular reference avoiding [runTrials,runGrid,runProgram,runLanes,source,Expr.eval]
 #specNonCircular Defined avoiding [runTrials,runGrid,runProgram,runLanes,source,Expr.eval]
 #axiomsClean trials_correct
 #axiomsClean complete_grid
-#axiomsClean lane_bounds
-#axiomsClean output_ownership
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end QuantTransposeFinite

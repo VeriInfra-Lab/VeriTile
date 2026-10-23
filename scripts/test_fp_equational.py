@@ -28,14 +28,15 @@ class FPEquationalTests(unittest.TestCase):
 
     def test_scalar_and_reduction_boundaries(self):
         output = self.lean((ROOT / "bench/tests/FPEquational.lean").read_text())
-        self.assertIn("FP assumptions used by reduction_reorder:\n", output)
-        self.assertIn("unresolved FP proof:", output)
-        self.assertNotIn("\n  add_assoc\n", output)
+        self.assertIn("FP assumptions used by reduction_reorder:\n  add_assoc\n"
+                      "  unresolved FP proof:", output)
         self.assertIn("FP assumptions used by opaque_term:\n  unresolved FP proof: h", output)
         self.assertIn("FP assumptions used by same_tree:\n  none\n", output)
-        self.assertIn("FP assumptions used by reassociation_only:\n  unresolved FP proof:", output)
-        self.assertIn("FP assumptions used by inside_opaque_exp:\n  add_commute\n", output)
-        self.assertEqual(output.count("unresolved FP proof"), 3)
+        self.assertIn("FP assumptions used by reassociation_only:\n  add_assoc\n", output)
+        self.assertIn("FP assumptions used by inside_opaque_exp:\n  add_assoc\n", output)
+        self.assertNotIn("Strict model certificates used by", output)
+        self.assertNotIn("\n  add_commute\n", output)
+        self.assertEqual(output.count("unresolved FP proof"), 2)
 
     def test_current_admissions_do_not_silently_supply_missing_algebra(self):
         self.assertEqual(self.lean((ROOT / "bench/tests/FPAdmissionCoverage.lean").read_text()), "")
@@ -49,7 +50,9 @@ run_cmd do
 '''
         output = self.lean(source)
         self.assertIn("FP assumptions used by rowwise_sum_equiv:\n", output)
-        self.assertIn("\n  add_commute\n", output)
+        self.assertNotIn("\n  add_commute\n", output)
+        self.assertIn("Strict model certificates used by rowwise_sum_equiv:", output)
+        self.assertIn("ScalarArithmetic.Atom.addCommute", output)
         self.assertNotIn("unresolved FP proof:", output)
         self.assertIn("\n  add_assoc\n", output)
         self.assertIn("\n  add_zero\n", output)

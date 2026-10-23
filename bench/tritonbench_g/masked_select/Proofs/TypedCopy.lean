@@ -13,52 +13,6 @@ set_option maxHeartbeats 5000000
 set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 
-inductive Storage where
-  | fp16 | bf16 | fp32 | fp64 | f8e4 | f8e5 | int64
-  deriving DecidableEq, Repr
-
-def Storage.tag : Storage → TileDType
-  | .fp16 => .fp16 | .bf16 => .bf16 | .fp32 | .fp64 => .real
-  | .f8e4 => .f8e4 | .f8e5 => .f8e5 | .int64 => .int
-
-structure Parameters where
-  (input output : RegionName)
-  selection : Region .bool
-  prefixSum : Region .nat
-  (size width : Nat)
-
-syntax "maskedSelectTypedSource%" "[" tritonDType "]" : term
-set_option hygiene false in
-macro_rules
-  | `(maskedSelectTypedSource%[$storage:tritonDType]) =>
-    `(fun (p : Parameters) =>
-      let inp_ptr := p.input
-      let out_ptr := p.output
-      let select_mask_ptr := p.selection
-      let prefix_sum_ptr := p.prefixSum
-      ComputeKernel.mk [inp_ptr, select_mask_ptr.cast, prefix_sum_ptr.cast] [out_ptr]
-      (triton {
-        tl.region inp_ptr = $storage, out_ptr = $storage
-        pid = tl.program_id(axis=0)
-        offsets = pid * $(p.width) + tl.arange(0, $(p.width))
-        mask = offsets < $(p.size)
-        inp = tl.load(inp_ptr + offsets, mask=mask, other=0.0)
-        select_mask = tl.load(select_mask_ptr + offsets,
-          mask=mask, other=0.0).to(tl.int1)
-        out_offset = tl.load(prefix_sum_ptr + offsets,
-          mask=mask, other=0.0) - $(1)
-        tl.store(out_ptr + out_offset, inp, mask=select_mask and mask)
-      }).surfaceBody)
-
-def source : Storage → Parameters → ComputeKernel
-  | .fp16 => maskedSelectTypedSource%[tl.float16]
-  | .bf16 => maskedSelectTypedSource%[tl.bfloat16]
-  | .fp32 => maskedSelectTypedSource%[tl.float32]
-  | .fp64 => maskedSelectTypedSource%[tl.float64]
-  | .f8e4 => maskedSelectTypedSource%[tl.float8e4nv]
-  | .f8e5 => maskedSelectTypedSource%[tl.float8e5]
-  | .int64 => maskedSelectTypedSource%[tl.int64]
-
 def inputOffset {α : Type} (p : Parameters) (s : State α) (i : TileIndex [p.width]) : Nat :=
   s.pids 0 * p.width + i.1.val
 

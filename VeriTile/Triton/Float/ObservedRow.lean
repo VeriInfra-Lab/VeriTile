@@ -41,6 +41,7 @@ def Equivalent (R : Spec.Assumptions GuardedFragment) (lhs rhs : Program) : Prop
 
 instance : Spec.ProgramSyntax Program where
   Statement := GuardedFragment
+  theory := Guarded.fp32Theory
   Signature := RegionName × RegionName × Nat × (Nat → Nat) × Scheduled.Profile ×
     (Schedules → GuardExpression.Condition)
   signature p := (p.input, p.output, p.size, p.offset, p.profile, p.domain)

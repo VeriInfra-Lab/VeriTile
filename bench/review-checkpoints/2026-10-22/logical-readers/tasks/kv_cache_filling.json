@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "task": "kv_cache_filling",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue08/result.json",
+    "sha256": "630f3362c51d29799697ba294a8b7e466ce28e565c6f87c5da9515ca1c6ffcef",
+    "task_index": 10
+  },
+  "finding": "Frozen selected reader still exposed raw cache ports and raw finite arrays.",
+  "resolution": "Created a new selected source overlay with bijective named source/destination/key/value inputs, typed cache and metadata outputs, and full independent affine quantization mathematics. Frozen archive remains byte-for-byte unchanged.",
+  "mathematical_target": "Every j∈jobs r, both versions and every pid implements independent copy/full-head INT8/INT4 quantization and scale/zero metadata.",
+  "conditions_and_scope": "All Request/Domain conditions, every scheduled job, both source versions, every pid, independent per-job input states, copy versus uint8 carriers, INT4 paired packing, metadata masks and full frame retained.",
+  "proof_connection": "LogicalIO.judgment_iff proves the full exact prior Interface.programIO ImplementsOn inputDomain/result judgment; whole_implements assembles the scheduled family in Proofs.",
+  "fp_review": "Exact original selected FPEquiv theorem/proof unchanged and checked jointly with new Correct, including normal axiom audit; R=[].",
+  "numerical_dependencies": {
+    "experimental_rule_instances": 0,
+    "new_numerical_experiments": 0,
+    "change": "Native arithmetic/reduction bindings and all strict dependencies unchanged."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Full-head finite minimum/maximum; scale=1 for constant rows, otherwise (hi-lo)/levels; code=uint8(floor((x-lo)/scale+1/2)); INT8 uses 255 levels, INT4 uses 15 and packs low+16*high. Both scale/zero metadata lanes and copy branches remain explicit.",
+    "required_conditions": [
+      "Domain r retains positive heads/block/dk/dv, factor*cache-width source shapes, token count/start/history/page bounds and unique destination ownership.",
+      "The visible ⊨{Interface.inputDomain r j} retains exactly the two decoded scheduling integers src and dst.",
+      "Policy-specific cache carriers, inactive copy metadata masks, program safety/success and exterior frame are unchanged."
+    ],
+    "scope": "Exactly the selected archived KernelOnly source family: every j in jobs r, both source versions and every pid. Each job keeps its independent entry state, as in the existing accepted family theorem; this is not a new composed host run. Extrema use dk/dv before padding, and INT4 pairs use ck/cv offsets.",
+    "canonical_connection": "The same-reader pure Mathematics definitions unfold definitionally to idealScale/idealCode/idealRow, QuantReal finite extrema and SharedTarget.idealValue. The main proof directly applies Interface.real_implements; fresh elaboration checks the complete displayed formula connection without a standalone helper theorem in the reader.",
+    "fp_program_pair": {
+      "actual_program_pairs": [
+        "Interface.original (QuantNative.ops a reductions) r j pid versus Interface.indexCommuted, for all scheduled copy/INT4/INT8 jobs; actual complete Shared kernels with FP32 operations, ordered reduction profile and byte packing."
+      ],
+      "transformation_and_model_binding": "The existing integer address-product commutation only. Source casts, source precision, ordered quantization graph, metadata and packing remain fixed.",
+      "ruleset": "[] (kv_cache_copy uses the definitionally empty assumptions list)",
+      "main_empirical_rule_instances_used": 0,
+      "new_numerical_experiments_required": 0,
+      "precision_domain_note": "Typed original source precision, casts, storage, operation order and explicit backend/model binding retained. Empty experimental R does not assert equality for unrelated hardware or arbitrary models outside that binding."
+    },
+    "numerical_dependencies": {
+      "actual_program_pairs": [
+        "Interface.original (QuantNative.ops a reductions) r j pid versus Interface.indexCommuted, for all scheduled copy/INT4/INT8 jobs; actual complete Shared kernels with FP32 operations, ordered reduction profile and byte packing."
+      ],
+      "transformation_and_model_binding": "The existing integer address-product commutation only. Source casts, source precision, ordered quantization graph, metadata and packing remain fixed.",
+      "ruleset": "[] (kv_cache_copy uses the definitionally empty assumptions list)",
+      "main_empirical_rule_instances_used": 0,
+      "new_numerical_experiments_required": 0,
+      "precision_domain_note": "Typed original source precision, casts, storage, operation order and explicit backend/model binding retained. Empty experimental R does not assert equality for unrelated hardware or arbitrary models outside that binding."
+    }
+  },
+  "verification": [
+    {
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "-s",
+        "32768",
+        "--root=/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue08/selected-fill/sources",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/LogicalIO.lean",
+        "-o",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue08/tmp/module-hmxpnaz3/LogicalIO.olean",
+        "-i",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue08/tmp/module-hmxpnaz3/LogicalIO.ilean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/bench_repairs_tritonbench_g_kv_cache_filling_KernelOnly_Proofs_LogicalIO-selected-build.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "full_judgment_iff"
+    },
+    {
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "-s",
+        "32768",
+        "--root=/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue08/selected-fill/sources",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean",
+        "-o",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue08/tmp/module-hamfyiwr/Correct.olean",
+        "-i",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue08/tmp/module-hamfyiwr/Correct.ilean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/bench_repairs_tritonbench_g_kv_cache_filling_KernelOnly_Correct-selected-build.log",
+      "log_sha256": "2d23d4bb944a86d1cb7434d1cfc715cd2bd03abd407f173ee7fd6de52f7be494",
+      "kind": "selected_reader"
+    },
+    {
+      "command": [
+        "/tmp/veritile-lean-toolchain/bin/lean",
+        "-s",
+        "32768",
+        "--root=/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue08/selected-fill/sources",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue08/selected-fill/sources/Checks/ExactFPEquiv.lean",
+        "-o",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue08/tmp/module-32yk8stk/ExactFPEquiv.olean",
+        "-i",
+        "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue08/tmp/module-32yk8stk/ExactFPEquiv.ilean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue08/Checks_ExactFPEquiv-selected-build.log",
+      "log_sha256": "93797304ecd67757107c51fafce75d00cd60ac344090fd82a1ac6de24b504daa",
+      "kind": "exact_fp_joint_without_deep_printer"
+    }
+  ],
+  "verification_status": "passed_with_recorded_limit",
+  "source_sha256": {
+    ".veritile-cache/finish-pending-105-20261021/source-only/kv_cache_filling/sources/bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean": "3a3a64622fd3d16001768f523f77d38adf1d4c54d18f28bdbc337b9851dfd5c5",
+    ".veritile-cache/finish-pending-105-20261021/source-only/kv_cache_filling/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean": "0887acea86dea83f90d46443257827ccfddde548596098a4923e43263054450c",
+    ".veritile-cache/finish-pending-105-20261021/source-only/kv_cache_filling/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean": "1819e0c3fa5c5cc823e5b833525ad9b95eeffd7c73dbe81c6813389b110068de",
+    ".veritile-cache/logical-reader-review-20261022/queue08/selected-fill/sources/Checks/ExactFPEquiv.lean": "97278b08788ce54d565620a25c4faa3ea932c5506c038825c7c86c375e9f07ac",
+    ".veritile-cache/logical-reader-review-20261022/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/Contract.lean": "3a3a64622fd3d16001768f523f77d38adf1d4c54d18f28bdbc337b9851dfd5c5",
+    ".veritile-cache/logical-reader-review-20261022/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Correct.lean": "dd82f0a7e7f31b99fb17afefe458169cd5408ec98de59695dcb4186e67060480",
+    ".veritile-cache/logical-reader-review-20261022/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/FPEquiv.lean": "1819e0c3fa5c5cc823e5b833525ad9b95eeffd7c73dbe81c6813389b110068de",
+    ".veritile-cache/logical-reader-review-20261022/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/LogicalIO.lean": "689e41499e9e0c37c190188c9bdfc7b834c38224fa69ba16b83de344e0faaf42",
+    ".veritile-cache/logical-reader-review-20261022/queue08/selected-fill/sources/bench/repairs/tritonbench_g/kv_cache_filling/KernelOnly/Proofs/LogicalIO.lean": "b7e75783927a28dbcd84dc8304b155a01dd526b6bd6134c7dbec75416cf0281b",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "The unchanged archived deep #print_fp_assumptions kernel_native command has the pre-existing Safety.safeOp.match_7/Algebra ABI mismatch. Exact theorem/specification/proof and normal axiom audit were rechecked in Checks.ExactFPEquiv with only that diagnostic command removed. No theorem or proof was omitted."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

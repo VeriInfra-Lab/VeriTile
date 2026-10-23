@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rms_norm_triton.Kernels
+import bench.tritonbench_g.rms_norm_triton.Proofs.LegacyKernels
 import VeriTile.Triton
 
 namespace VeriTile.Bench.TritonBenchG.RmsNormTriton

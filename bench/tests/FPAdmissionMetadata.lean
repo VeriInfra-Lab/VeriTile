@@ -1,6 +1,7 @@
 import VeriTile.Triton.Float.LogExp
 import VeriTile.Triton.Float.Exponential
 import VeriTile.Triton.Float.CountConversion
+import VeriTile.Triton.Float.CountAdmission
 import VeriTile.Triton.Float.ScalarArithmetic
 
 /- These checks detect changes in selected report metadata. They do not prove
@@ -40,12 +41,15 @@ theorem exponential_report_matches :
   unfold fp32Rule
   decide
 
+-- Count reports are historical metadata, independent of current strict rules.
 open CountConversion in
-theorem count_report_matches (a : Atom) (h : a.Available) :
-    (report a h).ruleID = (match a with | .zero => "COUNT-ZERO" | .successor => "COUNT-SUCCESSOR") ∧
-    (report a h).input = "int32" ∧ (report a h).compute = "fp32" ∧
-    (report a h).accumulator = "fp32" ∧ (report a h).output = "fp32" ∧
+theorem count_report_matches (a : Atom) :
+    let report := match a with | .zero => CountAdmission.zero | .successor => CountAdmission.successor
+    report.ruleID = (match a with | .zero => "COUNT-ZERO" | .successor => "COUNT-SUCCESSOR") ∧
+    report.input = "int32" ∧ report.compute = "fp32" ∧
+    report.accumulator = "fp32" ∧ report.output = "fp32" ∧
+    CountAdmission.upperExclusive = limit ∧
     0 < limit ∧ limit ≤ 2^24 ∧ limit < 2^31 := by
-  cases a <;> exact ⟨rfl, rfl, rfl, rfl, rfl, by decide, by decide, by decide⟩
+  cases a <;> exact ⟨rfl, rfl, rfl, rfl, rfl, rfl, by decide, by decide, by decide⟩
 
 end FPAdmissionMetadataTests

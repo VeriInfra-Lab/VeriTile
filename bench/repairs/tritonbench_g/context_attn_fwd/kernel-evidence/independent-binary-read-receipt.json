@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/tmp/veritile-lean-toolchain/bin/lean",
+    "--run",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/context_attn_fwd/kernel-evidence/independent_binary_imports.lean",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/tritonbench_g/context_attn_fwd/Proofs/HostComposition.olean",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/tritonbench_g/context_attn_fwd/Proofs/HostCoverage.olean",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/tritonbench_g/context_attn_fwd/Proofs/HostInterface.olean",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/tritonbench_g/context_attn_fwd/Proofs/HostLaunch.olean",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/tritonbench_g/context_attn_fwd/Proofs/HostParameters.olean"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 1.0543502452783287,
+  "existing_objects_unchanged": true,
+  "objects": {
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/tritonbench_g/context_attn_fwd/Proofs/HostComposition.olean": "f92adac58576b05753462faa4ddb9fcfb8de4e1352b2992205795baf52f305b7",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/tritonbench_g/context_attn_fwd/Proofs/HostCoverage.olean": "66f34751edb8afaa733598e665afa5dd3d59cc6d21d82c1f5e29c30e3a7c59aa",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/tritonbench_g/context_attn_fwd/Proofs/HostInterface.olean": "857d5b6c0bb4279c29163fd17ca9db779e211bfa91c4f417a2eb4c19bbc891a7",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/tritonbench_g/context_attn_fwd/Proofs/HostLaunch.olean": "ee364f05a783c75f257a19b69f641f0cb1388f2a81f0d7f061334ad839833234",
+    "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/kernel-build/lib/lean/bench/tritonbench_g/context_attn_fwd/Proofs/HostParameters.olean": "7f5ea2f4bd5ff5277ac1f9cceda568ed72f87ba61251107c918e58cd916c80ca"
+  },
+  "reader_sha256": "211dd7b75cc5d8092932b804b282a4a7412c675ebe9ea80891ef07f4ce9109a1",
+  "stdout_sha256": "47b2b4ea2254c9317ef911c818e8b8e9640c139c4c08a40b026615ca7bb6797d",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

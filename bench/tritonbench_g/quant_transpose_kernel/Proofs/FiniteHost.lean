@@ -1,65 +1,11 @@
 import bench.tritonbench_g.quant_transpose_kernel.Proofs.FiniteGrid
 
+local macro "true" : term => `(Bool.true)
+local macro "false" : term => `(Bool.false)
+
 namespace QuantTransposeFinite
 set_option maxRecDepth 24000
 set_option maxHeartbeats 8000000
-
-structure Input where
-  shape : List Nat
-  strides : List Nat
-  /-- Relative to the actual x.data_ptr(), including view stride effects. -/
-  logicalOffsets : List Nat
-  isCuda : Bool
-  deviceIndex : Nat
-  storageBase : Nat
-  storageOffset : Nat
-  storageLength : Nat
-
-def Input.numel (a : Input) := a.shape.prod
-def Input.M (a : Input) := a.shape.headD 0
-def Input.N (a : Input) := a.shape[1]?.getD 0
-def Input.sam (a : Input) := a.strides.headD 0
-def Input.san (a : Input) := a.strides[1]?.getD 0
-
-/-- Ordinary Torch nonnegative shape/stride metadata and tensor numel fit
-signed64. This primitive metadata contract permits every runtime i32/i64
-specialization and imposes no arithmetic or active-address safety condition. -/
-def MetadataDomain (a : Input) : Prop :=
-  a.M<2^63 ∧ a.N<2^63 ∧ a.sam<2^63 ∧ a.san<2^63 ∧ a.numel<2^63
-
-def Input.outputShape (a : Input) := [a.N,a.M]
-
-
-def viewOffsets : List Nat → List Nat → List Nat
-  | [],[] => [0]
-  | n::ns,t::ts => (List.range n).flatMap (fun i => (viewOffsets ns ts).map (fun o => i*t+o))
-  | _,_ => []
-
-structure Allocations where
-  maximum : String
-  scale : String
-  output : String
-  /-- Fresh torch.empty bytes need not be zero. -/
-  initialOutput : Nat → BitVec 8
-  maximumBase : Nat
-  scaleBase : Nat
-  outputBase : Nat
-  currentDevice : Nat
-
-def Allocations.Fresh (a : Allocations) (x : String) : Prop :=
-  x≠a.maximum ∧ x≠a.scale ∧ x≠a.output ∧
-  a.maximum≠a.scale ∧ a.maximum≠a.output ∧ a.scale≠a.output
-
-def parameters (a : Input) (alloc : Allocations) (x : String) : Parameters :=
-  ⟨a.M,a.N,a.sam,a.san,x,alloc.scale,alloc.output⟩
-
-inductive Stage where
-  | abs | maximum | unsqueeze | reciprocal | shapeUnpack | outputAllocation | outputShapeAssertion | inputStrideAssertion | outputStrideAssertion | signature | compilation | driverContext | gridParse | launchEnterHook | pointerPacking | launch | launchExitHook
-  deriving DecidableEq, Repr
-
-/-- Primitive exceptions are an explicit trusted runtime outcome, distinct
-from source diagnostics. The no-failure profile is stated when proving success. -/
-abbrev Environment := Stage → Option String
 
 def available (env : Environment) (stage : Stage) : Except (Stage × String) Unit :=
   match env stage with | none => .ok () | some detail => .error (stage,detail)

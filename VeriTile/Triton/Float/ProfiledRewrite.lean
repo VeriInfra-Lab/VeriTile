@@ -142,6 +142,7 @@ def Equivalent (R : Spec.Assumptions GuardedFragment) (lhs rhs : Program) : Prop
 
 instance : Spec.ProgramSyntax Program where
   Statement := GuardedFragment
+  theory := Guarded.fp32Theory
   Signature := (List RegionName × List RegionName) × List Site
   signature p := ((p.kernel.inputs, p.kernel.outputs), p.domain)
   body p := [⟨[], p.kernel.surfaceBody, .real, none⟩]
@@ -164,8 +165,8 @@ private theorem eval_mul {α : Type} [Inhabited α] (M : Algebra α)
           some (bop (M.binary none .real .mul) bc vx vy)) := rfl
 
 /-- Pointwise addition commutation, lifted through an arbitrary prefix/suffix. -/
-theorem add_commute {α : Type} [Inhabited α] (R : ScalarArithmetic.Rules)
-    (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D)
+theorem add_commute {α : Type} [Inhabited α] (R : Spec.Assumptions GuardedFragment)
+    (M : Algebra α) (D : Domain α) (hM : Models R M D)
     (s : State α) (before after : List ComputeStmt) (out : RegName)
     (a b : Op .real shape) (hd : (Site.add before shape a b).Holds M D s) :
     run (engine M) (before ++ .assign .real shape out (.alg (.add .real (sameShape shape) a b)) :: after) s =
@@ -183,7 +184,7 @@ theorem add_commute {α : Type} [Inhabited α] (R : ScalarArithmetic.Rules)
         bop ((engine M).binary none .real .add) (sameShape shape) vb va := by
       funext i
       simp only [bop, sameShape_left, sameShape_right]
-      exact ScalarArithmetic.add_comm R M D hM t _ _ ((hd t hp va vb ha hb).1 i)
+      exact ScalarArithmetic.add_comm_strict M D hM t _ _ ((hd t hp va vb ha hb).1 i)
         ((hd t hp va vb ha hb).2 i)
     rw [hvalues]
 
@@ -236,8 +237,8 @@ def Contextual {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
 /-- Commute an explicit fp32 addition after checking its actual operands.
 Subexpressions, including reductions, keep their fp32 evaluation context. -/
 @[spec_rule] theorem contextual_add_fp32_commute {α : Type} [Inhabited α]
-    (R : ScalarArithmetic.Rules) (M : Algebra α) (D : Domain α)
-    (hM : Models R.assumptions M D) (s : State α) (before after : List ComputeStmt)
+    (R : Spec.Assumptions GuardedFragment) (M : Algebra α) (D : Domain α)
+    (hM : Models R M D) (s : State α) (before after : List ComputeStmt)
     (out : RegName) (a b : Op .real shape)
     (hd : (Site.addFP32 before shape a b).Holds M D s) :
     Contextual M s before after
@@ -263,7 +264,7 @@ Subexpressions, including reductions, keep their fp32 evaluation context. -/
         bop ((engine M).binary (some .fp32) .real .add) (sameShape shape) vb va := by
       funext i
       simp only [bop, sameShape_left, sameShape_right]
-      exact ScalarArithmetic.add_comm R M D hM t _ _ ((hd t hp va vb ha hb).1 i)
+      exact ScalarArithmetic.add_comm_strict M D hM t _ _ ((hd t hp va vb ha hb).1 i)
         ((hd t hp va vb ha hb).2 i)
     rw [hvalues]
 
@@ -359,10 +360,10 @@ theorem contextual_int_range {α : Type} [Inhabited α] (M : Algebra α)
 /-- Commuting addition also swaps scalar-right with scalar-left broadcasting.
 Both operands are evaluated after the actual prefix. Missing registers and
 other execution failures agree, and the unchanged suffix keeps its mask and
-memory effects. The only numerical step is the admitted scalar add_commute. -/
+memory effects. The numerical step uses the strict scalar addition certificate. -/
 @[spec_rule] theorem contextual_add_scalar_commute {α : Type} [Inhabited α]
-    (R : ScalarArithmetic.Rules) (M : Algebra α) (D : Domain α)
-    (hM : Models R.assumptions M D) (s : State α) (before after : List ComputeStmt)
+    (R : Spec.Assumptions GuardedFragment) (M : Algebra α) (D : Domain α)
+    (hM : Models R M D) (s : State α) (before after : List ComputeStmt)
     (out : RegName) (a : Op .real (n :: rest)) (b : Op .real [])
     (hd : (Site.addScalar before n rest a b).Holds M D s) :
     Contextual M s before after
@@ -381,7 +382,7 @@ memory effects. The only numerical step is the admitted scalar add_commute. -/
     have hvalues : bop ((engine M).binary none .real .add) .scalarR va vb =
         bop ((engine M).binary none .real .add) .scalarL vb va := by
       funext i
-      exact ScalarArithmetic.add_comm R M D hM t _ _ ((hd t hp va vb ha hb).1 i)
+      exact ScalarArithmetic.add_comm_strict M D hM t _ _ ((hd t hp va vb ha hb).1 i)
         (hd t hp va vb ha hb).2
     rw [hvalues]
 
@@ -390,8 +391,8 @@ and dtype are identical on both sides; only the evaluated value changes.
 The same finite-operand guard as register addition is checked after the actual
 prefix. No permission to change a memory access follows from the numeric atom. -/
 @[spec_rule] theorem contextual_store_add_commute {α : Type} [Inhabited α]
-    (R : ScalarArithmetic.Rules) (M : Algebra α) (D : Domain α)
-    (hM : Models R.assumptions M D) (s : State α) (before after : List ComputeStmt)
+    (R : Spec.Assumptions GuardedFragment) (M : Algebra α) (D : Domain α)
+    (hM : Models R M D) (s : State α) (before after : List ComputeStmt)
     (mem : MemAccess .real shape) (mask : MaskOpt .real shape) (a b : Op .real shape)
     (hd : (Site.add before shape a b).Holds M D s) :
     Contextual M s before after
@@ -411,17 +412,17 @@ prefix. No permission to change a memory access follows from the numeric atom. -
         bop ((engine M).binary none .real .add) (sameShape shape) vb va := by
       funext i
       simp only [bop, sameShape_left, sameShape_right]
-      exact ScalarArithmetic.add_comm R M D hM t _ _ ((hd t hp va vb ha hb).1 i)
+      exact ScalarArithmetic.add_comm_strict M D hM t _ _ ((hd t hp va vb ha hb).1 i)
         ((hd t hp va vb ha hb).2 i)
     rw [hvalues]
 
 /-- Move a scalar multiplier from the left to the right without changing the
 prefix, suffix or broadcast result shape. Both the tile and actual scalar
 must be finite; a literal's spelling alone does not establish its domain in
-an opaque numerical model. The numerical step uses only admitted mul_commute. -/
+an opaque numerical model. The numerical step uses the strict multiplication certificate. -/
 @[spec_rule] theorem contextual_mul_scalar_commute {α : Type} [Inhabited α]
-    (R : ScalarArithmetic.Rules) (M : Algebra α) (D : Domain α)
-    (hM : Models R.assumptions M D) (s : State α) (before after : List ComputeStmt)
+    (R : Spec.Assumptions GuardedFragment) (M : Algebra α) (D : Domain α)
+    (hM : Models R M D) (s : State α) (before after : List ComputeStmt)
     (out : RegName) (a : Op .real (n :: rest)) (b : Op .real [])
     (hd : (Site.mulScalar before n rest a b).Holds M D s) :
     Contextual M s before after
@@ -440,7 +441,7 @@ an opaque numerical model. The numerical step uses only admitted mul_commute. -/
     have hvalues : bop ((engine M).binary none .real .mul) .scalarL vb va =
         bop ((engine M).binary none .real .mul) .scalarR va vb := by
       funext i
-      exact ScalarArithmetic.mul_comm R M D hM t _ _ (hd t hp va vb ha hb).2
+      exact ScalarArithmetic.mul_comm_strict M D hM t _ _ (hd t hp va vb ha hb).2
         ((hd t hp va vb ha hb).1 i)
     rw [hvalues]
 
@@ -448,8 +449,8 @@ an opaque numerical model. The numerical step uses only admitted mul_commute. -/
 operands. Guards use the same precision as the operation; evaluation failures
 and the complete surrounding context are preserved. -/
 @[spec_rule] theorem contextual_mul_fp32_scalar_commute {α : Type} [Inhabited α]
-    (R : ScalarArithmetic.Rules) (M : Algebra α) (D : Domain α)
-    (hM : Models R.assumptions M D) (s : State α) (before after : List ComputeStmt)
+    (R : Spec.Assumptions GuardedFragment) (M : Algebra α) (D : Domain α)
+    (hM : Models R M D) (s : State α) (before after : List ComputeStmt)
     (out : RegName) (a : Op .real (n :: rest)) (b : Op .real [])
     (hd : (Site.mulScalarFP32 before n rest a b).Holds M D s) :
     Contextual M s before after
@@ -477,7 +478,7 @@ and the complete surrounding context are preserved. -/
     have hvalues : bop ((engine M).binary (some .fp32) .real .mul) .scalarR va vb =
         bop ((engine M).binary (some .fp32) .real .mul) .scalarL vb va := by
       funext i
-      exact ScalarArithmetic.mul_comm R M D hM t _ _ ((hd t hp va vb ha hb).1 i)
+      exact ScalarArithmetic.mul_comm_strict M D hM t _ _ ((hd t hp va vb ha hb).1 i)
         (hd t hp va vb ha hb).2
     rw [hvalues]
 
@@ -529,8 +530,8 @@ in the unchanged prefix and suffix. -/
     exact ScalarArithmetic.div_mul_rcp R M D hM t _ _ (hva i) hvb hn
 
 @[spec_rule] theorem contextual_add_commute {α : Type} [Inhabited α]
-    (R : ScalarArithmetic.Rules) (M : Algebra α) (D : Domain α)
-    (hM : Models R.assumptions M D) (s : State α) (before after : List ComputeStmt)
+    (R : Spec.Assumptions GuardedFragment) (M : Algebra α) (D : Domain α)
+    (hM : Models R M D) (s : State α) (before after : List ComputeStmt)
     (out : RegName) (a b : Op .real shape)
     (hd : (Site.add before shape a b).Holds M D s) :
     Contextual M s before after
@@ -553,8 +554,8 @@ The cast remains an opaque operation on both sides. Register lookup is
 precision independent, and the parameter literal is interpreted at fp32 in
 both the domain and the computation; no cast identity is used. -/
 @[spec_rule] theorem contextual_scaled_tile_commute {α : Type} [Inhabited α]
-    (R : ScalarArithmetic.Rules) (M : Algebra α) (D : Domain α)
-    (hM : Models R.assumptions M D) (s : State α) (before after : List ComputeStmt)
+    (R : Spec.Assumptions GuardedFragment) (M : Algebra α) (D : Domain α)
+    (hM : Models R M D) (s : State α) (before after : List ComputeStmt)
     (out tile : RegName) (scale : ℝ)
     (hd : (Site.mulScalar before n rest (.ref .real (n :: rest) tile)
       (.const scale)).Holds M D s) :
@@ -586,7 +587,7 @@ both the domain and the computation; no cast identity is used. -/
         congr 1
         funext i
         exact congrArg (M.cast (some .fp32) .real .real)
-          (ScalarArithmetic.mul_comm R M D hM t _ _ (hfinite i) hscale)
+          (ScalarArithmetic.mul_comm_strict M D hM t _ _ (hfinite i) hscale)
     erw [hv]
     rfl
 
@@ -594,8 +595,8 @@ both the domain and the computation; no cast identity is used. -/
 actual operands are guarded at the reached prefix, including unselected lanes;
 the predicate, alternative, failures and complete statement context are retained. -/
 @[spec_rule] theorem contextual_where_mul_scalar_commute {α : Type} [Inhabited α]
-    (R : ScalarArithmetic.Rules) (M : Algebra α) (D : Domain α)
-    (hM : Models R.assumptions M D) (s : State α) (before after : List ComputeStmt)
+    (R : Spec.Assumptions GuardedFragment) (M : Algebra α) (D : Domain α)
+    (hM : Models R M D) (s : State α) (before after : List ComputeStmt)
     (out : RegName) (a : Op .real (n :: rest)) (b : Op .real [])
     (condition : Op .bool (n :: rest)) (otherwise : Op .real (n :: rest))
     (hd : (Site.mulScalar before n rest a b).Holds M D s) :
@@ -623,7 +624,7 @@ the predicate, alternative, failures and complete statement context are retained
       rename_i va vb
       congr 1
       funext i
-      exact ScalarArithmetic.mul_comm R M D hM t _ _ ((hd t hp va vb ha hb).1 i)
+      exact ScalarArithmetic.mul_comm_strict M D hM t _ _ ((hd t hp va vb ha hb).1 i)
         (hd t hp va vb ha hb).2
     have hwhere : Structural.evalOp (engine M) none
         (.where condition (.mul .real .scalarR a b) otherwise) t =

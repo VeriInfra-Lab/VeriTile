@@ -1,0 +1,25 @@
+{
+  "status": "pass",
+  "selected_source": {
+    "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/flash_attn_scalar_abi_checked.py",
+    "sha256": "c7485293fe9f8ac1cba4da4b141f01b837a672fa37bfb4cbe38235569d7579c4"
+  },
+  "shared_source": {
+    "path": "bench/repairs/tritonbench_g/flash_attn/KernelOnly/SourceSyntax.lean",
+    "sha256": "69d02a27baa6b0c865731cdf4fc585f7a84ea223403ffb80610f27cf38846da4"
+  },
+  "source_AST_sha256": "66c0ba7119b3480d61d21c3b9aaf76ffc05ca27b324dc393ce133fb150cefad4",
+  "statement_count": 27,
+  "bindings": {
+    "BLOCK_M": 128,
+    "BLOCK_N": 64
+  },
+  "normalizations": [
+    "Lean Nat parameter antiquotation spelling",
+    "boundary-axis List Nat syntax to the identical Python singleton tuple",
+    "compile-time block constants from unchanged wrapper",
+    "syntactic scalar declaration removed by actual kernel surfaceBody.drop 1; incoming register is retained"
+  ],
+  "primitive_numerical_experiment": false,
+  "GPU_execution": false
+}

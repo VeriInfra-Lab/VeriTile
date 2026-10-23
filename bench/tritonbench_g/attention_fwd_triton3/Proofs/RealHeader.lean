@@ -1,3 +1,4 @@
+import bench.tritonbench_g.attention_fwd_triton3.SourceParameters
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.RealWindowSource
 
 /-! Execute source program coordinates and grouped-head base offsets. Arithmetic
@@ -64,16 +65,6 @@ theorem coordinate_executes (s : BlockState) (heads kvHeads : Nat) :
       (Frame.setReg coordinateWrites s2 "off_z" _ _ _ (by simp [coordinateWrites]))).trans
       (Frame.setReg coordinateWrites s3 "off_h" _ _ _ (by simp [coordinateWrites]))).trans
       (Frame.setReg coordinateWrites s4 "off_hkv" _ _ _ (by simp [coordinateWrites]))
-
-structure Strides where
-  qBatch : Nat
-  qHead : Nat
-  kBatch : Nat
-  kHead : Nat
-  vBatch : Nat
-  vHead : Nat
-  oBatch : Nat
-  oHead : Nat
 
 structure Bases where
   q : Nat

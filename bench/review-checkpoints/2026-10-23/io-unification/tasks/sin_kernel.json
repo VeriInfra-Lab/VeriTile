@@ -1,0 +1,302 @@
+{
+  "schema": 1,
+  "task": "sin_kernel",
+  "status": "unchanged",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue13/result.json",
+    "sha256": "eccc60d59c27bbbff3178043cd48a1d4e0514c004b71dbc7b5485da2e8fa42be",
+    "task_index": 8
+  },
+  "reason": "IO.lean is the single MaskedKernelIO₁ layout, already a logical finite-lane interface. Correct only retains its allowed thin sinIO alias; complete proof assembly stays in Proofs/RealReader.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/sin_kernel/Contract.lean",
+    "bench/repairs/tritonbench_g/sin_kernel/Correct.lean",
+    "bench/repairs/tritonbench_g/sin_kernel/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "sin_kernel"
+  },
+  "changed_files": [],
+  "removed_files": [],
+  "moved_declarations": [],
+  "preservation": {
+    "evidence": {
+      "path": ".veritile-cache/io-unification-20261023/queue13/preservation.json",
+      "sha256": "e78a27baa5ecccc32ec3a0c06ff3db83ec0f87688608194ffe877fab568c44b6"
+    },
+    "all_selected_public_entry_bytes_unchanged": true,
+    "complete_judgment_connection_retained": {
+      "theorem": "MaskedKernelIO₁.Implements.intro and existing kernel_function_region_run; ReaderProof.correct",
+      "detail": "The complete previous MaskedKernelIO₁.Implements proof body is moved verbatim. Safety, finite projection, region execution, value and exact frame conclusions are unchanged. No new callback or execution premise."
+    },
+    "source_preservation_check": {
+      "source_files": 23,
+      "byte_changed_files": [],
+      "added_files": [],
+      "all_public_contract_correct_fpequiv_bytes_unchanged": true
+    },
+    "definition_preservation": "Every task source byte equals its saved before snapshot; applicable release pins also match."
+  },
+  "verification": [
+    {
+      "kind": "joint",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue13/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue13/sin_kernel-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue13/sin_kernel-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "task": "sin_kernel",
+      "scope": "fresh source check"
+    },
+    {
+      "kind": "verify-preservation",
+      "command": [
+        "/usr/local/bin/python",
+        ".veritile-cache/io-unification-20261023/queue13/verify-preservation.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue13/verify-preservation-final.log",
+      "log_sha256": "2b67f66003d4ab3ac4ed9ceafe566ae51c25d02c053f5a0616ad7c1273b7ee9c"
+    },
+    {
+      "kind": "verify-cached",
+      "command": [
+        "/usr/local/bin/python",
+        ".veritile-cache/io-unification-20261023/queue13/verify-cached.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue13/verify-cached-final.log",
+      "log_sha256": "b4bbf2a61526fa2c23b41de9207862ea39cd5ba93a21080f83164146a1bfb36b"
+    },
+    {
+      "kind": "cached_successful_objects_reused",
+      "fresh_source_build": false,
+      "evidence": {
+        "path": ".veritile-cache/io-unification-20261023/queue13/cached-reuse.json",
+        "sha256": "72fbaa7d55da68cda270e576042535c13942a0dc48f9a18115887717598f5642"
+      },
+      "entries": [
+        {
+          "source": "bench/repairs/tritonbench_g/sin_kernel/Contract.lean",
+          "source_sha256": "2c56eeb0a33a43f8f97405ccae26997c0548fd26df6f7cd8f3aa4cbb82fcb299",
+          "object": ".veritile-cache/io-unification-20261023/queue13/build/lib/lean/bench/repairs/tritonbench_g/sin_kernel/Contract.olean",
+          "object_sha256": "7ae6d2899932747e1b67e1cf5c82caa49512529a196a54a9209c64a1ad92dfde",
+          "resolved_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/finish-pending-105-20261021/combined-minimum-welford-20261022/base/strict/lib/lean/bench/repairs/tritonbench_g/sin_kernel/Contract.olean",
+          "kind": "baseline Contract object import; source pinned in applicable release, no per-module receipt claimed"
+        },
+        {
+          "source": "bench/repairs/tritonbench_g/sin_kernel/Correct.lean",
+          "source_sha256": "8560ba7d7231beafa74748effe5a3532fe6062ec6095aa47983dda5ff7237e83",
+          "object": ".veritile-cache/io-unification-20261023/queue13/build/lib/lean/bench/repairs/tritonbench_g/sin_kernel/Correct.olean",
+          "object_sha256": "17c5ee468aac4d8827c3e76395b7a541d33bc13224408a6623decfd00681cc9f",
+          "resolved_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue13/supplement/build/lib/lean/bench/repairs/tritonbench_g/sin_kernel/Correct.olean",
+          "kind": "cached historical object reuse",
+          "receipt": ".veritile-cache/logical-reader-review-20261022/queue13/supplement/build/lib/lean/bench/repairs/tritonbench_g/sin_kernel/Correct.workspace-build.json",
+          "receipt_sha256": "a8b7f9cd02dc3aef30a52b179daf05d46734972b03861a2bf5a149ed47a32508",
+          "source_and_direct_import_object_hashes_match": true
+        },
+        {
+          "source": "bench/repairs/tritonbench_g/sin_kernel/FPEquiv.lean",
+          "source_sha256": "15cf3941725b5d6da615de6b966d7fa08a68195d4bd5bf104a952d7dfbee7ca8",
+          "object": ".veritile-cache/io-unification-20261023/queue13/build/lib/lean/bench/repairs/tritonbench_g/sin_kernel/FPEquiv.olean",
+          "object_sha256": "6c1064bc0073a60f4ba3d0830a3beb6446a7fdfead7b16af6750c0b3dadaf144",
+          "resolved_object": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue13/build/lib/lean/bench/repairs/tritonbench_g/sin_kernel/FPEquiv.olean",
+          "kind": "cached historical object reuse",
+          "receipt": ".veritile-cache/logical-reader-review-20261022/queue13/build/lib/lean/bench/repairs/tritonbench_g/sin_kernel/FPEquiv.workspace-build.json",
+          "receipt_sha256": "c4bad6d78cceca78f5b4788159e38d91c3a0a4fa81b634b335365d4d5202046a",
+          "source_and_direct_import_object_hashes_match": true
+        }
+      ],
+      "applicable_source_release": {
+        "path": ".veritile-cache/logical-reader-review-20261022/queue13/release-result.json",
+        "sha256": "629bffaa864c24e7cc37f10e32b29c72132c01318546dff04e43bb7c16ac013a"
+      }
+    }
+  ],
+  "verification_status": "unchanged_reused",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/sin_kernel/Contract.lean": "2c56eeb0a33a43f8f97405ccae26997c0548fd26df6f7cd8f3aa4cbb82fcb299",
+    "bench/repairs/tritonbench_g/sin_kernel/Correct.lean": "8560ba7d7231beafa74748effe5a3532fe6062ec6095aa47983dda5ff7237e83",
+    "bench/repairs/tritonbench_g/sin_kernel/FPEquiv.lean": "15cf3941725b5d6da615de6b966d7fa08a68195d4bd5bf104a952d7dfbee7ca8",
+    "bench/repairs/tritonbench_g/sin_kernel/IO.lean": "b3f2066669bdc09e50602ce023c00705ebd355030b83ecc7c4e52bcd5c7e3688",
+    "bench/repairs/tritonbench_g/sin_kernel/Kernels.lean": "3e9358435a3f6ee643307222e2a777bb27bd71f13d8dd8d2e8d8fd7ccc206b23",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Projection.lean": "62f32a5ffe2302e5f1993b3df6c0551e9765a65feeb0d28f46248bf204fda958",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/RealReader.lean": "776c12d45976dab9f60b7a23bcf7172a4ab5a00b5c4d4fe537dd1d779fda3028",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Rewrite.lean": "4145ed1a7d62a4681a37ab150f6c847ecb24e104f61847e525549eb093cef02d",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/sin_kernel/Misc/Legacy/HostCorrect.lean": "ddf4682cf207de98de4c168127c550371cec263645a97964a0e5893fd90a6ca1",
+    "bench/repairs/tritonbench_g/sin_kernel/Misc/Legacy/HostFPEquiv.lean": "7e9edf70ac1d77240b41a60d66b213dca59df46b641a68850b2df5c1e92ad497",
+    "bench/repairs/tritonbench_g/sin_kernel/Misc/SourceBinding.lean": "7d046a0290f6a2253c14e905ff8237c8b1e64f8ceeb739d2c4706822bbded644",
+    "bench/repairs/tritonbench_g/sin_kernel/Misc/TensorBridge.lean": "b71cea344f7d63b19a45bba14428de3320986dd4823834315891edf7f6814724",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Contract.lean": "bb107ed5ce730f6dceacf739a0010fa4c3110c231c3b1488342c7e596ea37dd2",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Execution.lean": "b4aba5aad65e4603e0c7410de14ea8b9f9d3aa61bbff0d3c897b1b462006212f",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/FP.lean": "7b515ff4b83acaef446f244de7e8f484646b088098e4761407c15f5354804e02",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Host.lean": "cb9494ce1c1ec416740c319cd84e186ea5f10b4315625611011c0b65c7dd1a3b",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Index.lean": "6fbff27c0e1573084b216d890ec73375aaa51bac5d67b37001a471a5efd047dd",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/LegacySource.lean": "63579aa7163a5bb31895dc00d4ca827ba781916644f62eb5795f009a2a1cfd4c",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Pointers.lean": "20686aeb39933e027bb9488d624f4a87c00c0236aee1ab259bcb54579d8698d8",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Real.lean": "412f31b2fee5cb5653b8e0e0b01a4f1823a993d1eb64817c17ed2bf21717ff93",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/RealGrid.lean": "18979e5542b929f8b701b828925f43f6a1f8aff6ef7d285d5b06f732243e1e0b",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Source.lean": "c1386c0d1604f59c5ffe6992ffa5a3988e61d71d1b117c2d92d9b6e9a8fca3f8",
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/TensorBinding.lean": "fd263e43b0c3ff72b936312a09ecf1331836625c7ec53052bf7da39f7be72784"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/sin_kernel/Contract.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Correct.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/FPEquiv.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/IO.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Kernels.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Projection.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/RealReader.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Rewrite.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Misc/Legacy/HostCorrect.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Misc/Legacy/HostFPEquiv.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Misc/SourceBinding.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Contract.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Execution.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/FP.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Host.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Index.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/LegacySource.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Pointers.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Real.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/RealGrid.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/Source.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    },
+    "bench/repairs/tritonbench_g/sin_kernel/Proofs/TensorBinding.lean": {
+      "owner_tasks": [
+        "sin_kernel"
+      ]
+    }
+  },
+  "retired_current_source_pins": {},
+  "limits": [
+    "Only necessary changed chains and per-task public joint imports were checked; unrelated proof closures and optional native/host/Tensor applications were not rebuilt.",
+    "No kernel, mathematical formula, public condition, schedule/domain/observation, FP pair, precision or numerical rule changed. No GPU or new numerical experiments were run."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

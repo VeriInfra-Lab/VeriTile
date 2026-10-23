@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "task": "matrix_transpose",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue10/max-reduction-supplement/result.json",
+    "sha256": "8ffac003658bf3b8618f2ca937ddbd10c9bfe4ce7fc10a113549bfb37b70b112",
+    "task_index": 6
+  },
+  "finding": "Main formula exposed flat output lanes and Lane2D decode in the mathematical statement.",
+  "resolution": "Input equivalence uses (row,col), output equivalence uses (col,row); complete flat lane coverage and both PID axes are retained.",
+  "mathematical_target": "fun xs col row => xs row col",
+  "conditions_and_scope": {
+    "scope": "Complete original single unmasked FP16 tile, m*d outputs; original positive power-of-two dimensions and <=2^20 tile contract retained.",
+    "conditions": [
+      "InputContract m d",
+      "Masked2DKernelIO supplies disjoint placement, input binding, actual access safety/success and full exterior frame"
+    ],
+    "complete_source_domain_precision_masks_safety_success_and_frames_preserved": true
+  },
+  "proof_connection": {
+    "helpers": [
+      "bench/repairs/tritonbench_g/matrix_transpose/Proofs/LogicalIO.lean"
+    ],
+    "full_declaration_type_iff": {
+      "fixture": ".veritile-cache/logical-reader-review-20261022/queue10/matrix_transpose/Preservation.lean",
+      "fixture_sha256": "31e16d295ca0695ca937f67aa4b214aff49bc75a13ecebe3280ea74bcd7fc0d7",
+      "actual_current_and_before_declarations": [
+        "VeriTile.Bench.Repairs.MatrixTranspose.Correct.transpose_kernel_correctness ↔ VeriTile.Bench.Repairs.MatrixTranspose.Correct.transpose_kernel_correctness_before"
+      ],
+      "method": "declarationType% reads actual full declaration types, then forall_congr retains every parameter and premise; task headline_iff proves equality/iff of the complete underlying judgment."
+    }
+  },
+  "fp_review": {
+    "actual_pair": "original source versus existing indexCommutedSource, both complete single-tile typed programs.",
+    "model_and_domain": "ProfiledMemory.Program quantifies the declared profiled models/domains; exact integer multiplication swap changes no floating operations, and complete execution/final typed state equality is proved.",
+    "selected_fp_source_unchanged": true,
+    "main_experimental_rules": []
+  },
+  "numerical_dependencies": {
+    "experimental_rules": [],
+    "strict_rewrite_certificates": [],
+    "reason": "No floating rewrite, no finite-word restriction; bounded access guarantees remain in the Real IO judgment."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "out[col*m+row] = matrix[row*d+col]. Headline xs[j] relates distinct transpose input/output windows, not identical flat addresses.",
+    "required_conditions": {
+      "public_conditions": [
+        "InputContract m d",
+        "Masked2DKernelIO supplies disjoint placement, input binding, actual access safety/success and full exterior frame"
+      ],
+      "contract_relation": "Generated FP16 storage, original shape checks and output-coordinate convention match Contract.formula/flatFormula."
+    },
+    "scope": "Complete original single unmasked FP16 tile, m*d outputs; original positive power-of-two dimensions and <=2^20 tile contract retained.",
+    "canonical_connection": "KernelReal.implements supplies actual source proof. Local transposeElement_eq in the main proof is rfl to Contract.formula; local transpose_windows proves read=row*d+col and write=col*m+row for every logical row/col, making the existing xs[j] target explicit. Only the independent pure transposeElement definition is a reader-level helper.",
+    "fp_program_pair": {
+      "fp_pair": "original source versus existing indexCommutedSource, both complete single-tile typed programs.",
+      "fp_model_domain": "ProfiledMemory.Program quantifies the declared profiled models/domains; exact integer multiplication swap changes no floating operations, and complete execution/final typed state equality is proved."
+    },
+    "numerical_dependencies": {
+      "experimental_rules": [],
+      "strict_rewrite_certificates": [],
+      "reason": "No floating rewrite, no finite-word restriction; bounded access guarantees remain in the Real IO judgment."
+    }
+  },
+  "verification": [
+    {
+      "kind": "logical-data",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/repairs/tritonbench_g/matrix_transpose/IO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matrix_transpose/logical-data.log",
+      "log_sha256": "a3d18d0a4214497f6c2910e7597f7e39cf10b9fb864f6408813ff922ffd8e656"
+    },
+    {
+      "kind": "complete-connection",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/repairs/tritonbench_g/matrix_transpose/Proofs/LogicalIO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matrix_transpose/complete-connection.log",
+      "log_sha256": "b7255b1e25d4eaf541183d33b30a83bbb22bd5131422a4e0e43a2778c79aeb1d"
+    },
+    {
+      "kind": "reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "bench/repairs/tritonbench_g/matrix_transpose/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matrix_transpose/reader.log",
+      "log_sha256": "76a907646bf883d88e0863a3926894e511bcdb7b9a4649d15acfe534a59ac682"
+    },
+    {
+      "kind": "complete-old-new-iff",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue10/matrix_transpose/Preservation.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matrix_transpose/complete-old-new-iff.log",
+      "log_sha256": "d30b79f1f625f8e9efbf956c382f52eb5103c01dcb422f5f439105f263d0a76a"
+    },
+    {
+      "kind": "fp-reader",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        "bench/repairs/tritonbench_g/matrix_transpose/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matrix_transpose/fp-reader.log",
+      "log_sha256": "6816c3e1baaa7441ac4877a83a3d4d554697e0018271b2ccd9e1bd4444679e4c"
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue10/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue10/matrix_transpose/Joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue10/matrix_transpose/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/matrix_transpose/Contract.lean": "cf867792b3a5950402e11295619ce35841bbf051a8f3bd1afdfc248dfb9c663b",
+    "bench/repairs/tritonbench_g/matrix_transpose/Correct.lean": "4a7e8059f6f53ec4c64f9869edaf9a9a4b5616c48d3a16956e8a1047c788a051",
+    "bench/repairs/tritonbench_g/matrix_transpose/FPEquiv.lean": "85c5ebb92b499f69ae2f7d8e4f469ca28c6ee110bef040bbe248d9ae3cf8da2d",
+    "bench/repairs/tritonbench_g/matrix_transpose/IO.lean": "21136a8b64615ce478a302abd357ba659e7c6a68b6061a69e8913c987a3c1962",
+    "bench/repairs/tritonbench_g/matrix_transpose/Proofs/KernelReal.lean": "659f85bb828b767cc2b5a056260986ff3c87cadddd840e2f86b60a361f3533c1",
+    "bench/repairs/tritonbench_g/matrix_transpose/Proofs/LogicalIO.lean": "2563d451951d4c24b01b259a45ce70d5e1e41776f37b634bfeacfe08b6eed5f3",
+    "bench/repairs/tritonbench_g/matrix_transpose/Kernels.lean": "4506b23c5eae6dc45ef2537616b1b9886361395f902e42ed244cf7bea4e6d3f9",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing internal execution/safety/numerical objects are reused; no full proof-closure replay claimed."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

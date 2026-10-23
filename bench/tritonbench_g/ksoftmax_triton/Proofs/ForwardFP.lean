@@ -1,7 +1,5 @@
 import bench.tritonbench_g.ksoftmax_triton.Proofs.ForwardConstructors
 import bench.tritonbench_g.ksoftmax_triton.Proofs.BackwardFP
-import VeriTile.Triton.Float.ProfiledSoundness
-import VeriTile.Triton.Float.Countermodel
 
 /-! Structural equivalence of complete forward original/candidate programs.
 BackwardFP supplies only the already checked natural multiplication and
@@ -49,15 +47,16 @@ theorem forward_run_eq (profile : Typed.CheckedProfile)
     run (engine algebra)
       (Typed.checkedKernel profile Bool.true Y X M ym yn xm xn sm K D
         log mode causal fp16).surfaceBody initial := by
-  have h := FP.ProfiledRewrite.sound
-    (forward_index_equiv profile Y X M ym yn xm xn sm K D log mode causal fp16)
-    α algebra (fun _ _ => True)
-    (by apply FP.models_of_atoms; intro e he; cases he)
-    initial (by simp [program])
-  have hExec (k : ComputeKernel) (s : State α) :
-      exec (engine algebra) k s = run (engine algebra) k.surfaceBody s := by
-    cases k <;> rfl
-  simpa only [program, hExec] using h
+  let original := (Typed.checkedKernel profile Bool.false Y X M ym yn xm xn sm K D
+    log mode causal fp16).surfaceBody
+  let candidate := (Typed.checkedKernel profile Bool.true Y X M ym yn xm xn sm K D
+    log mode causal fp16).surfaceBody
+  -- Only the fourth assignment, `x_ptrs`, differs. Retain its full source context.
+  have h : Contextual algebra initial (original.take 3) (original.drop 4)
+      (original.getD 3 (.ifThen (.constBool Bool.false) []))
+      (candidate.getD 3 (.ifThen (.constBool Bool.false) [])) := by
+    cases profile <;> fp_prove
+  cases profile <;> exact h
 
 #print_fp_assumptions forward_index_equiv
 #axiomsClean forward_index_equiv

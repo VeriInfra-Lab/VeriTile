@@ -6,6 +6,30 @@ still compile if a report removes a relation required by these derivations. -/
 namespace VeriTile.Triton.FP.ScalarArithmetic
 open Structural Guarded
 
+section StrictLaws
+variable {α : Type} [Inhabited α] {R : Spec.Assumptions GuardedFragment}
+  (M : Algebra α) (D : Domain α) (hM : Models R M D) (s : State α)
+include hM s
+
+/-- Shared strict commutation, independent of the empirical rule list. -/
+theorem add_comm_strict (a b : α) (ha : D .finite a) (hb : D .finite b) :
+    add M a b = add M b a :=
+  apply_derivation M D hM s .addCommute (strict_admitted R .addCommute rfl)
+    a b a ⟨ha, hb⟩
+
+theorem mul_comm_strict (a b : α) (ha : D .finite a) (hb : D .finite b) :
+    mul M a b = mul M b a :=
+  apply_derivation M D hM s .mulCommute (strict_admitted R .mulCommute rfl)
+    a b a ⟨ha, hb⟩
+
+theorem mul_one_strict (a : α) (ha : D .finite a) : mul M a (one M) = a :=
+  apply_derivation M D hM s .mulOne (strict_admitted R .mulOne rfl) a a a ha
+
+theorem div_one_strict (a : α) (ha : D .finite a) : div M a (one M) = a :=
+  apply_derivation M D hM s .divOne (strict_admitted R .divOne rfl) a a a ha
+
+end StrictLaws
+
 section Laws
 variable {α : Type} [Inhabited α] (R : Rules) (M : Algebra α) (D : Domain α)
   (hM : Models R.assumptions M D) (s : State α)
@@ -13,7 +37,7 @@ include R hM s
 
 theorem add_comm (a b : α) (ha : D .finite a) (hb : D .finite b) :
     add M a b = add M b a :=
-  apply_atom R M D hM s .addCommute (by decide) a b a ⟨ha, hb⟩
+  add_comm_strict M D hM s a b ha hb
 
 theorem add_assoc (a b c : α) (ha : D .finite a) (hb : D .finite b) (hc : D .finite c) :
     add M (add M a b) c = add M a (add M b c) :=
@@ -34,7 +58,7 @@ theorem add_add_swap (a b c d : α)
 
 theorem mul_comm (a b : α) (ha : D .finite a) (hb : D .finite b) :
     mul M a b = mul M b a :=
-  apply_atom R M D hM s .mulCommute (by decide) a b a ⟨ha, hb⟩
+  mul_comm_strict M D hM s a b ha hb
 
 theorem mul_assoc (a b c : α) (ha : D .finite a) (hb : D .finite b) (hc : D .finite c) :
     mul M (mul M a b) c = mul M a (mul M b c) :=
@@ -61,10 +85,10 @@ theorem add_zero (a : α) (ha : D .finite a) : add M a (zero M) = a :=
   apply_atom R M D hM s .addZero (by decide) a a a ha
 
 theorem mul_one (a : α) (ha : D .finite a) : mul M a (one M) = a :=
-  apply_atom R M D hM s .mulOne (by decide) a a a ha
+  mul_one_strict M D hM s a ha
 
 theorem div_one (a : α) (ha : D .finite a) : div M a (one M) = a :=
-  apply_atom R M D hM s .divOne (by decide) a a a ha
+  div_one_strict M D hM s a ha
 
 theorem div_mul_rcp (a b : α) (ha : D .finite a) (hb : D .finite b) (hn : D .nonzero b) :
     div M a b = mul M a (div M (one M) b) :=

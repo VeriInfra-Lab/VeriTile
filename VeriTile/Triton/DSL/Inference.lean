@@ -135,6 +135,7 @@ private partial def staticPtrRootIsIntRegion? (stx : TSyntax `tritonExpr) : Bool
 
 private partial def intSourceExpr? : TSyntax `tritonExpr → Bool := fun stx =>
   match stx with
+  | `(tritonExpr| tl.cast($_:tritonExpr, tl.int64)) => Bool.true
   | `(tritonExpr| $(($_:term : Int))) => Bool.true
   | `(tritonExpr| tl.program_id($_:tritonExpr).to(tl.int32)) => Bool.true
   | `(tritonExpr| tl.program_id($_:tritonExpr).to(tl.int64)) => Bool.true
@@ -854,20 +855,23 @@ partial def closeInfo (info : ScanInfo) (fuel : Nat := 128) :
     (info.directPins.foldl addUnique [])
   (ptrUses, natPins.filter (fun name => !(info.intPins.contains name)))
 
-/-- Set of identifier names that the body uses in a `.nat`-required
-position. The DSL macro consults this when expanding a `name = tl.load(p)`
-binding without an explicit `dtype=` kwarg: if `name` is in this set,
-the load defaults to `.nat` instead of `.real`. -/
-def collectNatPinned (stmts : List (TSyntax `tritonStmt)) : List String :=
-  let (info, _) := scanStmts [] stmts
-  let (_, pins) := closeInfo info
-  pins
-
 /-- Set of identifier names that should be expanded as signed integers. -/
 def collectIntPinned (stmts : List (TSyntax `tritonStmt)) : List String :=
   let (info, _) := scanStmts [] stmts
   let signedDeps := info.intDeps.filter (fun name => info.signedSubPins.contains name)
   addManyUnique (scanIntStmts [] stmts) signedDeps
+
+/-- Set of identifier names that the body uses in a `.nat`-required
+position. The DSL macro consults this when expanding a `name = tl.load(p)`
+binding without an explicit `dtype=` kwarg: if `name` is in this set,
+the load defaults to `.nat` instead of `.real`. Signed source values and
+their propagated intermediates retain the signed channel even when used
+in a pointer expression. -/
+def collectNatPinned (stmts : List (TSyntax `tritonStmt)) : List String :=
+  let (info, _) := scanStmts [] stmts
+  let (_, pins) := closeInfo info
+  let signed := collectIntPinned stmts
+  pins.filter (fun name => !(signed.contains name))
 
 /-- Per-region element-dtype declarations gathered from in-body
 `region <name> : <dtype>` directives. Used by `expandLoad` /

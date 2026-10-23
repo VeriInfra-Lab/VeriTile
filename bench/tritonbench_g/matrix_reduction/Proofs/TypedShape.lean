@@ -1,5 +1,4 @@
 import bench.tritonbench_g.matrix_reduction.Proofs.TypedSource
-import bench.tritonbench_g.matrix_reduction.MatrixReduction
 import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.MatrixReduction.TypedSource
 open VeriTile.Triton

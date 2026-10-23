@@ -1,0 +1,153 @@
+{
+  "schema": 1,
+  "task": "rope_transform",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue12/result.json",
+    "sha256": "1acd093fdb5df5a7fed2f0fba54b4e617613726893846119a55bbd0b72bb6386",
+    "task_index": 10
+  },
+  "finding": "The displayed forward polynomial selected raw Q/K/C/S channels and packed both raw output channels in the reader.",
+  "resolution": "Named query/key/cosine/sine logical Inputs and query/key Outputs expose row/head/column coordinates with complete inverses.",
+  "mathematical_target": "Displayed forward pair polynomial (a*c-b*s, b*c+a*s) for both logical query/key tensors.",
+  "conditions_and_scope": {
+    "scope": "Full selected forward row grid, both Q/K in place, padded heads and all selected Request geometries including empty row schedules. Selected Request requires positive even dimensions.",
+    "public_conditions": [
+      "r:Request preserves original geometry and contiguous read-only C/S contract",
+      "ProgramIO exposes exact in-place Q/K footprints and complete row schedule with source precision, binding/bounds, safe success, every output and exterior frame."
+    ],
+    "contract_connection": "Contract.source_binding is exact. Source supports both directions but selected kernel fixes forward=false; main theorem accurately claims only this selected forward branch. No unit-circle or finite-value restriction introduced.",
+    "preserved": "Same complete original judgment: input binding/bounds, source safety, successful execution, all specified output observations and exact exterior frame."
+  },
+  "proof_connection": [
+    "LogicalIO.inputEquiv/outputEquiv preserve all four original input tensors and both entire output tensors.",
+    "judgment_iff fixes the complete original ProgramIO.Implements judgment, source, full row schedule, observer, safety and frame.",
+    "query_input/coefficient_input and target_eq identify the entire concrete new lifted rotation target with PublicIO.target pair, not only selected lanes.",
+    "logical_correct applies the existing complete-grid source theorem; Correct is a thin application with definitionally equal adjacent mathematics."
+  ],
+  "fp_review": {
+    "pair": "Actual full forward source grid versus existing index common-subexpression-elimination candidate.",
+    "scope": "Whole forward row grid, Q/K outputs, arbitrary Tagged payloads/nonfinite FP32 words, source masks/casts and dual frames.",
+    "model_precision_and_domain": "FP.Config and source-specific nativeAlgebra/FMA backend retained; R=[].",
+    "source_changed": false,
+    "candidate_changed": false,
+    "actual_rule_set": "[]"
+  },
+  "numerical_dependencies": {
+    "actual_experimental_rule_instances": 0,
+    "experimental_rules": [],
+    "missing_evidence": [],
+    "new_experiments": false,
+    "source_precision_casts_FMA_and_order_changed": false,
+    "note": "Empty experiment set is interpreted under the retained fixed program/model theory; no universal arbitrary-opaque-model or hardware bit-equality claim."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "For paired logical halves, first=a*c-b*s and second=b*c+a*s, with explicit coefficient row%sequence and lane mapping for both Q/K.",
+    "required_conditions": {
+      "explicit_conditions": [
+        "r:Request preserves original geometry and contiguous read-only C/S contract",
+        "ProgramIO exposes exact in-place Q/K footprints and complete row schedule with source precision, binding/bounds, safe success, every output and exterior frame."
+      ],
+      "contract_correspondence": "Contract.source_binding is exact. Source supports both directions but selected kernel fixes forward=false; main theorem accurately claims only this selected forward branch. No unit-circle or finite-value restriction introduced."
+    },
+    "scope": "Full selected forward row grid, both Q/K in place, padded heads and all selected Request geometries including empty row schedules. Selected Request requires positive even dimensions.",
+    "canonical_connection": "Inline logical result lambda is definitionally PublicIO.target formula. Main proof changes to the canonical target, applies PublicIO.implements, and connects scalarTarget by rfl.",
+    "fp_program_pair": {
+      "fp_pair": "Actual full forward source grid versus existing index common-subexpression-elimination candidate.",
+      "fp_scope": "Whole forward row grid, Q/K outputs, arbitrary Tagged payloads/nonfinite FP32 words, source masks/casts and dual frames.",
+      "fp_model_domain": "FP.Config and source-specific nativeAlgebra/FMA backend retained; R=[]."
+    },
+    "numerical_dependencies": "No numerical rewrite; exact integer index sharing only."
+  },
+  "verification": [
+    {
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+        "bench/repairs/tritonbench_g/rope_transform/IO.lean",
+        "bench/repairs/tritonbench_g/rope_transform/Proofs/LogicalReader.lean",
+        "bench/repairs/tritonbench_g/rope_transform/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue12/rope_transform-verified-readers.log",
+      "kind": "targeted_readers",
+      "log_sha256": "9a94088fef4a39712ea602fc1be2e4eec69ca21e160228d14ac1b3e1860c880a",
+      "compile_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rope_transform/IO.workspace-build.json",
+          "sha256": "a741d1170ba8dfe1b0021b85a876079b917b9bc091de6d1aeae2cc6d1b5fff6f"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rope_transform/Proofs/LogicalReader.workspace-build.json",
+          "sha256": "25b77ea596acf2407e161fb226b89754965954deeae74b8814aeba06d8771df2"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rope_transform/Correct.workspace-build.json",
+          "sha256": "c3b7b26a503858d84074a66516c26c3766fc84f8a89e0123ac356f323ffaf580"
+        }
+      ],
+      "note": "Successful queue12 targeted compilation receipts; final validation reuses only source/dependency-hash-matching successful objects."
+    },
+    {
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+        "bench/repairs/tritonbench_g/rope_transform/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue12/rope_transform-fp-build.log",
+      "kind": "targeted_fp_reader",
+      "log_sha256": "4a8e8f07a45fde95617060b1185e1f2446b56a86f08bd078d13ccdcdf81834a7",
+      "compile_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean/bench/repairs/tritonbench_g/rope_transform/FPEquiv.workspace-build.json",
+          "sha256": "9e293fa516f2c41d1ca26891c353e182e581e65464a0d4936f9e9fb5da8b1171"
+        }
+      ],
+      "note": "Successful queue12 targeted compilation receipts; final validation reuses only source/dependency-hash-matching successful objects."
+    },
+    {
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue12/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue12/joint/rope_transform.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue12/rope_transform-joint.log",
+      "fixture": ".veritile-cache/logical-reader-review-20261022/queue12/joint/rope_transform.lean",
+      "fixture_sha256": "ba233539c4ef39cd4df6bf98a92209436e29f4047254fe0b9053d0a663644cbb",
+      "kind": "per_task_joint",
+      "log_sha256": "59891bc3e5db931327c2a391293d54bddc26467177ec0031c10cd4de4e32def9"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/rope_transform/Contract.lean": "b01bac1d30e484738e7740fc8c8a942fc80379a9dc5be2f99a4d03cb68890943",
+    "bench/repairs/tritonbench_g/rope_transform/Correct.lean": "9752056b7f617eda025a01262024c5c30c687f726bf46133458b5ad6f1f6dbe3",
+    "bench/repairs/tritonbench_g/rope_transform/FPEquiv.lean": "a0e88cdcb5a9e10b5fd3ef30ce738987a3a3ab73850bc648a1e0a1a0fc1637e0",
+    "bench/repairs/tritonbench_g/rope_transform/IO.lean": "46b9058176470ae0f6ba71b0364f6dab782508cfd08b901844f7f245487010a5",
+    "bench/repairs/tritonbench_g/rope_transform/Kernels.lean": "35be53534e8280d36a147b8eb1b470bba64db3dcdfef025dfe7de16fe159e422",
+    "bench/repairs/tritonbench_g/rope_transform/PairIO.lean": "226dde6f5ee7e053b6a2c08f862cfc760fb0708f25700336578f82546acb35e4",
+    "bench/repairs/tritonbench_g/rope_transform/Proofs/IOGrid.lean": "96eaed8613b00a13962060bcfcbb6c1bdc4b8340509cc24bcfac8aa6e8ce4582",
+    "bench/repairs/tritonbench_g/rope_transform/Proofs/KernelMath.lean": "a1711d34d362950f6b3c3573befeff866dde458e3610e8b9340806168589108d",
+    "bench/repairs/tritonbench_g/rope_transform/Proofs/LogicalReader.lean": "3c5008cac9417f8df29d25d3f16579bb5ad670be7195d6955e78652b0d209a58",
+    "bench/repairs/tritonbench_g/rope_transform/Proofs/ProgramPair.lean": "ed82caa5c3454e99083da99a9ed24b5b583b5a1641a5cc47aad5c54975f1ba25",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Existing applicable internal proof objects reused; no full transitive proof-closure replay or new host/native/Tensor/hardware/numerical task."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

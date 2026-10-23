@@ -42,3 +42,5 @@ operation tree and proof decomposition.
 
 Validation: directed Lean compilation and `#axiomsClean` passed for the helper
 and public entry. Logs: `/tmp/rotary-transform-ops-{stages,public}.log`.
+
+The separate [checked FP32 revision](../../repairs/tritonbench_g/rotary_transform_ops/README.md) preserves original preparation and return behavior with an explicit CU and pointer contract.

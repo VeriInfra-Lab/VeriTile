@@ -1,4 +1,8 @@
 import bench.tritonbench_g.quant_transpose_kernel.Proofs.TypedScaled
+import bench.tritonbench_g.quant_transpose_kernel.Proofs.RealStoreSlice
+local macro "true" : term => `(Bool.true)
+local macro "false" : term => `(Bool.false)
+
 namespace VeriTile.Bench.TritonBenchG.QuantTransposeKernel.TypedScaled
 open VeriTile.Triton
 set_option maxHeartbeats 2000000

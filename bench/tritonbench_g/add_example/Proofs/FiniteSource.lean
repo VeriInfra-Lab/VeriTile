@@ -9,7 +9,13 @@ set_option maxRecDepth 24000
 set_option linter.unusedSimpArgs false
 
 /-- Ordinary typed access and byte packing. No arbitrary abstract carrier is
-assumed to round-trip through narrower storage. Addresses name backing bytes. -/
+assumed to round-trip through narrower storage. Addresses name backing bytes.
+[PTX ld](https://docs.nvidia.com/cuda/archive/12.8.0/parallel-thread-execution/index.html#data-movement-and-conversion-instructions-ld)
+and [PTX st](https://docs.nvidia.com/cuda/archive/12.8.0/parallel-thread-execution/index.html#data-movement-and-conversion-instructions-st)
+specify the corresponding memory transfers. Packing, permissions and frame
+laws are explicit trusted memory-interface contracts, not compiler proofs.
+The total mathematical functions do not assert defined GPU behavior outside
+the separately proved `ReadOK`/`WriteOK` applicability conditions. -/
 structure MemoryPrimitives (M A : Type) where
   launchDevice : Nat
   readableByte : Nat → Nat → Prop
@@ -36,6 +42,12 @@ structure PhysicalView where
   capacity : Nat
   dtype : DType
 
+/-- Typed source offsets count elements; PTX addresses count bytes
+([PTX section 6.4.1](https://docs.nvidia.com/cuda/archive/12.8.0/parallel-thread-execution/index.html#addresses-as-operands)).
+The signed extension and scalar byte scaling match the observed LLVM `sext` /
+`getelementptr` and PTX `mul.wide.s32` lowering recorded in
+`bench/repairs/tritonbench_g/add_example/LOAD_STORE_AUDIT.md`.
+Index-range and nonwrapping-access proofs are separate obligations. -/
 def PhysicalView.nativeAt (v : PhysicalView) (offset : BitVec 32) : Nat :=
   (v.pointer + offset.signExtend 64 * BitVec.ofNat 64 (bytes v.dtype)).toNat
 
@@ -134,7 +146,13 @@ def evalMask (pid lane : Nat) (indices : RegName → Nat → BitVec 32)
 
 /-- Unchecked structural execution. Applicability observations are separately
 computed from every actual active access; none is a source runtime guard.
-Masked lanes never perform memory operations. -/
+Masked lanes never perform memory operations, as specified by
+[Triton load](https://triton-lang.org/main/python-api/generated/triton.language.load.html)
+and [Triton store](https://triton-lang.org/main/python-api/generated/triton.language.store.html).
+For the corresponding instruction guards see
+[PTX Predicated Execution](https://docs.nvidia.com/cuda/archive/12.8.0/parallel-thread-execution/index.html#predicated-execution).
+The inactive load value is arbitrary; `source_program_reduction` proves that
+it cannot affect this pointwise kernel's observable writes. -/
 def executeInstruction {M A : Type} (ops : MemoryPrimitives M A) (compute : A → A → A)
     (views : RegionName → PhysicalView) (undef : A) (pid : Nat) (s : Registers M A) : Instruction → Registers M A
   | .indexAssign name value => {s with indices := fun key lane ↦ if key=name then evalIndex pid lane s.indices value else s.indices key lane}

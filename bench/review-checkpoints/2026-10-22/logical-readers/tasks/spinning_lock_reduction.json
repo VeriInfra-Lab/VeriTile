@@ -1,0 +1,169 @@
+{
+  "schema": 1,
+  "task": "spinning_lock_reduction",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue14/review-supplement/result.json",
+    "sha256": "200c835b2865a3754511626b67c3dd83da5915c23edcd916bf72095c1e08fe74",
+    "task_index": 2
+  },
+  "finding": "Stage mathematics contained raw input/output packing and a low-level concurrent method.",
+  "resolution": "Added bijections for complete P/C/lock snapshots; stageFormula is pure on Formula.Values and the fixed concurrent judgment is transported. Independent review also moved all scalar/stage proof assembly into Proofs, preserving the adjacent explicit pure mathematics and leaving a thin theorem application.",
+  "mathematical_target": "Named partials/output/locks stage formula adjacent to the specification",
+  "conditions_and_scope": "Wide.Buffers and original producer/consumer stages; complete concurrent CAS/retry schedules; Formula.Domain publication/readiness; retains holes, overlapping stride cells and untouched allocation cells.",
+  "proof_connection": {
+    "full_old_new_iff": "VeriTile.Bench.Repairs.SpinningLock.Logical.reader_judgment_iff; reader_formula_eq; judgment_iff",
+    "canonical_source_connection": [
+      "local stageFormula_eq proves extensional equality to IO.mathematical 0; stage cases and congruence handle the dependent finite channel representation",
+      "IOProof.implements composes finite logical publication/readiness with actual concurrent Facts/run transport, bounds, outputs and frame",
+      "Domain is a logical input fact, not a desired-result or execution premise"
+    ],
+    "coordinate_and_connection_build_receipts": [
+      {
+        "source": "bench/repairs/tritonbench_g/spinning_lock_reduction/LogicalIO.lean",
+        "source_sha256": "d037a0e949d0570ea133df3971331b5a3bff9731d043192ad2b9a48b9502f1c4",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/LogicalIO.workspace-build.json",
+        "receipt_sha256": "6616d928fcc193fc3828af7b37fef59de9d6b4c1f030900788e592ce6c156888",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/LogicalIO.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/LogicalIO.ilean": "0e4b73d5c72639e6196727577f813f8ad17f39ef5d5199c3f26416791b054e1a",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/LogicalIO.olean": "2e0bc1c0ec58a56f02b0db2d82ab65d6b98764f9207f13138a39b5dd83b3f20f"
+        }
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/spinning_lock_reduction/Proofs/LogicalIO.lean",
+        "source_sha256": "5cf3d690beddb9acb74e586533f4692294a1602568b7814e2016605ad82acfd4",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/Proofs/LogicalIO.workspace-build.json",
+        "receipt_sha256": "5dd0dc762d1b564cdabff16f5ccfc4b4bc0cda295ac3d62f53d0d94d5a38fb62",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/Proofs/LogicalIO.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/Proofs/LogicalIO.ilean": "1d7be0547222221410b17a995b977eac5da85f8a475384bd79c2bc24d1b8d525",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/Proofs/LogicalIO.olean": "2a4adb84a0a4ff040798197d7885c3b3e4f3d5bf949a0cc1352639fb8c5be80e"
+        }
+      }
+    ],
+    "main_build_receipts": [
+      {
+        "source": "bench/repairs/tritonbench_g/spinning_lock_reduction/Correct.lean",
+        "source_sha256": "0715db490f6cd5bb085f2c1fad7ee7c11522db10938c6f00f393f09f29cd7475",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/Correct.workspace-build.json",
+        "receipt_sha256": "c6f2d85532c4ed3779eb89018acedabb490f2e0c4972c49be52e62d3d72eb0d6",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/Correct.olean": "b0620c718261e9ad10d0a39b96f1d484120526e54585e9787af78525c6cf4197",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/Correct.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/Correct.ilean": "e468f772db98e28eb67c5a26fccbf50f775a57098717f3ff63e2bc249c6dcfea"
+        }
+      },
+      {
+        "source": "bench/repairs/tritonbench_g/spinning_lock_reduction/FPEquiv.lean",
+        "source_sha256": "965250e1f2c616d1047c491a296809fb597a76a1567fcf77642d8154f5f60da7",
+        "receipt": ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/FPEquiv.workspace-build.json",
+        "receipt_sha256": "0db3d8ac9080c44bc36818240f7424d089c18b23857f5be49f08bff18872dceb",
+        "exit_code": 0,
+        "object_sha256": {
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/FPEquiv.ilean": "a801488998ead51940470e21e1c858945b24312337facf3d8169cbbe9e8d3e9a",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/FPEquiv.workspace-owned": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          ".veritile-cache/logical-reader-review-20261022/queue14/build/lib/lean/bench/repairs/tritonbench_g/spinning_lock_reduction/FPEquiv.olean": "469ba218c8bcee01bfe57f1cafd359800481fbdf34e375e0c64beb2aab467c1b"
+        }
+      }
+    ],
+    "reader_theorem": "Logical.reader_implements; scalar/stage formula identities and proof assembly live in Proofs/LogicalIO.lean."
+  },
+  "fp_review": {
+    "headline": "original ≡[[]] tileArea",
+    "source": "kernel versus areaKernel, complete original concurrent stages",
+    "connection": "AreaEquivalence.equivalent fp32 fp32_positive_zero_add; folds constexpr area in live index products, retaining nine rounds, CAS old words, retries, barriers and all source interleavings",
+    "source_unchanged": true
+  },
+  "numerical_dependencies": {
+    "experimental_rules": [],
+    "qualification": "Empty experimental rule set in the stated program view. Fixed strict/software/native primitives, precision, conversions, reduction trees and observers remain part of that view; no arbitrary opaque-model or hardware-wide bit-equality claim.",
+    "strict_model": "Fixed fp32 backend and proved fp32_positive_zero_add; no floating arithmetic transformation.",
+    "main_experimental_rules_used_count": 0,
+    "new_experiments": 0,
+    "new_deferred_experiments": [],
+    "counting_scope": "Actual main-pair dependencies only; imported/available rule tables and optional native results are not counted as used."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Adjacent stageFormula visibly publishes zero producer partials and ready locks; zeros exactly stage-role/row/column/strided-address active output coordinates; retains every other input partial/output/lock.",
+    "required_conditions": [
+      "Wide.Buffers h: metadata/capacity/separation/fixed-width bounds",
+      "IO.domain 0: Published (lock=1 implies corresponding partial lanes zero) and consumer stage implies Ready",
+      "Concurrent.EventProgramIO.ImplementsOn retains explicit real backend and source decode, actual run, access safety, input/output bindings and frame"
+    ],
+    "scope": "Both complete actual concurrent producer and consumer stages, original CAS retries/barriers/interleavings, all selected threads complete. Output formula includes untouched cells, holes and overlapping output strides; no sequential replacement or whole-matrix tiling claim.",
+    "canonical_connection": [
+      "local stageFormula_eq proves extensional equality to IO.mathematical 0; stage cases and congruence handle the dependent finite channel representation",
+      "IOProof.implements composes finite logical publication/readiness with actual concurrent Facts/run transport, bounds, outputs and frame",
+      "Domain is a logical input fact, not a desired-result or execution premise"
+    ],
+    "fp_program_pair": {
+      "headline": "original ≡[[]] tileArea",
+      "source": "kernel versus areaKernel, complete original concurrent stages",
+      "connection": "AreaEquivalence.equivalent fp32 fp32_positive_zero_add; folds constexpr area in live index products, retaining nine rounds, CAS old words, retries, barriers and all source interleavings"
+    },
+    "numerical_dependencies": {
+      "experimental_rules": [],
+      "qualification": "Empty experimental rule set in the stated program view. Fixed strict/software/native primitives, precision, conversions, reduction trees and observers remain part of that view; no arbitrary opaque-model or hardware-wide bit-equality claim.",
+      "strict_model": "Fixed fp32 backend and proved fp32_positive_zero_add; no floating arithmetic transformation."
+    }
+  },
+  "verification": [
+    {
+      "kind": "Correct-FPEquiv",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue14/build.py",
+        "bench/repairs/tritonbench_g/spinning_lock_reduction/Correct.lean",
+        "bench/repairs/tritonbench_g/spinning_lock_reduction/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue14/review-supplement/verify-four/spinning_lock_reduction/Correct-FPEquiv.log",
+      "log_sha256": "d870719595e766bafa811bf1a6b6a78dbb28dafe1823a87eae23c25598f0f807",
+      "elapsed_seconds": 2.894
+    },
+    {
+      "kind": "joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue14/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue14/review-supplement/verify-four/spinning_lock_reduction/joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue14/review-supplement/verify-four/spinning_lock_reduction/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_seconds": 1.814
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/spinning_lock_reduction/Contract.lean": "f4504c50e4d6b79d963c88d24632fc88c9c79156ae08c2cf0031a5514d5ddd47",
+    "bench/repairs/tritonbench_g/spinning_lock_reduction/Correct.lean": "0715db490f6cd5bb085f2c1fad7ee7c11522db10938c6f00f393f09f29cd7475",
+    "bench/repairs/tritonbench_g/spinning_lock_reduction/FPEquiv.lean": "965250e1f2c616d1047c491a296809fb597a76a1567fcf77642d8154f5f60da7",
+    "bench/repairs/tritonbench_g/spinning_lock_reduction/Formula.lean": "facae51e45ebf4f35992e1196585dc8569389519384ed10d798d54a2ed45071c",
+    "bench/repairs/tritonbench_g/spinning_lock_reduction/IO.lean": "ce656ae7f058d6859422185fe4539f7edb4fb56a24c8c1c4c28080135368230f",
+    "bench/repairs/tritonbench_g/spinning_lock_reduction/Kernels.lean": "57d656e9dbcf0e784d81e342806ba1f4614d2c9626037c99c36391112f70a5bf",
+    "bench/repairs/tritonbench_g/spinning_lock_reduction/LogicalIO.lean": "d037a0e949d0570ea133df3971331b5a3bff9731d043192ad2b9a48b9502f1c4",
+    "bench/repairs/tritonbench_g/spinning_lock_reduction/Proofs/IOImplements.lean": "773a07197473b9a8366671ee74cc0b5a34d43f3ee80291e1cfea645658b800e9",
+    "bench/repairs/tritonbench_g/spinning_lock_reduction/Proofs/LogicalIO.lean": "5cf3d690beddb9acb74e586533f4692294a1602568b7814e2016605ad82acfd4",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Targeted modified IO/connection/reader replay and per-task Contract+Correct+FPEquiv imports; cached established internal proof dependencies reused. No new GPU/native/host or numerical obligation, and no full dependency-closure replay."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

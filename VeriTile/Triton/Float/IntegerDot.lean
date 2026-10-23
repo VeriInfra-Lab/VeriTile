@@ -1,80 +1,176 @@
-import VeriTile.Triton.Float.Structural
-import VeriTile.Meta.StatementAudit
+import VeriTile.Triton.Float.IntegerDotPlan
+import VeriTile.Triton.Float.WordIntegerDot
 
-/-! A concrete software model for signed int8 products accumulated modulo 2^32.
-The input range is checked. This does not infer operand widths from an erased
-Int channel or assert a compiler/native binding. A source contract must retain
-its int8 input casts/storage and int32 accumulator wrap at every update. -/
-namespace VeriTile.Triton.FP.IntegerDot
-open Structural
+/-! Concrete contextual integer dot execution. A context selects only finite
+instruction topology from scalar coordinates. It cannot inspect operands,
+memory, state, or prospective results. Other source expressions and leaves
+retain the existing Structural evaluator. -/
+namespace VeriTile.Triton.FP.Structural.IntegerDot
 noncomputable section
+set_option maxHeartbeats 4000000
+set_option maxRecDepth 20000
 
-def signed8 (x : Int) : Prop := -128 ≤ x ∧ x < 128
+/-- Closed source profiles. The default retains the existing scalar-cast
+interpreter. accumulatorNat recognizes only the original accumulator update,
+uses required Nat context registers and unreduced coordinates, and leaves
+ifThen in the ordinary Structural evaluator. -/
+inductive Mode where
+  | scalarCast
+  | accumulatorNat
+  deriving DecidableEq, Repr
 
-def valid {α : Type} {shape : TileShape} (x : Values α .int shape) : Prop :=
-  ∀ i, signed8 (x i)
+/-- Exact scalar context of the supported source add/dot expression. -/
+structure Context where
+  rows : Nat
+  cols : Nat
+  rowRegister : RegName
+  columnRegister : RegName
+  iterationRegister : RegName
+  splitAxis : Nat
+  plans : (k row col split iteration : Nat) → Plan k
+  mode : Mode := .scalarCast
 
-/-- Only integer output and otherwise default options are implemented. -/
-def supported (o : DotOptions) : Prop :=
-  (o.outDType = none ∨ o.outDType = some .int) ∧ o.allowTF32 = none ∧
-    o.inputPrecision = none ∧ o.maxNumImpreciseAcc = none
+def dotAdd (arithmetic : Arithmetic) (context : Context) {α : Type}
+    (s : State α) {m k n : Nat}
+    (old : TileIndex [m,n] → Int) (a : TileIndex [m,k] → Int)
+    (b : TileIndex [k,n] → Int) : TileIndex [m,n] → Int :=
+  fun i=>
+    let pm:=((s.regs .int [] context.rowRegister).getD (fun _=>0) PUnit.unit).toNat
+    let pn:=((s.regs .int [] context.columnRegister).getD (fun _=>0) PUnit.unit).toNat
+    let t:=(s.regs .nat [] context.iterationRegister).getD (fun _=>0) PUnit.unit
+    (context.plans k ((pm*m+i.1.val)%context.rows) ((pn*n+i.2.1.val)%context.cols) (s.pids context.splitAxis) t).evalInt arithmetic
+      (fun l=>BitVec.ofInt 8 (a (i.1,l,PUnit.unit)))
+      (fun l=>BitVec.ofInt 8 (b (l,i.2.1,PUnit.unit))) (old i)
 
-/-- Explicit finite machine-word fold; no unbounded-Int accumulation. -/
-def wordDot : (batch : TileShape) → {m k n : Nat} →
-    (TileIndex (batch ++ [m,k]) → Int) → (TileIndex (batch ++ [k,n]) → Int) →
-    TileIndex (batch ++ [m,n]) → BitVec 32
-  | [], _, k, _, a, b => fun (i,j,_) => (List.finRange k).foldl
-      (fun acc t => acc + BitVec.ofInt 32 (a (i,t,PUnit.unit)) *
-        BitVec.ofInt 32 (b (t,j,PUnit.unit))) (BitVec.ofNat 32 0)
-  | _ :: batch, _, _, _, a, b => fun (i,rest) =>
-      wordDot batch (fun t => a (i,t)) (fun t => b (i,t)) rest
+/-- Only the recognized source integer add/dot node uses the finite plan.
+All operands come from the current structural expression evaluator. -/
+def addExpression {α : Type} [Inhabited α] (M : Algebra α)
+    (arithmetic : Arithmetic) (context : Context)
+    (bc : Broadcast leftShape rightShape shape) (old : Op .int leftShape)
+    (right : Op .int rightShape) (s : State α) : Option (TileIndex shape → Int) :=
+  match right with
+  | .dotInt (batch:=batch) (M:=m) (N:=n) a b options=>
+    match batch with
+    | []=>if same : shape=[m,n] then do
+        let oldValue←evalOp M none old s
+        let left←evalOp M none a s
+        let right←evalOp M none b s
+        let carry : TileIndex [m,n] → Int:=fun i=>oldValue (bc.leftIndex (same.symm ▸ i))
+        return fun i=>dotAdd arithmetic context s carry left right (same ▸ i)
+      else evalOp M none (.add .int bc old (.dotInt a b options)) s
+    | _::_=>evalOp M none (.add .int bc old (.dotInt a b options)) s
+  | other=>evalOp M none (.add .int bc old other) s
 
-def backend {α : Type} (rest : Algebra α) : Algebra α := by
-  classical
-  refine { rest with integerDot := ?_ }
-  intro o batch m k n a b
-  exact if (supported o ∧ valid a ∧ valid b) then
-    (some (fun i => (wordDot batch a b i).toInt)) else none
+/-- The accumulator profile requires all three Nat registers, just like its
+source executor. Missing registers fail; coordinates are not reduced modulo a
+matrix shape. Actual operands and carry come from this source expression. -/
+def accumulateNat {α : Type} [Inhabited α] (M : Algebra α)
+    (arithmetic : Arithmetic) (context : Context) {m k n : Nat}
+    (left : Op .int [m,k]) (right : Op .int [k,n]) (old : Op .int [m,n])
+    (s : State α) : Option (TileIndex [m,n] → Int) := do
+  let xs←evalOp M none left s
+  let ys←evalOp M none right s
+  let previous←evalOp M none old s
+  let pm←s.regs .nat [] context.rowRegister
+  let pn←s.regs .nat [] context.columnRegister
+  let iteration←s.regs .nat [] context.iterationRegister
+  return fun i=>(context.plans k (pm PUnit.unit*m+i.1.val) (pn PUnit.unit*n+i.2.1.val)
+    (s.pids context.splitAxis) (iteration PUnit.unit)).evalInt arithmetic
+      (fun j=>BitVec.ofInt 8 (xs (i.1,j,PUnit.unit)))
+      (fun j=>BitVec.ofInt 8 (ys (j,i.2.1,PUnit.unit))) (previous i)
 
-@[simp] theorem backend_supported {α : Type} (rest : Algebra α) (o : DotOptions)
-    {batch : TileShape} {m k n : Nat} (a : Values α .int (batch ++ [m,k]))
-    (b : Values α .int (batch ++ [k,n]))
-    (ho : supported o) (ha : valid a) (hb : valid b) :
-    (backend rest).integerDot o a b = some (fun i => (wordDot batch a b i).toInt) := by
-  classical
-  simp [backend, ho, ha, hb]
+/-- Exact accumulator += dot recognition, including destination, old-register,
+broadcast, batch and options. Other expressions retain Structural behavior. -/
+def accumulatorStep {α : Type} [Inhabited α] (M : Algebra α)
+    (arithmetic : Arithmetic) (context : Context) (statement : ComputeStmt)
+    (s : State α) : Option (State α) :=
+  match statement with
+  | .assign .int _ name (.alg (.add .int broadcast old rhs))=>
+    match rhs with
+    | .dotInt (batch:=batch) left right options=>
+      match batch with
+      | []=>
+        match broadcast with
+        | .consSame (.consSame .nil)=>
+          match old with
+          | .ref .int _ oldName=>
+            if name="accumulator" ∧ oldName="accumulator" ∧ options={} then do
+              let value←accumulateNat M arithmetic context left right old s
+              return s.setReg name .int _ value
+            else FP.Structural.step M statement s
+          | _=>FP.Structural.step M statement s
+        | _=>FP.Structural.step M statement s
+      | _=>FP.Structural.step M statement s
+    | _=>FP.Structural.step M statement s
+  | _=>FP.Structural.step M statement s
 
-@[simp] theorem backend_rejects_invalid {α : Type} (rest : Algebra α) (o : DotOptions)
-    {batch : TileShape} {m k n : Nat} (a : Values α .int (batch ++ [m,k]))
-    (b : Values α .int (batch ++ [k,n])) (h : ¬ (valid a ∧ valid b)) :
-    (backend rest).integerDot o a b = none := by
-  classical
-  simp [backend, show ¬ (supported o ∧ valid a ∧ valid b) from fun hx => h hx.2]
+def arithmeticStep {α : Type} [Inhabited α] (M : Algebra α)
+    (arithmetic : Arithmetic) (context : Context) : ComputeStmt → State α → Option (State α)
+  | .assign .int shape name (.alg (.add .int bc old right)),s=>
+      match context.mode with
+      | .scalarCast=>do
+          let value←addExpression M arithmetic context bc old right s
+          return s.setReg name .int shape value
+      | .accumulatorNat=>accumulatorStep M arithmetic context
+          (.assign .int shape name (.alg (.add .int bc old right))) s
+  | statement,s=>FP.Structural.step M statement s
 
-/-- Independent signed integer sum projected to its low 32 bits. -/
-theorem fold_is_low32 {ι : Type} (xs : List ι) (a b : ι → Int) (initial : Int) :
-    xs.foldl (fun acc i => acc + BitVec.ofInt 32 (a i) * BitVec.ofInt 32 (b i))
-      (BitVec.ofInt 32 initial) =
-    BitVec.ofInt 32 (xs.foldl (fun acc i => acc + a i * b i) initial) := by
-  induction xs generalizing initial with
-  | nil => rfl
-  | cons i xs ih =>
-    simp only [List.foldl_cons]
-    rw [← BitVec.ofInt_mul, ← BitVec.ofInt_add]
-    exact ih _
+mutual
+def step {α : Type} [Inhabited α] (M : Algebra α)
+    (arithmetic : Arithmetic) (context : Context) : ComputeStmt → State α → Option (State α)
+  | .forRange name start stop stride body,s=>range M arithmetic context name start stop stride body s
+  | .ifThenElse cond yes no,s=>do
+      let value←evalOp M none cond s
+      if value PUnit.unit then run M arithmetic context yes s else run M arithmetic context no s
+  | .ifThen cond body,s=>
+      match context.mode with
+      | .scalarCast=>do
+          let value←evalOp M none cond s
+          if value PUnit.unit then run M arithmetic context body s else some s
+      | .accumulatorNat=>FP.Structural.step M (.ifThen cond body) s
+  | statement,s=>arithmeticStep M arithmetic context statement s
+termination_by statement _ => (sizeOf statement,0)
+decreasing_by
+  all_goals simp_wf
+  all_goals try omega
+  all_goals have : 0<sizeOf name := by cases name;simp
+  all_goals omega
 
-/-- Overflow is visible in the concrete word model; it is not ruled away. -/
-theorem accumulation_wraps :
-    (BitVec.ofInt 32 2147483647 + BitVec.ofInt 32 1).toInt = -2147483648 := by decide
+def run {α : Type} [Inhabited α] (M : Algebra α)
+    (arithmetic : Arithmetic) (context : Context) : List ComputeStmt → State α → Option (State α)
+  | [],s=>some s
+  | statement::rest,s=>do run M arithmetic context rest (←step M arithmetic context statement s)
+termination_by code _ => (sizeOf code,0)
+decreasing_by all_goals (simp_wf;omega)
 
-theorem signed_product_nonzero :
-    wordDot [] (m := 1) (k := 1) (n := 1) (fun _ => -128) (fun _ => 127)
-      (0,0,PUnit.unit) = BitVec.ofInt 32 (-16256) := by decide
-
-#axiomsClean backend_supported
-#axiomsClean backend_rejects_invalid
-#axiomsClean fold_is_low32
-#axiomsClean accumulation_wraps
-#axiomsClean signed_product_nonzero
+def range {α : Type} [Inhabited α] (M : Algebra α)
+    (arithmetic : Arithmetic) (context : Context)
+    (name : RegName) (start stop stride : Nat) (body : List ComputeStmt) : State α → Option (State α)
+  | s=>if 0<stride ∧ start<stop then do
+      let t←run M arithmetic context body (s.setReg name .nat [] (fun _=>start))
+      range M arithmetic context name (start+stride) stop stride body t
+    else some s
+termination_by _ => (sizeOf body+1,stop-start)
+decreasing_by all_goals omega
 end
-end VeriTile.Triton.FP.IntegerDot
+
+def exec {α : Type} [Inhabited α] (M : Algebra α) (arithmetic : Arithmetic)
+    (context : Context) (source : ComputeKernel) (s : State α) :=
+  run M arithmetic context source.surfaceBody s
+
+theorem run_append {α : Type} [Inhabited α] (M : Algebra α) (arithmetic : Arithmetic)
+    (context : Context) (left right : List ComputeStmt) (s : State α) :
+    run M arithmetic context (left++right) s=
+      (run M arithmetic context left s).bind (run M arithmetic context right) := by
+  induction left generalizing s with
+  | nil=>simp [run]
+  | cons x xs ih=>
+    simp only [List.cons_append,run,ih]
+    cases step M arithmetic context x s <;> rfl
+
+
+abbrev step_unfold := @step.eq_def
+abbrev run_unfold := @run.eq_def
+abbrev range_unfold := @range.eq_def
+end
+end VeriTile.Triton.FP.Structural.IntegerDot

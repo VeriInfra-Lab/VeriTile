@@ -6,7 +6,8 @@ import VeriTile.Meta.StatementAudit
 A concrete software interpretation of the fp32 scalar fragment. Each add,
 subtract, multiply and divide rounds at its own result using `ScalarOps`.
 Same-format casts and fp32 loads preserve bits, including NaN payloads and
-signed zero. This is the unfused operation graph, not GPU conformance.
+signed zero. Explicit FMA uses `FP.fma` and one result rounding; ordinary
+mul/add remain separate. These are software semantics, not GPU conformance.
 
 The supplied `rest` keeps every other operation explicit. In particular this
 adapter supplies no transcendental, reduction, dot, mixed-format conversion,
@@ -44,6 +45,9 @@ noncomputable def scalarFP32
         | .div => FP.div cfg a b
         | _ => rest.binary p d op a b
       else rest.binary p d op a b
+    fma := fun precision => match precision with
+      | .fp32 => some (FP.fma cfg)
+      | .fp64 => rest.fma precision
     unary := fun p op x =>
       match op with
       | .neg dtype => if fp32Context p dtype then x.neg else rest.unary p op x
@@ -78,6 +82,10 @@ noncomputable def scalarFP32
     (scalarFP32 rest cfg).binary p .fp32 .mul a b = FP.mul cfg a b := by
   simp [scalarFP32, h]
 
+/-- The explicit fp32 primitive is fused in the concrete value model. -/
+@[simp] theorem scalarFP32_fma (rest : Structural.Algebra (FP.Value .fp32))
+    (cfg : Config) : (scalarFP32 rest cfg).fma .fp32 = some (FP.fma cfg) := rfl
+
 @[simp] theorem scalarFP32_neg (rest : Structural.Algebra (FP.Value .fp32))
     (cfg : Config) (p : Option ComputeDType) (dtype : FloatDType) (a : FP.Value .fp32)
     (h : fp32Context p dtype = true) :
@@ -99,6 +107,7 @@ noncomputable def scalarFP32
 #axiomsClean scalarFP32_one
 #axiomsClean scalarFP32_add
 #axiomsClean scalarFP32_mul
+#axiomsClean scalarFP32_fma
 #axiomsClean scalarFP32_neg
 #axiomsClean scalarFP32_abs
 #axiomsClean scalarFP32_cast_same

@@ -1,0 +1,8 @@
+{
+  "tasks": 183,
+  "readers": 367,
+  "io_source_files": 421,
+  "errors": [],
+  "status": "passed",
+  "scope": "Reviewed canonical IO sharing and reader placement; no full-source replay or GPU experiment"
+}

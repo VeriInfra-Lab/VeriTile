@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "task": "logsumexp_fwd",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue09/result.json",
+    "sha256": "d3044f04d5d54ca9192fc48af4b7e45f6ff6fef98b03ff13785e6812e7152b4f",
+    "task_index": 2
+  },
+  "finding": "The scratch formula exposed flat input offsets and division/modulo output-cell decoding.",
+  "resolution": "True row/column input and row/block output Equivs; direct masked exponential sum on logical coordinates, retaining ordinary-Real embedding in WithBot.",
+  "mathematical_target": [
+    {
+      "name": "logsumexp_kernel_correctness",
+      "statement": "Spec.Real (ReaderIO.view a scale jobs ⊨{ReaderIO.realInputs a} fun xs row segment =>\n      (Real.log (∑ i ∈ Finset.univ.filter\n        (fun i : Fin a.block => segment.val * a.block + i.val < a.columns),\n        Real.exp (if a.hasScale then\n          ReaderIO.realAt xs row (segment.val * a.block + i.val) * scale\n        else ReaderIO.realAt xs row (segment.val * a.block + i.val))) : WithBot ℝ))"
+    }
+  ],
+  "conditions_and_scope": {
+    "actual_scope": "Complete rows*ceil(columns/block) scratch-output grid in any permutation. Final Torch row aggregation is outside this kernel theorem. Empty grids remain empty.",
+    "retained_conditions": [
+      "RawKernel.Geometry carries positive block; jobs.Perm(List.range(rows*blocks)) remains explicit.",
+      "Interface.RealInputs requires every valid logical input to be a Real embedding in WithBot Real; it is not an extra native finite-word admission guard.",
+      "Runtime scale, scale/no-scale branch, masks, typed windows/bounds and input binding remain unchanged."
+    ],
+    "parameter_audit": "All original specification parameter prefixes equal modulo whitespace; see parameter-audit.json."
+  },
+  "proof_connection": "ReaderProof.realAt_eq/domain_eq/target_eq/judgment_iff prove full original ImplementsOn equivalence, including exact RealInputs domain and row/block schedule.",
+  "fp_review": {
+    "source": "unchanged byte-for-byte from before snapshot",
+    "pair": "PairIO original full rowBlock grid vs the existing rowBlockCandidate grid: remove the redundant restore mask only in the unscaled branch.",
+    "scope": "Arbitrary engines, runtime scale and native payloads; complete row/block-grid permutations, both safe successful schedules, every scratch cell and dual exact exterior frames.",
+    "interpretation": "Original typed operations, precision, conversions, order, domains, schedule and frame remain. Empty experimental R may rely on the fixed strict software theory; no universal opaque-model or hardware equality is inferred."
+  },
+  "numerical_dependencies": {
+    "new_rule_or_experiment_count": 0,
+    "actual_FP_dependencies": "Empty experimental R; exact source execution equality. Scaled branch retains its postmultiply mask, including nonfinite scale behavior; no floating law is added.",
+    "current_main_experimental_rule_instances": [],
+    "retained_pending_experiments": []
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "For scratch slot j: row=j/blocks, segment=j%blocks; log(sum over i:Fin block with segment*block+i<columns of exp(input[row,segment*block+i]*(scale if hasScale else 1))). Ordinary Real result is embedded in WithBot Real.",
+    "required_conditions": [
+      "RawKernel.Geometry carries positive block; jobs.Perm(List.range(rows*blocks)) remains explicit.",
+      "Interface.RealInputs requires every valid logical input to be a Real embedding in WithBot Real; it is not an extra native finite-word admission guard.",
+      "Runtime scale, scale/no-scale branch, masks, typed windows/bounds and input binding remain unchanged."
+    ],
+    "scope": "Complete rows*ceil(columns/block) scratch-output grid in any permutation. Final Torch row aggregation is outside this kernel theorem. Empty grids remain empty.",
+    "canonical_connection": [
+      "The displayed mathematical target is definitionally the original KernelMath.block target; the main specification applies Interface.real_implements directly.",
+      "Interface.real_implements uses ordinary input embedding, RawKernel.active_block, KernelMath.block_formula, actual full run, safety and frame."
+    ],
+    "fp_program_pair": {
+      "fp_pair": "PairIO original full rowBlock grid vs the existing rowBlockCandidate grid: remove the redundant restore mask only in the unscaled branch.",
+      "fp_scope": "Arbitrary engines, runtime scale and native payloads; complete row/block-grid permutations, both safe successful schedules, every scratch cell and dual exact exterior frames."
+    },
+    "numerical_dependencies": "Empty experimental R; exact source execution equality. Scaled branch retains its postmultiply mask, including nonfinite scale behavior; no floating law is added."
+  },
+  "verification": [
+    {
+      "kind": "validate_current_targeted_compiler_receipts_and_unchanged_FP_Contract_objects",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue09/verify-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/verified-receipts.log",
+      "log_sha256": "8450288bd288828f3a671e55276af8205457512dc32a7d50e76db613efa1dc0f"
+    },
+    {
+      "kind": "joint_import_36_selected_public_entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue09/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue09/Joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "preserved_all_16_original_parameter_prefixes_modulo_whitespace",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue09/audit-parameters.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue09/parameter-audit.log",
+      "log_sha256": "029e5c767dd5644931d7ec3c332990352c88ddd3c640a65fd4561d74ce27305b"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/logsumexp_fwd/Contract.lean": "8d3a23be16527dce3fa5e45a18f87aff2d5ec11eba3cec160c21f44ec3b2cade",
+    "bench/repairs/tritonbench_g/logsumexp_fwd/Correct.lean": "81d645a72342426315e2f15f8ca5eb68000aa47a9cb4a5f9d21b4b51feb902a1",
+    "bench/repairs/tritonbench_g/logsumexp_fwd/FPEquiv.lean": "05e0ffc7b5eeab64aaea89d77c7c04cc40e5b80a448d28d54a985834dd713548",
+    "bench/repairs/tritonbench_g/logsumexp_fwd/IO.lean": "968ca62964cee952170cad746065c9b92f8986d933201266e11d379fd437eac3",
+    "bench/repairs/tritonbench_g/logsumexp_fwd/LogicalIO.lean": "5eb7717137229c713948f2d687e0157e330733eb8bc252020a92c61cc57f20ba",
+    "bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/LogicalReader.lean": "72513bbc0951f4bb0097d52e64d9f5d96ec12fe5b1e5329aa77dea085926a5b4",
+    "bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/RealIO.lean": "9ad6e748c614668850d42d3fb66c5570a31294a07dff1dd458b4c4dcff3f1508",
+    "bench/repairs/tritonbench_g/logsumexp_fwd/Kernels.lean": "c1cd6ad234ad07eaf816884255612f49533d61a70af7f8340ecd5fe82aaf49a6",
+    "bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/KernelMath.lean": "e38a480e32b1b95fea2f474a950787e3ebe69020ca2ffb51de22c2e271c852b4",
+    "bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/RawKernel.lean": "6e9f87cf985c550c1fe5a3fba861badcfc54580310e44a3c3da512f6cf03cca7",
+    "bench/repairs/tritonbench_g/logsumexp_fwd/Proofs/PairIO.lean": "5f356c6d3efaa7c3410f2318963b3f51f651d14d34fe9bafdc4128dfbeee6a2b",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Unchanged FP and Contract objects were reused only after exact source/receipt/object matching; joint imports passed. Internal/optional native, host and Tensor closures were not replayed; no hardware conformance or new numerical experiment is claimed."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

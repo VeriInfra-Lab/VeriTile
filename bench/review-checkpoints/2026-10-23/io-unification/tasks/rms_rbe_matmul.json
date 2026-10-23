@@ -1,0 +1,436 @@
+{
+  "schema": 1,
+  "task": "rms_rbe_matmul",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue12/result-metadata-supplement.json",
+    "sha256": "5f610068288ee6ab6a6762ade1dd840c6b1eb87bbd939e3820ec977386dd1fb3",
+    "task_index": 4
+  },
+  "reason": "PublicIO IOLayout core plus tensor1/tensor2/tensor3/logical pure decoders moved into IO.lean. PublicLogicalModel retains coordinate/formula; layout/execution/safety/complete-judgment proofs remain Proofs.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Contract.lean",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Correct.lean",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "rms_rbe_matmul"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/IO.lean",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicLogicalModel.lean",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicIOLayout.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/IOLayout.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/IOLayout.lean",
+      "to": "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/IO.lean",
+      "namespace_suffix": "PublicIO",
+      "names": [
+        "inputs",
+        "outputs",
+        "read",
+        "invocation",
+        "io",
+        "domain"
+      ],
+      "same_public_names_and_definition_bodies": true
+    },
+    {
+      "from": "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicLogicalModel.lean",
+      "to": "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/IO.lean",
+      "namespace_suffix": "PublicIO",
+      "names": [
+        "tensor1",
+        "tensor2",
+        "tensor3",
+        "logical"
+      ],
+      "same_public_names_and_definition_bodies": true
+    }
+  ],
+  "preservation": {
+    "kind": "byte_preserved_moved_definitions_and_preserved_public_judgments",
+    "checks": {
+      "path": ".veritile-cache/io-unification-20261023/queue12/preservation.json",
+      "sha256": "f63dfcdb1886154dca627b4e347fe24ad3b24bfb04b7604e8140d99862bbf1f0"
+    },
+    "full_public_judgment_types": {
+      "path": ".veritile-cache/io-unification-20261023/queue12/rms_rbe_matmul_launch_guard-public-types-result.json",
+      "sha256": "c726a9ed9697a425b41db94b3ba5a28bba165021d7b2eaa686a553aa6f0acb79"
+    },
+    "execution_safety_and_complete_judgment_proofs_remain_in_Proofs": true,
+    "fresh_source_review": {
+      "path": ".veritile-cache/io-unification-20261023/queue12/fresh-source-review.json",
+      "sha256": "b986318afb1581600f2095cbb5349961971de792e1ec308bbb0877173b84169b"
+    }
+  },
+  "verification": [
+    {
+      "kind": "fresh_targeted_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue12/build.py",
+        "bench.repairs.tritonbench_g.rms_rbe_matmul_launch_guard.IO"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue12/launch-io-attempt1.log",
+      "log_sha256": "910e602ac1f5ef5d3e32ad69c3c880f26b190bc579c98765e4fe86ea96718db0",
+      "receipts": [
+        {
+          "path": ".veritile-cache/io-unification-20261023/queue12/build/lib/lean/bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/IO.workspace-build.json",
+          "sha256": "0e7e623f055a5230e90f757aadd8f4632a2375914c18b4ae7caa185ca1cb0676"
+        }
+      ]
+    },
+    {
+      "kind": "fresh_targeted_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue12/build.py",
+        "bench.repairs.tritonbench_g.rms_rbe_matmul_launch_guard.Proofs.PublicIOLayout",
+        "bench.repairs.tritonbench_g.rms_rbe_matmul_launch_guard.Proofs.PublicLogicalModel",
+        "bench.repairs.tritonbench_g.rms_rbe_matmul_launch_guard.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.rms_rbe_matmul_launch_guard.Correct",
+        "bench.repairs.tritonbench_g.rms_rbe_matmul_launch_guard.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue12/launch-readers-attempt1.log",
+      "log_sha256": "29ec9be9a37894cbdfb4a2a325ac142a8fa5f24cec51e084af853bc424568933",
+      "receipts": [
+        {
+          "path": ".veritile-cache/io-unification-20261023/queue12/build/lib/lean/bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicIOLayout.workspace-build.json",
+          "sha256": "8da21e58ffacdae913c26f3ce3de04519f31248b70428eb04bca2fc387322475"
+        },
+        {
+          "path": ".veritile-cache/io-unification-20261023/queue12/build/lib/lean/bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicLogicalModel.workspace-build.json",
+          "sha256": "bda332ef439a2844ecb01475723c9c6c2129395c429fb6bd0c55663cd1c849cd"
+        },
+        {
+          "path": ".veritile-cache/io-unification-20261023/queue12/build/lib/lean/bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/LogicalReader.workspace-build.json",
+          "sha256": "cfa16b98e499941f33f595aa7966ba9f130a524abca53cd568f33de265d88a1c"
+        },
+        {
+          "path": ".veritile-cache/io-unification-20261023/queue12/build/lib/lean/bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Correct.workspace-build.json",
+          "sha256": "f2f1eba3c02dede5575db0034086ea430ca2297166cc0a19c56e3e3cea91c7ae"
+        },
+        {
+          "path": ".veritile-cache/io-unification-20261023/queue12/build/lib/lean/bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/FPEquiv.workspace-build.json",
+          "sha256": "9136457ccc2a8dbb4ccb03a403b7063fbe96f22aaf6127f7826af3db3c24820c"
+        }
+      ]
+    },
+    {
+      "kind": "fresh_per_task_public_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue12/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue12/joint/rms_rbe_matmul_launch_guard.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue12/launch-joint-attempt1.log",
+      "log_sha256": "683218dc751ca07bb1c3602065614c07e962b758760c01ece8dda82b84266385",
+      "receipts": [],
+      "fixture": {
+        "path": ".veritile-cache/io-unification-20261023/queue12/joint/rms_rbe_matmul_launch_guard.lean",
+        "sha256": "26e96b3dafc8946f7ef27a396c7889a6ab67816910de5460446e9d40ae5463aa"
+      }
+    },
+    {
+      "kind": "read_only_before_after_public_type_comparison",
+      "exit_code": 0,
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue12/compare-types.py",
+        "rms_matmul_rbe_scalar_domain",
+        "rms_rbe_matmul_launch_guard"
+      ],
+      "result": {
+        "path": ".veritile-cache/io-unification-20261023/queue12/rms_rbe_matmul_launch_guard-public-types-result.json",
+        "sha256": "c726a9ed9697a425b41db94b3ba5a28bba165021d7b2eaa686a553aa6f0acb79"
+      },
+      "checks": [
+        {
+          "task": "rms_rbe_matmul_launch_guard",
+          "label": "before",
+          "command": [
+            "/tmp/veritile-lean-toolchain/bin/lean",
+            "-s",
+            "32768",
+            "--root=/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+            "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue12/joint/rms_rbe_matmul_launch_guard.lean"
+          ],
+          "lean_path": [
+            "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+            "/tmp/veritile-lean-toolchain/lib/lean",
+            "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/queue12/build/lib/lean",
+            "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/build/lib/lean",
+            "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/io-unification-20261023/queue12/rms_rbe_matmul_launch_guard-public-types-before.log",
+          "log_sha256": "683218dc751ca07bb1c3602065614c07e962b758760c01ece8dda82b84266385"
+        },
+        {
+          "task": "rms_rbe_matmul_launch_guard",
+          "label": "after",
+          "command": [
+            "/tmp/veritile-lean-toolchain/bin/lean",
+            "-s",
+            "32768",
+            "--root=/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile",
+            "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue12/joint/rms_rbe_matmul_launch_guard.lean"
+          ],
+          "lean_path": [
+            "/tmp/veritile-tritonbench-lake/packages/Cli/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/batteries/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/Qq/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/aesop/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/proofwidgets/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/importGraph/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/LeanSearchClient/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/plausible/.lake/build/lib/lean",
+            "/tmp/veritile-tritonbench-lake/packages/mathlib/.lake/build/lib/lean",
+            "/tmp/veritile-lean-toolchain/lib/lean",
+            "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/io-unification-20261023/queue12/build/lib/lean",
+            "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.veritile-cache/logical-reader-review-20261022/build/lib/lean",
+            "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/.lake/build/lib/lean"
+          ],
+          "exit_code": 0,
+          "log": ".veritile-cache/io-unification-20261023/queue12/rms_rbe_matmul_launch_guard-public-types-after.log",
+          "log_sha256": "683218dc751ca07bb1c3602065614c07e962b758760c01ece8dda82b84266385"
+        }
+      ],
+      "public_types_byte_identical": true
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/rms_rbe_matmul/Kernels.lean": "7837cea3c27dce648c60b12ecc04e6acf4b671937b3f10b547b380527b6650ac",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul/Proofs/KernelRealOutput.lean": "e942b746ac3adb4d4e9c35ad549d4d0adf670ba77a2771fa99e2a59fa07edfb4",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul/Proofs/KernelTarget.lean": "b011dace4313b3e7492788f05a3bf15ebe9d3cf34e2af4267ef271da479143f2",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Contract.lean": "7dab8763f2f7af216248633ab8032013f72132784a5ce9e1a5e0cf1c3fc9df96",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Correct.lean": "5458cea7b84a439a82fc5171b7593ed87f3c92f64b2a4a8fb47df5d8e00f0a5a",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/FPEquiv.lean": "9d061d4a6f3b40546e26d3ed9df2d9b3935a1a3550cb3e55d153c29b25deb585",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/IO.lean": "db9987785be555fb6aaf6f9c397a88b78055d74b7d62ce03d30a8bdba5bb52a2",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/LogicalReader.lean": "b2d561f4a2b396c26f2c42f17566891f592c5690d3e657afe9ddcbdc42b5b076",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/ProgramPair.lean": "b3ca6835bec35bb74ee1cb3dc2a0a0cf9382b23ea49096155eec3b2b78abf4db",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicIOLayout.lean": "f447731bf51892d9714f3d9f03b30935dfacc88aa4c1421d46a551d719839915",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicRealIO.lean": "311b66f41e075e27dafeeddc97887d07d7f79b8acd002251bcb7c6016ba178ad",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Misc/Audit.lean": "20c646c90bb9a23743720f1bef6bb6b5ece4df61514a4e08fe9989d9c0246756",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Misc/CandidateNative.lean": "280f596249cc67a7cf00cddc77329e39b1044f4eafd9a83e7aa6c9239370a4f5",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Misc/NativeCorrect.lean": "b4b51648956dabbf5e8956689ac47ab0a6c7417297f110ac61a68569788587b2",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Misc/RawEndpoints.lean": "5df2ea4d888d8b2130f55a2e94eaa61ac19421b5f58dca645ee0a2eadff4ed08",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Misc/TensorBridge.lean": "3c18cbff39cf666e540baf1ab34e08e95293af422659c86aea255e6fa72c4b78",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/Counterexample.lean": "1cb606d92d41080a591774ed7c11b7067b1a7434e90db6db3c482e3c24188059",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/Launch.lean": "159aa067a3c660ee4fd8746f847a128e58bb0324ae54e3711af92ef76df62551",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicGraphCongruence.lean": "424dff9ed28a44abc9fe1fd9e38454542573432363b082491dd8a6708bfc37e3",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicInputBinding.lean": "a49019c5aa983354ebc01c5cd731e8bd3f27747f20e37ffca8f23b0568546566",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicInputBounds.lean": "ca507b205cfe65b95c70a4fc3e76611e9387b8b66414862382475033bf2db8e0",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicKernelSafety.lean": "573dce89e5c73810148ff9a90fc8ee19973d98a850742d7b70dd3374126c7647",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicLoadSafety.lean": "c263796e39c08f67f6c0ea6ed3422ee394e60260515ddd97653a8b035a010456",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicLogicalModel.lean": "63cbacafd648ca74de5fe0fd0e66b2c595a8b68dc81a34c6976fd3ef7cf8baaa",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicNativeIO.lean": "2cdeb4683102afa36c653d51b28a423c58674f0ae5d5344cd30898b44a3dbf48",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicRawTransport.lean": "32430b90b45655952d06ef478f8d22dbf5c1697037e5b63b54cecae3f8d163fc",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicSourceIO.lean": "1be5cb834b763205eb290f40b606a1378b9e69d277d99d6f3ca6129b5bcbaa2e",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicSourceSafety.lean": "45482d528f8ea30a31f8951505f497c5f712c002110ed76db3615c2fab127ee3",
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicStoreSafety.lean": "9052f45542ab420fa03b99176d91044a3399a302914c3181bcf4adbc02e9adaf"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/rms_rbe_matmul/Kernels.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul/Proofs/KernelRealOutput.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul/Proofs/KernelTarget.lean": {
+      "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Contract.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Correct.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/FPEquiv.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/IO.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/LogicalReader.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/ProgramPair.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicIOLayout.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicRealIO.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Misc/Audit.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Misc/CandidateNative.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Misc/NativeCorrect.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Misc/RawEndpoints.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/Counterexample.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/Launch.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicGraphCongruence.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicInputBinding.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicInputBounds.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicKernelSafety.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicLoadSafety.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicLogicalModel.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicNativeIO.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicRawTransport.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicSourceIO.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicSourceSafety.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    },
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/Proofs/PublicStoreSafety.lean": {
+      "owner_tasks": [
+        "rms_rbe_matmul"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/rms_rbe_matmul_launch_guard/IOLayout.lean": "60797d0b930621f6445f83909bd391077d40b29ab020ffbbd336c8e6dff33c2a"
+  },
+  "limits": [
+    "Only IO organization, import ownership and disambiguation of the pre-existing safety proof kernel reference changed. No kernel, candidate, mathematical formula, public condition, domain, schedule, observation, precision or numerical rule change.",
+    "No new numerical experiment, GPU, host/native/Tensor correctness acceptance, or full proof closure replay."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

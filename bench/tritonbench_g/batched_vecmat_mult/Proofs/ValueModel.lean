@@ -11,9 +11,6 @@ abbrev Word := FP.Value .fp32
 local instance : Inhabited Word := ⟨FP.Value.zero .fp32⟩
 abbrev Memory := RegionName → Nat → Cell Word
 
-structure Parameters where
-  (A B output : RegionName)
-  (M N K BM BN BK : Nat)
 
 def source (p : Parameters) := TypedSource.original p.A p.B p.output p.M p.N p.K p.BM p.BN p.BK
 

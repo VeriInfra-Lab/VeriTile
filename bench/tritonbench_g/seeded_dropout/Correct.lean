@@ -1,3 +1,4 @@
+import bench.tritonbench_g.seeded_dropout.Proofs.WholePublic
 import bench.tritonbench_g.seeded_dropout.Proofs.RealSurface
 import VeriTile.Meta.Specification
 
@@ -56,3 +57,26 @@ specification index_commuted_correctness (storage : Storage) (kind : Random.Inte
 
 end
 end VeriTile.Bench.TritonBenchG.SeededDropout.Correctness
+
+namespace VeriTile.Bench.TritonBenchG.SeededDropout.Whole
+open VeriTile VeriTile.Triton TypedSource
+noncomputable section
+
+/-- Full original Python entry with an independent mathematical dropout
+formula, all original branches, complete frame and finite-index correspondence. -/
+specification seeded_dropout_real_source_outcomes (kind : Random.IntegerType) (p : ℝ)
+    (seed : SeedCarrier kind) (_probability : ProbabilityDomain p) (abi : PythonSeedABI kind seed)
+    (rt : Runtime ℝ input entry preexisting)
+    (valid : ∀ a, rt.allocate = .ok a → input.contiguous = Bool.true → Domain a)
+    (finite : ∀ a (ha : rt.allocate = .ok a) (hc : input.contiguous = Bool.true),
+      FiniteAdmission a (valid a ha hc)) :
+    Spec.Real (HostSpec (realFormula p (seedInt kind seed)) rt (executeHost realAlgebra kind p seed rt) ∧
+      ∀ a ha hc, IndexCorrespondence a (valid a ha hc) (finite a ha hc)) := by
+  exact ⟨real_host_outcomes kind p seed (PythonSeedABI.valid kind seed abi) rt valid,
+    fun a ha hc => index_correspondence a (valid a ha hc) (finite a ha hc)⟩
+
+#axiomsClean seeded_dropout_real_source_outcomes
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.SeededDropout.Whole

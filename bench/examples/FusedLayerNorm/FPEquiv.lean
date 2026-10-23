@@ -1,8 +1,9 @@
 import bench.examples.FusedLayerNorm.Kernels
 /- Original online-statistics versus two-pass LayerNorm. The shared affine
-suffix retains its sqrt, epsilon, gamma/beta and bf16 cast. Only the admitted
-scalar arithmetic and bounded count atoms are used. Empty output rows remain
-covered because both sources preserve every memory cell at N = 0. -/
+suffix retains its sqrt, epsilon, gamma/beta and bf16 cast. The proof combines
+strictly certified scalar and bounded count rules with admitted arithmetic
+relaxations. Empty output rows remain covered because both sources preserve
+every memory cell at N = 0. -/
 import bench.examples.FusedLayerNorm.Proofs.FP
 import VeriTile.Triton.Float.CountConversionLaws
 import VeriTile.Triton.Float.Kernel

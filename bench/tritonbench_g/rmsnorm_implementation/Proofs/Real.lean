@@ -2167,7 +2167,7 @@ private theorem Rcast_real_real (R : RoundingModel) :
   simp [RoundingModel.cast, FloatDType.cast]
 
 /-- The prologue is cast-free: it steps identically under `stepStmtsR R`. -/
-private theorem rmsImplPre_castFree (R : RoundingModel) (sxb sxm B : Nat)
+theorem rmsImplPre_castFree (R : RoundingModel) (sxb sxm B : Nat)
     (t : BlockState) :
     stepStmtsR R (rmsVarPreLoop sxb sxm B) t
       = stepStmts (rmsVarPreLoop sxb sxm B) t := by
@@ -2178,7 +2178,7 @@ private theorem rmsImplPre_castFree (R : RoundingModel) (sxb sxm B : Nat)
 /-- The pass-1 body is cast-free (masked `.real` load, the `.real → .real`
 `xf` cast, a real multiply-add): it steps identically under `stepStmtsR R`,
 so the exact var-loop invariant stack transports to `execR`. -/
-private theorem rmsImplVarBody_castFree (R : RoundingModel) (x : RegionName)
+theorem rmsImplVarBody_castFree (R : RoundingModel) (x : RegionName)
     (sxk N B : Nat) (t : BlockState) :
     stepStmtsR R (rmsVarLoopBody x sxk N B) t
       = stepStmts (rmsVarLoopBody x sxk N B) t := by
@@ -2187,7 +2187,7 @@ private theorem rmsImplVarBody_castFree (R : RoundingModel) (x : RegionName)
   rfl
 
 /-- The reduce/sqrt tail is cast-free. -/
-private theorem rmsImplPost_castFree (R : RoundingModel) (N B : Nat) (eps : ℝ)
+theorem rmsImplPost_castFree (R : RoundingModel) (N B : Nat) (eps : ℝ)
     (t : BlockState) :
     stepStmtsR R (rmsStdPostLoop N B eps) t
       = stepStmts (rmsStdPostLoop N B eps) t := by
@@ -2200,7 +2200,7 @@ store**: `stepStmtR` delegates a `.real`-typed store to the exact
 `writeMemTyped` (`writeMemTypedR R .real` is definitionally the exact
 write), so the whole storing loop steps identically under `stepStmtsR R`
 and the exact output-loop invariant stack transports to `execR`. -/
-private theorem rmsImplOutBody_castFree (R : RoundingModel) (x w o : RegionName)
+theorem rmsImplOutBody_castFree (R : RoundingModel) (x w o : RegionName)
     (sxk srw sob som sok N B : Nat) (t : BlockState) :
     stepStmtsR R (rmsOutLoopBody x w o sxk srw sob som sok N B) t
       = stepStmts (rmsOutLoopBody x w o sxk srw sob som sok N B) t := by
@@ -2276,7 +2276,7 @@ the output-loop invariant register pins, one storing body iteration leaves
 every memory **cell** off the `{(out, outColOffset s0 col) : col < N_SIZE}`
 write window untouched — the masked scatter store only hits active lanes
 `i + j < N_SIZE`, whose offsets are `outColOffset s0 (i + j)`. -/
-private theorem rmsImplOutBody_step_frame
+theorem rmsImplOutBody_step_frame
     (s0 st st' : BlockState) (x w o : RegionName)
     (sxb sxm sxk srw sob som sok N B i : Nat) (eps : ℝ)
     (hPidBatch : st.regs .nat [] "pid_batch" = some (Tile.scalar (s0.pids 0)))
@@ -2314,7 +2314,7 @@ none-case-refuting existence lemmas (the loops terminate through
 `forRange_inv`). -/
 
 /-- The prologue always steps (register-only assigns of total ops). -/
-private theorem rmsImplPre_exists (sxb sxm B : Nat) (s : BlockState) :
+theorem rmsImplPre_exists (sxb sxm B : Nat) (s : BlockState) :
     ∃ st, stepStmts (rmsVarPreLoop sxb sxm B) s = some st := by
   cases hStep : stepStmts (rmsVarPreLoop sxb sxm B) s with
   | none =>
@@ -2325,7 +2325,7 @@ private theorem rmsImplPre_exists (sxb sxm B : Nat) (s : BlockState) :
   | some st => exact ⟨st, rfl⟩
 
 /-- The reduce/sqrt tail always steps once the `var` register holds a tile. -/
-private theorem rmsImplPost_exists (N B : Nat) (eps : ℝ) (stVar : BlockState)
+theorem rmsImplPost_exists (N B : Nat) (eps : ℝ) (stVar : BlockState)
     (acc : Tile .real [B])
     (hVarReg : stVar.regs .real [B] "var" = some acc) :
     ∃ st, stepStmts (rmsStdPostLoop N B eps) stVar = some st := by
@@ -2898,7 +2898,7 @@ exact `rmsVarPreLoop` / `rmsVarLoopContextInvariant` / `rmsStdPostLoop` /
 `rmsOutLoopContextInvariant` stack runs verbatim (both passes are
 cast-free, so `execR R` collapses onto the exact stepper), extended with
 the per-segment memory frames. -/
-private theorem rmsImpl_runR (R : RoundingModel) (x w o : RegionName)
+theorem rmsImpl_runR (R : RoundingModel) (x w o : RegionName)
     (sxb sxm sxk srw sob som sok N B : Nat) (eps : ℝ)
     (hB : 0 < B) (hxo : x ≠ o) (hwo : w ≠ o) (hsok : 0 < sok)
     (s₀ : BlockState) :
@@ -3101,6 +3101,10 @@ theorem legacy_trace_safe (R : RoundingModel) (bounds : RegionBounds)
     ((rmsnorm_implementation x w o sxb sxm sxk srw sob som sok N B eps).toAlgKernel).TraceSafeR R bounds s :=
   rmsImpl_traceSafeR R bounds x w o sxb sxm sxk srw sob som sok N B eps
     hB hxo hwo hsok s hbx hbw hbo
+
+/-- Existing evaluated per-iteration safety walks, exposed for active-only output injectivity. -/
+alias variance_body_safe := rmsImplVarBodySafeR
+alias output_body_safe := rmsImplOutBodySafeR
 
 end IOFace
 

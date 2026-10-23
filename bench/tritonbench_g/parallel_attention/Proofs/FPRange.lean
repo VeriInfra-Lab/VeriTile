@@ -1,4 +1,5 @@
 import bench.tritonbench_g.parallel_attention.Proofs.FPForwardGraph
+import VeriTile.Meta.StatementAudit
 namespace VeriTile.Bench.TritonBenchG.ParallelAttention.FPStages
 open VeriTile.Triton FP.Structural
 noncomputable section

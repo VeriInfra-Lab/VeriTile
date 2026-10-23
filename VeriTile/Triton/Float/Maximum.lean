@@ -1,8 +1,9 @@
 import VeriTile.Triton.Float.ScalarArithmetic
+import VeriTile.Triton.Float.GuardedStrict
 
-/-! Scalar fp32 maximum candidates. Defining their fragments does not assert
-an ordering or a numerical law for the floating carrier. Accepted report rows
-select which candidates can be used as assumptions. -/
+/-! Scalar FP32 maximum rewrites certified in the fixed maxnum software profile.
+The original report lookup remains available as historical metadata. These
+four rules do not add experimental assumptions to the public rule set. -/
 namespace VeriTile.Triton.FP.Maximum
 open Structural Guarded ScalarArithmetic
 open scoped VeriTile.Spec
@@ -30,9 +31,8 @@ def Atom.guards : Atom → List OperandGuard
   | .max_idem | .max_neg_inf => [⟨"a", .finite⟩]
 
 /-- Retain the default floating maximum primitive used by tl.maximum.
-The enclosing fragment supplies fp32 precision. The operand guards and
-report validation requirements below remain necessary; no max law follows
-from a floating comparison or from the real projection. -/
+The enclosing fragment supplies FP32 precision and finite operand guards.
+The execution certificate below uses its explicit maxnum implementation. -/
 def maximum (a b : Op .real []) : Op .real [] :=
   .maximumFloat .real .nil a b
 
@@ -53,7 +53,8 @@ def Atom.matches (a : Atom) (row : ReportedScalarRule) : Bool :=
     row.report.compute = "fp32" ∧ row.report.accumulator = "fp32" ∧
     row.report.output = "fp32" ∧ row.guards = a.guards)
 
-/-- Only accepted rows in the generated table can activate a candidate. -/
+/-- Historical accepted-row lookup, retained for existing callers. The strict
+proof below does not consume the row or its evidence. -/
 def Atom.report? (a : Atom) : Option ReportedScalarRule :=
   SupplementalAdmission.all.find? a.matches
 
@@ -67,30 +68,78 @@ def entry (a : Atom) (h : a.Available) : Spec.RuleEntry GuardedFragment :=
 def Atom.entry? (a : Atom) : Option (Spec.RuleEntry GuardedFragment) :=
   a.report?.map fun row => row.report.bind [lhs a] [rhs a]
 
-/-- External validation is required only for candidates selected by the report. -/
+/-- Execute the actual fragments, including their precision, registers and
+finite guards, before applying the shared raw-word maximum laws. -/
+theorem strict_sound (a : Atom) : StrictFragmentSound (lhs a) (rhs a) := by
+  refine ⟨rfl, ?_⟩
+  intro rest s hg
+  cases a with
+  | max_commute =>
+    obtain ⟨va, ha, hfa⟩ := hg ⟨"a", .finite⟩ (by simp [lhs, Atom.guards])
+    obtain ⟨vb, hb, hfb⟩ := hg ⟨"b", .finite⟩ (by simp [lhs, Atom.guards])
+    dsimp only [lhs, FloatDType.toTileDType, toFloat, strictDomain] at ha hb hfa hfb
+    simp [lhs, rhs, fragment, fragmentAlgebra, maximum, ref, run, step,
+      evalExpr, evalComputeOp, evalOp_unfold, ComputeDType.eraseDType,
+      ha, hb, scalarOutput, State.setReg, Software.fp32Context, toFloat, ofFloat]
+    funext i
+    cases i
+    exact MaximumExact.maximumValue_commute _ _ hfa hfb
+  | max_assoc =>
+    obtain ⟨va, ha, hfa⟩ := hg ⟨"a", .finite⟩ (by simp [lhs, Atom.guards])
+    obtain ⟨vb, hb, hfb⟩ := hg ⟨"b", .finite⟩ (by simp [lhs, Atom.guards])
+    obtain ⟨vc, hc, hfc⟩ := hg ⟨"c", .finite⟩ (by simp [lhs, Atom.guards])
+    dsimp only [lhs, FloatDType.toTileDType, toFloat, strictDomain] at ha hb hc hfa hfb hfc
+    simp [lhs, rhs, fragment, fragmentAlgebra, maximum, ref, run, step,
+      evalExpr, evalComputeOp, evalOp_unfold, ComputeDType.eraseDType,
+      ha, hb, hc, scalarOutput, State.setReg, Software.fp32Context, toFloat, ofFloat]
+    funext i
+    cases i
+    exact MaximumExact.maximumValue_assoc _ _ _ hfa hfb hfc
+  | max_idem =>
+    obtain ⟨va, ha, hfa⟩ := hg ⟨"a", .finite⟩ (by simp [lhs, Atom.guards])
+    dsimp only [lhs, FloatDType.toTileDType, toFloat, strictDomain] at ha hfa
+    simp [lhs, rhs, fragment, fragmentAlgebra, maximum, ref, run, step,
+      evalExpr, evalComputeOp, evalOp_unfold, ComputeDType.eraseDType,
+      ha, scalarOutput, State.setReg, Software.fp32Context, toFloat, ofFloat]
+    funext i
+    cases i
+    exact MaximumExact.maximumValue_idem _ hfa
+  | max_neg_inf =>
+    obtain ⟨va, ha, hfa⟩ := hg ⟨"a", .finite⟩ (by simp [lhs, Atom.guards])
+    dsimp only [lhs, FloatDType.toTileDType, toFloat, strictDomain] at ha hfa
+    simp [lhs, rhs, fragment, fragmentAlgebra, maximum, ref, run, step,
+      evalExpr, evalComputeOp, evalOp_unfold, ComputeDType.eraseDType,
+      ha, scalarOutput, State.setReg, Software.strictFP32, Software.scalarFP32,
+      toFloat, ofFloat, Software.fp32Context]
+    funext i
+    cases i
+    exact MaximumExact.maximumValue_neg_inf _ hfa
+
+/-- Compatibility handle: all four maximum laws now have strict certificates. -/
 structure Rules where
-  validated : ∀ (a : Atom) (h : a.Available),
-    Spec.EvidenceValidated (entry a h).rule (entry a h).evidence
+  empty : True := True.intro
 
 def Rules.assumptions (_ : Rules) : Spec.Assumptions GuardedFragment :=
-  candidates.filterMap Atom.entry?
+  []
 
 instance : CoeOut Rules (Spec.Assumptions GuardedFragment) := ⟨Rules.assumptions⟩
 
-/-- Admission enables this one candidate; it asserts no other numerical law. -/
-theorem admitted (R : Rules) (a : Atom) (h : a.Available) :
-    Spec.Derivation R.assumptions [lhs a] [rhs a] := by
-  apply Spec.Derivation.atom (entry a h)
-  · apply List.mem_filterMap.mpr
-    refine ⟨a, ?_, ?_⟩
-    · cases a <;> simp [candidates]
-    · have available : a.report?.isSome = true := h
-      cases hr : a.report? with
-      | none => simp [hr] at available
-      | some row => simp [Atom.entry?, entry, report, hr]
-  · exact (report a h).report.admit _ _ (R.validated a h)
+/-- The old call shape now uses the fixed strict theory and no report axiom. -/
+theorem admitted (R : Rules) (a : Atom) (_h : a.Available) :
+    Spec.Derivation R.assumptions [lhs a] [rhs a] :=
+  strict_derivation R.assumptions (strict_sound a)
 
 theorem rewrite (R : Rules) (a : Atom) (h : a.Available) : [lhs a] ≡[R] [rhs a] :=
   Spec.FloatingPoint.ofDerivation rfl trivial (admitted R a h)
+
+/-- The preferred entry point has neither a report-selection nor an empirical
+rule-set parameter. Its finite domain remains in the guarded fragments. -/
+theorem strict_rewrite (a : Atom) :
+    [lhs a] ≡[([] : Spec.Assumptions GuardedFragment)] [rhs a] :=
+  Spec.FloatingPoint.ofDerivation rfl trivial (strict_derivation [] (strict_sound a))
+
+#axiomsClean strict_sound
+#axiomsClean admitted
+#axiomsClean strict_rewrite
 
 end VeriTile.Triton.FP.Maximum

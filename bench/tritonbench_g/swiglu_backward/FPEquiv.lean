@@ -1,3 +1,5 @@
+import bench.tritonbench_g.swiglu_backward.Proofs.Observed
+import bench.tritonbench_g.swiglu_backward.Proofs.WholeIndex
 import bench.tritonbench_g.swiglu_backward.Proofs.Precision
 import bench.tritonbench_g.swiglu_backward.Proofs.FP
 import bench.tritonbench_g.swiglu_backward.Proofs.Execution
@@ -65,3 +67,29 @@ specification source_equivalence (input upstream gradient output : Storage)
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.TritonBenchG.SwigluBackward.FPEquiv
+
+namespace VeriTile.Bench.TritonBenchG.SwigluBackward.Observed
+open VeriTile.Triton FP.Structural
+open Whole
+noncomputable section
+
+/-- Whole original source interpreted as its pinned compiler-observed FP32
+operation graph, including actual fused affine recurrence and operand order.
+All pending numerical ports are scalar primitives; the full source, host,
+trials, logical returns, entry frame and byte spans are already proved. -/
+specification swiglu_backward_fp32_source_outcomes (M : NativeModel (BitVec 32))
+    (rt : Whole.Runtime (Term (BitVec 32)) call (entryGraph entry) preexisting)
+    (_inputValid : InputDomain call)
+    (valid : ∀ p, rt.prepare = .ok p → checks p = Bool.true → Domain p)
+    (finite : ∀ p (hp : rt.prepare = .ok p) (hc : checks p = Bool.true),
+      FiniteAdmission p (valid p hp hc)) :
+    HostSpec M rt (executeHost M rt) ∧
+      ∀ p hp hc, IndexCorrespondence p (valid p hp hc) (finite p hp hc) := by
+  exact ⟨host_outcomes M rt valid,
+    fun p hp hc => index_correspondence p (valid p hp hc) (finite p hp hc)⟩
+
+#axiomsClean swiglu_backward_fp32_source_outcomes
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.SwigluBackward.Observed

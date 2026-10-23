@@ -1,3 +1,4 @@
+import bench.tritonbench_g.swiglu_backward.Proofs.WholeIndex
 import bench.tritonbench_g.swiglu_backward.Proofs.Precision
 import bench.tritonbench_g.swiglu_backward.Proofs.Math
 import bench.tritonbench_g.swiglu_backward.Proofs.Candidate
@@ -98,3 +99,22 @@ specification typed_real_correct (input upstream gradient output : Storage) (v :
 #auditModuleAxioms
 
 end VeriTile.Bench.TritonBenchG.SwigluBackward
+
+namespace VeriTile.Bench.TritonBenchG.SwigluBackward.Whole
+open VeriTile.Triton FP.Structural
+noncomputable section
+specification swiglu_backward_real_source_outcomes
+    (rt : Runtime ℝ call entry preexisting) (_inputValid : InputDomain call)
+    (valid : ∀ p, rt.prepare = .ok p → checks p = Bool.true → Domain p)
+    (finite : ∀ p (hp : rt.prepare = .ok p) (hc : checks p = Bool.true),
+      FiniteAdmission p (valid p hp hc)) :
+    VeriTile.Spec.Real (HostSpec formula rt (executeHost realAlgebra rt) ∧
+      ∀ p hp hc, IndexCorrespondence p (valid p hp hc) (finite p hp hc)) := by
+  exact ⟨real_host_outcomes rt valid,
+    fun p hp hc => index_correspondence p (valid p hp hc) (finite p hp hc)⟩
+
+#axiomsClean swiglu_backward_real_source_outcomes
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.SwigluBackward.Whole

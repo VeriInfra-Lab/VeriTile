@@ -1,0 +1,400 @@
+{
+  "schema": 1,
+  "task": "masked_add_cuda",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/queue09/result-metadata-supplement.json",
+    "sha256": "2e5c7cdc538b520260d0163b8913e527de562cfed21f5bd015176120cda7d626",
+    "task_index": 4
+  },
+  "reason": "The original memory IO and complete logical input/output view now share the task IO.lean; original namespaces, encodings/stages and definitions are retained; proof connections remain in Proofs.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/masked_add_cuda/Contract.lean",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Correct.lean",
+    "bench/repairs/tritonbench_g/masked_add_cuda/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "masked_add_cuda"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/LogicalReader.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/masked_add_cuda/LogicalIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/masked_add_cuda/LogicalIO.lean",
+      "to": "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean",
+      "declaration_names": [
+        "VeriTile.Bench.Repairs.MaskedAddCuda.ReaderIO.Inputs",
+        "VeriTile.Bench.Repairs.MaskedAddCuda.ReaderIO.inputs",
+        "VeriTile.Bench.Repairs.MaskedAddCuda.ReaderIO.RawOutputs",
+        "VeriTile.Bench.Repairs.MaskedAddCuda.ReaderIO.outputs",
+        "VeriTile.Bench.Repairs.MaskedAddCuda.ReaderIO.view"
+      ],
+      "body_sha256": "642d6c628293b8ff0c0b0adfd2b845d29b408830ef26e2240a032d106735c63f",
+      "byte_identical": true
+    }
+  ],
+  "preservation": {
+    "evidence": {
+      "path": ".veritile-cache/io-unification-20261023/queue09/source-preservation.json",
+      "sha256": "17c7342caa6fb24ea081d4ef30b05bff7774be00d799760f073c758490b30c47"
+    },
+    "moved_definition_bodies": "byte-identical chunks with the same namespace and public declaration names",
+    "complete_judgments": "all selected Contract/Correct/FPEquiv files are byte-identical; all LogicalReader non-import bodies, including full judgment equivalences, are byte-identical",
+    "selected_public_files": {
+      "bench/repairs/tritonbench_g/masked_add_cuda/Contract.lean": {
+        "before": "d65db151fab3c1ffc106d0963d60dd31ac32d07c60b43daa557d05edc0702589",
+        "current": "d65db151fab3c1ffc106d0963d60dd31ac32d07c60b43daa557d05edc0702589"
+      },
+      "bench/repairs/tritonbench_g/masked_add_cuda/Correct.lean": {
+        "before": "9dbf8a7cd2457a52baac247b8db8952041e2ea3f1082827215fa086d438142d2",
+        "current": "9dbf8a7cd2457a52baac247b8db8952041e2ea3f1082827215fa086d438142d2"
+      },
+      "bench/repairs/tritonbench_g/masked_add_cuda/FPEquiv.lean": {
+        "before": "c37c6687ae4607cb852804a140b1ab46afb9945fb72773e22ade5c0ff4c618c0",
+        "current": "c37c6687ae4607cb852804a140b1ab46afb9945fb72773e22ade5c0ff4c618c0"
+      }
+    },
+    "connection_proof_nonimport_body_equal": true,
+    "kernels_unchanged": {
+      "bench/repairs/tritonbench_g/masked_add_cuda/Kernels.lean": "33bfd159053c1ab5fefaaef14bf14b90ad25a22d6aee2b2ccf096977043be884"
+    }
+  },
+  "verification": [
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "io",
+      "module": "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792686343027724029-IO.log",
+      "log_sha256": "b9fe63d0e01f098e465113761949bdfd0a64fdfb69d6326ee94430a9c01a57e5",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "chain",
+      "module": "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/LogicalReader.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/LogicalReader.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792686482656053508-LogicalReader.log",
+      "log_sha256": "4da2613d7f3abb68a232c9ad88b8a6a1e6ab4d52982860b08dfe35414c9bbe49",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "public",
+      "module": "bench/repairs/tritonbench_g/masked_add_cuda/Correct.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/masked_add_cuda/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792686939779880045-Correct.log",
+      "log_sha256": "6246a7be6f51e49b0c5e8350f4ab8de7534779b55903184e16079d7a606addc5",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-targeted-build",
+      "phase": "public",
+      "module": "bench/repairs/tritonbench_g/masked_add_cuda/FPEquiv.lean",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "bench/repairs/tritonbench_g/masked_add_cuda/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/1792686946190553546-FPEquiv.log",
+      "log_sha256": "a2c3a12463afdbe7b6f8a5531173a4afcd00e49a9e15ead0b2e4322dc30c27f3",
+      "execution_mode": "compiler-invoked"
+    },
+    {
+      "kind": "fresh-public-joint-check",
+      "task": "masked_add_cuda",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue09/joint/masked_add_cuda.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/io-unification-20261023/queue09/joint/masked_add_cuda.lean",
+      "source_sha256": "7a7329a264c1034c867099db4eef3bb15810359a5d1e60aa24e15a531e454772",
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/joint-masked_add_cuda.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "fresh-public-joint-check",
+      "task": "Joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/io-unification-20261023/queue09/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/queue09/Joint.lean"
+      ],
+      "exit_code": 0,
+      "source": ".veritile-cache/io-unification-20261023/queue09/Joint.lean",
+      "source_sha256": "7c21915b98fd1e3c4e803eb57c2295e6401ac9e65d78b85a6cdcbcf297d08d29",
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/joint-Joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "fresh-source-preservation-check",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue09/audit-source.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/final-audit-source.py.log",
+      "log_sha256": "2f6e406be3ff22c83a1b2cd54135bcca753f5a11172c69f2a55d6937c4c0d2cf"
+    },
+    {
+      "kind": "verify-current-source-object-dependency-receipts",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/queue09/verify-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/queue09/logs/final-verify-receipts.py.log",
+      "log_sha256": "82e995adfa69340d11a484c34037038b7c5454ca9623e050cffe94d1c373d64b"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/masked_add_cuda/Contract.lean": "d65db151fab3c1ffc106d0963d60dd31ac32d07c60b43daa557d05edc0702589",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Correct.lean": "9dbf8a7cd2457a52baac247b8db8952041e2ea3f1082827215fa086d438142d2",
+    "bench/repairs/tritonbench_g/masked_add_cuda/FPEquiv.lean": "c37c6687ae4607cb852804a140b1ab46afb9945fb72773e22ade5c0ff4c618c0",
+    "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean": "c23bddec72d2f02c53d5e21055d340e9a6a84de1d07567169a027eb5a3815844",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/IOReal.lean": "d38ae7f6479191aef5734343fcf841b6a9666e6e48a959faf171b9e41e424d7a",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/LogicalReader.lean": "7eee4b9ef357270fce28743441f222a191cfbd290e6e67464a4191206485d613",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Kernels.lean": "33bfd159053c1ab5fefaaef14bf14b90ad25a22d6aee2b2ccf096977043be884",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/KernelNativeResults.lean": "a895d84f3d4a2dbbf22dd38adf222dbe2d8e869aa92230a5c4ec835584811477",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Misc/NativeCorrect.lean": "1df46ed25715075b3fabc9ae438867e03daefc502caccc27f30ec0460b45f08f",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Misc/TensorBridge.lean": "77c21f080188db7d9719526632b56797b6ccc0a093c20954b9afaf3d65d661fb",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Source.lean": "e5a7209288e8554bcd544fd5400ac6905ce41b2a765dddbabe9c70bdf29dd23d",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Variant.lean": "e5b78162ad16b6077b6766c7afd8fe227016c2752bb6a36385d5ef4c4a15dd53",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Real.lean": "20f7fb27c2fbaef9de19161f9cfc56c183251b0925f8e7e33d486f420a9362db",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/SourcePreservation.lean": "c004ffe646e015bd6bb4340a1cc420491cc0514d18698ad6f6622d88411c6de5",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/IOEquiv.lean": "69859ceadb0e6066acaab0845f64b7f5ec1f1f3c29e61cac8e8883a0c147c05d",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Typed.lean": "2b4358a5d4e8219ddd938a4de9ee1388fcecb9193b8f9319731903118452f0d3",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/AccessSafety.lean": "74c55d25a8ed397bfbc7977387834f0df1345399eb95f9ca8574395aca5ab291",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Grid.lean": "b1550a44fbd75552fae0ab4bbf90a726147cba7c2d2d4bf45484243e7ce533fe",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Host.lean": "d8bd9d459a6ca2abae948080592bb4bd8328c07e1208c51f0ab9ff8806d7b69f",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/MemoryContract.lean": "f17f3f97e5ca019b23ed80568d7bc4c5d74266a9c94a67d4bc6354bc2b932080",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Contract.lean": "1da2fa1a66af5a5e3072f39e83afdb812fd0a7afaf160f9e35ffc7c5d90f1700",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Binding.lean": "46980ce43f7609e931efbb802881edb833a5279a47a6641e813b324e8dc7e1d9",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Graph.lean": "46692ae971c2d30a5b2c3cd5f1bb9e1f75c9e5828b4852470d6ae5a74390c6ea",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Words.lean": "82f903e2bd306cf86964fceea1c54afde1466ce8df34e01397204d58959ec1b6",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Indices.lean": "844c2148aa47eb5e0e2295a8c27c5cc555c7298753444e23d809da8970b6da72",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Schedule.lean": "c553c1fdd240a5e483497d5eeb6e6a3dcd39fa116000a9b62a10d3473af188bf",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/LegacySurface.lean": "cbee963b84da1e89bad62174d896e5dfdede2d60ff1f2741f52665abc517fa6b",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Counterexamples.lean": "5c41b17bbcf6669cdb53a6c0364180970f9ea15bc2ddf44f8d96169d5d2c727c",
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/KernelRealResults.lean": "75b89b97f20ad7b3cc7edd092194caa601e85c2dc96733f270ad0be4f7791abe"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/masked_add_cuda/Contract.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Correct.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/FPEquiv.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/IO.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/IOReal.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/LogicalReader.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Kernels.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/KernelNativeResults.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Misc/NativeCorrect.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Misc/TensorBridge.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Source.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Variant.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Real.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/SourcePreservation.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/IOEquiv.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Typed.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/AccessSafety.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Grid.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Host.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/MemoryContract.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Contract.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Binding.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Graph.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Words.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Indices.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Schedule.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/LegacySurface.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/Counterexamples.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    },
+    "bench/repairs/tritonbench_g/masked_add_cuda/Proofs/KernelRealResults.lean": {
+      "owner_tasks": [
+        "masked_add_cuda"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/masked_add_cuda/LogicalIO.lean": "18f68fefbf6a2a9b43fdd21490227accaea67c00af644d2702c6b70446b7cff1"
+  },
+  "limits": [
+    "Untouched dependencies and Contract objects are reused from the recorded successful queue09 baseline; this is a targeted IO/import verification, not a fresh rebuild of the full proof closure.",
+    "No new numerical experiments, GPU runs, native/host correctness checks, or global proof-completion claims."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

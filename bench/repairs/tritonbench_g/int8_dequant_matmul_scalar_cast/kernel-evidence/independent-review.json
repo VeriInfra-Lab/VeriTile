@@ -1,0 +1,103 @@
+{
+  "task": "int8_dequant_matmul_scalar_cast",
+  "reviewer": "/root/cross_entropy1_kernel",
+  "status": "accepted_with_documented_model_and_dependency_cache_boundaries",
+  "blocking_findings": [],
+  "decision": "The separate nine-cast candidate is complete for the declared kernel-only quotation/store-lane execution, exact-Real and one-model native output/frame scope. Parent owns canonical selection and ledger integration.",
+  "delivery": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/delivery.json",
+    "sha256": "11f4ef71a014f6e916ccf9fa1e1c264536655767bbebfea0ef896789f9c4913d"
+  },
+  "verification": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/independent-verification.json",
+    "sha256": "adcbcaba3e5ac2dc100a56541b44761df28671ae7e6adec353fab2b482f5ec03"
+  },
+  "read_only_verifier": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/kernel-evidence/independent_review_verify.py",
+    "sha256": "f994d6a0f01051b9317420651923a5c2c92890d01aafbebd64a87a80f089003d"
+  },
+  "independent_findings": [
+    {
+      "topic": "Minimal actual source repair",
+      "assessment": "PASS",
+      "evidence": "Independently reconstructed the new Python file from the predecessor by exactly nine textual scalar/stride .to(tl.int64) to tl.cast changes; the resulting bytes equal the candidate. All 29 original source/defect/evidence pins remain unchanged; no original defect packet is superseded by this review."
+    },
+    {
+      "topic": "Readable complete quotation",
+      "assessment": "PASS",
+      "evidence": "Reviewed all 37 top-level statements and the documented SSA/natural-index/runtime-divisor normalization. The quotation retains grouped program IDs, all operand/scale loads, EVEN_K/tail path, old accumulator, FP16 narrowing/bias, output pointers/mask, and store/atomic split. The source audit and unchanged DSL-preservation theorem are pinned."
+    },
+    {
+      "topic": "Actual quotation execution to output values",
+      "assessment": "PASS",
+      "evidence": "QuoteStages/Loop/Complete execute the shared structural nodes. The sole numeric adapter matches integer add-of-dot syntax and evaluates fixed scalar/K32 leaves with the actual previous accumulator. QuoteRecurrence and QuoteValue prove the resulting accumulator and contribution equal the independently written recurrence; no source execution or output equality is a premise."
+    },
+    {
+      "topic": "Store address/mask/memory coupling",
+      "assessment": "PASS",
+      "evidence": "QuoteDescriptors.fullResult returns one final State with successful complete quotation execution plus its actual out/C/mask registers and epilogue memory fold. Result.replay_eq proves replaying those same descriptors on base memory equals that same final memory. sourceCommit executes the quote, consumes that final State directly, and sourceCommit_eq uses its address, mask and value proofs. The execution existential is therefore connected to the committed output."
+    },
+    {
+      "topic": "Complete schedule and concurrency",
+      "assessment": "PASS",
+      "evidence": "PhysicalCommit carries valid grouped PID, active lane and split. Existing physical_covers/physical_unique and the logical allCommits permutation characterize the full active store set. sourceGrid_eq inducts over the arbitrary physical commit order. Per-cell projection preserves each distinct FP16 atomic order; no reassociation or deterministic split-K result is assumed."
+    },
+    {
+      "topic": "Typed split-K zero input",
+      "assessment": "PASS",
+      "evidence": "Zeroed requires the actual tagged FP16 cell .inr(.inr hzero) for split counts other than 1. PreparedZero.zero_hook_prepares derives it from the unchanged reset hook. Single-split output may start arbitrary and is overwritten; nonempty K=0 still executes the epilogue with all scale/bias exceptional arithmetic retained."
+    },
+    {
+      "topic": "Independent Real and native targets",
+      "assessment": "PASS",
+      "evidence": "Real target is the original-view dequantized matrix product plus optional bias. Native logicalWordReference uses original input words, explicit selected fixed-K32/scalar sequence and previous carry, runtime FP32 divisor, ordered row/column scales, FP16 narrowing and split-zero bias, followed by the schedule-specific FP16 commits. Targets and contracts pass non-circular audits avoiding quotation execution, sourceGrid, event program and public results."
+    },
+    {
+      "topic": "Actual storage and complete frame",
+      "assessment": "PASS",
+      "evidence": "sourceMemory maps quote regions to original storage identities/offsets; original TensorView pointer/index laws connect those inputs to logical targets. Prepared freshness preserves every read allocation. Native endpoint connects sourceGrid final memory to the same LocalEventABI observed final state and proves both FP16 output bytes and every non-output byte. Real endpoint proves exact output cells and complete non-output element frame."
+    },
+    {
+      "topic": "Premise scope",
+      "assessment": "PASS",
+      "evidence": "FixedISAProfile exposes only one fixed-K32 instruction coordinate with operands and old seed. LocalEventABI.stepLaw is limited to individual reads, scalar arithmetic, fixed instructions, store and atomic events. There is no whole-quote/compiler/result premise, no native-equals-Real claim, and no deferred numerical experiment."
+    },
+    {
+      "topic": "Frozen compiler/build evidence",
+      "assessment": "PASS",
+      "evidence": "Ten saved SM90 profiles compiled through actual create_function_from_signature/native specialization/_pack_args/ASTSource, including the previous four failures and unit/K0/tail/EVEN_K/split16/bias/BK128 cases. Default constexpr-one specialization is retained. Verified 40 artifact pins, 21 current candidate receipts, 51 standard-base axiom audits and 9 non-circular audits; no build or experiment was rerun."
+    }
+  ],
+  "validation_summary": {
+    "current_candidate_module_receipts": 21,
+    "repository_sources": 248,
+    "effective_objects_checked": 248,
+    "source_ilean_direct_imports_checked": 211,
+    "public_source_closure": 245,
+    "audit_source_closure": 248,
+    "predecessor_pins_preserved": 29,
+    "record_pins_verified": 1035,
+    "unique_record_files": 724,
+    "axiom_checks": 51,
+    "non_circular_checks": 9,
+    "binder_profiles": 10,
+    "compiler_artifacts": 40
+  },
+  "nonblocking_boundaries": [
+    "37 pre-existing dependency oleans have no ilean sidecar and no fresh candidate-run build receipt. Their current source hashes and effective object hashes are pinned, and the delivery explicitly marks them reused cache. Direct-import equality was checked for the 211 available ileans, including every one of the 21 candidate modules. This is not a cold rebuild claim.",
+    "The source-grid model schedules active store/atomic lanes from descriptors produced by actual quotation execution; it reevaluates the quote per selected commit. The replay theorem connects the complete per-program store fold. GPU instruction-trace/scheduler conformance is outside this kernel-only proof.",
+    "Allocation, autotuning, execution of the existing zero hook and host returned-object identity are outside the entries. The prepared fresh FP16 output storage and typed split-K zeros are kernel input boundaries; zero-hook establishment is separately proved.",
+    "Compiler instruction selection/fusion and fixed instruction realization, ordinary local ABI/Tensor truths, reused dependency caches and runtime resource availability remain explicit model boundaries. Ten offline profiles do not prove universal compilation or GPU execution."
+  ],
+  "review_execution": {
+    "read_only_verification_session": 48924,
+    "exit_code": 0,
+    "prior_review_attempt_session": 4729,
+    "prior_attempt_exit_code": 1,
+    "prior_attempt_reason": "Strict all-ilean check stopped on a missing reused-cache sidecar; adjusted verification records all 37 absent sidecars explicitly. No actual pin, source or candidate build mismatch was found.",
+    "recompiled": false,
+    "historical_compiler_or_numeric_experiments_rerun": false,
+    "GPU_execution": false
+  },
+  "frozen_delivery_unchanged_after_review": true
+}

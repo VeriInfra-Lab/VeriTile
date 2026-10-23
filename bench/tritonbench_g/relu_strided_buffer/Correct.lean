@@ -1,3 +1,5 @@
+import bench.tritonbench_g.relu_strided_buffer.Proofs.WholeMetadata
+import bench.tritonbench_g.relu_strided_buffer.Proofs.WholeReal
 import bench.tritonbench_g.relu_strided_buffer.Proofs.Real
 import bench.tritonbench_g.relu_strided_buffer.Proofs.CandidateReal
 import VeriTile.Meta.StatementAudit
@@ -345,3 +347,51 @@ specification candidate_grid_stride_correctness (R : RoundingModel)
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.TritonBenchG.ReluStridedBuffer
+
+namespace VeriTile.Bench.TritonBenchG.ReluStridedBuffer.Whole
+open VeriTile.Triton FP.Structural HostPlan SignedView SignedGrid
+noncomputable section
+
+/-- Complete original rank-one host call under its independent mathematical
+interpretation: each logical output is max(0,x), the returned tensor is exactly
+out0, and every cell outside the output footprint is preserved from entry.
+Either signed stride is allowed; input stride zero is allowed. Output stride
+must be nonzero and the two accessed footprints must be disjoint. The ordinary
+CUDA guard succeeds. Empty input has its separate original failure theorem. -/
+specification relu_strided_buffer_real (rest : Algebra ℝ) (input output : Buffer)
+    {n inputCapacity outputCapacity : Nat} (positive : 0 < n) (sx sy : Int)
+    (hshapeIn : input.shape = [n]) (hshapeOut : output.shape = [n])
+    (hstrideIn : input.strides = [sx]) (hstrideOut : output.strides = [sy])
+    (hin : (input.view sx).Valid n inputCapacity)
+    (hout : (output.view sy).Valid n outputCapacity) (hstride : sy ≠ 0)
+    (hsep : FootprintsDisjoint (input.view sx) (output.view sy) n)
+    (s : State ℝ) (xs : Nat → ℝ)
+    (values : ∀ i, i < n → s.mem input.region ((input.view sx).address i) = .mk .fp32 (xs i)) :
+    VeriTile.Spec.Real (∃ final,
+      runHost (realBackend rest) input output Bool.true s = .returned output final ∧
+      (∀ i, i < n → final.mem output.region ((output.view sy).address i) =
+        Cell.mk .fp32 (realResult xs i)) ∧
+      (∀ i, i < n → final.mem input.region ((input.view sx).address i) =
+        s.mem input.region ((input.view sx).address i)) ∧
+      (∀ r a, (r ≠ output.region ∨ ∀ i, i < n → a ≠ (output.view sy).address i) →
+        final.mem r a = s.mem r a) ∧
+      (∀ i, i < n → (input.view sx).address i < inputCapacity ∧
+        (output.view sy).address i < outputCapacity)) :=
+  real_complete rest input output positive sx sy hshapeIn hshapeOut hstrideIn hstrideOut
+    hin hout hstride hsep s xs values
+
+/-- This is the original exception before device guard/kernel launch; no
+successful empty tensor is silently substituted for the source behavior. -/
+theorem relu_strided_buffer_empty (rest : Algebra ℝ) (input output : Buffer)
+    (guardSucceeds : Bool) (s : State ℝ)
+    (hin : input.shape = [0]) (hout : output.shape = [0]) :
+    VeriTile.Spec.Real (runHost (realBackend rest) input output guardSucceeds s =
+      .hostFailure .tileDivision s) :=
+  StructuralHost.empty_failure _ input output guardSucceeds s hin hout
+
+#axiomsClean relu_strided_buffer_real
+#axiomsClean relu_strided_buffer_empty
+#guard_msgs (drop info) in
+#auditModuleAxioms
+end
+end VeriTile.Bench.TritonBenchG.ReluStridedBuffer.Whole

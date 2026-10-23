@@ -1,5 +1,6 @@
 import bench.tritonbench_g.attention_fwd_triton3.Kernels
 import bench.tritonbench_g.attention_fwd_triton3.Proofs.FP
+import bench.tritonbench_g.attention_fwd_triton3.Proofs.LogicalViewDefect
 import VeriTile.Triton.Float.BroadcastRewrite
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
@@ -88,6 +89,20 @@ specification attention_reciprocal_equiv (R : Rules) :
 end
 
 #print_fp_assumptions attention_reciprocal_equiv
+
+/-- Original-source interface defect at the selected production FP32 profile.
+Q=K=0, V=1 versus its Torch lazy-negative view, valid 2:1 GQA, query/KV length 1,
+D=16, INIT=END=1, window (0,64), ordinary padded O/M/L and full grid (1,2).
+The two calls have identical source inputs but logical attention targets +1 and -1.
+The original wrapper never resolves the view sign. No numeric atom or native
+GPU result is assumed. The historical FP16 equivalence above is unchanged. -/
+specification original_fp32_logical_view_defect (M : Algebra ℝ) :
+    ¬ (LogicalViewDefect.observed M LogicalViewDefect.plain =
+        some (LogicalViewDefect.target LogicalViewDefect.plain) ∧
+      LogicalViewDefect.observed M LogicalViewDefect.negative =
+        some (LogicalViewDefect.target LogicalViewDefect.negative)) := by
+  exact LogicalViewDefect.original_logical_contract_impossible M
+
 #guard_msgs (drop info) in
 #auditModuleAxioms
 end VeriTile.Bench.TritonBenchG.AttentionFwdTriton3.FPEquivalence

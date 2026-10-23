@@ -1,0 +1,218 @@
+{
+  "schema": 1,
+  "task": "reversed_cumsum",
+  "status": "consolidated",
+  "owner": {
+    "path": ".veritile-cache/io-unification-20261023/root/result-v2.json",
+    "sha256": "e1744a74c90ee42540effd8cb8c5a8b6ae7d708176db8ff0681da57c701b34d0",
+    "task_index": 0
+  },
+  "reason": "Merged the same-interface logical tensor view into IO.lean under the original namespace; complete formula/judgment/execution proofs remain in Proofs/ReaderFormat.lean.",
+  "selected_public_entries": [
+    "bench/repairs/tritonbench_g/reversed_cumsum/Contract.lean",
+    "bench/repairs/tritonbench_g/reversed_cumsum/Correct.lean",
+    "bench/repairs/tritonbench_g/reversed_cumsum/FPEquiv.lean"
+  ],
+  "previous_semantic_review": {
+    "manifest": {
+      "path": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
+      "sha256": "5df771b8603eaf5d9f08b4fde0c5b938c18087c00092f5348b47eb54d33a8225"
+    },
+    "task": "reversed_cumsum"
+  },
+  "changed_files": [
+    "bench/repairs/tritonbench_g/reversed_cumsum/IO.lean",
+    "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/ReaderFormat.lean"
+  ],
+  "removed_files": [
+    "bench/repairs/tritonbench_g/reversed_cumsum/LogicalIO.lean"
+  ],
+  "moved_declarations": [
+    {
+      "from": "bench/repairs/tritonbench_g/reversed_cumsum/LogicalIO.lean",
+      "to": "bench/repairs/tritonbench_g/reversed_cumsum/IO.lean",
+      "names": [
+        "Matrix",
+        "matrixEquiv",
+        "suffixIO"
+      ],
+      "body_sha256": "21ae66b47479845263946a780865ea741d72778599fa0d791b8479b3744f3beb",
+      "original_source_sha256": "9461b70d5e1ecee63560d13801c6c26f6928effc35460cb29e09d315c61bcf36"
+    }
+  ],
+  "preservation": {
+    "complete_original_logical_module_body_in_IO": true,
+    "logical_body_sha256": "21ae66b47479845263946a780865ea741d72778599fa0d791b8479b3744f3beb",
+    "public_Correct_FPEquiv_Contract_Kernels_byte_unchanged": true,
+    "ReaderFormat_nonimport_body_unchanged": true,
+    "before_sources": [
+      {
+        "path": ".veritile-cache/io-unification-20261023/root/before/bench/repairs/tritonbench_g/reversed_cumsum/IO.lean",
+        "sha256": "0800152e2739e7124aa4e4496c928dc5afd8307ba4d0aa126eb7338be7ba0d2b",
+        "original_path": "bench/repairs/tritonbench_g/reversed_cumsum/IO.lean"
+      },
+      {
+        "path": ".veritile-cache/io-unification-20261023/root/before/bench/repairs/tritonbench_g/reversed_cumsum/LogicalIO.lean",
+        "sha256": "9461b70d5e1ecee63560d13801c6c26f6928effc35460cb29e09d315c61bcf36",
+        "original_path": "bench/repairs/tritonbench_g/reversed_cumsum/LogicalIO.lean"
+      },
+      {
+        "path": ".veritile-cache/io-unification-20261023/root/before/bench/repairs/tritonbench_g/reversed_cumsum/Proofs/ReaderFormat.lean",
+        "sha256": "d9ae126bdee2051b1d04a857a85bd655369b7ca446e7d23199c55056fffe2bcc",
+        "original_path": "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/ReaderFormat.lean"
+      }
+    ],
+    "complete_judgment": "Existing statement_iff and proof term are unchanged; public names and definitions preserved."
+  },
+  "verification": [
+    {
+      "kind": "fresh_targeted_IO_connection_Correct_FPEquiv",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/root/build.py",
+        "bench/repairs/tritonbench_g/reversed_cumsum/IO.lean",
+        "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/ReaderFormat.lean",
+        "bench/repairs/tritonbench_g/reversed_cumsum/Correct.lean",
+        "bench/repairs/tritonbench_g/reversed_cumsum/FPEquiv.lean"
+      ],
+      "execution": "fresh source compilation in new overlay; unchanged proof dependencies reused",
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/root/build-main.log",
+      "log_sha256": "fda008165afa3bf1852f078804f7b0c6923181d93ab1840fbd7ae0b11f44c4fc",
+      "receipts": [
+        {
+          "path": ".veritile-cache/io-unification-20261023/root/build/lib/lean/bench/repairs/tritonbench_g/reversed_cumsum/IO.workspace-build.json",
+          "sha256": "e48c29990ead143e1e33e83453542a204193a253ce3ea38eb800e3c26eaaf4ed"
+        },
+        {
+          "path": ".veritile-cache/io-unification-20261023/root/build/lib/lean/bench/repairs/tritonbench_g/reversed_cumsum/Proofs/ReaderFormat.workspace-build.json",
+          "sha256": "b13a71a719d59e2823e3425f81e4b28dc989024e348f00a641b4afdeec7e13e1"
+        },
+        {
+          "path": ".veritile-cache/io-unification-20261023/root/build/lib/lean/bench/repairs/tritonbench_g/reversed_cumsum/Correct.workspace-build.json",
+          "sha256": "011cf00704f35f9b29941958fad2cf1f5b8132bdda6d5d17e6bcac0dc4f81a24"
+        },
+        {
+          "path": ".veritile-cache/io-unification-20261023/root/build/lib/lean/bench/repairs/tritonbench_g/reversed_cumsum/FPEquiv.workspace-build.json",
+          "sha256": "905419bd8c75692fa559c7f5872969e4204e4aa7ddd7631971e871b487ff5c3b"
+        }
+      ]
+    },
+    {
+      "kind": "per_task_public_joint",
+      "command": [
+        "python",
+        ".veritile-cache/io-unification-20261023/root/build.py",
+        "--check",
+        ".veritile-cache/io-unification-20261023/root/reversed_cumsum-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/io-unification-20261023/root/reversed_cumsum-joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input": {
+        "path": ".veritile-cache/io-unification-20261023/root/reversed_cumsum-joint.lean",
+        "sha256": "afab276612d0449dbbbcfc6a213bfcf75648c4f1d3e76e1d9f3c914d431d0a27"
+      }
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/reversed_cumsum/Correct.lean": "f8c159756ad69d838d189b15c4b04d8cd7b73f8931dde9409ccb9c46d380536f",
+    "bench/repairs/tritonbench_g/reversed_cumsum/FPEquiv.lean": "eabb93295f0a74dca3bf2bcf9f34a540b307c26b38bd03e3aff73498b7bfdf13",
+    "bench/repairs/tritonbench_g/reversed_cumsum/Kernels.lean": "d4c958f5569389001cf70042cfebef4ef9db1dd724a89217537ed55a5523bd9f",
+    "bench/repairs/tritonbench_g/reversed_cumsum/IO.lean": "8d4951ae17499a58354085bcb7e8980a77741edae193d81ec4c18b6cd398d1a1",
+    "bench/repairs/tritonbench_g/reversed_cumsum/Contract.lean": "a473d4daf6a41bc44c2db98f8924b13be02657f7acba4c9f83850a9046748cac",
+    "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/ReaderFormat.lean": "b25562899df738452d4100660151c033338dac98594e06abd738accacbdc73d5",
+    "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/IOComplete.lean": "e95257cba0a7ee4ba2498aa231b033ceccab47a9ff44df01251c4530881da41a",
+    "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/Geometry.lean": "a86d20f53e67a9f4520fea1e254ab65552f0e5f6567f16d99fc3f2a40bf72684",
+    "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPPrograms.lean": "305353ba7a29d2103c20e7983047fdaac6e94a868d7b46be52f0f84fa0706c00",
+    "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/Rewrite.lean": "5950ce7aa46db7f343e3af67b6b332b1ad8cb4318785281e70d3615046aee1c0",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "source_pin_provenance": {
+    "bench/repairs/tritonbench_g/reversed_cumsum/Correct.lean": {
+      "owner_tasks": [
+        "reversed_cumsum"
+      ]
+    },
+    "bench/repairs/tritonbench_g/reversed_cumsum/FPEquiv.lean": {
+      "owner_tasks": [
+        "reversed_cumsum"
+      ]
+    },
+    "bench/repairs/tritonbench_g/reversed_cumsum/Kernels.lean": {
+      "owner_tasks": [
+        "reversed_cumsum"
+      ]
+    },
+    "bench/repairs/tritonbench_g/reversed_cumsum/IO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum"
+      ]
+    },
+    "bench/repairs/tritonbench_g/reversed_cumsum/Contract.lean": {
+      "owner_tasks": [
+        "reversed_cumsum"
+      ]
+    },
+    "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/ReaderFormat.lean": {
+      "owner_tasks": [
+        "reversed_cumsum"
+      ]
+    },
+    "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/IOComplete.lean": {
+      "owner_tasks": [
+        "reversed_cumsum"
+      ]
+    },
+    "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/Geometry.lean": {
+      "owner_tasks": [
+        "reversed_cumsum"
+      ]
+    },
+    "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/FPPrograms.lean": {
+      "owner_tasks": [
+        "reversed_cumsum"
+      ]
+    },
+    "bench/repairs/tritonbench_g/reversed_cumsum/Proofs/Rewrite.lean": {
+      "owner_tasks": [
+        "reversed_cumsum"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalIO.lean": {
+      "owner_tasks": [
+        "mixed_sparse_attention",
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    },
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": {
+      "owner_tasks": [
+        "reversed_cumsum",
+        "softmax_triton2"
+      ]
+    }
+  },
+  "retired_current_source_pins": {
+    "bench/repairs/tritonbench_g/reversed_cumsum/LogicalIO.lean": "9461b70d5e1ecee63560d13801c6c26f6928effc35460cb29e09d315c61bcf36"
+  },
+  "limits": [
+    "Reused unchanged proof dependencies; no full-closure replay, GPU or numerical experiment."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/io-unification-20261023/queue16/result.json",
+    "sha256": "12f6dd5ed523e9f723fee3847af964fd8987958c2cb997aa572210c04de5bc84"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

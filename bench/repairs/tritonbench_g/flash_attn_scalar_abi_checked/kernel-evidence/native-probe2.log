@@ -1,0 +1,21 @@
+causal0-d16 PASS
+causal0-d32 PASS
+causal0-d64 PASS
+causal0-d128 PASS
+causal1-d16 PASS
+causal1-d32 PASS
+causal1-d64 PASS
+causal1-d128 PASS
+/usr/local/lib/python3.12/site-packages/triton/language/core.py:2284: UserWarning: tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.
+  warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+causal0-d16-one PASS
+causal0-d32-one PASS
+causal0-d64-one PASS
+causal0-d128-one PASS
+causal1-d16-one PASS
+causal1-d32-one PASS
+causal1-d64-one PASS
+causal1-d128-one PASS
+causal1-d16-i32 PASS
+causal1-d16-i64 PASS
+causal1-d16-u64 PASS

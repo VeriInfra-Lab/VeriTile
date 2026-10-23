@@ -1,0 +1,16 @@
+{
+  "candidate": "matmul_tma_static_checked",
+  "source_sha256": "f3b0842936391fe05ad2dbc3979180207643e7e8700b01bbeaede5ecfa771604",
+  "numerical_transformations": 0,
+  "new_primitive_experiments": 0,
+  "required_experiments": 0,
+  "deferred_experiments": [],
+  "native_local_boundary": [
+    "fixed-K16 first instruction, profile-indexed MMA/WGMMA",
+    "fixed-K16 carried FP32 instruction, profile-indexed MMA/WGMMA",
+    "FP32-to-FP16 output encoding; FP32 same-format identity proved"
+  ],
+  "no_variable_K_or_complete_dot_port": true,
+  "native_equals_Real": false,
+  "scope_note": "Structural fixed-K16 model is generic; recorded SM90 profile mapping is restricted to 16x32x64, CTAs1/warps4 all8 flags; 128cubed CTAs1 or4/warps4, no transpose, both output dtypes. All other static inputs retain Real/source semantics but no compiled-profile claim."
+}

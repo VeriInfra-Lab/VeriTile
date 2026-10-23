@@ -49,3 +49,5 @@ boundary; this theorem is a concrete, separately rounded software fp32 contract.
 Validation: directed Lean compilation of all four `Proofs/` helpers and the
 public entry passed, including `#axiomsClean`; logs are
 `/tmp/rotary-transform-{row-initial,contract,shape,software,public}.log`.
+
+The separate [checked FP32 revision](../../repairs/tritonbench_g/rotary_transform/README.md) preserves original preparation and return behavior with an explicit CU and pointer contract.

@@ -157,6 +157,11 @@ def Op.eraseDType : Op dtype shape → Op (VeriTile.Triton.eraseDType dtype) sha
       have eb : Op .real rightShape := by simpa only [eraseDType_float] using b.eraseDType
       rw [eraseDType_float dtype]
       exact .max2 bc ea eb
+  | .minimumFloat dtype (a := leftShape) (b := rightShape) bc a b => by
+      have ea : Op .real leftShape := by simpa only [eraseDType_float] using a.eraseDType
+      have eb : Op .real rightShape := by simpa only [eraseDType_float] using b.eraseDType
+      rw [eraseDType_float dtype]
+      exact .minimumFloat .real bc ea eb
   | .pow bc a b => .pow bc a.eraseDType b.eraseDType
   | .libdevicePowi bc a b => .libdevicePowi bc a.eraseDType b.eraseDType
   | .where c a b => .where c.eraseDType a.eraseDType b.eraseDType

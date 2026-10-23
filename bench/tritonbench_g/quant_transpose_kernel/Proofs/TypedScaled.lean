@@ -1,27 +1,14 @@
-import bench.tritonbench_g.quant_transpose_kernel.QuantTransposeKernel
+import bench.tritonbench_g.quant_transpose_kernel.Kernels
 import VeriTile.Triton.Float.ScalarBackend
+local macro "true" : term => `(Bool.true)
+local macro "false" : term => `(Bool.false)
+
 namespace VeriTile.Bench.TritonBenchG.QuantTransposeKernel.TypedScaled
 open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxHeartbeats 3000000
 set_option maxRecDepth 18000
 set_option linter.unusedSimpArgs false
-
-/-- The already accepted pre-llrint scaled-store stage, with actual fp32 storage
-and compute precision. This does not implement the final integer quantization. -/
-def source (A AbsmaxInv B : RegionName)
-    (sam san sbn sbm M N BM BN : Nat) : ComputeKernel := triton {
-  tl.region A = tl.float32, AbsmaxInv = tl.float32, B = tl.float32
-  pid_m = tl.program_id(0)
-  pid_n = tl.program_id(1)
-  rm = pid_m * $(BM) + tl.arange(0, $(BM))
-  rn = pid_n * $(BN) + tl.arange(0, $(BN))
-  mask = (rm[:, None] < $(M)) & (rn[None, :] < $(N))
-  a = tl.load(A + rm[:, None] * $(sam) + rn[None, :] * $(san), mask=mask).to(tl.float32)
-  absmax_inv = tl.load(AbsmaxInv).to(tl.float32)
-  output = 127.0 * (a * absmax_inv)
-  tl.store(B + rm[:, None] * $(sbm) + rn[None, :] * $(sbn), output, mask=mask)
-}
 
 abbrev Word := FP.Value .fp32
 instance : Inhabited Word := ⟨FP.Value.zero .fp32⟩

@@ -47,6 +47,7 @@ theorem Equivalent₁ₓ₂.ofStructural (R : Spec.Assumptions GuardedFragment) 
 
 instance : Spec.ProgramSyntax IO₁ₓ₂ where
   Statement := GuardedFragment
+  theory := Guarded.fp32Theory
   Signature := IO₁ₓ₂Signature × Profile × (Schedules → GuardExpression.Condition)
   signature p := (io₁ₓ₂Signature p.io, p.profile, p.domain)
   body p := [⟨[], p.io.kernel.surfaceBody, .real, none⟩]
@@ -81,6 +82,7 @@ theorem Equivalent₃.ofStructural (R : Spec.Assumptions GuardedFragment) {lhs r
 
 instance : Spec.ProgramSyntax IO₃ where
   Statement := GuardedFragment
+  theory := Guarded.fp32Theory
   Signature := IO₃Signature × Profile × (Schedules → GuardExpression.Condition)
   signature p := (ioSignature p.io, p.profile, p.domain)
   body p := [⟨[], p.io.kernel.surfaceBody, .real, none⟩]
@@ -114,6 +116,7 @@ theorem Equivalent₁.ofStructural (R : Spec.Assumptions GuardedFragment) {lhs r
 
 instance : Spec.ProgramSyntax IO₁ where
   Statement := GuardedFragment
+  theory := Guarded.fp32Theory
   Signature := IO₁Signature × Profile × (Schedules → GuardExpression.Condition)
   signature p := (io₁Signature p.io, p.profile, p.domain)
   body p := [⟨[], p.io.kernel.surfaceBody, .real, none⟩]

@@ -1,0 +1,102 @@
+{
+  "schema": 1,
+  "task": "int4_matmul",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue06/result.json",
+    "sha256": "7ae7b1cff07a7eae50c418a92a90a26cc367270bb529c13f49c0bf8e5d0f06ea",
+    "task_index": 11
+  },
+  "finding": "The reader exposed flattened matrix channels and recursive output assembly; replacing only the result function could accidentally erase canonical packed-word/reset conditions or per-address split-K semantics.",
+  "resolution": "MatrixInputs names A, packed weights, scale, packed zero and initialOutput through true matrixValues equivalences. Retain the exact canonical signed32/reset domain as matrixDomain. Typed pack/group indices and nibble helpers confine bounds/packing to IO. LogicalDomainIO is indexed by the complete ImplementsOnCells judgment.",
+  "mathematical_target": "matmul_grid_real: logicalIO implements the finite logical-K dequantized sum A[row,k]*(Q[k,col]-Z[group(k),col])*scale[group(k),col] on matrixDomain.",
+  "conditions_and_scope": "Retains Raw.Geometry/Shape.Valid, membership in all 36 source tile configurations, complete raw-lane permutation and grouped CTA catalog. Split-K serialization remains independent for each output address; no common order is imposed. Canonical packed INT32 words and zero initial output remain required. All floating values remain allowed, with exact per-address cell safety, run result and frame.",
+  "proof_connection": "IOProof.matrix_target_eq proves finite Fin K sum equality to existing Formula.mathematical, using matrix_read and sumReal_fin. IOProof.logical_iff transports the exact domain and the whole per-address cell implementation judgment. logical_real applies existing IOImplements.",
+  "fp_review": "Unchanged FoldStrideIO.original ≡[[]] FoldStrideIO.optimized, precombining constexpr BK*S. Full packed INT4 source, FP32 fixed-K8 operations and independent per-address split orders are retained; only exact discrete arithmetic changes.",
+  "numerical_dependencies": {
+    "experimental_rule_instances": [],
+    "strict_rewrite_certificates": [],
+    "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "For each logical output (row,col), sum over all k<K of A[row,k]*(Q[k,col]-Z[k/group,col])*scale[k/group,col]. Q/Z are the independently decoded packed INT4 nibbles, and all finite operand/channel windows are explicit in Formula.",
+    "required_conditions": {
+      "public_conditions": [
+        "Raw.Geometry x",
+        "tile member of Host.sourceTiles",
+        "lanes.Perm (rawLanes shape tile)",
+        "IO.domain retains signed INT32 packed words and zero-initialized in-place output boundary",
+        "ImplementsOnCells retains exact input cells, all-source success/safety, locality/coverage and raw exterior frame"
+      ],
+      "contract_and_domain_correspondence": "Contract packed/group/matrix shape and raw geometry match independent Spec.mathematical/Formula.mathematical. The original output reset is a real input-cell boundary and remains explicit; it is not weakened to ordinary Implements. Real arithmetic uses ideal mathematical operands, while FP theorem permits all modeled floating words."
+    },
+    "scope": "Complete m*n matrix over logical K, all 36 original tile configurations, grouped CTA grid, masked tails, split-K and independent original per-address lane serializations. No tile-width sum is substituted for the full K range.",
+    "canonical_connection": "IOProof.real_implements -> native-output/real-output equality -> full kernel graph/value/coverage proofs and independent Formula.mathematical. matrixProduct explicitly expands that canonical product; full headline Iff.rfl checks the same cell-domain proposition.",
+    "fp_program_pair": {
+      "fp_actual_pair": "FoldStrideIO.original versus optimized: precombine constexpr BK*S in all three dynamic loop-index offsets. Full packed INT32/FP32 fixed-K8 graph and split order stay the same.",
+      "fp_conditions_and_model_binding": [
+        "Raw geometry, tile membership, complete lane order and cell/reset domain retained",
+        "Ops, rest algebra and fixed dot8/source graph bindings remain explicit",
+        "Exact source run and safety transport; no floating reassociation, restricted FP word domain or experiment"
+      ]
+    },
+    "numerical_dependencies": {
+      "experimental_rule_instances": [],
+      "strict_rewrite_certificates": [],
+      "classification": "Empty experimental rule set. Exact model/source structure and any listed strict software theorem are retained; no new hardware-conformance claim."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_current_sources",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "bench/repairs/tritonbench_g/int4_matmul/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/int4_matmul/Proofs/LogicalCoordinates.lean",
+        "bench/repairs/tritonbench_g/int4_matmul/Correct.lean",
+        "bench/repairs/tritonbench_g/int4_matmul/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/int4_matmul.targeted.log",
+      "log_sha256": "8a9d8df5c6105bea9b2c5abfdccc57c9ce8b39198e860b8abb5bc8b7328061fe"
+    },
+    {
+      "kind": "task_joint_import",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue06/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue06/int4_matmul.joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue06/int4_matmul.joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/int4_matmul/Contract.lean": "81e6f67e611beab2e6b2d2274e826bea51a8997a0e2030cee7993506392fb961",
+    "bench/repairs/tritonbench_g/int4_matmul/Correct.lean": "ee2dab67172cfca4d41ba60a95654feb2d96bddd4e5b99d8625739fb4a6eb84b",
+    "bench/repairs/tritonbench_g/int4_matmul/FPEquiv.lean": "feeeb103ccc89bf9175390aec29159d3c67038dca86a6dd443a05a7382450550",
+    "bench/repairs/tritonbench_g/int4_matmul/Formula.lean": "c146d0edcbb0f622557cfbd4f93d361ba83deca93f90f6f29eef9e36502f1aa9",
+    "bench/repairs/tritonbench_g/int4_matmul/LogicalCoordinates.lean": "7a0bbbf21f0fdb0439547374203ba1d5264905a07b46960d2a57d71f301824d7",
+    "bench/repairs/tritonbench_g/int4_matmul/Proofs/FoldStrideIO.lean": "ae4301f35515d4fed0e8ac38a604c6e7d80bc711435d79a68f28d7a501e6a563",
+    "bench/repairs/tritonbench_g/int4_matmul/Proofs/HelperHost.lean": "4382f2a7459a9b971585ab64362246c4942552c807c3a59b4d21edd9cf1bc196",
+    "bench/repairs/tritonbench_g/int4_matmul/Proofs/IOImplements.lean": "fc9732e3d8737f9bbc36ea7a54d8fd1c387034b040c0285cef9c69318e31c6c2",
+    "bench/repairs/tritonbench_g/int4_matmul/Proofs/LogicalCoordinates.lean": "9c4b19eaa380b82b2bf033a9b61cc94a06e38452b39ac52f3978aad6b1818cd5",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

@@ -3,7 +3,8 @@ import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
 
 /-! Only the reached fp32 carry update changes. Scans and block sums retain
-all backend choices; no scan decomposition or reduction reassociation is used. -/
+all backend choices. The addition swap uses the shared strict certificate in
+the fixed FP32 theory, with an empty empirical assumption set. -/
 namespace VeriTile.Bench.TritonBenchG.ChunkCumsumKernel.FPEquivProofs
 open VeriTile Triton FP.Structural FP.ProfiledRewrite
 open scoped VeriTile.Spec
@@ -33,8 +34,9 @@ def sumLeft : Program :=
 theorem requirements_present :
     (original dtype out_dtype s o T BT).domain.length = 1 := rfl
 
-theorem sum_left_equiv (R : FP.ScalarArithmetic.Rules) :
-    original dtype out_dtype s o T BT ≡[R] sumLeft dtype out_dtype s o T BT := by
+theorem sum_left_equiv :
+    original dtype out_dtype s o T BT ≡[([] : Spec.Assumptions FP.GuardedFragment)]
+      sumLeft dtype out_dtype s o T BT := by
   equiv_decompose
   fp_prove
 end

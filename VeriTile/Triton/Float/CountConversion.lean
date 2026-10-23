@@ -1,15 +1,16 @@
-/- The admitted count atoms operate on nonnegative int32 values embedded in
-Nat. Their range fits int32, including the successor, so integer arithmetic
-here has the same value as the tested integer arithmetic. Floating conversion
-and addition remain opaque. No natural-to-float equality is proved from reals.
-
-The successor's input bound is encoded in its scalar syntax: outside the
-accepted range both fragments return the same zero. Extracting the actual
-successor equation requires an explicit in-range proof. This avoids extending
-the report to arbitrary loop indices or hiding a range condition in prose. -/
-import VeriTile.Triton.Float.CountAdmission
 import VeriTile.Triton.Float.ScalarArithmetic
+import VeriTile.Triton.Float.GuardedStrict
+import VeriTile.Triton.Float.CountConversionExact
 
+/-! Strict count-conversion rules for the fixed FP32 software profile.
+The count is a nonnegative signed-int32 value embedded in Nat. Exact proves
+that the whole range, including its successor, fits signed int32, and proves
+the selected conversion/addition identity using nearest-even without flushing.
+
+The successor bound is retained in the fragment syntax: outside `i < 2^24`
+both fragments return zero. These rules have concrete execution certificates;
+only the separate arithmetic rules remain in the experimental assumption set.
+Historical experiment records remain in CountAdmission, outside this module. -/
 namespace VeriTile.Triton.FP.CountConversion
 open Structural Guarded ScalarArithmetic
 open scoped VeriTile.Spec
@@ -27,8 +28,8 @@ def Atom.ruleID : Atom → String
 
 def candidates : List Atom := [.zero, .successor]
 
-/-- This candidate's integer domain is part of its syntax, not an experiment
-shape. Selection also checks that the report used this exact upper bound. -/
+/-- The strict successor domain is part of the scalar syntax. The endpoint
+also fits signed int32, as proved in `Exact.int32_ofNat_toInt`. -/
 def limit : Nat := 16777216
 
 def index : Op .nat [] := .ref .nat [] "i"
@@ -46,67 +47,127 @@ def rhsCode : Atom → List ComputeStmt
 def lhs (a : Atom) : GuardedFragment := ⟨[], lhsCode a, .real, none⟩
 def rhs (a : Atom) : GuardedFragment := ⟨[], rhsCode a, .real, none⟩
 
-/-- Match the exact relation, precision and operand domain before selecting a row. -/
-def Atom.matches (a : Atom) (row : ReportedRule) : Bool :=
-  decide (row.ruleID = a.ruleID ∧ row.input = "int32" ∧
-    row.compute = "fp32" ∧ row.accumulator = "fp32" ∧ row.output = "fp32" ∧
-    (a = .zero ∨ CountAdmission.upperExclusive = limit))
+set_option maxHeartbeats 1600000
+set_option maxRecDepth 4000
+private theorem run_zero_left {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
+    run M (lhsCode .zero) s =
+      some (s.setReg "out" .real [] (fun _ => M.fromNat (some .fp32) 0)) := by
+  simp [lhsCode, fragment, run, step, evalExpr, evalComputeOp, evalOp_unfold]
 
-/-- Only accepted rows in the generated table can activate a candidate. -/
-def Atom.report? (a : Atom) : Option ReportedRule :=
-  CountAdmission.all.find? a.matches
+private theorem run_zero_right {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
+    run M (rhsCode .zero) s =
+      some (s.setReg "out" .real [] (fun _ => M.literal (some .fp32) .real 0)) := by
+  simp [rhsCode, fragment, run, step, evalExpr, evalComputeOp, evalOp_unfold]
 
-abbrev Atom.Available (a : Atom) : Prop := a.report?.isSome = true
+private theorem run_successor_left {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
+    run M (lhsCode .successor) s =
+      (s.regs .nat [] "i").map (fun v => s.setReg "out" .real []
+        (fun _ => if v PUnit.unit < limit then M.fromNat (some .fp32) (v PUnit.unit + 1)
+          else M.literal (some .fp32) .real 0)) := by
+  cases h : s.regs .nat [] "i" <;>
+    simp [lhsCode, fragment, bounded, index, run, step, evalExpr, evalComputeOp,
+      evalOp_unfold, numeric, numericLt, natLt, bop, h]
+  all_goals rfl
 
-def report (a : Atom) (h : a.Available) : ReportedRule := a.report?.get h
+private theorem run_successor_right {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
+    run M (rhsCode .successor) s =
+      (s.regs .nat [] "i").map (fun v => s.setReg "out" .real []
+        (fun _ => if v PUnit.unit < limit then M.binary (some .fp32) .real .add
+          (M.fromNat (some .fp32) (v PUnit.unit)) (M.literal (some .fp32) .real 1)
+          else M.literal (some .fp32) .real 0)) := by
+  cases h : s.regs .nat [] "i" <;>
+    simp [rhsCode, fragment, bounded, index, plus, run, step, evalExpr, evalComputeOp,
+      evalOp_unfold, numeric, numericLt, natLt, bop, h]
+  all_goals rfl
 
-def entry (a : Atom) (h : a.Available) : Spec.RuleEntry GuardedFragment :=
-  (report a h).bind [lhs a] [rhs a]
+private theorem strict_literal_zero (rest : Algebra (FP.Value .fp32)) :
+    (Software.strictFP32 rest).literal (some .fp32) .real 0 = FP.Value.zero .fp32 := by
+  simp [Software.strictFP32, Software.scalarFP32, Software.fp32Context]
 
-def Atom.entry? (a : Atom) : Option (Spec.RuleEntry GuardedFragment) :=
-  a.report?.map fun row => row.bind [lhs a] [rhs a]
+private theorem strict_literal_one (rest : Algebra (FP.Value .fp32)) :
+    (Software.strictFP32 rest).literal (some .fp32) .real 1 =
+      FP.Value.ofBits .fp32 0x3f800000 := by
+  simp [Software.strictFP32, Software.scalarFP32, Software.fp32Context]
 
-/-- External validation is required only for candidates selected by the report. -/
+/-- Execute both actual fragments in the fixed concrete software profile.
+The equality includes the full resulting state, not only an abstract scalar
+rewrite; it also preserves register-read failure on both sides. -/
+theorem strict_run (a : Atom) (rest : Algebra (FP.Value .fp32))
+    (s : State (FP.Value .fp32)) :
+    run (Software.strictFP32 rest) (lhsCode a) s =
+      run (Software.strictFP32 rest) (rhsCode a) s := by
+  cases a with
+  | zero =>
+    rw [run_zero_left, run_zero_right]
+    simp only [Software.strictFP32_fromNat, strict_literal_zero]
+    exact congrArg (fun x => some (s.setReg "out" .real [] (fun _ => x))) Exact.count_zero
+  | successor =>
+    rw [run_successor_left, run_successor_right]
+    apply congrArg (fun f => (s.regs .nat [] "i").map f)
+    funext v
+    apply congrArg (s.setReg "out" .real [])
+    funext j
+    by_cases hi : v PUnit.unit < limit
+    · simp only [if_pos hi, strict_literal_one, Software.strictFP32_fromNat]
+      rw [Software.strictFP32_add rest (some .fp32) .real _ _ rfl]
+      have hc := Exact.count_successor (v PUnit.unit) hi
+      rw [Exact.fromNat_one] at hc
+      exact hc
+    · simp only [if_neg hi]
+
+/-- The strict certificate preserves the declared guard, output channel and
+precision and compares actual execution in the fixed FP32 theory. -/
+theorem strict_sound (a : Atom) : StrictFragmentSound (lhs a) (rhs a) := by
+  refine ⟨rfl, ?_⟩
+  intro rest s _
+  simpa only [lhs, rhs, fragmentAlgebra] using
+    congrArg (Option.map (scalarOutput .real)) (strict_run a rest s)
+
+/-- Both count atoms are proved unconditionally in the selected model.
+This compatibility predicate no longer depends on an experiment report. -/
+abbrev Atom.Available (_a : Atom) : Prop := True
+
+/-- Count contributes no experimental assumptions. Only arithmetic rules keep
+an external validation obligation. -/
 structure Rules where
   arithmetic : ScalarArithmetic.Rules
-  validated : ∀ (a : Atom) (h : a.Available),
-    Spec.EvidenceValidated (entry a h).rule (entry a h).evidence
 
 def Rules.assumptions (R : Rules) : Spec.Assumptions GuardedFragment :=
-  R.arithmetic.assumptions ++ candidates.filterMap Atom.entry?
+  R.arithmetic.assumptions
 
 instance : CoeOut Rules (Spec.Assumptions GuardedFragment) := ⟨Rules.assumptions⟩
 
-/-- Admission enables this one candidate; it asserts no other numerical law. -/
-theorem admitted (R : Rules) (a : Atom) (h : a.Available) :
-    Spec.Derivation R.assumptions [lhs a] [rhs a] := by
-  apply Spec.Derivation.atom (entry a h)
-  · apply List.mem_append_right
-    apply List.mem_filterMap.mpr
-    refine ⟨a, ?_, ?_⟩
-    · cases a <;> simp [candidates]
-    · have available : a.report?.isSome = true := h
-      cases hr : a.report? with
-      | none => simp [hr] at available
-      | some row => simp [Atom.entry?, entry, report, hr]
-  · exact (report a h).admit _ _ (R.validated a h)
+/-- A checked count step is available for any experimental assumption set. -/
+@[spec_rule] theorem strict (R : Spec.Assumptions GuardedFragment) (a : Atom) :
+    Spec.Derivation R [lhs a] [rhs a] :=
+  Guarded.strict_derivation R (strict_sound a)
+
+/-- Count rewrites already hold with an empty empirical rule set. -/
+theorem strict_rewrite (a : Atom) :
+    [lhs a] ≡[([] : Spec.Assumptions GuardedFragment)] [rhs a] :=
+  Spec.FloatingPoint.ofDerivation rfl trivial (strict [] a)
+
+/-- Compatibility name: this uses a strict certificate, not empirical admission. -/
+theorem admitted (R : Rules) (a : Atom) (_h : a.Available) :
+    Spec.Derivation R.assumptions [lhs a] [rhs a] :=
+  strict R.assumptions a
 
 theorem rewrite (R : Rules) (a : Atom) (h : a.Available) : [lhs a] ≡[R] [rhs a] :=
   Spec.FloatingPoint.ofDerivation rfl trivial (admitted R a h)
 
 theorem arithmetic_derivation (R : Rules) {lhs rhs : List GuardedFragment}
     (h : Spec.Derivation R.arithmetic.assumptions lhs rhs) :
-    Spec.Derivation R.assumptions lhs rhs := by
-  induction h with
-  | refl code => exact .refl code
-  | atom e he ha => exact .atom e (List.mem_append_left _ he) ha
-  | symm _ ih => exact .symm ih
-  | trans _ _ ih₁ ih₂ => exact .trans ih₁ ih₂
-  | frame beforeCode afterCode _ ih => exact .frame beforeCode afterCode ih
+    Spec.Derivation R.assumptions lhs rhs := h
 
 theorem arithmetic_models {α : Type} [Inhabited α] (R : Rules)
     (M : Algebra α) (D : Domain α) (hM : Models R.assumptions M D) :
-    Models R.arithmetic.assumptions M D :=
-  fun lhs rhs h => hM lhs rhs (arithmetic_derivation R h)
+    Models R.arithmetic.assumptions M D := hM
+
+#axiomsClean strict_run
+#axiomsClean strict_sound
+#axiomsClean strict
+#axiomsClean strict_rewrite
+#axiomsClean admitted
+#axiomsClean rewrite
 
 end VeriTile.Triton.FP.CountConversion

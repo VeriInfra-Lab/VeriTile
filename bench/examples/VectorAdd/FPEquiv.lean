@@ -2,7 +2,7 @@ import bench.examples.VectorAdd.Kernels
 import VeriTile.Triton.Float.RewriteTactics
 import VeriTile.Meta.StatementAudit
 
-/-! VectorAdd: contextual FP equivalence from the admitted scalar add_commute.
+/-! VectorAdd: contextual FP equivalence from the shared strict FP32 add_commute.
 The fp32 values loaded into x and y must be finite at the addition.
 The domain is evaluated at the actual rewrite site; experimental dimensions
 are not restrictions on these symbolic kernels. -/
@@ -30,8 +30,8 @@ def optimized (blockSize : Nat) : Program :=
 
 /-- Under the finite-operand contract, every successful run is preserved,
 including all registers and memory; failed surrounding executions also agree. -/
-specification add_kernel_equiv (blockSize : Nat) (R : Rules) :
-    original blockSize ≡[R] optimized blockSize := by
+specification add_kernel_equiv (blockSize : Nat) :
+    original blockSize ≡[([] : Spec.Assumptions FP.GuardedFragment)] optimized blockSize := by
   equiv_decompose
   all_goals fp_prove
 

@@ -1,0 +1,111 @@
+{
+  "triton": "3.7.1",
+  "sm": 90,
+  "gpu_execution": false,
+  "input": "FP32",
+  "mask": "Bool",
+  "prefix": "Int64",
+  "output": "FP32",
+  "profiles": [
+    {
+      "block_size": 256,
+      "num_warps": 4,
+      "ptx_sha256": "8c5ba635ef90a83631c62161f537c253ac792a3e204e7863442b5dd0637efa4a"
+    },
+    {
+      "block_size": 512,
+      "num_warps": 4,
+      "ptx_sha256": "fc85c7c4a4dd28b07d092dd52087532c2a10071a6c06217260a0ab929a5eafe8"
+    },
+    {
+      "block_size": 1024,
+      "num_warps": 4,
+      "ptx_sha256": "d858f1617f6aab787b5c0c61a737c5312643c70c23e298b0833d57a257693437"
+    },
+    {
+      "block_size": 2048,
+      "num_warps": 4,
+      "ptx_sha256": "db0ecd112884e9fc797fb7d16a24cd3128d6d13f8a2ea259a8afd5b6e15fc807"
+    },
+    {
+      "block_size": 4096,
+      "num_warps": 4,
+      "ptx_sha256": "cfbd7661040a5ce410aa3585171fe595a83973ddbfc1d762f004abd8a0915371"
+    },
+    {
+      "block_size": 256,
+      "num_warps": 8,
+      "ptx_sha256": "b01be36bd273df799197590aeac97249eda21dc5e1f1962a3b460b2a8519fce2"
+    },
+    {
+      "block_size": 512,
+      "num_warps": 8,
+      "ptx_sha256": "76d1d59ca82aaa4723c32d2e3b47c9d16322ab571d36ef7ce2c6fdb3a366e5ca"
+    },
+    {
+      "block_size": 1024,
+      "num_warps": 8,
+      "ptx_sha256": "7b44c6597dacdb8b3dc6dec23e331a2fdb4a83936dc058d8cae9b9f2add1e05c"
+    },
+    {
+      "block_size": 2048,
+      "num_warps": 8,
+      "ptx_sha256": "ba749a12ab953e3321e9e28bdd4be8c2594763884bbbce3fb51cae30e962e174"
+    },
+    {
+      "block_size": 4096,
+      "num_warps": 8,
+      "ptx_sha256": "28deb2787839313cd6fa03af83b6d57b64df1d881bccc560fe65e8e4430d4cd0"
+    },
+    {
+      "block_size": 256,
+      "num_warps": 16,
+      "ptx_sha256": "3083685089bdac3fc21befc2baaf2e9facf2bac65f6557fb5b778046a102b0c5"
+    },
+    {
+      "block_size": 512,
+      "num_warps": 16,
+      "ptx_sha256": "67d9274e9f1c314c79ea2fdcdc24e0e2d78d260a6d789ba689cc72801342906a"
+    },
+    {
+      "block_size": 1024,
+      "num_warps": 16,
+      "ptx_sha256": "2367f71e745a7516334057512ac3c29eea6b585ddac13c6766f0d948a7094096"
+    },
+    {
+      "block_size": 2048,
+      "num_warps": 16,
+      "ptx_sha256": "81cf9efc38703f034667e79992531ba4db557b2dfdc50c208cb62a663b28257a"
+    },
+    {
+      "block_size": 4096,
+      "num_warps": 16,
+      "ptx_sha256": "5ff1c82c28736246ff50c20703dd2ff8a24c6f6ef233b0aaaaf0ff2cbd51c8a9"
+    },
+    {
+      "block_size": 256,
+      "num_warps": 32,
+      "ptx_sha256": "3d885abdcf5bb919e1558bfd6cfbb3370d768ff055553420088c68e5af655fbe"
+    },
+    {
+      "block_size": 512,
+      "num_warps": 32,
+      "ptx_sha256": "e2fb9db98aca2d5202bbbed3cc8df124e1fd2ab73033fb32e2fa7899834e2a0b"
+    },
+    {
+      "block_size": 1024,
+      "num_warps": 32,
+      "ptx_sha256": "60dfc53f1a4457b9e193f0776bff73ce900374beb7c900ac640170748db78695"
+    },
+    {
+      "block_size": 2048,
+      "num_warps": 32,
+      "ptx_sha256": "43fc4100323adfb9f8d32872b6ec5e707fb20edb61b4b96cc88ff359b5313fcd"
+    },
+    {
+      "block_size": 4096,
+      "num_warps": 32,
+      "ptx_sha256": "a7cd0948b896959fc1a8a68632da0a92800587920e297eeb0ae78d87eb16af0f"
+    }
+  ]
+}

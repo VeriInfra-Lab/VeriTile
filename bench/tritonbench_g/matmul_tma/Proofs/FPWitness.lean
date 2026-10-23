@@ -1,4 +1,4 @@
-import bench.tritonbench_g.matmul_tma.FPCorrect
+import bench.tritonbench_g.matmul_tma.Proofs.LegacyFP
 namespace VeriTile.Bench.TritonBenchG.MatmulTma.FPValue
 open VeriTile.Triton FP.Structural
 noncomputable section

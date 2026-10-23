@@ -1,4 +1,4 @@
-import bench.tritonbench_g.rms_norm_triton.Kernels
+import bench.tritonbench_g.rms_norm_triton.Proofs.LegacyKernels
 import VeriTile.Triton.Float.ProfiledSoundness
 import VeriTile.Triton.Semantics.TileOps
 namespace VeriTile.Bench.TritonBenchG.RmsNormTriton.Execution

@@ -179,6 +179,7 @@ def Op.RespectsRegionTyping (Γ : RegionTyping) : Op dtype shape → Prop
   | .boolNot a => a.RespectsRegionTyping Γ
   | .max2 _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .maximumFloat _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
+  | .minimumFloat _ _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .pow _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .libdevicePowi _ a b => a.RespectsRegionTyping Γ ∧ b.RespectsRegionTyping Γ
   | .where c a b =>

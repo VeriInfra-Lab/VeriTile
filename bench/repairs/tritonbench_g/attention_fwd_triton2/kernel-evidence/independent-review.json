@@ -1,0 +1,127 @@
+{
+  "task": "attention_fwd_triton2",
+  "reviewer": "/root/matrix_transpose_kernel",
+  "reviewed_at_utc": "2026-10-19T21:10:40.632349+00:00",
+  "decision": "ACCEPT",
+  "whole_task_accepted": true,
+  "kernel_formal_endpoints_accepted": true,
+  "acceptance_scope": "Complete selected kernel-only delivery under the stated ideal Real and one fixed scalar/conversion/SM80-instruction interpretation, with actual Tensor coordinate observations and source/word-address frames. This review does not claim a unified final byteheap, GPU execution, universal compiler conformance or native-to-Real accuracy.",
+  "delivery": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/delivery.json",
+    "sha256": "3f46513a7a08b5ab230f43539f05c0ab6f0b86b9ef7aa0ec76487f74aed896d4"
+  },
+  "pin_verification": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/independent-pin-checks.json",
+    "sha256": "0dd033091a0acd14285b62bca9afaa3ffad8898c1c72d28e909c8855f12b3de0"
+  },
+  "selected_python": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/attention_fwd_triton2_repaired.py",
+    "sha256": "eb7192d0aaab5db92b98eba026b05eb728774263b5f3afecbd7270d9d84bc005",
+    "unchanged": true
+  },
+  "quoted_source": {
+    "path": "/mnt/VerifiableAILab/VerifiableAILab/zenan.li/VeriTile/bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Kernels.lean",
+    "sha256": "126a1b36e7694b0df4aeee6fcb9d737d6148ddcf45f42971ed92056301ba10cc"
+  },
+  "public_entries": {
+    "contract": "VeriTile.Bench.Repairs.AttentionFwdTriton2.KernelContract.accepted_iff",
+    "Real": "VeriTile.Bench.Repairs.AttentionFwdTriton2.Correct.kernel_correct",
+    "native": "VeriTile.Bench.Repairs.AttentionFwdTriton2.FPEquiv.kernel_native",
+    "empty": "VeriTile.Bench.Repairs.AttentionFwdTriton2.Correct.empty_kernel"
+  },
+  "conclusion": "No actionable source, proof, admission, Tensor-binding or evidence defect was found in the assigned scope. Complete successful quoted-source execution is derived on an evolving state for every full-grid permutation. Independent mathematical and state-free native targets are connected to actual output coordinates and frames. The native endpoint fixes one instruction interpretation and does not rely on the retained historical transport or whole-result hypotheses.",
+  "checks": {
+    "frozen_packet_digest_matches": true,
+    "pin_records_verified": 1016,
+    "distinct_files_verified": 788,
+    "current_source_build_receipts_verified": 38,
+    "public_repository_source_import_closure": 199,
+    "audit_repository_source_import_closure": 200,
+    "effective_LEAN_PATH_resolution_and_ilean_directImports_verified": true,
+    "preserved_original_files_verified": 45,
+    "existing_changed_files_match_declared_four": true,
+    "old_admission_byte_identical": true,
+    "original_public_theorem_bodies_preserved": true,
+    "final_log_standard_axiom_checks": 19,
+    "final_log_noncircularity_checks": 7,
+    "task_Lean_placeholder_tokens_found": 0,
+    "saved_host_controls_reviewed": 41,
+    "saved_nonempty_CPU_source_cases_reviewed": 4,
+    "saved_empty_CPU_cases_reviewed": 3,
+    "saved_actual_wrapper_default_binder_SM80_compiles_reviewed": 5,
+    "saved_binder_empty_skips_reviewed": 3,
+    "saved_compiler_text_artifacts_hashed": 20,
+    "reviewer_read_only_verifier_runs": 1,
+    "reviewer_Lean_builds": 0,
+    "reviewer_CPU_interpreter_runs": 0,
+    "reviewer_compiler_runs": 0,
+    "reviewer_GPU_runs": 0,
+    "reviewer_source_or_ledger_modifications": false,
+    "deferred_numerical_equalities": 0,
+    "deferred_numerical_experiments": 0
+  },
+  "source_and_admission_review": {
+    "selection": "The selected Python source and full readable Whole001/Kernels.lean quotation are unchanged. The quotation inlines the entire helper loop with the fixed original launch constants BM128, BN64, padded D128, active D96 and STAGE1. Every pointer advance, mask, conversion and online accumulator step remains present.",
+    "contract": "The original admission proof is preserved byte-for-byte as KernelOnly/Admission.lean. InputContract computes the same checks from actual metadata: exact ordinary Tensor class, strided layout, FP32 Q/K/V/scales, common CUDA device, resolved negative/conjugate flags, [B,H,N,96] shapes, exact packed scale shapes, canonical nonempty strides, original integer/address envelope and direct-grid.y bound.",
+    "empty_case": "Empty B/H/N bypasses the source stride/setup checks and yields an empty schedule, identity kernel execution and unchanged observations. The selected host still allocates BF16 output and unused FP32 M before the empty return; this is recorded separately from the kernel theorem.",
+    "ordinary_API_facts": "TensorLaws supplies actual physicalIndex/storageOffset/data_ptr/capacity relationships and ordinary fresh BF16 empty_like output metadata. No output value, successful execution or whole-kernel equality occurs in those premises. Input aliasing and nonzero storage offsets are represented through one shared physical reader.",
+    "address_binding": "actual_address and actual_read connect all six tensor roles to source pointers. scale_offset/scale_read additionally bind both three-dimensional packed scale tensors. Output shape, BF16 dtype, device and canonical live strides are ordinary allocation properties, not hidden new Python guards."
+  },
+  "complete_proof_review": {
+    "shared_execution": "Whole.runPrograms calls FP.Structural.exec with Source.kernel for each actual program and passes its result to the next program. Source.source_memory establishes per-program execution; Whole.run_correct proves evolving-memory composition. KernelOnly.complete derives uniqueness and coverage from the admitted dense layout and full-grid permutation.",
+    "Real_specification": "mathematicalTarget reaches RealMath.expected: base-2 normalized attention over N keys and exactly 96 features, with QK then query-block scale then key-block scale. It contains no source run or observed output. RealInvariant proves the first nonempty block makes alpha=0, so the source l=1 seed disappears, then maintains the independent mass/numerator invariant through all key blocks.",
+    "native_specification": "Specification.algorithm is a separate state-free recurrence over the initial reader, not a call to Whole.answer or source execution. Binding.source_algorithm/algorithm_at prove its connection to executed source values. nativeReference lowers that recurrence and evaluates it under one Instructions model; input words are identity BitVec32 leaves.",
+    "actual_output": "Both new public endpoints use actual Tensor physicalIndex and storage/data-pointer equations to observe the executed BF16-tagged output cell. Native decoding selects the fixed physical owner of the queried feature and returns its BF16 BitVec16 under the same Instructions model used by the independent target.",
+    "frame": "RawFrame preserves every tagged source location outside active output stores. observe preserves arbitrary word-address observations outside Stored; fresh-allocation and capacity laws place all original input prefix/suffix element spans outside that set. Read aliases remain consistent and unchanged. These are the explicitly declared word-address observations, not a claimed two-byte commit theorem or unified final byteheap.",
+    "safety": "The endpoints also derive Access.Safe and machine Closed from the unchanged checked dense/index/address envelope. Host allocation, driver/resource success and shared grid-product compatibility remain the separately declared scope boundaries."
+  },
+  "mixed_precision_review": {
+    "QK": "FP32 Q/K loads, active D96 zero padded to D128, default TF32 QK lowering as sixteen zero-seeded fixed K8 MMA lane steps, FP32 result.",
+    "scales": "Two ordered FP32 score multiplications. Saved N129 PTX first multiplies QK by query scale and then multiplies key scale by that intermediate; Native.lower preserves that observed operand order explicitly.",
+    "normalization": "FP32 maxNum, exp2ApproxFTZ, source m=-inf/l=1 seeds, four owner replicas, sixteen local ordered reduction values, xor2 then xor1 exchanges, and every live online block/tail remain in the native graph.",
+    "PV": "P and V explicitly narrow to FP16. PV uses four zero-seeded fixed K16 instructions with FP16 accumulation/output, not FP32 PV accumulation. The half result widens to FP32 before the online accumulator update.",
+    "final": "The FP32 online normalizer/accumulator update uses the declared fused lowering; final div.full.f32 is followed by BF16 narrowing. Saved PTX contains f16-output MMA, cvt.f32.f16, fma.rn.f32, div.full.f32 and cvt.rn.bf16x2.f32 in the inspected route.",
+    "ports": "Thirteen families cover scalar operations, conversions and a single coordinate of literal m16n8k8 TF32 or m16n8k16 half-output MMA. No variable-K whole-dot, row reduction, output tensor or result callback is a public premise. Historical LocalTransport results are preserved but unused by the new endpoint.",
+    "interpretation_boundary": "Instruction semantics and applicability of this fixed graph to actual compiler output are explicit model boundaries. Saved profiles include compiler specialization, especially N=1 dead lanes; the packet does not claim universal bitwise equality to every specialization or architecture. No native-to-Real identity or finite-input restriction is introduced."
+  },
+  "evidence_review": {
+    "actual_binder": "The probe executes the actual selected wrapper using a real CPU Tensor subclass/device-context facade and captures its original launch, then calls the actual default JIT signature binder/packer and offline SM80 compiler with num_warps8/num_stages2. All five saved nonempty profiles compile; three empty profiles capture no launch. This is not an actual CUDA launch trace.",
+    "compiler_artifacts": "Twenty saved TTIR/TTGIR/LLVM/PTX files match their hashes. The reviewed static checker tests real operand/result dtypes and explicit casts, required literal opcodes, xor reduction sequence and static instruction counts. Manual inspection additionally confirmed representative scale operand order, local max reduction, half-result widening, live FMA update and final BF16 conversion.",
+    "CPU_controls": "Four saved nonempty actual-source interpreter controls and three empty controls use real backing storage with nonzero offsets and selected read aliases. They verify exact BF16 output 2, complete tested input backing frames and unused-M preservation. They are source controls on simple exact values, not native instruction conformance experiments.",
+    "resources": "Saved metadata reports 98304 or 131076 shared bytes per CTA. Resource availability and native runtime success are explicitly external; no GPU execution is claimed.",
+    "build_and_cache": "Thirty-eight task sources have matching current successful receipts and artifacts. The reviewed verifier independently resolves the first effective object under each recorded LEAN_PATH and compares all 199 public / 200 audit source direct imports with ilean imports. Existing shared/core cache bodies were reused and pinned, not independently rebuilt; root owns aggregate replay and cache integration.",
+    "historical_preservation": "The 45 original benchmark/repair files remain hashed in preserved storage. Only Contract, Correct, FPEquiv and README changed among those originals; prior theorem bodies remain present. Earlier failed development logs are labeled as diagnostics and do not substitute for current successful receipts."
+  },
+  "unresolved_findings": [],
+  "numerical_assumptions_requiring_future_experiments": [],
+  "independent_full_replay_performed": false,
+  "GPU_execution": false,
+  "reviewed_critical_files": {
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/Contract.lean": "dea14787496ffcf01c60d6f579945a8d55948b45f143670ac02bd8e52d0321d2",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/Correct.lean": "ecc8fd0945539306376b04508e8343e35c30e771f50743cc16da844a6400d180",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/FPEquiv.lean": "010c2be306dee49e6aae61640ecb16a03399ad1b32d5439b5021df0a1cbbd90a",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Admission.lean": "db81a172b58f7a118064b5b2a8348e2220d70f67a0f67b3f763fcf658c12c8af",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Inputs.lean": "268cc6a00bda3fe4523ea90e5075c58ca2cf0dca032c02702b19ebd43716243d",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Model.lean": "87b1833b579044efbed98942d071f079089bb0e159cd75c8c50c0563a5f5523a",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Specification.lean": "91edb7c269e995118eaf19c2a1fd276b02208dfb5fe196597e55f8d3434bd1b2",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Binding.lean": "38b1c2601f5b68276dd18e57781a130587e82ebbb708b43e08465d7a47dd9412",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Endpoints.lean": "e9f4fdca01a98400b3d2e05a2bcf440f2a46b95230ce68b358f8214272b9db7b",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/KernelOnly/Audit.lean": "dff06f9ae8823bf5946a10273686809edd4352721e0ff38812d404f64f7e11ea",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/attention_fwd_triton2_repaired.py": "eb7192d0aaab5db92b98eba026b05eb728774263b5f3afecbd7270d9d84bc005",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Kernels.lean": "126a1b36e7694b0df4aeee6fcb9d737d6148ddcf45f42971ed92056301ba10cc",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Native.lean": "8ee2a27d068118a947798de6648341dddd09ef41f7576ae190ab6b9d6b269655",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Engine.lean": "8327ed4ec99effd715001c3838771a4b31bac400d2b05eb658fbb7cb2df7ae05",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/Grid.lean": "8e9e50e59fe0a3ae35694b701d64a04fe6d2173bed7ef1e1826f9212b6c8e1f9",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/NativeStaging.lean": "d92f2558b50dcc5d83e6e8c4ac1cfa7ebe1cbcd988298931a559be148209b0e1",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/RealReturned.lean": "02ec8396ea555faeea5b3086a68569b818e5eb9f1e833cfe75cf88626b08c5ea",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/RealMath.lean": "ef3cea2599cdb6cadcdbf4e6e6f4f95f652c672be54abc86700cb8cd7a39d02f",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/Whole001/Proofs/RealInvariant.lean": "abbe2147c1cee38e3d299a1120a89ba599c69fc5acc6863f89679fd7fbf4afde",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/source_binding.py": "5d0d498fc5f54f1b506aec9ea3b1c07dc028249d33b35bd1e7876a05e21e2ab0",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/binder_probe.py": "a4b7060da5fb060cd6d2a669f8b0ab1fa2df1a7dc71908a1a2904750c8596487",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/interpreter_probe.py": "6867923fbf7fe71e27fc05e810ed69e5f4cc9cec8c2b4a8c989cd886a30a8956",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/kernel-evidence/verify.py": "0720a7a86a9b103de868ff4b2b0b0c412dbe2c416753ad9c84316eaa825929f5",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/README.md": "67b73a0165c9a147954a288f39aa1aff34318eaa36cd0995cee9409092693ee9",
+    "bench/repairs/tritonbench_g/attention_fwd_triton2/numerical-obligations.json": "73593fb319b6b87a9eee335e05a93a7bb3f4adc5cd7d985f2db6924e9123dd87"
+  },
+  "integration_note": "This review is separate from triton_conv2d_fwd. Root owns canonical ledger/Lake integration and independent replay. No source or ledger was edited by this reviewer."
+}

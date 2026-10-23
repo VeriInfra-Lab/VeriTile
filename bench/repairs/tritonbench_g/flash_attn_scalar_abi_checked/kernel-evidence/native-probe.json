@@ -1,0 +1,5000 @@
+{
+  "source": {
+    "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/flash_attn_scalar_abi_checked.py",
+    "sha256": "c7485293fe9f8ac1cba4da4b141f01b837a672fa37bfb4cbe38235569d7579c4"
+  },
+  "probe": {
+    "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native_probe.py",
+    "sha256": "1a2536858557799fb7eb8f6d6d0b98cf9b832c71b6b4e129b428ddb03b2efcf3"
+  },
+  "target": "CUDA SM90",
+  "triton_version": "3.7.1",
+  "profiles": [
+    {
+      "label": "causal0-d16",
+      "width": 16,
+      "causal": false,
+      "raw_scale_repr": "0.375",
+      "raw_scale_kind": "fp32",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        8840,
+        11790,
+        15048,
+        0
+      ],
+      "strides": [
+        [
+          8840,
+          2210,
+          17,
+          1
+        ],
+        [
+          11790,
+          2358,
+          18,
+          1
+        ],
+        [
+          15048,
+          2508,
+          19,
+          1
+        ],
+        [
+          6192,
+          2064,
+          16,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 0.375,
+        "stride_q_bs": 8840,
+        "stride_q_head": 2210,
+        "stride_q_seqlen": 17,
+        "stride_q_dim": 1,
+        "stride_k_bs": 11790,
+        "stride_k_head": 2358,
+        "stride_k_seqlen": 18,
+        "stride_k_dim": 1,
+        "stride_v_bs": 15048,
+        "stride_v_head": 2508,
+        "stride_v_seqlen": 19,
+        "stride_v_dim": 1,
+        "stride_o_bs": 6192,
+        "stride_o_head": 2064,
+        "stride_o_seqlen": 16,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "fp32",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "7411664d30a4f7111480ddb36ae9d81edb716853204d885c9854a3ec151c563d",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 40960,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d16.ttir",
+          "sha256": "e44a381d36fac2f6544fd70bfd8173a0edb2b991ad65050b76a839b5146e261c"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d16.ttgir",
+          "sha256": "4a7248af155f6877cca14038bf32baf3ddf20958619ddc1a3edc5563ce49798c"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d16.llir",
+          "sha256": "02f80e6094359ea14f856e595ce16e7d2fe3d1f2a6a949d076b3e4513655af04"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d16.ptx",
+          "sha256": "3fd5039905961a81076194e27c4d79c39cd23f83ad35bac5fa073af6e5b8d742"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal0-d32",
+      "width": 32,
+      "causal": false,
+      "raw_scale_repr": "0.375",
+      "raw_scale_kind": "fp32",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        17160,
+        22270,
+        27720,
+        0
+      ],
+      "strides": [
+        [
+          17160,
+          4290,
+          33,
+          1
+        ],
+        [
+          22270,
+          4454,
+          34,
+          1
+        ],
+        [
+          27720,
+          4620,
+          35,
+          1
+        ],
+        [
+          12384,
+          4128,
+          32,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 0.375,
+        "stride_q_bs": 17160,
+        "stride_q_head": 4290,
+        "stride_q_seqlen": 33,
+        "stride_q_dim": 1,
+        "stride_k_bs": 22270,
+        "stride_k_head": 4454,
+        "stride_k_seqlen": 34,
+        "stride_k_dim": 1,
+        "stride_v_bs": 27720,
+        "stride_v_head": 4620,
+        "stride_v_seqlen": 35,
+        "stride_v_dim": 1,
+        "stride_o_bs": 12384,
+        "stride_o_head": 4128,
+        "stride_o_seqlen": 32,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 32,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "fp32",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 32,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "c069b3770ec3149f5092fda8628e3fe6681102fb851a51ebdfbe14afbcfce1cc",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 81920,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d32.ttir",
+          "sha256": "4713cc92113264828093fbc446663104bbc9960af9e7de18fbe729d6627eceae"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d32.ttgir",
+          "sha256": "2e3af6ffd40f9f12a31128e783c509df6762011dead909e638e99178ee4e4e69"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d32.llir",
+          "sha256": "fbd82126ffbc93cd3bc49744a78a11eac2bebb20bf5ededf4b245b6cf31ae4b0"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d32.ptx",
+          "sha256": "72f89ab43c3945ad009ca707052877a725590e9006ee880372e88b3d7ab8edf1"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal0-d64",
+      "width": 64,
+      "causal": false,
+      "raw_scale_repr": "0.375",
+      "raw_scale_kind": "fp32",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        33800,
+        43230,
+        53064,
+        0
+      ],
+      "strides": [
+        [
+          33800,
+          8450,
+          65,
+          1
+        ],
+        [
+          43230,
+          8646,
+          66,
+          1
+        ],
+        [
+          53064,
+          8844,
+          67,
+          1
+        ],
+        [
+          24768,
+          8256,
+          64,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 0.375,
+        "stride_q_bs": 33800,
+        "stride_q_head": 8450,
+        "stride_q_seqlen": 65,
+        "stride_q_dim": 1,
+        "stride_k_bs": 43230,
+        "stride_k_head": 8646,
+        "stride_k_seqlen": 66,
+        "stride_k_dim": 1,
+        "stride_v_bs": 53064,
+        "stride_v_head": 8844,
+        "stride_v_seqlen": 67,
+        "stride_v_dim": 1,
+        "stride_o_bs": 24768,
+        "stride_o_head": 8256,
+        "stride_o_seqlen": 64,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 64,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "fp32",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 64,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "28a8574cd439aaa1b1630017e6c6ae7ec8ec04f01d1081c243aba48b4c97bbe1",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 163840,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d64.ttir",
+          "sha256": "66eaab5c84e5d6a7d9c59b40bcd2d9d64ac0d09477f94fef4ec3dafc222d0d20"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d64.ttgir",
+          "sha256": "e3f934e8813625cd5aab0eeb405cbfd3ecffdb285d4ad152e6c0e9e074007f4f"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d64.llir",
+          "sha256": "ba08895ccf116263c35a6f4e748fb415ef2f700d7c814da1f616658c8f974087"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d64.ptx",
+          "sha256": "e0ef10dd6ea56e3defb91061794d083e943c6884a380002a985445d78681cc03"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal0-d128",
+      "width": 128,
+      "causal": false,
+      "raw_scale_repr": "0.375",
+      "raw_scale_kind": "fp32",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        67080,
+        85150,
+        103752,
+        0
+      ],
+      "strides": [
+        [
+          67080,
+          16770,
+          129,
+          1
+        ],
+        [
+          85150,
+          17030,
+          130,
+          1
+        ],
+        [
+          103752,
+          17292,
+          131,
+          1
+        ],
+        [
+          49536,
+          16512,
+          128,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 0.375,
+        "stride_q_bs": 67080,
+        "stride_q_head": 16770,
+        "stride_q_seqlen": 129,
+        "stride_q_dim": 1,
+        "stride_k_bs": 85150,
+        "stride_k_head": 17030,
+        "stride_k_seqlen": 130,
+        "stride_k_dim": 1,
+        "stride_v_bs": 103752,
+        "stride_v_head": 17292,
+        "stride_v_seqlen": 131,
+        "stride_v_dim": 1,
+        "stride_o_bs": 49536,
+        "stride_o_head": 16512,
+        "stride_o_seqlen": 128,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 128,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "fp32",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 128,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 8,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "e659f9476f5f086a02b558a95f3c8403c46fa4070241877085cf6da55c10614f",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 8,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 327680,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d128.ttir",
+          "sha256": "894a4da8fe4fc96b9f3eabdc1518990341e84828e48aabbbfa3aa9fb9bd4d3a6"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d128.ttgir",
+          "sha256": "7127b95cdc68e77c2bfdc5b46ab271310fc9533432715fa3a71a11faef521213"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d128.llir",
+          "sha256": "edce357fce699bfa16f26487057e49b8e3d9f53668b8f38337268a7389a55095"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d128.ptx",
+          "sha256": "64fe3b3c396777d55a3d3e5410e1890e243d08f01488cd4c0ff32777263468f4"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal1-d16",
+      "width": 16,
+      "causal": true,
+      "raw_scale_repr": "0.375",
+      "raw_scale_kind": "fp32",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        8840,
+        11790,
+        15048,
+        0
+      ],
+      "strides": [
+        [
+          8840,
+          2210,
+          17,
+          1
+        ],
+        [
+          11790,
+          2358,
+          18,
+          1
+        ],
+        [
+          15048,
+          2508,
+          19,
+          1
+        ],
+        [
+          6192,
+          2064,
+          16,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 0.375,
+        "stride_q_bs": 8840,
+        "stride_q_head": 2210,
+        "stride_q_seqlen": 17,
+        "stride_q_dim": 1,
+        "stride_k_bs": 11790,
+        "stride_k_head": 2358,
+        "stride_k_seqlen": 18,
+        "stride_k_dim": 1,
+        "stride_v_bs": 15048,
+        "stride_v_head": 2508,
+        "stride_v_seqlen": 19,
+        "stride_v_dim": 1,
+        "stride_o_bs": 6192,
+        "stride_o_head": 2064,
+        "stride_o_seqlen": 16,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "fp32",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "014809a802867f8c7f5317974ea5b05457f12143ddf1991b5fbaef524da0eebc",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 40960,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16.ttir",
+          "sha256": "95004d4d6ac483667541c98e6ddafd30749d9248daf63d6e5b7861e5bc83aa02"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16.ttgir",
+          "sha256": "efd03cd0ec676764e4e102a84f3234954368222acd3750311e4f5f470cccad89"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16.llir",
+          "sha256": "530b10c02605ca77e5804116ceb17fdcfea14fc62574d5ce50ff795664a1e2ef"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16.ptx",
+          "sha256": "a8b33d0b4136f1ff4c0c49144aba2819d203b3a244a8164e030cd223293256f8"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal1-d32",
+      "width": 32,
+      "causal": true,
+      "raw_scale_repr": "0.375",
+      "raw_scale_kind": "fp32",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        17160,
+        22270,
+        27720,
+        0
+      ],
+      "strides": [
+        [
+          17160,
+          4290,
+          33,
+          1
+        ],
+        [
+          22270,
+          4454,
+          34,
+          1
+        ],
+        [
+          27720,
+          4620,
+          35,
+          1
+        ],
+        [
+          12384,
+          4128,
+          32,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 0.375,
+        "stride_q_bs": 17160,
+        "stride_q_head": 4290,
+        "stride_q_seqlen": 33,
+        "stride_q_dim": 1,
+        "stride_k_bs": 22270,
+        "stride_k_head": 4454,
+        "stride_k_seqlen": 34,
+        "stride_k_dim": 1,
+        "stride_v_bs": 27720,
+        "stride_v_head": 4620,
+        "stride_v_seqlen": 35,
+        "stride_v_dim": 1,
+        "stride_o_bs": 12384,
+        "stride_o_head": 4128,
+        "stride_o_seqlen": 32,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 32,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "fp32",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 32,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "db8b5de8d6e73edca1806227d649f88b35b5ae32bd0ec205afba7b7da07c45e2",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 81920,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d32.ttir",
+          "sha256": "22b9724440f5e584e4958cab04ed15775d3f8e862675a8f0dc017f0eb10cee1e"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d32.ttgir",
+          "sha256": "c6d196f026278e6a76c32708d71107518c2253350ebaa3ece98cc460e195d580"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d32.llir",
+          "sha256": "483cce64db8fbd2df504bee14a99682e046e801ca9aae18c0cde016d9b27aa11"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d32.ptx",
+          "sha256": "b3266cf418263f2c168acb11cfd64522422b5474431c72b353f1b4bd5b7cdddb"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal1-d64",
+      "width": 64,
+      "causal": true,
+      "raw_scale_repr": "0.375",
+      "raw_scale_kind": "fp32",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        33800,
+        43230,
+        53064,
+        0
+      ],
+      "strides": [
+        [
+          33800,
+          8450,
+          65,
+          1
+        ],
+        [
+          43230,
+          8646,
+          66,
+          1
+        ],
+        [
+          53064,
+          8844,
+          67,
+          1
+        ],
+        [
+          24768,
+          8256,
+          64,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 0.375,
+        "stride_q_bs": 33800,
+        "stride_q_head": 8450,
+        "stride_q_seqlen": 65,
+        "stride_q_dim": 1,
+        "stride_k_bs": 43230,
+        "stride_k_head": 8646,
+        "stride_k_seqlen": 66,
+        "stride_k_dim": 1,
+        "stride_v_bs": 53064,
+        "stride_v_head": 8844,
+        "stride_v_seqlen": 67,
+        "stride_v_dim": 1,
+        "stride_o_bs": 24768,
+        "stride_o_head": 8256,
+        "stride_o_seqlen": 64,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 64,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "fp32",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 64,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "dfaff42a61744af212637dbc6a3b9e8e05f5e74a93b985a5aceaa2ba0c08a86b",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 163840,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d64.ttir",
+          "sha256": "3c32a8a14ea3e2c2b051391bcce7a7e0d94dbdd09bbb4576409ef55919f91914"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d64.ttgir",
+          "sha256": "8d6a8820acdfb66a182d07468efb71a07218af27983449f29fd2ee1e2bb6b7c9"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d64.llir",
+          "sha256": "24eacf8212a1d4ab714d0520126c881d603e392a4f765f4dfab3636ebb85dafb"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d64.ptx",
+          "sha256": "487ebe8b1bcce62cc8959ab5fa24e07120323a69ad72de23495b2ff8e7d79f81"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal1-d128",
+      "width": 128,
+      "causal": true,
+      "raw_scale_repr": "0.375",
+      "raw_scale_kind": "fp32",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        67080,
+        85150,
+        103752,
+        0
+      ],
+      "strides": [
+        [
+          67080,
+          16770,
+          129,
+          1
+        ],
+        [
+          85150,
+          17030,
+          130,
+          1
+        ],
+        [
+          103752,
+          17292,
+          131,
+          1
+        ],
+        [
+          49536,
+          16512,
+          128,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 0.375,
+        "stride_q_bs": 67080,
+        "stride_q_head": 16770,
+        "stride_q_seqlen": 129,
+        "stride_q_dim": 1,
+        "stride_k_bs": 85150,
+        "stride_k_head": 17030,
+        "stride_k_seqlen": 130,
+        "stride_k_dim": 1,
+        "stride_v_bs": 103752,
+        "stride_v_head": 17292,
+        "stride_v_seqlen": 131,
+        "stride_v_dim": 1,
+        "stride_o_bs": 49536,
+        "stride_o_head": 16512,
+        "stride_o_seqlen": 128,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 128,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "fp32",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 128,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 8,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "1e3a56010c35846f5fd8e7c118a3bf59058ba92888a23a81183e1b2d01f766f9",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 8,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 327680,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d128.ttir",
+          "sha256": "e3e99d03f7263cc9610943b416b9193aba1979149f31d7e0ef8381f885351166"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d128.ttgir",
+          "sha256": "fe4e8083c6170b83aee995eab387083657fcd067abb21cc6481ce4f9c0477300"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d128.llir",
+          "sha256": "9b52e8fa06c2c058406d735d3d2a0acaaad38d417371cd8dedc5f1e7766fb54e"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d128.ptx",
+          "sha256": "169c40411e6c74954dbf40ee001cdb91f0cf1df5ed1849bbd92040d6f5da3a03"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal0-d16-one",
+      "width": 16,
+      "causal": false,
+      "raw_scale_repr": "1",
+      "raw_scale_kind": "constexpr",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        8840,
+        11790,
+        15048,
+        0
+      ],
+      "strides": [
+        [
+          8840,
+          2210,
+          17,
+          1
+        ],
+        [
+          11790,
+          2358,
+          18,
+          1
+        ],
+        [
+          15048,
+          2508,
+          19,
+          1
+        ],
+        [
+          6192,
+          2064,
+          16,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 1,
+        "stride_q_bs": 8840,
+        "stride_q_head": 2210,
+        "stride_q_seqlen": 17,
+        "stride_q_dim": 1,
+        "stride_k_bs": 11790,
+        "stride_k_head": 2358,
+        "stride_k_seqlen": 18,
+        "stride_k_dim": 1,
+        "stride_v_bs": 15048,
+        "stride_v_head": 2508,
+        "stride_v_seqlen": 19,
+        "stride_v_dim": 1,
+        "stride_o_bs": 6192,
+        "stride_o_head": 2064,
+        "stride_o_seqlen": 16,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "constexpr",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "sm_scale": 1,
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "sm_scale": [],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "d0153a084a741d28296a5cf6746c7d7ab0307d8c8cc0c5f29259380f17dcc9e3",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 40960,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d16-one.ttir",
+          "sha256": "b8f36a69bc4f624710e70c44e6b663fa6b8092807a0fbaa6bd4257c0ba6b6e42"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d16-one.ttgir",
+          "sha256": "460919046fc8d4a26e03ab19aff75928e15be190545db6d2b0ff7f3b13cc1255"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d16-one.llir",
+          "sha256": "29ee47be43f5338f8ae1fffb88a7b10f73940f51518e432495e3fbe1a19fce91"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d16-one.ptx",
+          "sha256": "971067d2cb899487d8d5ceaa06ca2771d9b95418ff9a7e2c3bb715a4f51133ea"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal0-d32-one",
+      "width": 32,
+      "causal": false,
+      "raw_scale_repr": "1",
+      "raw_scale_kind": "constexpr",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        17160,
+        22270,
+        27720,
+        0
+      ],
+      "strides": [
+        [
+          17160,
+          4290,
+          33,
+          1
+        ],
+        [
+          22270,
+          4454,
+          34,
+          1
+        ],
+        [
+          27720,
+          4620,
+          35,
+          1
+        ],
+        [
+          12384,
+          4128,
+          32,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 1,
+        "stride_q_bs": 17160,
+        "stride_q_head": 4290,
+        "stride_q_seqlen": 33,
+        "stride_q_dim": 1,
+        "stride_k_bs": 22270,
+        "stride_k_head": 4454,
+        "stride_k_seqlen": 34,
+        "stride_k_dim": 1,
+        "stride_v_bs": 27720,
+        "stride_v_head": 4620,
+        "stride_v_seqlen": 35,
+        "stride_v_dim": 1,
+        "stride_o_bs": 12384,
+        "stride_o_head": 4128,
+        "stride_o_seqlen": 32,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 32,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "constexpr",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "sm_scale": 1,
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 32,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "sm_scale": [],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "28faa62df1e79fd5fa64f7d5bd4e0734abc6f0c6f89729deb87224891a96dcb9",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 81920,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d32-one.ttir",
+          "sha256": "fc0654e7f0a1ce953848c6c36c4b3283f6aa1ccc837fdcd8bb93f71773f4b196"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d32-one.ttgir",
+          "sha256": "0e33b13f640c6b30511fb12c58ef2eff9beb9f40d87bc88d294b2ab9682eb5a6"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d32-one.llir",
+          "sha256": "b87bfbeec80316f12ee59cfab2c4a5f12a6396c3239220488bf4fd4de8f87f85"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d32-one.ptx",
+          "sha256": "711d6987708ceeec56de4a6d682a803152b4f5cd86193b0299029e4580786dab"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal0-d64-one",
+      "width": 64,
+      "causal": false,
+      "raw_scale_repr": "1",
+      "raw_scale_kind": "constexpr",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        33800,
+        43230,
+        53064,
+        0
+      ],
+      "strides": [
+        [
+          33800,
+          8450,
+          65,
+          1
+        ],
+        [
+          43230,
+          8646,
+          66,
+          1
+        ],
+        [
+          53064,
+          8844,
+          67,
+          1
+        ],
+        [
+          24768,
+          8256,
+          64,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 1,
+        "stride_q_bs": 33800,
+        "stride_q_head": 8450,
+        "stride_q_seqlen": 65,
+        "stride_q_dim": 1,
+        "stride_k_bs": 43230,
+        "stride_k_head": 8646,
+        "stride_k_seqlen": 66,
+        "stride_k_dim": 1,
+        "stride_v_bs": 53064,
+        "stride_v_head": 8844,
+        "stride_v_seqlen": 67,
+        "stride_v_dim": 1,
+        "stride_o_bs": 24768,
+        "stride_o_head": 8256,
+        "stride_o_seqlen": 64,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 64,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "constexpr",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "sm_scale": 1,
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 64,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "sm_scale": [],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "3e3b045a719cfaaf8cef18a484adb25b35f390b2f5bbc7279858cc4f9501a1e6",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 163840,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d64-one.ttir",
+          "sha256": "cdbc25f81ddb90edc4f5c84c6a3316a431078dcc2b0c06e3b555c6c4cac63e41"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d64-one.ttgir",
+          "sha256": "10343e40c2d0ec31fe1039f88d608aa733c6e13a7200aa60a95f5170306eb78a"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d64-one.llir",
+          "sha256": "460d078d22a426b75cad1b3c688e7fa3b54c9490f6e1feda8c4f2eeef8380d06"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d64-one.ptx",
+          "sha256": "80ad644c2fbac96f4601cf20894e512326ad29e06ef6fef966aabaf04193b85d"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal0-d128-one",
+      "width": 128,
+      "causal": false,
+      "raw_scale_repr": "1",
+      "raw_scale_kind": "constexpr",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        67080,
+        85150,
+        103752,
+        0
+      ],
+      "strides": [
+        [
+          67080,
+          16770,
+          129,
+          1
+        ],
+        [
+          85150,
+          17030,
+          130,
+          1
+        ],
+        [
+          103752,
+          17292,
+          131,
+          1
+        ],
+        [
+          49536,
+          16512,
+          128,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 1,
+        "stride_q_bs": 67080,
+        "stride_q_head": 16770,
+        "stride_q_seqlen": 129,
+        "stride_q_dim": 1,
+        "stride_k_bs": 85150,
+        "stride_k_head": 17030,
+        "stride_k_seqlen": 130,
+        "stride_k_dim": 1,
+        "stride_v_bs": 103752,
+        "stride_v_head": 17292,
+        "stride_v_seqlen": 131,
+        "stride_v_dim": 1,
+        "stride_o_bs": 49536,
+        "stride_o_head": 16512,
+        "stride_o_seqlen": 128,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 128,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "constexpr",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "sm_scale": 1,
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 128,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": false
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "sm_scale": [],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 8,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "eba7a292a14f2a3a358bfc1e8ec6f34bf4f63e9f3b4cfaec1bad1dfc14f5f529",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 8,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 327680,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d128-one.ttir",
+          "sha256": "c07cb58c3cc80fcbff0f0688f4e0f993c96c00e39c04cad049e16c0529ac2523"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d128-one.ttgir",
+          "sha256": "1799d1ea6485d1ee105dd81f9484009eeeee8de9e6909361f22f569af009278c"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d128-one.llir",
+          "sha256": "ebb3041a8b5fdbe2a5e84d7bb3ac845fabc7368a4cfd95cceb57e38ce1118ebf"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal0-d128-one.ptx",
+          "sha256": "15125c0dea7dcf92abb1835fb45139b1ea3c3ef9483b7661646a870f1ba01601"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal1-d16-one",
+      "width": 16,
+      "causal": true,
+      "raw_scale_repr": "1",
+      "raw_scale_kind": "constexpr",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        8840,
+        11790,
+        15048,
+        0
+      ],
+      "strides": [
+        [
+          8840,
+          2210,
+          17,
+          1
+        ],
+        [
+          11790,
+          2358,
+          18,
+          1
+        ],
+        [
+          15048,
+          2508,
+          19,
+          1
+        ],
+        [
+          6192,
+          2064,
+          16,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 1,
+        "stride_q_bs": 8840,
+        "stride_q_head": 2210,
+        "stride_q_seqlen": 17,
+        "stride_q_dim": 1,
+        "stride_k_bs": 11790,
+        "stride_k_head": 2358,
+        "stride_k_seqlen": 18,
+        "stride_k_dim": 1,
+        "stride_v_bs": 15048,
+        "stride_v_head": 2508,
+        "stride_v_seqlen": 19,
+        "stride_v_dim": 1,
+        "stride_o_bs": 6192,
+        "stride_o_head": 2064,
+        "stride_o_seqlen": 16,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "constexpr",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "sm_scale": 1,
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "sm_scale": [],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "d10daaed2551b729cdefa521980db3f1f9d7904a23c43e21aec636ce9195265e",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 40960,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-one.ttir",
+          "sha256": "25123b3048d09c401cff6d302ac96bf9ea2fcd13a681cdf5916d598989fe7f43"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-one.ttgir",
+          "sha256": "40a92fa81391a77e34fa98f61ebecd15dcabd1da00bb5ec66c525ac759c19776"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-one.llir",
+          "sha256": "09a2e7df1cbbf07f56bcd4f9cdd4a90e22b0b0dfe81e1d003e4c10f47d1f5334"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-one.ptx",
+          "sha256": "09cd4e082a7adfc062094c4924087c68b2d7beffa6f71b7c8c0873a0cde259d2"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal1-d32-one",
+      "width": 32,
+      "causal": true,
+      "raw_scale_repr": "1",
+      "raw_scale_kind": "constexpr",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        17160,
+        22270,
+        27720,
+        0
+      ],
+      "strides": [
+        [
+          17160,
+          4290,
+          33,
+          1
+        ],
+        [
+          22270,
+          4454,
+          34,
+          1
+        ],
+        [
+          27720,
+          4620,
+          35,
+          1
+        ],
+        [
+          12384,
+          4128,
+          32,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 1,
+        "stride_q_bs": 17160,
+        "stride_q_head": 4290,
+        "stride_q_seqlen": 33,
+        "stride_q_dim": 1,
+        "stride_k_bs": 22270,
+        "stride_k_head": 4454,
+        "stride_k_seqlen": 34,
+        "stride_k_dim": 1,
+        "stride_v_bs": 27720,
+        "stride_v_head": 4620,
+        "stride_v_seqlen": 35,
+        "stride_v_dim": 1,
+        "stride_o_bs": 12384,
+        "stride_o_head": 4128,
+        "stride_o_seqlen": 32,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 32,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "constexpr",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "sm_scale": 1,
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 32,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "sm_scale": [],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "ad39fdf6f993e0e29eeec134dab3278bdb3c384b3d6f7f0d7c0e07586a9640d5",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 81920,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d32-one.ttir",
+          "sha256": "3aa66ae0d1903d92611407b704ab3c0bcf401499d0e19120932b98d5ab859073"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d32-one.ttgir",
+          "sha256": "9805c6f470ac783ae60029662c25da379001b3b755a78dc3098129c19b188dbd"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d32-one.llir",
+          "sha256": "0d1aae9def91eeb557889c50f4e5ab347ab678086407a27367e4cda3cb765097"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d32-one.ptx",
+          "sha256": "e7bed1d031238df8a078ee37925c9906f4293345f9cb270a7711df164eea8d41"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal1-d64-one",
+      "width": 64,
+      "causal": true,
+      "raw_scale_repr": "1",
+      "raw_scale_kind": "constexpr",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        33800,
+        43230,
+        53064,
+        0
+      ],
+      "strides": [
+        [
+          33800,
+          8450,
+          65,
+          1
+        ],
+        [
+          43230,
+          8646,
+          66,
+          1
+        ],
+        [
+          53064,
+          8844,
+          67,
+          1
+        ],
+        [
+          24768,
+          8256,
+          64,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 1,
+        "stride_q_bs": 33800,
+        "stride_q_head": 8450,
+        "stride_q_seqlen": 65,
+        "stride_q_dim": 1,
+        "stride_k_bs": 43230,
+        "stride_k_head": 8646,
+        "stride_k_seqlen": 66,
+        "stride_k_dim": 1,
+        "stride_v_bs": 53064,
+        "stride_v_head": 8844,
+        "stride_v_seqlen": 67,
+        "stride_v_dim": 1,
+        "stride_o_bs": 24768,
+        "stride_o_head": 8256,
+        "stride_o_seqlen": 64,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 64,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "constexpr",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "sm_scale": 1,
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 64,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "sm_scale": [],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "4206e619fbdc109a63d210142f43a626c73dfdd69189f907a6033b42cacff2b2",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 163840,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d64-one.ttir",
+          "sha256": "bed98935439dd9339af0057b160379b67c7d1623b4f6ddf4a0e17d880ccda34a"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d64-one.ttgir",
+          "sha256": "a94ddeade645a9fb5b47e74fbfe7056da0bb283c9bf2a84cb1787e44d420f0a3"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d64-one.llir",
+          "sha256": "8550be782000510b457b42e1f04c1d09574f7a3154d3df7123d1a58e7b647239"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d64-one.ptx",
+          "sha256": "ac611d73407b9176557d260086228f1ad75c9373f07081c4a2516c698d778afa"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal1-d128-one",
+      "width": 128,
+      "causal": true,
+      "raw_scale_repr": "1",
+      "raw_scale_kind": "constexpr",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        67080,
+        85150,
+        103752,
+        0
+      ],
+      "strides": [
+        [
+          67080,
+          16770,
+          129,
+          1
+        ],
+        [
+          85150,
+          17030,
+          130,
+          1
+        ],
+        [
+          103752,
+          17292,
+          131,
+          1
+        ],
+        [
+          49536,
+          16512,
+          128,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 1,
+        "stride_q_bs": 67080,
+        "stride_q_head": 16770,
+        "stride_q_seqlen": 129,
+        "stride_q_dim": 1,
+        "stride_k_bs": 85150,
+        "stride_k_head": 17030,
+        "stride_k_seqlen": 130,
+        "stride_k_dim": 1,
+        "stride_v_bs": 103752,
+        "stride_v_head": 17292,
+        "stride_v_seqlen": 131,
+        "stride_v_dim": 1,
+        "stride_o_bs": 49536,
+        "stride_o_head": 16512,
+        "stride_o_seqlen": 128,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 128,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "constexpr",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "sm_scale": 1,
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 128,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "sm_scale": [],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 8,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "0d3801ee6d852ad8741c92e62511b358bf5f8f80a302129f1f403f1552ed3ed4",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 8,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 327680,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d128-one.ttir",
+          "sha256": "ae51a70f7cf2d84c012d282b00b6be0b19b0934d2196c08d2b47cd7c61b2c3f8"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d128-one.ttgir",
+          "sha256": "2bf7d8b81e98562af2559e02062434128ce56a64ce4c578326687b2ba204157a"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d128-one.llir",
+          "sha256": "e478216dfa001b43fc87e267ea4c0651dd2ffe408fd8e9501a5f3fb2b42ff258"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d128-one.ptx",
+          "sha256": "da50521fcd14ce837e60c9964b00d9a2e76a96584489299b10dd54ae15c0640b"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal1-d16-i32",
+      "width": 16,
+      "causal": true,
+      "raw_scale_repr": "-1",
+      "raw_scale_kind": "i32",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        8840,
+        11790,
+        15048,
+        0
+      ],
+      "strides": [
+        [
+          8840,
+          2210,
+          17,
+          1
+        ],
+        [
+          11790,
+          2358,
+          18,
+          1
+        ],
+        [
+          15048,
+          2508,
+          19,
+          1
+        ],
+        [
+          6192,
+          2064,
+          16,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": -1,
+        "stride_q_bs": 8840,
+        "stride_q_head": 2210,
+        "stride_q_seqlen": 17,
+        "stride_q_dim": 1,
+        "stride_k_bs": 11790,
+        "stride_k_head": 2358,
+        "stride_k_seqlen": 18,
+        "stride_k_dim": 1,
+        "stride_v_bs": 15048,
+        "stride_v_head": 2508,
+        "stride_v_seqlen": 19,
+        "stride_v_dim": 1,
+        "stride_o_bs": 6192,
+        "stride_o_head": 2064,
+        "stride_o_seqlen": 16,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "i32",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "sm_scale": [],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "73788d79b9f111636ef52088651fa571fd7dddf7bb4b919ab7ca21ef7b70772e",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 40960,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-i32.ttir",
+          "sha256": "c5b299896d7216c2bdd5f7a9b487e4caa4b5deeffe13138906ebb7401a5e3302"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-i32.ttgir",
+          "sha256": "555fb0e6b760e0f4e84121aef83a636e1e7a6ff845fb14c30b346f2541c8ec4d"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-i32.llir",
+          "sha256": "45dfb20ee37cd91183245cdfd753938b8290a37854f32d5410b7d7a3757f8569"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-i32.ptx",
+          "sha256": "3c65ea415d872ee5717271294df4bafb4391b58b85a6601b54a5846d23a10273"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal1-d16-i64",
+      "width": 16,
+      "causal": true,
+      "raw_scale_repr": "-9223372036854775808",
+      "raw_scale_kind": "i64",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        8840,
+        11790,
+        15048,
+        0
+      ],
+      "strides": [
+        [
+          8840,
+          2210,
+          17,
+          1
+        ],
+        [
+          11790,
+          2358,
+          18,
+          1
+        ],
+        [
+          15048,
+          2508,
+          19,
+          1
+        ],
+        [
+          6192,
+          2064,
+          16,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": -9223372036854775808,
+        "stride_q_bs": 8840,
+        "stride_q_head": 2210,
+        "stride_q_seqlen": 17,
+        "stride_q_dim": 1,
+        "stride_k_bs": 11790,
+        "stride_k_head": 2358,
+        "stride_k_seqlen": 18,
+        "stride_k_dim": 1,
+        "stride_v_bs": 15048,
+        "stride_v_head": 2508,
+        "stride_v_seqlen": 19,
+        "stride_v_dim": 1,
+        "stride_o_bs": 6192,
+        "stride_o_head": 2064,
+        "stride_o_seqlen": 16,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "i64",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "sm_scale": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "c873a745928dc8d2d72ab671c45083aa024431d9006dfc6502b0c7e63c95cc80",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 40960,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-i64.ttir",
+          "sha256": "3b1d98593b87db815420213490f7ff7bce742dd86cfddd5864affd71cf771247"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-i64.ttgir",
+          "sha256": "5a01916159984636346bd0080181ba45868af5fcd128db72de34c808a2edfbce"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-i64.llir",
+          "sha256": "e121da68a23a31d519b57d0ac033ef3c9756b0bec7e7baf2c773930e30923ffb"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-i64.ptx",
+          "sha256": "e289a4f43295e570827b09e9554f98b2d0d0a993ce3105d40a134b086bafab9a"
+        }
+      ],
+      "status": "offline_compile_pass"
+    },
+    {
+      "label": "causal1-d16-u64",
+      "width": 16,
+      "causal": true,
+      "raw_scale_repr": "18446744073709551615",
+      "raw_scale_kind": "u64",
+      "length": 129,
+      "batch": 2,
+      "heads": 3,
+      "grid": [
+        2,
+        6,
+        1
+      ],
+      "events": [
+        "device-enter",
+        "launch",
+        "device-exit"
+      ],
+      "original_output_returned_and_launched": true,
+      "storage_offsets": [
+        8840,
+        11790,
+        15048,
+        0
+      ],
+      "strides": [
+        [
+          8840,
+          2210,
+          17,
+          1
+        ],
+        [
+          11790,
+          2358,
+          18,
+          1
+        ],
+        [
+          15048,
+          2508,
+          19,
+          1
+        ],
+        [
+          6192,
+          2064,
+          16,
+          1
+        ]
+      ],
+      "source_arguments": {
+        "sm_scale": 18446744073709551615,
+        "stride_q_bs": 8840,
+        "stride_q_head": 2210,
+        "stride_q_seqlen": 17,
+        "stride_q_dim": 1,
+        "stride_k_bs": 11790,
+        "stride_k_head": 2358,
+        "stride_k_seqlen": 18,
+        "stride_k_dim": 1,
+        "stride_v_bs": 15048,
+        "stride_v_head": 2508,
+        "stride_v_seqlen": 19,
+        "stride_v_dim": 1,
+        "stride_o_bs": 6192,
+        "stride_o_head": 2064,
+        "stride_o_seqlen": 16,
+        "stride_o_dim": 1,
+        "BS": 2,
+        "HEAD": 3,
+        "SEQLEN": 129,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "signature": {
+        "Q": "*fp32",
+        "K": "*fp32",
+        "V": "*fp32",
+        "sm_scale": "u64",
+        "L": "*fp32",
+        "O": "*fp32",
+        "stride_q_bs": "i32",
+        "stride_q_head": "i32",
+        "stride_q_seqlen": "i32",
+        "stride_q_dim": "constexpr",
+        "stride_k_bs": "i32",
+        "stride_k_head": "i32",
+        "stride_k_seqlen": "i32",
+        "stride_k_dim": "constexpr",
+        "stride_v_bs": "i32",
+        "stride_v_head": "i32",
+        "stride_v_seqlen": "i32",
+        "stride_v_dim": "constexpr",
+        "stride_o_bs": "i32",
+        "stride_o_head": "i32",
+        "stride_o_seqlen": "i32",
+        "stride_o_dim": "constexpr",
+        "BS": "i32",
+        "HEAD": "i32",
+        "SEQLEN": "i32",
+        "BLOCK_M": "constexpr",
+        "DIM": "constexpr",
+        "BLOCK_N": "constexpr",
+        "IS_CAUSAL": "constexpr"
+      },
+      "constants": {
+        "stride_q_dim": 1,
+        "stride_k_dim": 1,
+        "stride_v_dim": 1,
+        "stride_o_dim": 1,
+        "BLOCK_M": 128,
+        "DIM": 16,
+        "BLOCK_N": 64,
+        "IS_CAUSAL": true
+      },
+      "attrs": {
+        "Q": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "K": [],
+        "V": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "sm_scale": [],
+        "L": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "O": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_q_bs": [],
+        "stride_q_head": [],
+        "stride_q_seqlen": [],
+        "stride_q_dim": [],
+        "stride_k_bs": [],
+        "stride_k_head": [],
+        "stride_k_seqlen": [],
+        "stride_k_dim": [],
+        "stride_v_bs": [],
+        "stride_v_head": [],
+        "stride_v_seqlen": [],
+        "stride_v_dim": [],
+        "stride_o_bs": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_head": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_seqlen": [
+          [
+            "tt.divisibility",
+            16
+          ]
+        ],
+        "stride_o_dim": [],
+        "BS": [],
+        "HEAD": [],
+        "SEQLEN": [],
+        "BLOCK_M": [],
+        "DIM": [],
+        "BLOCK_N": [],
+        "IS_CAUSAL": []
+      },
+      "options": {
+        "num_warps": 4,
+        "num_stages": 4
+      },
+      "metadata": {
+        "allowed_dot_input_precisions": [
+          "tf32",
+          "tf32x3",
+          "ieee",
+          "bf16x3",
+          "bf16x6"
+        ],
+        "arch": "sm90",
+        "backend_name": "cuda",
+        "debug": false,
+        "default_dot_input_precision": "tf32",
+        "deprecated_fp8_dot_operand_dtypes": [
+          "fp8e4b15"
+        ],
+        "enable_fp_fusion": true,
+        "enable_reflect_ftz": true,
+        "extern_libs": [
+          [
+            "libdevice",
+            "/usr/local/lib/python3.12/site-packages/triton/backends/nvidia/lib/libdevice.10.bc"
+          ]
+        ],
+        "global_scratch_align": 1,
+        "global_scratch_size": 0,
+        "hash": "1d63a35b4bea6c414355e27d6f2218aad465e277bc2fe831b1d46a11271a0d3a",
+        "instrumentation_mode": "",
+        "ir_override": null,
+        "launch_cooperative_grid": false,
+        "launch_pdl": false,
+        "max_num_imprecise_acc_default": 1073741824,
+        "maxnreg": null,
+        "name": "_fwd_kernel",
+        "num_ctas": 1,
+        "num_stages": 4,
+        "num_warps": 4,
+        "profile_scratch_align": 1,
+        "profile_scratch_size": 0,
+        "ptx_options": null,
+        "ptx_version": null,
+        "sanitize_overflow": true,
+        "shared": 40960,
+        "supported_fp8_dtypes": [
+          "fp8e4b15",
+          "fp8e4nv",
+          "fp8e5"
+        ],
+        "target": "GPUTarget(backend='cuda', arch=90, warp_size=32)",
+        "tensordesc_meta": [],
+        "tmem_size": 0,
+        "triton_version": "3.7.1",
+        "warp_size": 32
+      },
+      "artifacts": [
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-u64.ttir",
+          "sha256": "9fb2337553bdeee7395a68cdf230e43b36422c03b2daeceeb2f4c9932aef6b74"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-u64.ttgir",
+          "sha256": "c7e1c55f74232615cff0a10c2815ae62e7dd49b1bf76d7cd3904d852aabe3731"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-u64.llir",
+          "sha256": "81df280860383208d621036539fd99c296f2e529a61b3b232d17f26bf4d9ef6f"
+        },
+        {
+          "path": "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/kernel-evidence/native/causal1-d16-u64.ptx",
+          "sha256": "726b41737126cdd823d3f549b1f165c1123b875173b472843bada9f75ea65c3d"
+        }
+      ],
+      "status": "offline_compile_pass"
+    }
+  ],
+  "scope": "Unchanged actual wrapper AST and JIT body/signature; CPU storage with CUDA metadata/context/submission facade; actual native specialization and offline compilation.",
+  "GPU_execution": false,
+  "full_launcher_execution": false
+}

@@ -1,4 +1,5 @@
 import bench.tritonbench_g.relu_triton_kernel.Proofs.ByteAddress
+import bench.tritonbench_g.relu_triton_kernel.WordGridCorrect
 
 /-! Compose the existing finite-input-word logical execution with a separate
 bounded index and byte-address certificate. No native memory relation is a

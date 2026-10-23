@@ -1,0 +1,219 @@
+{
+  "schema": 1,
+  "task": "dequantize_rowwise",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue04/result.json",
+    "sha256": "047600e037a560bd57de142017401cc7a18c33186639e2d3a72715aff6ce70fd",
+    "task_index": 8
+  },
+  "finding": "The main formula exposed a one-element scale channel (scale 0), and its execution script remained in Correct.",
+  "resolution": "Use named weights and scalar scale, preserving the complete scalar storage even for an empty row; move the proof into required ReaderReal/LogicalReader helpers.",
+  "mathematical_target": "dequantize_rowwise_correct: scale * signed weight / 127 at every original active output.",
+  "conditions_and_scope": "Same original masked row width, actual fixed reciprocal, arbitrary rows/columns, INT8 loads, FP32 multiply order and FP16 store. The unmasked scale load, all storage domains, successful execution and exterior frame remain.",
+  "proof_connection": "Complete input Equiv converts the singleton scale to a scalar without dropping empty-row storage. Full logical_iff is Iff.rfl, and the exact old/new IO headline fixture passes.",
+  "fp_review": "Existing selectedOriginal versus selectedCandidate integer row-base product rewrite unchanged, including production ports, reciprocal, FP32 arithmetic and FP16 conversion.",
+  "numerical_dependencies": {
+    "experimental_rule_instances": 0,
+    "new_numeric_rewrites": 0,
+    "evidence": "Actual FP transformation changes only exact integer indexing/block-origin reuse. Empty experimental R is used under the preserved concrete source/program-view theory; it does not assert arbitrary hardware or opaque IEEE equivalence."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Inline scale 0 * (weights j : Real) / 127.",
+    "required_conditions": {
+      "conditions": [
+        "Parameters retains its existing cols<=width coverage and row geometry",
+        "Shared MixedMaskedKernelIO₂ judgment binds active integer weights, one scale lane, actual access bounds/safety, output and exterior frame"
+      ],
+      "domain_source": "Kernels.Parameters and canonical IO.dequantizeIO; Contract retains INT8 weights, FP32 scales and original metadata checks."
+    },
+    "scope": "Every active feature of an arbitrary selected row-width invocation, with the exact j<cols mask and one unmasked scale read, including empty rows. No full host/grid claim is added.",
+    "canonical_connection": "KernelCorrectness.traceSafe and inputs_correct, with the unmasked scale bound supplied by scaleRead 0 trivial.",
+    "fp_program_pair": {
+      "fp_pairs": [
+        "selectedOriginal p ≡[assumptions] selectedCandidate p"
+      ],
+      "fp_scope": "Complete selected typed row kernels with original ports and reciprocal; both successful runs and full typed memory equality.",
+      "fp_transform": "Commute only the exact integer row-base product.",
+      "precision_model_domain": "Unchanged INT8 loads, FP32 multiplication order and production reciprocal, FP16 output conversion; ProfiledMemory backend, assumptions=[] and unrestricted payloads."
+    },
+    "numerical_dependencies": {
+      "experimental_rule_set": [],
+      "used_experimental_rule_instances": 0,
+      "missing_experimental_evidence": [],
+      "strict_floating_rewrites": [],
+      "explanation": "Only exact integer index commutation or existing scalar block-origin reuse is used. Source precision, conversions, masks, FMA structure and floating order are preserved. Empty R is interpreted at the program view and backend stated above, with no hardware or arbitrary-model nonemptiness claim."
+    }
+  },
+  "verification": [
+    {
+      "kind": "final-readers",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue04/build.py",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Correct",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.FPEquiv",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.Correct",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.FPEquiv",
+        "bench.repairs.tritonbench_g.cosine_compute.Correct",
+        "bench.repairs.tritonbench_g.cosine_compute.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy1.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy1.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy2.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy2.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.FPEquiv",
+        "bench.repairs.tritonbench_g.decay_cumsum.Correct",
+        "bench.repairs.tritonbench_g.decay_cumsum.FPEquiv",
+        "bench.repairs.tritonbench_g.dequantize_matmul.Correct",
+        "bench.repairs.tritonbench_g.dequantize_matmul.FPEquiv",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.Correct",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.FPEquiv",
+        "bench.repairs.tritonbench_g.destindex_copy.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy.FPEquiv",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.FPEquiv",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue04/final-readers.log",
+      "log_sha256": "4f0adfce6f1f35a74dd6a94c46a9428c7804d50630acebb77e212ccde75098eb"
+    },
+    {
+      "kind": "final-readers-complete",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue04/build.py",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Correct",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.FPEquiv",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.Correct",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.FPEquiv",
+        "bench.repairs.tritonbench_g.cosine_compute.Correct",
+        "bench.repairs.tritonbench_g.cosine_compute.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy1.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy1.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy2.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy2.FPEquiv",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Correct",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.FPEquiv",
+        "bench.repairs.tritonbench_g.decay_cumsum.Correct",
+        "bench.repairs.tritonbench_g.decay_cumsum.FPEquiv",
+        "bench.repairs.tritonbench_g.dequantize_matmul.Correct",
+        "bench.repairs.tritonbench_g.dequantize_matmul.FPEquiv",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.Correct",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.FPEquiv",
+        "bench.repairs.tritonbench_g.destindex_copy.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy.FPEquiv",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.FPEquiv",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.Correct",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue04/final-readers-complete.log",
+      "log_sha256": "9ebd884d2b8c68c741c42a63dff3cfb5f928f03086e51bff42d9a710b9a22749"
+    },
+    {
+      "kind": "final-required-helpers",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue04/build.py",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.LogicalIO",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.LogicalMath",
+        "bench.repairs.tritonbench_g.context_attn_mistral.KernelOnly.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.context_attn_nopad.KernelOnly.LogicalIO",
+        "bench.repairs.tritonbench_g.context_attn_nopad.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.cosine_compute.Proofs.ReaderReal",
+        "bench.repairs.tritonbench_g.cosine_compute.Proofs.ReaderFP",
+        "bench.repairs.tritonbench_g.cross_entropy1.LogicalData",
+        "bench.repairs.tritonbench_g.cross_entropy1.LogicalIO",
+        "bench.repairs.tritonbench_g.cross_entropy1.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.cross_entropy1.Proofs.LogicalTransport",
+        "bench.repairs.tritonbench_g.cross_entropy2.LogicalIO",
+        "bench.repairs.tritonbench_g.cross_entropy2.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.LogicalIO",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Proofs.ReaderTargets",
+        "bench.repairs.tritonbench_g.cross_entropy_ops.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.decay_cumsum.LogicalIO",
+        "bench.repairs.tritonbench_g.decay_cumsum.Proofs.LogicalMath",
+        "bench.repairs.tritonbench_g.decay_cumsum.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.dequantize_matmul.LogicalIO",
+        "bench.repairs.tritonbench_g.dequantize_matmul.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.LogicalIO",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.Proofs.ReaderReal",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.destindex_copy.LogicalIO",
+        "bench.repairs.tritonbench_g.destindex_copy.Proofs.ReaderFP",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.LogicalIO",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.destindex_copy_kv1.Proofs.ReaderFP",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.LogicalIO",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.destindex_copy_kv2.Proofs.ReaderFP"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue04/final-required-helpers.log",
+      "log_sha256": "18d108c47db7ee0210d420abae3d1f1eefa6b92292f92fd2dc4ef4792a973942"
+    },
+    {
+      "kind": "joint-dequantize_rowwise",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue04/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue04/joint/dequantize_rowwise.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue04/joint-dequantize_rowwise.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "preservation-dequantize_rowwise",
+      "command": [
+        "/usr/local/bin/python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue04/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue04/preservation/dequantize_rowwise.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue04/preservation-dequantize_rowwise.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Contract.lean": "adc62099b4b0484fcac2422dab9a637567658689b95200156e39d94a5d6f7732",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Correct.lean": "880e5dbc2edbef9774646ad80a837db9e64dd1602cf6ff8311005d12b33a92ca",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/FPEquiv.lean": "32dd84d5e1582c6cd58c43416b9cbeab8156b19eb13c234ee7090d4c34057dcf",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/IO.lean": "f2d9f309ded614ba0ddbfb089e637acf53b8fdd76b320f0e136b27760a3c9580",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Kernels.lean": "9320432d845d3e28d3dd5645e27de7549f5654a81d966f65a67acdbdeadd7ee4",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/LogicalIO.lean": "3c7102252c30ffc2f165e66f9507fa7acf4905a6319563e22be1082f8d637197",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/FPExecution.lean": "83c7dbc84ce43dc9eaa5a4953d47441e8ff62ba2c08d0274ddf24b44780c7a94",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/KernelCorrectness.lean": "2dfe19f0deb2f44a48e0eacdbd68531108f183ce58660c198e4bb5ac897c9112",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/LogicalReader.lean": "b5c50b28f4e0be70ef1e7b0dffac81efe2669a86d69423c4e15d023f469240db",
+    "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/ReaderReal.lean": "6f228c249127e8cef6ee3af34413d0ee2514e53c033322905a9fddcbd6eb78a7",
+    "bench/tritonbench_g/cache_transform_triton/Proofs/IndexRewrite.lean": "1fcf52d6252a5071c4f1df32e18ff628aa2e772265806944744db0a25b342b91",
+    "bench/tritonbench_g/dequantize_matmul/Proofs/IntegerIO.lean": "a233748ee317f4b4324a76f8aea38284917a8ccc2e56d6c6973ec9fce8657c1b",
+    "bench/tritonbench_g/dequantize_rowwise/Kernels.lean": "43b52e95790f4ad3d3eb9b2fe6081f9784d2bbf97a37aba257a5b4836f5543bc",
+    "bench/tritonbench_g/dequantize_rowwise/Proofs/FP.lean": "98c674ac653b6f3a82dfd0489b49ebe0f9efd7bd3c81f9b87e1af4cfc9b5a6f7",
+    "bench/tritonbench_g/dequantize_rowwise/Proofs/Projection.lean": "cf710e67b2a10f050ca3a925f9f1c74667845058ee8f220719622b04f19140c8",
+    "bench/tritonbench_g/dequantize_rowwise/Proofs/RealReference.lean": "02950559b1b88418b97b6d54d8eaa67580fc7ea22a4a5f83a71fd67215405444",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

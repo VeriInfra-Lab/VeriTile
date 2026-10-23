@@ -1,0 +1,34 @@
+{
+  "public_entries": [
+    "Correct.lean",
+    "FPEquiv.lean"
+  ],
+  "target": "eleven original exact decimal polynomials and their independently proved Jacobian transpose",
+  "native_profile": {
+    "format": "FP32",
+    "rounding": "nearest-even at each source arithmetic node",
+    "fusion": false,
+    "ftz": false,
+    "constant_rounding": "exact rational kernel-checked coefficient_words theorems",
+    "overflow_subnormal_special_values": "concrete shared FP model semantics, including declared NaN policy",
+    "loads": "exact four-byte FP32 decode",
+    "initial_gradient": "actual prepared active positive-zero words, source addition retained"
+  },
+  "public_deferred_arithmetic_assumptions": [],
+  "external_boundary": "native Triton/compiler/GPU implementation conformance to the selected concrete model",
+  "gpu_execution": false,
+  "historical_host_entries": [
+    "Proofs/HostCorrect.lean",
+    "Proofs/HostFPEquiv.lean",
+    "README.host.md"
+  ],
+  "historical_evidence": {
+    "files": [
+      "source-binding.json",
+      "validation.json",
+      "coefficient-validation.json",
+      "cuda-lowering.json"
+    ],
+    "interpretation": "Older host provenance, not current public Lean pins or numerical deferrals. Current kernel evidence and receipt hashes live in .veritile-cache/task-deliveries/fifth_order_sph_harmonics/delivery.json."
+  }
+}

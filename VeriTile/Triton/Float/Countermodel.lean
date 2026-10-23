@@ -15,9 +15,29 @@ def FragmentSound {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     (run (fragmentAlgebra lhs M) lhs.code s).map (fun t => scalarOutput lhs.dtype t) =
       (run (fragmentAlgebra rhs M) rhs.code s).map (fun t => scalarOutput rhs.dtype t)
 
+/-- A concrete software model can interpret every strict certificate on any
+smaller declared operand domain. No experimental rule is inferred here. -/
+theorem strict_software_interpretation (rest : Algebra (FP.Value .fp32))
+    (D : Domain (FP.Value .fp32))
+    (domain : ∀ kind value, D kind value → strictDomain kind value)
+    (lhs rhs : List GuardedFragment) (certificate : fp32Theory.Certified lhs rhs) :
+    List.Forall₂ (FragmentSound (Software.strictFP32 rest) D) lhs rhs := by
+  apply certificate.imp
+  intro left right sound
+  refine ⟨?_, fun s hd => sound.2 rest s ?_⟩
+  · exact congrArg (fun metadata => (metadata.1, metadata.2.1)) sound.1
+  · intro guard member
+    obtain ⟨value, read, holds⟩ := hd guard member
+    exact ⟨value, read, domain _ _ holds⟩
+
+/-- Soundness in an interpretation of both evidence-selected atoms and the
+fixed strict theory. The second premise is a model obligation, not a new
+numerical admission or a replacement for the concrete strict certificates. -/
 theorem models_of_atoms {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     (R : Spec.Assumptions GuardedFragment)
-    (atoms : ∀ e ∈ R, List.Forall₂ (FragmentSound M D) e.rule.lhs e.rule.rhs) :
+    (atoms : ∀ e ∈ R, List.Forall₂ (FragmentSound M D) e.rule.lhs e.rule.rhs)
+    (strict : ∀ lhs rhs, fp32Theory.Certified lhs rhs →
+      List.Forall₂ (FragmentSound M D) lhs rhs) :
     Models R M D := by
   have reflexive (xs : List GuardedFragment) : List.Forall₂ (FragmentSound M D) xs xs := by
     induction xs with
@@ -39,6 +59,7 @@ theorem models_of_atoms {α : Type} [Inhabited α] (M : Algebra α) (D : Domain 
     induction h with
     | refl xs => exact reflexive xs
     | atom e he _ => exact atoms e he
+    | strict certificate => exact strict _ _ certificate
     | symm _ ih =>
         exact ih.flip.imp (fun _ _ h => ⟨h.1.symm, fun s hd =>
           (h.2 s (by have he := Prod.mk.inj h.1; simpa only [he.1, he.2] using hd)).symm⟩)

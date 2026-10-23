@@ -1,0 +1,270 @@
+{
+  "task": "triton_argmax",
+  "status": "source_defect_pending_repair",
+  "observed_at_utc": "2026-10-19T14:26:30.502924+00:00",
+  "execution": "unmodified JIT function ASTs under the actual Triton CPU interpreter",
+  "triton_version": "3.7.1",
+  "torch_version": "2.13.0+cu130",
+  "sources": [
+    {
+      "label": "original",
+      "path": "bench/tritonbench_g/triton_argmax/triton_argmax.py",
+      "sha256": "a584c32ee9c78789629db612fa9106617214f1d07cbef9f3a225490ed013dd9d",
+      "kernel": "argmax_kernel",
+      "kernel_line": 49,
+      "kernel_ast_sha256": "c62879903a42b12cbe883c99f78faf8fe6df43b7c2cd2b6868c305ac162a3ff5"
+    },
+    {
+      "label": "selected_repair",
+      "path": "bench/repairs/tritonbench_g/triton_argmax/triton_argmax_repaired.py",
+      "sha256": "9ed6edf017075cf0397c72e5714793e8819427d2dc1e66fb7fe8d174b8f4be6c",
+      "kernel": "argmax_kernel_repaired",
+      "kernel_line": 146,
+      "kernel_ast_sha256": "284d53fd882833bf23d240fa794a9f2e244fc8c0cfcc1201fcc9fe765ff2d60e"
+    }
+  ],
+  "runs": 10,
+  "defect_observations": 4,
+  "control_observations": 6,
+  "observations": [
+    {
+      "source": "original",
+      "case": "nan_at_one",
+      "input_fp32_words": [
+        "0x3f800000",
+        "0x7fc00000"
+      ],
+      "input_shape": [
+        2
+      ],
+      "input_contiguous": true,
+      "M": 1,
+      "N": 2,
+      "K": 1,
+      "BLOCK_M": 128,
+      "BLOCK_N": 128,
+      "INT64_INDEX": false,
+      "observed_output": 0,
+      "torch_argmax_reference": 1,
+      "violates_argmax_target": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true
+    },
+    {
+      "source": "original",
+      "case": "nan_between_finite_values",
+      "input_fp32_words": [
+        "0xc0400000",
+        "0x7fc00000",
+        "0x40000000"
+      ],
+      "input_shape": [
+        3
+      ],
+      "input_contiguous": true,
+      "M": 1,
+      "N": 3,
+      "K": 1,
+      "BLOCK_M": 128,
+      "BLOCK_N": 128,
+      "INT64_INDEX": false,
+      "observed_output": 0,
+      "torch_argmax_reference": 1,
+      "violates_argmax_target": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true
+    },
+    {
+      "source": "original",
+      "case": "finite_maximum",
+      "input_fp32_words": [
+        "0xc0400000",
+        "0x3f800000",
+        "0x40000000"
+      ],
+      "input_shape": [
+        3
+      ],
+      "input_contiguous": true,
+      "M": 1,
+      "N": 3,
+      "K": 1,
+      "BLOCK_M": 128,
+      "BLOCK_N": 128,
+      "INT64_INDEX": false,
+      "observed_output": 2,
+      "torch_argmax_reference": 2,
+      "violates_argmax_target": false,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true
+    },
+    {
+      "source": "original",
+      "case": "least_tie_index",
+      "input_fp32_words": [
+        "0xc0400000",
+        "0x40000000",
+        "0x40000000"
+      ],
+      "input_shape": [
+        3
+      ],
+      "input_contiguous": true,
+      "M": 1,
+      "N": 3,
+      "K": 1,
+      "BLOCK_M": 128,
+      "BLOCK_N": 128,
+      "INT64_INDEX": false,
+      "observed_output": 1,
+      "torch_argmax_reference": 1,
+      "violates_argmax_target": false,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true
+    },
+    {
+      "source": "original",
+      "case": "negative_infinity_tie",
+      "input_fp32_words": [
+        "0xff800000",
+        "0xff800000"
+      ],
+      "input_shape": [
+        2
+      ],
+      "input_contiguous": true,
+      "M": 1,
+      "N": 2,
+      "K": 1,
+      "BLOCK_M": 128,
+      "BLOCK_N": 128,
+      "INT64_INDEX": false,
+      "observed_output": 0,
+      "torch_argmax_reference": 0,
+      "violates_argmax_target": false,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true
+    },
+    {
+      "source": "selected_repair",
+      "case": "nan_at_one",
+      "input_fp32_words": [
+        "0x3f800000",
+        "0x7fc00000"
+      ],
+      "input_shape": [
+        2
+      ],
+      "input_contiguous": true,
+      "M": 1,
+      "N": 2,
+      "K": 1,
+      "BLOCK_M": 128,
+      "BLOCK_N": 128,
+      "INT64_INDEX": false,
+      "observed_output": 0,
+      "torch_argmax_reference": 1,
+      "violates_argmax_target": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true
+    },
+    {
+      "source": "selected_repair",
+      "case": "nan_between_finite_values",
+      "input_fp32_words": [
+        "0xc0400000",
+        "0x7fc00000",
+        "0x40000000"
+      ],
+      "input_shape": [
+        3
+      ],
+      "input_contiguous": true,
+      "M": 1,
+      "N": 3,
+      "K": 1,
+      "BLOCK_M": 128,
+      "BLOCK_N": 128,
+      "INT64_INDEX": false,
+      "observed_output": 0,
+      "torch_argmax_reference": 1,
+      "violates_argmax_target": true,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true
+    },
+    {
+      "source": "selected_repair",
+      "case": "finite_maximum",
+      "input_fp32_words": [
+        "0xc0400000",
+        "0x3f800000",
+        "0x40000000"
+      ],
+      "input_shape": [
+        3
+      ],
+      "input_contiguous": true,
+      "M": 1,
+      "N": 3,
+      "K": 1,
+      "BLOCK_M": 128,
+      "BLOCK_N": 128,
+      "INT64_INDEX": false,
+      "observed_output": 2,
+      "torch_argmax_reference": 2,
+      "violates_argmax_target": false,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true
+    },
+    {
+      "source": "selected_repair",
+      "case": "least_tie_index",
+      "input_fp32_words": [
+        "0xc0400000",
+        "0x40000000",
+        "0x40000000"
+      ],
+      "input_shape": [
+        3
+      ],
+      "input_contiguous": true,
+      "M": 1,
+      "N": 3,
+      "K": 1,
+      "BLOCK_M": 128,
+      "BLOCK_N": 128,
+      "INT64_INDEX": false,
+      "observed_output": 1,
+      "torch_argmax_reference": 1,
+      "violates_argmax_target": false,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true
+    },
+    {
+      "source": "selected_repair",
+      "case": "negative_infinity_tie",
+      "input_fp32_words": [
+        "0xff800000",
+        "0xff800000"
+      ],
+      "input_shape": [
+        2
+      ],
+      "input_contiguous": true,
+      "M": 1,
+      "N": 2,
+      "K": 1,
+      "BLOCK_M": 128,
+      "BLOCK_N": 128,
+      "INT64_INDEX": false,
+      "observed_output": 0,
+      "torch_argmax_reference": 0,
+      "violates_argmax_target": false,
+      "input_bytes_unchanged": true,
+      "output_guard_elements_unchanged": true
+    }
+  ],
+  "gpu_executed": false,
+  "wrapper_executed": false,
+  "numerical_deferrals": []
+}

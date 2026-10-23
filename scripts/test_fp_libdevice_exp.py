@@ -38,10 +38,14 @@ run_cmd do
   if env.contains `VeriTile.Bench.Examples.SoftmaxStableCorrect.naive_softmax_correct then
     throwError "FP specification imported its correctness counterpart"
 ''')
-        self.assertEqual(set(output.splitlines()[1:]), {
-            '  add_commute', '  add_assoc', '  mul_commute', '  mul_assoc',
-            '  mul_distrib', '  cancel', '  add_zero', '  mul_one',
+        empirical, separator, strict = output.partition('Strict model certificates used by ')
+        self.assertEqual(set(empirical.splitlines()[1:]), {
+            '  add_assoc', '  mul_assoc',
+            '  mul_distrib', '  cancel', '  add_zero',
             '  div_mul_rcp', '  mul_rcp_cancel', '  exp_sub(libdevice.exp)'})
+        self.assertTrue(separator)
+        for atom in ('addCommute', 'mulCommute', 'mulOne'):
+            self.assertIn(f'ScalarArithmetic.Atom.{atom}', strict)
 
 
 if __name__ == '__main__':

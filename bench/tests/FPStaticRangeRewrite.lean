@@ -86,17 +86,19 @@ example (R : FP.ScalarArithmetic.Rules) : True := by
       fp_prove
   trivial
 
-example : True := by
-  fail_if_success
-    have : program false 0 2 1 ≡[([] : Spec.Assumptions FP.GuardedFragment)]
-        program true 0 2 1 := by
-      equiv_decompose
-      fp_prove
-  trivial
+example : program false 0 2 1 ≡[([] : Spec.Assumptions FP.GuardedFragment)]
+    program true 0 2 1 := by
+  equiv_decompose
+  fp_prove
 
 /-- info: FP assumptions used by static_range_with_insertions:
 ---
-info:   add_commute -/
+info:   none
+---
+info: Strict model certificates used by static_range_with_insertions:
+---
+info:   model: VeriTile.Software.strictFP32/ieeeValue/maxnum/documented-exp-special-values
+    certificate: List.Forall₂.cons (FP.ScalarArithmetic.strict_certificate FP.ScalarArithmetic.Atom.addCommute rfl) List.Forall₂.nil -/
 #guard_msgs in
 #print_fp_assumptions static_range_with_insertions
 #guard_msgs (drop info) in

@@ -1,5 +1,15 @@
 # 浮点证明层级、缺口与数值实验
 
+Current-scope correction (2026-10-19): current acceptance, transformation rules
+and deferred experiments are recorded under `kernel_revision` in
+[the single task ledger](task_progress.json). Its `deferred_experiments` field
+is the active queue; unreviewed tasks remain pending. Existing published rule
+evidence and independent replay are separate. Basic operation semantics,
+rounding, FTZ and native-to-IEEE primitive conformance are model/implementation
+boundaries, not per-task transformation experiments. The inventory below is
+historical and has not been reclassified wholesale; its older primitive probes
+and extra dtype variants are not additional requirements for the active goal.
+
 正常输入条件、明确的配置与阶段范围已获接受；把浮点算术换成实数算术没有获接受。先检查证明实际使用的模型，再列数值实验。
 
 **撤回把129项解释成“无需额外数值实验支持”的口径。** 这个旧计数混入只有数学/抽象舍入结果的任务；空数值假设列表不能补齐浮点证明。

@@ -1,0 +1,59 @@
+{
+  "ledger": "bench/tritonbench_g/task_progress.json",
+  "selected_revision": {
+    "status": "verified_with_deferred_numerics",
+    "stage": "accepted",
+    "owner": "square_matrix",
+    "blockers": [],
+    "independent_replay": "root_targeted_CPU_source_AST_and_host_checks_passed",
+    "gpu_execution": "not_run_cuda_unavailable",
+    "variant": "checked_source_revision",
+    "source": "bench/repairs/tritonbench_g/flash_decode2_llama/flash_decode2_llama_repaired.py",
+    "source_sha256": "2d8a58c053404bcc7b8b58117aaea53cb4eed4742ddcadc90c8eaa6075e34c85",
+    "public_entries": [
+      "bench/repairs/tritonbench_g/flash_decode2_llama/Contract.lean",
+      "bench/repairs/tritonbench_g/flash_decode2_llama/Correct.lean",
+      "bench/repairs/tritonbench_g/flash_decode2_llama/FPEquiv.lean"
+    ],
+    "public_entry_sha256": {
+      "bench/repairs/tritonbench_g/flash_decode2_llama/Contract.lean": "b3775e30418aa7d3d61c96dd976d35f7b7aa652982a16f6e4b0e00bb3a36e7e2",
+      "bench/repairs/tritonbench_g/flash_decode2_llama/Correct.lean": "a260330a53717b57166efc20a7816efef8e87019d272e443fe0155e840d99299",
+      "bench/repairs/tritonbench_g/flash_decode2_llama/FPEquiv.lean": "33c9ff2e048b62b81a815bff3e56ada7403a2dba8619a0b06db3190a73b641e0"
+    },
+    "readme": "bench/repairs/tritonbench_g/flash_decode2_llama/README.md",
+    "precision": "FP32 summary/log/output, signed INT32 lengths widened to INT64",
+    "independent_native_replay": "not_run",
+    "validation": {
+      "lean": "TritonBenchGContracts batch009 passed with standard-base axiom audits (9359 jobs).",
+      "root_review": "Reviewed source/independent targets, actual checked source strides/metadata contents, primitive-only numerical profile, raw input decoding, actual returned Tensor bytes and complete frames. WGMMA clear/live selector is explicit.",
+      "batch_log": "/tmp/veritile-contract-batch009-build.log",
+      "python_log": "/tmp/veritile-root-flash_decode2_llama-checks.log"
+    },
+    "numerical_assumptions": [
+      {
+        "declaration": "Local interfaces documented in public FPEquiv and task README",
+        "statement": "Seven local scalar families add/sub/mul/full-div/max/exp32/FMA with complete sequential summary loop and structural contraction choices. Exp32 retains rounded log2(e) multiply/approximate exp2 boundary. All raw words; independent arbitrary-Real stage2 summary formula, not a raw-token attention claim.",
+        "precision": "FP32 summary/log/output, signed INT32 lengths widened to INT64",
+        "domain": "Actual reached words and selected scalar/fixed-instruction profiles; complete structural result is separate from optional native-to-Real refinement.",
+        "validation": "GPU numerical experiment deferred",
+        "reference": "bench/repairs/tritonbench_g/flash_decode2_llama/README.md"
+      }
+    ]
+  },
+  "canonical_sha256_matches": true,
+  "canonical_python_changed": false,
+  "independent_target": "sum exp(log_j)*mid_j / sum exp(log_j), j<ceil(length/block_seq); supplied stage-1 summaries",
+  "real_domain": "Arbitrary real observations, with positive active lengths and finite real summaries as mathematical inputs.",
+  "native_domain": "All raw FP32 bit patterns; positive signed INT32 lengths and INT64 address arithmetic.",
+  "assessed_counterexamples": [
+    "Phi arange maximum: inapplicable since D is exactly 16,32,64,128",
+    "empty batch/head: no programs, any length contents admitted",
+    "length/block arithmetic: positive signed INT32 values, promoted sum before division",
+    "inactive summary capacity: may contain NaNs; loop reads only j<K",
+    "output and length storage alias: excluded by unchanged guard; Mid/Log read-only alias allowed",
+    "singleton strides: source uses canonical shape-derived strides",
+    "FMA operand-order specialization: maximal Q requires distinct fixed graph, explicitly represented"
+  ],
+  "source_defect_found": false,
+  "runtime_grid_product": "Deferred per parent scope; no guard change."
+}

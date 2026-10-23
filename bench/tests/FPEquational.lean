@@ -6,21 +6,23 @@ import VeriTile.Meta.StatementAudit
 namespace FPEquationalTests
 open VeriTile Triton FP.Equational
 
-def commute := FP.ReportedAdmission.fp32_add_commute.bind commuteLHS commuteRHS
+def associate := FP.ReportedAdmission.fp32_add_assoc.bind associateLHS associateRHS
 
 structure Rules where
   extra : Spec.Assumptions ComputeStmt
-  comm : Spec.EvidenceValidated commute.rule commute.evidence
-  assoc : Spec.Derivation (commute :: extra) associateLHS associateRHS
+  assoc : Spec.EvidenceValidated associate.rule associate.evidence
+  /-- A caller derivation in this syntax-only adapter, not a request to admit
+  another commutation experiment. Strict guarded FP32 laws are tested elsewhere. -/
+  comm : Spec.Derivation (associate :: extra) commuteLHS commuteRHS
 
-def rules (R : Rules) : Spec.Assumptions ComputeStmt := commute :: R.extra
+def rules (R : Rules) : Spec.Assumptions ComputeStmt := associate :: R.extra
 
 theorem commutation (R : Rules) : Spec.Derivation (rules R) commuteLHS commuteRHS :=
-  .atom commute (by simp [rules])
-    (FP.ReportedAdmission.fp32_add_commute.admit _ _ R.comm)
+  R.comm
 
 theorem association (R : Rules) : Spec.Derivation (rules R) associateLHS associateRHS :=
-  R.assoc
+  .atom associate (by simp [rules])
+    (FP.ReportedAdmission.fp32_add_assoc.admit _ _ R.assoc)
 
 theorem reduction_reorder (R : Rules) (a b : SumTree α)
     (h : a.leaves.Perm b.leaves) : TermEq (rules R) a.eval b.eval :=
@@ -39,10 +41,10 @@ theorem reassociation_only (R : Rules) (a b c : Term α) :
   .addAssociate (association R) a b c
 #print_fp_assumptions reassociation_only
 
-theorem inside_opaque_exp (R : Rules) (a b : Term α) :
-    TermEq (rules R) (.app (.unary (some .fp32) .exp) [a.add b])
-      (.app (.unary (some .fp32) .exp) [b.add a]) :=
-  .context _ [] [] (.addCommute (commutation R) a b)
+theorem inside_opaque_exp (R : Rules) (a b c : Term α) :
+    TermEq (rules R) (.app (.unary (some .fp32) .exp) [(a.add b).add c])
+      (.app (.unary (some .fp32) .exp) [a.add (b.add c)]) :=
+  .context _ [] [] (.addAssociate (association R) a b c)
 #print_fp_assumptions inside_opaque_exp
 
 /-- This non-floating counting interpretation validates commutation and
@@ -77,6 +79,8 @@ theorem repeated_cast_cannot_be_removed (R : Spec.Assumptions ComputeStmt) :
   have hw := weight_preserved h
   simp [weight, cost, Term.evaluate] at hw
 
+/-- The default syntax-only theory has no strict certificates. This claim is
+intentionally not made for the guarded FP32 theory, which has strict laws. -/
 theorem no_rules_means_syntax_equality {Statement : Type} {a b : List Statement}
     (h : Spec.Derivation [] a b) : a = b := by
   induction h with
@@ -85,6 +89,7 @@ theorem no_rules_means_syntax_equality {Statement : Type} {a b : List Statement}
   | symm _ ih => exact ih.symm
   | trans _ _ ih₁ ih₂ => exact ih₁.trans ih₂
   | frame _ _ _ ih => rw [ih]
+  | strict certificate => exact certificate.elim
 
 theorem precision_cannot_be_erased (R : Spec.Assumptions ComputeStmt) :
     ¬ TermEq R ((Term.leaf (0 : Nat)).add (.leaf 1))

@@ -1,0 +1,39 @@
+import bench.repairs.tritonbench_g.matmul_leakyrelu_fp8_scalar_cast.Misc.NativeCorrect
+import bench.repairs.tritonbench_g.matmul_leakyrelu_fp8_scalar_cast.Proofs.KernelRealResult
+import bench.repairs.tritonbench_g.matmul_leakyrelu_fp8_scalar_cast.Proofs.KernelNativeResult
+import bench.repairs.tritonbench_g.matmul_leakyrelu_fp8_scalar_cast.Misc.TensorBridge
+import bench.repairs.tritonbench_g.matmul_leakyrelu_fp8_scalar_cast.FPEquiv
+import bench.repairs.tritonbench_g.matmul_leakyrelu_fp8_scalar_cast.Misc.Safety
+import bench.repairs.tritonbench_g.matmul_leakyrelu_fp8_scalar_cast.Geometry
+import bench.repairs.tritonbench_g.matmul_leakyrelu_fp8_scalar_cast.InstructionBackend
+
+namespace VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast
+open VeriTile.Triton
+open MatmulLeakyreluFp8.Checked
+#axiomsClean Correct.kernel_correct
+#axiomsClean FPEquiv.kernel_equiv
+#axiomsClean TensorBridge.correct_event
+#axiomsClean TensorBridge.fp_equiv_event
+#axiomsClean TensorBridge.correct
+#axiomsClean TensorBridge.fp_equiv
+#axiomsClean formed_source_addresses
+#axiomsClean scalar_casts_exact
+#axiomsClean Execution.preludeExecution
+#axiomsClean Execution.pidM_eq
+#axiomsClean Execution.pidN_eq
+#axiomsClean Execution.selected_dot
+#axiomsClean Execution.programExecution
+#axiomsClean Execution.output_source
+#axiomsClean Execution.program_projection
+#axiomsClean Execution.grid_source
+#axiomsClean Execution.replay_source
+#axiomsClean Execution.source_event
+#specNonCircular Contract avoiding [eventCode,eventRun,logicalReference,TensorBridge.mathematical,TensorBridge.floating,TensorResult]
+#specNonCircular Execution.computation avoiding [reference,logicalReference,TensorBridge.mathematical,TensorBridge.floating,TensorResult]
+#specNonCircular Execution.ScalarLaws avoiding [eventCode,eventRun,logicalReference,TensorBridge.mathematical,TensorBridge.floating,TensorResult]
+#specNonCircular Execution.project avoiding [eventCode,eventRun,logicalReference,TensorBridge.mathematical,TensorBridge.floating,TensorResult]
+#specNonCircular Execution.selectedDot avoiding [eventCode,eventRun,logicalReference,TensorBridge.mathematical,TensorBridge.floating,TensorResult]
+#print axioms TensorBridge.correct
+#print axioms TensorBridge.fp_equiv
+#print axioms Execution.source_event
+end VeriTile.Bench.Repairs.MatmulLeakyreluFp8ScalarCast

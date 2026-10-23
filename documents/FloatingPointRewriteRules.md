@@ -1,6 +1,6 @@
 # 浮点变换规则与接受结果表
 
-更新日期：2026-10-03。状态：**14 条原子候选关系的 42 个格式实例已有局部 ULP bias 与最大绝对误差比的 GPU 报告。** 当前判决见[实测结果表](../experiments/floating_point/report/summary.md)；Lean 按用户确认信任该报告，导出其中的当前接受实例。六个标量反例已在具体软件浮点模型下经 Lean 内核检查，结果见第 3 节。反例只否定通用严格相等，不等于 two-gates 拒绝。
+更新日期：2026-10-21。当前目录有 **42 个严格模型实例和 36 个保留实验实例**；183 个任务主声明与 21 个示例 FP 主规格合计实际使用其中 **12 个实验实例**。完整主用清单与条件见[当前规则使用指南](./FPRemainingAdmissionGaps.md)。原始 14 条候选关系的 42 个格式检查仍保存在[历史实测结果表](../experiments/floating_point/report/summary.md)。第 3 节保留六个经 Lean 内核检查的严格不等反例；它们否定通用严格相等，不等于 two-gates 拒绝。
 
 这里的“等价性原语”对应可复用的变换规则，只包括固定规模的局部关系，例如结合律、分配律、FMA 与具体 cast 关系。归约重排和完整算法变换是待推导结论，不是准入原子。它与 [浮点执行原语](./FloatingPointPrimitives.md) 分开：执行原语定义程序怎样计算，本表记录参考计算如何变成候选计算，以及允许该变换的证据。
 
@@ -27,9 +27,9 @@
 | Vars gate | NOT_RUN / PASS / WARN / FAIL / INCONCLUSIVE | 当前配置的误差放大与尾部检查 |
 | 接受决定 | NOT_EVALUATED / ACCEPT / ACCEPT_WITH_WARNING / REJECT / INCONCLUSIVE | 按契约合并证据与两门判决 |
 
-严格浮点证据保留作内部分析和辅助引理；它不是 two-gates 的实验结果。加入当前原子假设表的数值条目仍须完成配置匹配的两门检查；未运行的 gate 保持 NOT_RUN。纯语法相同可用自反规则，不需要数值原子假设。
+匹配源码精度、转换、存储、模型和输入域的严格证书可直接用于证明，并移除对应的当前实验义务。其余实验准入条目须有配置匹配的两门证据；未运行的 gate 保持 NOT_RUN。历史报告保留，严格证书不伪装成实验结果。纯语法相同可用自反规则。
 
-对外正确性使用实数语义 `Spec.Real`，实现等价性沿用 `lhs ≡[R] rhs`（`VeriTile.Spec` scope，底层为 `Spec.FloatingPoint`）。`R` 提供原子规则表及准入假设，实验配置和结果不作为公开规格的独立参数。two-gates 为表中的原子关系提供准入依据；被准入的关系作为假设，Lean 可以引用并组合成完整实现的形式等价证明。`#print_fp_assumptions` 只显示证明实际使用的原子名称。形式组合不等于整 kernel 已完成统计检查，也不构成 IEEE 位值相等；严格辅助证据不另设第三类公开规格。
+对外正确性使用实数语义 `Spec.Real`，实现等价性沿用 `lhs ≡[R] rhs`（`VeriTile.Spec` scope）。`R` 记录实验准入规则；程序视图还可提供固定的严格软件理论。`#print_fp_assumptions` 分开显示实际使用的实验规则和严格证书，不把整个目录视为已用依赖。依赖 `R` 的形式组合不构成无条件 IEEE 位值相等或整 kernel 误差界。
 
 统计接受路径按 [two-gates 协议](./TwoGatesAcceptance.md) 合并结果。待证明、待测试和证据不足分别记录，不能当作已证明错误；相反，某个输入上的数值不等也不能自动推导统计 FAIL。
 
@@ -97,8 +97,8 @@ example (R : Rules) :
 尚未准入的 FMA/log1p 实验仍只保留实验定义，接入它需要显式融合运算语义。
 数值结果和独立种子复核见[补充实验](../experiments/floating_point/supplement/README.md)。
 
-其他原语库采用同样的结构：文件开头列出 `Atom`、`ruleID` 和每条关系的公式、
-intrinsic、精度与定义域，然后定义左右片段，最后按准入表选择可用规则。
+其他原语库同样显式列出 `Atom`、`ruleID`、公式、intrinsic、精度与定义域，
+定义左右片段，再分别连接严格证书或实验准入证据。
 
 | 候选库 | 预定义的关系 |
 |---|---|
@@ -109,11 +109,12 @@ intrinsic、精度与定义域，然后定义左右片段，最后按准入表�
 | [CountConversion](../VeriTile/Triton/Float/CountConversion.lean) | int32 到 fp32 的零转换，以及 `0 ≤ i < 2^24` 上的后继转换 |
 
 `EXP-SUB-INTRINSIC` 仍是未准入候选，不能用已通过的 libdevice 结果启用它。
-这六个 fp32 候选读取由当前配对实验生成的
-[ExpAdmission.lean](../VeriTile/Triton/Float/ExpAdmission.lean)：接受五个，拒绝 `exp_sub .tl`。
+这六个 fp32 候选中，零与负无穷特殊值的四个实例已接入严格证书；
+`exp_sub .libdevice` 使用实验准入，`exp_sub .tl` 未准入。
+[ExpAdmission.lean](../VeriTile/Triton/Float/ExpAdmission.lean) 保留原实验记录。
 候选的 exp 参数默认 `.tl`；`exp_sub .libdevice` 必须显式选择。
-`#print_fp_assumptions` 显示 `exp_sub(libdevice.exp)`、`exp_zero(tl.exp)` 等名称，
-两种实现的准入不会合并，也不产生 `tl.exp = libdevice.exp` 的桥接假设。
+打印器将 `exp_sub(libdevice.exp)` 列为实验依赖，将已用的特殊值定理列为严格证书。
+两种实现的证据不会合并，也不产生 `tl.exp = libdevice.exp` 的桥接假设。
 
 程序优先保留 `tl.exp`。SoftmaxReciprocal 和 FloatDTypeSoftmax 仅改写除法，
 共同前缀中的 exp 按原样解释，因此都使用 `tl.exp`，不依赖 exp 原子。
@@ -125,25 +126,25 @@ SoftmaxStable、OnlineSoftmax、StableLogSumExp 的 exp-sub，以及 LogExp 的�
 它与实验 shape 无关。库不会把 bf16 输出或 fp64 计算的条目当成裸 fp32 关系。
 
 `ScalarArithmeticLaws.lean`、`ExponentialLaws.lean` 和 `CountConversionLaws.lean`
-保存基于当前已选原子的组合推导。它们在实际引用处检查可用性：移除一条被使用的原子后，
-对应推导不再通过，但原始候选库仍能独立编译。`#print_fp_assumptions` 继续只打印
-证明实际用到的原子，不会把目录中其他已准入候选一并列出。
+保存局部严格定理与当前已选实验原子的组合推导。它们在实际引用处检查所需证据，
+不会把目录中其他已准入候选一并算作证明依赖。
 
 
-### 2.1 可研究严格证明的规则
+### 2.1 已有严格证书的规则
 
-这些条目的 two-gates 准入状态按实测格式实例记录；这不等于已有具体 IEEE 模型下的无条件严格证明。
+下列原目录实例已有匹配的模型证明；适用范围包含其 typed load/rnd/store 路径。
+这不是所有硬件实现的一致性声明。全部 42 个严格实例及模型边界见[严格规则记录](../bench/review-checkpoints/2026-10-21/strict-fp-laws/README.md)。
 
 | ID | 规则 | 模式 | 关键前提与当前证据 |
 |---|---|---|---|
-| ADD-COMMUTE | 加法交换 | \(a+b\to b+a\) | 相同操作格式与模式；需处理 NaN 选择、特殊值及观测标准；具体模型证明待完成 |
-| MUL-COMMUTE | 乘法交换 | \(ab\to ba\) | 同上；不能把数值比较相等与 NaN 位模式相同混为一谈 |
-| ROUND-IDEM | 同格式重复舍入消除 | \(q_d(q_d(x))\to q_d(x)\) | 已有抽象模型字段 round_idem；具体转换/特殊值/flush 规则仍需证明 |
-| BF16-WIDEN-RETURN | 提升后转回 | bf16 → fp32 → bf16 | 有限 bf16 值、无改变值的 flush 等前提；具体模型证明待完成 |
+| ADD-COMMUTE | 加法交换 | \(a+b\to b+a\) | 三个目录精度配置已有严格证书；保留配置、转换与原有限域 |
+| MUL-COMMUTE | 乘法交换 | \(ab\to ba\) | 三个目录精度配置已有严格证书；观测精度与特殊值模型明确 |
+| ROUND-IDEM | 同格式重复舍入消除 | \(q_d(q_d(x))\to q_d(x)\) | 三个目录配置已有转换／存储证书；不推广到任意 cast 或 flush 配置 |
+| BF16-WIDEN-RETURN | 提升后转回 | bf16 → fp32 → bf16 | 两个 BF16 输入配置已有 preserving conversion 证书 |
 
 ### 2.2 需要按配置判定的数值变换
 
-本节记录候选公式；各格式实例的数值判决以[当前结果表](../experiments/floating_point/report/summary.md)为准。数学定理不能代替 gate 结果，未通过的实例仍不可用于当前 FP 证明。
+本节记录候选公式。匹配严格证书的实例使用定理；其他实例必须保留匹配的实验准入。历史 gate 判决见[结果表](../experiments/floating_point/report/summary.md)，当前分类以 `CurrentAdmission` 为准。
 
 | ID | 规则 | 参考 → 候选 | 要绑定的条件或主要差异 |
 |---|---|---|---|
@@ -154,9 +155,9 @@ SoftmaxStable、OnlineSoftmax、StableLogSumExp 的 exp-sub，以及 LogExp 的�
 | CANCEL | 减加消除 | \((a-b)+b\to a\) | 抵消、运算格式、特殊值 |
 | DIV-RCP | 除法改乘倒数 | `tl.div_rn(a,b) → a * tl.div_rn(1,b)` | 绑定实际 intrinsic 和额外乘法舍入；不能据此准入普通 Triton `/` 的替换 |
 | SQRT-RSQRT | 倒平方根替换 | \(1/\sqrt{x}\to\operatorname{rsqrt}(x)\) | 理想规格要求 \(x>0\)；绑定函数实现及输入域 |
-| CAST-MOVE | 输入量化后移 | \(q_d(q_d(a)+q_d(b))\to q_d(a+b)\) | 明确中间加法格式和提升路径；同一份原始输入 |
+| CAST-MOVE | 输入量化后移 | \(q_d(q_d(a)+q_d(b))\to q_d(a+b)\) | 两个 BF16 输入配置已有严格证书；保留中间加法格式、提升路径和同一份输入 |
 | CAST-REMOVE | 移除一个中间 cast | `q_compute(q_bf16(a+b) * c) → q_compute((a+b) * c)` | 两边使用相同输出 cast；只检查这个局部表达式，不量化任意 F/G |
-| ACC-WIDEN | 三项和的局部精度提升 | `(a+b)+c` 的输入格式中间结果 → fp32 中间结果 | 两边使用相同输出 cast；不代表整个归约或 dot 的累加器可以直接替换 |
+| ACC-WIDEN | 三项和的局部精度提升 | `(a+b)+c` 的输入格式中间结果 → fp32 中间结果 | FP32 输入实例已有严格证书，两个 BF16 输入实例保留实验准入；不代表整个归约或 dot 的累加器可以直接替换 |
 
 DIV-RCP、SQRT-RSQRT 等具有定义域前提的规则，需要明确从探针到合法操作数的生成方式，例如 kernel 内部生成正的平方和。条件化/变换后的分布必须登记，不能称作未经修改的标准高斯。所有规则都要处理特殊值，不得在查看差异后静默筛掉坏样本。
 
@@ -168,18 +169,18 @@ DIV-RCP、SQRT-RSQRT 等具有定义域前提的规则，需要明确从探针�
 - 组合计算：`REDUCE-REORDER`、`REDUCE-SPLIT`、`SCAN-REORDER`、`DOT-LOWER`、`DOT-ACC-FUSE`、`GEMM-SPLIT-K`。
 - 结构和内存性质：`LAYOUT-INVERSE`、`STORE-LOAD-FORWARD`。
 
-前两组应由 Lean 根据已准入的局部关系和结构性推导证明；后一组需要索引、别名与内存条件的证明。整 kernel 数值实验即使通过，也不能将这些结论直接加入 `R`。例如 online softmax 若缺少某条指数关系，应明确该局部表达式并单独准入，不能改为假设整个 online 算法等价。此处并未声称现有 14 条关系已足以证明所有这些案例。
+前两组由 Lean 根据局部严格定理、已准入关系和结构性推导证明；后一组需要索引、别名与内存条件的证明。整 kernel 数值实验即使通过，也不能将这些结论直接加入 `R`。
 
-当前剩余案例的[原子关系缺口](./FPRemainingAdmissionGaps.md)已有 Lean 检查的标量反模型支持：现有准入关系不能直接补出初始化、普通除法或 exp/log 的关系。新增关系的定义域也须保留，例如不能将倒数消去无条件推广到零分母。
+19 组示例已完成各自声明的 FP 证明；其[实际规则用量与适用边界](./FPRemainingAdmissionGaps.md)分别记录严格证书、实验依赖和未准入替换。旧主表的反模型不能据此记作当前组合理论的缺口。仍须保留非零分母、具体 intrinsic、精度和 guarded fallback 等条件。
 
 `shape = [4096, 4096]` 表示对原子表达式进行逐元素批量测试，不把该表达式升级为整张量归约假设。
 
 已有证明只作为对应语义层的基础：
 
 - [RoundingModel.lean](../VeriTile/Triton/Float/RoundingModel.lean) 给出抽象幂等性约束及 cast/store 引理。
-- [FusedSwigluEquiv.lean](../bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean) 有保留中间舍入的抽象模型结论，仍需检查独立 launch 与具体执行的连接。
+- [FusedSwigluEquiv.lean](../bench/examples/FusedSwiglu/Proofs/LegacyRealEquiv.lean) 保留中间舍入的抽象模型结论；当前公开证明的范围仍是 stage bodies 的 `ComputeKernel.seq`，不声明独立 launch 的组合性质。
 - [FusedLayerNormEquiv.lean](../bench/examples/FusedLayerNorm/Proofs/LegacyRealEquiv.lean) 有实数中间计算及输出抽象舍入的等价性结果。
-- [OnlineSoftmaxCorrect.lean](../bench/examples/OnlineSoftmax/Correct.lean) 有数学递推与 batch 输出的连接，完整 streaming 输出路径的范围仍按投稿计划核对。
+- [OnlineSoftmaxCorrect.lean](../bench/examples/OnlineSoftmax/Correct.lean) 证明实际两遍 online 源码的输出、内存边界与 frame；其 FP 关系由独立文件证明。
 
 ## 3. 已计算的严格不等见证
 
@@ -215,8 +216,8 @@ DIV-RCP、SQRT-RSQRT 等具有定义域前提的规则，需要明确从探针�
 | Vars 结果 | 逐 replicate 最大绝对 oracle 误差和无量纲 K=Ec/Er、return level/U、拟合诊断、门判决 |
 | 审计证据 | checker/protocol 版本、原始结果位置、停止原因、时间与最终决定 |
 
-当前结果由 [report_numerics.py](../scripts/report_numerics.py) 写入运行目录的
-`summary.md`、`summary.csv` 和 `summary.json`，覆盖 14 条原子规则 × 3 种精度，
+原始主实验由 [report_numerics.py](../scripts/report_numerics.py) 写入运行目录的
+`summary.md`、`summary.csv` 和 `summary.json`，覆盖当时的 14 条原子规则 × 3 种精度，
 逐行报告最大绝对 z、U、U 的估计类型、两门状态和是否接受。缺失的统计量留空，
 接受决定须经过 CPU 回放。每次刷新覆盖当前表，不追加历史表。
 

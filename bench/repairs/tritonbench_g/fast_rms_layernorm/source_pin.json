@@ -1,0 +1,11 @@
+{
+  "original_sha256": "4a3553e0f4dee342c393edf0b8aaf82504153d1bd39b724072e566612fb9c1e8",
+  "candidate_sha256": "032d4fa4043306a5b4ad0162e312a74328eaa81e8bdb9f711b5c0cff79d5d75a",
+  "quotation_sha256": "7f2226fb12f80c0e9b48f5ba23e7f3aca128cb3fdf81337b1fc17069078dae3b",
+  "historical_kernel_asts": {
+    "_rms_layernorm_forward": "8c688b942c3a7b3a54bad7b71bd4f509fae81cd71fc574390547c003de8d9742",
+    "_rms_layernorm_backward": "29632c8f8dd0997139663a2e51b0a7f2f4bf274700c55d11489d97cae0284ad2",
+    "_gemma_rms_layernorm_forward": "a109f5a9c29134b6492c1eeae349f186d7d85615c7942ff9b23f1037c97a8fb4",
+    "_rms_layernorm_weight_backward": "65ae7d3ffac7ad5f1131de28bdc35bc7648dead69ac834462713f6e409adeaa0"
+  }
+}

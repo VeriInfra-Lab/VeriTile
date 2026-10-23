@@ -36,3 +36,11 @@ This is a per-program contract for the contiguous matrix produced by the host's
 `dim_compress`. Host permutation/allocation/launch composition, legal Triton
 tile sizes, fixed-width address overflow and nonfloating storage profiles are
 outside the current proof scope. Independent comparator replay remains pending.
+
+The retained original proof credit is unchanged. `Proofs/Real.lean` now holds the
+former public implementation behind the compatibility `Correct.lean` import.
+Historical `Whole*` helpers restore the FP32 wrapper composition, independent
+coordinate mean, compression order, output shapes, full grid/frame, finite
+indices and inspected native graph. They do not broaden the existing sixteen
+per-program precision profiles. The separate guarded FP32 whole-wrapper
+candidate is documented in `bench/repairs/tritonbench_g/mean_reduction/README.md`.

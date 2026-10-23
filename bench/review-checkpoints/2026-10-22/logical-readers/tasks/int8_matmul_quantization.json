@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "task": "int8_matmul_quantization",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue07/result.json",
+    "sha256": "583e8d793cba1d71d000c2bdd3e45247f36f7ed54dadb5684382c4c861f64a4b",
+    "task_index": 2
+  },
+  "finding": "Producer exposed output channels for codes/scales; GEMM exposed raw typed cells and tuple indices in its mathematical matrix target.",
+  "resolution": "Producer uses a logical input matrix and named codes/scales output record. GEMM names A, B and row/column scales, exposes a curried matrix, and retains explicit typed zero initialization and signed input domain.",
+  "mathematical_target": "producer_correct: signed8 toward-zero(input/rowScale), rowScale=maxAbs(row)/127. gemm_correct: sum over Fin K of signed8 A*B, then row and column scales.",
+  "conditions_and_scope": "Both complete stages remain separate: producer selection/covers/order and original INT8/FP16 stores; GEMM tree/plans, every scale/output precision, B layout, complete grouped launch and per-cell split orders. The original SignedInputs and initialValues zero reset are unchanged inside full ImplementsResetOnCells, including all safety/success/output/frame obligations.",
+  "proof_connection": "producer_full_iff and gemm_full_iff prove iff of both complete old/new judgments. rsum_eq_fin justifies the logical K sum; producer_with_max connects the independently displayed recursive maximum by its zero/successor equations.",
+  "fp_review": "producer_indices_equiv removes redundant row modulo; gemm_scale_masks_equiv removes redundant wrapped scale masks. Existing actual candidates, typed reset, all precision/casts/operations and split orders remain.",
+  "numerical_dependencies": "No experimental rewrite rules or numerical experiments added or used by these main pairs; existing operations/order/source precision are retained.",
+  "previous_formula_scope": {
+    "mathematical_target": "Producer: row maxAbs over logical columns, signed8 toward-zero(input/(maxAbs/127)), FP16 maxAbs/127 scale. GEMM: full logical K sum of signed8 products times rowScale and columnScale.",
+    "required_conditions": [
+      "Producer.Selection, p.columns≤p.width and original complete row Schedule; no finite-payload restriction.",
+      "GEMM SignedInputs and typed initialValues (0:ℝ) are explicit in ImplementsResetOnCells; original Shape/Config/Plans and complete Schedule remain.",
+      "Checked contract retains active K≤131071 (unless M or N is empty); unchanged original integer/native model and configuration tree bounds."
+    ],
+    "scope": "Both required stages retained: every producer row with both source loops and both outputs; every GEMM logical output under complete grouped split invocations, every original scale/output precision and B layout, independent per-cell commit order and typed zero reset.",
+    "canonical_connection": "Producer proof locally establishes recursive rowMaximum=maximumAbs and the two-channel target equality, then applies PublicIO.Producer.real_implements. GEMM formula is definitionally the independent target used by PublicIO.Gemm.real_implements; its proof assembles real grid result, source safety/locality/coverage, reset and per-address traces.",
+    "fp_program_pair": {
+      "actual_pair": [
+        "ProducerIndicesIO.original ≡[[]] ProducerIndicesIO.optimized",
+        "GemmIndicesIO.original ≡[[]] GemmIndicesIO.optimized"
+      ],
+      "actual_scope": "Full producer removes redundant row modulo; full GEMM removes redundant scale masks on wrapped indices. All FP32 arithmetic, INT8/INT32 operations, mandatory FP16 partial/casts, typed reset and split orders remain.",
+      "numerical_dependency": "R=[] for both actual pairs; named native floating instructions and signed32 integer interpretation are explicit, no floating reassociation or experimental admission.",
+      "current_experimental_rules_used": 0,
+      "new_or_deferred_experiments": 0,
+      "source_unchanged": true
+    },
+    "numerical_dependencies": "R=[] for both actual pairs; named native floating instructions and signed32 integer interpretation are explicit, no floating reassociation or experimental admission."
+  },
+  "verification": [
+    {
+      "kind": "final_current_source_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "bench.repairs.tritonbench_g.int8_matmul_quantization_i32_safe.ProducerIO",
+        "bench.repairs.tritonbench_g.int8_matmul_quantization_i32_safe.GemmIO",
+        "bench.repairs.tritonbench_g.int8_matmul_quantization_i32_safe.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.int8_matmul_quantization_i32_safe.Correct",
+        "bench.repairs.tritonbench_g.int8_matmul_quantization_i32_safe.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/int8_matmul_quantization_i32_safe-verified-build.log",
+      "log_sha256": "e80fbd7b35faf39fbcde6794137e28a4e3eda839fd573ce0bd998df7db0eebf4"
+    },
+    {
+      "kind": "joint_import_current_entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue07/int8_matmul_quantization_i32_safe-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/int8_matmul_quantization_i32_safe-verified-joint.log",
+      "log_sha256": "86456f9be7c7e3da146e3d3260e25b2868e1a69aab32d0feda90969887e03a49"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/Contract.lean": "57f144a751feb62cbb9ecd313e02564267fd64ccf6226a2a4023271040ba4caf",
+    "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/Correct.lean": "aa226e4285ea9b5f63275101e6e47389005242f26003e51009241c40f2581152",
+    "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/FPEquiv.lean": "74c1dcc7f21bd262d274c268f84b6025868b2f5e54e9d0ba183523e5e40ef452",
+    "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/GemmIO.lean": "936111b91bb20c35ac231779dcd3b241cb27034df9f13225725f19295ac56af0",
+    "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/Kernels.lean": "b1c3a6f05f5e4b183e434d0729280c86c7edf72cbf80f98dd52b536be4bae4f6",
+    "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/ProducerIO.lean": "8e6486711c778b161e7d6d9d56682127ba06c6c744de5b8c2b4cc343f7f16897",
+    "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/Proofs/LogicalReader.lean": "c98fdedb815ffb68a33967c35aa05cb6e4c848280d8c6d813209a0ff59c66301",
+    "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/Source.lean": "b5f991fa7a172811df643d5e7c042d6294b2a4eb4611c048b47796538da11599",
+    "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/Proofs/ProducerIOResults.lean": "143d216f89adba05d4102fe7e7266bf20f83f38b5ad66f99740cb7db737c0156",
+    "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/Proofs/GemmIOResults.lean": "1c2471739528639ddcd2a89952312dc9b9df18f8a3106bb46b938c5db19a55f7",
+    "bench/repairs/tritonbench_g/int8_matmul_quantization_i32_safe/Proofs/GemmIdeal.lean": "556dfd7c7f9038de80b2090a476e9fb896ad6a4abd77e2b058fde75b7edf374d",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

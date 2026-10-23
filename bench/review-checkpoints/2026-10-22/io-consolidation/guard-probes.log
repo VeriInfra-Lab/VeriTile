@@ -1,0 +1,76 @@
+{
+  "status": "passed",
+  "probes": [
+    {
+      "probe": "stale_reader_pin",
+      "status": "rejected",
+      "errors": [
+        "adam_update_triton: bench/repairs/tritonbench_g/adam_update_triton/Correct.lean: reader changed; IO review required"
+      ]
+    },
+    {
+      "probe": "stale_io_pin",
+      "status": "rejected",
+      "errors": [
+        "adam_update_triton: bench/repairs/tritonbench_g/adam_update_triton/IO.lean: IO data changed; review required"
+      ]
+    },
+    {
+      "probe": "stale_review_evidence",
+      "status": "rejected",
+      "errors": [
+        "adam_update_triton: review evidence pin differs"
+      ]
+    },
+    {
+      "probe": "omitted_task",
+      "status": "rejected",
+      "errors": [
+        "IO review must cover exactly all 183 selected tasks"
+      ]
+    },
+    {
+      "probe": "role_guard_stale_reader",
+      "status": "rejected",
+      "errors": [
+        "adam_update_triton: bench/repairs/tritonbench_g/adam_update_triton/Correct.lean: source changed; role review required"
+      ]
+    },
+    {
+      "probe": "role_guard_qualified_name_collision",
+      "status": "rejected",
+      "errors": [
+        "adam_update_triton: bench/repairs/tritonbench_g/adam_update_triton/Correct.lean: missing or duplicate qualified declaration metadata"
+      ]
+    },
+    {
+      "probe": "complete_reader_record",
+      "status": "detected",
+      "details": [
+        {
+          "kind": "abbrev",
+          "name": "repeatedIO",
+          "line": 2,
+          "fields": [
+            "inputMask",
+            "inputs",
+            "outputMask",
+            "outputs",
+            "read",
+            "schedule",
+            "write"
+          ]
+        }
+      ]
+    },
+    {
+      "probe": "complete_masked_reader_record",
+      "status": "detected"
+    },
+    {
+      "probe": "thin_io_instance",
+      "status": "accepted"
+    }
+  ],
+  "scope": "Nonmutating guard probes; no task source or proof claim changed."
+}

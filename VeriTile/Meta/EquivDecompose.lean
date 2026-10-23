@@ -12,7 +12,8 @@ and memory operations remain whole statements, without an assumed congruence.
 namespace VeriTile.Spec.Derivation
 
 /-- Compose adjacent fragment derivations in the same assumption context. -/
-theorem append_congr {Statement : Type u} {R : Assumptions Statement}
+theorem append_congr {Statement : Type u} [StatementTheory Statement]
+    {R : Assumptions Statement}
     {a b c d : List Statement} (left : Derivation R a b)
     (right : Derivation R c d) : Derivation R (a ++ c) (b ++ d) := by
   apply Derivation.trans (middle := b ++ c)
@@ -85,10 +86,11 @@ def trivial? (goal : MVarId) : MetaM Bool := do
 /-- Split a syntax derivation; unsupported or symbolic list spines stay goals. -/
 def decomposeList (goal : MVarId) (splitChanges : Bool) : MetaM (List MVarId) := goal.withContext do
   let target ← whnf (← goal.getType)
-  unless target.isAppOfArity ``Spec.Derivation 4 do return [goal]
-  let #[statement, rules, lhs, rhs] := target.getAppArgs | return [goal]
+  unless target.isAppOfArity ``Spec.Derivation 5 do return [goal]
+  let #[statement, theory, rules, lhs, rhs] := target.getAppArgs | return [goal]
   if ← same lhs rhs then
-    goal.assign (← mkAppOptM ``Spec.Derivation.refl #[some statement, some rules, some lhs])
+    goal.assign (← mkAppOptM ``Spec.Derivation.refl
+      #[some statement, some theory, some rules, some lhs])
     return []
   let some left ← listItems? lhs | return [goal]
   let some right ← listItems? rhs | return [goal]
@@ -113,15 +115,18 @@ def decomposeList (goal : MVarId) (splitChanges : Bool) : MetaM (List MVarId) :=
     let a ← mkListLit statement xs.toList
     let b ← mkListLit statement ys.toList
     if ← same a b then
-      proofs := proofs.push (← mkAppOptM ``Spec.Derivation.refl #[some statement, some rules, some a])
+      proofs := proofs.push (← mkAppOptM ``Spec.Derivation.refl
+        #[some statement, some theory, some rules, some a])
     else
       let hole ← mkFreshExprSyntheticOpaqueMVar
-        (← mkAppM ``Spec.Derivation #[rules, a, b])
+        (← mkAppOptM ``Spec.Derivation
+          #[some statement, some theory, some rules, some a, some b])
         (tag := (← goal.getTag).appendAfter s!"diff_{goals.length + 1}")
       goals := goals ++ [hole.mvarId!]
       proofs := proofs.push hole
   let nil ← mkListLit statement []
-  let mut proof ← mkAppOptM ``Spec.Derivation.refl #[some statement, some rules, some nil]
+  let mut proof ← mkAppOptM ``Spec.Derivation.refl
+    #[some statement, some theory, some rules, some nil]
   for p in proofs.reverse do
     proof ← mkAppM ``Spec.Derivation.append_congr #[p, proof]
   goal.assign proof
@@ -129,7 +134,7 @@ def decomposeList (goal : MVarId) (splitChanges : Bool) : MetaM (List MVarId) :=
 
 def decompose (goal : MVarId) (splitChanges : Bool) : MetaM (List MVarId) := goal.withContext do
   let target ← whnf (← goal.getType)
-  if target.isAppOfArity ``Spec.Derivation 4 then
+  if target.isAppOfArity ``Spec.Derivation 5 then
     return ← decomposeList goal splitChanges
   if target.isAppOfArity ``Spec.FloatingPoint 5 then
     let children ← goal.apply (← mkConstWithFreshMVarLevels ``Spec.FloatingPoint.ofDerivation)

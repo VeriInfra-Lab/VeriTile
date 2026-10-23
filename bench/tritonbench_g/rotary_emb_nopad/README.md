@@ -67,3 +67,5 @@ model is retained.
 Validation logs are `/tmp/rotary-nopad-{pair,blocks-execution,blocks-contract,
 v2-execution,v2-contract,software,witness,public}.log`; helper and public
 modules contain `#axiomsClean` checks.
+
+A separate [direct guarded repair](../../repairs/tritonbench_g/rotary_emb_nopad/README.md) provides complete arbitrary-Real and raw-FP32 wrapper proofs, including the paged-cache branch. The original Python remains unchanged.

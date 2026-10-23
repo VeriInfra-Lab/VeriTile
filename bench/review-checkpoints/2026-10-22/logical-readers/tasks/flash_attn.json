@@ -1,0 +1,121 @@
+{
+  "schema": 1,
+  "task": "flash_attn",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue05/result.json",
+    "sha256": "b7855ba15faaf5e2f177961e4a8a89181354e8928bbce04e8519a187efbab386",
+    "task_index": 9
+  },
+  "finding": "Q/K/V and O/L mathematical formulas exposed channel selectors and Fin.cases assembly.",
+  "resolution": "Bijective named Q/K/V and O/logMass tensors with all independent strides and Option observations retained. Complete lifted formula/domain proof moved to Proofs/ReaderConnections.",
+  "mathematical_target": "Normalized weighted V and base-2 log mass over all visible logical keys, preserving the exact source decimal score conversion.",
+  "conditions_and_scope": "Complete selected scalar-ABI-checked source grid; original shape.Valid, OutputInjective, runtime scale binding and ordinary-Real input domain. FP16 conversions erased only in Real mathematics; undefined Option outputs are not replaced by zero.",
+  "proof_connection": "LogicalIO.domain_eq and judgment_iff preserve the complete PublicIO real grid judgment; ReaderConnections proves the lifted score/weight/result formulas equal Logical.mathematical.",
+  "fp_review": "Retained integer head-offset normalization candidate on repaired independent pitches; all-word scalar ABI, FP32 storage and FP16 conversions unchanged.",
+  "numerical_dependencies": {
+    "experimental_rules_used": [],
+    "missing_experimental_evidence": [],
+    "note": "Existing actual source pair retained; no numerical operation/order rewrite or new admission obligation. Empty experimental rules do not assert arbitrary opaque-model/hardware identity."
+  },
+  "previous_formula_scope": {
+    "mathematical_target": "Visible score=sum_dim ((scale*1.44269504*Q)*K), weight=exp(log(2)*score), all-visible-key weighted V divided by mass, plus log(mass)/log(2). Causal visibility keeps key≤row.",
+    "required_conditions": [
+      "Real theorem retains x.shape.Valid, OutputInjective x and Logical.RealInputs x (ordinary finite logical Real inputs encoded as some).",
+      "Public IO exposes actual source schedule, scalar register binding, layouts, masks, initial bounds/bindings and exact frame.",
+      "Selected Contract adds the actual raw-integer scalar ABI range check; existing float payload checks remain. This review does not silently replace the decimal base-2 conversion by exact natural exponential scaling."
+    ],
+    "scope": "Complete selected flash_attn_scalar_abi_checked source grid and both full O/L tensors, all logical head dimensions and visible logical keys; independent Q/K/V/O pitches retained.",
+    "canonical_connection": "attentionScore/Weight/Formula are definitionally equal to Logical.score/weight/mathematical using Attention.pow2=exp(log 2*x). PublicIO.real_implements supplies full source-grid proof, both outputs some Real, safety and frame.",
+    "fp_program_pair": {
+      "actual_pairs": [
+        "ActualSource.kernel (parameters x) vs ActualSource.indexCommuted (parameters x), at every program in programs(parameters x)"
+      ],
+      "source_precision": "FP32 storage/internal arithmetic with actual FP16 conversions/dot topology and all raw scalar ABI words preserved.",
+      "transformation": "Only integer head-offset normalization on each independent repaired pitch.",
+      "model_domain_and_guarantees": "PairIO.Equivalent quantifies KernelNative.Instructions and original Checked.ScalarABI, uses all-word native ProgramIO, assumptions=[]. PairEquivalence proves exact schedule execution/safety by IndexPair and obtains safe success, typed O/L equality and dual frames. No floating numerical law is needed.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    },
+    "numerical_dependencies": {
+      "source_precision": "FP32 storage/internal arithmetic with actual FP16 conversions/dot topology and all raw scalar ABI words preserved.",
+      "transformation": "Only integer head-offset normalization on each independent repaired pitch.",
+      "model_domain_and_guarantees": "PairIO.Equivalent quantifies KernelNative.Instructions and original Checked.ScalarABI, uses all-word native ProgramIO, assumptions=[]. PairEquivalence proves exact schedule execution/safety by IndexPair and obtains safe success, typed O/L equality and dual frames. No floating numerical law is needed.",
+      "experimental_rule_instances_used": [],
+      "missing_experimental_evidence": [],
+      "existing_strict_theory_preserved": true
+    }
+  },
+  "verification": [
+    {
+      "task": "flash_attn",
+      "kind": "targeted_reader_helpers",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/IO.lean",
+        "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/ReaderConnections.lean",
+        "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Correct.lean",
+        "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/FPEquiv.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/supplement/flash_attn-targeted_reader_helpers.log",
+      "log_sha256": "9047810ffb33d1fd9ac489e5c63b85a803eb30782e62d7e88f9d4e0628f17c12"
+    },
+    {
+      "task": "flash_attn",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue05/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue05/supplement/joint_flash_attn.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/supplement/flash_attn-task_joint.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source": ".veritile-cache/logical-reader-review-20261022/queue05/supplement/joint_flash_attn.lean",
+      "source_sha256": "7ede20a7308e794be356350923a956214f4808fce6d8772868c50dd1a7430f34"
+    },
+    {
+      "kind": "receipt_source_object_direct_dependency_audit",
+      "command": [
+        "python",
+        ".veritile-cache/logical-reader-review-20261022/queue05/audit-receipts.py"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue05/receipts-final.json",
+      "log_sha256": "a3a64928712915a8204fd3fec33335656e18e0542b5c5ab22d8bdec24b8df76e"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Contract.lean": "e3f9c5bdbd7c050a779126329d24ea6e228bc1a8c6fc7d5b98cd7903a7ddd758",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Correct.lean": "2ed065fc3d251e43ede73bc37a19e5a6dace50a55ad619d668eb86c116765234",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/FPEquiv.lean": "344d0e68d9aecdde55c2eb423a5cde8a7872183c822470a591d3e326b34bd3d7",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/IO.lean": "d931b47337b7d586d48ff44c56de1e188a0d8e24759a1a990d3aaae535aef60a",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Kernels.lean": "109209ca9c6546d3a7fcb58d3f1704ace2cb33d213bc1737762fa8167c2e69b2",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/PairIO.lean": "e5a5894f9605bae35ba4ff94d6e016dbc9ba113e2214865b1b430d3250ef8e47",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/LogicalIO.lean": "93e23cdddb18a92f9c4a48daa90206c488919e477cf3ec15e6f10fdcc9fde7af",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/ReaderConnections.lean": "0b8c11dda1ae7c03fe5aee19abd3b8556f86eb71f5690f316d319b17bb35e57f",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Formulas.lean": "656bbfbc5700097076abf434112abe3a15859e057964dd4ea737c197fcf3e81d",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IOCorrect.lean": "14e3b07f69530c36fdfe8d996994b45c4f5f27bba48c22c52e10678cf516a4e6",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/PairEquivalence.lean": "69fcc8e8b0bbc4e5dd9fe8ea9440d37d927e96603bd9d69497f69f142036f95d",
+    "bench/repairs/tritonbench_g/flash_attn_scalar_abi_checked/Proofs/IndexPair.lean": "b63e6dadb1e3119b6be0e29f5e3f5d99d7b76477a5bd1815d60ad8c48f302473",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

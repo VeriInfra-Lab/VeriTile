@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "task": "int8_dequant_matmul",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue07/result.json",
+    "sha256": "583e8d793cba1d71d000c2bdd3e45247f36f7ed54dadb5684382c4c861f64a4b",
+    "task_index": 0
+  },
+  "finding": "Headline selected a single raw output channel and carried nested tile tuples through ordinary matrix mathematics.",
+  "resolution": "Named six-input logical record and curried M×N output; original Int, FP32/FP16 sum carriers, optional bias and initial C are all retained.",
+  "mathematical_target": "kernel_real: columnScale[col] * (rowScale[row] * sum_k(signed8(A[row,k])*signed8(B[k,col])) / 16129) + optional bias[col].",
+  "conditions_and_scope": "All original Shape/Config/Admitted/Selection parameters, optional-bias branch and independent per-address split-K schedules remain. The original typed split-K initial-zero input domain and complete ImplementsOnCells judgment retain actual access safety, successful execution, all outputs and exterior frame.",
+  "proof_connection": "LogicalReader.full_judgment_iff proves iff with the entire previous ImplementsOnCells judgment, transporting its exact inputDomain and IOLayout.real target. The new specification applies the old complete proof.",
+  "fp_review": "reuse_indices_equiv compares actual full grouped source programs, eliminating duplicated rm/rn register work. INT8 dot topology, FP32 scale/divisor operations, FP16 stores and atomic orders are unchanged.",
+  "numerical_dependencies": "No experimental rewrite rules or numerical experiments added or used by these main pairs; existing operations/order/source precision are retained.",
+  "previous_formula_scope": {
+    "mathematical_target": "columnScale[n] * (rowScale[m] * (sum k:Fin K, signed8(A[m,k])*signed8(B[k,n]) / 16129)) + optional bias[n]",
+    "required_conditions": [
+      "Shape/Config, Source.Admitted c and selected integer instruction plans; unchanged source configuration domain.",
+      "IOLayout.domain Quote.integerRealOps: split-K C input is the typed FP16 zero; unsplit C is not required as an input.",
+      "The accurate IntegerDotPerAddressProgramIO.ImplementsOnCells judgment retains actual typed input bindings, bounds, locality, source traces, coverage, output cells and frames."
+    ],
+    "scope": "Every finite M×N cell of the complete grouped tile/split grid; each address retains its independent complete split order, all bias/even/tail branches and exterior frame.",
+    "canonical_connection": "The inline formula is definitionally IOLayout.real/Mathematical.real. PublicIO.real transports IOTrace.result through PublicArithmetic.real and the full IOImplements.assemble source proof.",
+    "fp_program_pair": {
+      "actual_pair": [
+        "ReuseIO.original",
+        "ReuseIO.optimized"
+      ],
+      "actual_scope": "Same complete grouped grid and per-address split ordering; removes duplicate row/column index construction only. INT8/INT32 dot, runtime FP32 divisor/scale/bias, FP16 stores/atomics remain fixed.",
+      "numerical_dependency": "R=[]; fixed native integer/floating instruction profile and its bindings, with no floating numerical rewrite.",
+      "current_experimental_rules_used": 0,
+      "new_or_deferred_experiments": 0,
+      "source_unchanged": true
+    },
+    "numerical_dependencies": "R=[]; fixed native integer/floating instruction profile and its bindings, with no floating numerical rewrite."
+  },
+  "verification": [
+    {
+      "kind": "final_current_source_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "bench.repairs.tritonbench_g.int8_dequant_matmul_scalar_cast.IO",
+        "bench.repairs.tritonbench_g.int8_dequant_matmul_scalar_cast.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.int8_dequant_matmul_scalar_cast.Correct",
+        "bench.repairs.tritonbench_g.int8_dequant_matmul_scalar_cast.FPEquiv"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/int8_dequant_matmul_scalar_cast-verified-build.log",
+      "log_sha256": "abb45f44e57bac25ed72a49e2cd1de334e63bbeda9355a49640fb2164560e605"
+    },
+    {
+      "kind": "joint_import_current_entries",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue07/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue07/int8_dequant_matmul_scalar_cast-joint.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue07/int8_dequant_matmul_scalar_cast-verified-joint.log",
+      "log_sha256": "e2b1e27e1a4e1c52c6478ea909e6cdf87192d38be6a6090fcfbd98ece5232d2e"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Contract.lean": "a92bff8eb75409e1669eae38a75189fd3287ee7a1875ff89dd5dcddb050da056",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Correct.lean": "d8e8a7ad88eb005c494a1d82affb5cb7784cf3c1431c1ef91f7401fd02cd7924",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/FPEquiv.lean": "c85ed692d53b44e406e31f9e4e04b53f5fa5c88e5f89a9faedd939a0ba9eedfe",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/IO.lean": "48126251dcd9b3f825e68580e6af7947020486ddcf63410e8acba93b4ee7f528",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/IOLayout.lean": "d382f0ff00396e1a743286084f67bb0066dc2b78aed9dace92240e5280ae1cd4",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Kernels.lean": "eed5c016721155a9a303f2a7f8c085fa5a03790a6746a87ccd3359206df46cf9",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/LogicalReader.lean": "e05b46fbd0f6d49db1757bf3125e84cb76abde5f17fd980f0203e8016e914154",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Mathematical.lean": "25b4563938dab68c5f2b21e95761a25c1aeb959e8bee0a68ead4f081b5d1449c",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/PublicIO.lean": "b439d742e00964c992660107479f592fe70efc6c64e1b1e81eef2d39a8098e28",
+    "bench/repairs/tritonbench_g/int8_dequant_matmul_scalar_cast/Proofs/ReuseIndicesIO.lean": "3384cf3747b5855c1d4fa53000b6ba11cef263639d70eb7975d48c9125f70d2d",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

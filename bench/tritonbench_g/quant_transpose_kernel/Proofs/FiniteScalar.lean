@@ -1,9 +1,13 @@
 import bench.tritonbench_g.vector_addition.Proofs.Binary64Words
 import Mathlib.Data.List.Range
+import bench.tritonbench_g.quant_transpose_kernel.Kernels
 
 /-! Typed scalar source for every admitted CUDA signature in the inspected
 Torch default-float32 runtime. Native arithmetic is an explicit primitive
 boundary; undefined llrint has no invented result. -/
+local macro "true" : term => `(Bool.true)
+local macro "false" : term => `(Bool.false)
+
 namespace QuantTransposeFinite
 open VeriTile.Triton
 set_option linter.unusedSimpArgs false
@@ -109,7 +113,7 @@ def Expr.eval {d : Storage} {t : RegType d} (b : Numerics) (x : Word d) (inverse
 /-- Exact original parenthesization and destination conversion; no float
 output is substituted for the source's llrint64 then int8 store. -/
 def source (d : Storage) : Expr d .output8 :=
-  .narrow8 (.round64 (.multiply .literal127 (.multiply (.promote .x) .scale)))
+  QuantizationSource.scalar (.promote .x) .scale .literal127 .multiply .round64 .narrow8
 
 def scaled (b : Numerics) (d : Storage) (x : Word d) (inverse : Word (compute d)) :=
   mul b d (scale127 d) (mul b d (promoted b d x) inverse)

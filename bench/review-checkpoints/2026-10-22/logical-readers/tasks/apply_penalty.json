@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "task": "apply_penalty",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue01/result.json",
+    "sha256": "e83606eb1af11f63258849532abca45e610a46657c5b23bc45277a166000a8ec",
+    "task_index": 3
+  },
+  "finding": "The public lambda exposed unused program and metadata positions.",
+  "resolution": "Added logical loaded-input record preserving both program IDs, three penalties, cumulative bounds, IDs/counts/logits; the fixed underlying scatter judgment is transported without reconstructing memory IO.",
+  "mathematical_target": "(if 0 < xs.logits j then xs.logits j / xs.repetition else xs.logits j * xs.repetition) - xs.counts j * xs.frequency - xs.presence",
+  "conditions_and_scope": "Complete metadata-dependent single-program gather/scatter, active-mask injectivity, in-place logits, exact masks and exterior frame retained.",
+  "proof_connection": "Proofs/LogicalReader.statement_iff proves iff of the complete previous judgment after input/output transport. The reader supplies its full canonical formula connection; safety/run/output/frame are retained.",
+  "fp_review": "Actual division/reciprocal FP32 source pair unchanged, with its existing active-positive-arm DIV-MUL-RCP assumption and rule parameter R.",
+  "numerical_dependencies": "Existing DIV-MUL-RCP rule/domain unchanged; no new experimental obligation.",
+  "previous_formula_scope": {
+    "mathematical_target": "(if 0<logits j then logits j/repetition else logits j*repetition) - (counts j : Real)*frequency - presence",
+    "required_conditions": [
+      "MetaScatterMasked2DKernelIO₁ publicly binds metadata, counts, logits, penalty windows, active-ID injectivity, addresses/bounds and frame.",
+      "Contract validates int32 nonnegative IDs/counts/cumsum, capacity window length≤BLOCK, vocabulary bounds, uniqueness and separation; FP rewrite domain is separate from Python admission."
+    ],
+    "scope": "One metadata-dependent in-place gather/scatter program, cumsum start/stop active lanes, every active token update, actual source safety/success and exterior frame. FP pair quantifies every program ID.",
+    "canonical_connection": "Expanded inline expression is definitionally exactly TiledOptimizer.lionPenalty in VeriTile/Triton/Math/Optimizer.lean; existing RealIOProof.apply_penalty_correctness applies unchanged.",
+    "fp_program_pair": {
+      "floating_point.actual_pair": "RawFP.original stride B ≡[R] RawFP.reciprocal stride B; only positive-arm division becomes multiplication by separately rounded reciprocal",
+      "floating_point.scope": "Actual canonical full FP32 source quotes, successful executions and all typed-memory equality plus exterior frames. Original stride_s=1 selected source and all program IDs retained. Comparison availability is an explicit implementation binding."
+    },
+    "numerical_dependencies": {
+      "kind": "empirical-admission",
+      "actual_used_instances": [
+        {
+          "rule": "DIV-MUL-RCP",
+          "precision": {
+            "input": "fp32",
+            "compute": "fp32",
+            "accumulator": "fp32",
+            "output": "fp32"
+          },
+          "domain": "finite loaded logit and repetition, repetition nonzero, only active lanes selecting logit>0",
+          "current_classification": "CurrentAdmission.currentEmpiricalRows; not covered by a current strict source",
+          "report_key": "report:9b01836a349a09e938f62e813c56a99aed2d0e39bf801fb5b050d57000b5604c:fp32:DIV-MUL-RCP",
+          "artifact": "experiments/floating_point/supplement/report/summary.json#fp32/DIV-MUL-RCP",
+          "registry": "VeriTile/Triton/Float/SupplementalAdmission.lean:fp32_div_mul_rcp",
+          "connection": "Proofs/Rewrite.lean:reciprocal_memory calls FP.ScalarArithmetic.div_mul_rcp; ScalarArithmetic.Atom.matches checks all four precision fields and exact guards; R.validated supplies evidence validation"
+        }
+      ],
+      "rule_container_is_not_usage_count": true,
+      "missing_experiment_count": 0,
+      "replayed_experiments": false
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "bench/repairs/tritonbench_g/apply_penalty/LogicalIO.lean",
+        "bench/repairs/tritonbench_g/apply_penalty/Proofs/LogicalReader.lean",
+        "bench/repairs/tritonbench_g/apply_penalty/Correct.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/penalty-build.log",
+      "log_sha256": "5c7abd15d4ec48895d521739c8704d6cab33b5e258d9f1a68b848af828d3abca",
+      "module_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/apply_penalty/Correct.workspace-build.json",
+          "sha256": "596d9f42e35d7535349eef28f280f95b5dc4bb11766c12dc8d8aa4dcf6649b38"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/apply_penalty/Proofs/LogicalReader.workspace-build.json",
+          "sha256": "b0eab02791665ea8455a838ad51c3f9f3d95f447ff590a010a77fd290633fd9c"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/apply_penalty/LogicalIO.workspace-build.json",
+          "sha256": "07047d7029f97105ed33fdde7d6ff25f54286836d5866801d4d09e8dcc1b1c2d"
+        }
+      ],
+      "note": "The grouped command completed successfully; unchanged transitive helper objects were reused."
+    },
+    {
+      "task": "apply_penalty",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue01/Joint_apply_penalty.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/Joint_apply_penalty.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/apply_penalty/Contract.lean": "e524e059e11a1a27926bccb9f331f4c8a288344bd6859cdc7405f7ee4c0aeeb7",
+    "bench/repairs/tritonbench_g/apply_penalty/Correct.lean": "8b20f808cc4e270b1c6b4c9009978dcc7df8e2dc6f31b6ea10207a80aa5540a0",
+    "bench/repairs/tritonbench_g/apply_penalty/FPEquiv.lean": "bdef488c566ef6ae8393d0f53383d3bc8ac970eab613dc4006495294e88d6ba6",
+    "bench/repairs/tritonbench_g/apply_penalty/IO.lean": "43e7b036d8c6eaf502cf3aca3e7c1b21b8bf7f916e562c2989ff37147816d5aa",
+    "bench/repairs/tritonbench_g/apply_penalty/LogicalIO.lean": "fa3e0ddca66ae3056f52e52fbe059095f66c68eef9c8cc9619197a085abb7fc4",
+    "bench/repairs/tritonbench_g/apply_penalty/Proofs/LogicalReader.lean": "afb4ce5f669cacd0e8ea92e9bcc8db1cd5e22c084c3d82f397384b27f1a5e2bd",
+    "bench/repairs/tritonbench_g/apply_penalty/RealIO.lean": "5223791e4326f2087f476b24d9d66a1e116ed7a9190feb8d2acc4956781e9a3e",
+    "bench/repairs/tritonbench_g/apply_penalty/Kernels.lean": "6f4cd1426770e90612346cf6939d47f495d4f878321e4552eebbe258e64d2028",
+    "bench/repairs/tritonbench_g/apply_penalty/Proofs/Rewrite.lean": "adf887d09f6acb228aa6af105142f70278a2920922d759aa98a00d36655c620f",
+    "bench/repairs/tritonbench_g/apply_penalty/Proofs/KernelResults.lean": "853f0377448b1489316581bd49df5921df52dd71718c64859c809e3ad11003eb",
+    "bench/repairs/tritonbench_g/apply_penalty/Proofs/RealIO.lean": "7598aac2de8046391b8eb12143d0bdb33275a13f4c15a4726042af1041bc928c",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Unchanged transitive helpers and FPEquiv objects reused from accepted read-only baseline; the task-level joint imports the current selected entries.",
+    "No optional native/host/Tensor or GPU/numerical task was introduced."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

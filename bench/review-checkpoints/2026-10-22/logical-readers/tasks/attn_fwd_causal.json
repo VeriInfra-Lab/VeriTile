@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "task": "attn_fwd_causal",
+  "status": "fixed",
+  "owner": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue01/result.json",
+    "sha256": "e83606eb1af11f63258849532abca45e610a46657c5b23bc45277a166000a8ec",
+    "task_index": 12
+  },
+  "finding": "The reader exposed singleton output channel plumbing and physical Q/K/V/scale address computations.",
+  "resolution": "Added mathematical arrays plus exact backing-window connection and curried batch/head/row/feature outputs; the reader uses logical Q/K/V/scales.",
+  "mathematical_target": "D128 normalized base-two attention over min(N,row+1) causal keys.",
+  "conditions_and_scope": "Complete original causal grid, both stages, every batch/head/row/feature, arbitrary complete CTA order and original output/input separation. Empty dimensions, aliases, typed output and full safe-run/frame judgment preserved.",
+  "proof_connection": "Proofs/LogicalReader.statement_iff proves equivalence of the entire original judgment after exact input/output transport. The independently displayed formula is connected to the canonical full formula; execution, access safety, output and frame are unchanged.",
+  "fp_review": "Actual complete native original/quotient-remainder integer-CSE candidate retained; TF32 QK, FP16 P/V/PV/output, FP32 state and causal masks unchanged; empty experimental R.",
+  "numerical_dependencies": "No new numerical rule or experiment. Existing strict/model bindings remain; the main FP pair has zero experimental rules.",
+  "previous_formula_scope": {
+    "mathematical_target": "128-feature scaled score and normalized exp2 weighted sum over min(N,row+1) causal keys, with original query/key block scales and finite logical input mapping.",
+    "required_conditions": [
+      "Output/input separation and complete order retained explicitly.",
+      "Logical/compute feature128, five finite input roles/scales layout, original two-stage branches and per-stage source masks/configuration retained."
+    ],
+    "scope": "Complete actual two-stage causal source and full grid, every logical output, arbitrary complete grid permutation, source safety/success and exterior frame; empty dimensions/read aliases preserved.",
+    "canonical_connection": "Displayed attentionScore/attention equal Proofs/RealMath; logicalAttention equals AcceptedReal.Real.expected, and headline lambda packs existing Reference.inputAt exactly. Existing RealPublicIO.implements applies directly.",
+    "fp_program_pair": {
+      "floating_point.actual_pair": "Equivalence.original ≡[[]] Equivalence.quotientRemainder; integer quotient/remainder CSE",
+      "floating_point.scope": "Full two-stage original/candidate source and full-grid permutations, original native words, TF32 QK/FP16 PV/output/FP32 state and compiler graph; integer CSE gives exact state/safety equality and dual full outputs/frames."
+    },
+    "numerical_dependencies": {
+      "kind": "strict-program-structure",
+      "rule": "no floating rewrite",
+      "experimental_instance_used": false,
+      "explanation": "The selected source schedule/index/ordered native graph equality is proved with the existing implementation/model binding. Empty experimental rules do not assert equality for arbitrary opaque primitives or GPU conformance."
+    }
+  },
+  "verification": [
+    {
+      "kind": "targeted_build",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "bench.repairs.tritonbench_g.adam_update_triton.LogicalIO",
+        "bench.repairs.tritonbench_g.adam_update_triton.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.adam_update_triton.Correct",
+        "bench.repairs.tritonbench_g.attention_fwd_triton2.LogicalIO",
+        "bench.repairs.tritonbench_g.attention_fwd_triton2.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_fwd_triton2.Correct",
+        "bench.repairs.tritonbench_g.attn_fwd_causal.LogicalIO",
+        "bench.repairs.tritonbench_g.attn_fwd_causal.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attn_fwd_causal.Correct",
+        "bench.repairs.tritonbench_g.attention_kernel.LogicalIO",
+        "bench.repairs.tritonbench_g.attention_kernel.Proofs.LogicalReader",
+        "bench.repairs.tritonbench_g.attention_kernel.Correct"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/accepted-readers-build.log",
+      "log_sha256": "44292bd0070f613350bd8f96fe0d166d3062d2ec5524b56454dfa3d722c446af",
+      "module_receipts": [
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attn_fwd_causal/Correct.workspace-build.json",
+          "sha256": "07f67ca558edecc2e43c1a5e6052585ad9af026484088cd3b3403644f9d25f92"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attn_fwd_causal/Proofs/LogicalReader.workspace-build.json",
+          "sha256": "61c70cedcc527e95f1d033e9cfb1400b9721e99984b1e1833fa47eacec4bb136"
+        },
+        {
+          "path": ".veritile-cache/logical-reader-review-20261022/queue01/build/lib/lean/bench/repairs/tritonbench_g/attn_fwd_causal/LogicalIO.workspace-build.json",
+          "sha256": "a1ed28653a629c0745dd027cf1b1335e5796d8b00ee94a3b83f844e8e3bff278"
+        }
+      ],
+      "note": "Final successful grouped command reused accepted receipts for these exact source and dependency hashes."
+    },
+    {
+      "task": "attn_fwd_causal",
+      "kind": "task_joint",
+      "command": [
+        "python",
+        "-u",
+        ".veritile-cache/logical-reader-review-20261022/queue01/build.py",
+        "--check",
+        ".veritile-cache/logical-reader-review-20261022/queue01/Joint_attn_fwd_causal.lean"
+      ],
+      "exit_code": 0,
+      "log": ".veritile-cache/logical-reader-review-20261022/queue01/Joint_attn_fwd_causal.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "verification_status": "targeted_passed",
+  "source_sha256": {
+    "bench/repairs/tritonbench_g/attn_fwd_causal/Contract.lean": "b3fb31906319be40c873fa4b77bdc96ee5e973808bddc567481f9547d1115c5b",
+    "bench/repairs/tritonbench_g/attn_fwd_causal/Correct.lean": "cd82a8d84fc599af49326672f54c0eec70d0ad2512a23d77208020f8e1d86bd1",
+    "bench/repairs/tritonbench_g/attn_fwd_causal/FPEquiv.lean": "0a832c9493159f62316d772364bf37d0ae63bfbea9010606d423a78ceb4a741a",
+    "bench/repairs/tritonbench_g/attn_fwd_causal/IO.lean": "6685f8303a61e992a944d00f1a2701b4a351f689be2627acb076f1ac5e72d362",
+    "bench/repairs/tritonbench_g/attn_fwd_causal/Proofs/LogicalReader.lean": "b1ec814f0656e809957321e0d452fac13d1b42886c2370a5dc1784c5fbecf3bf",
+    "bench/repairs/tritonbench_g/attn_fwd_causal/LogicalIO.lean": "cead0fba17fd1aee8f21a80660e343e5ec4adc2e41b714ebf74ce13a8f99b4e0",
+    "bench/repairs/tritonbench_g/attn_fwd_causal/Kernels.lean": "ee4b4e876cabc1097153820d90e8fea2368cb604999c9e65e253a0efea3840a3",
+    "bench/repairs/tritonbench_g/attn_fwd_causal/Proofs/RealMath.lean": "824c42d03521d300fd6d125066d214edfa2fc7ff5cf776488321c1a75ec2ac50",
+    "bench/repairs/tritonbench_g/attn_fwd_causal/Proofs/AcceptedReal.lean": "3cbbdf1d319b4143173667fab32435ef626e3bd532287163b34c2d7f8d09e52a",
+    "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
+    "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
+    "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+  },
+  "limits": [
+    "Unchanged transitive proof closure and FPEquiv objects reused from the accepted read-only baseline; current selected entries passed task-level joint import.",
+    "No optional host/native/Tensor/GPU or numerical task introduced."
+  ],
+  "remaining_issues": [],
+  "independent_review": {
+    "path": ".veritile-cache/logical-reader-review-20261022/queue16/result.json",
+    "sha256": "40bbb34c108f99592e51abf4987d5748318ed9ff35c706e0e9238a3e65daa74d"
+  },
+  "proof_completion_changed": false,
+  "numerical_scope_changed": false
+}

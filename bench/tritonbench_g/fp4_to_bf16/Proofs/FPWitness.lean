@@ -1,4 +1,4 @@
-import bench.tritonbench_g.fp4_to_bf16.FPCorrect
+import bench.tritonbench_g.fp4_to_bf16.Proofs.KernelCorrect
 namespace VeriTile.Bench.TritonBenchG.Fp4ToBf16.FPValue
 open VeriTile.Triton FP.Structural
 noncomputable section
