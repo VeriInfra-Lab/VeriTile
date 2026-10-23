@@ -47,7 +47,7 @@ theorem body_transport (M : Algebra α) (P : Primitives α) (h : Call)
   all_goals
     simp only [inputOffset,weightOffset,dtype,FloatDType.toTileDType,ofFloat,
       Nat.mul_comm slot (N*K)] at inputLoad weightLoad
-    simp only [body,active,code,Surface.source,
+    simp only [body,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,
       ComputeKernel.surfaceBody,List.drop,Source.conditional?,Source.intRange?,
       Option.map_some,Option.getD_some,beq_self_eq_true]
     simp (config := {maxSteps := 100000}) [

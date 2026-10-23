@@ -23,7 +23,7 @@ theorem output_entry (M : Algebra α) (D : DotPrimitive α) (c : OutputGrid.Shap
     (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList (engine (withDot M D)) bounds (parts c scale).before s := by
   apply pure_trace
-  simp [parts,kernel,SourceBridge.outputNew,TypedOutput.original,TypedOutput.source,
+  simp [parts,kernel,SourceBridge.outputNew,TypedOutput.original,TypedOutput.source,TypedOutput.fp32Original,
     OutputGrid.layout,OutputGrid.regions,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.prefixBefore]
   all_goals simp [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold]
 
@@ -36,12 +36,12 @@ theorem output_body (M : Algebra α) (D : DotPrimitive α) (c : OutputGrid.Shape
   constructor
   swap
   · intro t _
-    simp [parts,kernel,SourceBridge.outputNew,TypedOutput.original,TypedOutput.source,
+    simp [parts,kernel,SourceBridge.outputNew,TypedOutput.original,TypedOutput.source,TypedOutput.fp32Original,
       OutputGrid.layout,OutputGrid.regions,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.prefixBefore]
     simp only [singleton,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
     simp [Safety.safeOp_unfold,singleton,Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold]
     split <;> simp
-  simp [parts,kernel,SourceBridge.outputNew,TypedOutput.original,TypedOutput.source,
+  simp [parts,kernel,SourceBridge.outputNew,TypedOutput.original,TypedOutput.source,TypedOutput.fp32Original,
     OutputGrid.layout,OutputGrid.regions,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.prefixBefore]
   simp only [singleton,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]
@@ -67,7 +67,7 @@ theorem output_finish (M : Algebra α) (D : DotPrimitive α) (c : OutputGrid.Sha
     (a : Index c → α) (ha : HasAcc c a current) (capacity : OutputCapacity c initial bounds) :
     Safety.traceSafeList (engine (withDot M D)) bounds (parts c scale).after current := by
   simp only [HasAcc] at ha
-  simp [parts,kernel,SourceBridge.outputNew,TypedOutput.original,TypedOutput.source,
+  simp [parts,kernel,SourceBridge.outputNew,TypedOutput.original,TypedOutput.source,TypedOutput.fp32Original,
     OutputGrid.layout,OutputGrid.regions,ComputeKernel.surfaceBody,Source.dynamicRange?,Source.prefixBefore]
   simp only [singleton,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]

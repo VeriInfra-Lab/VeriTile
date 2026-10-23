@@ -6,7 +6,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 8000000
-set_option linter.unusedSimpArgs false
+set_option linter.unusedSimpArgs Bool.false
 
 abbrev R := BlockSparseAttn.Real.R
 def mathArithmetic : Arithmetic R := Arithmetic.ofLegacy BlockSparseAttn.Real.ops (fun x => some x) (fun x => some x)

@@ -13,7 +13,7 @@ theorem after (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
     (bounds : RegionName → Nat) (access : Bounds p r (inputs p r initialState) bounds) :
     Safety.traceSafeList (M.withDefaultPrecision .fp32) bounds (parts p r scale).after s := by
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
-  simp [parts,kernel,VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
+  simp [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,ComputeKernel.surfaceBody,Source.intRange?]
   simp (config := {maxSteps:=250000}) [Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,

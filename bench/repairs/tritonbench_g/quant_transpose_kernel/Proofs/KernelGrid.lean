@@ -59,9 +59,9 @@ def Separate (p : Parameters) : Prop := p.x ≠ p.output ∧ p.scale ≠ p.outpu
 
 def reference {α : Type} [Inhabited α] (M : Algebra α) (round : α → BitVec 64)
     (p : Parameters) (s : State α) (o : Nat) : Cell α :=
-  .mk .int (rounded M round
+  .mk .int (BitVec.ofInt 8 (rounded M round
     ((s.mem ⟨p.x⟩ ((o % p.M) * p.sam + (o / p.M) * p.san)).read .real)
-    ((s.mem ⟨p.scale⟩ 0).read .real)).toInt
+    ((s.mem ⟨p.scale⟩ 0).read .real)).toInt).toInt
 
 def Hit (p : Parameters) (order : List Nat) (o : Nat) : Prop :=
   ∃ pid ∈ order, ∃ i : Lane, active p pid i ∧ outputOffset p pid i = o
@@ -74,7 +74,7 @@ theorem hit_cons (p : Parameters) (pid : Nat) (tail : List Nat) (o : Nat) :
 theorem word_reference {α : Type} [Inhabited α] (M : Algebra α)
     (round : α → BitVec 64) (p : Parameters) (initial s : State α)
     (hs : SameInputs p initial s) (pid : Nat) (i : Lane) (hi : active p pid i) :
-    Cell.mk .int (word M round p (atProgram s pid) i).toInt =
+    Cell.mk .int (BitVec.ofInt 8 (word M round p (atProgram s pid) i).toInt).toInt =
       reference M round p initial (outputOffset p pid i) := by
   have hd := QuantTransposeFinite.encode_decode p.M (row p pid i) (col p pid i) hi.1
   have hr : outputOffset p pid i % p.M = row p pid i := by
@@ -98,7 +98,7 @@ theorem advance_point {α : Type} [Inhabited α] (M : Algebra α)
     have hi' : active p ((atProgram s pid).pids 0) i := by simpa [atProgram] using hi
     have hw := written_word M round p (atProgram s pid) i hi'
     have hw' : (written M round p (atProgram s pid)).mem ⟨p.output⟩
-        (outputOffset p pid i) = Cell.mk .int (word M round p (atProgram s pid) i).toInt := by
+        (outputOffset p pid i) = Cell.mk .int (BitVec.ofInt 8 (word M round p (atProgram s pid) i).toInt).toInt := by
       simpa only [atProgram, Function.update_self] using hw
     exact hw'.trans (word_reference M round p initial s hs pid i hi)
   · rw [if_neg h]

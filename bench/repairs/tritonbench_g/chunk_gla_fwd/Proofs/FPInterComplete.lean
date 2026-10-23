@@ -36,7 +36,7 @@ def finishExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : 
   simp only [HasAcc] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [parts,inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,ProducerGeometry.layout,ProducerGeometry.regions,
+  simp [parts,inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,ProducerGeometry.layout,ProducerGeometry.regions,
     ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -59,7 +59,7 @@ def prologue (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (s
     {t : State α // run (engine (withDot M D)) (outer c scale).before s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,ProducerGeometry.layout,ProducerGeometry.regions,
+  simp [outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,ProducerGeometry.layout,ProducerGeometry.regions,
     ComputeKernel.surfaceBody,Source.conditional?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -69,7 +69,7 @@ def prologue (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (s
 theorem outer_condition (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (s : State α) :
     FP.Structural.evalOp (engine (withDot M D)) none (outer c scale).condition (prologue M D c scale s).val =
       some (fun _ => decide (rowStart c s<c.T)) := by
-  simp [outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,ProducerGeometry.layout,ProducerGeometry.regions,
+  simp [outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,ProducerGeometry.layout,ProducerGeometry.regions,
     ComputeKernel.surfaceBody,Source.conditional?,evalOp_unfold,numeric,bop,prologue,natLe,natLt,rowStart]
   funext i
   by_cases h : s.pids 0*c.BT+s.pids 1/c.NC*16<c.T
@@ -79,7 +79,7 @@ theorem outer_condition (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scal
 theorem inner_condition (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : ℝ) (s : State α) :
     FP.Structural.evalOp (engine (withDot M D)) none (inner c scale).condition (prologue M D c scale s).val =
       some (fun _ => decide (s.pids 1%c.NC<s.pids 1/c.NC)) := by
-  simp [inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,ProducerGeometry.layout,ProducerGeometry.regions,
+  simp [inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,ProducerGeometry.layout,ProducerGeometry.regions,
     ComputeKernel.surfaceBody,Source.conditional?,evalOp_unfold,numeric,bop,prologue,natLe,natLt,numericLe]
   funext i
   by_cases h : s.pids 1%c.NC<s.pids 1/c.NC

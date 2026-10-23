@@ -20,12 +20,12 @@ theorem inter_body (M : Algebra α) (D : DotPrimitive α)
   swap
   · intro t _
     apply pure_trace
-    simp [parts,FPInter.inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,
+    simp [parts,FPInter.inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,
       ProducerGeometry.layout,ProducerGeometry.regions,ComputeKernel.surfaceBody,
       Source.conditional?,Source.dynamicRange?,Source.prefixBefore]
     all_goals simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]
     all_goals simp [Safety.safeOp_unfold]
-  simp [parts,FPInter.inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,
+  simp [parts,FPInter.inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,
     ProducerGeometry.layout,ProducerGeometry.regions,ComputeKernel.surfaceBody,
     Source.conditional?,Source.dynamicRange?,Source.prefixBefore]
   simp only [singleton,Safety.traceSafeList_cons,Safety.stepSafe_unfold,

@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.ReadableSource
 import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.IOSafetyBase
 
 namespace VeriTile.Bench.Repairs.DiagSsmTriton.IOSafety
@@ -14,7 +15,7 @@ theorem forward_trace (p : ForwardLayout) (length : Nat) (sep : p.x ≠ p.y)
     (Kernels.forwardTyped p.s p.x p.l p.y length p.batch p.dim p.B).eraseDType.toAlgKernel.TraceSafe bounds u := by
   by_cases hz : length = 0
   · subst length
-    simpa only [Kernel.TraceSafe,Kernels.forwardTyped,Erasure.forward_body] using
+    simpa only [Kernel.TraceSafe,Kernels.ReadableSource.forward_preserved,Erasure.forward_body] using
       ZeroSafety.forward_safe bounds u p.s p.x p.l p.y p.batch p.dim p.B ⟨hb.initial,hb.transition⟩
   · have hp : 0 < length := by omega
     have old := RealReference.forward_traceSafeR .triv bounds p.s p.x p.l p.y length p.batch p.dim p.B
@@ -22,7 +23,7 @@ theorem forward_trace (p : ForwardLayout) (length : Nat) (sep : p.x ≠ p.y)
       (fun t => hb.input t.val t.isLt) (fun t => hb.output t.val t.isLt)
     simp only [Kernel.TraceSafeR,RealReference.diag_ssm_forward_kernel_toAlg_body,
       RealReference.diagSsmForwardProjectedBody,appendR_iff] at old
-    simp only [Kernel.TraceSafe,Kernels.forwardTyped,Erasure.forward_body,
+    simp only [Kernel.TraceSafe,Kernels.ReadableSource.forward_preserved,Erasure.forward_body,
       ForwardProjection.real_source_body,TraceRewrite.append_iff]
     refine ⟨(forward_prefix bounds p.s p.l p.batch p.dim p.B u).mpr old.1,?_⟩
     intro v he

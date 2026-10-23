@@ -21,7 +21,7 @@ def Tensor.last (t : Tensor) := (t.batches-1)*t.strides.batch+(t.heads-1)*t.stri
 structure TensorGuard (t : Tensor) (s : Shape) : Prop where
   positive : 0<t.batches ∧ 0<t.heads ∧ 0<t.rows ∧ 0<t.dim
   metadata : ∀ z∈[t.batches,t.heads,t.rows,t.dim,t.strides.batch,t.strides.head,t.strides.row,t.strides.dim],0<z ∧ z<2^31
-  kind : t.fp32=true ∧ t.cuda=true ∧ t.materialized=true ∧ t.inference=true
+  kind : t.fp32=Bool.true ∧ t.cuda=Bool.true ∧ t.materialized=Bool.true ∧ t.inference=Bool.true
   extent : 4*(t.storage.offset+t.last+1)≤t.storage.bytes
   formed : t.last+(s.blockM+s.blockN)*t.strides.row<2^31
 
@@ -79,7 +79,7 @@ structure Header (a : Arguments) : Prop where
     a.layout.shape.length≤a.v.rows ∧ a.v.dim=a.layout.shape.dim
   strides : a.layout.q=a.q.strides ∧ a.layout.k=a.k.strides ∧ a.layout.v=a.v.strides
   devices : a.k.device=a.q.device ∧ a.v.device=a.q.device
-  evenM : a.layout.evenM=true → ceil a.layout.shape.length a.layout.shape.blockM*a.layout.shape.blockM≤a.q.rows
+  evenM : a.layout.evenM=Bool.true → ceil a.layout.shape.length a.layout.shape.blockM*a.layout.shape.blockM≤a.q.rows
   tiles : (∃ m,a.layout.shape.blockM=2^(m+4)) ∧ (∃ n,a.layout.shape.blockN=2^(n+4)) ∧
     (∃ d,a.layout.shape.blockD=2^(d+4))
   alignedD : a.layout.shape.blockD/8*8=a.layout.shape.blockD
@@ -104,7 +104,7 @@ theorem row_envelope (s : Shape) (l : Lane) (hl : l.Valid s) :
 
 theorem query_access (a : Arguments) (valid : Contract a) (l : Lane) (hl : l.Valid a.layout.shape)
     (db d : Nat) (hdb : db<a.layout.shape.blocks) (hd : d<a.layout.shape.blockD)
-    (enabled : a.layout.evenM=true ∨ (laneWork a.layout.shape l).row<a.layout.shape.length) :
+    (enabled : a.layout.evenM=Bool.true ∨ (laneWork a.layout.shape l).row<a.layout.shape.length) :
     Safety.Allocated a.q.storage (address a.layout.q (laneWork a.layout.shape l).batch
       (laneWork a.layout.shape l).head (laneWork a.layout.shape l).row (db*a.layout.shape.blockD+d)) := by
   have hp:=valid.shape
@@ -138,7 +138,7 @@ structure Allocation (a : Arguments) (out : Tensor) : Prop where
     out.rows=a.layout.shape.length ∧ out.dim=a.layout.shape.dim
   strides : out.strides=contiguous a.layout.shape
   device : out.device=a.q.device
-  kind : out.fp32=true ∧ out.cuda=true ∧ out.materialized=true
+  kind : out.fp32=Bool.true ∧ out.cuda=Bool.true ∧ out.materialized=Bool.true
   storage : out.storage.offset=0 ∧ 4*(a.layout.shape.batches*a.layout.shape.heads*
     a.layout.shape.length*a.layout.shape.dim)≤out.storage.bytes
   fresh : ∀ id∈[a.q.allocation,a.k.allocation,a.v.allocation,a.rowAllocation,a.colAllocation],out.allocation≠id

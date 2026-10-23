@@ -15,7 +15,7 @@ theorem prelude_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters
     (length : s.pids 0 < bounds "lengths")
     (table : s.pids 0*p.strideBts+((position s).tdiv p.blockSize*p.strideBtb).toNat < bounds "table") :
     Safety.traceSafeList M bounds (prelude p) s := by
-  simp (config := { maxSteps := 500000 }) [prelude, originalKernel, kernel,
+  simp (config := { maxSteps := 500000 }) [prelude, originalKernel, kernel, quotedOriginal, quotedCommuted,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold, Safety.stepSafe_unfold,
     Safety.safeExpr_unfold, Safety.safeCompute_unfold, Safety.safeOp_unfold,
     Safety.safeAddress_unfold, Safety.safeMask_unfold, Safety.addressSafe_unfold,
@@ -39,7 +39,7 @@ theorem body_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
       (t.setReg "split_x" .nat [] (fun _ => q)) := by
   rcases controls with ⟨hs, hh, hb, hslot, hl⟩
   rcases frozen with ⟨hk, hv⟩
-  simp (config := { maxSteps := 700000 }) [body, kernel, ComputeKernel.surfaceBody,
+  simp (config := { maxSteps := 700000 }) [body, kernel, quotedOriginal, quotedCommuted, ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
     Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
     Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,

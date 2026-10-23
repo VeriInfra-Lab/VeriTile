@@ -6,7 +6,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 2000000
-set_option linter.unusedSimpArgs false
+set_option linter.unusedSimpArgs Bool.false
 variable {α : Type} [Inhabited α]
 
 def rowCarry (old : Carry α) (i : TileIndex [16,16]) : BlockSparseAttn.Acc α 4 :=

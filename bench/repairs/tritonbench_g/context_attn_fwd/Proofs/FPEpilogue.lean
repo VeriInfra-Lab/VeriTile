@@ -49,7 +49,7 @@ theorem epilogue_success (p : Layout) (r : Regions) (scale : ℝ)
   rcases hc with ⟨hs,hh,hm,hd,hl⟩
   refine ⟨(fun i => M.cast (some .fp32) .real .real
     (M.binary (some .fp32) .real .div (a i) (l (i.1,PUnit.unit)))),?_⟩
-  simp [parts,kernel,
+  simp [parts,kernel,originalFP32,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,ComputeKernel.surfaceBody,
     Source.intRange?]

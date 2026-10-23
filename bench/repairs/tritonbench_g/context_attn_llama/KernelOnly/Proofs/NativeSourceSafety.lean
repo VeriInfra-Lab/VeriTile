@@ -33,7 +33,7 @@ structure Bounds (p : Layout) (r : Regions) (a : FPReference.Inputs α)
 theorem prelude (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α) (s : State α)
     (bounds : RegionName → Nat) (access : Bounds p r (inputs p r s) bounds) :
     Safety.traceSafeList (M.withDefaultPrecision .fp32) bounds (parts p r scale).before s := by
-  simp [parts,kernel,VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
+  simp [parts,kernel,originalFP32,VeriTile.Bench.TritonBenchG.ContextAttnLlama.Program.kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnLlama.original,ComputeKernel.surfaceBody,Source.intRange?]
   simp (config := {maxSteps:=400000}) [Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,

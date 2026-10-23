@@ -5,7 +5,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 1000000
-set_option linter.unusedSimpArgs false
+set_option linter.unusedSimpArgs Bool.false
 
 def layoutOf (p : Parameters) (batches : Nat) (rows cols : Int → Int) : BlockSparseAttn.Layout where
   shape := ⟨batches,p.heads,p.kvHeads,p.length,16,16,16,p.blocks,p.layouts⟩

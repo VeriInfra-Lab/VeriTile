@@ -43,7 +43,7 @@ def entryExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
     {t : State α // run (engine (withDot M D)) ((outer c scale).before++(parts c scale).before) s=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp [parts,inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,ProducerGeometry.layout,ProducerGeometry.regions,
+  simp [parts,inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,ProducerGeometry.layout,ProducerGeometry.regions,
     ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -65,7 +65,7 @@ def bodyExecution (M : Algebra α) (D : DotPrimitive α) (c : Shape) (scale : �
   simp only [HasAcc] at ha
   refine ⟨?_,?_⟩
   swap
-  simp [parts,inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,ProducerGeometry.layout,ProducerGeometry.regions,
+  simp [parts,inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,ProducerGeometry.layout,ProducerGeometry.regions,
     ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,withDot,
     Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

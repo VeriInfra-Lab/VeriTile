@@ -21,7 +21,7 @@ theorem inter_prologue (M : Algebra α) (D : DotPrimitive α)
     (c : ProducerGeometry.Shape) (scale : ℝ) (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList (engine (withDot M D)) bounds (outer c scale).before s := by
   apply pure_trace
-  simp [outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,
+  simp [outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,
     ProducerGeometry.layout,ProducerGeometry.regions,ComputeKernel.surfaceBody,
     Source.conditional?,Source.prefixBefore]
   all_goals try simp only [Op.tritonDiv,Op.tritonMod]
@@ -31,7 +31,7 @@ theorem inter_entry (M : Algebra α) (D : DotPrimitive α)
     (c : ProducerGeometry.Shape) (scale : ℝ) (bounds : RegionName → Nat) (s : State α) :
     Safety.traceSafeList (engine (withDot M D)) bounds (parts c scale).before s := by
   apply pure_trace
-  simp [parts,FPInter.inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,
+  simp [parts,FPInter.inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,
     ProducerGeometry.layout,ProducerGeometry.regions,ComputeKernel.surfaceBody,
     Source.conditional?,Source.dynamicRange?,Source.prefixBefore]
   all_goals try simp only [Op.tritonDiv,Op.tritonMod]

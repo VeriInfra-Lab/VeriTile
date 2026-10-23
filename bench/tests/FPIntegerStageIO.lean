@@ -69,6 +69,30 @@ theorem unnarrowed_successor_access_rejected {α : Type} [Inhabited α] (M : Alg
     QuantizeIntegerStage.store,FP.Structural.store,evalOp_unfold,TileShape.allIndices,
     State.write,Cell.read,bounds,storedInteger,Region.cast]
 
+/-- Pointer aliases must honor the destination region's integer width too.
+This exercises the pointer form emitted by readable Triton quotations. -/
+theorem pointer_store_narrows {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
+    QuantizeIntegerStage.store M (byteOutput "index")
+      (.ptr (.ptrBase (⟨"index"⟩ : Region .int))) (.none : MaskOpt .int []) (fun _ => 257) s =
+      some (s.write "index" 0 (.mk .int 1)) := by
+  simp [QuantizeIntegerStage.store, FP.Structural.store, evalOp_unfold,
+    storedInteger, byteOutput, TileShape.allIndices, Region.cast]
+
+/-- The same pointer keeps the full integer in a region without a byte ABI. -/
+theorem pointer_store_respects_region {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
+    QuantizeIntegerStage.store M (byteOutput "index")
+      (.ptr (.ptrBase (⟨"wide"⟩ : Region .int))) (.none : MaskOpt .int []) (fun _ => 257) s =
+      some (s.write "wide" 0 (.mk .int 257)) := by
+  simp [QuantizeIntegerStage.store, FP.Structural.store, evalOp_unfold,
+    storedInteger, byteOutput, TileShape.allIndices, Region.cast]
+
+/-- Masked-off pointer lanes preserve the state even with a narrowing ABI. -/
+theorem pointer_store_masked {α : Type} [Inhabited α] (M : Algebra α) (s : State α) :
+    QuantizeIntegerStage.store M (byteOutput "index")
+      (.ptr (.ptrBase (⟨"index"⟩ : Region .int))) (.mask (.constBool Bool.false) : MaskOpt .int [])
+      (fun _ => 257) s = some s := by
+  simp [QuantizeIntegerStage.store, FP.Structural.store, evalOp_unfold, TileShape.allIndices]
+
 def failingJob (M : Algebra Nat) : IntegerInvocation Nat where
   kernel := .mk [] [] [.assign .int [] "output" (.llrint (.alg (.ref .real [] "x")))]
   backend := M

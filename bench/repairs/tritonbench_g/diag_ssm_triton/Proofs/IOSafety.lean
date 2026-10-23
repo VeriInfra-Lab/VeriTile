@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.ReadableSource
 import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.IOForwardSafety
 import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.IOBackwardSafetyBase
 
@@ -15,7 +16,7 @@ theorem backward_trace (p : BackwardLayout) (length : Nat)
     (Kernels.backwardTyped p.s p.l p.y p.gs p.gx p.gl p.gy length p.batch p.dim p.B).eraseDType.toAlgKernel.TraceSafe bounds u := by
   by_cases hz : length = 0
   · subst length
-    simpa only [Kernel.TraceSafe,Kernels.backwardTyped,Erasure.backward_body] using
+    simpa only [Kernel.TraceSafe,Kernels.ReadableSource.backward_preserved,Erasure.backward_body] using
       ZeroSafety.backward_safe bounds u p.s p.l p.y p.gs p.gx p.gl p.gy p.batch p.dim p.B
         ⟨hb.transition,hb.gradInitial,hb.gradTransition⟩
   · have hp : 0 < length := by omega
@@ -28,7 +29,7 @@ theorem backward_trace (p : BackwardLayout) (length : Nat)
       (fun _ j hj => hb.gradInitial j hj.2) (fun _ j hj => hb.gradTransition j hj.2)
     simp only [Kernel.TraceSafeR,RealReference.diag_ssm_backward_kernel_toAlg_body,
       RealReference.diagSsmBackwardProjectedBody,List.append_assoc,appendR_iff] at old
-    simp only [Kernel.TraceSafe,Kernels.backwardTyped,Erasure.backward_body,
+    simp only [Kernel.TraceSafe,Kernels.ReadableSource.backward_preserved,Erasure.backward_body,
       BackwardProjection.real_source_body,List.append_assoc,TraceRewrite.append_iff]
     refine ⟨(backward_prefix bounds p.l p.batch p.dim p.B u).mpr old.1,?_⟩
     intro v he

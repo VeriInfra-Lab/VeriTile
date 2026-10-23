@@ -16,11 +16,11 @@ def guard : Op .bool [] := .ne .int .nil (.ref .int [] "lora_index") (.constInt 
 def loop (h : Call) : ComputeStmt := .forRangeInt "k" (.constInt 0) (.constInt h.K) (.constNat 16384) (body h)
 
 theorem complete_code (h : Call) : code h=prelude h++[.ifThen guard (active h)] := by
-  cases eq : h.storage <;> simp only [code,prelude,active,Surface.source,Kernels.source,eq]
+  cases eq : h.storage <;> simp only [code,prelude,active,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.source,eq]
   all_goals rfl
 
 theorem complete_active (h : Call) : active h=setup h++loop h::tail h := by
-  cases eq : h.storage <;> simp only [code,prelude,active,setup,body,loop,tail,Surface.source,Kernels.source,eq]
+  cases eq : h.storage <;> simp only [code,prelude,active,setup,body,loop,tail,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Kernels.source,eq]
   all_goals rfl
 
 #axiomsClean complete_code

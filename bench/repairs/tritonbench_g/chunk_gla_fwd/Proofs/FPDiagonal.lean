@@ -84,8 +84,8 @@ def entryExecution (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ) (s
   | «false» =>
     refine ⟨?_,?_⟩
     swap
-    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,
-      TypedSplit.original,TypedSplit.source,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
+    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,
+      TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
       ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -94,8 +94,8 @@ def entryExecution (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ) (s
   | «true» =>
     refine ⟨?_,?_⟩
     swap
-    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,
-      TypedSplit.original,TypedSplit.source,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
+    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,
+      TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
       ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -121,8 +121,8 @@ def bodyExecution (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ)
   | «false» =>
     refine ⟨?_,?_⟩
     swap
-    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,
-      TypedSplit.original,TypedSplit.source,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
+    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,
+      TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
       ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
@@ -133,8 +133,8 @@ def bodyExecution (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ)
   | «true» =>
     refine ⟨?_,?_⟩
     swap
-    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,
-      TypedSplit.original,TypedSplit.source,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
+    simp [parts,branch,kernel,SourceBridge.intraNew,SourceBridge.splitNew,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,
+      TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,IntraGrid.layout,IntraGrid.regions,SplitGrid.layout,SplitGrid.regions,
       ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore,Option.map,Option.getD,
       run,step,evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,boundaryZero,Option.bind,engine,
       Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,

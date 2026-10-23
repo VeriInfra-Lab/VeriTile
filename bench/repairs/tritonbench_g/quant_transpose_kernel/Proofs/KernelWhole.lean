@@ -13,8 +13,8 @@ structure Reads {α : Type} (p : Parameters) (values : Nat → Nat → α)
   inverse : s.mem ⟨p.scale⟩ 0 = .mk .real inverse
 
 /-- INT8 output observes the low eight bits at the actual pointer store.
-The interpreter's integer cell retains the signed64 register; it is not a
-claim that the output Tensor has 64-bit elements. -/
+The interpreter stores the signed INT8 value; observing it as a byte
+preserves the low eight bits of the signed64 rounding result. -/
 def byte {α : Type} [Inhabited α] (s : State α) (out : String) (o : Nat) : BitVec 8 :=
   BitVec.ofInt 8 ((s.mem ⟨out⟩ o).read .int)
 
@@ -38,7 +38,7 @@ theorem kernel_correct {α : Type} [Inhabited α] (M : Algebra α)
   rw [ho _ hb]
   unfold KernelGrid.reference
   rw [hd.1, hd.2, reads.input r c hr hc, reads.inverse]
-  rfl
+  simp only [Cell.read_self, BitVec.ofInt_toInt, quantized]
 
 theorem real_correct (rest : Algebra ℝ) (p : Parameters) (sep : KernelGrid.Separate p)
     (values : Nat → Nat → ℝ) (inverse : ℝ) (s : State ℝ) (reads : Reads p values inverse s) :

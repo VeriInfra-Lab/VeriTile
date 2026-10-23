@@ -13,7 +13,7 @@ set_option linter.unusedSimpArgs false
 variable {α : Type} [Inhabited α]
 
 def outerStatement (p : Parameters) : ComputeStmt :=
-  (source p).surfaceBody[15]'(by cases hp : p.problem.profile <;> simp [source,TypedSource.kernel,hp,ComputeKernel.surfaceBody])
+  (source p).surfaceBody[15]'(by cases hp : p.problem.profile <;> simp [source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,hp,ComputeKernel.surfaceBody])
 
 theorem source_decomposition (p : Parameters) :
     (source p).surfaceBody=prelude p++[outerStatement p] := by
@@ -25,7 +25,7 @@ theorem dynamicOuter (P : Source.Arithmetic α α) (p : Parameters)
     step (backend P) (outerStatement p) s=
       FP.Structural.range (backend P) "tile_ordinal" 0 (p.problem.work pid) 1 (outer p) s := by
   cases hp : p.problem.profile <;>
-    simp [outerStatement,outer,source,TypedSource.kernel,hp,ComputeKernel.surfaceBody,step,
+    simp [outerStatement,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,hp,ComputeKernel.surfaceBody,step,
       evalOp_unfold,evalExpr,evalComputeOp,Option.bind,regs.work]
 
 def program (P : Source.Arithmetic α α) (p : Parameters) (pid : Nat) (s : State α) : Option (State α) :=

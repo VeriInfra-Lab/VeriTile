@@ -78,7 +78,7 @@ theorem epilogue_good (p : Layout) (r : Regions) (scale : ℝ) (plan : Plan)
   rcases Option.isSome_iff_exists.mp h13 with ⟨length,h13⟩
   have gl := hl.2.2.1 l h9
   have ga := hl.2.2.2 a h10
-  simp (config := {maxSteps := 1000000}) [parts,kernel,
+  simp (config := {maxSteps := 1000000}) [parts,kernel,originalFP32,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,ComputeKernel.surfaceBody,
     Source.intRange?,run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,

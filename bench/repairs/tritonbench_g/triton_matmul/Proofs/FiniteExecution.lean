@@ -127,15 +127,25 @@ theorem output_offset {α : Type} (r : Request) (basis : State α) (t : TensorAP
   rw [Index.word_nat (by change safeCOffset r _ _<2^64; omega),candidate_store_offset,coords.1,coords.2]
   rfl
 
-def program {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α) (r : Request)
-    (pid : Nat) (s : State α) : Option (State α) :=
-  (loop M D r s pid (Index.ceiling (Index.scalarABI r.inner) (SourceScope.blockK r.storage)).toNat
-    (Index.word 0) (fun _ => M.literal (some .fp32) .real 0)).map fun carry =>
-    (TileShape.allIndices [BM r.parameters,BN r.parameters]).foldl (fun current i =>
+/-- The finite store pass is kept separate so memory congruence need not
+normalize the concrete 128-by-256 index list inside an Option-map proof. -/
+def writeItems {α : Type} (M : Algebra α) (r : Request) (pid : Nat)
+    (carry : CIndex r.parameters → α) (items : List (CIndex r.parameters)) (s : State α) : State α :=
+    items.foldl (fun current i =>
       if Index.storeMask r pid i.1.val i.2.1.val then
         current.write r.C (outputOffset r pid i).toNat
           (stored r.storage (M.cast none .real (dtype r.storage) (carry i))) else current)
       (instanceState r pid s)
+
+def writeResult {α : Type} (M : Algebra α) (r : Request) (pid : Nat)
+    (carry : CIndex r.parameters → α) (s : State α) : State α :=
+  writeItems M r pid carry (TileShape.allIndices [BM r.parameters,BN r.parameters]) s
+
+def program {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α) (r : Request)
+    (pid : Nat) (s : State α) : Option (State α) :=
+  (loop M D r s pid (Index.ceiling (Index.scalarABI r.inner) (SourceScope.blockK r.storage)).toNat
+    (Index.word 0) (fun _ => M.literal (some .fp32) .real 0)).map
+      (fun carry => writeResult M r pid carry s)
 
 theorem program_eq {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α) (r : Request)
     (basis : State α) (t : TensorAPI r basis) (s : State α) (pid : Nat)
@@ -144,7 +154,7 @@ theorem program_eq {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α) (
   have blocks := congrArg Index.Control.blocks (Index.control_word r basis t pid hp hl)
   change Index.ceiling (Index.scalarABI r.inner) (SourceScope.blockK r.storage)=Index.word r.parameters.numKBlocks at blocks
   have small := Index.blocks_bound r basis t
-  simp only [program,blocks,Index.word_nat (by omega : r.parameters.numKBlocks<2^64),
+  simp only [program,writeResult,writeItems,blocks,Index.word_nat (by omega : r.parameters.numKBlocks<2^64),
     loop_eq M D r basis t s pid hp hl r.parameters.numKBlocks 0 (by omega),Option.map_some,Source.writtenSafe]
   congr 2
   funext current i

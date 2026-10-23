@@ -5,7 +5,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 16000000
-set_option linter.unusedSimpArgs false
+set_option linter.unusedSimpArgs Bool.false
 
 structure Runtime {α : Type} [Inhabited α] (a : Arithmetic α) (p : Parameters)
     (initial : State (Replicas α)) (carry : Carry α) (current : State (Replicas α)) : Prop

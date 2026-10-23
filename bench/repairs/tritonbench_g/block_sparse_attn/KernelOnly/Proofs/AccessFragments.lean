@@ -9,7 +9,7 @@ noncomputable section
 variable {α : Type} [Inhabited α]
 set_option maxRecDepth 24000
 set_option maxHeartbeats 3000000
-set_option linter.unusedSimpArgs false
+set_option linter.unusedSimpArgs Bool.false
 
 /-- Coordinates of the actual source loads and stores. This proof-only record
 will be derived from public finite IO windows, not assumed by a specification. -/

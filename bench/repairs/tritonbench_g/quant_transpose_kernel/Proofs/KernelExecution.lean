@@ -10,8 +10,8 @@ set_option maxRecDepth 18000
 set_option linter.unusedSimpArgs false
 
 /-- The existing straight-line llrint adapter preserves signed64 registers
-and executes the actual pointer store. The stored signed64 register is
-observed through its low byte at the source's int8 boundary. No new core semantics. -/
+and executes the actual pointer store. The pointer store narrows the signed64 register to INT8, and the
+output is observed through that stored byte. No new core semantics. -/
 def typed (p : Parameters) (version : Bool) : QuantizeIntegerStage.TypedKernel :=
   ⟨kernel version p, QuantizeIntegerStage.byteOutput ⟨p.output⟩,
     QuantizeIntegerStage.outputRegister⟩
@@ -27,7 +27,7 @@ def execution {α : Type} [Inhabited α] (M : Algebra α) (round : α → BitVec
     {t : State α // exec M round p Bool.false s = some t} := by
   refine ⟨?_, ?_⟩
   swap
-  simp (config := { maxSteps := 1000000 }) [exec, typed, kernel,
+  simp (config := { maxSteps := 1000000 }) [exec, typed, kernel, quotedOriginal, quotedCommuted,
     ComputeKernel.surfaceBody, QuantizeIntegerStage.exec, QuantizeIntegerStage.run,
     QuantizeIntegerStage.step, QuantizeIntegerStage.evalExpr, QuantizeIntegerStage.store,
     QuantizeIntegerStage.storedInteger, QuantizeIntegerStage.byteOutput,

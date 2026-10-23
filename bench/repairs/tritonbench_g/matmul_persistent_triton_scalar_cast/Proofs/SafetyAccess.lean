@@ -37,7 +37,7 @@ theorem inner_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
     have h : InnerInvariant P p initial tile block current := h
     have ha : ∀ i : AIndex p,p.problem.k block i.2.1.val<p.problem.K → aOffset p tile block i<bounds "A" := ha
     have hb : ∀ i : BIndex p,p.problem.k block i.1.val<p.problem.K → bOffset p tile block i<bounds "B" := hb
-    simp [p,Core.inner,outer,source,TypedSource.kernel,ComputeKernel.surfaceBody,
+    simp [p,Core.inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -59,7 +59,7 @@ theorem inner_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
     have h : InnerInvariant P p initial tile block current := h
     have ha : ∀ i : AIndex p,p.problem.k block i.2.1.val<p.problem.K → aOffset p tile block i<bounds "A" := ha
     have hb : ∀ i : BIndex p,p.problem.k block i.1.val<p.problem.K → bOffset p tile block i<bounds "B" := hb
-    simp [p,Core.inner,outer,source,TypedSource.kernel,ComputeKernel.surfaceBody,
+    simp [p,Core.inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -87,7 +87,7 @@ theorem suffix_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
     change Safety.traceSafeList (backend P) bounds (tileSuffix p) current
     have h : InnerInvariant P p initial tile p.problem.kTiles current := h
     have ho : ∀ i : CIndex,active p tile i → cOffset p tile i<bounds "C" := ho
-    simp [p,tileSuffix,outer,source,TypedSource.kernel,ComputeKernel.surfaceBody,
+    simp [p,tileSuffix,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
@@ -102,7 +102,7 @@ theorem suffix_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
     change Safety.traceSafeList (backend P) bounds (tileSuffix p) current
     have h : InnerInvariant P p initial tile p.problem.kTiles current := h
     have ho : ∀ i : CIndex,active p tile i → cOffset p tile i<bounds "C" := ho
-    simp [p,tileSuffix,outer,source,TypedSource.kernel,ComputeKernel.surfaceBody,
+    simp [p,tileSuffix,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
       Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
       Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,

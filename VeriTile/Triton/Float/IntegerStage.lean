@@ -85,6 +85,14 @@ noncomputable def store {α : Type} [Inhabited α] (M : Algebra α)
   | .int, _, .region r off, mask, values, s =>
       FP.Structural.store M (.region r off) mask
         (fun i => storedInteger storage (Region.cast r) (values i)) s
+  | .int, _, .ptr address, mask, values, s => do
+      let addresses ← FP.Structural.evalOp M none address s
+      FP.Structural.store M (.ptr address) mask
+        (fun i => storedInteger storage (addresses i).1 (values i)) s
+  | .int, _, .blockPtr address checkedAxes, mask, values, s => do
+      let addresses ← FP.Structural.evalOp M none address s
+      FP.Structural.store M (.blockPtr address checkedAxes) mask
+        (fun i => storedInteger storage (addresses i).region (values i)) s
   | _, _, mem, mask, values, s => FP.Structural.store M mem mask values s
 
 noncomputable def step {α : Type} [Inhabited α] (M : Algebra α)

@@ -21,7 +21,7 @@ theorem kernel_real (h : Call) (u : BlockState) (indices : Nat → Int)
    fun b n => Real.readback h orders u indices run b n⟩
 
 #axiomsClean kernel_real
-#specNonCircular Target.real avoiding [Real.Run,Surface.source,FP.Structural.exec]
+#specNonCircular Target.real avoiding [Real.Run,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,FP.Structural.exec]
 #auditModuleAxioms
 end
 end VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.RealKernelResult

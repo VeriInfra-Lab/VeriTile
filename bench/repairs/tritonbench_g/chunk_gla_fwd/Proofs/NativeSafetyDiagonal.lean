@@ -29,7 +29,7 @@ theorem diagonal_entry (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ
       ((branch split c scale).before ++ (parts split c scale).before) s := by
   cases split
   all_goals
-    simp [parts,branch,kernel,TypedIntra.original,TypedIntra.source,TypedSplit.original,TypedSplit.source,
+    simp [parts,branch,kernel,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,
       ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore]
     simp only [singleton,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]
@@ -63,13 +63,13 @@ theorem diagonal_body (M : Algebra α) (split : Bool) (c : Layout) (scale : ℝ)
     apply pure_trace
     cases split
     all_goals
-      simp [parts,branch,kernel,TypedIntra.original,TypedIntra.source,TypedSplit.original,TypedSplit.source,
+      simp [parts,branch,kernel,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,
         ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore]
       simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]
       simp [Safety.safeOp_unfold]
   cases split
   all_goals
-    simp [parts,branch,kernel,TypedIntra.original,TypedIntra.source,TypedSplit.original,TypedSplit.source,
+    simp [parts,branch,kernel,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,
       ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?,Source.prefixBefore]
     simp only [singleton,Safety.traceSafeList_cons,Safety.stepSafe_unfold,
       Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]

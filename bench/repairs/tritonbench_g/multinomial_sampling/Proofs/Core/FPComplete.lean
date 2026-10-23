@@ -57,7 +57,7 @@ def epilogueExecution (rest : Algebra α) (P : Primitives α) (d : Storage) (p :
     (h : Invariant P p initial (rounds P d p initial (count p)) current) :
     {t : State α // run (backend rest P) (epilogue d p) current=some t} := by
   refine ⟨writeBack P d p initial current,?_⟩
-  cases d <;> simp [epilogue,source,original,original16,originalBfloat16,original64,
+  cases d <;> simp [epilogue,source,original,Source.original,original16,Source.original16,originalBfloat16,Source.originalBfloat16,original64,Source.original64,
     ComputeKernel.surfaceBody,Random.i32ArangeSize,run,step,evalExpr,evalComputeOp,FP.Structural.evalOp,store,
     h.off,h.mask,h.output,writeBack,Region.cast,Option.bind]
 

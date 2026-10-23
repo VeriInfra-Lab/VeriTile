@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.ReadableSource
 import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.IOBounds
 import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.IOComplexValues
 import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.IOForwardSafety
@@ -56,7 +57,7 @@ theorem forward_complex_correct (p : ForwardLayout) (length : Nat) :
   refine ⟨?_,?_⟩
   · intro bounds hb
     have h := ComplexForwardSafety.trace_safe p u length bounds (forward_bounds_complex p length u v bounds hb)
-    simpa only [forwardIO,forwardKernel,↓reduceIte,Kernel.TraceSafe,Kernels.complexForwardTyped,
+    simpa only [forwardIO,forwardKernel,↓reduceIte,Kernel.TraceSafe,Kernels.ReadableSource.complex_forward_preserved,
       Erasure.complexForward_body] using h
   · obtain ⟨final,he,ho,hf⟩ := RegionCorrectness.complex_forward p length u
     refine ⟨final,he,?_,?_⟩

@@ -36,7 +36,7 @@ theorem inner_statement_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
     (safe : Safety.rangeSafe (backend P) bounds "ki" 0 p.problem.kTiles 1 (Core.inner p) current) :
     Safety.stepSafe (backend P) bounds (innerStatement p) current := by
   cases hp : p.problem.profile <;>
-    simpa [innerStatement,Core.inner,outer,source,TypedSource.kernel,hp,ComputeKernel.surfaceBody,
+    simpa [innerStatement,Core.inner,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,hp,ComputeKernel.surfaceBody,
       Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,h.count] using safe
 
 theorem outer_safe (P : Source.Arithmetic α α) (p : Core.Parameters)
@@ -102,7 +102,7 @@ theorem program_safe (P : Source.Arithmetic α α) (p : Core.Parameters) (initia
   cases Option.some.inj ht
   apply Safety.traceSafeList_cons_intro
   · cases hp : p.problem.profile <;>
-      simpa [outerStatement,outer,source,TypedSource.kernel,hp,ComputeKernel.surfaceBody,
+      simpa [outerStatement,outer,source,TypedSource.kernel,TypedSource.fp16,TypedSource.f8e4,hp,ComputeKernel.surfaceBody,
         Safety.stepSafe_unfold,Safety.safeOp_unfold,evalOp_unfold,regs.work] using outerSafe
   · intro t _
     exact Safety.traceSafeList_nil _ _ _

@@ -154,7 +154,7 @@ theorem observed (ops : Operations α) (half : α → α) (round : α → BitVec
     funext vals o j
     fin_cases o
     · exact (unsigned8 _).trans
-        (congrArg Fin.val (KernelExecution.narrow_signedByte _))
+        (congrArg (fun b : Byte => (b.val : Int)) (KernelExecution.narrow_signedByte _))
     · rfl
   rw [mapped] at base
   exact base

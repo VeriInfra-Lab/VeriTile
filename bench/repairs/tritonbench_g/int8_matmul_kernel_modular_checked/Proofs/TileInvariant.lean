@@ -69,6 +69,16 @@ theorem innerInvariant (cast : Word32 → Byte) (M : Algebra Word32) (p : Parame
       cases u
       rfl
     rw [subtractOne]
+    have field_mod (word field : Nat) :
+        (((↑(word &&& (3 <<< (2*field))) : Int) >>> (2*field)).bmod 256) =
+          ((↑(word &&& (3 <<< (2*field))) : Int) >>> (2*field)) := by
+      rw [← Int.natCast_shiftRight, extracted_field]
+      have bound : (word >>> (2*field) &&& 3) ≤ 3 := Nat.and_le_right
+      have same : (BitVec.ofInt 8 ((word >>> (2*field) &&& 3 : Nat) : Int)).toInt =
+          ((word >>> (2*field) &&& 3 : Nat) : Int) := by
+        apply BitVec.toInt_ofInt_eq_self (by decide) <;> norm_num <;> omega
+      simpa only [BitVec.toInt_ofInt] using same
+    simp only [field_mod]
 
 #axiomsClean innerInvariant
 end

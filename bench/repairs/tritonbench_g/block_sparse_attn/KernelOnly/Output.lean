@@ -5,7 +5,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 12000000
-set_option linter.unusedSimpArgs false
+set_option linter.unusedSimpArgs Bool.false
 
 def outputOffset {α : Type} (p : Parameters) (initial : State α) (i : TileIndex [16,16]) :=
   batch p initial*p.ob + head p initial*p.oh + row initial i.1*p.om + initial.pids 2*16+i.2.1.val

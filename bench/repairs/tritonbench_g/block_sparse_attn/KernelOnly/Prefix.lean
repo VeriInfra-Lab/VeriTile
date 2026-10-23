@@ -5,7 +5,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 16000000
-set_option linter.unusedSimpArgs false
+set_option linter.unusedSimpArgs Bool.false
 
 /-- Actual INT32 cells, including default cells outside the allocated view,
 decode to signed32 integers. Physical decoding later supplies this property. -/

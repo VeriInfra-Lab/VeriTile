@@ -1,5 +1,5 @@
 import bench.tritonbench_g.matmul_leakyrelu.Proofs.ContractedWhole
-import bench.tritonbench_g.context_attn_fwd.Proofs.FPModel
+import bench.tritonbench_g.matmul_leakyrelu.Proofs.RealAlgebra
 
 /-! Exact mathematical projection of the complete original host/grid.
 This is the ideal Real model. Native FP32 dot rounding is covered separately
@@ -20,8 +20,7 @@ def idealNumerics (roundHalf : ℝ → ℝ) : Numerics ℝ where
   castHalf := roundHalf
 
 def idealAlgebra (roundHalf : ℝ → ℝ) : Algebra ℝ :=
-  { ContextAttnFwd.FPModel.model with
-    cast := fun _ _ target x => if target=.fp16 then roundHalf x else x }
+  VeriTile.Bench.MatmulReal.algebra roundHalf
 
 def idealDotValue {batch : TileShape} {m k n : Nat}
     (a : TileIndex (batch++[m,k]) → ℝ) (b : TileIndex (batch++[k,n]) → ℝ) :
@@ -39,7 +38,7 @@ theorem ideal_primitives (roundHalf : ℝ → ℝ) :
     PrimitiveLaws (idealAlgebra roundHalf) idealDot (idealNumerics roundHalf) := by
   constructor
   all_goals intros
-  all_goals simp [idealAlgebra,ContextAttnFwd.FPModel.model,idealNumerics,idealDot,idealDotValue]
+  all_goals simp [idealAlgebra,VeriTile.Bench.MatmulReal.algebra,idealNumerics,idealDot,idealDotValue]
   all_goals norm_num
 
 theorem foldRange_sum (f : Nat → ℝ) (start stop : Nat) (a : ℝ) (h : start≤stop) :
@@ -136,7 +135,7 @@ theorem ideal_primitives (roundHalf : ℝ → ℝ) :
     PrimitiveLaws (Whole.idealAlgebra roundHalf) idealDotAcc (idealNumerics roundHalf) := by
   constructor
   all_goals intros
-  all_goals simp [Whole.idealAlgebra,ContextAttnFwd.FPModel.model,idealNumerics,idealDotAcc,Whole.idealDotValue]
+  all_goals simp [Whole.idealAlgebra,VeriTile.Bench.MatmulReal.algebra,idealNumerics,idealDotAcc,Whole.idealDotValue]
   all_goals norm_num
 
 /-- Both ideal interpretations project to the same independent mathematical

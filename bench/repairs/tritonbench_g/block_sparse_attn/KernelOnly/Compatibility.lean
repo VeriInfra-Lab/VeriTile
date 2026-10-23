@@ -6,7 +6,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 6000000
-set_option linter.unusedSimpArgs false
+set_option linter.unusedSimpArgs Bool.false
 
 /-- Reuse the already proved independent row mathematics with only its scalar
 and fixed-width instruction parameters. No SourceBinding object is involved. -/

@@ -34,7 +34,7 @@ theorem prelude (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
     change (if NativeFormula.active p (FPReference.inputs p r s) i then _ else _) = _
     rw [if_pos hi]
     rfl
-  simp (config := {maxSteps := 500000}) [parts,kernel,
+  simp (config := {maxSteps := 500000}) [parts,kernel,originalFP32,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,ComputeKernel.surfaceBody,
     Source.intRange?,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
@@ -72,7 +72,7 @@ theorem body (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
     refine ⟨cur,reached,List.mem_filterMap.mpr ⟨i,TileShape.mem_allIndices _ i,?_⟩⟩
     simp [hi]
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
-  simp (config := {maxSteps := 1000000}) [parts,kernel,
+  simp (config := {maxSteps := 1000000}) [parts,kernel,originalFP32,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,ComputeKernel.surfaceBody,
     Source.intRange?,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,
@@ -93,7 +93,7 @@ theorem epilogue (p : Layout) (r : Regions) (scale : ℝ) (M : Algebra α)
     (caps : RegionName → Nat) (hb : Bounds p r (FPReference.inputs p r initial) caps) :
     Safety.traceSafeList (M.withDefaultPrecision .fp32) caps (parts p r scale).after s := by
   rcases live with ⟨h0,h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13,h14⟩
-  simp (config := {maxSteps := 300000}) [parts,kernel,
+  simp (config := {maxSteps := 300000}) [parts,kernel,originalFP32,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.Program.kernel,
     VeriTile.Bench.TritonBenchG.ContextAttnFwd.original,ComputeKernel.surfaceBody,
     Source.intRange?,Safety.traceSafeList,Safety.stepSafe,Safety.safeExpr,Safety.safeCompute,

@@ -28,7 +28,7 @@ private theorem diagonal_condition_safe (M : Algebra α) (split : Bool) (c : Lay
     (bounds : RegionName → Nat) (s : State α) :
     Safety.safeOp (engine M) none bounds s (branch split c scale).condition := by
   cases split <;>
-    simp [branch,kernel,TypedIntra.original,TypedIntra.source,TypedSplit.original,TypedSplit.source,
+    simp [branch,kernel,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,
       ComputeKernel.surfaceBody,Source.conditional?]
   all_goals simp [Safety.safeOp_unfold]
 
@@ -36,7 +36,7 @@ private theorem diagonal_stop_safe (M : Algebra α) (split : Bool) (c : Layout) 
     (bounds : RegionName → Nat) (s : State α) :
     Safety.safeOp (engine M) none bounds s (parts split c scale).stop := by
   cases split <;>
-    simp [parts,branch,kernel,TypedIntra.original,TypedIntra.source,TypedSplit.original,TypedSplit.source,
+    simp [parts,branch,kernel,TypedIntra.original,TypedIntra.source,TypedIntra.fp32Original,TypedSplit.original,TypedSplit.source,TypedSplit.fp32Original,
       ComputeKernel.surfaceBody,Source.conditional?,Source.dynamicRange?]
   all_goals simp [Safety.safeOp_unfold]
 

@@ -93,7 +93,7 @@ theorem all_values (x w y i : TensorInfo) (s : Scale) (indices : Nat → Int) (o
 #axiomsClean returned_value
 #axiomsClean all_values
 #axiomsClean frame
-#specNonCircular value avoiding [Target.real,Real.readback,Surface.source,FP.Structural.exec]
+#specNonCircular value avoiding [Target.real,Real.readback,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,FP.Structural.exec]
 #auditModuleAxioms
 end
 end VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.RealTensor

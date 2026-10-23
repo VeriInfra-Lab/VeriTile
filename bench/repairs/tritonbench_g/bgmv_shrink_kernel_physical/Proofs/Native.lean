@@ -184,7 +184,7 @@ theorem scalar_word (I : Instructions) (S : Selection) (a : Binding x w y i s) (
 #axiomsClean source_frame
 #axiomsClean checked_source
 #axiomsClean whole
-#specNonCircular reference avoiding [FPWorkset.SourceWorkset,Surface.source,FP.Structural.exec,sourceBytes]
+#specNonCircular reference avoiding [FPWorkset.SourceWorkset,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,FP.Structural.exec,sourceBytes]
 #auditModuleAxioms
 end
 end VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.Native

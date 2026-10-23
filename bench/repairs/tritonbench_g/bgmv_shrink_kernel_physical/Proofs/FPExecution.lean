@@ -16,7 +16,7 @@ end Control
 theorem exec_code (M : Algebra α) (h : Call) (s : State α) :
     FP.Structural.exec M (Surface.source h) s=run M (code h) s := by
   unfold code
-  cases eq : h.storage <;> simp only [Surface.source,eq]
+  cases eq : h.storage <;> simp only [Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,eq]
   all_goals rfl
 
 theorem preguard_memory (M : Algebra α) (P : Primitives α) (h : Call)

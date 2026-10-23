@@ -51,7 +51,7 @@ def written {α : Type} [Inhabited α] (M : Algebra α) (round : α → BitVec 6
     (p : Parameters) (s : State α) : State α :=
   (TileShape.allIndices [128, 128]).foldl (fun t i =>
     if active p (s.pids 0) i then
-      t.write ⟨p.output⟩ (outputOffset p (s.pids 0) i) (.mk .int (word M round p s i).toInt)
+      t.write ⟨p.output⟩ (outputOffset p (s.pids 0) i) (.mk .int (BitVec.ofInt 8 (word M round p s i).toInt).toInt)
     else t) s
 
 theorem execution_memory {α : Type} [Inhabited α] (M : Algebra α)
@@ -132,7 +132,7 @@ theorem written_word {α : Type} [Inhabited α] (M : Algebra α)
     (round : α → BitVec 64) (p : Parameters) (s : State α) (i : Lane)
     (hi : active p (s.pids 0) i) :
     (written M round p s).mem ⟨p.output⟩ (outputOffset p (s.pids 0) i) =
-      .mk .int (word M round p s i).toInt :=
+      .mk .int (BitVec.ofInt 8 (word M round p s i).toInt).toInt :=
   masked_readback_active _ _ _ _ _ i hi (output_injective p (s.pids 0))
 
 theorem written_frame {α : Type} [Inhabited α] (M : Algebra α)

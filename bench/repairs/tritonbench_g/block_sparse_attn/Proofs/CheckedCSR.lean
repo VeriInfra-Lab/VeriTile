@@ -27,7 +27,7 @@ structure Guard (a : Host.Arguments) (rowCount colCount : Nat) : Prop where
     ∀ visit,visit<a.layout.csr.count a.layout.shape h row →
     let col:=a.layout.csr.cols (a.layout.csr.slot a.layout.shape h row visit)
     0≤col ∧ col*(a.layout.shape.blockN:Int)<a.layout.shape.length ∧
-    (a.layout.evenN=true →
+    (a.layout.evenN=Bool.true →
       (col+1)*(a.layout.shape.blockN:Int)≤a.k.rows ∧
       (col+1)*(a.layout.shape.blockN:Int)≤a.v.rows)
 
@@ -82,7 +82,7 @@ theorem visit_bounds (a : Host.Arguments) (header : Host.Header a)
     I32 base ∧ I32 first ∧ I32 last ∧ I32 (first+visit) ∧ I32 (first+visit+1) ∧
     I32 slot ∧ I32 col ∧ I32 (col*(a.layout.shape.blockN:Int)) ∧ I32 key ∧
     Allocated a.cols slot ∧ 0≤key ∧ key<a.layout.shape.length+a.layout.shape.blockN ∧
-    (a.layout.evenN=true → key<a.k.rows ∧ key<a.v.rows) := by
+    (a.layout.evenN=Bool.true → key<a.k.rows ∧ key<a.v.rows) := by
   obtain ⟨hb,hh,hr,hkv⟩:=lane_bounds a header l valid
   obtain ⟨first0,firstMax,last0,lastMax⟩:=guard.endpoints _ hh _ hr
   obtain ⟨col0,colMax,even⟩:=guard.columns _ hh _ hr visit hv
@@ -159,7 +159,7 @@ theorem key_value_bounds (a : Host.Arguments) (header : Host.Header a)
      signedAddress a.layout.k w.batch (kvHead a.layout.shape w.head) key (db*a.layout.shape.blockD+d)<2^31) ∧
     (0≤signedAddress a.layout.v w.batch (kvHead a.layout.shape w.head) key (l.channelProgram*a.layout.shape.blockD+d) ∧
      signedAddress a.layout.v w.batch (kvHead a.layout.shape w.head) key (l.channelProgram*a.layout.shape.blockD+d)<2^31) ∧
-    ((a.layout.evenN=true ∨ key<(a.layout.shape.length:Int)) →
+    ((a.layout.evenN=Bool.true ∨ key<(a.layout.shape.length:Int)) →
       Allocated a.k.storage (signedAddress a.layout.k w.batch (kvHead a.layout.shape w.head) key (db*a.layout.shape.blockD+d)) ∧
       Allocated a.v.storage (signedAddress a.layout.v w.batch (kvHead a.layout.shape w.head) key (l.channelProgram*a.layout.shape.blockD+d))) := by
   obtain ⟨hb,hh,hr,hkv⟩:=lane_bounds a header l valid

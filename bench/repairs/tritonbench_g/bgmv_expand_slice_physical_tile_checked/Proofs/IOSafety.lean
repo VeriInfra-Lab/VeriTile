@@ -22,7 +22,7 @@ theorem invocation_safe (M : Algebra A) (R : Reduction A) (project : A → A)
   apply PublicExecution.source_safe M R h p s domain bounds
   · exact hb.2.1 ⟨3,by simp [sourceIO,inputs]⟩ (batch,PUnit.unit) positive
   · intro active j access
-    have hj : j.val<inputWidth h := by
+    have hj : j.val < inputWidth h := by
       unfold inputWidth
       cases he : h.even
       · simp only [he,Bool.false_eq_true,↓reduceIte]

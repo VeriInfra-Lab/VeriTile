@@ -26,7 +26,7 @@ theorem kernel_native (plans : ScalarTree.Plans) (S : Selection) (I : Instructio
   rw [compiled_expression,FPWorkset.readback,Target.agrees]
 
 #axiomsClean kernel_native
-#specNonCircular Target.target avoiding [FPWorkset.SourceWorkset,Surface.source,FP.Structural.exec]
+#specNonCircular Target.target avoiding [FPWorkset.SourceWorkset,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,FP.Structural.exec]
 #auditModuleAxioms
 end
 end VeriTile.Bench.Repairs.BgmvShrinkKernelPhysical.NativeKernelResult

@@ -35,9 +35,9 @@ def Holds {α : Type} (c : Shape) (s : State α) : Prop :=
 
 theorem entry {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : ℝ) (s : State α) :
     ∃ t, run (engine M) (parts c scale).before s = some t ∧ Holds c t := by
-  simp only [parts,kernel,ChunkGlaSimpleMinDotTile.source,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp only [parts,kernel,ChunkGlaSimpleMinDotTile.source,fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
-  dsimp [Source.dynamicRange?,Option.map,Option.getD]
+  dsimp [fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
   simp (config := {maxSteps := 150000}) [run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLe,numericLe,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
@@ -47,9 +47,9 @@ theorem iteration {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale
     (d : Dots M c) (n : Nat) (s : State α) (hs : Holds c s) :
     ∃ t, run (engine M) (parts c scale).body (s.setReg "i_k" .nat [] (fun _ => n)) = some t ∧ Holds c t := by
   rcases hs with ⟨⟨bh,hbh⟩,⟨it,hit⟩,⟨rows,hr⟩,⟨cols,hc⟩,⟨mask,hm⟩,⟨bo,ho⟩,⟨bs,hbs⟩⟩
-  simp only [parts,kernel,ChunkGlaSimpleMinDotTile.source,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp only [parts,kernel,ChunkGlaSimpleMinDotTile.source,fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
-  dsimp [Source.dynamicRange?,Option.map,Option.getD]
+  dsimp [fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
   simp (config := {maxSteps := 150000}) [run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
@@ -73,9 +73,9 @@ theorem finish {α : Type} [Inhabited α] (M : Algebra α) (c : Shape) (scale : 
     (d : Dots M c) (s : State α) (hs : Holds c s) :
     ∃ t, run (engine M) (parts c scale).after s = some t := by
   rcases hs with ⟨⟨bh,hbh⟩,⟨it,hit⟩,⟨rows,hr⟩,⟨cols,hc⟩,⟨mask,hm⟩,⟨bo,ho⟩,⟨bs,hbs⟩⟩
-  simp only [parts,kernel,ChunkGlaSimpleMinDotTile.source,ComputeKernel.surfaceBody,Source.dynamicRange?,
+  simp only [parts,kernel,ChunkGlaSimpleMinDotTile.source,fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,
     Option.map,Option.getD,String.reduceEq,beq_self_eq_true,↓reduceIte]
-  dsimp [Source.dynamicRange?,Option.map,Option.getD]
+  dsimp [fp32Original,ComputeKernel.surfaceBody,Source.dynamicRange?,Option.map,Option.getD]
   simp (config := {maxSteps := 150000}) [run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,
     Option.bind,engine,Algebra.withDefaultPrecision,resolvePrecision,ComputeDType.eraseDType,
     numeric,natLe,numericLe,numericLt,natLt,bop,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,

@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.ReadableSource
 import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.IOForwardResults
 import bench.repairs.tritonbench_g.diag_ssm_triton.Proofs.IOSafety
 
@@ -80,7 +81,7 @@ theorem backward_complex_correct (p : BackwardLayout) (length : Nat)
   · intro bounds hb
     have h := ComplexBackwardSafety.trace_safe p u length bounds
       (backward_bounds_complex p length u v bounds hb) sep.toReadSeparation
-    simpa only [backwardIO,backwardKernel,↓reduceIte,Kernel.TraceSafe,Kernels.complexBackwardTyped,
+    simpa only [backwardIO,backwardKernel,↓reduceIte,Kernel.TraceSafe,Kernels.ReadableSource.complex_backward_preserved,
       Erasure.complexBackward_body] using h
   · obtain ⟨final,he,hx,hs,hl,hf⟩ := RegionCorrectness.complex_backward p length sep u
     refine ⟨final,he,?_,?_⟩

@@ -105,7 +105,7 @@ theorem selected_eq {n : Nat} (positive : 0<n) (input : Fin n → Word)
   by_cases nan : ∃ i,MachineMax.isNaN .fp32 (input i)=Bool.true
   · have hp := (presence_iff positive input).mpr nan
     rw [selected,if_pos hp,flags_exact input tree positive complete nan]
-    have present : hasNaN input tree=Bool.true := (hasNaN_iff input tree complete).mpr nan
+    have present : hasNaN input tree = Bool.true := (hasNaN_iff input tree complete).mpr nan
     have same := nanReduce_eq input tree tree tree complete complete complete
     simp only [nanReduce,if_pos present] at same
     exact congrArg Fin.val same

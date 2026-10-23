@@ -12,7 +12,7 @@ theorem inter_finish (M : Algebra α) (D : FPOutput.DotPrimitive α) (c : Produc
     (initial current : State α) (ctx : Context c initial current)
     (capacity : InterCapacity c initial bounds) :
     Safety.traceSafeList (engine (FPOutput.withDot M D)) bounds (parts c scale).after current := by
-  simp [parts,FPInter.inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,ProducerGeometry.layout,ProducerGeometry.regions,ComputeKernel.surfaceBody,
+  simp [parts,FPInter.inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,ProducerGeometry.layout,ProducerGeometry.regions,ComputeKernel.surfaceBody,
     Source.conditional?,Source.dynamicRange?,Source.prefixBefore]
   simp only [Safety.traceSafeList_cons,singleton]
   simp only [Safety.stepSafe_unfold,Safety.safeExpr_unfold,Safety.safeCompute_unfold,safeBlockPtr2]
@@ -56,7 +56,7 @@ theorem inter_source (M : Algebra α) (D : FPOutput.DotPrimitive α)
   subst t
   rw [singleton,Safety.stepSafe_unfold]
   constructor
-  · simp [outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,
+  · simp [outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,
       ProducerGeometry.layout,ProducerGeometry.regions,ComputeKernel.surfaceBody,
       Source.conditional?,Source.prefixBefore,Op.tritonDiv,Op.tritonMod,Safety.safeOp_unfold]
   · rw [outer_condition]
@@ -64,7 +64,7 @@ theorem inter_source (M : Algebra α) (D : FPOutput.DotPrimitive α)
     · simp only [time,decide_true,ite_true]
       rw [singleton,Safety.stepSafe_unfold]
       constructor
-      · simp [FPInter.inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,
+      · simp [FPInter.inner,outer,kernel,SourceBridge.interNew,TypedInter.original,TypedInter.source,TypedInter.fp32Original,
           ProducerGeometry.layout,ProducerGeometry.regions,ComputeKernel.surfaceBody,
           Source.conditional?,Source.prefixBefore,Op.tritonDiv,Op.tritonMod,Safety.safeOp_unfold]
       · rw [inner_condition]

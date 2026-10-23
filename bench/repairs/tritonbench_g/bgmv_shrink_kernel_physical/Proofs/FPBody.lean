@@ -30,7 +30,7 @@ def iteration (M : Algebra α) (P : Primitives α) (h : Call)
   all_goals
     refine ⟨?_,?_⟩
     swap
-    simp only [body,active,code,Surface.source,
+    simp only [body,active,code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,
       ComputeKernel.surfaceBody,List.drop,Source.conditional?,Source.intRange?,
       Option.map_some,Option.getD_some,beq_self_eq_true]
     simp (config := {maxSteps := 300000}) [Source.intRange?,Option.map,Option.getD,

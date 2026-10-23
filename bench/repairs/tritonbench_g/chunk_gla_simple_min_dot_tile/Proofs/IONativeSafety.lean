@@ -15,7 +15,7 @@ def position (s : State A) : Math.Launch := ⟨s.pids 0,s.pids 1,s.pids 2⟩
 theorem entry_safe (M : Algebra A) (c : Shape) (scale : ℝ) (s : State A)
     (bounds : RegionName → Nat) :
     Safety.traceSafeList (engine M) bounds (Typed.parts c scale).before s := by
-  simp [Typed.parts,kernel,ChunkGlaSimpleMinDotTile.source,ComputeKernel.surfaceBody,
+  simp [Typed.parts,kernel,ChunkGlaSimpleMinDotTile.source,fp32Original,ComputeKernel.surfaceBody,
     Source.dynamicRange?,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     step,run,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
@@ -31,7 +31,7 @@ theorem body_safe (M : Algebra A) (c : Shape) (scale : ℝ) (d : Typed.Dots M c)
       (current.setReg "i_k" .nat [] (fun _ => block)) := by
   have ho := ha.1
   have hs := ha.2
-  simp (maxSteps := 500000) [Typed.parts,kernel,ChunkGlaSimpleMinDotTile.source,
+  simp (maxSteps := 500000) [Typed.parts,kernel,ChunkGlaSimpleMinDotTile.source,fp32Original,
     ComputeKernel.surfaceBody,Source.dynamicRange?,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
@@ -56,7 +56,7 @@ theorem finish_safe (M : Algebra A) (c : Shape) (scale : ℝ) (d : Typed.Dots M 
     Safety.traceSafeList (engine M) bounds (Typed.parts c scale).after current := by
   have ho := ha.1
   have hs := ha.2
-  simp (maxSteps := 500000) [Typed.parts,kernel,ChunkGlaSimpleMinDotTile.source,
+  simp (maxSteps := 500000) [Typed.parts,kernel,ChunkGlaSimpleMinDotTile.source,fp32Original,
     ComputeKernel.surfaceBody,Source.dynamicRange?,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,

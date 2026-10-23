@@ -18,7 +18,7 @@ theorem prefix_safe (M : Algebra α) (P : Primitives α) (h : Call)
   rcases h with ⟨batches,adapters,N,K,BN,columns,positive,covered,outputCovered,storage,outputType,scaling⟩
   cases storage
   all_goals
-    simpa [FPProgram.prelude,FPProgram.code,Surface.source,Source.intRange?, Option.map, Option.getD, Source.conditional?,
+    simpa [FPProgram.prelude,FPProgram.code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Source.intRange?, Option.map, Option.getD, Source.conditional?,
       ComputeKernel.surfaceBody, List.drop, beq_self_eq_true,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
@@ -35,7 +35,7 @@ theorem setup_safe (M : Algebra α) (P : Primitives α) (h : Call)
   rcases h with ⟨batches,adapters,N,K,BN,columns,positive,covered,outputCovered,storage,outputType,scaling⟩
   cases storage
   all_goals
-    simp (config := {maxSteps := 300000}) [FPProgram.setup,FPProgram.active,FPProgram.code,Surface.source,Source.intRange?, Option.map, Option.getD, Source.conditional?,
+    simp (config := {maxSteps := 300000}) [FPProgram.setup,FPProgram.active,FPProgram.code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Source.intRange?, Option.map, Option.getD, Source.conditional?,
       ComputeKernel.surfaceBody, List.drop, beq_self_eq_true,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
@@ -55,7 +55,7 @@ theorem body_safe (M : Algebra α) (P : Primitives α) (h : Call)
   rcases h with ⟨batches,adapters,N,K,BN,columns,positive,covered,outputCovered,storage,outputType,scaling⟩
   cases storage
   all_goals
-    simp (config := {maxSteps := 400000}) [FPProgram.body,FPProgram.active,FPProgram.code,Surface.source,Source.intRange?, Option.map, Option.getD, Source.conditional?,
+    simp (config := {maxSteps := 400000}) [FPProgram.body,FPProgram.active,FPProgram.code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Source.intRange?, Option.map, Option.getD, Source.conditional?,
       ComputeKernel.surfaceBody, List.drop, beq_self_eq_true,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
@@ -81,7 +81,7 @@ theorem tail_safe (M : Algebra α) (P : Primitives α) (h : Call)
   rcases h with ⟨batches,adapters,N,K,BN,columns,positive,covered,outputCovered,storage,outputType,scaling⟩
   cases storage <;> cases outputType
   all_goals
-    simp (config := {maxSteps := 400000}) [FPProgram.tail,FPProgram.active,FPProgram.code,Surface.source,Source.intRange?, Option.map, Option.getD, Source.conditional?,
+    simp (config := {maxSteps := 400000}) [FPProgram.tail,FPProgram.active,FPProgram.code,Surface.source,Kernels.source,Kernels.originalFP16,Kernels.originalBF16,Source.intRange?, Option.map, Option.getD, Source.conditional?,
       ComputeKernel.surfaceBody, List.drop, beq_self_eq_true,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,

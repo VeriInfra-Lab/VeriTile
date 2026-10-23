@@ -25,7 +25,7 @@ structure Access (p : Parameters) (initial : State α) (bounds : RegionName → 
 theorem head_safe (rest : Algebra α) (P : Primitives α) (p : Parameters)
     (initial : State α) (bounds : RegionName → Nat) (access : Access p initial bounds) :
     Safety.traceSafeList (backend rest P) bounds (headCode p) initial := by
-  simp [headCode,prologue,source,original,ComputeKernel.surfaceBody,
+  simp [headCode,prologue,source,original,Source.original,Source.original16,Source.originalBfloat16,Source.original64,ComputeKernel.surfaceBody,
     Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
@@ -56,7 +56,7 @@ theorem last_safe (rest : Algebra α) (P : Primitives α) (p : Parameters)
     Safety.traceSafeList (backend rest P) bounds (lastCode p) (offsetExecution rest P p initial).val := by
   have hs (a : Fin p.block) (b : TileIndex []) :
       Random.IntegerType.i64.inRange (seedValue p initial (a,b))=Bool.true := seeds (a,b)
-  simp [lastCode,prologue,source,original,ComputeKernel.surfaceBody,
+  simp [lastCode,prologue,source,original,Source.original,Source.original16,Source.originalBfloat16,Source.original64,ComputeKernel.surfaceBody,
     Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
@@ -96,7 +96,7 @@ theorem body_safe (rest : Algebra α) (P : Primitives α) (p : Parameters)
     Safety.traceSafeList (backend rest P) bounds (body .fp32 p)
       (current.setReg "b_idx" .nat [] (fun _=>b)) := by
   have hn : 0<p.blockTokens := p.tokensDomain.1
-  simp [body,source,original,ComputeKernel.surfaceBody,Random.i32ArangeSize,
+  simp [body,source,original,Source.original,Source.original16,Source.originalBfloat16,Source.original64,ComputeKernel.surfaceBody,Random.i32ArangeSize,
     Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
@@ -119,7 +119,7 @@ theorem epilogue_safe (rest : Algebra α) (P : Primitives α) (p : Parameters)
     (h : Invariant P p initial st current) (bounds : RegionName → Nat)
     (access : Access p initial bounds) :
     Safety.traceSafeList (backend rest P) bounds (epilogue .fp32 p) current := by
-  simp [epilogue,source,original,ComputeKernel.surfaceBody,Random.i32ArangeSize,
+  simp [epilogue,source,original,Source.original,Source.original16,Source.originalBfloat16,Source.original64,ComputeKernel.surfaceBody,Random.i32ArangeSize,
     Safety.traceSafeList_cons,Safety.stepSafe_unfold,Safety.safeAlg_unfold,
     Safety.safeExpr_unfold,Safety.safeCompute_unfold,Safety.safeOp_unfold,
     Safety.safeAddress_unfold,Safety.safeMask_unfold,Safety.addressSafe_unfold,
