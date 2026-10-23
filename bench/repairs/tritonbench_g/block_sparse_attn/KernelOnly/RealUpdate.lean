@@ -6,7 +6,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 1000000
-set_option linter.unusedSimpArgs Bool.false
+set_option linter.unusedSimpArgs false
 
 def CarryEquivalent (left right : Carry α) : Prop :=
   left.maximum=right.maximum ∧ left.denominator=right.denominator ∧

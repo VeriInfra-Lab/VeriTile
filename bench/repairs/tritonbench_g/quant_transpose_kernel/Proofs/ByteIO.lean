@@ -17,11 +17,13 @@ theorem observes [Inhabited α] (algebra : Algebra α) (round : α → BitVec 64
   have same : (fun vals => (IO.grid algebra round p version).toMemoryIO.mapIntegerOutputs
       (IO.byteView (IO.grid algebra round p version))
       (IO.formula algebra round p version
-        (fun x inverse => (KernelResult.rounded algebra round x inverse).toInt) vals)) =
+        (fun x inverse => (KernelResult.quantized algebra round x inverse).toInt) vals)) =
       IO.formula algebra round p version
         (fun x inverse => ((KernelResult.quantized algebra round x inverse).toNat : Int)) := by
     funext vals o j
     fin_cases o
+    change ((BitVec.ofInt 8 (KernelResult.quantized algebra round (vals (0 : Fin 2) j) (vals (1 : Fin 2) PUnit.unit)).toInt).toNat : Int) = _
+    rw [BitVec.ofInt_toInt]
     rfl
   rw [same] at observed
   exact observed

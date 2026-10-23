@@ -5,7 +5,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 16000000
-set_option linter.unusedSimpArgs Bool.false
+set_option linter.unusedSimpArgs false
 
 theorem channelInvariant {α : Type} [Inhabited α] (a : Arithmetic α) (native : Bool)
     (p : Parameters) (initial current : State (Replicas α))

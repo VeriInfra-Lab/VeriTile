@@ -5,7 +5,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 16000000
-set_option linter.unusedSimpArgs Bool.false
+set_option linter.unusedSimpArgs false
 
 /-- Only the two endpoint cells actually loaded by this program. -/
 def RowInt32 {α : Type} [Inhabited α] (p : Parameters) (s : State α) : Prop :=

@@ -65,7 +65,7 @@ No raw-state correctness proposition is hidden in the IO descriptor. -/
 theorem implements [Inhabited α] (algebra : Algebra α) (round : α → BitVec 64)
     (p : Parameters) (separated : KernelGrid.Separate p) (version : Bool) :
     (IO.grid algebra round p version).Implements
-      (IO.formula algebra round p version (fun x inverse => (KernelResult.rounded algebra round x inverse).toInt)) := by
+      (IO.formula algebra round p version (fun x inverse => (KernelResult.quantized algebra round x inverse).toInt)) := by
   apply IntegerProgramIO.Implements.intro
   · intro vals bounds bounded s _
     exact schedule_safe algebra round p version bounds vals bounded _ s
@@ -90,7 +90,7 @@ theorem implements [Inhabited α] (algebra : Algebra α) (round : α → BitVec 
       change (s.mem ⟨p.x⟩ (j.1.val*p.sam+j.2.1.val*p.san)).read .real=vals (0 : Fin 2) j at input
       change (s.mem ⟨p.scale⟩ 0).read .real=vals (1 : Fin 2) PUnit.unit at inverse
       change mapCell id (final.mem ⟨p.output⟩ (j.2.1.val*p.M+j.1.val))=
-        Cell.mk .int (KernelResult.rounded algebra round (vals (0 : Fin 2) j)
+        Cell.mk .int (KernelResult.quantized algebra round (vals (0 : Fin 2) j)
           (vals (1 : Fin 2) PUnit.unit)).toInt
       rw [value,input,inverse]
       rfl

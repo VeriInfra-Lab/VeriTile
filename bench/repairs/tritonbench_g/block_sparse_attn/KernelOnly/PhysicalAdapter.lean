@@ -8,7 +8,7 @@ open VeriTile.Bench.Repairs.LayernormFwdTriton.Memory (API Apart)
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 1000000
-set_option linter.unusedSimpArgs Bool.false
+set_option linter.unusedSimpArgs false
 namespace PhysicalKernel
 
 /-- Local memory operations. INT32 loads share the same physical store; their

@@ -5,7 +5,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 1000000
-set_option linter.unusedSimpArgs Bool.false
+set_option linter.unusedSimpArgs false
 
 /-- The finite MMA chain selects each operand at its physical key owner. -/
 theorem chain_selected (a : BlockSparseAttn.Ops α) (literal argument : ℝ → α)

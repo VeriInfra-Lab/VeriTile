@@ -5,7 +5,7 @@ open VeriTile.Triton FP.Structural
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 16000000
-set_option linter.unusedSimpArgs Bool.false
+set_option linter.unusedSimpArgs false
 
 def batch {α : Type} (p : Parameters) (s : State α) := s.pids 1 / p.heads
 def head {α : Type} (p : Parameters) (s : State α) := s.pids 1 % p.heads

@@ -7,9 +7,9 @@ open VeriTile Triton FP.Structural
 noncomputable section
 set_option maxHeartbeats 1200000
 set_option maxRecDepth 24000
-set_option linter.unusedSimpArgs Bool.false
-set_option linter.unusedTactic Bool.false
-set_option linter.unreachableTactic Bool.false
+set_option linter.unusedSimpArgs false
+set_option linter.unusedTactic false
+set_option linter.unreachableTactic false
 variable {A : Type} [Inhabited A]
 
 /-- Whole-state execution and actual access-trace preservation, including

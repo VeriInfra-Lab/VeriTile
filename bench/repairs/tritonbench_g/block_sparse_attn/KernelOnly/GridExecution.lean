@@ -8,8 +8,8 @@ open VeriTile.Bench.Repairs.LayernormFwdTriton.Memory (API Apart Write)
 noncomputable section
 set_option maxRecDepth 24000
 set_option maxHeartbeats 3000000
-set_option linter.unusedSectionVars Bool.false
-set_option linter.unusedSimpArgs Bool.false
+set_option linter.unusedSectionVars false
+set_option linter.unusedSimpArgs false
 namespace PhysicalKernel
 variable {α : Type} [Inhabited α]
 
