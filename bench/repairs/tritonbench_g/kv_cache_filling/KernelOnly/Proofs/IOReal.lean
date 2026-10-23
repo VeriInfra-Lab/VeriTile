@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantReal
 import bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IOCorrect
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling.Interface

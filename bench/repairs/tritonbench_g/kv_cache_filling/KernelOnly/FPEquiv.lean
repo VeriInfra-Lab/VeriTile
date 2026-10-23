@@ -1,3 +1,4 @@
+import bench.repairs.tritonbench_g.kv_cache_filling.Proofs.QuantNative
 import bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Proofs.IONative
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling.FPEquiv

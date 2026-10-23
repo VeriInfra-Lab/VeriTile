@@ -22,7 +22,7 @@ theorem copy {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     FP.Structural.TraceSafe (algebra a) bounds (CopySource.kernel version p) s := by
   cases version
   all_goals
-    simp (maxSteps := 1500000) [FP.Structural.TraceSafe, CopySource.kernel, ComputeKernel.surfaceBody,
+    simp (maxSteps := 1500000) [FP.Structural.TraceSafe, CopySource.kernel, CopySource.originalKernel, CopySource.commutedKernel, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,
@@ -55,7 +55,7 @@ theorem quant8 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
   have bvm0 : dst*2 < bounds "valueMeta" := by simpa only [Nat.add_zero] using bvm 0 (by omega)
   cases version
   all_goals
-    simp (maxSteps := 2000000) [FP.Structural.TraceSafe, QuantSource.kernel8, ComputeKernel.surfaceBody,
+    simp (maxSteps := 2000000) [FP.Structural.TraceSafe, QuantSource.kernel8, QuantSource.original8Kernel, QuantSource.commuted8Kernel, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,
@@ -101,7 +101,7 @@ theorem quant4 {α : Type} [Inhabited α] (a : Ops α) (p : Parameters)
     simpa only [shapeV] using bv (p.cv+i) (by omega)
   cases version
   all_goals
-    simp (maxSteps := 2500000) [FP.Structural.TraceSafe, QuantSource.kernel4, ComputeKernel.surfaceBody,
+    simp (maxSteps := 2500000) [FP.Structural.TraceSafe, QuantSource.kernel4, QuantSource.original4Kernel, QuantSource.commuted4Kernel, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,

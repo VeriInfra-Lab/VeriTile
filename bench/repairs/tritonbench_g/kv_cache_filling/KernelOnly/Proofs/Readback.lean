@@ -45,17 +45,17 @@ theorem cache_cell {α : Type} [Inhabited α] (a : Ops α) (r : Request) (d : Do
       exact success.symm.trans (by simpa [Shared.kernel,hp] using e.property)
     rw [same]
     have obs := QuantValues.observe4 a (Shared.parameters r) s src dst hs hd pos.1 pos.2 cov version
-    simpa [sourceRowTarget,SharedTarget.row,hp,cacheDType,cacheValue,QuantValues.rows4] using obs.cache key i hi
+    simpa [sourceRowTarget,SharedTarget.row,hp,cacheDType,cacheValue,QuantValues.rows4, row4Data] using obs.cache key i hi
   | int8 =>
     have shape := SharedReadback.single_shape r d (by simp [hp])
-    let e := QuantExecution.executed8 a (Shared.parameters r) s src dst hs hd pos.1 pos.2 version
+    let e := QuantExecution.executed8 a (Shared.parameters r) s src dst hs hd pos.1 pos.2 shape.1 shape.2 version
     have same : f = e.val := by
       apply Option.some.inj
       exact success.symm.trans (by simpa [Shared.kernel,hp] using e.property)
     rw [same]
     have obs := QuantValues.observe8 a (Shared.parameters r) s src dst hs hd pos.1 pos.2
       shape.1 shape.2 cov version
-    simpa [sourceRowTarget,SharedTarget.row,hp,cacheDType,cacheValue,QuantValues.rows8] using obs.cache key i hi
+    simpa [sourceRowTarget,SharedTarget.row,hp,cacheDType,cacheValue,QuantValues.rows8, row8Data] using obs.cache key i hi
 
 theorem metadata_cell {α : Type} [Inhabited α] (a : Ops α) (r : Request) (d : Domain r)
     (s f : State α) (src dst : Nat)
@@ -76,17 +76,17 @@ theorem metadata_cell {α : Type} [Inhabited α] (a : Ops α) (r : Request) (d :
       exact success.symm.trans (by simpa [Shared.kernel,pol] using e.property)
     rw [same]
     have obs := QuantValues.observe4 a (Shared.parameters r) s src dst hs hd pos.1 pos.2 cov version
-    simpa [sourceRowTarget,SharedTarget.row,pol,QuantValues.rows4] using obs.metadata key i hi
+    simpa [sourceRowTarget,SharedTarget.row,pol,QuantValues.rows4, row4Data] using obs.metadata key i hi
   | int8 =>
     have shape := SharedReadback.single_shape r d (by simp [pol])
-    let e := QuantExecution.executed8 a (Shared.parameters r) s src dst hs hd pos.1 pos.2 version
+    let e := QuantExecution.executed8 a (Shared.parameters r) s src dst hs hd pos.1 pos.2 shape.1 shape.2 version
     have same : f = e.val := by
       apply Option.some.inj
       exact success.symm.trans (by simpa [Shared.kernel,pol] using e.property)
     rw [same]
     have obs := QuantValues.observe8 a (Shared.parameters r) s src dst hs hd pos.1 pos.2
       shape.1 shape.2 cov version
-    simpa [sourceRowTarget,SharedTarget.row,pol,QuantValues.rows8] using obs.metadata key i hi
+    simpa [sourceRowTarget,SharedTarget.row,pol,QuantValues.rows8, row8Data] using obs.metadata key i hi
 
 end
 end VeriTile.Bench.Repairs.KvCacheFilling.Interface

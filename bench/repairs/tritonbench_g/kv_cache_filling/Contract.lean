@@ -1,5 +1,5 @@
 import VeriTile.Torch.Tensor
-import bench.repairs.tritonbench_g.kv_cache_filling.Kernels
+import bench.repairs.tritonbench_g.kv_cache_filling.Model
 
 namespace VeriTile.Bench.Repairs.KvCacheFilling
 

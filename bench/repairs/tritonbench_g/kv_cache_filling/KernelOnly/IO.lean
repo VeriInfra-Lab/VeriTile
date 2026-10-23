@@ -1,3 +1,4 @@
+import VeriTile.Triton.Float.LogicalProgramIO
 import bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SharedTarget
 import VeriTile.Triton.Float.ProgramEquivalence
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax
@@ -121,3 +122,73 @@ def target {α : Type} [Inhabited α] (ops : QuantProfile.Ops α)
 
 end
 end VeriTile.Bench.Repairs.KvCacheFilling.Interface
+
+namespace VeriTile.Bench.Repairs.KvCacheFilling.LogicalIO
+open VeriTile.Triton FP.Structural
+noncomputable section
+
+/-- Named mathematical inputs retain both decoded schedule values and every
+logical key/value coordinate. -/
+structure Inputs (r : Request) where
+  source : Int
+  destination : Int
+  key : Fin r.dk → ℝ
+  value : Fin r.dv → ℝ
+
+/-- All four output channels, including the masked copy-policy metadata. -/
+structure Outputs (r : Request) where
+  keyCache : Fin r.ck → Value ℝ (Interface.cacheDType r.policy)
+  valueCache : Fin r.cv → Value ℝ (Interface.cacheDType r.policy)
+  keyMetadata : Fin 2 → ℝ
+  valueMetadata : Fin 2 → ℝ
+
+def inputs (r : Request) : Interface.Inputs ℝ r ≃ Inputs r where
+  toFun v := ⟨v ⟨0,by simp [Interface.inputs,Interface.outputs]⟩ PUnit.unit,v ⟨1,by simp [Interface.inputs,Interface.outputs]⟩ PUnit.unit,
+    fun i => v ⟨2,by simp [Interface.inputs,Interface.outputs]⟩ (i,PUnit.unit),fun i => v ⟨3,by simp [Interface.inputs,Interface.outputs]⟩ (i,PUnit.unit)⟩
+  invFun v
+    | ⟨0,_⟩ => fun _ => v.source
+    | ⟨1,_⟩ => fun _ => v.destination
+    | ⟨2,_⟩ => fun i => v.key i.1
+    | ⟨3,_⟩ => fun i => v.value i.1
+    | ⟨i+4,h⟩ => False.elim (by simp [Interface.inputs] at h)
+  left_inv := by
+    intro v
+    funext i k
+    fin_cases i <;> cases k <;> rfl
+  right_inv := by
+    intro v
+    cases v
+    rfl
+
+def outputs (r : Request) : Interface.Outputs ℝ r ≃ Outputs r where
+  toFun v := ⟨fun i => v ⟨0,by simp [Interface.inputs,Interface.outputs]⟩ (i,PUnit.unit),fun i => v ⟨1,by simp [Interface.inputs,Interface.outputs]⟩ (i,PUnit.unit),
+    fun i => v ⟨2,by simp [Interface.inputs,Interface.outputs]⟩ (i,PUnit.unit),fun i => v ⟨3,by simp [Interface.inputs,Interface.outputs]⟩ (i,PUnit.unit)⟩
+  invFun v
+    | ⟨0,_⟩ => fun i => v.keyCache i.1
+    | ⟨1,_⟩ => fun i => v.valueCache i.1
+    | ⟨2,_⟩ => fun i => v.keyMetadata i.1
+    | ⟨3,_⟩ => fun i => v.valueMetadata i.1
+    | ⟨i+4,h⟩ => False.elim (by simp [Interface.outputs] at h)
+  left_inv := by
+    intro v
+    funext i k
+    fin_cases i <;> cases k <;> rfl
+  right_inv := by
+    intro v
+    cases v
+    rfl
+
+def extend {n : Nat} (x : Fin n → ℝ) (i : Nat) : ℝ :=
+  if h : i < n then x ⟨i,h⟩ else 0
+
+def domain (r : Request) (j : Job) (x : Inputs r) : Prop :=
+  x.source = (sourceRow r j : Int) ∧ x.destination = (destinationRow r j : Int)
+
+def io (a : QuantProfile.Ops ℝ) (r : Request) (j : Job) (version : Bool) (pid : Nat) :
+    LogicalProgramIO ℝ ℝ (Inputs r) (Outputs r) where
+  core := Interface.programIO a r j version pid
+  inputs := inputs r
+  outputs := outputs r
+
+end
+end VeriTile.Bench.Repairs.KvCacheFilling.LogicalIO
