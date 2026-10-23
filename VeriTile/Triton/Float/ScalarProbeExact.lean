@@ -54,12 +54,18 @@ def rnd : Profile → Value .fp32 → Value .fp32
 def store (p : Profile) (x : Value .fp32) : Value p.storageFormat :=
   FP.cast p.storageFormat .ieeeValue x
 
+private theorem finite_of_decode {f : Format} (x : Value f) (s : Bool) (m : Rat)
+    (h : x.decode = .finite s m) : x.toRat?.isSome = true := by
+  simp only [Value.toRat?, h, Option.isSome_some]
+
 private theorem widen_finite (x : Value .bf16) (h : x.toRat?.isSome = true) :
     (FP.cast .fp32 .ieeeValue x).toRat?.isSome = true := by
   cases hd : x.decode with
   | finite s m =>
-    rw [CastExact.cast_widen_of_decode_finite x s m hd]
-    simp [Value.toRat?, CastExact.widenBits_decode_finite x s m hd]
+    exact (congrArg (fun value : Value .fp32 => value.toRat?.isSome)
+      (CastExact.cast_widen_of_decode_finite x s m hd)).trans
+        (finite_of_decode (CastExact.widenBits x) s m
+          (CastExact.widenBits_decode_finite x s m hd))
   | infinity s => simp [Value.toRat?, hd] at h
   | nan s signaling payload => simp [Value.toRat?, hd] at h
 
