@@ -62,7 +62,7 @@ theorem execute {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (hd : (s.mem "dst" (s.pids 0)).read .int = (dst : Int)) (v : Bool) :
     exec M (kernel v p) s = some (result M p s src dst) := by
   cases v <;>
-    simp [exec, kernel, ComputeKernel.surfaceBody, run, step, evalExpr,
+    simp [exec, kernel, originalKernel, commutedKernel, ComputeKernel.surfaceBody, run, step, evalExpr,
       evalComputeOp, evalOp_unfold, store, numeric, numericLt, bop,
       ComputeDType.eraseDType, Region.cast, Option.bind, hs, hd,
       State.masked_scatter_eq_filter, prepared, result, scatter, value,

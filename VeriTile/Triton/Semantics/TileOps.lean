@@ -610,6 +610,45 @@ the elaborated `Option ℝ`. -/
 Returns `none` only when the reduced dimension is `0` (empty `sup'`
 undefined). -/
 
+noncomputable def Tile.reduceMinDrop {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Option (Tile .real (TileShape.eraseAxis shape axis)) :=
+  if h : 0 < TileShape.axisDim shape axis then
+    some ⟨fun outIdx =>
+      (Finset.univ : Finset (Fin (TileShape.axisDim shape axis))).inf'
+        (by exact ⟨⟨0, h⟩, Finset.mem_univ _⟩)
+        (fun k => x.data (TileShape.insertAxisIndex shape axis outIdx k))⟩
+  else
+    none
+
+/-- Tile.reduceMinDrop returns `none` when the reduction axis has zero
+length. Useful as a simp lemma when proving correctness of kernels that
+guard `tl.min(..., return_indices=False)` against empty axes. -/
+@[simp] theorem Tile.reduceMinDrop_eq_none {shape : TileShape}
+    {axis : Fin shape.length} {x : Tile .real shape}
+    (h : TileShape.axisDim shape axis = 0) :
+    Tile.reduceMinDrop axis x = none := by
+  unfold Tile.reduceMinDrop
+  rw [dif_neg (by omega)]
+
+noncomputable def Tile.reduceMinKeep {shape : TileShape}
+    (axis : Fin shape.length) (x : Tile .real shape) :
+    Option (Tile .real (TileShape.setAxisOne shape axis)) :=
+  if h : 0 < TileShape.axisDim shape axis then
+    some ⟨fun outIdx =>
+      (Finset.univ : Finset (Fin (TileShape.axisDim shape axis))).inf'
+        (by exact ⟨⟨0, h⟩, Finset.mem_univ _⟩)
+        (fun k => x.data (TileShape.replaceAxisIndex shape axis outIdx k))⟩
+  else
+    none
+
+noncomputable def Tile.reduceMin {shape : TileShape}
+    (axis : Fin shape.length) (keepDims : Bool) (x : Tile .real shape) :
+    Option (Tile .real (TileShape.reduceShape shape axis keepDims)) := by
+  cases keepDims
+  · exact Tile.reduceMinDrop axis x
+  · exact Tile.reduceMinKeep axis x
+
 noncomputable def Tile.reduceMaxDrop {shape : TileShape}
     (axis : Fin shape.length) (x : Tile .real shape) :
     Option (Tile .real (TileShape.eraseAxis shape axis)) :=

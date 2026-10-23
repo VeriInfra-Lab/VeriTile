@@ -1612,6 +1612,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
         some (← fp32ComputeExpr term), some .fp32⟩
   | `(tritonExpr| tl.sum($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
       expandReduce expandExpr env "tl.sum" (← `(Op.reduceSum)) e kwargs
+  | `(tritonExpr| tl.min($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
+      expandReduce expandExpr env "tl.min" (← `(Op.reduceMin)) e kwargs
   | `(tritonExpr| tl.max($e:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
       expandReduceMax expandExpr env e kwargs
   | `(tritonExpr| tl.toReal($e:tritonExpr)) => do

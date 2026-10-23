@@ -712,6 +712,11 @@ partial def expandReduce (expandExpr : ExprExpander) (env : Env) (ctx : String) 
     (e : TSyntax `tritonExpr)
     (kwargs : TSyntaxArray `tritonReduceKwarg) : MacroM EOut := do
   let original ← expandExpr env e
+  -- Minimum currently has a real-channel node (including fp32/fp64 compute
+  -- annotations). Reject other channels until their typed reduction is
+  -- represented, rather than silently inserting a floating conversion.
+  if ctx == "tl.min" && original.dtype != .real then
+    Macro.throwError "tl.min: only real-channel reductions are supported; typed and integer reductions require dedicated lowering"
   let dims := match original.shape with | .dims ds => ds
   if dims.isEmpty then
     Macro.throwError (ctx ++ ": reduction expects a tile, got scalar")

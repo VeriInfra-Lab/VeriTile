@@ -101,6 +101,12 @@ structure Algebra (α : Type) where
   float8E5Bits : Option (FloatDType → Float8E5Bits → α) := none
   /-- Compute loads retain their explicit load precision. -/
   fp32Load : α → α
+  /-- Floating minimum retains its source precision and complete input layout.
+  Missing support fails; no negated-maximum or order law is assumed. -/
+  reduceMin : Option ComputeDType → {shape : TileShape} →
+    (axis : Fin shape.length) → (keepDims : Bool) → Values α .real shape →
+    Option (Values α .real (TileShape.reduceShape shape axis keepDims)) :=
+    fun _ {_} _ _ _ => none
   /-- Preserve the complete reduction operation and layout. No max identity,
   permutation invariance, scalar fold law or reduction schedule is assumed. -/
   reduceMax : Option ComputeDType → {shape : TileShape} →
@@ -677,6 +683,11 @@ noncomputable def evalOp {α : Type} [Inhabited α] (M : Algebra α) (p : Option
         | _ => some (fun i => s.undef d (addresses i).1 (addresses i).2)
       let other ← otherResult
       return fun i => if active i then (s.mem (addresses i).1 (addresses i).2).read d else other i
+  | .reduceMin axis keepDims e, s => do
+      let v ← evalOp M p e s
+      if 0 < TileShape.axisDim _ axis then
+        M.reduceMin p axis keepDims v
+      else none
   | .reduceMax axis keepDims e, s => do
       let v ← evalOp M p e s
       if 0 < TileShape.axisDim _ axis then

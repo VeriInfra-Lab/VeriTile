@@ -253,6 +253,7 @@ def flattenOp (A : FlatAlloc) :
   | _, _, .libdevicePowi bc a b => .libdevicePowi bc (A.flattenOp a) (A.flattenOp b)
   | _, _, .where c a b => .where (A.flattenOp c) (A.flattenOp a) (A.flattenOp b)
   | _, _, .ite c a b => .ite (A.flattenOp c) (A.flattenOp a) (A.flattenOp b)
+  | _, _, .reduceMin ax kd a => .reduceMin ax kd (A.flattenOp a)
   | _, _, .reduceMax ax kd a => .reduceMax ax kd (A.flattenOp a)
   | _, _, .reduceMaxNat ax kd a => .reduceMaxNat ax kd (A.flattenOp a)
   | _, _, .reduceMaxInt ax kd a => .reduceMaxInt ax kd (A.flattenOp a)
@@ -576,6 +577,7 @@ def Op.FlattenOk : Op dtype shape → Prop
   | .libdevicePowi _ a b => a.FlattenOk ∧ b.FlattenOk
   | .where c a b => c.FlattenOk ∧ a.FlattenOk ∧ b.FlattenOk
   | .ite c a b => c.FlattenOk ∧ a.FlattenOk ∧ b.FlattenOk
+  | .reduceMin _ _ a => a.FlattenOk
   | .reduceMax _ _ a => a.FlattenOk
   | .reduceMaxNat _ _ a => a.FlattenOk
   | .reduceMaxInt _ _ a => a.FlattenOk
@@ -709,6 +711,7 @@ def Op.FlattenOkR : Op dtype shape → Prop
   | .libdevicePowi _ a b => a.FlattenOkR ∧ b.FlattenOkR
   | .where c a b => c.FlattenOkR ∧ a.FlattenOkR ∧ b.FlattenOkR
   | .ite c a b => c.FlattenOkR ∧ a.FlattenOkR ∧ b.FlattenOkR
+  | .reduceMin _ _ a => a.FlattenOkR
   | .reduceMax _ _ a => a.FlattenOkR
   | .reduceMaxNat _ _ a => a.FlattenOkR
   | .reduceMaxInt _ _ a => a.FlattenOkR
@@ -993,6 +996,7 @@ def Op.SafeAt (bounds : RegionBounds) (s : BlockState) : Op dtype shape → Prop
   | .libdevicePowi _ a b => a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .where c a b => c.SafeAt bounds s ∧ a.SafeAt bounds s ∧ b.SafeAt bounds s
   | .ite c a b => c.SafeAt bounds s ∧ a.SafeAt bounds s ∧ b.SafeAt bounds s
+  | .reduceMin _ _ a => a.SafeAt bounds s
   | .reduceMax _ _ a => a.SafeAt bounds s
   | .reduceMaxNat _ _ a => a.SafeAt bounds s
   | .reduceMaxInt _ _ a => a.SafeAt bounds s
@@ -1666,6 +1670,12 @@ theorem FlatAlloc.evalOp_flatten (A : FlatAlloc) (hd : A.Disjoint)
       simp only [flattenOp, evalOp, evalOp_flatten A hd hcov a s hms hok hu,
         A.trTileFun_data (d := .real) (by decide) (by decide),
         A.trTileFun_data (d := .nat) (by decide) (by decide),
+        Option.map_id, id_eq]
+  | _, _, .reduceMin ax kd a, s, hms, hok, hu => by
+      simp only [Op.SafeAt] at hms
+      simp only [Op.FlattenOk] at hok
+      simp only [flattenOp, evalOp, evalOp_flatten A hd hcov a s hms hok hu,
+        A.trTileFun_data (d := .real) (by decide) (by decide),
         Option.map_id, id_eq]
   | _, _, .reduceMax ax kd a, s, hms, hok, hu => by
       simp only [Op.SafeAt] at hms

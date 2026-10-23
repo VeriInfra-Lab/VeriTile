@@ -1,263 +1,303 @@
-import Mathlib
-import VeriTile.Meta.Specification
+import bench.repairs.tritonbench_g.kv_cache_filling.Model
+import VeriTile.Triton.DSL
 
-namespace VeriTile.Bench.Repairs.KvCacheFilling
+/-! Complete copy, INT8 and INT4 source programs. The candidate commutes only
+the integer product in the first key load. All other operations, precisions,
+masks, casts and stores are identical. -/
+namespace VeriTile.Bench.Repairs.KvCacheFilling.CopySource
+open VeriTile.Triton
 
-inductive Policy where | copy | int4 | int8
-  deriving DecidableEq, Repr
+structure Parameters where
+  (dk dv ck cv bk bv : Nat)
 
-structure Request where
-  batches : Nat
-  tokens : Nat
-  heads : Nat
-  pages : Nat
-  block : Nat
-  dk : Nat
-  dv : Nat
-  maxQ : Nat
-  tableWidth : Nat
-  policy : Policy
-  start : Nat → Nat
-  count : Nat → Nat
-  total : Nat → Nat
-  page : Nat → Nat → Nat
+def originalKernel (p : Parameters) : ComputeKernel :=
+  let K : RegionName := "key"
+  let V : RegionName := "value"
+  let KC : RegionName := "keyCache"
+  let VC : RegionName := "valueCache"
+  let SRC : Region .int := ⟨"src"⟩
+  let DST : Region .int := ⟨"dst"⟩
+  triton {
+    tl.region K = tl.float32, V = tl.float32,
+      KC = tl.float32, VC = tl.float32, SRC = tl.int64, DST = tl.int64
+    job = tl.program_id(0).to(tl.int64)
+    src = tl.load(SRC + job)
+    dst = tl.load(DST + job)
+    ik = tl.arange(0, $(p.bk)).to(tl.int64)
+    iv = tl.arange(0, $(p.bv)).to(tl.int64)
+    safe_ik = tl.where(ik < $(p.ck), ik, $((0 : Int)))
+    safe_iv = tl.where(iv < $(p.cv), iv, $((0 : Int)))
+    k = tl.load(K + src * $(p.dk) + safe_ik, mask=ik < $(p.dk), other=0.0)
+    v = tl.load(V + src * $(p.dv) + safe_iv, mask=iv < $(p.dv), other=0.0)
+    tl.store(KC + dst * $(p.dk) + safe_ik, k, mask=ik < $(p.dk))
+    tl.store(VC + dst * $(p.dv) + safe_iv, v, mask=iv < $(p.dv))
+  }
 
-def Request.factor (r : Request) : Nat := if r.policy = .int4 then 2 else 1
-def Request.ck (r : Request) : Nat := r.dk / r.factor
-def Request.cv (r : Request) : Nat := r.dv / r.factor
-def Request.history (r : Request) (b : Nat) : Nat := r.total b - r.count b
+def commutedKernel (p : Parameters) : ComputeKernel :=
+  let K : RegionName := "key"
+  let V : RegionName := "value"
+  let KC : RegionName := "keyCache"
+  let VC : RegionName := "valueCache"
+  let SRC : Region .int := ⟨"src"⟩
+  let DST : Region .int := ⟨"dst"⟩
+  triton {
+    tl.region K = tl.float32, V = tl.float32,
+      KC = tl.float32, VC = tl.float32, SRC = tl.int64, DST = tl.int64
+    job = tl.program_id(0).to(tl.int64)
+    src = tl.load(SRC + job)
+    dst = tl.load(DST + job)
+    ik = tl.arange(0, $(p.bk)).to(tl.int64)
+    iv = tl.arange(0, $(p.bv)).to(tl.int64)
+    safe_ik = tl.where(ik < $(p.ck), ik, $((0 : Int)))
+    safe_iv = tl.where(iv < $(p.cv), iv, $((0 : Int)))
+    k = tl.load(K + $(p.dk) * src + safe_ik, mask=ik < $(p.dk), other=0.0)
+    v = tl.load(V + src * $(p.dv) + safe_iv, mask=iv < $(p.dv), other=0.0)
+    tl.store(KC + dst * $(p.dk) + safe_ik, k, mask=ik < $(p.dk))
+    tl.store(VC + dst * $(p.dv) + safe_iv, v, mask=iv < $(p.dv))
+  }
 
-structure Job where
-  batch : Nat
-  token : Nat
-  head : Nat
-  deriving DecidableEq, Repr
+def kernel (version : Bool) : Parameters → ComputeKernel
+  | p => if version then commutedKernel p else originalKernel p
 
-def jobs (r : Request) : List Job :=
-  (List.range r.batches).flatMap fun b =>
-    (List.range (r.count b)).flatMap fun t =>
-      (List.range r.heads).map fun h => ⟨b,t,h⟩
+end VeriTile.Bench.Repairs.KvCacheFilling.CopySource
 
-def sourceRow (r : Request) (j : Job) : Nat :=
-  (r.start j.batch + j.token) * r.heads + j.head
+namespace VeriTile.Bench.Repairs.KvCacheFilling.QuantSource
+open VeriTile.Triton
+abbrev Parameters := CopySource.Parameters
 
-def destinationToken (r : Request) (b t : Nat) : Nat :=
-  r.page b ((r.history b + t) / r.block) * r.block + (r.history b + t) % r.block
+def original8Kernel (p : Parameters) : ComputeKernel :=
+  let K : RegionName := "key"
+  let V : RegionName := "value"
+  let KC : RegionName := "keyCache"
+  let VC : RegionName := "valueCache"
+  let KSZ : RegionName := "keyMeta"
+  let VSZ : RegionName := "valueMeta"
+  let SRC : Region .int := ⟨"src"⟩
+  let DST : Region .int := ⟨"dst"⟩
+  triton {
+    tl.region K = tl.float32, V = tl.float32, KC = tl.uint8, VC = tl.uint8,
+      KSZ = tl.float32, VSZ = tl.float32, SRC = tl.int64, DST = tl.int64
+    job = tl.program_id(0).to(tl.int64)
+    src = tl.load(SRC + job)
+    dst = tl.load(DST + job)
+    ik = tl.arange(0, $(p.bk)).to(tl.int64)
+    iv = tl.arange(0, $(p.bv)).to(tl.int64)
+    safe_ik = tl.where(ik < $(p.ck), ik, $((0 : Int)))
+    safe_iv = tl.where(iv < $(p.cv), iv, $((0 : Int)))
+    k0 = tl.load(K + src * $(p.dk))
+    v0 = tl.load(V + src * $(p.dv))
+    k = tl.load(K + src * $(p.dk) + safe_ik, mask=ik < $(p.dk), other=0.0)
+    v = tl.load(V + src * $(p.dv) + safe_iv, mask=iv < $(p.dv), other=0.0)
+    k = tl.where(ik < $(p.dk), k, k0)
+    v = tl.where(iv < $(p.dv), v, v0)
+    klo = tl.min(k, 0)
+    khi = tl.max(k, 0)
+    kraw_scale = (khi - klo) / 255
+    sk = tl.where(khi == klo, 1.0, kraw_scale)
+    zk = -klo / sk
+    qk = (k / sk + zk + 0.5).to(tl.uint8)
+    vlo = tl.min(v, 0)
+    vhi = tl.max(v, 0)
+    vraw_scale = (vhi - vlo) / 255
+    sv = tl.where(vhi == vlo, 1.0, vraw_scale)
+    zv = -vlo / sv
+    qv = (v / sv + zv + 0.5).to(tl.uint8)
+    tl.store(KC + dst * $(p.ck) + safe_ik, qk, mask=ik < $(p.ck))
+    tl.store(VC + dst * $(p.cv) + safe_iv, qv, mask=iv < $(p.cv))
+    tl.store(KSZ + dst * $(2), sk)
+    tl.store(KSZ + dst * $(2) + $(1), zk)
+    tl.store(VSZ + dst * $(2), sv)
+    tl.store(VSZ + dst * $(2) + $(1), zv)
+  }
 
-def destinationRow (r : Request) (j : Job) : Nat :=
-  destinationToken r j.batch j.token * r.heads + j.head
+def commuted8Kernel (p : Parameters) : ComputeKernel :=
+  let K : RegionName := "key"
+  let V : RegionName := "value"
+  let KC : RegionName := "keyCache"
+  let VC : RegionName := "valueCache"
+  let KSZ : RegionName := "keyMeta"
+  let VSZ : RegionName := "valueMeta"
+  let SRC : Region .int := ⟨"src"⟩
+  let DST : Region .int := ⟨"dst"⟩
+  triton {
+    tl.region K = tl.float32, V = tl.float32, KC = tl.uint8, VC = tl.uint8,
+      KSZ = tl.float32, VSZ = tl.float32, SRC = tl.int64, DST = tl.int64
+    job = tl.program_id(0).to(tl.int64)
+    src = tl.load(SRC + job)
+    dst = tl.load(DST + job)
+    ik = tl.arange(0, $(p.bk)).to(tl.int64)
+    iv = tl.arange(0, $(p.bv)).to(tl.int64)
+    safe_ik = tl.where(ik < $(p.ck), ik, $((0 : Int)))
+    safe_iv = tl.where(iv < $(p.cv), iv, $((0 : Int)))
+    k0 = tl.load(K + src * $(p.dk))
+    v0 = tl.load(V + src * $(p.dv))
+    k = tl.load(K + $(p.dk) * src + safe_ik, mask=ik < $(p.dk), other=0.0)
+    v = tl.load(V + src * $(p.dv) + safe_iv, mask=iv < $(p.dv), other=0.0)
+    k = tl.where(ik < $(p.dk), k, k0)
+    v = tl.where(iv < $(p.dv), v, v0)
+    klo = tl.min(k, 0)
+    khi = tl.max(k, 0)
+    kraw_scale = (khi - klo) / 255
+    sk = tl.where(khi == klo, 1.0, kraw_scale)
+    zk = -klo / sk
+    qk = (k / sk + zk + 0.5).to(tl.uint8)
+    vlo = tl.min(v, 0)
+    vhi = tl.max(v, 0)
+    vraw_scale = (vhi - vlo) / 255
+    sv = tl.where(vhi == vlo, 1.0, vraw_scale)
+    zv = -vlo / sv
+    qv = (v / sv + zv + 0.5).to(tl.uint8)
+    tl.store(KC + dst * $(p.ck) + safe_ik, qk, mask=ik < $(p.ck))
+    tl.store(VC + dst * $(p.cv) + safe_iv, qv, mask=iv < $(p.cv))
+    tl.store(KSZ + dst * $(2), sk)
+    tl.store(KSZ + dst * $(2) + $(1), zk)
+    tl.store(VSZ + dst * $(2), sv)
+    tl.store(VSZ + dst * $(2) + $(1), zv)
+  }
 
-/-- The compiler-selected ordered min/max reduction tree. Leaves name actual
-source coordinates, including repeated first coordinates in padding. -/
-inductive Tree where
-  | leaf : Nat → Tree
-  | node : Tree → Tree → Tree
-  deriving Repr
+def kernel8 (version : Bool) (p : Parameters) : ComputeKernel :=
+  if version then commuted8Kernel p else original8Kernel p
 
-def Tree.leaves : Tree → List Nat
-  | .leaf i => [i]
-  | .node a b => a.leaves ++ b.leaves
+def original4Kernel (p : Parameters) : ComputeKernel :=
+  let K : RegionName := "key"
+  let V : RegionName := "value"
+  let KC : RegionName := "keyCache"
+  let VC : RegionName := "valueCache"
+  let KSZ : RegionName := "keyMeta"
+  let VSZ : RegionName := "valueMeta"
+  let SRC : Region .int := ⟨"src"⟩
+  let DST : Region .int := ⟨"dst"⟩
+  triton {
+    tl.region K = tl.float32, V = tl.float32, KC = tl.uint8, VC = tl.uint8,
+      KSZ = tl.float32, VSZ = tl.float32, SRC = tl.int64, DST = tl.int64
+    job = tl.program_id(0).to(tl.int64)
+    src = tl.load(SRC + job)
+    dst = tl.load(DST + job)
+    ik = tl.arange(0, $(p.bk)).to(tl.int64)
+    iv = tl.arange(0, $(p.bv)).to(tl.int64)
+    safe_ik = tl.where(ik < $(p.ck), ik, $((0 : Int)))
+    safe_iv = tl.where(iv < $(p.cv), iv, $((0 : Int)))
+    k10 = tl.load(K + src * $(p.dk))
+    k20 = tl.load(K + src * $(p.dk) + $(p.ck))
+    v10 = tl.load(V + src * $(p.dv))
+    v20 = tl.load(V + src * $(p.dv) + $(p.cv))
+    k1 = tl.load(K + src * $(p.dk) + safe_ik, mask=ik < $(p.ck), other=0.0).to(tl.float32)
+    k2 = tl.load(K + src * $(p.dk) + $(p.ck) + safe_ik, mask=ik < $(p.ck), other=0.0).to(tl.float32)
+    v1 = tl.load(V + src * $(p.dv) + safe_iv, mask=iv < $(p.cv), other=0.0).to(tl.float32)
+    v2 = tl.load(V + src * $(p.dv) + $(p.cv) + safe_iv, mask=iv < $(p.cv), other=0.0).to(tl.float32)
+    k1 = tl.where(ik < $(p.ck), k1, k10)
+    k2 = tl.where(ik < $(p.ck), k2, k20)
+    v1 = tl.where(iv < $(p.cv), v1, v10)
+    v2 = tl.where(iv < $(p.cv), v2, v20)
+    klo = tl.min(tl.minimum(k1, k2), 0)
+    khi = tl.max(tl.maximum(k1, k2), 0)
+    vlo = tl.min(tl.minimum(v1, v2), 0)
+    vhi = tl.max(tl.maximum(v1, v2), 0)
+    kraw_scale = (khi - klo) / 15
+    sk = tl.where(khi == klo, 1.0, kraw_scale)
+    zk = -klo / sk
+    qk1 = (k1 / sk + zk + 0.5).to(tl.uint8)
+    kraw_scale2 = (khi - klo) / 15
+    sk2 = tl.where(khi == klo, 1.0, kraw_scale2)
+    zk2 = -klo / sk2
+    qk2 = (k2 / sk2 + zk2 + 0.5).to(tl.uint8)
+    vraw_scale = (vhi - vlo) / 15
+    sv = tl.where(vhi == vlo, 1.0, vraw_scale)
+    zv = -vlo / sv
+    qv1 = (v1 / sv + zv + 0.5).to(tl.uint8)
+    vraw_scale2 = (vhi - vlo) / 15
+    sv2 = tl.where(vhi == vlo, 1.0, vraw_scale2)
+    zv2 = -vlo / sv2
+    qv2 = (v2 / sv2 + zv2 + 0.5).to(tl.uint8)
+    qk = (qk1 + qk2 * $(16)).to(tl.uint8)
+    qv = (qv1 + qv2 * $(16)).to(tl.uint8)
+    tl.store(KC + dst * $(p.ck) + safe_ik, qk, mask=ik < $(p.ck))
+    tl.store(VC + dst * $(p.cv) + safe_iv, qv, mask=iv < $(p.cv))
+    tl.store(KSZ + dst * $(2), sk)
+    tl.store(KSZ + dst * $(2) + $(1), zk)
+    tl.store(VSZ + dst * $(2), sv)
+    tl.store(VSZ + dst * $(2) + $(1), zv)
+  }
 
-def Tree.eval {α : Type} (op : α → α → α) (x : Nat → α) : Tree → α
-  | .leaf i => x i
-  | .node a b => op (a.eval op x) (b.eval op x)
+def commuted4Kernel (p : Parameters) : ComputeKernel :=
+  let K : RegionName := "key"
+  let V : RegionName := "value"
+  let KC : RegionName := "keyCache"
+  let VC : RegionName := "valueCache"
+  let KSZ : RegionName := "keyMeta"
+  let VSZ : RegionName := "valueMeta"
+  let SRC : Region .int := ⟨"src"⟩
+  let DST : Region .int := ⟨"dst"⟩
+  triton {
+    tl.region K = tl.float32, V = tl.float32, KC = tl.uint8, VC = tl.uint8,
+      KSZ = tl.float32, VSZ = tl.float32, SRC = tl.int64, DST = tl.int64
+    job = tl.program_id(0).to(tl.int64)
+    src = tl.load(SRC + job)
+    dst = tl.load(DST + job)
+    ik = tl.arange(0, $(p.bk)).to(tl.int64)
+    iv = tl.arange(0, $(p.bv)).to(tl.int64)
+    safe_ik = tl.where(ik < $(p.ck), ik, $((0 : Int)))
+    safe_iv = tl.where(iv < $(p.cv), iv, $((0 : Int)))
+    k10 = tl.load(K + src * $(p.dk))
+    k20 = tl.load(K + src * $(p.dk) + $(p.ck))
+    v10 = tl.load(V + src * $(p.dv))
+    v20 = tl.load(V + src * $(p.dv) + $(p.cv))
+    k1 = tl.load(K + $(p.dk) * src + safe_ik, mask=ik < $(p.ck), other=0.0).to(tl.float32)
+    k2 = tl.load(K + src * $(p.dk) + $(p.ck) + safe_ik, mask=ik < $(p.ck), other=0.0).to(tl.float32)
+    v1 = tl.load(V + src * $(p.dv) + safe_iv, mask=iv < $(p.cv), other=0.0).to(tl.float32)
+    v2 = tl.load(V + src * $(p.dv) + $(p.cv) + safe_iv, mask=iv < $(p.cv), other=0.0).to(tl.float32)
+    k1 = tl.where(ik < $(p.ck), k1, k10)
+    k2 = tl.where(ik < $(p.ck), k2, k20)
+    v1 = tl.where(iv < $(p.cv), v1, v10)
+    v2 = tl.where(iv < $(p.cv), v2, v20)
+    klo = tl.min(tl.minimum(k1, k2), 0)
+    khi = tl.max(tl.maximum(k1, k2), 0)
+    vlo = tl.min(tl.minimum(v1, v2), 0)
+    vhi = tl.max(tl.maximum(v1, v2), 0)
+    kraw_scale = (khi - klo) / 15
+    sk = tl.where(khi == klo, 1.0, kraw_scale)
+    zk = -klo / sk
+    qk1 = (k1 / sk + zk + 0.5).to(tl.uint8)
+    kraw_scale2 = (khi - klo) / 15
+    sk2 = tl.where(khi == klo, 1.0, kraw_scale2)
+    zk2 = -klo / sk2
+    qk2 = (k2 / sk2 + zk2 + 0.5).to(tl.uint8)
+    vraw_scale = (vhi - vlo) / 15
+    sv = tl.where(vhi == vlo, 1.0, vraw_scale)
+    zv = -vlo / sv
+    qv1 = (v1 / sv + zv + 0.5).to(tl.uint8)
+    vraw_scale2 = (vhi - vlo) / 15
+    sv2 = tl.where(vhi == vlo, 1.0, vraw_scale2)
+    zv2 = -vlo / sv2
+    qv2 = (v2 / sv2 + zv2 + 0.5).to(tl.uint8)
+    qk = (qk1 + qk2 * $(16)).to(tl.uint8)
+    qv = (qv1 + qv2 * $(16)).to(tl.uint8)
+    tl.store(KC + dst * $(p.ck) + safe_ik, qk, mask=ik < $(p.ck))
+    tl.store(VC + dst * $(p.cv) + safe_iv, qv, mask=iv < $(p.cv))
+    tl.store(KSZ + dst * $(2), sk)
+    tl.store(KSZ + dst * $(2) + $(1), zk)
+    tl.store(VSZ + dst * $(2), sv)
+    tl.store(VSZ + dst * $(2) + $(1), zv)
+  }
 
-structure Plan (width : Nat) where
-  low : Tree
-  high : Tree
-  low_valid : ∀ i ∈ low.leaves, i < width
-  high_valid : ∀ i ∈ high.leaves, i < width
-  low_covers : ∀ i, i < width → i ∈ low.leaves
-  high_covers : ∀ i, i < width → i ∈ high.leaves
+def kernel4 (version : Bool) (p : Parameters) : ComputeKernel :=
+  if version then commuted4Kernel p else original4Kernel p
 
-/-- Source-level primitive ports. Their order is fixed by quantize below.
-Division includes the selected constant/runtime division implementation;
-no split-rounding/FMA equality or whole-reduction law is assumed. -/
-structure Operations (α β : Type) where
-  minimum : α → α → α
-  maximum : α → α → α
-  sub : α → α → α
-  div : α → α → α
-  add : α → α → α
-  neg : α → α
-  equal : α → α → Bool
-  literal : Nat → α
-  half : α
-  uint8 : α → β
-  pack : β → β → β
+end VeriTile.Bench.Repairs.KvCacheFilling.QuantSource
 
-inductive Cell (α β : Type) where
-  | fp32 : α → Cell α β
-  | uint8 : β → Cell α β
-  deriving DecidableEq
+namespace VeriTile.Bench.Repairs.KvCacheFilling.Shared
+open VeriTile.Triton
 
-structure Quantized (α β : Type) where
-  code : Nat → β
-  scale : α
-  zero : α
+def parameters (r : Request) : CopySource.Parameters :=
+  ⟨r.dk, r.dv, r.ck, r.cv, r.ck.nextPowerOfTwo, r.cv.nextPowerOfTwo⟩
 
-def quantize {α β : Type} (ops : Operations α β) (levels : Nat)
-    (x : Nat → α) (low high : Tree) : Quantized α β :=
-  let lo := low.eval ops.minimum x
-  let hi := high.eval ops.maximum x
-  let raw := ops.div (ops.sub hi lo) (ops.literal levels)
-  let scale := if ops.equal hi lo then ops.literal 1 else raw
-  let zero := ops.div (ops.neg lo) scale
-  ⟨fun i => ops.uint8 (ops.add (ops.add (ops.div (x i) scale) zero) ops.half), scale, zero⟩
+def kernel (version : Bool) (r : Request) : ComputeKernel :=
+  match r.policy with
+  | .copy => CopySource.kernel version (parameters r)
+  | .int4 => QuantSource.kernel4 version (parameters r)
+  | .int8 => QuantSource.kernel8 version (parameters r)
 
-structure RowResult (α β : Type) where
-  value : Nat → Cell α β
-  scale : α
-  zero : α
+def original := kernel Bool.false
+def candidate := kernel Bool.true
 
-def rowKernel {α β : Type} (ops : Operations α β) (policy : Policy)
-    (packedWidth : Nat) (x : Nat → α) (low high : Tree) : RowResult α β :=
-  match policy with
-  | .copy => ⟨fun i => .fp32 (x i), ops.literal 0, ops.literal 0⟩
-  | .int8 =>
-      let q := quantize ops 255 x low high
-      ⟨fun i => .uint8 (q.code i), q.scale, q.zero⟩
-  | .int4 =>
-      let q := quantize ops 15 x low high
-      ⟨fun i => .uint8 (ops.pack (q.code i) (q.code (i + packedWidth))), q.scale, q.zero⟩
-
-inductive Role where | key | value | keyMeta | valueMeta
-  deriving DecidableEq, Repr
-
-structure Address where
-  role : Role
-  row : Nat
-  column : Nat
-  deriving DecidableEq, Repr
-
-structure Store (ν : Type) where
-  address : Address
-  value : ν
-
-def Request.width (r : Request) : Role → Nat
-  | .key => r.ck
-  | .value => r.cv
-  | .keyMeta | .valueMeta => 2
-
-def rowAddresses (r : Request) (j : Job) : List Address :=
-  let row := destinationRow r j
-  (List.range r.ck).map (fun i => ⟨.key,row,i⟩) ++
-  (List.range r.cv).map (fun i => ⟨.value,row,i⟩) ++
-  (if r.policy = .copy then [] else
-    [⟨.keyMeta,row,0⟩,⟨.keyMeta,row,1⟩,⟨.valueMeta,row,0⟩,⟨.valueMeta,row,1⟩])
-
-def rowValue {α β : Type} (key value : RowResult α β) (a : Address) : Cell α β :=
-  match a.role with
-  | .key => key.value a.column
-  | .value => value.value a.column
-  | .keyMeta => .fp32 (if a.column = 0 then key.scale else key.zero)
-  | .valueMeta => .fp32 (if a.column = 0 then value.scale else value.zero)
-
-/-- Actual row loads use the same SRC row for K and V. Metadata stores consume
-the scale/zero just produced by those row quantizers, never an independent input. -/
-def taskValue {α β : Type} (r : Request) (ops : Operations α β)
-    (kp : Plan r.dk) (vp : Plan r.dv) (k v : Nat → Nat → α) (j : Job) : Address → Cell α β :=
-  rowValue (rowKernel ops r.policy r.ck (k (sourceRow r j)) kp.low kp.high)
-    (rowKernel ops r.policy r.cv (v (sourceRow r j)) vp.low vp.high)
-
-def taskStores {α β : Type} (r : Request) (ops : Operations α β)
-    (kp : Plan r.dk) (vp : Plan r.dv) (k v : Nat → Nat → α) (j : Job) : List (Store (Cell α β)) :=
-  (rowAddresses r j).map fun a => ⟨a, taskValue r ops kp vp k v j a⟩
-
-def stores {α β : Type} (r : Request) (ops : Operations α β)
-    (kp : Plan r.dk) (vp : Plan r.dv) (k v : Nat → Nat → α) : List (Store (Cell α β)) :=
-  (jobs r).flatMap (taskStores r ops kp vp k v)
-
-def runStores {ν : Type} : List (Store ν) → (Address → ν) → Address → ν
-  | [], memory => memory
-  | s :: rest, memory => runStores rest (Function.update memory s.address s.value)
-
-def execute {α β : Type} (r : Request) (ops : Operations α β)
-    (kp : Plan r.dk) (vp : Plan r.dv) (k v : Nat → Nat → α) (memory : Address → Cell α β) :=
-  runStores (stores r ops kp vp k v) memory
-
-def Tree.substitute (f : Nat → Tree) : Tree → Tree
-  | .leaf i => f i
-  | .node a b => .node (a.substitute f) (b.substitute f)
-
-def padIndex (n i : Nat) : Nat := if i < n then i else 0
-
-def pairLeaves (n i : Nat) : Tree :=
-  .node (.leaf (padIndex n i)) (.leaf (padIndex n i + n))
-
-def maskedLoad {α : Type} (zero : α) (n : Nat) (x : Nat → α) (i : Nat) : α :=
-  if i < n then x i else zero
-
-def paddedLoad {α : Type} (zero : α) (n : Nat) (x : Nat → α) (i : Nat) : α :=
-  if i < n then maskedLoad zero n x i else x 0
-
-inductive QReg where | input | low | high | span | rawScale | scale | minusLow | zero | quotient | shifted | rounded
-  deriving DecidableEq
-inductive QExpr where
-  | reg : QReg → QExpr
-  | literal : Nat → QExpr
-  | half : QExpr
-  | sub : QExpr → QExpr → QExpr
-  | div : QExpr → QExpr → QExpr
-  | add : QExpr → QExpr → QExpr
-  | neg : QExpr → QExpr
-  | selectEqual : QExpr → QExpr → QExpr → QExpr → QExpr
-
-def QExpr.eval {α β : Type} (ops : Operations α β) (regs : QReg → α) : QExpr → α
-  | .reg r => regs r
-  | .literal n => ops.literal n
-  | .half => ops.half
-  | .sub a b => ops.sub (a.eval ops regs) (b.eval ops regs)
-  | .div a b => ops.div (a.eval ops regs) (b.eval ops regs)
-  | .add a b => ops.add (a.eval ops regs) (b.eval ops regs)
-  | .neg a => ops.neg (a.eval ops regs)
-  | .selectEqual a b t f => if ops.equal (a.eval ops regs) (b.eval ops regs) then t.eval ops regs else f.eval ops regs
-
-def quantSource (levels : Nat) : List (QReg × QExpr) :=
-  [(.span,.sub (.reg .high) (.reg .low)),
-   (.rawScale,.div (.reg .span) (.literal levels)),
-   (.scale,.selectEqual (.reg .high) (.reg .low) (.literal 1) (.reg .rawScale)),
-   (.minusLow,.neg (.reg .low)),
-   (.zero,.div (.reg .minusLow) (.reg .scale)),
-   (.quotient,.div (.reg .input) (.reg .scale)),
-   (.shifted,.add (.reg .quotient) (.reg .zero)),
-   (.rounded,.add (.reg .shifted) .half)]
-
-def runQuantSource {α β : Type} (ops : Operations α β) (levels : Nat) (x lo hi : α) : QReg → α :=
-  (quantSource levels).foldl (fun regs s => Function.update regs s.1 (s.2.eval ops regs))
-    (fun r => match r with | .input => x | .low => lo | .high => hi | _ => ops.literal 0)
-
-structure SourceBinding {n : Nat} (p : Plan n) (policy : Policy) (width : Nat) where
-  lanes : Nat
-  lane_count : lanes=width.nextPowerOfTwo
-  covers : width ≤ lanes
-  reduction : Plan lanes
-  low : p.low = match policy with
-    | .copy | .int8 => reduction.low.substitute (fun i => .leaf (padIndex width i))
-    | .int4 => reduction.low.substitute (pairLeaves width)
-  high : p.high = match policy with
-    | .copy | .int8 => reduction.high.substitute (fun i => .leaf (padIndex width i))
-    | .int4 => reduction.high.substitute (pairLeaves width)
-
-def sourceQuant {α β : Type} (ops : Operations α β) (levels : Nat) (x : Nat → α) (lo hi : α) : Quantized α β :=
-  ⟨fun i => ops.uint8 (runQuantSource ops levels (x i) lo hi .rounded),
-    runQuantSource ops levels (x 0) lo hi .scale,
-    runQuantSource ops levels (x 0) lo hi .zero⟩
-
-def sourceRowExec {α β : Type} (ops : Operations α β) (policy : Policy) (width : Nat)
-    (x : Nat → α) (low high : Tree) : RowResult α β :=
-  match policy with
-  | .copy => ⟨fun i => .fp32 (maskedLoad (ops.literal 0) width x i),ops.literal 0,ops.literal 0⟩
-  | .int8 =>
-    let padded := paddedLoad (ops.literal 0) width x
-    let q := sourceQuant ops 255 x (low.eval ops.minimum padded) (high.eval ops.maximum padded)
-    ⟨fun i => .uint8 (q.code i),q.scale,q.zero⟩
-  | .int4 =>
-    let first := paddedLoad (ops.literal 0) width x
-    let second := paddedLoad (ops.literal 0) width (fun i => x (i+width))
-    let q := sourceQuant ops 15 x
-      (low.eval ops.minimum (fun i => ops.minimum (first i) (second i)))
-      (high.eval ops.maximum (fun i => ops.maximum (first i) (second i)))
-    ⟨fun i => .uint8 (ops.pack (q.code i) (q.code (i+width))),q.scale,q.zero⟩
-
-end VeriTile.Bench.Repairs.KvCacheFilling
+end VeriTile.Bench.Repairs.KvCacheFilling.Shared

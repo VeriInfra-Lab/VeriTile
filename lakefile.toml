@@ -117,6 +117,7 @@ globs = [
   "bench.tests.FP8Bitcast",
   "bench.tests.FPInterleaveBitcast",
   "bench.tests.FPMaximumPrimitive",
+  "bench.tests.FPMinimumReduction",
   "bench.tests.FloatMinMaxPromotion",
   "bench.tests.SignedInteger16Cast",
   "bench.tests.SignedInteger16Contexts",

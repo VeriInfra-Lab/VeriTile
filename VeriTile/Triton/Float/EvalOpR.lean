@@ -182,6 +182,9 @@ noncomputable def evalOpR (R : RoundingModel) :
       let va ← evalOpR R a s
       let vb ← evalOpR R b s
       if Int32Bits.valuesValid vb.data then some (Tile.libdevicePowi bc va vb) else none
+  | .reduceMin axis keepDims a, s => do
+      let va ← evalOpR R a s
+      Tile.reduceMin axis keepDims va
   | .reduceMax axis keepDims a, s => do
       let va ← evalOpR R a s
       Tile.reduceMax axis keepDims va
@@ -461,6 +464,7 @@ theorem evalOpR_triv : ∀ {dtype : TileDType} {shape : TileShape} (op : Op dtyp
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
   | _, _, .libdevicePowi _ a b, s => by
       simp only [evalOpR, evalOp, evalOpR_triv a s, evalOpR_triv b s]
+  | _, _, .reduceMin _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .reduceMax _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .reduceMaxNat _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
   | _, _, .reduceMaxInt _ _ a, s => by simp only [evalOpR, evalOp, evalOpR_triv a s]
