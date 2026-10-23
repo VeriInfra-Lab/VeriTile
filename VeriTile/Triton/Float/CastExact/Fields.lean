@@ -63,10 +63,9 @@ the payload; the software `cast` will subsequently canonicalize it. -/
 def widenBits (x : Value .bf16) : Value .fp32 := Value.ofBits .fp32 (x.raw * 65536)
 
 theorem widenBits_raw (x : Value .bf16) : (widenBits x).raw = x.raw * 65536 := by
-  have bound := raw_lt x
-  norm_num [Format.width, Format.fractionBits] at bound
-  change (x.raw * 65536) % 4294967296 = x.raw * 65536
-  exact Nat.mod_eq_of_lt (by omega)
+  have bound : x.raw < 65536 := raw_lt x
+  simp only [widenBits, Value.raw, Value.ofBits, BitVec.toNat_ofNat]
+  exact Nat.mod_eq_of_lt (Nat.mul_lt_mul_of_pos_right bound (by decide))
 
 theorem widenBits_sign (x : Value .bf16) : (widenBits x).sign = x.sign := by
   simp only [Value.sign, widenBits_raw, Format.fractionBits]
