@@ -157,7 +157,12 @@ globs = ["bench.repairs.tritonbench_g.add_example.+"]
 # records whole-task acceptance and separate numerical/replay status.
 [[lean_lib]]
 name = "TritonBenchGContracts"
+# Imported proof helpers belong to this library even when only public entries
+# are selected below. Without a namespace root, Lake expects prebuilt objects
+# for helpers that are not themselves listed in globs.
+roots = ["bench.repairs"]
 globs = [
+  "bench.repairs",
   "bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.Correct",
   "bench.repairs.tritonbench_g.chunk_delta_fwd_static_dot.FPEquiv",
   "bench.repairs.tritonbench_g.chunk_gated_attention.KernelOnly.Correct",

@@ -22299,18 +22299,18 @@
       "status": "fixed",
       "remaining_issues": [],
       "public_entries": [
-        ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
         "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Correct.lean",
         "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/FPEquiv.lean"
       ],
       "source_sha256": {
-        ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean": "8f4a97e7b335ed58a77b0ae3694caa167ffc5988b34e036f7cd5b167544f5c7a",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean": "8f4a97e7b335ed58a77b0ae3694caa167ffc5988b34e036f7cd5b167544f5c7a",
         "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Correct.lean": "0aefea73e87f57d27d434ac71a67547f0f7587d4218f98b5dcc53ae22f36ef74",
         "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/FPEquiv.lean": "1a5bfc703e07cdedadf424813fc8299b6c3a4f69b45cad9762ed2d541b55745a",
         "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Proofs/LogicalIO.lean": "6444225edb9871ce9da66d1d6b67ec3e6d0b57ef20da585d584988082d8b1df0",
         "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/IO.lean": "17cc5396efe37f18c9a3dbb60c8f75b59e053ca9adec8067360580bbd84b6e16",
         "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/PairIO.lean": "25e1e3e37a346f7859a3ee23e8b1a5a34b0f1edf420d66e3387d1f940c87bf8b",
-        ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelRealTarget.lean": "618d2163fd7ec232d479724639c7944e9557af4507ef68ad264366e5238267b5",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelRealTarget.lean": "618d2163fd7ec232d479724639c7944e9557af4507ef68ad264366e5238267b5",
         "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/PairSemantics.lean": "757a252cf5b11ca7793899aab4e213ebaa8f97c2ea827fc7cdd212b02f3edca5",
         "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
         "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
@@ -22318,7 +22318,7 @@
         "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Kernels.lean": "6629723f4bf952554d4e423633420e2646b86cd264f4175f37ba4c889aad8061"
       },
       "source_pin_provenance": {
-        ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean": {
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean": {
           "owner_tasks": [
             "chunked_cumsum_fwd"
           ]
@@ -22346,7 +22346,7 @@
         "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/PairIO.lean": {
           "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json"
         },
-        ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelRealTarget.lean": {
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelRealTarget.lean": {
           "unchanged_prior_pin": "bench/review-checkpoints/2026-10-22/logical-readers/main-formulas.json",
           "byte_identical_selected_alias_of": {
             "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelRealTarget.lean",
@@ -22503,7 +22503,7 @@
             "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
           },
           {
-            "path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
+            "path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
             "sha256": "8f4a97e7b335ed58a77b0ae3694caa167ffc5988b34e036f7cd5b167544f5c7a"
           },
           {
@@ -22587,7 +22587,21 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/chunked_cumsum_fwd.json",
         "sha256": "cda4f3ee994da14e04c82cbc39cef46d4e86b6272e8fada128f9d6520fe97ece",
         "task": "chunked_cumsum_fwd"
-      }
+      },
+      "source_path_relocations": [
+        {
+          "previous_path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
+          "current_path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
+          "sha256": "8f4a97e7b335ed58a77b0ae3694caa167ffc5988b34e036f7cd5b167544f5c7a",
+          "basis": "Byte-identical tracked source; original commands and historical review evidence retained."
+        },
+        {
+          "previous_path": ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelRealTarget.lean",
+          "current_path": "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Proofs/KernelRealTarget.lean",
+          "sha256": "618d2163fd7ec232d479724639c7944e9557af4507ef68ad264366e5238267b5",
+          "basis": "Byte-identical tracked source; original commands and historical review evidence retained."
+        }
+      ]
     },
     {
       "task": "context_attn_bloom",

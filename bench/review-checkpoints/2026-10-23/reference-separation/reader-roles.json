@@ -4385,7 +4385,7 @@
       "task": "chunked_cumsum_fwd",
       "status": "fixed",
       "selected_public_entries": [
-        ".veritile-cache/task-deliveries/chunked_cumsum_fwd/authorized-minimum-v1/src/bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
+        "bench/repairs/tritonbench_g/chunked_cumsum_fwd/Contract.lean",
         "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/Correct.lean",
         "bench/repairs/tritonbench_g/chunked_cumsum_fwd/KernelOnly/FPEquiv.lean"
       ],
