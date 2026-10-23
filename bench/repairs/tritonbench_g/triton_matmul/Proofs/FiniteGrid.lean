@@ -38,35 +38,22 @@ theorem store_fold_mem {α : Type} {I : Type} (region : RegionName) (mask : I �
 
 #axiomsClean store_fold_mem
 
-private theorem writeItems_mem {α : Type} (M : Algebra α) (r : Request) (pid : Nat)
-    (carry : CIndex r.parameters → α) (items : List (CIndex r.parameters))
-    (a b : State α) (same : a.mem = b.mem) :
-    (writeItems M r pid carry items a).mem = (writeItems M r pid carry items b).mem :=
-  store_fold_mem r.C _ _ _ items (instanceState r pid a) (instanceState r pid b) same
-
 theorem writeResult_mem {α : Type} (M : Algebra α) (r : Request) (pid : Nat)
     (carry : CIndex r.parameters → α) (a b : State α) (same : a.mem = b.mem) :
-    (writeResult M r pid carry a).mem = (writeResult M r pid carry b).mem :=
-  writeItems_mem M r pid carry _ a b same
-
-private theorem mapped_memory {α β : Type} (x y : Option β)
-    (f g : β → State α) (same : x = y)
-    (outputs : ∀ v, (f v).mem = (g v).mem) :
-    (x.map f).map State.mem = (y.map g).map State.mem := by
-  subst y
-  cases x with
-  | none => rfl
-  | some v => exact congrArg some (outputs v)
+    (writeResult M r pid carry a).mem = (writeResult M r pid carry b).mem := by
+  simp only [writeResult, same]
 
 private theorem mapped_loop_memory {α : Type} [Inhabited α] (M : Algebra α)
     (D : DotAcc α) (r : Request) (pid fuel : Nat) (k : BitVec 64)
     (carry : CIndex r.parameters → α) (a b : State α) (same : a.mem = b.mem) :
     ((loop M D r a pid fuel k carry).map (fun values => writeResult M r pid values a)).map State.mem =
-    ((loop M D r b pid fuel k carry).map (fun values => writeResult M r pid values b)).map State.mem :=
-  mapped_memory (loop M D r a pid fuel k carry) (loop M D r b pid fuel k carry)
-    (fun values => writeResult M r pid values a) (fun values => writeResult M r pid values b)
+    ((loop M D r b pid fuel k carry).map (fun values => writeResult M r pid values b)).map State.mem := by
+  have values : (fun v => (writeResult M r pid v a).mem) =
+      (fun v => (writeResult M r pid v b).mem) :=
+    funext (fun v => writeResult_mem M r pid v a b same)
+  simp only [Option.map_map, Function.comp_def]
+  exact congrArg₂ (fun f x => Option.map f x) values
     (loop_mem M D r a b same pid fuel k carry)
-    (fun values => writeResult_mem M r pid values a b same)
 
 theorem program_mem {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α) (r : Request)
     (a b : State α) (same : a.mem=b.mem) (pid : Nat) :

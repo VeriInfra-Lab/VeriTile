@@ -127,19 +127,44 @@ theorem output_offset {α : Type} (r : Request) (basis : State α) (t : TensorAP
   rw [Index.word_nat (by change safeCOffset r _ _<2^64; omega),candidate_store_offset,coords.1,coords.2]
   rfl
 
-/-- The finite store pass is kept separate so memory congruence need not
-normalize the concrete 128-by-256 index list inside an Option-map proof. -/
-def writeItems {α : Type} (M : Algebra α) (r : Request) (pid : Nat)
-    (carry : CIndex r.parameters → α) (items : List (CIndex r.parameters)) (s : State α) : State α :=
-    items.foldl (fun current i =>
-      if Index.storeMask r pid i.1.val i.2.1.val then
-        current.write r.C (outputOffset r pid i).toNat
-          (stored r.storage (M.cast none .real (dtype r.storage) (carry i))) else current)
-      (instanceState r pid s)
+/-- Folding pure writes changes only memory. Keeping the memory fold explicit
+prevents the kernel from normalizing a concrete 128-by-256 state list merely
+to project its memory field. -/
+theorem fold_write_state {α I : Type} (region : RegionName) (mask : I → Bool)
+    (offset : I → Nat) (value : I → Cell α) (items : List I) (s : State α) :
+    items.foldl (fun t i => if mask i then t.write region (offset i) (value i) else t) s =
+      {s with mem := items.foldl (fun mem i => if mask i then
+        fun r o => if r = region ∧ o = offset i then value i else mem r o
+        else mem) s.mem} := by
+  induction items generalizing s with
+  | nil => rfl
+  | cons i tail ih =>
+    simp only [List.foldl_cons]
+    by_cases h : mask i = Bool.true
+    · simp only [if_pos h]
+      rw [ih]
+      rfl
+    · simp only [if_neg h, ih]
 
 def writeResult {α : Type} (M : Algebra α) (r : Request) (pid : Nat)
     (carry : CIndex r.parameters → α) (s : State α) : State α :=
-  writeItems M r pid carry (TileShape.allIndices [BM r.parameters,BN r.parameters]) s
+  let memory := (TileShape.allIndices [BM r.parameters,BN r.parameters]).foldl (fun mem i =>
+    if Index.storeMask r pid i.1.val i.2.1.val then
+      (fun region offset => if region = r.C ∧ offset = (outputOffset r pid i).toNat then
+        stored r.storage (M.cast none .real (dtype r.storage) (carry i)) else mem region offset)
+    else mem) s.mem
+  {instanceState r pid s with mem := memory}
+
+
+theorem writeResult_eq {α : Type} (M : Algebra α) (r : Request) (pid : Nat)
+    (carry : CIndex r.parameters → α) (s : State α) :
+    writeResult M r pid carry s =
+      (TileShape.allIndices [BM r.parameters,BN r.parameters]).foldl (fun current i =>
+        if Index.storeMask r pid i.1.val i.2.1.val then
+          current.write r.C (outputOffset r pid i).toNat
+            (stored r.storage (M.cast none .real (dtype r.storage) (carry i))) else current)
+        (instanceState r pid s) :=
+  (fold_write_state r.C _ _ _ _ (instanceState r pid s)).symm
 
 def program {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α) (r : Request)
     (pid : Nat) (s : State α) : Option (State α) :=
@@ -154,7 +179,7 @@ theorem program_eq {α : Type} [Inhabited α] (M : Algebra α) (D : DotAcc α) (
   have blocks := congrArg Index.Control.blocks (Index.control_word r basis t pid hp hl)
   change Index.ceiling (Index.scalarABI r.inner) (SourceScope.blockK r.storage)=Index.word r.parameters.numKBlocks at blocks
   have small := Index.blocks_bound r basis t
-  simp only [program,writeResult,writeItems,blocks,Index.word_nat (by omega : r.parameters.numKBlocks<2^64),
+  simp only [program,writeResult_eq,blocks,Index.word_nat (by omega : r.parameters.numKBlocks<2^64),
     loop_eq M D r basis t s pid hp hl r.parameters.numKBlocks 0 (by omega),Option.map_some,Source.writtenSafe]
   congr 2
   funext current i
