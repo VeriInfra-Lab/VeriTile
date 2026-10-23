@@ -605,10 +605,10 @@ the elaborated `Option ℝ`. -/
   show WithBot.unbotD (0 : ℝ) (s.sup' h (fun i => ((f i : ℝ) : WithBot ℝ))) = _
   rw [WithBot.sup'_coe]; rfl
 
-/-! ### Reduce-max along an arbitrary axis
+/-! ### Real minimum and maximum along an arbitrary axis
 
-Returns `none` only when the reduced dimension is `0` (empty `sup'`
-undefined). -/
+Return `none` when the reduced dimension is `0`, where the nonempty finite
+infimum/supremum is undefined. -/
 
 noncomputable def Tile.reduceMinDrop {shape : TileShape}
     (axis : Fin shape.length) (x : Tile .real shape) :

@@ -3,6 +3,13 @@ import VeriTile.Triton.Float.CastExact.Widen
 
 namespace VeriTile.Triton.FP.CastExact
 
+private theorem cast_from_decode_finite {src dst : Format}
+    (x : Value src) (y : Value dst) (s : Bool) (m : Rat)
+    (hx : x.decode = .finite s m) (hy : y.decode = .finite s m) :
+    cast dst .ieeeValue x = y := by
+  simpa only [cast, prepare_ieee, hx] using
+    BitValueLaws.round_of_decode_finite y s m hy
+
 /-- BF16-to-FP32 conversion inserts sixteen zero fraction bits for every
 finite BF16 value, including both signed zeros and all subnormal words. -/
 theorem cast_widen_of_decode_finite (x : Value .bf16) (s : Bool) (m : Rat)
@@ -21,9 +28,10 @@ theorem cast_widen_of_finite (x : Value .bf16) (h : x.toRat?.isSome = true) :
 theorem bf16_widen_return_of_decode_finite (x : Value .bf16) (s : Bool) (m : Rat)
     (h : x.decode = .finite s m) :
     cast .bf16 .ieeeValue (cast .fp32 .ieeeValue x) = x := by
-  rw [cast_widen_of_decode_finite x s m h]
-  simpa only [cast, prepare_ieee, widenBits_decode_finite x s m h] using
-    BitValueLaws.round_of_decode_finite x s m h
+  exact (congrArg (cast .bf16 .ieeeValue)
+    (cast_widen_of_decode_finite x s m h)).trans
+      (cast_from_decode_finite (widenBits x) x s m
+        (widenBits_decode_finite x s m h) h)
 
 /-- The exact widening roundtrip preserves all non-NaN BF16 words. NaN payloads
 are intentionally excluded because `cast` canonicalizes NaNs. -/
