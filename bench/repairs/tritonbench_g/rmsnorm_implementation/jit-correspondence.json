@@ -1,0 +1,150 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/rmsnorm_implementation/rmsnorm_implementation_repaired.py",
+    "python_function": "rmsnorm_triton",
+    "lean": "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "rms_w_ptr",
+          "fp32"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_m",
+          "integer"
+        ],
+        [
+          "stride_x_k",
+          "integer"
+        ],
+        [
+          "stride_rms_w",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_m",
+          "integer"
+        ],
+        [
+          "stride_out_k",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "N_SIZE",
+        "eps",
+        "BLOCK_N_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr",
+        "rms_w_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_batch": "sxb",
+      "stride_x_m": "sxm",
+      "stride_x_k": "sxk",
+      "stride_rms_w": "sw",
+      "stride_out_batch": "sob",
+      "stride_out_m": "som",
+      "stride_out_k": "sok"
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/rmsnorm_implementation/candidate_kernels.py",
+    "python_function": "rmsnorm_triton_index_commuted",
+    "lean": "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean",
+    "lean_definition": "indexCommutedKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "rms_w_ptr",
+          "fp32"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_batch",
+          "integer"
+        ],
+        [
+          "stride_x_m",
+          "integer"
+        ],
+        [
+          "stride_x_k",
+          "integer"
+        ],
+        [
+          "stride_rms_w",
+          "integer"
+        ],
+        [
+          "stride_out_batch",
+          "integer"
+        ],
+        [
+          "stride_out_m",
+          "integer"
+        ],
+        [
+          "stride_out_k",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "N_SIZE",
+        "eps",
+        "BLOCK_N_SIZE"
+      ],
+      "readPorts": [
+        "x_ptr",
+        "rms_w_ptr"
+      ],
+      "writePorts": [
+        "out_ptr"
+      ]
+    },
+    "expected_call_bindings": {
+      "stride_x_batch": "sxb",
+      "stride_x_m": "sxm",
+      "stride_x_k": "sxk",
+      "stride_rms_w": "sw",
+      "stride_out_batch": "sob",
+      "stride_out_m": "som",
+      "stride_out_k": "sok"
+    }
+  }
+]

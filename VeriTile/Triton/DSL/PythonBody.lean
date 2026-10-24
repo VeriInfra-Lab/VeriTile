@@ -83,7 +83,7 @@ private def emit (lines : Array Line) (indent : Nat) (text : String) : Array Lin
   if text.isEmpty then lines else lines.push ⟨indent,text⟩
 
 private partial def logicalLines (input : List Char) (lines : Array Line := #[])
-    (indent : Nat := 0) (text : String := "") (delimiters : List (Char × Bool) := [])
+    (indent : Nat := 0) (text : String := "") (delimiters : List (Char × Bool × Bool × Bool) := [])
     (atStart : Bool := Bool.true) : Except String (Array Line) := do
   match input with
   | [] =>
@@ -121,6 +121,12 @@ private partial def logicalLines (input : List Char) (lines : Array Line := #[])
       else if ['(','[','{'].contains c then
         let preceding := text.trimAscii.toString
         let call := c == '(' && preceding.back?.any (fun ch => ch.isAlphanum || ['_',')',']'].contains ch)
+        -- Native tuple/list shapes name the same static dimensions. Keep the
+        -- raw Python tuple intact and adapt only this constructor argument
+        -- to the existing dimension-list parser.
+        let compact := String.ofList (preceding.toList.filter (! ·.isWhitespace))
+        let shapeTuple := c == '(' &&
+          ["tl.zeros(","tl.full("].any (fun word : String => compact.endsWith word)
         -- The legacy grammar reserves range(0, as one token followed by
         -- antiquotes. Parentheses around this integer are a source-spelling
         -- adaptation that lets an unmodified Python call use the general rule.
@@ -131,16 +137,24 @@ private partial def logicalLines (input : List Char) (lines : Array Line := #[])
           let afterZero := afterOpen.tail!.dropWhile Char.isWhitespace
           if afterZero.head? == some ',' then
             return ← logicalLines afterZero lines indent (text ++ "((0)")
-              ((c,call) :: delimiters) Bool.false
-        logicalLines tail lines indent (text.push c) ((c,call) :: delimiters) Bool.false
+              ((c,call,Bool.false,Bool.false) :: delimiters) Bool.false
+        logicalLines tail lines indent (text.push (if shapeTuple then '[' else c))
+          ((c,call,shapeTuple,Bool.false) :: delimiters) Bool.false
+      else if c == ',' && delimiters.head?.any (fun frame => frame.2.2.1) then
+        let frame := delimiters.head!
+        logicalLines tail lines indent (text.push c)
+          ((frame.1,frame.2.1,frame.2.2.1,Bool.true) :: delimiters.tail!) Bool.false
       else if [')',']','}'].contains c then
         let expected := if c == ')' then '(' else if c == ']' then '[' else '{'
         unless delimiters.head?.map Prod.fst == some expected do throw "unbalanced Python delimiter"
         let preceding := text.trimAscii.toString
-        let text := if c == ')' && delimiters.head!.2 && preceding.endsWith "," then
+        let frame := delimiters.head!
+        if frame.2.2.1 && !frame.2.2.2 && !preceding.endsWith "[" then
+          throw "constructor shape requires a tuple or list"
+        let text := if c == ')' && (frame.2.1 || frame.2.2.1) && preceding.endsWith "," then
             String.ofList preceding.toList.dropLast
           else text
-        logicalLines tail lines indent (text.push c) delimiters.tail! Bool.false
+        logicalLines tail lines indent (text.push (if frame.2.2.1 then ']' else c)) delimiters.tail! Bool.false
       else if c == ';' && delimiters.isEmpty then
         logicalLines tail (emit lines indent text) indent "" [] Bool.false
       else logicalLines tail lines indent (text.push c) delimiters Bool.false

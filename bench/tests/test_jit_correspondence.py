@@ -143,7 +143,7 @@ class IntegerCallBodyTests(unittest.TestCase):
     tasks = ("add_example", "add_value", "vector_addition", "vector_addition_custom",
              "cosine_compute", "sin_computation", "sin_kernel", "square_matrix",
              "matrix_transpose", "index_select_bwd", "swiglu_fwd", "kldiv_compute", "l2_norm_triton1",
-             "rmsnorm_fused", "rmsnorm_fused_llama")
+             "rmsnorm_fused", "rmsnorm_fused_llama", "rmsnorm_triton", "rmsnorm_implementation")
 
     def test_every_migrated_original_and_candidate(self):
         for task in self.tasks:
@@ -211,6 +211,18 @@ class IntegerCallBodyTests(unittest.TestCase):
                 [n, "fp64" if n == "eps" else t] for n, t in record["expected_signature"]["scalars"]]}
             check(python, lean.replace('(\"eps\",.fp32)', '(\"eps\",.fp64)'),
                   record["python_function"], "kernel", record["signature_definition"], signature, bindings)
+
+    def test_original_constexpr_epsilon_is_not_relabelled_runtime(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/rmsnorm_implementation"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        self.assertIn("eps", record["expected_signature"]["constexpr"])
+        self.assertNotIn("eps", dict(record["expected_signature"]["scalars"]))
+        python, lean = ((ROOT / record[k]).read_text() for k in ("python", "lean"))
+        with self.assertRaisesRegex(ValueError, "parameters and call signature"):
+            check(python.replace("eps: tl.constexpr", "eps"), lean,
+                  record["python_function"], record["lean_definition"],
+                  record["signature_definition"], record["expected_signature"],
+                  record["expected_call_bindings"])
 
     def test_python_comments_and_docstring_cannot_terminate_or_inject_a_body(self):
         directory = ROOT / "bench/repairs/tritonbench_g/vector_addition_custom"

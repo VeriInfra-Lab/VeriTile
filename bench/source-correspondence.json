@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 17,
-      "uncovered_jit_functions": 163
+      "selected_body_copy_checked": 19,
+      "uncovered_jit_functions": 161
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -19,12 +19,12 @@
       "uncovered_jit_functions": 1
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 299,
+    "uncovered_selected_jit_functions": 297,
     "primary_files_with_int64_screen_warning": 44,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 132,
-        "antiquotes": 145,
+        "in_body_type_directives": 130,
+        "antiquotes": 143,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -10324,9 +10324,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 36,
-        "dsl_assignment": 5,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 34,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -10339,18 +10339,82 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "rmsnorm_triton",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_x_batch": "sxb",
+            "stride_x_m": "sxm",
+            "stride_x_k": "sxk",
+            "stride_rms_w": "sw",
+            "stride_out_batch": "sob",
+            "stride_out_m": "som",
+            "stride_out_k": "sok"
+          },
+          "statements": 9,
+          "runtime_parameters": {
+            "stride_x_batch": "integer",
+            "stride_x_m": "integer",
+            "stride_x_k": "integer",
+            "stride_rms_w": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_m": "integer",
+            "stride_out_k": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N_SIZE",
+            "N_SIZE",
+            "eps"
+          ],
           "python": "bench/repairs/tritonbench_g/rmsnorm_implementation/rmsnorm_implementation_repaired.py",
-          "function": "rmsnorm_triton"
+          "lean": "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean"
+        },
+        {
+          "python_function": "rmsnorm_triton_index_commuted",
+          "lean_definition": "indexCommutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_x_batch": "sxb",
+            "stride_x_m": "sxm",
+            "stride_x_k": "sxk",
+            "stride_rms_w": "sw",
+            "stride_out_batch": "sob",
+            "stride_out_m": "som",
+            "stride_out_k": "sok"
+          },
+          "statements": 9,
+          "runtime_parameters": {
+            "stride_x_batch": "integer",
+            "stride_x_m": "integer",
+            "stride_x_k": "integer",
+            "stride_rms_w": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_m": "integer",
+            "stride_out_k": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N_SIZE",
+            "N_SIZE",
+            "eps"
+          ],
+          "python": "bench/repairs/tritonbench_g/rmsnorm_implementation/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean": "e754f0c19e9cf70e697b13e0bed56163f6f3613ea9b200cfe5cb8c9207e3c0b3",
+        "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean": "cf61c94d857e0dcde7050672949e43a9d607e9ad36dae6ce646fd6a83dd1ff5d",
+        "bench/repairs/tritonbench_g/rmsnorm_implementation/candidate_kernels.py": "913a43463947178aaebe0336dcd4d4fe1218f1d48a7261af6097e95fc82e01bc",
+        "bench/repairs/tritonbench_g/rmsnorm_implementation/jit-correspondence.json": "b26926ea3cbb4c2ffcc68c87a048cbd34f5077baaf2d4890df93acb05a4ab9e3",
         "bench/repairs/tritonbench_g/rmsnorm_implementation/rmsnorm_implementation_repaired.py": "210c3a54de4bbf00053a81f981860bf1068469b95903261034bf7b7515b3ef9d"
       }
     },
@@ -10362,9 +10426,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 36,
-        "dsl_assignment": 5,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 31,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -10377,18 +10441,82 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "rmsnorm_triton",
+          "lean_definition": "kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_x_batch": "sxb",
+            "stride_x_m": "sxm",
+            "stride_x_k": "sxk",
+            "stride_rms_w": "sw",
+            "stride_out_batch": "sob",
+            "stride_out_m": "som",
+            "stride_out_k": "sok"
+          },
+          "statements": 9,
+          "runtime_parameters": {
+            "stride_x_batch": "integer",
+            "stride_x_m": "integer",
+            "stride_x_k": "integer",
+            "stride_rms_w": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_m": "integer",
+            "stride_out_k": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N_SIZE",
+            "N_SIZE",
+            "eps"
+          ],
           "python": "bench/repairs/tritonbench_g/rmsnorm_triton/rmsnorm_triton_repaired.py",
-          "function": "rmsnorm_triton"
+          "lean": "bench/repairs/tritonbench_g/rmsnorm_triton/Kernels.lean"
+        },
+        {
+          "python_function": "rmsnorm_triton_index_commuted",
+          "lean_definition": "indexCommutedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_x_batch": "sxb",
+            "stride_x_m": "sxm",
+            "stride_x_k": "sxk",
+            "stride_rms_w": "sw",
+            "stride_out_batch": "sob",
+            "stride_out_m": "som",
+            "stride_out_k": "sok"
+          },
+          "statements": 9,
+          "runtime_parameters": {
+            "stride_x_batch": "integer",
+            "stride_x_m": "integer",
+            "stride_x_k": "integer",
+            "stride_rms_w": "integer",
+            "stride_out_batch": "integer",
+            "stride_out_m": "integer",
+            "stride_out_k": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_N_SIZE",
+            "N_SIZE",
+            "eps"
+          ],
+          "python": "bench/repairs/tritonbench_g/rmsnorm_triton/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/rmsnorm_triton/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/rmsnorm_triton/Kernels.lean": "f6324f008da0783946b4c7dab9039b6ba4e0ef1f25b3c91852adb7d70466a61a",
+        "bench/repairs/tritonbench_g/rmsnorm_triton/Kernels.lean": "215c00d3ab891a31bc5a65a4648e1623146ed7b04ad9f460c050720a211bcf49",
+        "bench/repairs/tritonbench_g/rmsnorm_triton/candidate_kernels.py": "36e9e8c0c87dae18a1f2a59a24f8c80d2836e7a1a9cb6094745fb444d1092550",
+        "bench/repairs/tritonbench_g/rmsnorm_triton/jit-correspondence.json": "c038ce4eb040af482b581d724d0cfdc25df75c0b9b437e32e0e2bf3263bef853",
         "bench/repairs/tritonbench_g/rmsnorm_triton/rmsnorm_triton_repaired.py": "5b89dde21e5b2752f1af7aaee97317c7a55824a08901a480fffdee875164cf0c"
       }
     },

@@ -2107,6 +2107,8 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
       expandSplit expandExpr env e side.getNat
   | `(tritonExpr| tl.full([$dims:tritonExpr,*], $v:tritonExpr)) => do
       expandFull expandExpr env dims.getElems v
+  | `(tritonExpr| tl.full([$dims:tritonExpr,*], $v:tritonExpr, $dt:tritonDType)) => do
+      expandComputeFull expandExpr env dims.getElems v dt
   | `(tritonExpr| tl.full([$dims:tritonExpr,*], $v:tritonExpr, $name:ident=$dt:tritonDType)) => do
       unless name.getId.getString! == "dtype" do
         Macro.throwError

@@ -183,6 +183,14 @@ private partial def assignedNames (raw : Syntax) : List Name := Id.run do
     names := raw[1].getId.eraseMacroScopes :: names
   return names ++ raw.getArgs.toList.flatMap assignedNames
 
+private partial def rejectConstexprIteratorShadow (constants : List String)
+    (raw : Syntax) : TermElabM Unit := do
+  if raw.getNumArgs > 1 && raw[0].isAtom && raw[1].isIdent &&
+      ["for", "tl.for"].contains raw[0].getAtomVal.trimAscii.toString &&
+      constants.contains raw[1].getId.eraseMacroScopes.toString then
+    throwErrorAt raw "loop iterator shadows a constexpr parameter"
+  for arg in raw.getArgs do rejectConstexprIteratorShadow constants arg
+
 private partial def staticNatBound (constants assigned : List Name)
     (e : TSyntax `tritonExpr) : TermElabM (Option (TSyntax `term)) := do
   match e with
@@ -290,6 +298,28 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
             (kind matches .fp32 | .fp64) || values.any (fun p => p.1.toString == name)) do
           throwError "every integer runtime scalar needs an explicit call binding"
         for stmt in stmts do rejectArgumentMutation (values.map Prod.fst) stmt.raw
+      let assigned := stmts.toList.flatMap (fun st => assignedNames st.raw)
+      for stmt in stmts do rejectConstexprIteratorShadow constants stmt.raw
+      -- A constexpr float is a weak Python scalar, not a runtime FP32
+      -- argument. Its surrounding tensor operation selects its precision.
+      -- Mutable constexpr names remain local statements, never substituted.
+      for constant in constants do
+        let name := Name.mkSimple constant
+        if assigned.contains name then continue
+        let id : TSyntax `term := ⟨mkIdent name⟩
+        let value ← elabTerm id none
+        let dtype ← inferType value
+        let expression ←
+          if ← isDefEq dtype (mkConst ``Nat) then
+            liftMacroM `(tritonExpr| $(($id:term : Nat)))
+          else if ← isDefEq dtype (mkConst ``Int) then
+            liftMacroM `(tritonExpr| $(($id:term : Int)))
+          else if ← isDefEq dtype (mkConst ``Real) then
+            liftMacroM `(tritonExpr| $(($id:term : ℝ)))
+          else if ← isDefEq dtype (mkConst ``Bool) then
+            liftMacroM `(tritonExpr| $(($id:term : Bool)))
+          else throwError "unsupported constexpr carrier; expected Nat, Int, Real or Bool"
+        values := values ++ [(name,expression)]
       let stmts ← liftMacroM <| stmts.mapM fun st => do
         return (⟨← bindSourceValues values st.raw⟩ : TSyntax `tritonStmt)
       let metadata ← liftMacroM <| stmts.toList.mapM fun st => do
@@ -307,7 +337,6 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
             unless ports.contains id.getId.eraseMacroScopes.toString do
               throwErrorAt region "observed memory access is missing from the declared call ports"
       let constants := constants.map Name.mkSimple
-      let assigned := stmts.toList.flatMap (fun st => assignedNames st.raw)
       let term ← liftMacroM do
         let mut declarations : Array (TSyntax `tritonStmt) := #[]
         -- Invocation ports follow the declared Python parameter order even

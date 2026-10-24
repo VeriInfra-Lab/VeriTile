@@ -101,6 +101,7 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| ($inner:tritonExpr)) => valueType pointers values inner
   | `(tritonExpr| $((VeriTile.Triton.DSL.TypedStores.fp32CallValue $_:term : ℝ))) => some (.typed .fp32)
   | `(tritonExpr| $(($_:term : Nat))) | `(tritonExpr| $(($_:term : Int))) => some .integerScalar
+  | `(tritonExpr| $(($_:term : ℝ))) => some .floatingLiteral
   | `(tritonExpr| $_:num) | `(tritonExpr| -$_:num) => some .integerLiteral
   | `(tritonExpr| $_:scientific) | `(tritonExpr| -$_:scientific)
   | `(tritonExpr| float($_:term)) | `(tritonExpr| -float($_:term)) => some .floatingLiteral
@@ -123,7 +124,10 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| tl.sin($a:tritonExpr)) | `(tritonExpr| tl.math.sin($a:tritonExpr))
   | `(tritonExpr| tl.cos($a:tritonExpr)) | `(tritonExpr| tl.exp($a:tritonExpr))
   | `(tritonExpr| tl.sigmoid($a:tritonExpr)) | `(tritonExpr| tl.rsqrt($a:tritonExpr))
+  | `(tritonExpr| tl.math.rsqrt($a:tritonExpr))
   | `(tritonExpr| tl.log($a:tritonExpr)) | `(tritonExpr| tl.sqrt($a:tritonExpr)) =>
+      if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
+  | `(tritonExpr| tl.extra.cuda.libdevice.pow($a:tritonExpr, $_:num)) =>
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
   | `(tritonExpr| tl.sum($a:tritonExpr $[, $_:tritonReduceKwarg]*))
   | `(tritonExpr| tl.max($a:tritonExpr $[, $_:tritonReduceKwarg]*)) =>
