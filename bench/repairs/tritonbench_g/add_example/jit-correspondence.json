@@ -1,0 +1,72 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/add_example/add_example_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/add_example/Kernels.lean",
+    "python_function": "add_kernel",
+    "lean_definition": "add_kernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "n_elements": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "in_ptr0",
+          "fp32"
+        ],
+        [
+          "in_ptr1",
+          "fp32"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/add_example/add_example_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/add_example/Kernels.lean",
+    "python_function": "add_commuted_kernel",
+    "lean_definition": "add_commuted_kernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "n_elements": "n_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "in_ptr0",
+          "fp32"
+        ],
+        [
+          "in_ptr1",
+          "fp32"
+        ],
+        [
+          "out_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "n_elements",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  }
+]

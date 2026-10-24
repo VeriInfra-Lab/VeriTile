@@ -57,6 +57,7 @@ globs = [
   "bench.tests.SignedBitwiseSource",
   "bench.tests.SourceDType",
   "bench.tests.CallSignature",
+  "bench.tests.PythonBody",
   "bench.tests.TypedStores",
   "bench.tests.FPIntegerConversionNeg",
   "bench.tests.FPFmaSource",

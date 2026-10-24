@@ -11,9 +11,11 @@ import ast
 import copy
 import difflib
 import json
+import io
 from pathlib import Path
 import re
 import textwrap
+import tokenize
 
 from bench.audit_source import lean_code_mask, strip_lean_comments
 
@@ -23,15 +25,41 @@ def quotation(text: str, definition: str) -> tuple[str, str]:
     start = re.search(r"\bdef\s+" + re.escape(definition) + r"\b", mask)
     if not start:
         raise ValueError(f"missing Lean definition: {definition}")
-    next_def = re.search(r"\n(?:def|theorem|specification|end)\b", mask[start.end():])
-    end = start.end() + next_def.start() if next_def else len(text)
-    selected, code = text[start.start():end], mask[start.start():end]
+    next_def = re.search(r"\n(?:def|theorem|specification|abbrev|structure|inductive|namespace|end|noncomputable\s+def)\b", mask[start.end():])
+    boundary = start.end() + next_def.start() if next_def else len(text)
+    selected, code = text[start.start():], mask[start.start():]
     begin = re.search(r"\btriton\b", code)
     if not begin:
         raise ValueError(f"definition has no direct quotation: {definition}")
     opening = code.find("{", begin.end())
     if opening < 0:
         raise ValueError("missing quotation body")
+    if start.start() + opening >= boundary:
+        raise ValueError(f"definition has no direct quotation: {definition}")
+    native = bool(re.search(r"\bwith_triton_(?:signature|call)\b", code[:opening]))
+    if native:
+        fragment = selected[opening:]
+        offsets = [0]
+        for line in fragment.splitlines(keepends=True):
+            offsets.append(offsets[-1] + len(line))
+        depth = 0
+        try:
+            for token in tokenize.generate_tokens(io.StringIO(fragment).readline):
+                if token.type != tokenize.OP:
+                    continue
+                depth += (token.string == "{") - (token.string == "}")
+                if token.string == "}" and depth == 0:
+                    closing = opening + offsets[token.start[0]-1] + token.start[1]
+                    remainder = mask[start.start()+closing+1:]
+                    end = re.search(r"\n(?:def|theorem|specification|abbrev|structure|inductive|namespace|end|noncomputable\s+def)\b", remainder)
+                    suffix = remainder[:end.start()] if end else remainder
+                    if suffix.strip():
+                        raise ValueError("unexpected code after quotation")
+                    return selected[:opening], selected[opening+1:closing]
+        except (tokenize.TokenError, IndentationError) as error:
+            raise ValueError(f"invalid Python body quotation: {error}") from error
+        raise ValueError("unterminated Python body quotation")
+    selected, code = selected[:boundary-start.start()], code[:boundary-start.start()]
     depth = 1
     for i in range(opening + 1, len(code)):
         depth += (code[i] == "{") - (code[i] == "}")
@@ -155,13 +183,21 @@ def call_signature(text: str, name: str) -> dict:
             raise ValueError(f"missing call signature field: {field}")
         source = re.sub(r"\.(fp16|bf16|fp32|fp64|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer)\b", r'"\1"', value[1])
         fields[field] = json.loads(json.dumps(ast.literal_eval(source)))
+    for field in ("readPorts", "writePorts"):
+        value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[1])
+        if value:
+            fields[field] = ast.literal_eval(value[1])
+            if (not isinstance(fields[field], list) or len(set(fields[field])) != len(fields[field])
+                or not set(fields[field]) <= {n for n, _ in fields["pointers"]}):
+                raise ValueError("invalid call memory ports")
     names = [n for n, _ in fields["pointers"] + fields["scalars"]] + fields["constexpr"]
     if len(names) != len(set(names)):
         raise ValueError("duplicate call signature parameter")
     return fields
 
 def check(python_text: str, lean_text: str, python_function: str, lean_definition: str,
-          signature_definition: str | None = None, expected_signature: dict | None = None) -> dict:
+          signature_definition: str | None = None, expected_signature: dict | None = None,
+          expected_call_bindings: dict | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
     if len(functions) != 1 or not any(ast.unparse(d) == "triton.jit" for d in functions[0].decorator_list):
@@ -180,13 +216,36 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
                if a.annotation is not None and a.arg not in constants}
     signature, body = quotation(lean_text, lean_definition)
     profile = None
+    call_bindings = None
     if signature_definition is not None:
         if expected_signature is None:
             raise ValueError("pasted body requires an independently reviewed call signature")
-        if re.search(r"\btl\.(region|param)\b|\$", body):
+        masked = list(body)
+        offsets = [0]
+        for line in body.splitlines(keepends=True): offsets.append(offsets[-1] + len(line))
+        try:
+            for token in tokenize.generate_tokens(io.StringIO(body).readline):
+                if token.type in (tokenize.STRING, tokenize.COMMENT):
+                    a, b = (offsets[pos[0]-1] + pos[1] for pos in (token.start, token.end))
+                    for index in range(a, b):
+                        if masked[index] != "\n": masked[index] = " "
+        except (tokenize.TokenError, IndentationError):
+            pass  # The strict AST parser below rejects malformed Python.
+        if re.search(r"\btl\.(region|param)\b|\$", "".join(masked)):
             raise ValueError("pasted body must not contain metadata directives or Lean antiquotes")
         if not re.search(r"\bwith_triton_signature\s+" + re.escape(signature_definition) + r"\s+in\b", signature):
-            raise ValueError("quotation does not use the declared call signature")
+            call = re.search(r"\bwith_triton_call\s+" + re.escape(signature_definition)
+                             + r"\s+call_args\s*\[([^\]]*)\]\s+in\b", signature)
+            if not call:
+                raise ValueError("quotation does not use the declared call signature")
+            call_bindings = {}
+            for binding in call[1].split(","):
+                match = re.fullmatch(r"\s*(\w+)\s*:=\s*([\w.]+)\s*", binding)
+                if not match or match[1] in call_bindings:
+                    raise ValueError("unsupported or duplicate per-call scalar binding")
+                call_bindings[match[1]] = match[2]
+            if expected_call_bindings is None or call_bindings != expected_call_bindings:
+                raise ValueError("per-call scalar bindings differ from the reviewed invocation")
         profile = call_signature(lean_text, signature_definition)
         if expected_signature is not None and profile != expected_signature:
             raise ValueError("call signature differs from the reviewed launch types")
@@ -195,9 +254,13 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             raise ValueError("Python parameters and call signature differ")
         # `integer` is intentionally unbounded; it cannot certify an explicit
         # int32/int64 ABI annotation. Pointer annotations are not scalar args.
-        scalar_types = {"fp32": "tl.float32", "fp64": "tl.float64"}
+        scalar_types = {"fp32": "tl.float32", "fp64": "tl.float64", "i32": "tl.int32", "i64": "tl.int64"}
         supplied = {n: scalar_types.get(t) for n, t in profile["scalars"]}
         pointer_names = {n for n, _ in profile["pointers"]}
+        if call_bindings is not None:
+            integer_names = {n for n, t in profile["scalars"] if t in ("i32", "i64", "integer")}
+            if set(call_bindings) != integer_names:
+                raise ValueError("every integer runtime scalar requires an explicit call binding")
         for arg in function.args.args:
             t = annotation(arg)
             if t is None or arg.arg in constants:
@@ -209,7 +272,10 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
     if profile is not None:
         # Parse the pasted body as Python directly: braces, Lean assignment
         # syntax and other legacy spelling changes cannot become a copy pass.
-        statements, parameters = ast.parse(textwrap.dedent(body)).body, {}
+        # A wrapper preserves indentation *inside* triple-quoted strings.
+        # textwrap.dedent mistakes unindented docstring text for source code.
+        wrapped = ast.parse("def __pasted_body__():\n" + body)
+        statements, parameters = wrapped.body[0].body, {}
     else:
         statements, parameters = source_statements(body, constants)
     if profile is None and parameters != runtime:
@@ -229,6 +295,10 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         raise ValueError("statement correspondence mismatch:\n" + diff)
     return {"python_function": python_function, "lean_definition": lean_definition,
             "status": "PASS", "mode": "pasted_body" if profile is not None else "legacy_ast",
+            "argument_mode": ("mixed_integer_calls_and_runtime_registers" if profile is not None and call_bindings is not None
+                              and len(call_bindings) < len(profile["scalars"]) else
+                              "integer_per_call_specialization" if call_bindings is not None else "runtime_registers"),
+            "call_bindings": call_bindings,
             "statements": len(function.body),
             "runtime_parameters": dict(profile["scalars"]) if profile is not None else runtime, "constexpr_parameters": sorted(constants)}
 
@@ -237,7 +307,8 @@ def check_manifest(root: Path, manifest: Path) -> list[dict]:
     records = json.loads(manifest.read_text())
     return [check((root / r["python"]).read_text(), (root / r["lean"]).read_text(),
                   r["python_function"], r["lean_definition"],
-                  r.get("signature_definition"), r.get("expected_signature")) for r in records]
+                  r.get("signature_definition"), r.get("expected_signature"),
+                  r.get("expected_call_bindings")) for r in records]
 
 
 if __name__ == "__main__":

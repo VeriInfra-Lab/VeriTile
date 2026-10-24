@@ -1,0 +1,64 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/add_value/add_value_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/add_value/Kernels.lean",
+    "python_function": "puzzle1_kernel",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "N": "n"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/add_value/add_value_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/add_value/Kernels.lean",
+    "python_function": "puzzle1_commuted_kernel",
+    "lean_definition": "commutedKernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "N": "n"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "x_ptr",
+          "fp32"
+        ],
+        [
+          "output_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "N",
+          "i32"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ]
+    }
+  }
+]

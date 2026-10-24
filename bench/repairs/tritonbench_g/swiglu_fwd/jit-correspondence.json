@@ -1,0 +1,116 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/swiglu_fwd/swiglu_fwd_checked.py",
+    "lean": "bench/repairs/tritonbench_g/swiglu_fwd/Kernels.lean",
+    "python_function": "_swiglu_fwd_kernel",
+    "lean_definition": "kernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "stride_x_row": "sx",
+      "stride_y_row": "sy",
+      "stride_out_row": "so",
+      "ncols": "cols"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "OUT",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "integer"
+        ],
+        [
+          "stride_y_row",
+          "integer"
+        ],
+        [
+          "stride_out_row",
+          "integer"
+        ],
+        [
+          "ncols",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "X",
+        "Y"
+      ],
+      "writePorts": [
+        "OUT"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/swiglu_fwd/candidate_kernels.py",
+    "lean": "bench/repairs/tritonbench_g/swiglu_fwd/Kernels.lean",
+    "python_function": "_swiglu_fwd_kernel_index_commuted",
+    "lean_definition": "indexCommutedKernel",
+    "signature_definition": "callSignature",
+    "expected_call_bindings": {
+      "stride_x_row": "sx",
+      "stride_y_row": "sy",
+      "stride_out_row": "so",
+      "ncols": "cols"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "X",
+          "fp32"
+        ],
+        [
+          "Y",
+          "fp32"
+        ],
+        [
+          "OUT",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "stride_x_row",
+          "integer"
+        ],
+        [
+          "stride_y_row",
+          "integer"
+        ],
+        [
+          "stride_out_row",
+          "integer"
+        ],
+        [
+          "ncols",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_N"
+      ],
+      "readPorts": [
+        "X",
+        "Y"
+      ],
+      "writePorts": [
+        "OUT"
+      ]
+    }
+  }
+]
