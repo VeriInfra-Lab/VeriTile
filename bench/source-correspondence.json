@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 19,
-      "uncovered_jit_functions": 161
+      "selected_body_copy_checked": 20,
+      "uncovered_jit_functions": 160
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 297,
+    "uncovered_selected_jit_functions": 296,
     "primary_files_with_int64_screen_warning": 44,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 130,
-        "antiquotes": 143,
+        "in_body_type_directives": 129,
+        "antiquotes": 142,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -43,9 +43,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 8,
-        "antiquotes": 10,
-        "dsl_assignment": 10,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 21,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -58,19 +58,67 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "update_fn_kernel",
+          "lean_definition": "sourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "n_elements": "n_elements",
+            "chunk_elements": "chunk_elements"
+          },
+          "statements": 19,
+          "runtime_parameters": {
+            "lr": "fp32",
+            "wd": "fp32",
+            "beta1": "fp32",
+            "beta2": "fp32",
+            "n_elements": "integer",
+            "chunk_elements": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/adam_update_triton/adam_update_triton_repaired.py",
-          "function": "update_fn_kernel"
+          "lean": "bench/repairs/tritonbench_g/adam_update_triton/Kernels.lean"
+        },
+        {
+          "python_function": "commuted_update",
+          "lean_definition": "commutedBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "mixed_integer_calls_and_runtime_registers",
+          "call_bindings": {
+            "n_elements": "n_elements",
+            "chunk_elements": "chunk_elements"
+          },
+          "statements": 19,
+          "runtime_parameters": {
+            "lr": "fp32",
+            "wd": "fp32",
+            "beta1": "fp32",
+            "beta2": "fp32",
+            "n_elements": "integer",
+            "chunk_elements": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/repairs/tritonbench_g/adam_update_triton/candidate_kernels.py",
+          "lean": "bench/repairs/tritonbench_g/adam_update_triton/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/adam_update_triton/Kernels.lean": "75bb80be57b29a609330378d3df8cb162efe55992005bcd48f58900d122b0251",
-        "bench/repairs/tritonbench_g/adam_update_triton/adam_update_triton_repaired.py": "0a9e638a151a19cacce590512938f65c64a753d67d22a29cd88e601ccca4404f"
+        "bench/repairs/tritonbench_g/adam_update_triton/Kernels.lean": "36a7a97caceb574803d1bcdb87aa81dfd317f369aae9924d8eb322d1d97a770d",
+        "bench/repairs/tritonbench_g/adam_update_triton/adam_update_triton_repaired.py": "0a9e638a151a19cacce590512938f65c64a753d67d22a29cd88e601ccca4404f",
+        "bench/repairs/tritonbench_g/adam_update_triton/candidate_kernels.py": "8c38ad2db83b60c42c3ff69c1eda1b8c7a9a03c539355ea3b6ed8117bce3ef0a",
+        "bench/repairs/tritonbench_g/adam_update_triton/jit-correspondence.json": "eee33d2df51a0ef581ce1a378896aef05b06968e88aeedf42bc7a73e329fc31d"
       }
     },
     {

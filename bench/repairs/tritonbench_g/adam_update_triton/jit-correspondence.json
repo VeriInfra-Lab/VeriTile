@@ -1,0 +1,132 @@
+[
+  {
+    "lean": "bench/repairs/tritonbench_g/adam_update_triton/Kernels.lean",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "n_elements": "n_elements",
+      "chunk_elements": "chunk_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "p_ptr",
+          "fp32"
+        ],
+        [
+          "grad_ptr",
+          "fp32"
+        ],
+        [
+          "exp_avg_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "lr",
+          "fp32"
+        ],
+        [
+          "wd",
+          "fp32"
+        ],
+        [
+          "beta1",
+          "fp32"
+        ],
+        [
+          "beta2",
+          "fp32"
+        ],
+        [
+          "n_elements",
+          "integer"
+        ],
+        [
+          "chunk_elements",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "p_ptr",
+        "grad_ptr",
+        "exp_avg_ptr"
+      ],
+      "writePorts": [
+        "p_ptr",
+        "exp_avg_ptr"
+      ]
+    },
+    "lean_definition": "sourceBody",
+    "python": "bench/repairs/tritonbench_g/adam_update_triton/adam_update_triton_repaired.py",
+    "python_function": "update_fn_kernel"
+  },
+  {
+    "lean": "bench/repairs/tritonbench_g/adam_update_triton/Kernels.lean",
+    "signature_definition": "sourceSignature",
+    "expected_call_bindings": {
+      "n_elements": "n_elements",
+      "chunk_elements": "chunk_elements"
+    },
+    "expected_signature": {
+      "pointers": [
+        [
+          "p_ptr",
+          "fp32"
+        ],
+        [
+          "grad_ptr",
+          "fp32"
+        ],
+        [
+          "exp_avg_ptr",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "lr",
+          "fp32"
+        ],
+        [
+          "wd",
+          "fp32"
+        ],
+        [
+          "beta1",
+          "fp32"
+        ],
+        [
+          "beta2",
+          "fp32"
+        ],
+        [
+          "n_elements",
+          "integer"
+        ],
+        [
+          "chunk_elements",
+          "integer"
+        ]
+      ],
+      "constexpr": [
+        "BLOCK_SIZE"
+      ],
+      "readPorts": [
+        "p_ptr",
+        "grad_ptr",
+        "exp_avg_ptr"
+      ],
+      "writePorts": [
+        "p_ptr",
+        "exp_avg_ptr"
+      ]
+    },
+    "lean_definition": "commutedBody",
+    "python": "bench/repairs/tritonbench_g/adam_update_triton/candidate_kernels.py",
+    "python_function": "commuted_update"
+  }
+]

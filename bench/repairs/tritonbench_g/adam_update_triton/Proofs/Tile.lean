@@ -32,7 +32,7 @@ def sourceRun {α : Type} [Inhabited α] (sem : Semantics α) (params : Scalars 
       (programState params pid s)=some t} := by
   refine ⟨?_,?_⟩
   swap
-  simp (maxSteps := 1400000) [source,sourceWithArgumentDeclarations,ComputeKernel.surfaceBody,
+  simp (maxSteps := 1400000) [source,sourceWithArgumentDeclarations,sourceBody,ComputeKernel.surfaceBody,
     run,step,FP.Structural.evalExpr,evalComputeOp,evalOp_unfold,evalOffsets,evalDeltas,
     store,Option.bind,ComputeDType.eraseDType,numeric,bop,natLt,numericLt,numericEq,
     programState,bindArguments,ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,
@@ -45,6 +45,9 @@ def outputRegion : Output → RegionName
 /-- Source expression order, including the comparison and bool-to-FP32
 multiplication. Floating negation here is a source node, not a sign-XOR law. -/
 def scalar (sem : Semantics α) (params : Scalars α) (output : Output) (p g m : α) : α :=
+  let p := sem.algebra.fp32Load p
+  let g := sem.algebra.fp32Load g
+  let m := sem.algebra.fp32Load m
   let bin := sem.algebra.binary (some .fp32) .real
   let lit := sem.algebra.literal (some .fp32) .real
   let diff := bin .sub m g

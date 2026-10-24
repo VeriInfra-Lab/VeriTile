@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.CallSignature
 import bench.tritonbench_g.adam_update_triton.Kernels
 import VeriTile.Triton.Float.ProfiledRewrite
 
@@ -8,7 +9,7 @@ open VeriTile.Triton
 `engine` fixes every otherwise unannotated floating operation to FP32; physical
 FP32 inputs and fixed native literal words are bound in Proofs/InputBinding
 and Proofs/NativeWords. Runtime parameters are declared without executable
-placeholder assignments. There is no handwritten body AST.
+placeholder assignments. The full body is pasted literally from the selected Python source.
 `mathematicalSource` remains solely an adapter for historical grid proofs. -/
 
 inductive Output where
@@ -28,72 +29,123 @@ def mathematicalSource (params : Scalars ℝ) (_total chunk block : Nat) : Compu
   VeriTile.Bench.TritonBenchG.AdamUpdateTriton.update_fn_kernel "P" "G" "M"
     params.lr params.wd params.beta1 params.beta2 chunk block
 
-/-- Runtime FP32 scalar arguments use the existing real-valued carrier.
-The declarations emit no executable statements; the ABI supplies registers. -/
-def sourceWithArgumentDeclarations (P G M : RegionName) (chunk block : Nat) : ComputeKernel := triton {
-  tl.param lr : tl.float32
-  tl.param wd : tl.float32
-  tl.param beta1 : tl.float32
-  tl.param beta2 : tl.float32
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(block)
-  offsets = block_start + tl.arange(0, $(block))
-  mask = offsets < $(chunk)
-  offset_p_ptr = P + offsets
-  offset_grad_ptr = G + offsets
-  offset_exp_avg_ptr = M + offsets
-  p = tl.load(offset_p_ptr, mask=mask)
-  grad = tl.load(offset_grad_ptr, mask=mask)
-  exp_avg = tl.load(offset_exp_avg_ptr, mask=mask)
-  p = p * (1 - lr * wd)
-  diff = exp_avg - grad
-  update = diff * beta1 + grad
-  can_update = update != 0
-  update_sign = tl.where(update > 0, -lr, lr)
-  p = p + update_sign * tl.where(can_update, $((1 : ℝ)), $((0 : ℝ)))
-  exp_avg = diff * beta2 + grad
-  tl.store(offset_p_ptr, p, mask=mask)
-  tl.store(offset_exp_avg_ptr, exp_avg, mask=mask)
-}
+/-- External ABI for the exact selected Python body. Both element counts stay
+runtime integers; the total count remains the host autotune key. Only the block
+size is constexpr. All payload pointers and scalar argument registers are FP32.
+The Nat call bindings use the existing mathematical index projection. -/
+def sourceSignature : CallSignature where
+  pointers := [("p_ptr",.fp32),("grad_ptr",.fp32),("exp_avg_ptr",.fp32)]
+  scalars := [("lr",.fp32),("wd",.fp32),("beta1",.fp32),("beta2",.fp32),
+    ("n_elements",.integer),("chunk_elements",.integer)]
+  constexpr := ["BLOCK_SIZE"]
+  readPorts := ["p_ptr","grad_ptr","exp_avg_ptr"]
+  writePorts := ["p_ptr","exp_avg_ptr"]
 
-/-- Existing momentum-addition commutation with the same runtime ABI. -/
-def commutedWithArguments (P G M : RegionName) (chunk block : Nat) : ComputeKernel := triton {
-  tl.param lr : tl.float32
-  tl.param wd : tl.float32
-  tl.param beta1 : tl.float32
-  tl.param beta2 : tl.float32
-  pid = tl.program_id(axis=0)
-  block_start = pid * $(block)
-  offsets = block_start + tl.arange(0, $(block))
-  mask = offsets < $(chunk)
-  offset_p_ptr = P + offsets
-  offset_grad_ptr = G + offsets
-  offset_exp_avg_ptr = M + offsets
-  p = tl.load(offset_p_ptr, mask=mask)
-  grad = tl.load(offset_grad_ptr, mask=mask)
-  exp_avg = tl.load(offset_exp_avg_ptr, mask=mask)
-  p = p * (1 - lr * wd)
-  diff = exp_avg - grad
-  update = diff * beta1 + grad
-  can_update = update != 0
-  update_sign = tl.where(update > 0, -lr, lr)
-  p = p + update_sign * tl.where(can_update, $((1 : ℝ)), $((0 : ℝ)))
-  exp_avg = grad + diff * beta2
-  tl.store(offset_p_ptr, p, mask=mask)
-  tl.store(offset_exp_avg_ptr, exp_avg, mask=mask)
-}
+def sourceBody (p_ptr grad_ptr exp_avg_ptr : RegionName)
+    (n_elements chunk_elements BLOCK_SIZE : Nat) : ComputeKernel :=
+  with_triton_call sourceSignature call_args
+    [n_elements := n_elements, chunk_elements := chunk_elements] in
+  triton {
+    pid = tl.program_id(axis=0)
 
+    block_start = pid * BLOCK_SIZE
+    offsets = block_start + tl.arange(0, BLOCK_SIZE)
 
-/-- The actual source body with runtime (not Real-literal-encoded) scalars.
-All three FP32 payloads use the source-selected default FP32 engine.
-The bool multiplicand is explicitly promoted by where(1,0), preserving the
-source FP multiplication instead of the DSL's Real-only boolean-mask rewrite. -/
-def source (_total chunk block : Nat) : ComputeKernel :=
-  sourceWithArgumentDeclarations "P" "G" "M" chunk block
+    mask = offsets < chunk_elements
 
-/-- Same P/G/M inputs and in-place P/M outputs; only final addition order changes. -/
-def commutedSource (_total chunk block : Nat) : ComputeKernel :=
-  commutedWithArguments "P" "G" "M" chunk block
+    # Offsetted pointers
+    offset_p_ptr = p_ptr + offsets
+    offset_grad_ptr = grad_ptr + offsets
+    offset_exp_avg_ptr = exp_avg_ptr + offsets
+
+    # Load
+    p = tl.load(offset_p_ptr, mask=mask)
+    grad = tl.load(offset_grad_ptr, mask=mask)
+    exp_avg = tl.load(offset_exp_avg_ptr, mask=mask)
+
+    # Stepweight decay
+    p = p * (1 - lr * wd)
+
+    # Diff between momentum running average and grad
+    diff = exp_avg - grad
+
+    # Weight update
+    update = diff * beta1 + grad
+
+    # torch.sign
+    can_update = update != 0
+    update_sign = tl.where(update > 0, -lr, lr)
+
+    p = p + update_sign * can_update
+
+    # Decay the momentum running average coefficient
+    exp_avg = diff * beta2 + grad
+
+    # Store new params and momentum running average coefficient
+    tl.store(offset_p_ptr, p, mask=mask)
+    tl.store(offset_exp_avg_ptr, exp_avg, mask=mask)
+  }
+
+def commutedBody (p_ptr grad_ptr exp_avg_ptr : RegionName)
+    (n_elements chunk_elements BLOCK_SIZE : Nat) : ComputeKernel :=
+  with_triton_call sourceSignature call_args
+    [n_elements := n_elements, chunk_elements := chunk_elements] in
+  triton {
+    pid = tl.program_id(axis=0)
+
+    block_start = pid * BLOCK_SIZE
+    offsets = block_start + tl.arange(0, BLOCK_SIZE)
+
+    mask = offsets < chunk_elements
+
+    # Offsetted pointers
+    offset_p_ptr = p_ptr + offsets
+    offset_grad_ptr = grad_ptr + offsets
+    offset_exp_avg_ptr = exp_avg_ptr + offsets
+
+    # Load
+    p = tl.load(offset_p_ptr, mask=mask)
+    grad = tl.load(offset_grad_ptr, mask=mask)
+    exp_avg = tl.load(offset_exp_avg_ptr, mask=mask)
+
+    # Stepweight decay
+    p = p * (1 - lr * wd)
+
+    # Diff between momentum running average and grad
+    diff = exp_avg - grad
+
+    # Weight update
+    update = diff * beta1 + grad
+
+    # torch.sign
+    can_update = update != 0
+    update_sign = tl.where(update > 0, -lr, lr)
+
+    p = p + update_sign * can_update
+
+    # Decay the momentum running average coefficient
+    exp_avg = grad + diff * beta2
+
+    # Store new params and momentum running average coefficient
+    tl.store(offset_p_ptr, p, mask=mask)
+    tl.store(offset_exp_avg_ptr, exp_avg, mask=mask)
+  }
+
+/-- Compatibility invocation for callers without the unused autotune key.
+The selected full invocation below supplies its actual total element count. -/
+def sourceWithArgumentDeclarations (P G M : RegionName) (chunk block : Nat) : ComputeKernel :=
+  sourceBody P G M 0 chunk block
+
+def commutedWithArguments (P G M : RegionName) (chunk block : Nat) : ComputeKernel :=
+  commutedBody P G M 0 chunk block
+
+/-- The actual selected original and candidate retain every source statement,
+including bool-to-FP32 multiplication and both in-place stores. -/
+def source (total chunk block : Nat) : ComputeKernel :=
+  sourceBody "P" "G" "M" total chunk block
+
+def commutedSource (total chunk block : Nat) : ComputeKernel :=
+  commutedBody "P" "G" "M" total chunk block
 
 def engine {α : Type} (algebra : FP.Structural.Algebra α) : FP.Structural.Algebra α :=
   algebra.withDefaultPrecision .fp32
