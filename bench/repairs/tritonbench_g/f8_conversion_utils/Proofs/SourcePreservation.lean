@@ -30,6 +30,18 @@ theorem realReverse_preserved (swapped : Bool) :
        else legacyF8Reverse%[tl.float64,tl.float64,original]) := by
   cases swapped <;> rfl
 
+/-- Full original/candidate function families, all six native profiles and all
+call arguments, match the existing complete source programs. -/
+theorem pasted_toHalf (format : TypedSource.Format) (swapped : Bool) :
+    Source.toHalf format swapped = TypedSource.toHalf format swapped := by
+  cases format <;> cases swapped <;> rfl
+
+theorem pasted_toFP8 (input : TypedSource.Input) (format : TypedSource.Format) (swapped : Bool) :
+    Source.toFP8 input format swapped = TypedSource.toFP8 input format swapped := by
+  cases input <;> cases format <;> cases swapped <;> rfl
+
+#axiomsClean pasted_toHalf
+#axiomsClean pasted_toFP8
 #axiomsClean realForward_preserved
 #axiomsClean realReverse_preserved
 #axiomsClean toHalf_preserved

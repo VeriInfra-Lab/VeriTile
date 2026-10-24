@@ -55,6 +55,7 @@ private def dtypeValue (value : Expr) : TermElabM Triton.SourceDType := do
   let kinds : List (Name × Triton.SourceDType) :=
     [(``Triton.SourceDType.fp16,.fp16),(``Triton.SourceDType.bf16,.bf16),
      (``Triton.SourceDType.fp32,.fp32),(``Triton.SourceDType.fp64,.fp64),
+     (``Triton.SourceDType.f8e4,.f8e4),(``Triton.SourceDType.f8e5,.f8e5),
      (``Triton.SourceDType.i8,.i8),(``Triton.SourceDType.i16,.i16),
      (``Triton.SourceDType.i32,.i32),(``Triton.SourceDType.i64,.i64),
      (``Triton.SourceDType.u8,.u8),(``Triton.SourceDType.u16,.u16),

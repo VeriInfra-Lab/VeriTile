@@ -54,7 +54,7 @@ private partial def dtypeOverride (raw : Syntax) : Bool :=
   (raw.isIdent && raw.getId.eraseMacroScopes == `dtype) || raw.getArgs.any dtypeOverride
 
 private def sourceKinds : List Triton.SourceDType :=
-  [.fp16,.bf16,.fp32,.fp64,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean]
+  [.fp16,.bf16,.fp32,.fp64,.f8e4,.f8e5,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean]
 
 private partial def dtypeToken (raw : Syntax) : Option Name :=
   if raw.isAtom then

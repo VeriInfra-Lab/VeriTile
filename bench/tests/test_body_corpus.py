@@ -75,6 +75,52 @@ class BodyCorpusTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "reused"):
             scan(self.root)
 
+    def fp8_record(self):
+        self.write("bench/repairs/sample/Kernels.lean", LEAN.replace(
+            '("x_ptr",.fp32),("out_ptr",.fp32)',
+            '("x_ptr",.f8e5),("out_ptr",.fp16)'))
+        record = {**self.record, "expected_signature": {
+            **self.record["expected_signature"],
+            "pointers": [["x_ptr", "f8e5"], ["out_ptr", "fp16"]]}}
+        self.manifest([record])
+        return record
+
+    def test_fp8_pointer_format_is_a_checked_call_dtype(self):
+        self.fp8_record()
+        result = scan(self.root)
+        self.assertTrue(result["complete"])
+        self.assertEqual(result["tasks"][0]["checked_pairs"][0]["mode"], "pasted_body")
+
+    def test_fp8_formats_cannot_reuse_each_others_reviewed_abi(self):
+        self.fp8_record()
+        p = self.directory / "Kernels.lean"
+        p.write_text(p.read_text().replace(".f8e5", ".f8e4"))
+        with self.assertRaisesRegex(ValueError, "reviewed launch types"):
+            scan(self.root)
+
+    def test_configured_jit_records_runtime_specialization_options(self):
+        self.write("bench/repairs/sample/source.py", PYTHON.replace("@triton.jit",
+            "@triton.jit(do_not_specialize=['x_ptr'], do_not_specialize_on_alignment=[1])"))
+        result = scan(self.root)
+        self.assertTrue(result["complete"])
+        pair = result["tasks"][0]["checked_pairs"][0]
+        self.assertEqual(pair["jit_options"], {"do_not_specialize": "['x_ptr']",
+                                               "do_not_specialize_on_alignment": "[1]"})
+        self.assertEqual(pair["constexpr_parameters"], ["B"])
+
+    def test_custom_jit_frontend_is_not_a_standard_source_certificate(self):
+        self.write("bench/repairs/sample/source.py", PYTHON.replace("@triton.jit",
+            "@triton.jit(frontend=custom_frontend)"))
+        with self.assertRaisesRegex(ValueError, "unsupported triton.jit decorator option"):
+            scan(self.root)
+
+    def test_jit_options_must_refer_to_actual_function_arguments(self):
+        for value in ("['missing']", "[3]", "[True]", "dynamic_options"):
+            self.write("bench/repairs/sample/source.py", PYTHON.replace("@triton.jit",
+                "@triton.jit(do_not_specialize=" + value + ")"))
+            with self.assertRaisesRegex(ValueError, "specialization option"):
+                scan(self.root)
+
     def profiled_records(self):
         second = {**self.record, "lean_definition": "body64", "signature_definition": "signature64",
                   "profile_variant": "float64", "expected_signature": {

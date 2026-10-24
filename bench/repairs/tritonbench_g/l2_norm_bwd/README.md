@@ -66,3 +66,14 @@ The subsequent source-readability cleanup is recorded under
 equal to their previously accepted definitions, including region-port metadata.
 The old placeholder-only `Tile.epsilon_argument` helper has been removed with
 the unused templates; the actual runtime parameter remains in `IO.invocation`.
+
+### 原生函数体入口
+
+原始与既有行索引交换候选逐句对照所选 Python，保留全部 cast、独立
+X/DY/DX strides、mask、两个归约与运算次序。七个运行时 int64 参数在函数体
+外提供 Int 值，epsilon 保留真实 FP32 实参，只有 BLOCK_N 是 constexpr。
+旧的 Nat stride 几何接口完整保留，不限制为连续矩阵或缩小维度。
+实际整数地址投影与原公式的相等在执行/安全证明中核对；独立数学导数、
+完整输出和 frame，以及现有 strided native/host/Tensor 结论沿用原来的范围。
+源码对应检查单列原有 `do_not_specialize` 与 alignment 选项；它们不改变
+源码函数参数的 runtime/constexpr 分类，native 编译元数据仍独立检查。

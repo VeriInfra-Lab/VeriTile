@@ -26,6 +26,8 @@ theorem trace_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Profile)
   cases p
   all_goals
     simp +contextual (maxSteps := 500000) [trace_last,TraceSafe,kernel,toHalf,toFP8,
+      sourceDecodeE5,sourceDecodeE4,sourceEncodeHalfE5,sourceEncodeHalfE4,
+      sourceEncodeSingleE5,sourceEncodeSingleE4,
       VeriTile.Bench.TritonBenchG.F8ConversionUtils.TypedSource.toHalf,
       VeriTile.Bench.TritonBenchG.F8ConversionUtils.TypedSource.toFP8,
       ComputeKernel.surfaceBody,Safety.traceSafeList_unfold,Safety.stepSafe_unfold,

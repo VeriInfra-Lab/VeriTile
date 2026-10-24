@@ -181,7 +181,7 @@ def call_signature(text: str, name: str) -> dict:
         value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[1])
         if not value:
             raise ValueError(f"missing call signature field: {field}")
-        source = re.sub(r"\.(fp16|bf16|fp32|fp64|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer)\b", r'"\1"', value[1])
+        source = re.sub(r"\.(fp16|bf16|fp32|fp64|f8e4|f8e5|i8|i16|i32|i64|u8|u16|u32|u64|boolean|integer)\b", r'"\1"', value[1])
         fields[field] = json.loads(json.dumps(ast.literal_eval(source)))
     for field in ("readPorts", "writePorts"):
         value = re.search(r"\b" + field + r"\s*:=\s*(\[[^\]]*\])", match[1])
@@ -201,9 +201,36 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
           expected_pointer_offsets: dict | None = None) -> dict:
     functions = [n for n in ast.parse(python_text).body
                  if isinstance(n, ast.FunctionDef) and n.name == python_function]
-    if len(functions) != 1 or not any(ast.unparse(d) == "triton.jit" for d in functions[0].decorator_list):
+    if len(functions) != 1:
         raise ValueError("expected one explicitly selected @triton.jit function")
     function = functions[0]
+    decorators = [d for d in function.decorator_list
+                  if ast.unparse(d.func if isinstance(d, ast.Call) else d) == "triton.jit"]
+    if len(decorators) != 1:
+        raise ValueError("expected one explicitly selected @triton.jit function")
+    jit_options = None
+    if isinstance(decorators[0], ast.Call):
+        decorator = decorators[0]
+        if decorator.args:
+            raise ValueError("unsupported positional triton.jit decorator arguments")
+        jit_options = {}
+        parameters = [a.arg for a in function.args.args]
+        for kw in decorator.keywords:
+            if kw.arg not in ("do_not_specialize", "do_not_specialize_on_alignment"):
+                raise ValueError("unsupported triton.jit decorator option")
+            if kw.arg in jit_options:
+                raise ValueError("duplicate triton.jit decorator option")
+            try:
+                values = ast.literal_eval(kw.value)
+            except (ValueError, TypeError):
+                raise ValueError("JIT specialization options require literal argument lists") from None
+            if values is not None and (not isinstance(values, (list, tuple)) or any(
+                    not ((isinstance(v, str) and v in parameters)
+                         or (type(v) is int and 0 <= v < len(parameters))) for v in values)):
+                raise ValueError("JIT specialization option refers to an unknown argument")
+            # Record source spelling rather than interpreting a compiler option
+            # as a constexpr annotation. Native compilation remains separate.
+            jit_options[kw.arg] = ast.unparse(kw.value)
     def annotation(argument):
         value = argument.annotation
         if isinstance(value, ast.Constant) and isinstance(value.value, str):
@@ -321,6 +348,8 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             "runtime_parameters": dict(profile["scalars"]) if profile is not None else runtime, "constexpr_parameters": sorted(constants)}
     if pointer_offsets is not None:
         result["pointer_offsets"] = pointer_offsets
+    if jit_options is not None:
+        result["jit_options"] = jit_options
     return result
 
 

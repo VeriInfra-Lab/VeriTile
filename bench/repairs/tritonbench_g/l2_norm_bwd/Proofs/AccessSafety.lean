@@ -27,7 +27,7 @@ theorem source_traceSafe {A : Type} [Inhabited A] (M : Algebra A)
     Safety.maskActive_unfold,step,FP.Structural.evalExpr,evalComputeOp,
     evalOp_unfold,evalOffsets,evalDeltas,store,Option.bind,
     ComputeDType.eraseDType,numeric,numericLt,bop,natLt,rowState,
-    ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,index_toNat,index_lt]
+    ofFloat,toFloat,TileShape.axisDim,Region.cast,State.setReg,index_toNat,index_lt,←Int.natCast_mul,←Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   exact ⟨input,gradient,output⟩
 
 #axiomsClean source_traceSafe
