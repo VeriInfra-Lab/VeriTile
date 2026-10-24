@@ -1,0 +1,64 @@
+[
+  {
+    "python": "bench/examples/RowWiseMax/native_kernels.py",
+    "python_function": "rowWiseMaxKernel",
+    "lean": "bench/examples/RowWiseMax/Kernels.lean",
+    "lean_definition": "rowWiseMaxKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "nCol",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "blockSize"
+      ]
+    },
+    "expected_call_bindings": {
+      "nCol": "nCol"
+    }
+  },
+  {
+    "python": "bench/examples/RowWiseMax/native_kernels.py",
+    "python_function": "inlinedKernel",
+    "lean": "bench/examples/RowWiseMax/Kernels.lean",
+    "lean_definition": "inlinedKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "fp32"
+        ]
+      ],
+      "scalars": [
+        [
+          "nCol",
+          "i64"
+        ]
+      ],
+      "constexpr": [
+        "blockSize"
+      ]
+    },
+    "expected_call_bindings": {
+      "nCol": "nCol"
+    }
+  }
+]

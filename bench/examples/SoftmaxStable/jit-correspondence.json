@@ -1,0 +1,48 @@
+[
+  {
+    "python": "bench/examples/SoftmaxStable/native_kernels.py",
+    "python_function": "naiveSoftmaxKernel",
+    "lean": "bench/examples/SoftmaxStable/Kernels.lean",
+    "lean_definition": "naiveSoftmaxKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "bf16"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "B"
+      ]
+    }
+  },
+  {
+    "python": "bench/examples/SoftmaxStable/native_kernels.py",
+    "python_function": "stableSoftmaxKernel",
+    "lean": "bench/examples/SoftmaxStable/Kernels.lean",
+    "lean_definition": "stableSoftmaxKernel",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "xReg",
+          "fp32"
+        ],
+        [
+          "yReg",
+          "bf16"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "B"
+      ]
+    }
+  }
+]

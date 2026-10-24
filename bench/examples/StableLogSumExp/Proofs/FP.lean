@@ -19,7 +19,7 @@ The source's scalar output address and bf16 conversion remain explicit. -/
 namespace VeriTile.Bench.Examples.StableLogSumExpFPExecution
 open VeriTile.Bench.Examples.StableLogSumExp.Kernels
 open VeriTile Triton FP.Structural
-open SoftmaxStableFPExecution (maximum exponentials shifted rowSum)
+open SoftmaxStableFPExecution (maximum exponentials shifted rowSum sourceEngine loadedRow)
 
 set_option maxHeartbeats 1600000
 
@@ -35,11 +35,11 @@ theorem direct_run {α : Type} [Inhabited α] (M : Algebra α)
     (x y : RegionName) (B : Nat) (xs : Fin B → α) (s : State α)
     (hx : ∀ i : Fin B, (s.mem x (s.pids 0 * B + i.val)).read .real = xs i) :
     ∃ t, FP.Structural.exec M (directLSEKernel x y B) s = some t ∧
-      t.mem y (s.pids 0) = .mk .bf16 (directValue M xs) ∧
+      t.mem y (s.pids 0) = .mk .bf16 (directValue (sourceEngine M) (loadedRow M xs)) ∧
       (∀ r o, (r ≠ y ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) := by
-  simp [directLSEKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
+  simp [directLSEKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, FP.Structural.bop, store, State.write, TileShape.allIndices,
-    TileShape.eraseAxis, Region.cast, ofFloat, toFloat, hx, directValue, exponentials, rowSum]
+    TileShape.eraseAxis, Region.cast, ofFloat, toFloat, hx, sourceEngine, loadedRow, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, directValue, exponentials, rowSum]
   refine ⟨rfl, ?_⟩
   intro r o hmiss hr ho
   exact (hmiss.elim (fun h => h hr) (fun h => h ho)).elim
@@ -48,12 +48,12 @@ theorem stable_run {α : Type} [Inhabited α] (M : Algebra α)
     (x y : RegionName) (B : Nat) (hB : 0 < B) (xs : Fin B → α) (s : State α)
     (hx : ∀ i : Fin B, (s.mem x (s.pids 0 * B + i.val)).read .real = xs i) :
     ∃ t, FP.Structural.exec M (stableLSEKernel x y B) s = some t ∧
-      t.mem y (s.pids 0) = .mk .bf16 (stableValue M xs) ∧
+      t.mem y (s.pids 0) = .mk .bf16 (stableValue (sourceEngine M) (loadedRow M xs)) ∧
       (∀ r o, (r ≠ y ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) := by
-  simp [stableLSEKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
+  simp [stableLSEKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, FP.Structural.bop, store, State.write, TileShape.allIndices,
     TileShape.axisDim, TileShape.eraseAxis, hB, Region.cast, ofFloat, toFloat,
-    hx, stableValue, shifted, maximum, rowSum]
+    hx, sourceEngine, loadedRow, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, stableValue, shifted, maximum, rowSum]
   refine ⟨rfl, ?_⟩
   intro r o hmiss hr ho
   exact (hmiss.elim (fun h => h hr) (fun h => h ho)).elim
@@ -100,18 +100,18 @@ theorem candidate_run {α : Type} [Inhabited α] (M : Algebra α)
     (x y : RegionName) (B : Nat) (hB : 0 < B) (xs : Fin B → α) (s : State α)
     (hx : ∀ i : Fin B, (s.mem x (s.pids 0 * B + i.val)).read .real = xs i) :
     ∃ t, FP.Structural.exec (FP.Scheduled.fp32.algebra M plans) (optimizedLSEKernel x y B) s = some t ∧
-      t.mem y (s.pids 0) = .mk .bf16 (candidateValue M plans lt le xs) ∧
+      t.mem y (s.pids 0) = .mk .bf16 (candidateValue M plans lt le (loadedRow M xs)) ∧
       (∀ r o, (r ≠ y ∨ o ≠ s.pids 0) → t.mem r o = s.mem r o) := by
   let E := FP.Scheduled.fp32.algebra M plans
   have hlt' : E.compareLt none .real = some lt := hlt
   have hle' : E.compareLe none .real = some le := hle
   change ∃ t, FP.Structural.exec E (optimizedLSEKernel x y B) s = some t ∧ _
-  simp [optimizedLSEKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
+  simp [optimizedLSEKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, numericLt, numericLe, FP.Structural.bop, store, State.write, TileShape.allIndices,
     TileShape.axisDim, TileShape.eraseAxis, hB, Region.cast, ofFloat, toFloat,
-    hx, hlt', hle']
+    hx, hlt', hle', evalComputeOp, ComputeDType.eraseDType]
   refine ⟨?_, ?_⟩
-  · simp [candidateValue, FP.LogSumExpCandidate.finish, FP.LogExp.value, FP.LogExp.Backend.logOp,
+  · simp [loadedRow, candidateValue, FP.LogSumExpCandidate.finish, FP.LogExp.value, FP.LogExp.Backend.logOp,
       E, FP.Scheduled.Profile.algebra, FP.Scheduled.fp32, FP.ScalarReduction.algebra,
       Algebra.withDefaultPrecision, resolvePrecision, shifted, maximum, rowSum,
       FP.Structural.bop, Function.comp_def,
@@ -146,7 +146,7 @@ def requirements (x : RegionName) (B : Nat) (plans : Schedules) : Condition :=
 theorem requirements_holds {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     (s : State α) (x : RegionName) (B : Nat) (plans : Schedules) :
     (requirements x B plans).Holds M D s ↔
-      FP.LogSumExpShift.ShiftDomain M D (rowValues s x B) (center M (rowValues s x B))
+      FP.LogSumExpShift.ShiftDomain M D (rowValues M s x B) (center M (rowValues M s x B))
         (rowPlan plans B).tree := by
   unfold requirements Condition.Holds
   rw [← Requirements.holds_map]
@@ -189,10 +189,10 @@ theorem original_runs_under_log {α : Type} [Inhabited α] (R : FP.Exponential.R
       FP.Structural.exec ((direct x y B).profile.algebra M plans) (direct x y B).io.kernel s = some b ∧
       a.mem y (s.pids 0) = b.mem y (s.pids 0) ∧
       IO₁Frame (stable x y B).io s a ∧ IO₁Frame (direct x y B).io s b := by
-  let xs := rowValues s x B
+  let xs := rowValues M s x B
   have hd' := (requirements_holds M D s x B plans).mp hd
-  obtain ⟨a, ha, hva, hfa⟩ := stable_run (engine M plans) x y B hB xs s (fun _ => rfl)
-  obtain ⟨b, hb, hvb, hfb⟩ := direct_run (engine M plans) x y B xs s (fun _ => rfl)
+  obtain ⟨a, ha, hva, hfa⟩ := stable_run (engine M plans) x y B hB (fun i => (s.mem x (s.pids 0 * B + i.val)).read .real) s (fun _ => rfl)
+  obtain ⟨b, hb, hvb, hfb⟩ := direct_run (engine M plans) x y B (fun i => (s.mem x (s.pids 0 * B + i.val)).read .real) s (fun _ => rfl)
   refine ⟨by simp [stable, IO₁PrivateScratch, stableIO, directIO],
     by simp [direct, IO₁PrivateScratch, directIO], a, b, ha, hb, ?_, ?_, ?_⟩
   · exact hva.trans ((congrArg (Cell.mk .bf16)
@@ -268,10 +268,10 @@ theorem candidate_runs {α : Type} [Inhabited α] (R : FP.LogSumExp.Rules)
       FP.Structural.exec (engine M plans) (directLSEKernel x y B) s = some b ∧
       a.mem y (s.pids 0) = b.mem y (s.pids 0) ∧
       IO₁Frame (optimizedIO x y B) s a ∧ IO₁Frame (directIO x y B) s b := by
-  let xs := rowValues s x B
+  let xs := rowValues M s x B
   have hd' := (requirements_holds M D s x B plans).mp hd
-  obtain ⟨a, ha, hva, hfa⟩ := candidate_run M plans lt le hlt hle x y B hB xs s (fun _ => rfl)
-  obtain ⟨b, hb, hvb, hfb⟩ := direct_run (engine M plans) x y B xs s (fun _ => rfl)
+  obtain ⟨a, ha, hva, hfa⟩ := candidate_run M plans lt le hlt hle x y B hB (fun i => (s.mem x (s.pids 0 * B + i.val)).read .real) s (fun _ => rfl)
+  obtain ⟨b, hb, hvb, hfb⟩ := direct_run (engine M plans) x y B (fun i => (s.mem x (s.pids 0 * B + i.val)).read .real) s (fun _ => rfl)
   refine ⟨a, b, ha, hb, ?_, ?_, ?_⟩
   · exact hva.trans ((congrArg (Cell.mk .bf16)
       (candidate_values R M D hM s plans lt le hlt hle xs hd')).trans hvb.symm)

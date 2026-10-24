@@ -20,6 +20,9 @@ open VeriTile.Triton.KernelIO₁ (Implements)
 open scoped VeriTile.Triton.KernelIO₁
 open VeriTile.Examples
 
+attribute [local simp] ComputeExpr.toAlgorithm? ComputeOp.toAlgorithm?
+  ComputeDType.eraseDType
+
 /-- Value half: after the run on a state where row `s.pid` of `xReg` holds
 the non-empty tile `xs`, the cell `yReg[s.pid]` equals `max xs`. -/
 theorem rowWiseMax_correct
@@ -177,7 +180,7 @@ theorem rowWiseMax_traceSafe (xReg yReg : RegionName)
   obtain rfl := Option.some_inj.mp hv2
   -- statement 3: values := load(xReg + row * nCol + cols)   (unmasked)
   refine Stmt.TraceSafeList.cons_intro ?_ ?_
-  · simp only [Stmt.TraceSafe, Op.SafeAt]
+  · simp only [Stmt.TraceSafe, Op.SafeAt, ComputeDType.eraseDType]
     exact ⟨by simp, trivial,
       rowCols_activeAddressSafe nCol B bounds (s.pids 0) _ _
         (by simp [BlockState.setReg]) (by simp [BlockState.setReg]) xReg hx⟩

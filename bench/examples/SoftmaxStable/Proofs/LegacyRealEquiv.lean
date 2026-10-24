@@ -68,6 +68,9 @@ rounding model, and at `R := .triv` the `castTo` stores are inert
 no raw-store twin kernels needed.
 -/
 
+attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm?
+  VeriTile.Triton.ComputeOp.toAlgorithm? VeriTile.Triton.ComputeDType.eraseDType
+
 namespace VeriTile.Bench.Examples.Softmax
 open VeriTile.Bench.Examples.SoftmaxStable.Kernels
 

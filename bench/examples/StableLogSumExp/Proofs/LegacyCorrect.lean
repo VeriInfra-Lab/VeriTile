@@ -42,7 +42,7 @@ theorem stable_projection (xReg yReg : RegionName) (B : Nat) :
     (stableLSEKernel xReg yReg B).eraseDType.toAlgorithm? =
       Except.ok (stableMathKernel xReg yReg B).toAlgKernel := by
   simp [stableLSEKernel, stableMathKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
     Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]

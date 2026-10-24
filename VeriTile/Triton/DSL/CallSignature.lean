@@ -139,10 +139,28 @@ private partial def bindSourceValues (values : List (Name × TSyntax `tritonExpr
   | .node info kind args => return .node info kind (← args.mapM (bindSourceValues values))
   | _ => return raw
 
+private partial def identifierNames (raw : Syntax) : List Name :=
+  if raw.isIdent then [raw.getId.eraseMacroScopes] else raw.getArgs.toList.flatMap identifierNames
+
+private partial def hasComma (raw : Syntax) : Bool :=
+  (raw.isAtom && raw.getAtomVal.trimAscii.toString == ",") || raw.getArgs.any hasComma
+
+/-- Include tuple-call and positional-reduction assignments as well as the
+ordinary assignment production. Keyword arguments are not assignment targets. -/
+private def assignmentTargets (raw : Syntax) : List Name := Id.run do
+  let args := raw.getArgs
+  unless args[0]?.any Syntax.isIdent do return []
+  let some position := args.findIdx? (fun arg => arg.isAtom &&
+      ["=",":=","+=","-=","*=","/="].contains arg.getAtomVal.trimAscii.toString) | return []
+  let left := args.extract 0 position
+  unless (raw.getKind.toString.splitOn "tritonStmt").length > 1 || left.any hasComma do return []
+  return left.toList.flatMap identifierNames
+
 private partial def rejectArgumentMutation (names : List Name) (raw : Syntax) : TermElabM Unit := do
   let reject (id : Ident) : TermElabM Unit := do
     if names.contains id.getId.eraseMacroScopes then
       throwErrorAt raw "per-call specialization does not yet support reassigned scalar arguments"
+  for target in assignmentTargets raw do reject (mkIdent target)
   if let `(tritonStmt| $id:ident = $_:tritonExpr) := raw then reject id
   if let `(tritonStmt| $id:ident += $_:tritonExpr) := raw then reject id
   if let `(tritonStmt| $id:ident -= $_:tritonExpr) := raw then reject id
@@ -157,6 +175,72 @@ private partial def rejectArgumentMutation (names : List Name) (raw : Syntax) : 
       ["for", "tl.for"].contains raw[0].getAtomVal.trimAscii.toString then
     reject ⟨raw[1]⟩
   for arg in raw.getArgs do rejectArgumentMutation names arg
+
+private partial def assignedNames (raw : Syntax) : List Name := Id.run do
+  let mut names := assignmentTargets raw
+  if raw.getNumArgs > 1 && raw[0].isAtom && raw[1].isIdent &&
+      ["for", "tl.for"].contains raw[0].getAtomVal.trimAscii.toString then
+    names := raw[1].getId.eraseMacroScopes :: names
+  return names ++ raw.getArgs.toList.flatMap assignedNames
+
+private partial def staticNatBound (constants assigned : List Name)
+    (e : TSyntax `tritonExpr) : TermElabM (Option (TSyntax `term)) := do
+  match e with
+  | `(tritonExpr| ($inner:tritonExpr)) => staticNatBound constants assigned inner
+  | `(tritonExpr| $n:num) => return some (← `(($n : Nat)))
+  | `(tritonExpr| $($term:term)) =>
+      let value ← elabTerm term none
+      if ← isDefEq (← inferType value) (mkConst ``Nat) then return some term else return none
+  | `(tritonExpr| $id:ident) =>
+      let name := id.getId.eraseMacroScopes
+      unless constants.contains name && !assigned.contains name do return none
+      let term : TSyntax `term := ⟨id.raw⟩
+      let value ← elabTerm term none
+      if ← isDefEq (← inferType value) (mkConst ``Nat) then return some term else return none
+  | _ => return none
+
+/-- A per-call size has already been supplied before executing the body.
+Select the existing constant-bound range constructor only when all three Nat
+bounds are known from that call or immutable constexpr values. Runtime local
+bounds and all explicit signed casts retain the dynamic/signed range path. -/
+private partial def specializeRanges (constants assigned : List Name) (raw : Syntax) : TermElabM Syntax := do
+  let args ← raw.getArgs.mapM (specializeRanges constants assigned)
+  let next := match raw with | .node info kind _ => Syntax.node info kind args | _ => raw
+  if let `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr, $c:tritonExpr) { $body:tritonStmt* }) := next then
+    if let some a ← staticNatBound constants assigned a then
+      if let some b ← staticNatBound constants assigned b then
+        if let some c ← staticNatBound constants assigned c then
+          return (← liftMacroM `(tritonStmt| for $i in range($($a), $($b), $($c)) { $body* })).raw
+  return next
+
+/-- Literal specialization cannot erase the source argument's FP32 rounding.
+Accept it only when elaboration already placed every use under FP32 evaluation.
+Other contexts use the ordinary runtime register interface. -/
+private partial def checkFP32CallPrecision (expression : Expr) (fp32 : Bool := Bool.false) : TermElabM Unit := do
+  if expression.isAppOf ``TypedStores.fp32CallValue then
+    unless fp32 do throwError "per-call FP32 literal requires an FP32 computation context; use runtime scalar binding"
+    return
+  if expression.isAppOf ``ComputeOp.alg then
+    let args := expression.getAppArgs
+    if args.size ≥ 2 then
+      checkFP32CallPrecision args.back! (args[args.size-2]!.isConstOf ``ComputeDType.fp32)
+      return
+  if expression.isAppOf ``Op.withPrecision then
+    let args := expression.getAppArgs
+    if args.size ≥ 2 then
+      checkFP32CallPrecision args.back! (args[args.size-2]!.isConstOf ``IndexComputePrecision.fp32)
+      return
+  match expression with
+  | .app f a => checkFP32CallPrecision f fp32; checkFP32CallPrecision a fp32
+  | .lam _ type body _ | .forallE _ type body _ =>
+      checkFP32CallPrecision type fp32
+      checkFP32CallPrecision body fp32
+  | .letE _ type value body _ =>
+      checkFP32CallPrecision type fp32
+      checkFP32CallPrecision value fp32
+      checkFP32CallPrecision body fp32
+  | .mdata _ value | .proj _ _ value => checkFP32CallPrecision value fp32
+  | _ => pure ()
 
 /-- A verification call specializes immutable runtime size values supplied by
 the caller. Their source ABI remains in `scalars`, never in `constexpr`.
@@ -177,6 +261,7 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
       unless names.eraseDups.length == names.length do throwError "duplicate name in call signature"
       for stmt in stmts do rejectBodyMetadata stmt.raw
       let mut values : List (Name × TSyntax `tritonExpr) := []
+      let mut fp32Values := Bool.false
       if let some args := callValues then
         for arg in args do
           let `(tritonCallBinding| $id:ident := $value:term) := arg
@@ -185,15 +270,21 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
           if values.any (fun p => p.1 == name) then throwErrorAt arg "duplicate call argument binding"
           let some (_, kind) := scalars.find? (fun p => p.1 == name.toString)
             | throwErrorAt arg "binding is not a runtime scalar parameter"
-          unless kind matches .i32 | .i64 | .integer do
-            throwErrorAt arg "per-call specialization requires an integer source argument"
           let argument ← elabTerm value none
           let dtype ← inferType argument
-          let expression ← if ← isDefEq dtype (mkConst ``Nat) then
-              liftMacroM `(tritonExpr| $(($value:term : Nat)))
-            else if ← isDefEq dtype (mkConst ``Int) then
-              liftMacroM `(tritonExpr| $(($value:term : Int)))
-            else throwErrorAt value "per-call integer value must have a Nat or Int carrier"
+          let expression ← match kind with
+            | .fp32 => do
+                unless ← isDefEq dtype (mkConst ``Real) do
+                  throwErrorAt value "per-call FP32 literal must have a Real carrier"
+                fp32Values := Bool.true
+                liftMacroM `(tritonExpr| $((VeriTile.Triton.DSL.TypedStores.fp32CallValue $value:term : ℝ)))
+            | .i32 | .i64 | .integer => do
+                if ← isDefEq dtype (mkConst ``Nat) then
+                  liftMacroM `(tritonExpr| $(($value:term : Nat)))
+                else if ← isDefEq dtype (mkConst ``Int) then
+                  liftMacroM `(tritonExpr| $(($value:term : Int)))
+                else throwErrorAt value "per-call integer value must have a Nat or Int carrier"
+            | .fp64 => throwErrorAt value "per-call FP64 literal specialization is unsupported; use runtime scalar binding"
           values := values ++ [(name, expression)]
         unless scalars.all (fun (name,kind) =>
             (kind matches .fp32 | .fp64) || values.any (fun p => p.1.toString == name)) do
@@ -215,6 +306,8 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
             let `(term| $id:ident) := region | throwErrorAt region "expected a pointer parameter"
             unless ports.contains id.getId.eraseMacroScopes.toString do
               throwErrorAt region "observed memory access is missing from the declared call ports"
+      let constants := constants.map Name.mkSimple
+      let assigned := stmts.toList.flatMap (fun st => assignedNames st.raw)
       let term ← liftMacroM do
         let mut declarations : Array (TSyntax `tritonStmt) := #[]
         -- Invocation ports follow the declared Python parameter order even
@@ -256,7 +349,16 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
         let body ← TypedStores.lower (pointers.map (fun (name, kind) => (Name.mkSimple name, kind))) scalarTypes stmts.toList
         let emitted := declarations ++ body.toArray
         `(triton { $emitted* })
-      elabTerm term none
+      let term : TSyntax `term := ⟨← specializeRanges constants assigned term.raw⟩
+      let result ← elabTerm term none
+      if fp32Values then
+        synthesizeSyntheticMVarsNoPostponing
+        let result ← instantiateMVars result
+        checkFP32CallPrecision result
+        -- Erase checked, definitionally identity provenance before publishing IR.
+        return result.replace fun e =>
+          if e.isAppOfArity ``TypedStores.fp32CallValue 1 then some e.appArg! else none
+      return result
 
 elab_rules : term
   | `(with_triton_signature $profile:term in triton $body:tritonPythonBody) => do

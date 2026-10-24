@@ -21,6 +21,14 @@ open VeriTile Triton FP.Structural
 
 set_option maxHeartbeats 1600000
 
+/-- Source arithmetic tags resolve FP32 even for an otherwise unprofiled model. -/
+def sourceEngine {α : Type} (M : Algebra α) : Algebra α :=
+  { M.withDefaultPrecision .fp32 with cast := M.cast }
+
+/-- Actual typed source load; numerical domains below use these values. -/
+def loadedRow {α : Type} (M : Algebra α) (xs : Fin B → α) : Fin B → α :=
+  fun i => M.fp32Load (xs i)
+
 
 def maximum {α : Type} (M : Algebra α) (xs : Fin B → α) : α :=
   M.reduceMax none (shape := [B]) ⟨0, by simp⟩ Bool.false (fun i => xs i.1) PUnit.unit
@@ -42,15 +50,15 @@ theorem naive_run {α : Type} [Inhabited α] (M : Algebra α)
     (hx : ∀ i : Fin B, (s.mem x (s.pids 0 * B + i.val)).read .real = xs i) :
     ∃ t, FP.Structural.exec M (naiveSoftmaxKernel x y B) s = some t ∧
       (∀ i : Fin B, t.mem y (s.pids 0 * B + i.val) = .mk .bf16
-        (normalizedValue M (exponentials M xs) i)) ∧
+        (normalizedValue (sourceEngine M) (exponentials (sourceEngine M) (loadedRow M xs)) i)) ∧
       (∀ r o, (r ≠ y ∨ ∀ i : Fin B, o ≠ s.pids 0 * B + i.val) → t.mem r o = s.mem r o) := by
   have hinj : Function.Injective (fun i : TileIndex [B] => s.pids 0 * B + i.1.val) := by
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [naiveSoftmaxKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
+  simp [naiveSoftmaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, FP.Structural.bop, store, TileShape.eraseAxis, Region.cast, ofFloat, toFloat,
-    hx, normalizedValue, exponentials, rowSum]
+    hx, sourceEngine, loadedRow, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, normalizedValue, exponentials, rowSum]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
   · rw [State.scatter_readback _ _ _ _ (i, PUnit.unit) hinj]
     rfl
@@ -66,15 +74,15 @@ theorem stable_run {α : Type} [Inhabited α] (M : Algebra α)
     (hx : ∀ i : Fin B, (s.mem x (s.pids 0 * B + i.val)).read .real = xs i) :
     ∃ t, FP.Structural.exec M (stableSoftmaxKernel x y B) s = some t ∧
       (∀ i : Fin B, t.mem y (s.pids 0 * B + i.val) = .mk .bf16
-        (normalizedValue M (shifted M xs) i)) ∧
+        (normalizedValue (sourceEngine M) (shifted (sourceEngine M) (loadedRow M xs)) i)) ∧
       (∀ r o, (r ≠ y ∨ ∀ i : Fin B, o ≠ s.pids 0 * B + i.val) → t.mem r o = s.mem r o) := by
   have hinj : Function.Injective (fun i : TileIndex [B] => s.pids 0 * B + i.1.val) := by
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [stableSoftmaxKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
+  simp [stableSoftmaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, FP.Structural.bop, store, TileShape.axisDim, TileShape.eraseAxis, hB,
-    Region.cast, ofFloat, toFloat, hx, normalizedValue, shifted, maximum, rowSum]
+    Region.cast, ofFloat, toFloat, hx, sourceEngine, loadedRow, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, normalizedValue, shifted, maximum, rowSum]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
   · rw [State.scatter_readback _ _ _ _ (i, PUnit.unit) hinj]
     rfl
@@ -123,10 +131,10 @@ def center {α : Type} (M : Algebra α) (xs : Fin B → α) : α :=
   M.reduceMax (some .fp32) (shape := [B]) ⟨0, by simp⟩ Bool.false (fun i => xs i.1) PUnit.unit
 
 def rowExpressions (x : RegionName) (B : Nat) (i : Fin B) : Expr MemoryInput :=
-  .input ⟨x, fun pid => pid * B + i.val, .real⟩
+  .fp32Load (.input ⟨x, fun pid => pid * B + i.val, .real⟩)
 
-def rowValues {α : Type} [Inhabited α] (s : State α) (x : RegionName) (B : Nat) (i : Fin B) : α :=
-  (s.mem x (s.pids 0 * B + i.val)).read .real
+def rowValues {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (x : RegionName) (B : Nat) (i : Fin B) : α :=
+  M.fp32Load ((s.mem x (s.pids 0 * B + i.val)).read .real)
 
 @[simp] theorem eval_center {α Input : Type} (M : Algebra α) (read : Input → α)
     (xs : Fin B → Expr Input) :
@@ -135,7 +143,7 @@ def rowValues {α : Type} [Inhabited α] (s : State α) (x : RegionName) (B : Na
 
 @[simp] theorem eval_row {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
     (x : RegionName) (B : Nat) (i : Fin B) :
-    (rowExpressions x B i).eval M (MemoryInput.read s) = rowValues s x B i := rfl
+    (rowExpressions x B i).eval M (MemoryInput.read s) = rowValues M s x B i := rfl
 
 def requirements (x : RegionName) (B : Nat) (plans : Schedules) : Condition :=
   let M := FP.GuardExpression.algebra MemoryInput
@@ -144,7 +152,7 @@ def requirements (x : RegionName) (B : Nat) (plans : Schedules) : Condition :=
 theorem requirements_holds {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     (s : State α) (x : RegionName) (B : Nat) (plans : Schedules) :
     (requirements x B plans).Holds M D s ↔
-      FP.SoftmaxShift.ShiftDomain M D (rowValues s x B) (center M (rowValues s x B))
+      FP.SoftmaxShift.ShiftDomain M D (rowValues M s x B) (center M (rowValues M s x B))
         (rowPlan plans B).tree := by
   unfold requirements Condition.Holds
   rw [← Requirements.holds_map]
@@ -188,10 +196,10 @@ theorem original_runs_under_exp {α : Type} [Inhabited α] (R : Rules) (M : Alge
       FP.Structural.exec ((naive x y B).profile.algebra M plans) (naive x y B).io.kernel s = some b ∧
       (∀ i : Fin B, a.mem y (s.pids 0 * B + i.val) = b.mem y (s.pids 0 * B + i.val)) ∧
       IO₁Frame (stable x y B).io s a ∧ IO₁Frame (naive x y B).io s b := by
-  let xs := rowValues s x B
+  let xs := rowValues M s x B
   have hd' := (requirements_holds M D s x B plans).mp hd
-  obtain ⟨a, ha, hva, hfa⟩ := stable_run (engine M plans) x y B hB xs s (fun _ => rfl)
-  obtain ⟨b, hb, hvb, hfb⟩ := naive_run (engine M plans) x y B xs s (fun _ => rfl)
+  obtain ⟨a, ha, hva, hfa⟩ := stable_run (engine M plans) x y B hB (fun i => (s.mem x (s.pids 0 * B + i.val)).read .real) s (fun _ => rfl)
+  obtain ⟨b, hb, hvb, hfb⟩ := naive_run (engine M plans) x y B (fun i => (s.mem x (s.pids 0 * B + i.val)).read .real) s (fun _ => rfl)
   refine ⟨by simp [stable, IO₁PrivateScratch, stableIO, naiveIO],
     by simp [naive, IO₁PrivateScratch, naiveIO], a, b, ha, hb, ?_,
     (fun r o ho _ => hfa r o ho), (fun r o ho _ => hfb r o ho)⟩

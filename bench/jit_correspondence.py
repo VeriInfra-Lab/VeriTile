@@ -239,7 +239,7 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
             if not call:
                 raise ValueError("quotation does not use the declared call signature")
             call_bindings = {}
-            for binding in call[1].split(","):
+            for binding in call[1].split(",") if call[1].strip() else []:
                 match = re.fullmatch(r"\s*(\w+)\s*:=\s*([\w.]+)\s*", binding)
                 if not match or match[1] in call_bindings:
                     raise ValueError("unsupported or duplicate per-call scalar binding")
@@ -259,8 +259,9 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         pointer_names = {n for n, _ in profile["pointers"]}
         if call_bindings is not None:
             integer_names = {n for n, t in profile["scalars"] if t in ("i32", "i64", "integer")}
-            if set(call_bindings) != integer_names:
-                raise ValueError("every integer runtime scalar requires an explicit call binding")
+            fp32_names = {n for n, t in profile["scalars"] if t == "fp32"}
+            if not integer_names <= set(call_bindings) <= integer_names | fp32_names:
+                raise ValueError("per-call bindings must cover every integer scalar and only supported scalar kinds")
         for arg in function.args.args:
             t = annotation(arg)
             if t is None or arg.arg in constants:
@@ -295,7 +296,9 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         raise ValueError("statement correspondence mismatch:\n" + diff)
     return {"python_function": python_function, "lean_definition": lean_definition,
             "status": "PASS", "mode": "pasted_body" if profile is not None else "legacy_ast",
-            "argument_mode": ("mixed_integer_calls_and_runtime_registers" if profile is not None and call_bindings is not None
+            "argument_mode": ("typed_per_call_specialization" if profile is not None and call_bindings is not None
+                              and any(n in call_bindings and t == "fp32" for n,t in profile["scalars"]) else
+                              "mixed_integer_calls_and_runtime_registers" if profile is not None and call_bindings is not None
                               and len(call_bindings) < len(profile["scalars"]) else
                               "integer_per_call_specialization" if call_bindings is not None else "runtime_registers"),
             "call_bindings": call_bindings,

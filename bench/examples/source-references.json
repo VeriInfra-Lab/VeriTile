@@ -1,13 +1,78 @@
 {
+  "AdamUpdateGridLaunch": "bench/tritonbench_g/adam_update_triton/adam_update_triton.py",
   "FlatVectorAdd": {
-    "python": "bench/examples/FlatVectorAdd/native_kernels.py",
+    "note": "New native counterpart of the existing Lean-first worked example; does not certify correspondence to an independent historical benchmark source.",
     "provenance": "authored_native_counterpart",
-    "note": "New native counterpart of the existing Lean-first worked example; does not certify correspondence to an independent historical benchmark source."
+    "python": "bench/examples/FlatVectorAdd/native_kernels.py"
+  },
+  "FloatDTypeAdd": {
+    "mathematical_spec_sha256": {
+      "bench/examples/FloatDTypeAdd/Correct.lean": "36034944754829ccdc5e7039bc48016b5d1ebd472f223c106277557667320a41"
+    },
+    "note": "New Python from independent public mathematical specifications, not recovered historical Python. Native dtype/cast semantics are explicit and the actual programs are re-proved with the existing IO scopes and numerical domains.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/FloatDTypeAdd/native_kernels.py"
+  },
+  "FloatDTypeSoftmax": {
+    "mathematical_spec_sha256": {
+      "bench/examples/FloatDTypeSoftmax/Correct.lean": "50a4b0a5c43bd4fb1588eeb360fdd242777467fa96d18cd9e37fc80b15a82bf0"
+    },
+    "note": "New native source from the independent softmax formula, not historical Python. Exact precision boundaries and existing candidate retained; complete source preservation and both public proofs are replayed.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/FloatDTypeSoftmax/native_kernels.py"
+  },
+  "LogExp": {
+    "mathematical_spec_sha256": {
+      "bench/examples/LogExp/Correct.lean": "9c5fbcf3b42d1f06506a2e9a62aef27564d57bda94c8a697ae01b2c16a3bff7f"
+    },
+    "note": "New native Python authored from the independent mathematical specifications; not recovered historical source. Existing candidate transformation and FP numerical conditions retained. See native_kernels.py and full-program SourcePreservation proofs.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/LogExp/native_kernels.py"
+  },
+  "RowWiseMax": {
+    "mathematical_spec_sha256": {
+      "bench/examples/RowWiseMax/Correct.lean": "22a19971808eb920ade151e7258f9893053674200417f75c6bd9208a7f4162b3"
+    },
+    "note": "New Python from independent public mathematical specifications, not recovered historical Python. Native dtype/cast semantics are explicit and the actual programs are re-proved with the existing IO scopes and numerical domains. Candidate inlines the reduction result into the store, retaining the separate typed load; the old untyped full load-inlining form is not claimed to be preserved.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/RowWiseMax/native_kernels.py"
+  },
+  "RowWiseSum": {
+    "mathematical_spec_sha256": {
+      "bench/examples/RowWiseSum/Correct.lean": "3adf6b0c7d85e0169eafd435ffbf960c1f0c7a6255ed3ba63f82b1e40a671067"
+    },
+    "note": "New Python from independent public mathematical specifications, not recovered historical Python. Native dtype/cast semantics are explicit and the actual programs are re-proved with the existing IO scopes and numerical domains.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/RowWiseSum/native_kernels.py"
+  },
+  "SoftmaxReciprocal": {
+    "mathematical_spec_sha256": {
+      "bench/examples/SoftmaxReciprocal/Correct.lean": "ee93d198daa4ff1f8737d963d49a6a053cd8d76ed2cc465cd5920e71df98923c"
+    },
+    "note": "New native Python authored from the independent mathematical specifications; not recovered historical source. Existing candidate transformation and FP numerical conditions retained. See native_kernels.py and full-program SourcePreservation proofs.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/SoftmaxReciprocal/native_kernels.py"
+  },
+  "SoftmaxStable": {
+    "mathematical_spec_sha256": {
+      "bench/examples/SoftmaxStable/Correct.lean": "cdcec2bfc841c1ed9649d9c9f899d86947479cc48aab447a9dd7304cc9a4b22d"
+    },
+    "note": "New native Python from the independent mathematical specifications. No historical source is claimed. The existing transforms and numerical-rule domains are retained and rebound to the FP32 reads in actual source execution.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/SoftmaxStable/native_kernels.py"
+  },
+  "StableLogSumExp": {
+    "mathematical_spec_sha256": {
+      "bench/examples/StableLogSumExp/Correct.lean": "907cf6eb1aa044d3802fb42cb6934f198099169bd778319d4bd2684b3822e637"
+    },
+    "note": "New native Python from the independent mathematical specifications. No historical source is claimed. The existing transforms and numerical-rule domains are retained and rebound to the FP32 reads in actual source execution.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/StableLogSumExp/native_kernels.py"
   },
   "TritonBenchVectorAddition": "bench/tritonbench_g/vector_addition/vector_addition.py",
   "VectorAdd": {
-    "python": "bench/examples/VectorAdd/native_kernels.py",
+    "note": "New native counterpart of the existing Lean-first worked example; does not certify correspondence to an independent historical benchmark source.",
     "provenance": "authored_native_counterpart",
-    "note": "New native counterpart of the existing Lean-first worked example; does not certify correspondence to an independent historical benchmark source."
+    "python": "bench/examples/VectorAdd/native_kernels.py"
   }
 }

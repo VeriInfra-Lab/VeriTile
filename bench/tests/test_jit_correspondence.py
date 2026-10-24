@@ -142,7 +142,8 @@ class BodyMigrationBatchTests(unittest.TestCase):
 class IntegerCallBodyTests(unittest.TestCase):
     tasks = ("add_example", "add_value", "vector_addition", "vector_addition_custom",
              "cosine_compute", "sin_computation", "sin_kernel", "square_matrix",
-             "matrix_transpose", "index_select_bwd", "swiglu_fwd", "kldiv_compute", "l2_norm_triton1")
+             "matrix_transpose", "index_select_bwd", "swiglu_fwd", "kldiv_compute", "l2_norm_triton1",
+             "rmsnorm_fused", "rmsnorm_fused_llama")
 
     def test_every_migrated_original_and_candidate(self):
         for task in self.tasks:
@@ -152,6 +153,15 @@ class IntegerCallBodyTests(unittest.TestCase):
                 self.assertTrue(all(r["argument_mode"] in
                                     ("integer_per_call_specialization", "mixed_integer_calls_and_runtime_registers")
                                     for r in records))
+
+    def test_spec_derived_example_bodies_remain_exact(self):
+        references = json.loads((ROOT / "bench/examples/source-references.json").read_text())
+        for name in ("LogExp", "SoftmaxReciprocal", "FloatDTypeSoftmax", "RowWiseSum",
+                     "RowWiseMax", "FloatDTypeAdd", "SoftmaxStable", "StableLogSumExp"):
+            with self.subTest(example=name):
+                self.assertEqual(references[name]["provenance"], "spec_derived_native_source")
+                records = check_manifest(ROOT, ROOT / "bench/examples" / name / "jit-correspondence.json")
+                self.assertTrue(all(r["mode"] == "pasted_body" for r in records))
 
     def test_wrong_missing_and_unreviewed_argument_binding_rejected(self):
         directory = ROOT / "bench/repairs/tritonbench_g/square_matrix"
@@ -186,6 +196,21 @@ class IntegerCallBodyTests(unittest.TestCase):
                 check(python, lean.replace(before, after, 1), record["python_function"],
                       record["lean_definition"], record["signature_definition"],
                       record["expected_signature"], record["expected_call_bindings"])
+
+    def test_reviewed_fp32_literal_call_keeps_its_runtime_abi(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/rmsnorm_fused_llama"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        python, lean = ((ROOT / record[k]).read_text() for k in ("python", "lean"))
+        bindings = {**record["expected_call_bindings"], "eps": "eps"}
+        result = check(python, lean, record["python_function"], "kernel",
+                       record["signature_definition"], record["expected_signature"], bindings)
+        self.assertEqual(result["argument_mode"], "typed_per_call_specialization")
+        self.assertEqual(result["runtime_parameters"]["eps"], "fp32")
+        with self.assertRaisesRegex(ValueError, "supported scalar kinds"):
+            signature = {**record["expected_signature"], "scalars": [
+                [n, "fp64" if n == "eps" else t] for n, t in record["expected_signature"]["scalars"]]}
+            check(python, lean.replace('(\"eps\",.fp32)', '(\"eps\",.fp64)'),
+                  record["python_function"], "kernel", record["signature_definition"], signature, bindings)
 
     def test_python_comments_and_docstring_cannot_terminate_or_inject_a_body(self):
         directory = ROOT / "bench/repairs/tritonbench_g/vector_addition_custom"

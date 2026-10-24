@@ -38,7 +38,7 @@ theorem direct_projection (xReg yReg : RegionName) (B : Nat) :
     (directLSEKernel xReg yReg B).eraseDType.toAlgorithm? =
       Except.ok (directMathKernel xReg yReg B).toAlgKernel := by
   simp [directLSEKernel, directMathKernel, ComputeKernel.eraseDType,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
     Op.eraseDType, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def]
@@ -105,7 +105,7 @@ theorem candidate_projection (x y : RegionName) (B : Nat) :
 theorem candidate_flattenOk (x y : RegionName) (B : Nat) :
     (optimizedLSEKernel x y B).eraseDType.toAlgKernel.FlattenOk := by
   simp [optimizedLSEKernel, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType, Kernel.FlattenOk,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def,
     Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
@@ -119,7 +119,7 @@ theorem candidate_traceSafe (xReg yReg : RegionName) (B : Nat) (hB : 0 < B)
   unfold Kernel.TraceSafe
   simp only [BlockState.pid_eq] at hx hy
   simp [optimizedLSEKernel, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
     Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,
@@ -142,7 +142,7 @@ theorem candidate_region_run (B : Nat) (hB : 0 < B) (s : BlockState) (xs : Fin B
   obtain ⟨n, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hB.ne'
   simp only [BlockState.pid_eq] at hx ⊢
   simp [optimizedLSEKernel, ComputeKernel.eraseDType, ComputeKernel.toAlgKernel,
-    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?,
+    ComputeStmt.toAlgorithm?, ComputeStmt.listToAlgorithm?, ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, ComputeDType.eraseDType,
     Kernel.eraseDType, Stmt.eraseDTypeList, Stmt.eraseDType,
     Op.eraseDType.eq_def, VeriTile.Triton.eraseDType, NumericDType.eraseDType,
     MemAccess.eraseDType.eq_def, MaskOpt.eraseDType.eq_def,

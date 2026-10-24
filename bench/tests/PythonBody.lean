@@ -5,6 +5,14 @@ import VeriTile.Meta.StatementAudit
 namespace VeriTile.Tests.PythonBody
 open VeriTile.Triton
 
+/-- error: nested load source precision is unsupported by the current frontend -/
+#guard_msgs in
+def nestedLoad (X Y : RegionName) : ComputeKernel :=
+  with_triton_signature ({pointers := [("X",.fp32),("Y",.fp32)]} : CallSignature) in
+  triton {
+    tl.store(Y, tl.max(tl.load(X + tl.arange(0, 4)), axis=0))
+  }
+
 def signature : CallSignature where
   pointers := [("X",.fp32),("Y",.fp32)]
   scalars := [("count",.i32),("stride",.i64)]
@@ -116,6 +124,22 @@ def incorrectMemoryRole (X Y : RegionName) : ComputeKernel :=
   triton {
     value = tl.load(X)
     tl.store(Y, value)
+  }
+
+/-- error: per-call specialization does not yet support reassigned scalar arguments -/
+#guard_msgs in
+def tupleCallArgument (n : Int) : ComputeKernel :=
+  with_triton_call integerSignature call_args [n := n] in
+  triton {
+    n, other = tl.max(tl.arange(0, 4), axis=0, return_indices=True)
+  }
+
+/-- error: per-call specialization does not yet support reassigned scalar arguments -/
+#guard_msgs in
+def positionalReductionArgument (n : Int) : ComputeKernel :=
+  with_triton_call integerSignature call_args [n := n] in
+  triton {
+    n = tl.max(tl.arange(0, 4), 0)
   }
 
 #axiomsClean original_comments_indentation_and_integer_calls

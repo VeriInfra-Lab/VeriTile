@@ -19,7 +19,7 @@ theorem runtime_epsilon (X Y W : RegionName) (N B : Nat) :
     (runtimeKernel X Y W N B).surfaceBody[6]! =
       .assign .real [] "rstd" (.compute (.alg .fp32
         (.div .real .nil (.const 1) (.sqrt (.add .real .nil
-          (.ref .real [] "var") (.ref .real [] "eps_arg")))))) := rfl
+          (.ref .real [] "var") (.ref .real [] "eps")))))) := rfl
 
 /-- Source load casts and the FP32→FP16→FP32 store are exact typed AST facts. -/
 theorem runtime_memory (X Y W : RegionName) (N B : Nat) :

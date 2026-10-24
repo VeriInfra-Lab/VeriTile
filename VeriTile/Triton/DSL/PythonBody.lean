@@ -104,12 +104,34 @@ private partial def logicalLines (input : List Char) (lines : Array Line := #[])
         match tail with
         | '\n' :: rest => logicalLines rest lines indent (text ++ " ") delimiters Bool.false
         | _ => throw "unsupported backslash outside Python string"
+      else if c == '.' then
+        let before := text.toList.reverse
+        let digits := before.takeWhile (fun ch => ch.isDigit || ch == '_')
+        let lead := before.drop digits.length
+        let identifierBefore := lead.head?.any (fun ch => ch.isAlphanum || ch == '_' || ch == '.')
+        if !digits.isEmpty && !identifierBefore && !tail.head?.any Char.isDigit then
+          logicalLines tail lines indent (text ++ ".0") delimiters Bool.false
+        else if digits.isEmpty && tail.head?.any Char.isDigit &&
+            !before.head?.any (fun ch => ch.isAlphanum || ch == '_' || ch == '.') then
+          logicalLines tail lines indent (text ++ "0.") delimiters Bool.false
+        else logicalLines tail lines indent (text.push c) delimiters Bool.false
       else if c == '-' && tail.head? == some '-' then
         -- Prevent Lean's line-comment lexer from swallowing Python x--y.
         logicalLines tail.tail! lines indent (text ++ "- -") delimiters Bool.false
       else if ['(','[','{'].contains c then
         let preceding := text.trimAscii.toString
         let call := c == '(' && preceding.back?.any (fun ch => ch.isAlphanum || ['_',')',']'].contains ch)
+        -- The legacy grammar reserves range(0, as one token followed by
+        -- antiquotes. Parentheses around this integer are a source-spelling
+        -- adaptation that lets an unmodified Python call use the general rule.
+        let word := String.ofList ((preceding.toList.reverse.takeWhile
+          (fun ch => ch.isAlphanum || ch == '_')).reverse)
+        let afterOpen := tail.dropWhile Char.isWhitespace
+        if c == '(' && word == "range" && afterOpen.head? == some '0' then
+          let afterZero := afterOpen.tail!.dropWhile Char.isWhitespace
+          if afterZero.head? == some ',' then
+            return ← logicalLines afterZero lines indent (text ++ "((0)")
+              ((c,call) :: delimiters) Bool.false
         logicalLines tail lines indent (text.push c) ((c,call) :: delimiters) Bool.false
       else if [')',']','}'].contains c then
         let expected := if c == ')' then '(' else if c == ']' then '[' else '{'
