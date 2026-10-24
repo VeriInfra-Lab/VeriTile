@@ -86,6 +86,27 @@ class PastedBodyTests(unittest.TestCase):
                 self.assertIn(before, self.lean)
                 self.compare(self.lean.replace(before, after, 1))
 
+    def test_external_annotations_are_checked_without_in_body_parameters(self):
+        python = self.python.replace("inv_127,", "inv_127: tl.float32,", 1)
+        result = check(python, self.lean, self.record["python_function"], "body",
+                       "callSignature", self.record["expected_signature"])
+        self.assertEqual(result["mode"], "pasted_body")
+        for annotation in ("tl.int32", "tl.int64"):
+            with self.subTest(annotation=annotation), self.assertRaises(ValueError):
+                check(self.python.replace("n_elements,", f"n_elements: {annotation},", 1),
+                      self.lean, self.record["python_function"], "body", "callSignature",
+                      self.record["expected_signature"])
+
+    def test_pointer_and_quoted_constexpr_annotations(self):
+        python = self.python.replace("x_ptr,", "x_ptr: tl.tensor,", 1).replace(
+            "BLOCK_SIZE: tl.constexpr", 'BLOCK_SIZE: "tl.constexpr"', 1)
+        self.assertEqual(check(python, self.lean, self.record["python_function"], "body",
+                               "callSignature", self.record["expected_signature"])["status"], "PASS")
+
+    def test_unreviewed_signature_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, "reviewed call signature"):
+            check(self.python, self.lean, self.record["python_function"], "body", "callSignature")
+
 
 if __name__ == "__main__":
     unittest.main()
