@@ -113,6 +113,15 @@ def ambiguousBoolAxis : ComputeKernel := triton {
   index = tl.argmax(values[:, None])
 }
 
+/-- error: dtype pointer aliases cannot be rebound under runtime control flow -/
+#guard_msgs in
+def escapedLoopAlias (V : RegionName) : ComputeKernel := triton (dtype V := SourceDType.i8) {
+  for i in range(4) {
+    p = V + i
+  }
+  tl.store(p, $((0 : Int)))
+}
+
 #axiomsClean integer_keeps_clamps_and_cast
 #axiomsClean half_keeps_store_rounding
 #axiomsClean both_arms_and_mask_keep_cast

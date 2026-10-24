@@ -812,7 +812,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -1428,7 +1428,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -2690,7 +2690,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -3336,7 +3336,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -4058,7 +4058,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -4832,7 +4832,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -5546,7 +5546,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -6357,7 +6357,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -7046,7 +7046,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -7785,7 +7785,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -8739,7 +8739,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -9579,7 +9579,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -10404,7 +10404,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -11514,7 +11514,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -12223,7 +12223,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -13012,7 +13012,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -13912,7 +13912,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -14859,7 +14859,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -15607,7 +15607,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -16437,7 +16437,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -17386,7 +17386,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -18099,7 +18099,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -19080,7 +19080,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -19795,7 +19795,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -20533,7 +20533,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -21545,7 +21545,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -22391,7 +22391,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -23287,7 +23287,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -24237,7 +24237,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -25350,7 +25350,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -26169,7 +26169,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -26931,7 +26931,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -27730,7 +27730,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -28658,7 +28658,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -29685,7 +29685,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -30604,7 +30604,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -31550,7 +31550,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -32601,7 +32601,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -33578,7 +33578,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -34170,7 +34170,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -35079,7 +35079,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -35958,7 +35958,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -36901,7 +36901,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -37710,7 +37710,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -38389,7 +38389,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -38494,11 +38494,13 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/dequantize_rowwise/dequantize_rowwise_repaired.py": "df232e23aa9660d4f59c530586c8da80ccc9e11fe7a81c48aab31eedc7eda9aa",
-          "bench/repairs/tritonbench_g/dequantize_rowwise/Kernels.lean": "036572dc83e2d0a23fd4d65bab41481cb4f9440f9029c0d5b330f49ddc19f27c",
+          "bench/repairs/tritonbench_g/dequantize_rowwise/Kernels.lean": "8b22621311e504630944cf0ec06a54643ccf0ad80c0c6a235070f4a528c5fb8e",
           "bench/repairs/tritonbench_g/dequantize_rowwise/Contract.lean": "adc62099b4b0484fcac2422dab9a637567658689b95200156e39d94a5d6f7732",
-          "bench/repairs/tritonbench_g/dequantize_rowwise/Correct.lean": "99d0f943c058d69b2771d907a83f64544345db7ac5078faf9f0c5a5fd83063be",
-          "bench/repairs/tritonbench_g/dequantize_rowwise/FPEquiv.lean": "32dd84d5e1582c6cd58c43416b9cbeab8156b19eb13c234ee7090d4c34057dcf",
-          "bench/repairs/tritonbench_g/dequantize_rowwise/Misc/TensorBridge.lean": "ce93ee35c9ad001be6cfea61f1e001ec1e8e75c6d259542983cd0aa80f1cba6a"
+          "bench/repairs/tritonbench_g/dequantize_rowwise/Correct.lean": "880e5dbc2edbef9774646ad80a837db9e64dd1602cf6ff8311005d12b33a92ca",
+          "bench/repairs/tritonbench_g/dequantize_rowwise/FPEquiv.lean": "5fb0d090450b58c1ccbaf3a677efa0321241d77c749ae83098efbdf8e6c8a014",
+          "bench/repairs/tritonbench_g/dequantize_rowwise/Misc/TensorBridge.lean": "ce93ee35c9ad001be6cfea61f1e001ec1e8e75c6d259542983cd0aa80f1cba6a",
+          "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/BodyExecution.lean": "62fa1eee2ea9b3e7d01cb4c69bb9c0e25802f65af91e8a335a4fd3e107525379",
+          "bench/repairs/tritonbench_g/dequantize_rowwise/jit-correspondence.json": "8ab455940036b8c7401492e33d853cc24bc25c61eb3b71e579ad17f942b0e295"
         },
         "proof_scope": "Independent Correct target: Correct.dequantize_rowwise_correct: scale 0 * (weights j : Real) / 127 on masked row, one unmasked scale channel including empty rows; independent of execution. Complete actual selected kernel-stage pairs; exact source, transformation, numerical model/domain and observers are recorded in program_pair_review. Earlier single-source native and optional full-grid/Tensor results remain retained auxiliaries at their recorded scopes.",
         "validation": {
@@ -39067,8 +39069,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/dequantize_rowwise.json",
-            "sha256": "8fd7bff9579e2578f1fa466f75fbc6f292ad6ed4e89d013d998931d45b84c8d0",
+            "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+            "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
             "task": "dequantize_rowwise"
           },
           "main_declarations": [
@@ -39130,9 +39132,14 @@
           }
         },
         "jit_correspondence": {
-          "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "status": "exact_ast_correspondence",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
+        },
+        "pasted_body_review": {
+          "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+          "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+          "task": "dequantize_rowwise"
         }
       }
     },
@@ -39850,7 +39857,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -40569,7 +40576,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -41299,7 +41306,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -42149,7 +42156,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -42828,7 +42835,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -43529,7 +43536,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -44275,7 +44282,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -45103,7 +45110,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -45901,7 +45908,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -46757,7 +46764,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -47505,7 +47512,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -48263,7 +48270,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -49181,7 +49188,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -49901,7 +49908,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -50626,7 +50633,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -51264,7 +51271,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -51934,7 +51941,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -52699,7 +52706,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -53795,7 +53802,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -54530,7 +54537,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -55452,7 +55459,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -56215,7 +56222,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -57091,7 +57098,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -57856,7 +57863,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -58597,7 +58604,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -59278,7 +59285,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -60018,7 +60025,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -60887,7 +60894,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -61733,7 +61740,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -62691,7 +62698,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -63398,7 +63405,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -64281,7 +64288,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -64959,7 +64966,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -65742,7 +65749,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -66437,7 +66444,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -67094,7 +67101,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -67953,7 +67960,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -68701,7 +68708,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -69526,7 +69533,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -70170,7 +70177,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -70981,7 +70988,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -71762,7 +71769,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -72479,7 +72486,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -73227,7 +73234,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -74222,7 +74229,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -74937,7 +74944,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -75634,7 +75641,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -76542,7 +76549,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -77267,7 +77274,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -77967,7 +77974,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -78745,7 +78752,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -79714,7 +79721,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -80528,7 +80535,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -81295,7 +81302,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -82099,7 +82106,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -82845,7 +82852,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -83569,7 +83576,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -84348,7 +84355,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -85208,7 +85215,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -85991,7 +85998,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -86769,7 +86776,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -87598,7 +87605,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -88460,7 +88467,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -89334,7 +89341,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -90206,7 +90213,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -90996,7 +91003,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -91697,7 +91704,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -92400,7 +92407,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -93157,7 +93164,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -93817,7 +93824,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -94524,7 +94531,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -95315,7 +95322,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -96056,7 +96063,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -96874,7 +96881,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -97557,7 +97564,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -98347,7 +98354,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -99395,7 +99402,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -100285,7 +100292,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -101204,7 +101211,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -101900,7 +101907,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -102629,7 +102636,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -103355,7 +103362,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -104004,7 +104011,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -104788,7 +104795,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -105524,7 +105531,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -106280,7 +106287,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -106932,7 +106939,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -107502,7 +107509,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -108191,7 +108198,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -108897,7 +108904,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -109885,7 +109892,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -110597,7 +110604,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -111413,7 +111420,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -112167,7 +112174,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -112917,7 +112924,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -113664,7 +113671,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -114381,7 +114388,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -115101,7 +115108,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -115845,7 +115852,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -116542,7 +116549,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -117244,7 +117251,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -117982,7 +117989,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -118821,7 +118828,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -119613,7 +119620,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -120316,7 +120323,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -121021,7 +121028,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -121922,7 +121929,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -122537,7 +122544,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -123140,7 +123147,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -124030,7 +124037,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -124757,7 +124764,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -125584,7 +125591,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -126332,7 +126339,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -127058,7 +127065,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -127761,7 +127768,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -128572,7 +128579,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -129298,7 +129305,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -130091,7 +130098,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -130796,7 +130803,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -131512,7 +131519,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -132278,7 +132285,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -133030,7 +133037,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -133759,7 +133766,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -134469,7 +134476,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -135087,7 +135094,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -135752,7 +135759,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -136749,7 +136756,7 @@
         },
         "jit_correspondence": {
           "status": "exact_ast_correspondence",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -137636,7 +137643,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -138359,7 +138366,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -139095,7 +139102,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -139849,7 +139856,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -140499,7 +140506,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -141130,7 +141137,7 @@
         },
         "jit_correspondence": {
           "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -141818,7 +141825,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -142496,7 +142503,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -143407,7 +143414,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -144029,7 +144036,7 @@
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
@@ -144735,7 +144742,7 @@
     "preserved_main_headlines": 449,
     "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
     "audit": "bench/review-checkpoints/2026-10-23/reference-separation/reader-roles.json",
-    "audit_sha256": "f951e841f768572af1642945d598306a0406cc4a1e29a8b6af0dd28c3e011b06",
+    "audit_sha256": "4952004317cd3aa134ebb6a9fdd29270c8eab722554787ae798e98ca4363d3f7",
     "guard": "bench/check_main_entry_roles.py",
     "validation": "bench/review-checkpoints/2026-10-23/reference-separation/validation.json",
     "proof_completion_changed": false,
@@ -144763,6 +144770,15 @@
           "task": "triton_argmax"
         },
         "scope": "Source statement correspondence repair and fresh full public proof connections."
+      },
+      {
+        "task": "dequantize_rowwise",
+        "review_evidence": {
+          "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+          "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+          "task": "dequantize_rowwise"
+        },
+        "scope": "Verbatim body, external signature, explicit runtime arguments and current public proof replay."
       }
     ],
     "previous_audit": {
@@ -144908,7 +144924,7 @@
     "numerical_scope_changed": false,
     "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
     "audit": "bench/review-checkpoints/2026-10-23/reference-separation/io-audit.json",
-    "audit_sha256": "b98279b40b9e591a15aad481ed1b8dfd6267a5c522e24455c0f5aba0b02f5216",
+    "audit_sha256": "44375ffce93d929fc1232d3e379603628b3f20cf6d60294a9643637990e9ac25",
     "guard": "bench/check_io_organization.py",
     "validation": "bench/review-checkpoints/2026-10-23/reference-separation/validation.json",
     "correct_formula_surface_refresh": "bench/review-checkpoints/2026-10-22/correct-formulas/README.md",
@@ -144932,6 +144948,15 @@
           "task": "triton_argmax"
         },
         "scope": "Source statement correspondence repair and fresh full public proof connections."
+      },
+      {
+        "task": "dequantize_rowwise",
+        "review_evidence": {
+          "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+          "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+          "task": "dequantize_rowwise"
+        },
+        "scope": "Verbatim body, external signature, explicit runtime arguments and current public proof replay."
       }
     ],
     "previous_audit": {
@@ -144959,7 +144984,7 @@
     "remaining_substantive_gaps": 0,
     "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
     "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
-    "audit_sha256": "7f0f651dd7da9b30760aa138f6b622938bb45b47848513a8d19592b3cdd23e9a",
+    "audit_sha256": "0ff7900bda71eebc705afc59869b05a4123821ea8c762ed959bdf2d80671e3c0",
     "guard": "bench/check_main_formula_review.py",
     "validation": "bench/review-checkpoints/2026-10-23/reference-separation/validation.json",
     "proof_completion_changed": false,
@@ -144983,6 +145008,15 @@
           "task": "triton_argmax"
         },
         "scope": "Source statement correspondence repair and fresh full public proof connections."
+      },
+      {
+        "task": "dequantize_rowwise",
+        "review_evidence": {
+          "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+          "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+          "task": "dequantize_rowwise"
+        },
+        "scope": "Verbatim body, external signature, explicit runtime arguments and current public proof replay."
       }
     ],
     "previous_audit": {
@@ -145116,19 +145150,40 @@
   "jit_correspondence_review": {
     "date": "2026-10-24",
     "review": {
-      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
-      "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
-      "task": "triton_argmax"
+      "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+      "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+      "task": "dequantize_rowwise"
     },
     "inventory": {
-      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
-      "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+      "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
+      "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
     },
     "counts": {
       "not_certified_by_this_screen": 137,
-      "missing_explicit_int64_cast": 45,
-      "exact_ast_correspondence": 1
+      "missing_explicit_int64_cast": 44,
+      "exact_ast_correspondence": 2
     },
-    "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+    "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast.",
+    "pasted_body_entry_tasks": [
+      "dequantize_rowwise"
+    ],
+    "previous_review": {
+      "date": "2026-10-24",
+      "review": {
+        "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+        "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+        "task": "triton_argmax"
+      },
+      "inventory": {
+        "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+        "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+      },
+      "counts": {
+        "not_certified_by_this_screen": 137,
+        "missing_explicit_int64_cast": 45,
+        "exact_ast_correspondence": 1
+      },
+      "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+    }
   }
 }

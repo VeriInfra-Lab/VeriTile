@@ -10051,30 +10051,7 @@
         "bench/repairs/tritonbench_g/dequantize_rowwise/Correct.lean",
         "bench/repairs/tritonbench_g/dequantize_rowwise/FPEquiv.lean"
       ],
-      "assessment": {
-        "organization": "All selected memory descriptors and logical views now reside in the existing task IO.lean, with original namespaces.",
-        "preservation": {
-          "source_body_check": {
-            "path": ".veritile-cache/io-unification-20261023/queue04/source-audit.json",
-            "sha256": "30d72a10ac5f7b92de8d63251b63b3c76657f1a978b40e1a541633f42a35a0ae"
-          },
-          "moved_definition_bytes": {
-            "path": ".veritile-cache/io-unification-20261023/queue04/preservation-audit.json",
-            "sha256": "0762a2bfcf184b3de30ac68e376a27dd99ce84ad2237103b66ad7d41b3300210"
-          },
-          "original_public_statements": {
-            "path": ".veritile-cache/io-unification-20261023/queue04/preservation/dequantize_rowwise.lean",
-            "sha256": "44fa0e9ee371f2b7f9b34db563523e99bde731c8d2ac389b4070a710fa4bab4f"
-          },
-          "public_entries_body_unchanged_except_imports": true,
-          "math_formulas_conditions_execution_safety_outputs_frames_and_fp_pair_unchanged": true
-        },
-        "different_stage_or_encoding_exceptions": [],
-        "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "dequantize_rowwise"
-        }
-      },
+      "assessment": "IO.lean retains the single regional/logical input/output interface and exact masks/windows. Source-level typing is a CallSignature outside the pasted body; call arguments are explicit data and use one shared adapter. No alternate runner or assumed successful execution is supplied.",
       "distinct_views": "The FP pair compares actual typed complete memories and does not redeclare a regional IO record. INT8 weights, one unmasked FP32 scale even at zero row width, and masked FP16 outputs are preserved.",
       "readers": [
         {
@@ -10083,7 +10060,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/dequantize_rowwise/FPEquiv.lean",
-          "sha256": "32dd84d5e1582c6cd58c43416b9cbeab8156b19eb13c234ee7090d4c34057dcf"
+          "sha256": "5fb0d090450b58c1ccbaf3a677efa0321241d77c749ae83098efbdf8e6c8a014"
         }
       ],
       "io_sources": [
@@ -10108,8 +10085,8 @@
         "bench/repairs/tritonbench_g/dequantize_rowwise/IO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/dequantize_rowwise.json",
-        "sha256": "8fd7bff9579e2578f1fa466f75fbc6f292ad6ed4e89d013d998931d45b84c8d0",
+        "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+        "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
         "task": "dequantize_rowwise"
       },
       "preservation_and_build_passed": true,
@@ -10122,8 +10099,8 @@
         }
       ],
       "previous_review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/dequantize_rowwise.json",
-        "sha256": "a407e10cc96d801fd9d800a56ee5facf2ce9b2534c2bb13498d2c1c3858cb62d",
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/dequantize_rowwise.json",
+        "sha256": "8fd7bff9579e2578f1fa466f75fbc6f292ad6ed4e89d013d998931d45b84c8d0",
         "task": "dequantize_rowwise"
       },
       "unchanged_prior_io_source_origins": {
@@ -36643,6 +36620,17 @@
         "triton_argmax"
       ],
       "scope": "Fresh review of argmax source correspondence and proof connections; unchanged other task review records retain their prior scope."
+    },
+    {
+      "review": {
+        "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+        "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+        "task": "dequantize_rowwise"
+      },
+      "tasks": [
+        "dequantize_rowwise"
+      ],
+      "scope": "Pasted-body entry and source/proof connection; shared-helper compatibility is separately replayed."
     }
   ]
 }

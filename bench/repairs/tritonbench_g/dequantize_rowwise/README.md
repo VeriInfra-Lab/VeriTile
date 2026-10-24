@@ -21,12 +21,49 @@ multiplications in their original left-associated order and converts their
 result to FP16. Python's runtime reciprocal remains `1.0 / 127`, passed at FP32
 precision. No floating arithmetic is reassociated.
 
-`Kernels.lean` reuses the readable typed DSL from the original task's shared
-`Kernels.lean`. The existing candidate changes only `pid * BLOCK_SIZE` to
-`BLOCK_SIZE * pid`. There is no second handwritten AST or new performance claim.
-The Python repair widens `program_id` and `arange` to signed int64 before index
-arithmetic; `Proofs/NativeIndex.lean` proves the fixed-width lane mask and byte
-addresses agree with their natural-index projection.
+`Kernels.lean` now contains the selected Python function body verbatim inside
+`triton { ... }`. Both `.to(tl.int64)` calls remain. There are no `tl.region`,
+`tl.param`, `$(...)` splices or extra `.to(tl.float16)` calls in that body.
+The candidate changes only `pid * BLOCK_SIZE` to `BLOCK_SIZE * pid`.
+
+`callSignature` is the outer call/verification type configuration: INT8 weights,
+FP32 scales, FP16 output, the runtime FP32 reciprocal, the unused integer
+`n_elements` parameter, and the two constexpr block dimensions. The generic
+`with_triton_signature` frontend uses this information to type loads and apply
+Python's implicit destination conversion at `tl.store`. It rejects missing
+pointer metadata, duplicate parameters, metadata written inside the pasted body,
+and unsupported store/alias control flow. This configuration specializes the
+selected production route; it does not infer Tensor dtypes from Python text.
+
+`body` is the callee. `source` uses the shared `withScalarArguments` call adapter
+to supply `inv_127` and `n_elements` before executing that callee. FP32 argument
+rounding occurs through the numerical backend at the call. This is separate
+from the copied body, which reads the scalar register. The Real proof erases
+precision locally and retains the existing independent Real formula.
+
+`BodyExecution.source_memory` proves the complete new execution's memory
+connection to the established natural-index reference, retaining execution
+failure. `KernelCorrectness` uses that connection to prove success, outputs,
+safety and the full exterior frame for the actual new call. The FP proof
+compares the two complete new calls directly using signed multiplication
+commutativity, with no floating numerical rewrite or experimental rule.
+`NativeIndex.lane_exact` retains its independently proved fixed-width byte/index
+projection under the unchanged physical-input bounds. The mathematical index
+carrier and those physical bounds remain distinct; this is not a compiler/ISA
+refinement theorem.
+
+To check the pasted body and its external signature:
+
+```bash
+python3 -m bench.jit_correspondence bench/repairs/tritonbench_g/dequantize_rowwise/jit-correspondence.json
+python3 -m unittest bench.tests.test_jit_correspondence
+lake build bench.repairs.tritonbench_g.dequantize_rowwise.Correct \
+  bench.repairs.tritonbench_g.dequantize_rowwise.FPEquiv bench.tests.CallSignature
+```
+
+This first example checks a straight-line Python body. Other operations and
+control-flow spellings retain the existing DSL support boundary; this change
+does not claim that arbitrary Python function bodies are already supported.
 
 ## Input contract
 

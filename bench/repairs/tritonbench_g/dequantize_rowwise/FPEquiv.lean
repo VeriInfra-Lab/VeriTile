@@ -7,7 +7,6 @@ are unchanged. Both executions succeed and their complete typed memories
 agree. No finite-operand restriction or numerical experiment is needed. -/
 namespace VeriTile.Bench.Repairs.DequantizeRowwise.FPEquivalence
 open VeriTile VeriTile.Triton FP.ProfiledMemory
-open VeriTile.Bench.TritonBenchG.DequantizeRowwise
 open scoped VeriTile.Spec
 noncomputable section
 

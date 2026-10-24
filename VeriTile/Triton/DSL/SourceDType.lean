@@ -25,7 +25,7 @@ inductive Constant where
 
 abbrev Bindings := List (Name × Constant)
 
-private def dtypeName : Triton.SourceDType → Name
+def dtypeName : Triton.SourceDType → Name
   | .fp16 => `tl.float16 | .bf16 => `tl.bfloat16 | .fp32 => `tl.float32 | .fp64 => `tl.float64
   | .i8 => `tl.int8 | .i16 => `tl.int16 | .i32 => `tl.int32 | .i64 => `tl.int64
   | .u8 => `tl.uint8 | .u16 => `tl.uint16 | .u32 => `tl.uint32 | .u64 => `tl.uint64
@@ -193,7 +193,7 @@ private def storeValue (dtype : Triton.SourceDType) (value : TSyntax `tritonExpr
 /-- Lower the implicit destination conversion of `tl.store` for this pointer.
 This pass follows direct pointer aliases and does not change the source body.
 It never replaces arithmetic, NaN selection or clamp instructions. -/
-private partial def lowerStores (dtype : Triton.SourceDType) (aliases : List Name)
+partial def lowerStores (dtype : Triton.SourceDType) (aliases : List Name)
     (body : List (TSyntax `tritonStmt)) : MacroM (List (TSyntax `tritonStmt)) := do
   match body with
   | [] => return []
@@ -223,6 +223,7 @@ private partial def lowerStores (dtype : Triton.SourceDType) (aliases : List Nam
           let yes := (← lowerStores dtype aliases yes.toList).toArray
           stmt ← `(tritonStmt| if $condition { $yes* })
       | _ =>
+          rejectBranchAliases aliases stmt.raw
           if containsStore stmt.raw then
             Macro.throwErrorAt stmt "unsupported store control flow in dtype specialization"
       return stmt :: (← lowerStores dtype next tail)
