@@ -1,0 +1,76 @@
+[
+  {
+    "python_function": "argmax_kernel_1_repaired",
+    "lean_definition": "stage1",
+    "status": "PASS",
+    "statements": 20,
+    "runtime_parameters": {
+      "M": "tl.int64",
+      "program_base": "tl.int64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "INT64_INDEX"
+    ]
+  },
+  {
+    "python_function": "argmax_kernel_2_repaired",
+    "lean_definition": "stage2",
+    "status": "PASS",
+    "statements": 9,
+    "runtime_parameters": {
+      "mid_size": "tl.int64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_MID"
+    ]
+  },
+  {
+    "python_function": "argmax_kernel_repaired",
+    "lean_definition": "dimension",
+    "status": "PASS",
+    "statements": 12,
+    "runtime_parameters": {
+      "M": "tl.int64",
+      "N": "tl.int64",
+      "K": "tl.int64",
+      "program_base": "tl.int64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N",
+      "INT64_INDEX"
+    ]
+  },
+  {
+    "python_function": "argmax_kernel_1_shifted",
+    "lean_definition": "stage1",
+    "status": "PASS",
+    "statements": 20,
+    "runtime_parameters": {
+      "M": "tl.int64",
+      "program_base": "tl.int64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_SIZE",
+      "INT64_INDEX"
+    ]
+  },
+  {
+    "python_function": "argmax_kernel_shifted",
+    "lean_definition": "dimension",
+    "status": "PASS",
+    "statements": 12,
+    "runtime_parameters": {
+      "M": "tl.int64",
+      "N": "tl.int64",
+      "K": "tl.int64",
+      "program_base": "tl.int64"
+    },
+    "constexpr_parameters": [
+      "BLOCK_M",
+      "BLOCK_N",
+      "INT64_INDEX"
+    ]
+  }
+]

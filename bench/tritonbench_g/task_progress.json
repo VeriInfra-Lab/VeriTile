@@ -809,6 +809,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/adam_update_triton.log.gz",
             "sha256": "d0372d8057fcc15e5e84d1ca23be5513b9560858ac23051f8882693abdc215c3"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -1420,6 +1425,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/add_example.log.gz",
             "sha256": "fbdf22ccbbd0629d9f859cee12bde541cdebb94065da3e94bdda0fc026cd6b03"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -2677,6 +2687,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/add_value.log.gz",
             "sha256": "eb55a049d16cd713b0a7b2ab0c2e2782492edecf8c725322f92360211d7bcdbe"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -3318,6 +3333,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/apply_penalty.log.gz",
             "sha256": "68361759b2f160282b01850e29b4751415ef91ed46800aa174f6ecfe611bf5c2"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -4035,6 +4055,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/attention_forward_triton.log.gz",
             "sha256": "116404708141b655dfeee1e8b5dafbf654c445db751ef0ed1ac3eefa1b09868b"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -4804,6 +4829,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/attention_fwd_triton1.log.gz",
             "sha256": "3d1f5f46cd9a42c059fa6e8ca587bc5f26eec14d08e524cfd9f12b30d3f8db22"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -5513,6 +5543,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/attention_fwd_triton2.log.gz",
             "sha256": "29bfd029ee5c531304507ffc4623a30f9c6be6da39368bb718d7aaf649f30355"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -6319,6 +6354,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/attention_fwd_triton3.log.gz",
             "sha256": "978c4597af621f7ecf77439121a77571d6222b56d3f692957ce7721ba6bb11f7"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -7003,6 +7043,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/attention_kernel.log.gz",
             "sha256": "4bbc2247c6156aaf4ff56655334b6aa76bcb7bdfd8fd3353fd4e3c3986d1e451"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -7737,6 +7782,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/attention_kernel_aligned.log.gz",
             "sha256": "05ee7de04309ef3a77145180c970bae3b82cdc41838ff48848bbb2c58c3cd2be"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -8686,6 +8736,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/attention_llama.log.gz",
             "sha256": "30caaf833bdb60fabcaf3bed74fa3d29bd0bacce8afc68316267ac0db8bc73c2"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -9521,6 +9576,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/attention_score.log.gz",
             "sha256": "3229ce604d62b093e3b8658d7ea56250793c18a0b6f454dc7b59d61f9cfa74e7"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -10341,6 +10401,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/attn_fwd_causal.log.gz",
             "sha256": "4d039fb496a698f8d97f0d4fe5fc779e2c57c2982b72eb9dacc117860f728b2a"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -11446,6 +11511,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/attn_fwd_triton.log.gz",
             "sha256": "e8e55bdfbe1f8d091c1129e334c40974c3a31dc2aebdb1442526e8253485b925"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -12150,6 +12220,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/batched_vecmat_mult.log.gz",
             "sha256": "bc98d41d13eba3f03b0336eeb11ab5c893bcdd667bfbf7f52ea02d0daf45904c"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -12934,6 +13009,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/bgmv_expand_slice.log.gz",
             "sha256": "e03750e4bc4b0d5a453fab4254792696c6e716e1d2ef8759ba350df4917fdf17"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -13829,6 +13909,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/bgmv_shrink_kernel.log.gz",
             "sha256": "85dc742f26b7f237a850d85683eec6fd8f45784609c5d8dfb13e09f2d5bad7d1"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -14771,6 +14856,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/block_sparse_attn.log.gz",
             "sha256": "3311e2f79ea133ba57e84f6c28c777d9e9e7d28fee9ad7e8ee8a46a1085e9fb9"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -15514,6 +15604,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/bmm_chunk_bwd.log.gz",
             "sha256": "cacf7c1dd48f6d221cb5dbc640e8296941ca920575c47739a416ba9f1a0def8e"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -16339,6 +16434,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/bmm_chunk_fwd.log.gz",
             "sha256": "5085686c514b929b7b0391e59710faedf74de2692df3692a8b6e1650d5bb77a2"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -17283,6 +17383,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/bmm_optimized.log.gz",
             "sha256": "1eca7a81642f251a5ed46c86e73a1cfee4388669bc652b021e3c82995a78a02f"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -17991,6 +18096,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/cache_transform_triton.log.gz",
             "sha256": "0e66e171104bea145308f3de96f31bcec6be86e4c3731a58b2ffdcb2fcd72ff0"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -18967,6 +19077,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/chunk_bwd_dqkg.log.gz",
             "sha256": "4630ddaad3b2b1a989d75ff051182b03dbcca609d33cc1c4d864d94c80076c01"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -19677,6 +19792,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/chunk_cumsum_kernel.log.gz",
             "sha256": "cfb91a0670a61109ebbfe154a03cd3fd379914de71e7191089078a6c8ddc1485"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -20410,6 +20530,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/chunk_cumsum_vector.log.gz",
             "sha256": "ad08dcc242e2367de5a3c178e0b9e792b9d87a31c543ceeaa0e0fd53f3f95636"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -21417,6 +21542,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/chunk_delta_fwd.log.gz",
             "sha256": "3591e72758fd368b9434595ee36b59b15a7a25ab52186fb6c6d142b0835703b2"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -22258,6 +22388,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/chunk_gate_recurrence.log.gz",
             "sha256": "1f670297fe0e4f306d5bf4709f5d26566710313bf4144fbf5a04c47d42045388"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -23149,6 +23284,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/chunk_gated_attention.log.gz",
             "sha256": "8f5afe14a9bfecd7baddd6955334aaa1210bb0aa31cd0e37958f24c068aa8549"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -24094,6 +24234,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/chunk_gla_fwd.log.gz",
             "sha256": "2f820856ccb7e83699126a40eea9841c5169f4d6efc74c7c4c76527c52dd8192"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -25202,6 +25347,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/chunk_gla_simple.log.gz",
             "sha256": "0837c39664c3511a8e2cf8897991bfe446fd3a699df9b6fd93cc558d066e1af2"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -26016,6 +26166,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/chunk_linear_attn.log.gz",
             "sha256": "ab56ac6e358717ef1d379983d6723cb4ad7932affda3c18c104be565514d4bf0"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -26773,6 +26928,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/chunk_retention.log.gz",
             "sha256": "26eb2d60431b4c55cab481f9db29128123d0340c160c58f0d64cc4946dd7f8e1"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -27567,6 +27727,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/chunk_retention_ops.log.gz",
             "sha256": "e6e52c05390cc648c6d7503a690abb9d441ff1425073d173a1c446c4ae446b9a"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -28490,6 +28655,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/chunked_cumsum_fwd.log.gz",
             "sha256": "ae6a1ca5693b7792b8959dde1ae42b375321501eb250dbe42a529f2890151d6a"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -29512,6 +29682,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/context_attn_bloom.log.gz",
             "sha256": "75d13c3094f3078a3c6d04086a5ec6bf43400ced53ec5cec66b64fd9575e5a04"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -30426,6 +30601,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/context_attn_fwd.log.gz",
             "sha256": "f94c50625110a7f63adc53eb94f9a22a611f3c6909aafd6b046015e6577561ed"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -31367,6 +31547,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/context_attn_llama.log.gz",
             "sha256": "108b93e31a290c1d59c281139aa4cb038eea416aec9cf0eb0c74ae55e1dc1190"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -32413,6 +32598,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/context_attn_mistral.log.gz",
             "sha256": "fa61f19d890b38025fa6184f244e62681fef883922c4cd47fc05f53315e60a0d"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -33385,6 +33575,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/context_attn_nopad.log.gz",
             "sha256": "0d743048aa79c924f70ebcd70b040eec721bdfeaf7f97e758af49e98b858a727"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -33972,6 +34167,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/cosine_compute.log.gz",
             "sha256": "d45d4a0b003afccf2e02cf81e7b74fa987e5e924e24bb5e4751352c51be17ee6"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -34876,6 +35076,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/cross_entropy1.log.gz",
             "sha256": "d51b7bee6f199f2cfd7f866cc4c19946ef4677575a471ab2e5ad938dfadaf29d"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -35750,6 +35955,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/cross_entropy2.log.gz",
             "sha256": "77777225467a1367826cd77d92b13a0451cedc3215f0514f00e1d66bf9941621"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -36688,6 +36898,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/cross_entropy_ops.log.gz",
             "sha256": "33712779e7264263728b6412b9d2e7e7ff22a0bd6482858f81e978d4176d7216"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -37492,6 +37707,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/decay_cumsum.log.gz",
             "sha256": "e782a331bfdb5a736bff45e234e17796b8da241f120175ca69a2e48709fabdf7"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -38166,6 +38386,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/dequantize_matmul.log.gz",
             "sha256": "340c04b274ff34127cc9c3266010606eda07ccec9bd29255f7b333872eb4f936"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -38903,6 +39128,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/dequantize_rowwise.log.gz",
             "sha256": "42fca4004adbcbef94067ef0738e8015abd4bbdd479c28f31b768baefb8a37ed"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -39617,6 +39847,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/destindex_copy.log.gz",
             "sha256": "102ec718de0ce7fb8d281d2b9947ae03ad8d7056280296b9595ad3a4de801955"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -40331,6 +40566,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/destindex_copy_kv1.log.gz",
             "sha256": "b1a5f6a39b1390abe0dfb5a880d23cc1c8bf081ce86dacadfe944858a64a5cd7"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -41056,6 +41296,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/destindex_copy_kv2.log.gz",
             "sha256": "36b3a02cf7ffd7fef40df2e3d62ece5b4b38d27c9fdb6c28d1ed90f89b9ba06d"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -41901,6 +42146,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/diag_ssm_triton.log.gz",
             "sha256": "4bf5c310c648aec58831c8ccb0aae8d39e263b992f3899460a12c1b756956537"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -42575,6 +42825,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/dropout_triton.log.gz",
             "sha256": "62e40011aefd9fc276a5dff580606b710a65808237fa8ccd928385ce64baa795"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -43271,6 +43526,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/embedding_triton_kernel.log.gz",
             "sha256": "8fb64cb7805f0e4c8a113a55ba2d96df44578dc3119bfd776bf14c963173e574"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -44012,6 +44272,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/f8_conversion_utils.log.gz",
             "sha256": "aaaf7e24ad27b00660ffc9684e8de1a9aff9fc5fb7a463b3f73b9e0e2e6f7834"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -44835,6 +45100,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/fast_ce_loss.log.gz",
             "sha256": "383ae832d8bd4a3066cfdb62a13c9549b544bd484a84b58a9983518b8d7d9d19"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -45628,6 +45898,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/fast_layernorm.log.gz",
             "sha256": "2ffbada548463f7f6d3d8763dc404e6f190a6761ad5f4ec0c97cea6837a77ebc"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -46479,6 +46754,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/fast_rms_layernorm.log.gz",
             "sha256": "17110be60ee4dbdab08c75681d032c93609f4a8defee17af02599ffffeccf08e"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -47222,6 +47502,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/fast_rope_embedding.log.gz",
             "sha256": "036773a8344a09a02396073ba43b6f8f2d49e9794595824165209e004fec3c27"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -47975,6 +48260,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/fifth_order_sph_harmonics.log.gz",
             "sha256": "ec087e8a1c416760dbec87c6da012ec509ef48c50f885dfacae08b95021efb34"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -48888,6 +49178,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/flash_attn.log.gz",
             "sha256": "304f01de17120a4c17a5a3c64cbde2edd8666f4931683dc8872713a44ed9f040"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -49603,6 +49898,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/flash_decode2_llama.log.gz",
             "sha256": "9c046ed32fd51c21b491af800c4ce95a47a5e5baa5621569450270c13b9b21c6"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -50323,6 +50623,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/flash_decode2_phi.log.gz",
             "sha256": "807c65d8b41bb21e39bdf42f0fd430e9f69b5351c27ef82ced57b283aad85c58"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -50956,6 +51261,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/fp4_to_bf16.log.gz",
             "sha256": "3a1759b07c90058dff71ac85ad92f499f6b1d06ed48ae11c5474c90432dfe6d1"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -51621,6 +51931,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/fused_activation.log.gz",
             "sha256": "74a1f2a627b3caac9d6823e5956ba5aa33576bb2019c0096a45bc7b185eb0ed4"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -52381,6 +52696,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/fused_layernorm_triton.log.gz",
             "sha256": "69d67e8f6caff67cca47cda844aa7928bb291850732ff4ac23911478e05017a5"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -53472,6 +53792,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/fused_recurrent_delta.log.gz",
             "sha256": "b98d2b8c0d2dc33575afbe374f37190231f8758f0c665ca4ae5a6537e5f37cfb"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -54202,6 +54527,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/fused_recurrent_hgrn.log.gz",
             "sha256": "62888877f4e9faca27f1b92e376d16c60e5077086e9c2aabe04368125f687386"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -55119,6 +55449,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/fused_recurrent_retention.log.gz",
             "sha256": "8927e738b94ca84e3b3574b6e6b7706b568a6833252dc4687878cc1dac375b66"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -55877,6 +56212,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/fused_rotary_embedding.log.gz",
             "sha256": "4c523c7b0d2496064f8939a2fd838472ecfbedbde309039d6fb1f86ca8ee0f0d"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -56748,6 +57088,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/fused_rwkv6_kernel.log.gz",
             "sha256": "84b2b012cdb0b525748d7cb196f381161b630588b6d1c38af95535509e87834e"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -57508,6 +57853,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/geglu_tanh_triton.log.gz",
             "sha256": "ac6ee42fe178437ee0a57a8e6d4a9633d27ce088568b675e88bbcbe60dac80fe"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -58244,6 +58594,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/index_select_bwd.log.gz",
             "sha256": "eee9aff5d3afd105c49e386bc9c18863e168bed5fdbe64e643dd7ded6e1ac470"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -58920,6 +59275,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/index_select_cat.log.gz",
             "sha256": "3838d2810fd20e20d0b6b74d9728b8118e384a0b6257a5b32e1e9372ae04812b"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -59655,6 +60015,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/int4_matmul.log.gz",
             "sha256": "3d1fb7a96a60f9f3552baa558cd56ceffa7291cd08e70a8adfae86c42e483d68"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -60519,6 +60884,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/int8_dequant_matmul.log.gz",
             "sha256": "e7222e3790edfaa07c0ee2424893743b6c2806d399d3791f919e23feb8052dec"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -61360,6 +61730,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/int8_matmul_kernel.log.gz",
             "sha256": "6cddca675e45c1588cc272ad5b48d4a77b8837d20883614a7929b544621b6cbd"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -62313,6 +62688,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/int8_matmul_quantization.log.gz",
             "sha256": "968bd5cca1050751730df2eb1a034a9414ff56864194a028615055a53cf0fd4b"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -63015,6 +63395,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/int8_quantization.log.gz",
             "sha256": "fa474ab83b9fbe0660999a4ec4fa491c55a194772548b0c4eedff1d7526382db"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -63893,6 +64278,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/int_scaled_matmul.log.gz",
             "sha256": "7b36ddc06316a01ed3ca423b35b1a7bd0530fa0aaae827d7dad4b206618f76d2"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -64566,6 +64956,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/isfinite_kernel.log.gz",
             "sha256": "bb136384384b764322027796da7e5532ba702db1ae722fc6d7dc9ce534fd5e12"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -65344,6 +65739,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/iv_dependent_matmul.log.gz",
             "sha256": "97edec5cfbb9f5a9f6e8b33b8f9a58aca7d361f80a1976f8181a1e2306b0c1c1"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -66034,6 +66434,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/kcache_copy_triton.log.gz",
             "sha256": "16fbff80e9b3bdccabb88c2d653a3bde3d4f954502613a25364e3be8c0cd1512"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -66686,6 +67091,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/kldiv_compute.log.gz",
             "sha256": "c9a608a8b5acc6630c2be0b541238387eb6f018413fe9bc598411a33dda123aa"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -67540,6 +67950,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/kldiv_ops.log.gz",
             "sha256": "d9438345aa84b9d1f1b8f674857c2fa9ee614d1b93847b709f270781d3ac0c92"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -68283,6 +68698,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/kldiv_triton.log.gz",
             "sha256": "0745e1f82939f013f1ca155b1c7aa3c1609d2c3b6fe835da97ff68521c60fb02"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -69103,6 +69523,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/ksoftmax_triton.log.gz",
             "sha256": "1d37643e89685bbf5199d1c574115ec31cb127457cec6de9b9492255ab8063d5"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -69742,6 +70167,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/kv_cache_copy.log.gz",
             "sha256": "1c3ee66ff602ba95dd5f88ab16429fe9c709a4563a9ab12ce43858ddcd525346"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -70548,6 +70978,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/kv_cache_filling.log.gz",
             "sha256": "0d2b4be34eb9b4b79862138daeacc98c0105572e23761404e64554070aa09d35"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -71324,6 +71759,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/l2_norm_bwd.log.gz",
             "sha256": "436a11be60324ce3641ab6627513519032fb453a60dd4942bf8edac777933d37"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -72036,6 +72476,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/l2_norm_triton1.log.gz",
             "sha256": "e8c83f1698a187ace913eed045a805d393147792d9f06d853df5c79ad449df53"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -72779,6 +73224,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/l2_norm_triton2.log.gz",
             "sha256": "d65925a1d3213ccd47b3ee49edde777f538a118a04f101fe29e56f29f0a9bec9"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -73769,6 +74219,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/layer_norm_fwd.log.gz",
             "sha256": "acfc69cdea11d7d431918f8366fe5f7b56a439a7121b55c75ac73c0c55d9523f"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -74479,6 +74934,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/layer_norm_liger.log.gz",
             "sha256": "d5ea13f82317133340e4366e460a67c7ffbf4fb2ba4b74f4bb14c50f9d3d413e"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -75171,6 +75631,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/layer_norm_ops.log.gz",
             "sha256": "82f3bb6d0f5ebe549596a6c2c7e719324918ecca57f46479f6c0c8045a9f4bb6"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -76074,6 +76539,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/layer_norm_triton.log.gz",
             "sha256": "8ff3e1e0ce801291657e7d53c42bb77c2245afc9a4bc18c340410eaaad5615cb"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -76794,6 +77264,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/layer_norm_welfold.log.gz",
             "sha256": "00b741f0497894c037287c9c5721130f5528ef830f310774dde7572096ed945d"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -77489,6 +77964,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/layernorm_fwd_triton.log.gz",
             "sha256": "6b5b5b36c0d65de761e530af12c53c8ff8b6c30d2bfc01c8508aee3d8250fc9f"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -78262,6 +78742,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/lightning_attention.log.gz",
             "sha256": "b24793d2403aa0ead3e32d38507ead05e9f814389eb5d5ff51da26d26907d583"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -79226,6 +79711,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/llama_ff_triton.log.gz",
             "sha256": "f38a680f008208dc8125f522b6d5883afabcaba2d963af741972a33c62162bd9"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -80035,6 +80525,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/log_softmax.log.gz",
             "sha256": "6d5c87ab08242f1d606a183a0fb4f859b45523372ebe2d0e949087d69788164b"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -80797,6 +81292,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/logsumexp_fwd.log.gz",
             "sha256": "67b0d2effeb39edc65fd0bff1c63086cb3cce6eb608f8d72f0641eb1e9933e47"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -81596,6 +82096,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/lora_expand_gemv.log.gz",
             "sha256": "edd67d5ba42c7d645679f37c3764f0a86e615b4446c2639e9ee88be9e08af7b5"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -82337,6 +82842,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/masked_add_cuda.log.gz",
             "sha256": "b2e85265fd55ceab5c8f52840f384ec7d6e80f8234cac58af7528ed3c68a6023"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -83056,6 +83566,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/masked_select.log.gz",
             "sha256": "ef438cfc6cc0c283abe4a9cb6e826e61163f01858a687a41316c848de24fdbe8"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -83830,6 +84345,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matmul_dequant_int4.log.gz",
             "sha256": "f3b9fdbebfbad9aae1c0e87f20b4ec1e4b95d7153bf3ed3e9f1649804b8a6174"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -84685,6 +85205,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matmul_dequantize.log.gz",
             "sha256": "81a9375b12a8d7940ce0754b1cc5180229c83d7ac1bf4d46af2fc05a80ce3866"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -85463,6 +85988,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matmul_dequantize_int4.log.gz",
             "sha256": "58df776fdfd4b3189c0e0468b681b414a1cab9499597de1c3b089df403c5b56d"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -86236,6 +86766,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matmul_kernel.log.gz",
             "sha256": "7cc15dfb53ce95c6b713c265a513de6f3ef702d9756edafc15dc05635007a695"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -87060,6 +87595,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matmul_leakyrelu.log.gz",
             "sha256": "c28cac786299e342c1084489cf8c08b08ef34268c8a18bbf33846f41915a89bb"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -87917,6 +88457,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matmul_leakyrelu_fp8.log.gz",
             "sha256": "1cf4a1dcf1872225e481350c1c967494cf24ba146dc6d958e4ba20ee4c9f8843"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -88786,6 +89331,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matmul_persistent_triton.log.gz",
             "sha256": "f626b8412592755123192478adf08026588d6a5e06483962af4b89b850424a8e"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -89653,6 +90203,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matmul_tma.log.gz",
             "sha256": "fd899e9350c60967320b867b2ba2f15b2eed3e1e39299de4ba959a8b44576dde"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -90438,6 +90993,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matmul_triton1.log.gz",
             "sha256": "213963b935628867386e2513739bf5e382c9567c7a0c8e66dcf62dcf4660b255"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -91134,6 +91694,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matmul_triton2.log.gz",
             "sha256": "e9cf32e609334a0b233bbce504766f490ca5af0bc03cc1a2cd9293638db4d73d"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -91832,6 +92397,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matmul_triton_autotune.log.gz",
             "sha256": "775ef21521b0b858105bfd6388576e0e1ed9551ea037b9f26bc72255a4812287"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -92584,6 +93154,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matrix_reduction.log.gz",
             "sha256": "2f2203dd65d6313b3f0a1f7bff4caabf015d4b22227f6f4695cb2dcf1e9554ab"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -93239,6 +93814,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matrix_transpose.log.gz",
             "sha256": "c27d6455c06be70ce5be8ad141f6ee5c64464e0b9cce5fa59aa2dda9d1c12c37"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -93941,6 +94521,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/matrix_vector_multip.log.gz",
             "sha256": "87ea8a909625b25d430f8c73629b24c198e37b6a6d5d162dbf3913ce527f00b1"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -94727,6 +95312,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/max_reduction.log.gz",
             "sha256": "631d4932f612f74270c57d82d9ef47e95d41d00ced4e2542fbbf37578543ffd6"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -95463,6 +96053,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/mean_reduction.log.gz",
             "sha256": "d5d8f1ae819c1fa33106af9388fd43f7bbcca010df4ffc80fe86b51dcf8e3372"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -96276,6 +96871,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/mixed_sparse_attention.log.gz",
             "sha256": "f64f9ab1c57f2c77356aaa35b3676d5565ef91dc9a549eaafc163b2d6364726e"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -96954,6 +97554,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/mul_exponent_compensator.log.gz",
             "sha256": "30f96eda8b51a12a0f932863cc39be7da5c4c75d125b55dbe9c5b1bf1af67371"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -97739,6 +98344,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/multinomial_sampling.log.gz",
             "sha256": "dd2b109b276d451ccc7c9c95b9eb4e913cff452c9548a56f59b70362a6598cb7"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -98782,6 +99392,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/nested_loops_processing.log.gz",
             "sha256": "22cc3fadd0b7e260af3982597ce8b2d2b305e550f032b2adb4c08ae2f1eb0dc0"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -99667,6 +100282,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/parallel_attention.log.gz",
             "sha256": "b26b7f5ff5d7b31da769f1a6a4416375879da940de4d3761a889acb44ecd018f"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -100581,6 +101201,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/parallel_retention_attention.log.gz",
             "sha256": "58a9b19d2c113ea0077248df21fd5cd2f36a4af78c05178160af7e9cc217286b"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -101272,6 +101897,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/pow_scalar_tensor.log.gz",
             "sha256": "acbbaa7bae6c45e9b2af1e1f271cb041de14c98e94949785d03f23d34068acf6"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -101996,6 +102626,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/quant_transpose_kernel.log.gz",
             "sha256": "979c508ca1f1793c0b4b0dcd4f6fb9476adb3c93070b856bfb72f6baf1d66335"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -102717,6 +103352,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/quantize_copy_kv.log.gz",
             "sha256": "5b5900b3e411730fdaa33d340a77e5da8496242f0a943d43a2220998bfb723fa"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -103361,6 +104001,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/quantize_global.log.gz",
             "sha256": "7b69856be41d5af2d9d819435157cb5f9d28a05dfceb27343fa804e26b845a2d"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -104140,6 +104785,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/quantize_kv_copy.log.gz",
             "sha256": "382ea7d46809afece0eafec6d71aa9322f4d8f402bfe64d91a6665184693849d"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -104871,6 +105521,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/quantize_kv_transform.log.gz",
             "sha256": "06dd2317e178d98fbaf26ae073c6c27c696e9988e1dc7c6b9c132b9e20387564"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -105622,6 +106277,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rbe_triton_transform.log.gz",
             "sha256": "356f76d03f8e478af15771d41470fd928076af70e95bbef1f464ab0c6eb8fc9f"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -106269,6 +106929,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/relu_strided_buffer.log.gz",
             "sha256": "59e768e03a8370c7818271f618a675a432a841f71b6c964833673361fccc39fb"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -106834,6 +107499,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/relu_triton_kernel.log.gz",
             "sha256": "4254874585483ac4b3babc9c5567a3d3a488fc76b84c1554efbbc7c1b2f12414"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -107518,6 +108188,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/reversed_cumsum.log.gz",
             "sha256": "c922e6e6bfdd341710baea17fa77af4d02d650b2f547308c26ac9177c9d70dee"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -108219,6 +108894,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/reversed_cumsum_scalar.log.gz",
             "sha256": "7dbe356d1abae1316ee9702ae5fe4234ab2e6ef10b9558e24b3aab097386c183"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -109202,6 +109882,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rms_matmul_rbe.log.gz",
             "sha256": "530cd4e795c06a77f077dc49d1d3bf3652d8213e4c801b6cfb983830687e1a1c"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -109909,6 +110594,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rms_norm_triton.log.gz",
             "sha256": "805660129d77c2fd761bb9cc20493d26693c2b82e65e6ab3c985a510bffe7117"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -110720,6 +111410,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rms_rbe_matmul.log.gz",
             "sha256": "068e385c977df724ddc0e2c438827841e70f8cb919e2cf98806ef292cd002e9b"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -111469,6 +112164,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rmsnorm_fused.log.gz",
             "sha256": "56587d69a6435c1e4bf5f3d517092135c255cab3dbdc70ff5d0203c7eb4ea81d"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -112214,6 +112914,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rmsnorm_fused_llama.log.gz",
             "sha256": "eab144ec5437f839570bb2e16c415a7494d5fcf5c0f52309e80f4f3e29ac87ce"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -112956,6 +113661,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rmsnorm_implementation.log.gz",
             "sha256": "1dd17909fa9765b18e7fca62913263ecdfa2d3ef7b20cdcaef3b49470c5c4523"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -113668,6 +114378,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rmsnorm_triton.log.gz",
             "sha256": "839364bd21c3339b2022d39ee7c849e4367f244094e8c8159354cbe537bbdb2d"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -114383,6 +115098,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rope_backward_transform.log.gz",
             "sha256": "8a90b8d82ebed7decce6447224aaea1f7a9c6bbf8a2416a6b0e9512435dcd31a"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -115122,6 +115842,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rope_embedding.log.gz",
             "sha256": "f65330e969402a0077653ff17778f2180c5a0d9114913482e1e739cc74f327fd"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -115814,6 +116539,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rope_transform.log.gz",
             "sha256": "72199642ac3761df4f483b806e456400b6f91980e707147a0723e3c790fa5e4a"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -116511,6 +117241,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rotary_emb.log.gz",
             "sha256": "76f52372c21d70f48c817b759f9170ad7a5c353cc13800d2ab62682149367d4a"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -117244,6 +117979,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rotary_emb_nopad.log.gz",
             "sha256": "83cfd99f90561c4adcac57182bd4d553c078c4136cb48d3d5095d3b3243e621d"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -118078,6 +118818,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rotary_transform.log.gz",
             "sha256": "18d77677993e942deb7afa64a4d7e9948db3c02f50b4ca5db659b9d05660e40f"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -118865,6 +119610,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rotary_transform_ops.log.gz",
             "sha256": "927e9f23961e4d7863ed79c5ede1c66d74cb17de220f0f4196d8b41d4d85e1b5"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -119563,6 +120313,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/rowwise_quantization_triton.log.gz",
             "sha256": "bf5fdd86dd1e08c8ac40abf20946d4b6b5e2ef65c63e52915c69b9f3190f41d4"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -120263,6 +121018,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/seeded_dropout.log.gz",
             "sha256": "21a583acc3b3228f697515c18fb0fc06347ceab9e9f19dcea0ee8405f83618de"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -121159,6 +121919,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/sgmv_expand_slice.log.gz",
             "sha256": "2da84b69f1b23cd504562c41e3ba62a934e05664413b903f68fdbcfbfc311082"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -121769,6 +122534,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/sin_computation.log.gz",
             "sha256": "67489f3bfc37a69ae20cff2a651bb4dfdac35ac4c92181487b79ed8190c228cb"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -122367,6 +123137,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/sin_kernel.log.gz",
             "sha256": "cab99ccae613b79be07ccbcfaa0ef875522ed20a026d256c5ec2a220e01acc64"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -123252,6 +124027,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/softmax_flaggems.log.gz",
             "sha256": "dad6e055c775599ce594573a0f31ed0a0b59822ac0909ef0009053d2fb0588e7"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -123974,6 +124754,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/softmax_optimize.log.gz",
             "sha256": "85dedef64ee895e4a66323ee19db1e3906e7af8c2cc5715ea3215a26bc80bdb6"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -124796,6 +125581,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/softmax_reducev.log.gz",
             "sha256": "d37c297ea51006886dfb90cac5020698d81b421c10415f43fe199e22fdddd33e"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -125539,6 +126329,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/softmax_triton1.log.gz",
             "sha256": "d554c3029d5cd9a0cc239579d65a02e2ca2cc8208fc733719347673f571cf515"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -126260,6 +127055,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/softmax_triton2.log.gz",
             "sha256": "43fa0b3c84f2ebf7b9b8f4481a2e92b71ff952ad69ae2cbc01a072f8999d1026"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -126958,6 +127758,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/softmax_triton3.log.gz",
             "sha256": "468d07f61b290eb295997661af165dae94d2915409c46eb5258f863d4c29f003"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -127764,6 +128569,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/spinning_lock_reduction.log.gz",
             "sha256": "ff140869f826886df294c0f744d5ffec5f86007971a8248d6214fbabd2b6768c"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -128485,6 +129295,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/square_matrix.log.gz",
             "sha256": "ca1ad680aaff2e1df1b3454e25ead9fbf7cd3274917c70ff7841ed0f781b2091"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -129273,6 +130088,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/streamk_matmul.log.gz",
             "sha256": "b20c0e5991b4d7d8baebb4a6c2554f3a13f673bf3a3a4c213de73d5e5af0041a"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -129973,6 +130793,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/swiglu_backward.log.gz",
             "sha256": "6d502636c0839f9be07af90b28508d26f9bcc6cc6bb10411c17fe68ed4ba4eab"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -130684,6 +131509,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/swiglu_fwd.log.gz",
             "sha256": "f1ac5e7d19a71ecc6108fe62dd5fdbc9c4e07039ce8b4eb32129c62f3a9b62ac"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -131445,6 +132275,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/swiglu_triton.log.gz",
             "sha256": "660ebeedf913b87624a92c440b509333ea5d9c7cd8e88fb54ec86217ddb39dc0"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -132192,6 +133027,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/token_attn_llama2.log.gz",
             "sha256": "985ce89bfd264476fdb88cb855fc82eb02bfcc2f68101596f3320915397b9c45"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -132916,6 +133756,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/token_attn_mistral.log.gz",
             "sha256": "fe4ddd8f858090af1d88c616f4a29691d7eb273e580213426fd82316093452b3"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -133621,6 +134466,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/token_attn_reduceV.log.gz",
             "sha256": "3e1afaaf9ea322c707bc9d2ba467bfcfa10ff0edd6a2666eba11da3aa926c67c"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -134234,6 +135084,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/token_softmax_bloom.log.gz",
             "sha256": "61711f9c82f7b0817181e20aa8ea39ce74ada25ba8921221bc2801216e8d72bf"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -134894,6 +135749,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/token_softmax_llama.log.gz",
             "sha256": "9e5e6cd80d48b476d7d4fe3c7464848d17fbd3e9dbd7984df5db4eef1c3f4e7d"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -134988,22 +135848,101 @@
           "bench/repairs/tritonbench_g/triton_argmax_nan_first/FPEquiv.lean"
         ],
         "accepted_sha256": {
-          "bench/repairs/tritonbench_g/triton_argmax_nan_first/CandidateKernels.lean": "c56787c0b71b4bdc25aea4d92e655e4ea5beef249caef8c20d25045b4d10619c",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/CandidateKernels.lean": "186ba1d99d0a61d6f2109d6f805d91514b96b8a743f16018210ee1daebe5abc8",
           "bench/repairs/tritonbench_g/triton_argmax_nan_first/Contract.lean": "902df4527ebdaa922f63f46083eb1fd2f2c1d62965864f468c5c93274eb54ba9",
-          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Correct.lean": "d945510ccd51e5f02c0f0e8aea33373bc841b97e27d229a0aa83e4bd5eef19a8",
-          "bench/repairs/tritonbench_g/triton_argmax_nan_first/FPEquiv.lean": "de69f7044a6de531fde7ae24047432fcd9ab191966ba9536f526b8fed94fb149",
-          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Kernels.lean": "8b5f64ee0bce39a6348755c772d7ef8f74fc6659b6e638faa1e84fde410fffc0",
-          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Misc/NativeCorrect.lean": "ae31d806c035ae34b14b4562d8ab7f53b93bc78be53a507fe7aa3bf2e35c9eef",
-          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Misc/TensorBridge.lean": "8f31dd948f94b9825285e5daedd7eb7c2acbf5df192716c9c8c13b489469b097",
-          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/Pair.lean": "e2e7716776815c77bc8a3308014026ccb2889a8dbb13b7f9bc3cbb2488ac543b",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Correct.lean": "f3c4cdc59441041beb57690928a4d70841a6d3afc2ff4300e86d7d3fb2453071",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/FPEquiv.lean": "ca532b09ac7bbc6e8947299e3eca1a25b833a40b157889c5af33fdf37a9779db",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Kernels.lean": "e95584ddb63f948d60b5515e9d24986e8f151e8b064598b78f19a9ed861d7544",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Misc/NativeCorrect.lean": "3d14efdcca318a4ad1feda117aff7e4ae8cf363851b0302dd6dbb4901001f39c",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Misc/TensorBridge.lean": "b3478ccd256d8ceb1dbe011e9f9a84e052bc427fcec6ec8c6f90a785cfdaecab",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/Pair.lean": "dcc8f972197760a4c2eabe025e891ac66fdac1157d48c5d8c3b26f8772bc44c2",
           "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedInteger.lean": "0d43e45cb7189086eeed1d1cf42968aa79bf5e733323b1b99347de371283d20e",
           "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedIntegerMacro.lean": "409c212fe554de2a2adb436f3cfa53e72badc1472c43ecc88b6ccd71d72bfffc",
-          "bench/repairs/tritonbench_g/triton_argmax_nan_first/README.md": "de25e2075258686956a1b5700e4da3cee845d41ba7fc7d566b588c6d7c6ef9b4",
-          "bench/repairs/tritonbench_g/triton_argmax_nan_first/check_pair_source.py": "47a16fa644cb04c063897694fb1b57ecce81145020c28537ee5e0ed611d9eca0",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/README.md": "125e864ff4863e8132265f96a8c7c8712766428b0d5368ced54080bf1b2ed548",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/check_pair_source.py": "ac122a1c7bf5ff2f03398fab72363fdd13c50f70d948e35c9f134e8822b8b2c2",
           "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_nan_first.py": "01b513c0ea05c2102896e478721447ce171c8fcd0c71759f3565f9b5310eaaa9",
-          "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_shifted.py": "6e93465b9044ee2abb7dbd0dafc6ad9bddb45c00a794be84fe7313b25b5c6aa1"
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/triton_argmax_shifted.py": "6e93465b9044ee2abb7dbd0dafc6ad9bddb45c00a794be84fe7313b25b5c6aa1",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/IO.lean": "0d68d6d6df8ca1c0be0708cd0d49c0ebb38e303e99b1536e59789d93bf971c83",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/jit-correspondence.json": "b5acd20f92361e2e2ea875705ee53b1b628e43590b2f2bd8bb26d0e32aec6105",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/PairIO.lean": "9d53748a4e2bd33957dd91b7828aa5690da26645544eb3877fa62b9fec0050d1",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/check_candidate.py": "bed779e8025f060d62aedcbd801acc6b6e7494de0e80631aad9ecec761f6e70e",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/NativeSafety.lean": "b8c9fd333aca07f0952c3ab5ef69e511afdc55bc89f4a61fb4615be75e92acbd",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITProgramPair.lean": "186786a653e3f5458b53e41737fe8875465171507ed1b4f869bf992d22cff58d",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/ProjectedKernels.lean": "2990bfcc253d5b7c0428aab4c59be79cdac080c6e10622422390236b7ef5fd22",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITPair.lean": "bf141e0ca636514cdc61bc00dcef1fbeaba4f06a8e7449f0227b27ab311e584e",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/Target.lean": "3b79533945cb76a82e2b30f222519740257e2689e435629bfa4afbecd0d39618",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/RealDimensionIO.lean": "d94af0afde694aebae20dcb427033ebbf56e565f090f905bf58886231ee13298",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/NativeDimensionSafety.lean": "b264c85d54cb492894491000301bd1a2acae2f229b7bdb901f0180ff169d78cb",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/Default.lean": "e8e7a71944c23e38b361d34be66d17542f0d67a02fbfc74f8a8306b06bfab029",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITLogicalIO.lean": "fa5bae9086f594cdf8266fd75d3f5aa05daac7947063b2e4da2c4dae9b7939b1",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/IntegerReduction.lean": "df70f2bb8bd196a66a6d585d4898b32418855d3b9c20c13fe33b85f4358241f1",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/RealIO.lean": "aae24c0dbe3fedc86180b46b9d20e4b04eaabff3a376d8c1b9845af7ab1b4840",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/BoundSource.lean": "d7b6b9dd5bc2040068b6c6e2817521f2e73a408b4ffbf780c115464758288fc1",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedScratch.lean": "3c03eb1bd5a493d99b619f4abe4f8f9c636027f4acfada8fbf194e46d74cd367",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITRealDimensionIO.lean": "4824822d0a21966f7f5a57aaff0ab14ad2e9b71e919cc29f5a05ac5bea61dc20",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/PhysicalConnection.lean": "b5ebc91931821263b9dc7ccdd566d3da2a79cccb813888d9b4b159115f2596a8",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITIntegerStage1.lean": "b3150e7a905b1165033375f65fe59bd36d5ad12eaa5bb56cb8c80eba255564fe",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedRealGrid.lean": "ecc7016df8fea718bf793d31d1676054b48dfb51aa6702e23d396615b2892a2c",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITNativeIO.lean": "110a6f580bd8712cb6541389bf16b341d41eb88fae60b4d0ede9c91577bd97a0",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/Request.lean": "5f3c9fa047389417ec1a03b50383450ac2a271ac2e13d93565b6aeb7b4ded3d1",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedDimensionBinding.lean": "107e0545a3686fe53e576bb790d747159cdb6dc3ae467a28f45351e5f57f249b",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/Result.lean": "e78ef8f3b02b0ee17224bc2779df77dc6a7181bdc51b3a5eca58a8ba1d2d7fc9",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITRealDimensionSafety.lean": "c0e0ac6e2d863962e87f8444d531a1bee3d65efef77bd2ab20426c8a4afcfc14",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/ProjectedPairIO.lean": "6b42064a67c78f284a7de7b167027784aec0e7340a446f2302409e6a99c59f58",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITInteger.lean": "c9b4865207791e0796c73608f375605265fded2ff3f3d3965b163c864db78c5b",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/LogicalIO.lean": "d85ffb2e0f85366d97055154b61b701d88b693914c52a5d8f490a734a260473c",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITNativeDimensionSafety.lean": "5f3e4e52769cc752ef86f59bfbaa028d152e0e8e61082cc74dae661ba379e424",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITRealDimension.lean": "956ab1ee3bd841eefdfd481c3f9ede72c75aa535ca5eab4d08046fde973379ce",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITNativeDimensionIO.lean": "56e584ad7cec269a7c70b3fa058b646fda55e04434a85f33d05800c51487447f",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedGlobal.lean": "d63786c075b0b8f2ad976c1957f07de345eddfc462028c7fdb145aff26ecb63a",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITNativeDimensionGrid.lean": "93a505e614c6c313cbedffade5a2a11ba0831c85a8a11d904588dd68c3e13c5d",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITRealGrid.lean": "a892f3b17c2e7b62ba3438debbbdead9574f127bf8f19b4d37785ff50c6715ba",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/DefaultBinding.lean": "a8f44280e46f0e1757e8cb4be60ea3ef730295cb371d67f77262d7fc9b2092b3",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/Real.lean": "89652c810550bfda2897c6b679142b76e2c019423dc18618f24f132bc7cc356d",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/NanReduce.lean": "f756c8d0e08517db599fea62ef987dc71ca79dea03cc6cd81db1920621068e10",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/ReaderCorrect.lean": "69eefc5e18af53e7bf4fee9835579355735d066341d7488700d30161fecaa48a",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITRealIO.lean": "24037ca941835f8e35baab9cd68e41dc65dbd2edcb48cf719cbd5943d2dcfe3d",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedReturn.lean": "1eabd63c6972f859845d272d625210016b935b903107c092de9979dc91de23b1",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITRealSafety.lean": "f64b10d4ff2ef817b22c112ed34b19e076dbcf6fd4e6ed79e857983e99cf12e3",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedStep.lean": "093dd1c8baed2e84ea1d547e5a9a80b16a1a4b7db73d39400fea09fb905ddc06",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITRealPublicIO.lean": "d792f807ecf406eaf702af780834d6663aea998eb37697e42de278063fe989ba",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/NativeIO.lean": "7833e24890a829483adc35d86750d1ad17f020d3a356da42e106ea2a175a23ca",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/NativePublicIO.lean": "aea969eb102ed60bd91e16e91610399abdf9599220b066e8172325e74b83b602",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITRealGlobal.lean": "a81ced42f122db3dbc3350470060e51dd77663742364ad939280999ed2c1aa6a",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/RealKernelResult.lean": "0f93fb9206463f7690287759f43be049610423a1a663f14c9bfc9288423258d0",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/RealPublicIO.lean": "3a987282c40b9a5570e6414970a4bbe110297d04279b6f51566c48a0cd3124c7",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedBackend.lean": "9e8ab3629eb03c8de1e59944f45f2ed166ead1253efa8c25a9af1637f430ab92",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITDimensionStep.lean": "0cbfb919417887a96ba2c47125bc6857b261f4ce5b88617d7c23212e947f63de",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/ProjectedCandidateKernels.lean": "79e4399eaaa2fef2a10490bb978a7934cf679499b91db888bf9ef7ab5f72e142",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/RealDimensionSafety.lean": "8a7b29b5da22044cb1df9f18b46bbf0e7a5f687450005ad7a78989bf77c0edad",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedNative.lean": "76f33081e3bfa2a752e412e09f4ad9d97aec12f54a6009bd1b8235d35630f41a",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/AccessSafety.lean": "329afb247a45a5eeffaaaa7396be36adba384e5f6b4e413151427b9658551591",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/NativeDimensionIO.lean": "992c6bfa5f95ea4aaf6ab445002d23f8dbdf1175f5bc07dcbda51bf20d2cf34c",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedScalarBinding.lean": "41afb1ba97e7e386c028ffaff5aaba15967dff675a10ddd6c044cc3bccebab15",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/BoundGlobal.lean": "9af540c2899c0bd7e51bab811754ab766cc1eb7bac718cc56743533239d37db8",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITNative.lean": "16d61612b211208238e55ab46ebff13c6bac338d83f99b04e6dccf31185d7233",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/Global.lean": "df038d1ae9cb10cac914e85e85c69d2290242939c18c4d6102232beb301456fb",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedWhole.lean": "e00bbd47e7f7521ae999fb9b10a9bf6f0bcb9b0b0adbb6a06ea93ce992a43132",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/BoundDimension.lean": "435b6d92b02f0284b5706a966d56c539f15b66cdae6ae2754f724d5175628bc6",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/ProjectedIO.lean": "21867fc9cfa7fc8962e0ef3873d345aad08ce69ae49045fc338bc796000a482f",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITReaderCorrect.lean": "36ee7f7a5ccec567366f6f34aece2ec68cec81e83a205021681abfd28085c447",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedRealReturn.lean": "8c5f88d455717c3dac6eb5f2442143da2aa4c9ed8df71bbd47e193dde2f5a6c5",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/Native.lean": "289d20df9cf4c80915c7ea5950a255f9e2e5e1810d6d174432c0f9b7371ab8a1",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/Dimension.lean": "df9ee5a46192462773ca1ec572afa3c0a856633dcc98978616e6803315267ee3",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/Padded.lean": "f3a1d03cd95243e17a22786bda3d22512b71247b6a0d2d0d1cd2aa9ec55917cb",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITNativePublicIO.lean": "7c40ba7667452181ce9361222605cb35189b9f8a0190d3a8c617dc43026e2671",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITDimension.lean": "3046dd43eae253132a6bde05fcd7b4bfc0b0c9e2fbaadad0f0b86ef453124d3e",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedLoop.lean": "ab956433caccf965f14d8221160b7d8c48b6ebee2fcd0523e2b486200ebe9ad3",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/NativeDimensionGrid.lean": "19558585629c929663312b00adc2593891e4b732e8ab1fb4a45bdd12fc4dfee0",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedReal.lean": "060b38c3e9da6559d7e1bf6aa9f10bfae900c8180a99c2f564298a810d18cbe8",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedRealGlobal.lean": "8c715bb35124d9da5c6e23b9dae0c14621daf734bde234309c77980aba97f286",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/Tensor.lean": "db1dc1a46c8f6e3b2abe39c77f853c5cbf212f40a73cfff86b2119c9b39c620f",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/NativeKernelResult.lean": "450727b20031a6c7cac2b3b0e6fe43d0b2c81dc2f89d06d80f9b98a681483163",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITSafety.lean": "e2c41be744daae22bcd70e240ab64bc7de9d44051c31ac99d3d4d37be7e9f895",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/JITStage1.lean": "6f79a42c5ff293b0485c85efe2c72f2ddaef61db60d4e5b3e6976dcc7dc045cb",
+          "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/TypedReduction.lean": "77c00d8cf7ce74c382a1a18becaf8926d36dd3d3477c37a3e2a1d2daf4d29799"
         },
-        "proof_scope": "Retain independent Real first-maximum formulas at original scopes, every 13 requested scratch format, two-stage original native first-NaN and lossy-scratch selection, initialized gather tail, all raw FP32 words. Full global/dimension grids including empty outer products, N loops, index-width branches and native projections. Complete actual success/safety/output and both raw frames; no FP numerical rewrite or historical defective-source equivalence claim.",
+        "proof_scope": "Current statement-preserving quotations and explicit runtime arguments; independent Real firstMaximum under the documented integer/bool macro idealization; full global and dimension FP pair IO with all thirteen scratch formats, explicit NaN0/clamp/truncate, success/safety/output/frame. No hardware/compiler refinement.",
         "validation": {
           "reviewer": "/root",
           "decision": "ACCEPT",
@@ -135738,8 +136677,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_argmax.json",
-            "sha256": "1bcfb418aa8f30620f96ae8c24d474491432a1a1692713e989ec49cc105988da",
+            "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+            "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
             "task": "triton_argmax"
           },
           "main_declarations": [
@@ -135802,6 +136741,16 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/triton_argmax.log.gz",
             "sha256": "e7049570d6692172eab425ea120071312b96344e66b78e1623b0f0184ff4b7bf"
           }
+        },
+        "jit_source_proof_review": {
+          "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+          "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+          "task": "triton_argmax"
+        },
+        "jit_correspondence": {
+          "status": "exact_ast_correspondence",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -136684,6 +137633,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/triton_attention.log.gz",
             "sha256": "ff5aa64327a78d979d900e7f1ee122908de33420f41fdd5c8e88b965476b7ae7"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -137402,6 +138356,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/triton_conv2d_fwd.log.gz",
             "sha256": "f4b352b527deff6c06ead664260437c3a49a645243782f0b5ad627c85a3574ee"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -138133,6 +139092,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/triton_linear_activation.log.gz",
             "sha256": "7dda05c9fe1c6e51a4138202ec52fe90f1d5da08b31c2f91321841857d8d7890"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -138882,6 +139846,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/triton_matmul.log.gz",
             "sha256": "6854c6b193416c0aee8b8f3be07ad1176f06cf07488fe0bde7d7ab23bd6817c6"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -139527,6 +140496,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/triton_mul2.log.gz",
             "sha256": "0721ac34ebb597e537833936d330b07adaeb426c7dda9b89273914f99d93da21"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -140153,6 +141127,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/triton_softmax.log.gz",
             "sha256": "47f05d36b567e0bbcdbd8112d362d691204ed9997a25b4db34c261c995a2e968"
           }
+        },
+        "jit_correspondence": {
+          "status": "missing_explicit_int64_cast",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -140836,6 +141815,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/uniform_sampling.log.gz",
             "sha256": "526002a635f1963b589ff174e4e0650f8844e2673bbcc04b1a15e15b33af3eff"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -141509,6 +142493,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/var_len_copy.log.gz",
             "sha256": "08af9dc030a054edc6361c24df03b7e26159ed3ca302d11de11f4d8816c8b10f"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -142415,6 +143404,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/vector_addition.log.gz",
             "sha256": "b2161a2a604934ba79c9f480abda4c253c03a0f5f9c513d9f81d732da5d2a2c8"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     },
@@ -143032,6 +144026,11 @@
             "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/vector_addition_custom.log.gz",
             "sha256": "22d6f315f654300283037abaee7ccbe6063181caa23435ba6cfe680a86deb21f"
           }
+        },
+        "jit_correspondence": {
+          "status": "not_certified_by_this_screen",
+          "inventory": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "scope": "Statement correspondence is separate from prior model proof acceptance."
         }
       }
     }
@@ -143736,7 +144735,7 @@
     "preserved_main_headlines": 449,
     "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
     "audit": "bench/review-checkpoints/2026-10-23/reference-separation/reader-roles.json",
-    "audit_sha256": "46c3c3226d6700191fc3122df01115acf4ca3e08d4c626f2bf5869714014d16c",
+    "audit_sha256": "f951e841f768572af1642945d598306a0406cc4a1e29a8b6af0dd28c3e011b06",
     "guard": "bench/check_main_entry_roles.py",
     "validation": "bench/review-checkpoints/2026-10-23/reference-separation/validation.json",
     "proof_completion_changed": false,
@@ -143755,6 +144754,15 @@
           "task": "mean_reduction"
         },
         "scope": "Logical matrix reader and exact full-judgment equivalence; only this task; not an independent or all-183 rerun."
+      },
+      {
+        "task": "triton_argmax",
+        "review_evidence": {
+          "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+          "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+          "task": "triton_argmax"
+        },
+        "scope": "Source statement correspondence repair and fresh full public proof connections."
       }
     ],
     "previous_audit": {
@@ -143900,7 +144908,7 @@
     "numerical_scope_changed": false,
     "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
     "audit": "bench/review-checkpoints/2026-10-23/reference-separation/io-audit.json",
-    "audit_sha256": "ba2eb319f3750873bf629f4ba95bcf0cf5d8e2aeea6f54ec7334f733b1b7fe46",
+    "audit_sha256": "b98279b40b9e591a15aad481ed1b8dfd6267a5c522e24455c0f5aba0b02f5216",
     "guard": "bench/check_io_organization.py",
     "validation": "bench/review-checkpoints/2026-10-23/reference-separation/validation.json",
     "correct_formula_surface_refresh": "bench/review-checkpoints/2026-10-22/correct-formulas/README.md",
@@ -143915,6 +144923,15 @@
           "task": "mean_reduction"
         },
         "scope": "Logical matrix reader and exact full-judgment equivalence; only this task; not an independent or all-183 rerun."
+      },
+      {
+        "task": "triton_argmax",
+        "review_evidence": {
+          "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+          "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+          "task": "triton_argmax"
+        },
+        "scope": "Source statement correspondence repair and fresh full public proof connections."
       }
     ],
     "previous_audit": {
@@ -143942,7 +144959,7 @@
     "remaining_substantive_gaps": 0,
     "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
     "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
-    "audit_sha256": "fd67784c70023bb4160959dbe516b784415d11fda735f54cf62e7d2166804958",
+    "audit_sha256": "7f0f651dd7da9b30760aa138f6b622938bb45b47848513a8d19592b3cdd23e9a",
     "guard": "bench/check_main_formula_review.py",
     "validation": "bench/review-checkpoints/2026-10-23/reference-separation/validation.json",
     "proof_completion_changed": false,
@@ -143957,6 +144974,15 @@
           "task": "mean_reduction"
         },
         "scope": "Logical matrix reader and exact full-judgment equivalence; only this task; not an independent or all-183 rerun."
+      },
+      {
+        "task": "triton_argmax",
+        "review_evidence": {
+          "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+          "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+          "task": "triton_argmax"
+        },
+        "scope": "Source statement correspondence repair and fresh full public proof connections."
       }
     ],
     "previous_audit": {
@@ -144086,5 +145112,23 @@
   "current_source_replay": {
     "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
     "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
+  },
+  "jit_correspondence_review": {
+    "date": "2026-10-24",
+    "review": {
+      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+      "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+      "task": "triton_argmax"
+    },
+    "inventory": {
+      "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+      "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+    },
+    "counts": {
+      "not_certified_by_this_screen": 137,
+      "missing_explicit_int64_cast": 45,
+      "exact_ast_correspondence": 1
+    },
+    "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
   }
 }

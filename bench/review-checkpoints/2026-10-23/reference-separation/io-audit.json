@@ -34663,102 +34663,30 @@
         "bench/repairs/tritonbench_g/triton_argmax_nan_first/Correct.lean",
         "bench/repairs/tritonbench_g/triton_argmax_nan_first/FPEquiv.lean"
       ],
-      "assessment": {
-        "organization": "Merged DimensionIO.lean verbatim after the existing IO.lean; retains the distinct global and dimension real/native branches and original namespaces. Redirected four same-task imports; removed the obsolete definition module.",
-        "preservation": {
-          "public_entries_unchanged_source": true,
-          "source_matches_latest_owner_pins": {
-            "bench/repairs/tritonbench_g/triton_argmax_nan_first/DimensionIO.lean": {
-              "owner": "898ec924fb404da2f04ca3e3bbb82fd46b09a7ecaf668e933f77c0e74c5c7eb0",
-              "current": null
-            },
-            "bench/repairs/tritonbench_g/triton_argmax_nan_first/IO.lean": {
-              "owner": "9daa8550ad2a4804c62197b7a28bae7af5e11e9551321d5d9d3c7d1a10981c98",
-              "current": "29444f4a2e2b9b90e8dfd351fc9e273bd17596e5e55cd1fa8ef6ad178eff6c05"
-            },
-            "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/LogicalIO.lean": {
-              "owner": "deaf50f3038d209ba5e89f11bd15fc5a9f73ae3b6c447713ead8ca6323649726",
-              "current": "12a1903091182425b1701fabcefed759dfedcade1696bea032bc714610fb141d"
-            }
-          },
-          "scope": "No mathematical formula, public premise, kernel, precision, rule set, observation or schedule was changed.",
-          "byte_preservation_evidence": {
-            "path": ".veritile-cache/io-unification-20261023/queue15/preservation.json",
-            "sha256": "f48563cd2fa4c3a53fec8aeca05d329aacd0dde077347977e4960ff91964fadb"
-          },
-          "original_io_prefix_bytes_preserved": true,
-          "dimension_declarations_verbatim_sha256": "af93b956e63a0d830688771a7a820feafaec0e3f52655cd5fc94c6cb717a2c9b",
-          "import_only_files": {
-            "bench/repairs/tritonbench_g/triton_argmax_nan_first/PairIO.lean": {
-              "non_import_text_equal": true,
-              "before_sha256": "16d6c63a204af9dc2616a94bd2e927fa83fd14470f9722917cb3f4ac3f2253f8",
-              "current_sha256": "aa5f3dc7349819fc266e140fa4a20186f036907935199d40479d7d22a21c1dc9"
-            },
-            "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/LogicalIO.lean": {
-              "non_import_text_equal": true,
-              "before_sha256": "deaf50f3038d209ba5e89f11bd15fc5a9f73ae3b6c447713ead8ca6323649726",
-              "current_sha256": "12a1903091182425b1701fabcefed759dfedcade1696bea032bc714610fb141d"
-            },
-            "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/NativeDimensionGrid.lean": {
-              "non_import_text_equal": true,
-              "before_sha256": "301c69da9e5d0c9637619d33a3f4e5903b1be7a6a3066b20b79c750c90baf20f",
-              "current_sha256": "aef7fc055e35c6a6a62de29794df187c690a8309c74bb20a96621638332f3a75"
-            },
-            "bench/repairs/tritonbench_g/triton_argmax_nan_first/Proofs/RealDimensionIO.lean": {
-              "non_import_text_equal": true,
-              "before_sha256": "e6e6d9d6761ebaf5dfc08145f41922c737b485d465874e2e55f68950ad4b2927",
-              "current_sha256": "dbef3e51d510bd8a8c0aff6add236684d31700132265b42bd2ca57a749ff2fb0"
-            }
-          },
-          "lean_definition_equalities": {
-            "fixture": ".veritile-cache/io-unification-20261023/queue15/checks/triton_argmax-preservation.lean",
-            "sha256": "38fb99f9d4682eac725cb8f0a8fce0061652539a112168af64ae095fa3446784",
-            "count": 8,
-            "method": "Rfl equality of each entire moved declaration against namespaced replay of the preserved before IO and DimensionIO source, retaining complete ProgramIO structures and all logical equivalences."
-          },
-          "full_public_real_judgment_types": {
-            "count": 2,
-            "method": "Frozen latest role-supplement preservation fixture replay: declarationType% reads the actual complete current Correct.global/Correct.dimension and preserved ReaderBefore formulas; both directions proved by Iff.rfl. Correct/FPEquiv sources are byte-unchanged in this campaign."
-          },
-          "real_native_branch_distinction": "Full global grid plus second stage and actual dimension CTA/grid remain separate definitions in the same canonical IO file."
-        },
-        "different_stage_or_encoding_exceptions": [],
-        "previous_assessment": {
-          "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
-          "task": "triton_argmax"
-        }
-      },
-      "distinct_views": "Global Real first grid plus actual second stage and both scratch windows remain. Native all 13 requested scratch formats, initialized integer gather input across full midBlock, and unchanged actual second stage remain. Real single dimension CTA and complete native dimension grid are distinct interfaces. Both index widths, all precisions and first-NaN/first-maximum semantics are retained.",
+      "assessment": "Current native/Real and logical layouts and runtime schedules are centralized in IO.lean; PairIO.lean is a thin candidate variant. Historical projected IO has a different source/runtime binding and is only retained under Proofs for old auxiliary results.",
+      "distinct_views": [
+        "Real vector/tensor interfaces with explicit macro idealization",
+        "Native typed signed/unsigned/bool scratch interfaces and initialized INT64 gather tail",
+        "Historical projected interfaces are retained only for older auxiliary proofs"
+      ],
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/triton_argmax_nan_first/Correct.lean",
-          "sha256": "7d6e71f931de9ce0b22ee8c3d34daf1f8641590b015c7a07f7fe2918b3caa793"
+          "sha256": "f3c4cdc59441041beb57690928a4d70841a6d3afc2ff4300e86d7d3fb2453071"
         },
         {
           "path": "bench/repairs/tritonbench_g/triton_argmax_nan_first/FPEquiv.lean",
-          "sha256": "de69f7044a6de531fde7ae24047432fcd9ab191966ba9536f526b8fed94fb149"
+          "sha256": "ca532b09ac7bbc6e8947299e3eca1a25b833a40b157889c5af33fdf37a9779db"
         }
       ],
       "io_sources": [
         {
-          "path": "VeriTile/Triton/Float/LogicalProgramIO.lean",
-          "sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358"
-        },
-        {
-          "path": "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean",
-          "sha256": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
-        },
-        {
-          "path": "VeriTile/Triton/Memory/LogicalIO.lean",
-          "sha256": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a"
-        },
-        {
           "path": "bench/repairs/tritonbench_g/triton_argmax_nan_first/IO.lean",
-          "sha256": "29444f4a2e2b9b90e8dfd351fc9e273bd17596e5e55cd1fa8ef6ad178eff6c05"
+          "sha256": "0d68d6d6df8ca1c0be0708cd0d49c0ebb38e303e99b1536e59789d93bf971c83"
         },
         {
           "path": "bench/repairs/tritonbench_g/triton_argmax_nan_first/PairIO.lean",
-          "sha256": "aa5f3dc7349819fc266e140fa4a20186f036907935199d40479d7d22a21c1dc9"
+          "sha256": "9d53748a4e2bd33957dd91b7828aa5690da26645544eb3877fa62b9fec0050d1"
         }
       ],
       "changed_paths": [
@@ -34766,12 +34694,18 @@
         "bench/repairs/tritonbench_g/triton_argmax_nan_first/PairIO.lean"
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_argmax.json",
-        "sha256": "1bcfb418aa8f30620f96ae8c24d474491432a1a1692713e989ec49cc105988da",
+        "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+        "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
         "task": "triton_argmax"
       },
       "preservation_and_build_passed": true,
-      "validation_limits": {},
+      "validation_limits": [
+        "Official comparator unavailable.",
+        "Real integer/bool conversion remains the explicitly documented idealized macro projection.",
+        "Signed indices retain the existing mathematical no-wrap model.",
+        "Optional historical Tensor/byte results retain their projected source scope.",
+        "No GPU/host/compiler refinement claim."
+      ],
       "remaining_issues": [],
       "main_formula_review": {
         "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
@@ -34798,8 +34732,8 @@
         }
       ],
       "previous_review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/triton_argmax.json",
-        "sha256": "5bf0c196f3e6d7b17c5ae6000348b3d46849097020a5fcafd27f824ff5124fa6",
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_argmax.json",
+        "sha256": "1bcfb418aa8f30620f96ae8c24d474491432a1a1692713e989ec49cc105988da",
         "task": "triton_argmax"
       },
       "unchanged_prior_io_source_origins": {
@@ -36697,5 +36631,18 @@
       "sha256": "76f7b1b7e8d65e6d5d76646b52a9064879e14a0e2367024698cbf12d0254dd58"
     },
     "scope": "Reference responsibility cleanup; unchanged mathematical and numerical scope. Other task reviews are reused."
-  }
+  },
+  "focused_source_followups": [
+    {
+      "review": {
+        "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+        "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+        "task": "triton_argmax"
+      },
+      "tasks": [
+        "triton_argmax"
+      ],
+      "scope": "Fresh review of argmax source correspondence and proof connections; unchanged other task review records retain their prior scope."
+    }
+  ]
 }
