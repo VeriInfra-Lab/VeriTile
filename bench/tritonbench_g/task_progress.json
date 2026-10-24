@@ -1005,20 +1005,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [
@@ -1396,8 +1396,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.AddExample.Contiguous.Correct.add_kernel_correctness",
@@ -2295,20 +2295,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [
@@ -2674,8 +2674,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.AddValue.Contiguous.Correct.puzzle1_kernel_correctness",
@@ -17621,20 +17621,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [],
@@ -18092,8 +18092,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.CacheTransform.Correct.kernel_real",
@@ -33818,20 +33818,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [],
@@ -34192,8 +34192,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.CosineCompute.Correct.cosine_kernel_correctness",
@@ -38696,20 +38696,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [],
@@ -39175,8 +39175,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.DequantizeRowwise.dequantize_rowwise_correct",
@@ -58239,20 +58239,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [],
@@ -58658,8 +58658,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.IndexSelectBwd.Correct.index_select_bwd_kernel_correctness",
@@ -66745,20 +66745,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [],
@@ -67171,8 +67171,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.KldivCompute.Kernel.Correct.correctness",
@@ -70465,20 +70465,20 @@
           "validation_scope": "Actual complete copy/INT8/INT4 DSL programs, valid source accesses, successful execution, every cache/metadata output and exact exterior frame. The family is not a composed host execution.",
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "regression_only_pending_body_migration",
-            "notes": "Shared-frontend dependency regression only, not a body-copy migration. Replay the selected KernelOnly Real/FP entries and their complete policy/schedule/source-frame connections on local and independent checkouts; the original/candidate sources and public conditions are unchanged. The older legacy Real/FP entries are replayed separately as extra regression evidence."
+            "notes": "Shared-frontend dependency regression only; selected public Real/FP entries and their source/schedule/safety/frame proofs replayed. Source-body migration remains pending and is not counted complete."
           }
         },
         "transformation_rules": [],
@@ -71058,8 +71058,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/kv-reconstruction/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.KvCacheFilling.Correct.whole_shared_real",
@@ -72101,20 +72101,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [],
@@ -72586,8 +72586,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.L2NormTriton1.Correct.grid_correct",
@@ -93495,20 +93495,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [],
@@ -93934,8 +93934,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.MatrixTranspose.Correct.transpose_kernel_correctness",
@@ -111790,20 +111790,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Paste both actual complete Python bodies, preserving both loops, int64 row cast, masks, runtime FP32 epsilon and FP32 output. Stride and N remain runtime integer ABI values with explicit invocation bindings. Both complete ComputeKernel preservation equalities hold; full Real/FP/grid/safety and auxiliary proofs replayed."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [],
@@ -112297,8 +112297,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormFused.Correct.kernel_real",
@@ -112566,20 +112566,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Paste the actual original and existing index-order candidate into both literal and runtime APIs. Original 0. spelling, source casts, both loops and FP16-then-FP32 output roundtrip retained. eps_arg is replaced by original eps in invocation bindings and all dependent proofs. Literal FP32 specialization is accepted only in verified FP32 contexts; runtime FP32 register ABI remains. Public Real/FP, full grids, runtime candidates, safety, axiom audits and all auxiliary files replayed."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [],
@@ -113053,8 +113053,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormFusedLlama.Correct.rmsnorm_kernel_real",
@@ -113224,7 +113224,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/rmsnorm_implementation/rmsnorm_implementation_repaired.py": "210c3a54de4bbf00053a81f981860bf1068469b95903261034bf7b7515b3ef9d",
-          "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean": "350f526cd270c76e3eb810b1d65f1027e834f9917d532014b4e99472f859d0e0",
+          "bench/repairs/tritonbench_g/rmsnorm_implementation/Kernels.lean": "cf61c94d857e0dcde7050672949e43a9d607e9ad36dae6ce646fd6a83dd1ff5d",
           "bench/repairs/tritonbench_g/rmsnorm_implementation/Contract.lean": "8ac15410dd421118d6e8621daab06fc940ad48586d8a807789138030303a5ebc",
           "bench/repairs/tritonbench_g/rmsnorm_implementation/Correct.lean": "1caac4629b537e712254e26c83a36e9171d6a651a091d583e80807801464635e",
           "bench/repairs/tritonbench_g/rmsnorm_implementation/FPEquiv.lean": "fbb7e2192f4e75c727464f7c2b2fd9c05e510ab84036ee1a1d4cff46cf0f6828",
@@ -113310,6 +113310,23 @@
             "source_preservation_and_checks": ".veritile-cache/finish-pending-105-20261021/source-only/rmsnorm_implementation/delivery.json",
             "source_sha256": "a26b39f78fc72e43bc6da741765813d38248adab71134531b2afbdcf977d12ce",
             "scope": "Source readability only; existing domain, precision, candidates, theorem scopes and proof status retained."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
+            },
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Copy both complete selected FP32 Python bodies and the existing batch-stride commutation candidate literally. Preserve source variable spelling, tuple zeros, both loops, xf conversion, split square/add, reduction/sqrt/division/weight order, masks and store. Runtime strides and original constexpr N_SIZE/eps/BLOCK_N_SIZE remain distinct. Prove complete original and candidate ComputeKernel equalities; replay the complete selected row, arbitrary width/strides/eps, OutputUnique, successful execution, safety/frame, actual FP pair and all auxiliary files. Retain the original signed-index bounds and overflow witness unchanged; supply a larger Lean task stack through the owning Legacy library to avoid a compiler resource failure."
           }
         },
         "transformation_rules": [],
@@ -113809,9 +113826,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rmsnorm_implementation.json",
-            "sha256": "35d9ca173344df14a4ccb15e407707c07a469281c2483fcf98f63157a2032c45",
-            "task": "rmsnorm_implementation"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormImplementation.Correct.rmsnorm_kernel_correctness",
@@ -113981,7 +113997,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/rmsnorm_triton/rmsnorm_triton_repaired.py": "5b89dde21e5b2752f1af7aaee97317c7a55824a08901a480fffdee875164cf0c",
-          "bench/repairs/tritonbench_g/rmsnorm_triton/Kernels.lean": "7366eb8c2dfba0bdc2afc00fa2d0f46c01f6d08edfdadc7b2a03b1620352e391",
+          "bench/repairs/tritonbench_g/rmsnorm_triton/Kernels.lean": "215c00d3ab891a31bc5a65a4648e1623146ed7b04ad9f460c050720a211bcf49",
           "bench/repairs/tritonbench_g/rmsnorm_triton/Contract.lean": "3ed420059a89e89bf136830453c1cd5d6b5f1e815f0278c533cc69ca615137cd",
           "bench/repairs/tritonbench_g/rmsnorm_triton/Correct.lean": "4b6701e2b6eb767a5a6937146a134d050ead56a6e8b0bc52403c47b8159face8",
           "bench/repairs/tritonbench_g/rmsnorm_triton/FPEquiv.lean": "74a1cb6d6e43c055ef62c1523bff3290c2addd270074f5965d7e5908c0d0a115",
@@ -114057,6 +114073,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
+            },
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
+            },
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Copy both complete selected FP32 Python bodies and the existing batch-stride commutation candidate literally. Preserve tuple zeros, both loops, original comments/0. spelling, FP32 input conversions, libdevice integer power, rsqrt and all masks/loads/stores. Runtime strides and original constexpr N_SIZE/eps/BLOCK_N_SIZE remain distinct. Prove both complete ComputeKernel equalities to frozen prior sources. Replay full 2D-grid Real IO, complete typed source pair, safety, frame and all auxiliary files. Other dtype specializations of the legacy polymorphic API are not added to this selected FP32 scope."
           }
         },
         "transformation_rules": [],
@@ -114525,9 +114558,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/rmsnorm_triton.json",
-            "sha256": "a7bcc7f2b439d2d939d37224fa73f922c3062a80ed6d72ed5d0ab167bffba78f",
-            "task": "rmsnorm_triton"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormTriton.Correct.kernel_correct",
@@ -122314,20 +122346,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [],
@@ -122700,8 +122732,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SinComputation.Contiguous.Correct.sin_kernel_correctness",
@@ -122947,20 +122979,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [],
@@ -123319,8 +123351,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SinKernel.Correct.sin_kernel_correctness",
@@ -129043,20 +129075,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [],
@@ -129502,8 +129534,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SquareMatrix.Correct.square_kernel_correctness",
@@ -131258,20 +131290,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [],
@@ -131731,8 +131763,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SwigluFwd.swiglu_kernel_correct",
@@ -136392,20 +136424,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "regression_only_pending_body_migration",
-            "notes": "Dependency regression only; its legacy AST source check is not a completed body-copy migration."
+            "notes": "Shared-frontend dependency regression only; selected public Real/FP entries and their source/schedule/safety/frame proofs replayed. Source-body migration remains pending and is not counted complete."
           }
         },
         "transformation_rules": [],
@@ -136977,8 +137009,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Correct.global",
@@ -143257,20 +143289,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [
@@ -143655,8 +143687,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.VectorAddition.Contiguous.Correct.add_kernel_correctness",
@@ -143895,20 +143927,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-              "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+              "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
             },
-            "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+            "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
-              "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+              "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
             },
             "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
-              "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+              "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+              "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression."
+            "notes": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
           }
         },
         "transformation_rules": [
@@ -144293,8 +144325,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-            "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+            "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+            "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous.Correct.add_kernel_correctness",
@@ -145313,7 +145345,7 @@
     "remaining_substantive_gaps": 0,
     "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
     "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
-    "audit_sha256": "0bb3ba47be863e4cb65ab66bc5bb07b27aa17b7a875d2b3e31ba3948bc6d9930",
+    "audit_sha256": "cefab90c869ee8edd5e8b623be3a3c93b4b3f48a998e647c4c757b7d176cc83b",
     "guard": "bench/check_main_formula_review.py",
     "validation": "bench/review-checkpoints/2026-10-23/reference-separation/validation.json",
     "proof_completion_changed": false,
@@ -145479,12 +145511,12 @@
   "jit_correspondence_review": {
     "date": "2026-10-24",
     "review": {
-      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-      "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+      "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
     },
     "inventory": {
       "path": "bench/source-correspondence.json",
-      "sha256": "24c53e490a0ff7568c59f8e7878f107806db6239a29ef52b817d5e058a62e8f4"
+      "sha256": "fd2d3f2822102d4558999ac06a204902583e454ea65d4067c985c6f2b7bd00f6"
     },
     "pasted_body_entry_tasks": [
       "add_example",
@@ -145498,6 +145530,8 @@
       "matrix_transpose",
       "rmsnorm_fused",
       "rmsnorm_fused_llama",
+      "rmsnorm_implementation",
+      "rmsnorm_triton",
       "sin_computation",
       "sin_kernel",
       "square_matrix",
@@ -145505,15 +145539,15 @@
       "vector_addition",
       "vector_addition_custom"
     ],
-    "scope": "Full selected-source inventory with explicit new-example provenance, exact AST/signature/call binding checks and combined deep/cold proof replay. Pending tasks/examples remain pending.",
+    "scope": "Literal selected-source AST/signature checks with full public/deep and cold proof replay for the committed batch; all other pending entries remain pending.",
     "counts": {
       "tasks": 183,
       "examples": 19,
       "task_status": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 2,
-        "selected_body_copy_checked": 17,
-        "uncovered_jit_functions": 163
+        "selected_body_copy_checked": 19,
+        "uncovered_jit_functions": 161
       },
       "example_status": {
         "authored_counterpart_body_copy_checked": 2,
@@ -145523,12 +145557,12 @@
         "uncovered_jit_functions": 1
       },
       "selected_jit_functions": 328,
-      "uncovered_selected_jit_functions": 299,
+      "uncovered_selected_jit_functions": 297,
       "primary_files_with_int64_screen_warning": 44,
       "primary_lean_file_features": {
         "tasks": {
-          "in_body_type_directives": 132,
-          "antiquotes": 145,
+          "in_body_type_directives": 130,
+          "antiquotes": 143,
           "dsl_loop": 1,
           "dsl_numeric_helpers": 8
         },
@@ -145543,12 +145577,12 @@
     "previous_review": {
       "date": "2026-10-24",
       "review": {
-        "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
-        "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+        "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
+        "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
       },
       "inventory": {
         "path": "bench/source-correspondence.json",
-        "sha256": "5c80ef7b09379b23632d01541fb7ed1b78f553da9c311a889eba292b0c17b3d7"
+        "sha256": "24c53e490a0ff7568c59f8e7878f107806db6239a29ef52b817d5e058a62e8f4"
       },
       "pasted_body_entry_tasks": [
         "add_example",
@@ -145560,6 +145594,8 @@
         "kldiv_compute",
         "l2_norm_triton1",
         "matrix_transpose",
+        "rmsnorm_fused",
+        "rmsnorm_fused_llama",
         "sin_computation",
         "sin_kernel",
         "square_matrix",
@@ -145567,76 +145603,139 @@
         "vector_addition",
         "vector_addition_custom"
       ],
-      "scope": "Full selected-source inventory, exact body AST/signature/call binding checks and this batch proof replay. Pending tasks/examples remain pending.",
+      "scope": "Full selected-source inventory with explicit new-example provenance, exact AST/signature/call binding checks and combined deep/cold proof replay. Pending tasks/examples remain pending.",
       "counts": {
         "tasks": 183,
         "examples": 19,
         "task_status": {
           "legacy_ast_only": 1,
           "no_selected_jit_resolved": 2,
-          "selected_body_copy_checked": 15,
-          "uncovered_jit_functions": 165
+          "selected_body_copy_checked": 17,
+          "uncovered_jit_functions": 163
         },
         "example_status": {
           "authored_counterpart_body_copy_checked": 2,
-          "no_independent_python_reference": 16,
-          "selected_body_copy_checked": 1
+          "no_independent_python_reference": 7,
+          "selected_body_copy_checked": 1,
+          "spec_derived_body_copy_checked": 8,
+          "uncovered_jit_functions": 1
         },
         "selected_jit_functions": 328,
-        "uncovered_selected_jit_functions": 301,
+        "uncovered_selected_jit_functions": 299,
         "primary_files_with_int64_screen_warning": 44,
         "primary_lean_file_features": {
           "tasks": {
-            "in_body_type_directives": 134,
-            "antiquotes": 147,
+            "in_body_type_directives": 132,
+            "antiquotes": 145,
             "dsl_loop": 1,
             "dsl_numeric_helpers": 8
           },
           "examples": {
             "in_body_type_directives": 0,
-            "antiquotes": 16,
+            "antiquotes": 8,
             "dsl_loop": 3,
-            "dsl_numeric_helpers": 3
+            "dsl_numeric_helpers": 2
           }
         }
       },
       "previous_review": {
         "date": "2026-10-24",
         "review": {
-          "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
-          "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
-          "task": "dequantize_rowwise"
+          "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+          "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
         },
         "inventory": {
-          "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
-          "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
+          "path": "bench/source-correspondence.json",
+          "sha256": "5c80ef7b09379b23632d01541fb7ed1b78f553da9c311a889eba292b0c17b3d7"
         },
-        "counts": {
-          "not_certified_by_this_screen": 137,
-          "missing_explicit_int64_cast": 44,
-          "exact_ast_correspondence": 2
-        },
-        "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast.",
         "pasted_body_entry_tasks": [
-          "dequantize_rowwise"
+          "add_example",
+          "add_value",
+          "cache_transform_triton",
+          "cosine_compute",
+          "dequantize_rowwise",
+          "index_select_bwd",
+          "kldiv_compute",
+          "l2_norm_triton1",
+          "matrix_transpose",
+          "sin_computation",
+          "sin_kernel",
+          "square_matrix",
+          "swiglu_fwd",
+          "vector_addition",
+          "vector_addition_custom"
         ],
+        "scope": "Full selected-source inventory, exact body AST/signature/call binding checks and this batch proof replay. Pending tasks/examples remain pending.",
+        "counts": {
+          "tasks": 183,
+          "examples": 19,
+          "task_status": {
+            "legacy_ast_only": 1,
+            "no_selected_jit_resolved": 2,
+            "selected_body_copy_checked": 15,
+            "uncovered_jit_functions": 165
+          },
+          "example_status": {
+            "authored_counterpart_body_copy_checked": 2,
+            "no_independent_python_reference": 16,
+            "selected_body_copy_checked": 1
+          },
+          "selected_jit_functions": 328,
+          "uncovered_selected_jit_functions": 301,
+          "primary_files_with_int64_screen_warning": 44,
+          "primary_lean_file_features": {
+            "tasks": {
+              "in_body_type_directives": 134,
+              "antiquotes": 147,
+              "dsl_loop": 1,
+              "dsl_numeric_helpers": 8
+            },
+            "examples": {
+              "in_body_type_directives": 0,
+              "antiquotes": 16,
+              "dsl_loop": 3,
+              "dsl_numeric_helpers": 3
+            }
+          }
+        },
         "previous_review": {
           "date": "2026-10-24",
           "review": {
-            "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
-            "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
-            "task": "triton_argmax"
+            "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+            "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+            "task": "dequantize_rowwise"
           },
           "inventory": {
-            "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
-            "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+            "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
+            "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
           },
           "counts": {
             "not_certified_by_this_screen": 137,
-            "missing_explicit_int64_cast": 45,
-            "exact_ast_correspondence": 1
+            "missing_explicit_int64_cast": 44,
+            "exact_ast_correspondence": 2
           },
-          "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+          "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast.",
+          "pasted_body_entry_tasks": [
+            "dequantize_rowwise"
+          ],
+          "previous_review": {
+            "date": "2026-10-24",
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+              "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+              "task": "triton_argmax"
+            },
+            "inventory": {
+              "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+              "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+            },
+            "counts": {
+              "not_certified_by_this_screen": 137,
+              "missing_explicit_int64_cast": 45,
+              "exact_ast_correspondence": 1
+            },
+            "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+          }
         }
       }
     }

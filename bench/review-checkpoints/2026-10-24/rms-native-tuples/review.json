@@ -1,0 +1,162 @@
+{
+  "schema": 1,
+  "status": "verified_batch_corpus_migration_incomplete",
+  "code_commit": "3b3e2b0f603c435fdda92b388ebe5366f69f5552",
+  "merge_policy": "Do not merge before explicit user review and approval.",
+  "new_task_migrations": [
+    "rmsnorm_triton",
+    "rmsnorm_implementation"
+  ],
+  "semantic_review": {
+    "add_example": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "add_value": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "cache_transform_triton": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "cosine_compute": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "dequantize_rowwise": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "index_select_bwd": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "kldiv_compute": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "kv_cache_filling": "Shared-frontend dependency regression only; selected public Real/FP entries and their source/schedule/safety/frame proofs replayed. Source-body migration remains pending and is not counted complete.",
+    "l2_norm_triton1": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "matrix_transpose": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "rmsnorm_fused": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "rmsnorm_fused_llama": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "rmsnorm_implementation": "Copy both complete selected FP32 Python bodies and the existing batch-stride commutation candidate literally. Preserve source variable spelling, tuple zeros, both loops, xf conversion, split square/add, reduction/sqrt/division/weight order, masks and store. Runtime strides and original constexpr N_SIZE/eps/BLOCK_N_SIZE remain distinct. Prove complete original and candidate ComputeKernel equalities; replay the complete selected row, arbitrary width/strides/eps, OutputUnique, successful execution, safety/frame, actual FP pair and all auxiliary files. Retain the original signed-index bounds and overflow witness unchanged; supply a larger Lean task stack through the owning Legacy library to avoid a compiler resource failure.",
+    "rmsnorm_triton": "Copy both complete selected FP32 Python bodies and the existing batch-stride commutation candidate literally. Preserve tuple zeros, both loops, original comments/0. spelling, FP32 input conversions, libdevice integer power, rsqrt and all masks/loads/stores. Runtime strides and original constexpr N_SIZE/eps/BLOCK_N_SIZE remain distinct. Prove both complete ComputeKernel equalities to frozen prior sources. Replay full 2D-grid Real IO, complete typed source pair, safety, frame and all auxiliary files. Other dtype specializations of the legacy polymorphic API are not added to this selected FP32 scope.",
+    "sin_computation": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "sin_kernel": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "square_matrix": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "swiglu_fwd": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "triton_argmax": "Shared-frontend dependency regression only; selected public Real/FP entries and their source/schedule/safety/frame proofs replayed. Source-body migration remains pending and is not counted complete.",
+    "vector_addition": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged.",
+    "vector_addition_custom": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against native tuple and typed constexpr support. The source bodies, numerical assumptions and public domains are unchanged."
+  },
+  "frontend_review": [
+    "Keep exact raw Python tuple shape spelling; lower tuple shape syntax only for zeros/full constructors. Reject scalar grouping (B) as a shape. Support positional dtype for full using the existing constructor expansion.",
+    "Bind immutable Nat/Int/Real/Bool constexpr carriers outside raw body; Real constexpr stays a weak Python scalar, unlike a typed runtime FP32 argument. Do not substitute mutable constexpr locals; reject constexpr iterator shadowing.",
+    "Retain source FP32 typing for math.rsqrt and libdevice integer-power results, preventing invented extra store casts. Complete-program equality in both new tasks and FP64 constexpr regression check this connection.",
+    "Larger Lean task stack on source-owning Legacy library is a compiler resource setting; no theorem, finite index bound or overflow witness changed."
+  ],
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 550,
+      "jobs": 9381
+    },
+    "clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 550,
+      "jobs": 9381,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_external_packages_reused": true
+    },
+    "joint_import": "PASS: all 550 modules",
+    "new_directories": {
+      "status": "PASS within joint scope",
+      "modules": 61,
+      "scope": "Every Lean file in both newly migrated repair directories"
+    },
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 33
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 278,
+      "errors": 1,
+      "reason": "Old numerical receipt still rejects the unchanged Float/Structural.lean hash; earlier clean-baseline reproduction retained. No receipt has been falsely re-pinned."
+    },
+    "official_comparator": "UNAVAILABLE: actual invocation reports missing comparator setup.",
+    "gpu_or_native_experiment": "Not run. No new numerical rules or axioms."
+  },
+  "source_pairs": {
+    "total": 64,
+    "pasted_body": 59,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/source-closure.json",
+    "sha256": "fcc612ef751c67ab87606b189685cfb3223f5bf2b77076316d5434733ae73417"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 19,
+      "uncovered_jit_functions": 161
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "no_independent_python_reference": 7,
+      "selected_body_copy_checked": 1,
+      "spec_derived_body_copy_checked": 8,
+      "uncovered_jit_functions": 1
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 297,
+    "primary_files_with_int64_screen_warning": 44,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 130,
+        "antiquotes": 143,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 8,
+        "dsl_loop": 3,
+        "dsl_numeric_helpers": 2
+      }
+    }
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/modules.json",
+      "sha256": "83b1082494dd4450f53a38fa0192b89d89a8ad3f371080ad9ad99355c66078ae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/pairs.json",
+      "sha256": "689b34e943692a1149e3b84b3895b50f075195f316216ed419063b8c4b751823"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/integration.log.gz",
+      "sha256": "4b5ae72fb6b286de8170f84c3d16f25060bc2fb5ec0be9cdf74a61fea5c6e76a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-build.log.gz",
+      "sha256": "e12e3ecc8099a6ba97f5e0f6a811826b9d4320ca011cb5ef9284390fc474c6f7"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/python-tests.log",
+      "sha256": "201c33dc1cd14f37bfaa066f8ed3837b25d5d79195bce98cf2dbff36c2069e08"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/all-python-tests.log.gz",
+      "sha256": "e8993b926b64910ccb23a3b696dd6064b5bb9ce76324a510d651f9b82a89eadc"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/preexisting-numerical-baseline.log",
+      "sha256": "0caaccadc433b698c721f6b138279b717c27061c2ccac93025d27a6bd6d1116f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/clean-setup.log",
+      "sha256": "7a3174489235b5ca7f72d57310004a7a4d56b09e5c26fe86340841d54b079671"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/joint.lean",
+      "sha256": "2805738994827c328efc6447b4a487ea22117e0378c00b30843f7847e2c15c2f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
