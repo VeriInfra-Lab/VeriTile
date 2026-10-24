@@ -30,15 +30,19 @@ and cell-level frame. The flat-memory specification below transports this result
 through the separately proved address bounds; both proofs are independent of FP admission. -/
 specification online_softmax_output_correctness (N : Nat) (hN : 0 < N)
     (s : BlockState) (xs : Fin N → ℝ) (hx : InputLoadedAt s "x" N xs) :
-    Spec.Real (∃ t, exec (onlineSoftmaxKernel "x" "y" N) s = some t ∧
+    Spec.Real (∃ t, exec ((onlineSoftmaxKernel "x" "y" N).eraseDType) s = some t ∧
       (∀ i : Fin N, t.readMem "y" (s.pid * N + i.val) =
         Real.exp (xs i - tileMax hN xs) / ∑ j, Real.exp (xs j - tileMax hN xs)) ∧
       (∀ (r : RegionName) o, (r ≠ "y" ∨ ∀ i : Fin N, o ≠ s.pid * N + i.val) → t.mem r o = s.mem r o)) := by
+  rw [RealSource.online_projection]
   exact online_output_run N hN s xs hx
 
 /-- Read and write the row at pid * B; input and output windows both have B elements. -/
 def batchSoftmaxIO (B : Nat) : KernelIO₁ where
-  kernel := batchSoftmaxKernel ⟨"x"⟩ ⟨"y"⟩ B
+  kernel := (batchSoftmaxKernel ⟨"x"⟩ ⟨"y"⟩ B).eraseDType
+  projection := by
+    simp only [batchSoftmaxKernel, RealSource.stable_projection]
+    rfl
   inp := ⟨"x"⟩
   out := ⟨"y"⟩
   Bin := B
@@ -51,18 +55,25 @@ specification online_softmax_correctness (B : Nat) (hB : 0 < B) :
     Spec.Real (batchSoftmaxIO B ⊨ fun xs i =>
       Real.exp (xs i - (onlineSoftmaxM xs B).unbotD 0)
         / (onlineSoftmaxL xs B).unbotD 0) := by
+  have halg : (batchSoftmaxIO B).kernel.toAlgKernel =
+      (RealSource.batchSoftmaxKernel "x" "y" B).toAlgKernel :=
+    congrArg ComputeKernel.toAlgKernel (RealSource.stable_projection "x" "y" B)
   refine KernelIO₁.Implements.intro _ ?_ ?_ ?_
-  · exact batchSoftmax_flattenOk ⟨"x"⟩ ⟨"y"⟩ B
+  · rw [halg]; exact batchSoftmax_flattenOk ⟨"x"⟩ ⟨"y"⟩ B
   · intro bounds s h1 h2 _
-    exact batchSoftmax_traceSafe ⟨"x"⟩ ⟨"y"⟩ B bounds s h1 h2
+    rw [halg]; exact batchSoftmax_traceSafe ⟨"x"⟩ ⟨"y"⟩ B bounds s h1 h2
   · intro s₀ xs hx
+    rw [halg]
     obtain ⟨s1, hexec, hval, hframe⟩ := batchSoftmax_region_run B hB s₀ xs hx
     -- scratch is empty, so its frame side condition is vacuous
     exact ⟨s1, hexec, hval, fun r o hout _ => hframe r o hout⟩
 
 /-- The complete two-pass source has the same bounded row windows as batch softmax. -/
 def onlineSoftmaxIO (N : Nat) : KernelIO₁ where
-  kernel := onlineSoftmaxKernel "x" "y" N
+  kernel := (onlineSoftmaxKernel "x" "y" N).eraseDType
+  projection := by
+    rw [RealSource.online_projection]
+    rfl
   inp := "x"
   out := "y"
   Bin := N
@@ -75,12 +86,16 @@ execution, both input passes in bounds, all output stores and the flat-memory fr
 specification online_softmax_flat_correctness (N : Nat) (hN : 0 < N) :
     Spec.Real (onlineSoftmaxIO N ⊨ fun xs i =>
       Real.exp (xs i - tileMax hN xs) / ∑ j, Real.exp (xs j - tileMax hN xs)) := by
+  have halg : (onlineSoftmaxIO N).kernel.toAlgKernel =
+      (RealSource.onlineSoftmaxKernel "x" "y" N).toAlgKernel :=
+    congrArg ComputeKernel.toAlgKernel (RealSource.online_projection "x" "y" N)
   refine KernelIO₁.Implements.intro _ ?_ ?_ ?_
-  · exact Memory.flattenOk "x" "y" N
+  · rw [halg]; exact Memory.flattenOk "x" "y" N
   · intro bounds s hx hy _
-    exact Memory.traceSafe "x" "y" N bounds s hx hy
+    rw [halg]; exact Memory.traceSafe "x" "y" N bounds s hx hy
   · intro s xs hx
-    obtain ⟨t, ht, hv, hf⟩ := online_softmax_output_correctness N hN s xs hx
+    rw [halg]
+    obtain ⟨t, ht, hv, hf⟩ := online_output_run N hN s xs hx
     exact ⟨t, ht, hv, fun r o h _ => hf r o h⟩
 
 #axiomsClean online_softmax_flat_correctness

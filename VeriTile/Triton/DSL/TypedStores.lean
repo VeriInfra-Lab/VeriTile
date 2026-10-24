@@ -115,6 +115,9 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| $a:tritonExpr / $b:tritonExpr) => (sameWorkingFloat a b).map ValueInfo.typed
   | `(tritonExpr| tl.where($_:tritonExpr, $a:tritonExpr, $b:tritonExpr)) =>
       (sameWorkingFloat a b).map ValueInfo.typed
+  | `(tritonExpr| tl.maximum($a:tritonExpr, $b:tritonExpr))
+  | `(tritonExpr| tl.minimum($a:tritonExpr, $b:tritonExpr)) =>
+      (sameWorkingFloat a b).map ValueInfo.typed
   | `(tritonExpr| $_:tritonExpr < $_:tritonExpr)
   | `(tritonExpr| $_:tritonExpr <= $_:tritonExpr)
   | `(tritonExpr| $_:tritonExpr > $_:tritonExpr)
@@ -125,6 +128,7 @@ private partial def valueType (pointers : Types) (values : Values)
   | `(tritonExpr| tl.cos($a:tritonExpr)) | `(tritonExpr| tl.exp($a:tritonExpr))
   | `(tritonExpr| tl.sigmoid($a:tritonExpr)) | `(tritonExpr| tl.rsqrt($a:tritonExpr))
   | `(tritonExpr| tl.math.rsqrt($a:tritonExpr))
+  | `(tritonExpr| libdevice.exp($a:tritonExpr))
   | `(tritonExpr| tl.log($a:tritonExpr)) | `(tritonExpr| tl.sqrt($a:tritonExpr)) =>
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
   | `(tritonExpr| tl.extra.cuda.libdevice.pow($a:tritonExpr, $_:num)) =>

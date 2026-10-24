@@ -1,4 +1,4 @@
-import bench.examples.OnlineSoftmax.Kernels
+import bench.examples.OnlineSoftmax.Proofs.SourceDecomposition
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Float.Control
 import bench.examples.SoftmaxStable.Proofs.FP
@@ -18,6 +18,8 @@ That intrinsic relation failed admission; the libdevice EXP-SUB instance passed.
 the complete two-pass kernel then stores the output row. Numerical comparisons
 are derived below from the admitted scalar atoms. -/
 
+open VeriTile.Bench.Examples.OnlineSoftmax.SourceDecomposition
+
 namespace VeriTile.Bench.Examples.OnlineSoftmaxFPExecution
 open VeriTile.Bench.Examples.OnlineSoftmax.Kernels
 open VeriTile Triton FP.Structural
@@ -25,25 +27,23 @@ open VeriTile Triton FP.Structural
 set_option maxHeartbeats 1600000
 
 
+def sourceEngine {α : Type} (M : Algebra α) : Algebra α :=
+  M.withDefaultPrecision .fp32
+
 private def ref (n : RegName) : Op .real [] := .ref .real [] n
 
+/-- Proof-only decomposition of the actual native source, connected by
+kernel_body and full_kernel_body to its complete statement body. -/
 def body (xReg : RegionName) (N : Nat) : List ComputeStmt :=
-  [.assign .real [] "xi" (.alg (.load .real (.region xReg
-      (.add .nat .nil (.mul .nat .nil (.ref .nat [] "pid") (.constNat N))
-        (.ref .nat [] "i"))) .none)),
-   .assign .real [] "m_new" (.alg (.max2 .nil (ref "m") (ref "xi"))),
-   .assign .real [] "l" (.alg (.add .real .nil
-      (.mul .real .nil (.libdeviceExp (.sub .real .nil (ref "m") (ref "m_new"))) (ref "l"))
-      (.libdeviceExp (.sub .real .nil (ref "xi") (ref "m_new"))))),
-   .assign .real [] "m" (.alg (ref "m_new"))]
+  match (normalizerSource xReg "__output" N).surfaceBody with
+  | _ :: _ :: _ :: .forLoop _ _ code :: _ => code
+  | _ => []
 
 def initialCode : List ComputeStmt :=
-  [.assign .nat [] "pid" (.alg (.programId 0)),
-   .assign .real [] "m" (.alg .negInf),
-   .assign .real [] "l" (.alg (.const 0))]
+  (onlineSoftmaxKernel "__input" "__output" 0).surfaceBody.take 3
 
 theorem kernel_body (x y : RegionName) (N : Nat) :
-    (onlineNormalizerKernel x y N).surfaceBody =
+    (normalizerSource x y N).surfaceBody =
       initialCode ++ [.forLoop "i" N (body x N)] := rfl
 
 def update {α : Type} (M : Algebra α) (x : α) (acc : α × α) : α × α :=
@@ -67,13 +67,13 @@ private def Invariant {α : Type} [Inhabited α] (M : Algebra α) (xs : Fin N �
 
 private theorem iteration {α : Type} [Inhabited α] (M : Algebra α)
     (xReg : RegionName) (xs : Fin N → α) (origin : State α)
-    (hx : ∀ i : Fin N, (origin.mem xReg (origin.pids 0 * N + i.val)).read .real = xs i)
-    (i : Nat) (s : State α) (hi : i < N) (hs : Invariant M xs origin i s) :
-    ∃ t, run M (body xReg N) (s.setReg "i" .nat [] (fun _ => i)) = some t ∧
-      Invariant M xs origin (i + 1) t := by
+    (hx : ∀ i : Fin N, M.fp32Load ((origin.mem xReg (origin.pids 0 * N + i.val)).read .real) = xs i)
+    (i : Nat) (s : State α) (hi : i < N) (hs : Invariant (sourceEngine M) xs origin i s) :
+    ∃ t, run (sourceEngine M) (body xReg N) (s.setReg "i" .nat [] (fun _ => i)) = some t ∧
+      Invariant (sourceEngine M) xs origin (i + 1) t := by
   rcases hs with ⟨hm, hl, hpid, hmem, hpids⟩
   have hxi := hx ⟨i, hi⟩
-  simp [body, run, step, evalExpr, evalOp_unfold, numeric, FP.Structural.bop,
+  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, body, normalizerSource, onlineSoftmaxKernel, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold, numeric, FP.Structural.bop,
     ref, State.setReg, hmem, hm, hl, hpid, hxi, Region.cast,
     Invariant, recurrence, hi, update, hpids]
   exact ⟨rfl, rfl⟩
@@ -83,21 +83,50 @@ recurrence in m/l. Even -inf and exp remain opaque; there is no hidden identity
 for initialization, no Real projection and no invented output store. -/
 theorem online_run {α : Type} [Inhabited α] (M : Algebra α)
     (xReg yReg : RegionName) (xs : Fin N → α) (origin : State α)
-    (hx : ∀ i : Fin N, (origin.mem xReg (origin.pids 0 * N + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (onlineNormalizerKernel xReg yReg N) origin = some t ∧
-      t.regs .real [] "m" = some (fun _ => (recurrence M xs N).1) ∧
-      t.regs .real [] "l" = some (fun _ => (recurrence M xs N).2) ∧
+    (hx : ∀ i : Fin N, M.fp32Load ((origin.mem xReg (origin.pids 0 * N + i.val)).read .real) = xs i) :
+    ∃ t, FP.Structural.exec (sourceEngine M) (normalizerSource xReg yReg N) origin = some t ∧
+      t.regs .real [] "m" = some (fun _ => (recurrence (sourceEngine M) xs N).1) ∧
+      t.regs .real [] "l" = some (fun _ => (recurrence (sourceEngine M) xs N).2) ∧
       t.mem = origin.mem ∧ t.pids = origin.pids := by
   let s := ((origin.setReg "pid" .nat [] (fun _ => origin.pids 0)).setReg "m" .real []
-    (fun _ => M.negInf)).setReg "l" .real [] (fun _ => M.literal none .real 0)
-  have hs : Invariant M xs origin 0 s := by simp [Invariant, recurrence, s, State.setReg]
-  obtain ⟨t, ht, hm, hl, _, hmem, hpids⟩ := forLoop_invariant M hs (iteration M xReg xs origin hx)
+    (fun _ => M.negInf)).setReg "l" .real [] (fun _ => (sourceEngine M).literal none .real 0)
+  have hs : Invariant (sourceEngine M) xs origin 0 s := by simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, Invariant, recurrence, s, State.setReg]
+  obtain ⟨t, ht, hm, hl, _, hmem, hpids⟩ := forLoop_invariant (sourceEngine M) hs (iteration M xReg xs origin hx)
   refine ⟨t, ?_, hm, hl, hmem, hpids⟩
-  have he : FP.Structural.exec M (onlineNormalizerKernel xReg yReg N) origin =
-      run M (initialCode ++ [.forLoop "i" N (body xReg N)]) origin :=
-    congrArg (fun code => run M code origin) (kernel_body xReg yReg N)
+  have he : FP.Structural.exec (sourceEngine M) (normalizerSource xReg yReg N) origin =
+      run (sourceEngine M) (initialCode ++ [.forLoop "i" N (body xReg N)]) origin :=
+    congrArg (fun code => run (sourceEngine M) code origin) (kernel_body xReg yReg N)
   rw [he, run_append]
-  simpa [initialCode, run, step, evalExpr, evalOp_unfold, s] using ht
+  simpa [initialCode, onlineSoftmaxKernel, ComputeKernel.surfaceBody, run, step, evalExpr, evalComputeOp, evalOp_unfold, s] using ht
+
+/-- The read-only observation prefix also performs the full source's second
+input read, retaining its actual FP32-loaded row in register x. -/
+theorem loaded_normalizer_run {α : Type} [Inhabited α] (M : Algebra α)
+    (x y : RegionName) (xs : Fin N → α) (s : State α)
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * N + i.val)).read .real) = xs i) :
+    ∃ t, FP.Structural.exec (sourceEngine M) (loadedNormalizerSource x y N) s = some t ∧
+      t.regs .real [] "m" = some (fun _ => (recurrence (sourceEngine M) xs N).1) ∧
+      t.regs .real [] "l" = some (fun _ => (recurrence (sourceEngine M) xs N).2) ∧
+      t.regs .real [N] "x" = some (fun i => xs i.1) ∧
+      t.mem = s.mem ∧ t.pids = s.pids := by
+  obtain ⟨a, ha, hm, hl, hmem, hpids⟩ := online_run M x y xs s hx
+  have he : FP.Structural.exec (sourceEngine M) (loadedNormalizerSource x y N) s =
+      run (sourceEngine M) ((normalizerSource x y N).surfaceBody ++ rowLoadCode x y N) s :=
+    congrArg (fun code => run (sourceEngine M) code s) (loaded_prefix x y N)
+  let t := ((a.setReg "pid" .nat [] (fun _ => s.pids 0)).setReg "offs" .nat [N]
+    (fun i => s.pids 0 * N + i.1.val)).setReg "x" .real [N] (fun i => xs i.1)
+  refine ⟨t, ?_, ?_, ?_, ?_, hmem, hpids⟩
+  · rw [he, run_append]
+    change (FP.Structural.exec (sourceEngine M) (normalizerSource x y N) s).bind _ = _
+    rw [ha]
+    simp [rowLoadCode, onlineSoftmaxKernel, ComputeKernel.surfaceBody, run, step,
+      evalExpr, evalComputeOp, evalOp_unfold, sourceEngine, Algebra.withDefaultPrecision,
+      resolvePrecision, ComputeDType.eraseDType, numeric, FP.Structural.bop,
+      hmem, hpids, hx, t]
+    rfl
+  · simpa [t, State.setReg] using hm
+  · simpa [t, State.setReg] using hl
+  · simp [t, State.setReg]
 
 /-- The source's second pass, isolated only to compose its execution proof. -/
 def normalizationBody (x y : RegionName) (N : Nat) : List ComputeStmt :=
@@ -105,7 +134,7 @@ def normalizationBody (x y : RegionName) (N : Nat) : List ComputeStmt :=
 
 theorem full_kernel_body (x y : RegionName) (N : Nat) :
     (onlineSoftmaxKernel x y N).surfaceBody =
-      (onlineNormalizerKernel x y N).surfaceBody ++ normalizationBody x y N := rfl
+      (normalizerSource x y N).surfaceBody ++ normalizationBody x y N := rfl
 
 def normalizedValue {α : Type} (M : Algebra α) (x m l : α) : α :=
   M.binary none .real .div (M.unary none .libdeviceExp
@@ -117,16 +146,16 @@ theorem normalization_run {α : Type} [Inhabited α] (M : Algebra α)
     (x y : RegionName) (N : Nat) (xs : Fin N → α) (s : State α) (m l : α)
     (hm : s.regs .real [] "m" = some (fun _ => m))
     (hl : s.regs .real [] "l" = some (fun _ => l))
-    (hx : ∀ i : Fin N, (s.mem x (s.pids 0 * N + i.val)).read .real = xs i) :
-    ∃ t, run M (normalizationBody x y N) s = some t ∧
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * N + i.val)).read .real) = xs i) :
+    ∃ t, run (sourceEngine M) (normalizationBody x y N) s = some t ∧
       (∀ i : Fin N, t.mem y (s.pids 0 * N + i.val) =
-        .mk .real (normalizedValue M (xs i) m l)) ∧
+        .mk .real (normalizedValue (sourceEngine M) (xs i) m l)) ∧
       (∀ r o, (r ≠ y ∨ ∀ i : Fin N, o ≠ s.pids 0 * N + i.val) → t.mem r o = s.mem r o) := by
   have hinj : Function.Injective (fun i : TileIndex [N] => s.pids 0 * N + i.1.val) := by
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [normalizationBody, onlineSoftmaxKernel, ComputeKernel.surfaceBody, List.drop, run, step, evalExpr, evalOp_unfold,
+  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, normalizationBody, onlineSoftmaxKernel, ComputeKernel.surfaceBody, List.drop, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, FP.Structural.bop, store, hm, hl, hx, Region.cast, normalizedValue]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
   · rw [State.scatter_readback _ _ _ _ (i, PUnit.unit) hinj]
@@ -138,18 +167,18 @@ theorem normalization_run {α : Type} [Inhabited α] (M : Algebra α)
 /-- Complete online kernel: final output cells and the memory frame. -/
 theorem online_output_run {α : Type} [Inhabited α] (M : Algebra α)
     (x y : RegionName) (N : Nat) (xs : Fin N → α) (s : State α)
-    (hx : ∀ i : Fin N, (s.mem x (s.pids 0 * N + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (onlineSoftmaxKernel x y N) s = some t ∧
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * N + i.val)).read .real) = xs i) :
+    ∃ t, FP.Structural.exec (sourceEngine M) (onlineSoftmaxKernel x y N) s = some t ∧
       (∀ i : Fin N, t.mem y (s.pids 0 * N + i.val) =
-        .mk .real (normalizedValue M (xs i) (recurrence M xs N).1 (recurrence M xs N).2)) ∧
+        .mk .real (normalizedValue (sourceEngine M) (xs i) (recurrence (sourceEngine M) xs N).1 (recurrence (sourceEngine M) xs N).2)) ∧
       (∀ r o, (r ≠ y ∨ ∀ i : Fin N, o ≠ s.pids 0 * N + i.val) → t.mem r o = s.mem r o) := by
   obtain ⟨a, ha, hm, hl, hmem, hpids⟩ := online_run M x y xs s hx
   obtain ⟨b, hb, hout, hframe⟩ := normalization_run M x y N xs a _ _ hm hl
     (by simpa [hmem, hpids] using hx)
   refine ⟨b, ?_, ?_, ?_⟩
-  · change run M (onlineSoftmaxKernel x y N).surfaceBody s = some b
+  · change run (sourceEngine M) (onlineSoftmaxKernel x y N).surfaceBody s = some b
     rw [full_kernel_body, run_append]
-    change (FP.Structural.exec M (onlineNormalizerKernel x y N) s).bind _ = _
+    change (FP.Structural.exec (sourceEngine M) (normalizerSource x y N) s).bind _ = _
     rw [ha]
     exact hb
   · simpa [hpids] using hout
@@ -164,6 +193,7 @@ That intrinsic relation failed admission; the libdevice EXP-SUB instance passed.
 complete online source's output dtype. -/
 
 namespace VeriTile.Bench.Examples.OnlineSoftmaxFPBatch
+open OnlineSoftmaxFPExecution (sourceEngine)
 open VeriTile.Bench.Examples.OnlineSoftmax.Kernels
 open VeriTile Triton FP.Structural
 open SoftmaxStableFPExecution (maximum shifted rowSum)
@@ -176,15 +206,15 @@ def outputValue {α : Type} (M : Algebra α) (xs : Fin N → α) (i : Fin N) : �
 
 theorem batch_run {α : Type} [Inhabited α] (M : Algebra α)
     (x y : RegionName) (N : Nat) (hN : 0 < N) (xs : Fin N → α) (s : State α)
-    (hx : ∀ i : Fin N, (s.mem x (s.pids 0 * N + i.val)).read .real = xs i) :
-    ∃ t, FP.Structural.exec M (stableSoftmaxKernel x y N) s = some t ∧
-      (∀ i : Fin N, t.mem y (s.pids 0 * N + i.val) = .mk .real (outputValue M xs i)) ∧
+    (hx : ∀ i : Fin N, M.fp32Load ((s.mem x (s.pids 0 * N + i.val)).read .real) = xs i) :
+    ∃ t, FP.Structural.exec (sourceEngine M) (stableSoftmaxKernel x y N) s = some t ∧
+      (∀ i : Fin N, t.mem y (s.pids 0 * N + i.val) = .mk .real (outputValue (sourceEngine M) xs i)) ∧
       (∀ r o, (r ≠ y ∨ ∀ i : Fin N, o ≠ s.pids 0 * N + i.val) → t.mem r o = s.mem r o) := by
   have hinj : Function.Injective (fun i : TileIndex [N] => s.pids 0 * N + i.1.val) := by
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [stableSoftmaxKernel, FP.Structural.exec, run, step, evalExpr, evalOp_unfold,
+  simp [sourceEngine, Algebra.withDefaultPrecision, resolvePrecision, ComputeDType.eraseDType, stableSoftmaxKernel, FP.Structural.exec, run, step, evalExpr, evalComputeOp, evalOp_unfold,
     numeric, FP.Structural.bop, store, TileShape.axisDim, TileShape.eraseAxis, hN,
     Region.cast, hx, outputValue, shifted, maximum, rowSum]
   refine ⟨fun i => ?_, fun r o hmiss => ?_⟩
@@ -208,7 +238,7 @@ open OnlineSoftmaxFPExecution
 def engine {α : Type} (M : Algebra α) : Algebra α := M.withDefaultPrecision .fp32
 
 theorem recurrence_state {α : Type} (M : Algebra α) (xs : Nat → α) (N i : Nat) (hi : i ≤ N) :
-    recurrence (engine M) (fun k : Fin N => xs k.val) i = FP.OnlineSoftmax.state M xs i := by
+    recurrence (sourceEngine M) (fun k : Fin N => xs k.val) i = FP.OnlineSoftmax.state M xs i := by
   induction i with
   | zero => rfl
   | succ i ih =>
@@ -216,21 +246,21 @@ theorem recurrence_state {α : Type} (M : Algebra α) (xs : Nat → α) (N i : N
     rfl
 
 def rowExpressions (x : RegionName) (N i : Nat) : Expr MemoryInput :=
-  .input ⟨x, fun pid => pid * N + i, .real⟩
+  .fp32Load (.input ⟨x, fun pid => pid * N + i, .real⟩)
 
-def rowValues {α : Type} [Inhabited α] (s : State α) (x : RegionName) (N i : Nat) : α :=
-  (s.mem x (s.pids 0 * N + i)).read .real
+def rowValues {α : Type} [Inhabited α] (M : Algebra α) (s : State α) (x : RegionName) (N i : Nat) : α :=
+  M.fp32Load ((s.mem x (s.pids 0 * N + i)).read .real)
 
 @[simp] theorem eval_row {α : Type} [Inhabited α] (M : Algebra α) (s : State α)
     (x : RegionName) (N i : Nat) :
-    (rowExpressions x N i).eval M (MemoryInput.read s) = rowValues s x N i := rfl
+    (rowExpressions x N i).eval M (MemoryInput.read s) = rowValues M s x N i := rfl
 
 def requirements (x : RegionName) (N : Nat) : Condition :=
   FP.OnlineSoftmaxConditions.iterations (FP.GuardExpression.algebra MemoryInput) (rowExpressions x N) N
 
 theorem requirements_holds {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     (s : State α) (x : RegionName) (N : Nat) :
-    (requirements x N).Holds M D s ↔ FP.OnlineSoftmax.IterationDomain M D (rowValues s x N) N := by
+    (requirements x N).Holds M D s ↔ FP.OnlineSoftmax.IterationDomain M D (rowValues M s x N) N := by
   unfold requirements Condition.Holds
   rw [← Requirements.holds_map]
   simp only [FP.OnlineSoftmaxConditions.map_iterations, eval_row, FP.OnlineSoftmaxConditions.iterations_holds]
@@ -242,12 +272,12 @@ theorem original_recovery_run {α : Type} [Inhabited α] (R : Rules) (M : Algebr
     (D : Domain α) (hM : Models R.assumptions M D) (s : State α)
     (x y : RegionName) (N : Nat) (hN : 0 < N) (hExp : FP.SoftmaxShift.LibdeviceExpSub M D)
     (hd : (requirements x N).Holds M D s) :
-    ∃ t m l, FP.Structural.exec (engine M) (onlineNormalizerKernel x y N) s = some t ∧
+    ∃ t m l, FP.Structural.exec (engine M) (normalizerSource x y N) s = some t ∧
       t.regs .real [] "m" = some (fun _ => m) ∧ t.regs .real [] "l" = some (fun _ => l) ∧
-      mul M l (FP.SoftmaxShift.exp M m) = FP.OnlineSoftmax.prefixSum M (rowValues s x N) N ∧
+      mul M l (FP.SoftmaxShift.exp M m) = FP.OnlineSoftmax.prefixSum M (rowValues M s x N) N ∧
       t.mem = s.mem ∧ t.pids = s.pids := by
-  let xs := rowValues s x N
-  obtain ⟨t, ht, hm, hl, hmem, hpids⟩ := online_run (engine M) x y
+  let xs := rowValues M s x N
+  obtain ⟨t, ht, hm, hl, hmem, hpids⟩ := online_run M x y
     (fun i : Fin N => xs i.val) s (fun _ => rfl)
   rw [recurrence_state M xs N N le_rfl] at hm hl
   refine ⟨t, (FP.OnlineSoftmax.state M xs N).1, (FP.OnlineSoftmax.state M xs N).2,
@@ -317,7 +347,7 @@ def requirements (x : RegionName) (N : Nat) (plans : Schedules) : Condition :=
 
 theorem requirements_holds {α : Type} [Inhabited α] (M : Algebra α) (D : Domain α)
     (s : State α) (x : RegionName) (N : Nat) (plans : Schedules) :
-    (requirements x N plans).Holds M D s ↔ ComparisonDomain M D (rowValues s x N) N plans := by
+    (requirements x N plans).Holds M D s ↔ ComparisonDomain M D (rowValues M s x N) N plans := by
   have hstate := FP.OnlineSoftmaxConditions.eval_state M (MemoryInput.read s) (rowExpressions x N) N
   simp only [OnlineSoftmaxFPComparison.eval_row] at hstate
   have hm := congrArg Prod.fst hstate
@@ -350,17 +380,17 @@ theorem original_normalization_runs {α : Type} [Inhabited α] (R : FP.Exponenti
       FP.Structural.exec (SoftmaxStableFPContract.engine M plans)
         (OnlineSoftmax.Kernels.stableSoftmaxKernel x y N) s = some batch ∧
       FP.Structural.exec (OnlineSoftmaxFPComparison.engine M)
-        (OnlineSoftmax.Kernels.onlineNormalizerKernel x y N) s = some online ∧
+        (normalizerSource x y N) s = some online ∧
       online.regs .real [] "m" = some (fun _ => m) ∧ online.regs .real [] "l" = some (fun _ => l) ∧
       (∀ i : Fin N, batch.mem y (s.pids 0 * N + i.val) = .mk .real
-        (div M (FP.SoftmaxShift.exp M (sub M (rowValues s x N i.val) m)) l)) ∧
+        (div M (FP.SoftmaxShift.exp M (sub M (rowValues M s x N i.val) m)) l)) ∧
       (∀ r o, (r ≠ y ∨ ∀ i : Fin N, o ≠ s.pids 0 * N + i.val) → batch.mem r o = s.mem r o) ∧
       online.mem = s.mem ∧ online.pids = s.pids := by
-  let xs := rowValues s x N
-  obtain ⟨a, ha, hva, hfa⟩ := OnlineSoftmaxFPBatch.batch_run (SoftmaxStableFPContract.engine M plans)
+  let xs := rowValues M s x N
+  obtain ⟨a, ha, hva, hfa⟩ := OnlineSoftmaxFPBatch.batch_run (FP.ScalarReduction.algebra M plans)
     x y N hN (fun i : Fin N => xs i.val) s (fun _ => rfl)
   obtain ⟨b, hb, hm, hl, hmem, hpids⟩ := OnlineSoftmaxFPExecution.online_run
-    (OnlineSoftmaxFPComparison.engine M) x y (fun i : Fin N => xs i.val) s (fun _ => rfl)
+    M x y (fun i : Fin N => xs i.val) s (fun _ => rfl)
   rw [OnlineSoftmaxFPComparison.recurrence_state M xs N N le_rfl] at hm hl
   refine ⟨a, b, (FP.OnlineSoftmax.state M xs N).1, (FP.OnlineSoftmax.state M xs N).2,
     ha, hb, hm, hl, ?_, hfa, hmem, hpids⟩
@@ -373,7 +403,7 @@ theorem original_normalization_runs {α : Type} [Inhabited α] (R : FP.Exponenti
 schedule therefore leaves its scalar recurrence unchanged. -/
 theorem scheduled_recurrence {α : Type} (M : Algebra α) (plans : Schedules)
     (xs : Nat → α) (N i : Nat) (hi : i ≤ N) :
-    OnlineSoftmaxFPExecution.recurrence (SoftmaxStableFPContract.engine M plans)
+    OnlineSoftmaxFPExecution.recurrence (OnlineSoftmaxFPExecution.sourceEngine (FP.ScalarReduction.algebra M plans))
       (fun k : Fin N => xs k.val) i = FP.OnlineSoftmax.state M xs i := by
   induction i with
   | zero => rfl
@@ -396,6 +426,9 @@ def batchOutput (x y : RegionName) (N : Nat) : FP.ObservedRow.Program where
   profile := FP.Scheduled.fp32
   domain := requirements x N
 
+def loadedInput (N : Nat) (i : Fin N) : Op .real [] :=
+  .remap [] (fun _ => (i, PUnit.unit)) (.ref .real [N] "x")
+
 /-- Read the original online source's final m/l, then evaluate the normalized
 value. This is the same observation scope as OnlineSoftmaxCorrect; it is a
 read-only expression, not an additional store in the online kernel. -/
@@ -404,9 +437,9 @@ def normalizedOnline (x y : RegionName) (N : Nat) : FP.ObservedRow.Program where
   output := y
   size := N
   offset := fun pid => pid * N
-  kernel := OnlineSoftmax.Kernels.onlineNormalizerKernel x y N
+  kernel := loadedNormalizerSource x y N
   observe := fun pid i => .div .real .nil
-    (.libdeviceExp (.sub .real .nil (loadRow x N pid i.val) (.ref .real [] "m")))
+    (.libdeviceExp (.sub .real .nil (loadedInput N i) (.ref .real [] "m")))
     (.ref .real [] "l")
   writesOutput := Bool.false
   profile := FP.Scheduled.fp32
@@ -417,11 +450,11 @@ theorem observed_equivalent (R : FP.Exponential.Rules) (x y : RegionName)
     (N : Nat) (hN : 0 < N) :
     FP.ObservedRow.Equivalent R.assumptions (batchOutput x y N) (normalizedOnline x y N) := by
   intro α _ M D hM plans s hd
-  let xs := rowValues s x N
-  obtain ⟨a, ha, hva, hfa⟩ := OnlineSoftmaxFPBatch.batch_run (SoftmaxStableFPContract.engine M plans)
+  let xs := rowValues M s x N
+  obtain ⟨a, ha, hva, hfa⟩ := OnlineSoftmaxFPBatch.batch_run (FP.ScalarReduction.algebra M plans)
     x y N hN (fun i : Fin N => xs i.val) s (fun _ => rfl)
-  obtain ⟨b, hb, hm, hl, hmem, _⟩ := OnlineSoftmaxFPExecution.online_run
-    (SoftmaxStableFPContract.engine M plans) x y (fun i : Fin N => xs i.val) s (fun _ => rfl)
+  obtain ⟨b, hb, hm, hl, hxreg, hmem, _⟩ := OnlineSoftmaxFPExecution.loaded_normalizer_run
+    (FP.ScalarReduction.algebra M plans) x y (fun i : Fin N => xs i.val) s (fun _ => rfl)
   rw [scheduled_recurrence M plans xs N N le_rfl] at hm hl
   let values := fun i => div M
     (FP.SoftmaxShift.exp M (sub M (xs i) (FP.OnlineSoftmax.state M xs N).1))
@@ -434,8 +467,8 @@ theorem observed_equivalent (R : FP.Exponential.Rules) (x y : RegionName)
         ((requirements_holds M D s x N plans).mp hd) i))
     simp [batchOutput, loadRow, evalOp_unfold, Region.cast, hv, values]
   · intro i
-    simp [normalizedOnline, loadRow, evalOp_unfold, numeric,
-      hm, hl, hmem, Region.cast, values, xs, rowValues,
+    simp [normalizedOnline, loadedInput, loadRow, evalOp_unfold, numeric,
+      hm, hl, hxreg, hmem, Region.cast, values, xs, rowValues,
       FP.SoftmaxShift.exp, sub, div,
       FP.Scheduled.fp32, FP.Scheduled.Profile.algebra, Algebra.withDefaultPrecision,
       FP.ScalarReduction.algebra]
@@ -469,11 +502,11 @@ theorem output_equivalent (R : FP.Exponential.Rules) (x y : RegionName)
     FP.Scheduled.Equivalent₁ R.assumptions (batch x y N) (online x y N) := by
   refine ⟨by simp [batch, IO₁PrivateScratch], by simp [online, batch, IO₁PrivateScratch], ?_⟩
   intro α _ M D hM plans s hd
-  let xs := rowValues s x N
-  obtain ⟨a, ha, hva, hfa⟩ := OnlineSoftmaxFPBatch.batch_run (SoftmaxStableFPContract.engine M plans)
+  let xs := rowValues M s x N
+  obtain ⟨a, ha, hva, hfa⟩ := OnlineSoftmaxFPBatch.batch_run (FP.ScalarReduction.algebra M plans)
     x y N hN (fun i : Fin N => xs i.val) s (fun _ => rfl)
   obtain ⟨b, hb, hvb, hfb⟩ := OnlineSoftmaxFPExecution.online_output_run
-    (SoftmaxStableFPContract.engine M plans) x y N (fun i : Fin N => xs i.val) s (fun _ => rfl)
+    (FP.ScalarReduction.algebra M plans) x y N (fun i : Fin N => xs i.val) s (fun _ => rfl)
   rw [scheduled_recurrence M plans xs N N le_rfl] at hvb
   refine ⟨a, b, ha, hb, ?_, ?_, ?_⟩
   · intro i

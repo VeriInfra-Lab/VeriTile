@@ -60,6 +60,7 @@ globs = [
   "bench.tests.PythonBody",
   "bench.tests.ConstexprBody",
   "bench.tests.NativeCountLoop",
+  "bench.tests.NativeMaxLoop",
   "bench.tests.LoopBody",
   "bench.tests.BoolMaskMultiply",
   "bench.tests.FP32CallValue",

@@ -37,6 +37,14 @@
     "provenance": "spec_derived_native_source",
     "python": "bench/examples/LogExp/native_kernels.py"
   },
+  "OnlineSoftmax": {
+    "mathematical_spec_sha256": {
+      "bench/examples/OnlineSoftmax/Correct.lean": "1629f48d1207891cbc85d41aeda096d7becc6415587536315eb078b30831dc5c"
+    },
+    "note": "New native Python from the independent softmax formula; no historical Python origin is asserted. FP32 inputs/outputs, both complete algorithms, both online input passes, libdevice.exp and separate arithmetic are explicit. Re-prove the unchanged mathematical targets via complete ComputeKernel erasure equalities, and re-prove the actual typed FP pair and all cell frames. Numerical requirements concern actual FP32-loaded values; the read-only observation uses a proved prefix of the full source, including its actual second input read.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/OnlineSoftmax/native_kernels.py"
+  },
   "RowWiseMax": {
     "mathematical_spec_sha256": {
       "bench/examples/RowWiseMax/Correct.lean": "22a19971808eb920ade151e7258f9893053674200417f75c6bd9208a7f4162b3"

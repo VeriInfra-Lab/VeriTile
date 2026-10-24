@@ -13,9 +13,9 @@
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
-      "no_independent_python_reference": 5,
+      "no_independent_python_reference": 4,
       "selected_body_copy_checked": 1,
-      "spec_derived_body_copy_checked": 10,
+      "spec_derived_body_copy_checked": 11,
       "uncovered_jit_functions": 1
     },
     "selected_jit_functions": 328,
@@ -30,8 +30,8 @@
       },
       "examples": {
         "in_body_type_directives": 0,
-        "antiquotes": 6,
-        "dsl_loop": 1,
+        "antiquotes": 5,
+        "dsl_loop": 0,
         "dsl_numeric_helpers": 0
       }
     }
@@ -14012,26 +14012,77 @@
     {
       "name": "OnlineSoftmax",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/OnlineSoftmax/native_kernels.py",
       "lean": "bench/examples/OnlineSoftmax/Kernels.lean",
-      "source_provenance": "no_registered_reference",
+      "source_provenance": "spec_derived_native_source",
       "lean_screen": {
-        "quotations": 3,
+        "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 14,
-        "dsl_assignment": 31,
-        "dsl_loop": 2,
+        "antiquotes": 0,
+        "dsl_assignment": 13,
+        "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "stableSoftmaxKernel",
+          "line": 15,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "onlineSoftmaxKernel",
+          "line": 27,
+          "statements": 10,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "stableSoftmaxKernel",
+          "lean_definition": "stableSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/OnlineSoftmax/native_kernels.py",
+          "lean": "bench/examples/OnlineSoftmax/Kernels.lean"
+        },
+        {
+          "python_function": "onlineSoftmaxKernel",
+          "lean_definition": "onlineSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 10,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "N"
+          ],
+          "python": "bench/examples/OnlineSoftmax/native_kernels.py",
+          "lean": "bench/examples/OnlineSoftmax/Kernels.lean"
+        }
+      ],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "no_independent_python_reference",
+      "status": "spec_derived_body_copy_checked",
       "source_sha256": {
-        "bench/examples/OnlineSoftmax/Kernels.lean": "be70d79181a6ebc092db096ac202a9334516d564c3e910c3529f42d9461c9c56"
+        "bench/examples/OnlineSoftmax/Correct.lean": "1629f48d1207891cbc85d41aeda096d7becc6415587536315eb078b30831dc5c",
+        "bench/examples/OnlineSoftmax/Kernels.lean": "36819fcbc46fad1f1eacfd8eb7c8f256c5d65928f486e7d145cf0c7f648548a1",
+        "bench/examples/OnlineSoftmax/jit-correspondence.json": "0e99a6a9270fbe763784487734f03604578e2fc59d833a2673ce8137457f3aa3",
+        "bench/examples/OnlineSoftmax/native_kernels.py": "dc40b50e23c94cb33a07fd4f9a6c8142ba9f2ad02d6446d9fffaca1d5e2f4bf2"
+      },
+      "source_note": "New native Python from the independent softmax formula; no historical Python origin is asserted. FP32 inputs/outputs, both complete algorithms, both online input passes, libdevice.exp and separate arithmetic are explicit. Re-prove the unchanged mathematical targets via complete ComputeKernel erasure equalities, and re-prove the actual typed FP pair and all cell frames. Numerical requirements concern actual FP32-loaded values; the read-only observation uses a proved prefix of the full source, including its actual second input read.",
+      "mathematical_spec_sha256": {
+        "bench/examples/OnlineSoftmax/Correct.lean": "1629f48d1207891cbc85d41aeda096d7becc6415587536315eb078b30831dc5c"
       }
     },
     {

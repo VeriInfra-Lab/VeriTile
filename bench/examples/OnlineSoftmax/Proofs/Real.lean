@@ -1,4 +1,4 @@
-import bench.examples.OnlineSoftmax.Kernels
+import bench.examples.OnlineSoftmax.Proofs.RealSource
 import VeriTile.Triton.Core
 import VeriTile.Triton.Semantics
 import VeriTile.Triton.Float
@@ -15,7 +15,7 @@ import VeriTile.Triton.Memory.TraceProofs
 The public IO contracts and mathematical specifications are in ../Correct.lean. -/
 
 namespace VeriTile.Bench.Examples.OnlineSoftmax.Memory
-open VeriTile Triton TraceProofs Kernels
+open VeriTile Triton TraceProofs RealSource
 
 set_option maxHeartbeats 3200000
 
@@ -122,14 +122,15 @@ theorem traceSafe (x y : RegionName) (N : Nat) (bounds : RegionBounds) (s : Bloc
 theorem flattenOk (x y : RegionName) (N : Nat) :
     (onlineSoftmaxKernel x y N).toAlgKernel.FlattenOk := by
   simp [Kernel.FlattenOk, onlineSoftmaxKernel, ComputeKernel.toAlgKernel,
-    ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeStmt.toAlgorithm?,
+    ComputeKernel.toAlgorithm?, ComputeKernel.surfaceBody, ComputeKernel.fromKernelBody,
+    ComputeStmt.listToAlgorithm?, ComputeStmt.toAlgorithm?,
     ComputeExpr.toAlgorithm?, ComputeOp.toAlgorithm?, Except.bind, bind,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
 end VeriTile.Bench.Examples.OnlineSoftmax.Memory
 
 namespace VeriTile.Bench.Examples.OnlineSoftmax
-open VeriTile.Bench.Examples.OnlineSoftmax.Kernels
+open VeriTile.Bench.Examples.OnlineSoftmax.RealSource
 open VeriTile.Triton VeriTile.Triton.TiledSoftmax
 open VeriTile.Examples
 
@@ -459,13 +460,13 @@ theorem online_normalizer_run
     have hpid : stepStmt (.assign .nat [] "pid" (.programId 0)) s
                   = some (s.setReg "pid" .nat [] (Tile.scalar s.pid)) := by
       simp [stepStmt]
-    have hm0 : stepStmt (.assign .real [] "m" .negInf)
+    have hm0 : stepStmt (.assign .real [] "m" (.full [] .negInf))
                   (s.setReg "pid" .nat [] (Tile.scalar s.pid))
                 = some ((s.setReg "pid" .nat [] (Tile.scalar s.pid)).setReg
                     "m" .real [] (Tile.scalar (⊥ : WithBot ℝ))) := by
       simp [stepStmt]
       rfl
-    have hl0 : stepStmt (.assign .real [] "l" (.const 0))
+    have hl0 : stepStmt (.assign .real [] "l" (.full [] (.const 0)))
                   ((s.setReg "pid" .nat [] (Tile.scalar s.pid)).setReg
                     "m" .real [] (Tile.scalar (⊥ : WithBot ℝ)))
                 = some s0 := by
@@ -475,8 +476,8 @@ theorem online_normalizer_run
     show stepStmts (onlineNormalizerKernel xReg yReg N).body s = some sLoop
     show stepStmts
         [ .assign .nat [] "pid" (.programId 0)
-        , .assign .real [] "m" .negInf
-        , .assign .real [] "l" (.const 0)
+        , .assign .real [] "m" (.full [] .negInf)
+        , .assign .real [] "l" (.full [] (.const 0))
         , .forLoop "i" N (onlineSoftmaxLoopBody xReg N) ] s = some sLoop
     rw [stepStmts.cons_some hpid]
     rw [stepStmts.cons_some hm0]
