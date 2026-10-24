@@ -13,10 +13,8 @@
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
-      "no_independent_python_reference": 2,
-      "selected_body_copy_checked": 1,
-      "spec_derived_body_copy_checked": 13,
-      "uncovered_jit_functions": 1
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
     "uncovered_selected_jit_functions": 297,
@@ -30,7 +28,7 @@
       },
       "examples": {
         "in_body_type_directives": 0,
-        "antiquotes": 3,
+        "antiquotes": 0,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0
       }
@@ -13492,11 +13490,11 @@
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 18,
-        "dsl_assignment": 6,
+        "antiquotes": 0,
+        "dsl_assignment": 19,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 6
+        "load_dtype_extension": 0
       },
       "python_jits": [
         {
@@ -13506,18 +13504,70 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "update_fn_kernel",
+          "lean_definition": "update_fn_kernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "lr": "lr",
+            "wd": "wd",
+            "beta1": "beta1",
+            "beta2": "beta2",
+            "n_elements": "n_elements"
+          },
+          "statements": 19,
+          "runtime_parameters": {
+            "lr": "fp32",
+            "wd": "fp32",
+            "beta1": "fp32",
+            "beta2": "fp32",
+            "n_elements": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/tritonbench_g/adam_update_triton/adam_update_triton.py",
-          "function": "update_fn_kernel"
+          "lean": "bench/examples/AdamUpdateGridLaunch/Kernels.lean"
+        },
+        {
+          "python_function": "commuted_update",
+          "lean_definition": "commuted_update",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "lr": "lr",
+            "wd": "wd",
+            "beta1": "beta1",
+            "beta2": "beta2",
+            "n_elements": "n_elements"
+          },
+          "statements": 19,
+          "runtime_parameters": {
+            "lr": "fp32",
+            "wd": "fp32",
+            "beta1": "fp32",
+            "beta2": "fp32",
+            "n_elements": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
+          "python": "bench/examples/AdamUpdateGridLaunch/candidate_kernels.py",
+          "lean": "bench/examples/AdamUpdateGridLaunch/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/examples/AdamUpdateGridLaunch/Kernels.lean": "075f1d04fbf4b8a4c320ca28a088e5f738834fb6cbef0e7087ff56fe3af56277",
+        "bench/examples/AdamUpdateGridLaunch/Kernels.lean": "534e0723f43d16d8047ad9cf221d1ba21e33f8ce42c4c20a46830f2086678993",
+        "bench/examples/AdamUpdateGridLaunch/candidate_kernels.py": "59c70cf917670cb7cecdd3521e81fdfecd3991318726810a5f3298fd7152c837",
+        "bench/examples/AdamUpdateGridLaunch/jit-correspondence.json": "81f71b651d32587c9dde2664d914f0ec53e38a6c1cac63353b0d579f721ac6a6",
         "bench/tritonbench_g/adam_update_triton/adam_update_triton.py": "27d4f15342638339b2daea53f43752e30a28114a39d1b8dcdaf5e29b89072f45"
       }
     },
@@ -14054,51 +14104,324 @@
     {
       "name": "HyperConnectionsDepth",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
       "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean",
-      "source_provenance": "no_registered_reference",
+      "source_provenance": "spec_derived_native_source",
       "lean_screen": {
         "quotations": 4,
         "in_body_type_directives": 0,
-        "antiquotes": 44,
-        "dsl_assignment": 62,
+        "antiquotes": 0,
+        "dsl_assignment": 27,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 3
+        "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "matrixKernel",
+          "line": 11,
+          "statements": 20,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "scalarKernel",
+          "line": 40,
+          "statements": 7,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "optimizedKernel",
+          "line": 50,
+          "statements": 7,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "matrixOptimized",
+          "line": 60,
+          "statements": 20,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "matrixKernel",
+          "lean_definition": "matrixKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "tau": "tau"
+          },
+          "statements": 20,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [
+            "D",
+            "S",
+            "T",
+            "numIters"
+          ],
+          "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean"
+        },
+        {
+          "python_function": "scalarKernel",
+          "lean_definition": "scalarKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "tau": "tau"
+          },
+          "statements": 7,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean"
+        },
+        {
+          "python_function": "optimizedKernel",
+          "lean_definition": "optimizedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "tau": "tau"
+          },
+          "statements": 7,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean"
+        },
+        {
+          "python_function": "matrixOptimized",
+          "lean_definition": "matrixOptimized",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "tau": "tau"
+          },
+          "statements": 20,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [
+            "D",
+            "S",
+            "T",
+            "numIters"
+          ],
+          "python": "bench/examples/HyperConnectionsDepth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsDepth/Kernels.lean"
+        }
+      ],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "no_independent_python_reference",
+      "status": "spec_derived_body_copy_checked",
       "source_sha256": {
-        "bench/examples/HyperConnectionsDepth/Kernels.lean": "47254ebf57be9116ca8d1074e9cbc30c550c3843c80a1ff8ca58282057f7b9c9"
+        "bench/examples/HyperConnectionsDepth/Correct.lean": "c1953d739edd813a53bcf3f6df2a4a60d08415be28d3a53168ce5a364e1d5f3e",
+        "bench/examples/HyperConnectionsDepth/Kernels.lean": "6cd1ef9ed6a0d0ffa90670a42b3c979406009509d500cff33fbe5a375465d6e7",
+        "bench/examples/HyperConnectionsDepth/jit-correspondence.json": "e6d139ad0f8cd517b84c3608ba6f93a59d0d4a21c4dbd0ab4a1df75325505c8e",
+        "bench/examples/HyperConnectionsDepth/native_kernels.py": "1dd7a860a925cd8469b3a2fc68db8d24eb071dbfe5844b112eb39687b6ff0d78"
+      },
+      "source_note": "New native Python from the independent complete Sinkhorn/matrix specifications, not recovered historical source. Preserve all S/T/D dimensions and every normalization iteration, the scalar specialization and all existing candidates. FP32 buffers and runtime tau (never constexpr); explicit dot input_precision=\"ieee\" and separate arithmetic enable_fp_fusion=False. Complete native mathematical projections, full scalar and matrix Real execution/safety/output/frame and the existing FP rewrites are re-proved, without new numerical assumptions or reduced dimensions. Shared IO layouts and all old numerical domains remain.",
+      "mathematical_spec_sha256": {
+        "bench/examples/HyperConnectionsDepth/Correct.lean": "c1953d739edd813a53bcf3f6df2a4a60d08415be28d3a53168ce5a364e1d5f3e"
       }
     },
     {
       "name": "HyperConnectionsWidth",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
       "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean",
-      "source_provenance": "no_registered_reference",
+      "source_provenance": "spec_derived_native_source",
       "lean_screen": {
         "quotations": 6,
         "in_body_type_directives": 0,
-        "antiquotes": 86,
-        "dsl_assignment": 117,
+        "antiquotes": 0,
+        "dsl_assignment": 43,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
-        "load_dtype_extension": 3
+        "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "matrixKernel",
+          "line": 11,
+          "statements": 27,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "scalarKernel",
+          "line": 51,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "middleKernel",
+          "line": 62,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "optimizedKernel",
+          "line": 73,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "matrixMiddle",
+          "line": 84,
+          "statements": 27,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "matrixOptimized",
+          "line": 124,
+          "statements": 27,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "matrixKernel",
+          "lean_definition": "matrixKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "tau": "tau"
+          },
+          "statements": 27,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [
+            "D",
+            "S",
+            "T",
+            "numIters"
+          ],
+          "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean"
+        },
+        {
+          "python_function": "scalarKernel",
+          "lean_definition": "scalarKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "tau": "tau"
+          },
+          "statements": 8,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean"
+        },
+        {
+          "python_function": "middleKernel",
+          "lean_definition": "middleKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "tau": "tau"
+          },
+          "statements": 8,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean"
+        },
+        {
+          "python_function": "optimizedKernel",
+          "lean_definition": "optimizedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "tau": "tau"
+          },
+          "statements": 8,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [],
+          "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean"
+        },
+        {
+          "python_function": "matrixMiddle",
+          "lean_definition": "matrixMiddle",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "tau": "tau"
+          },
+          "statements": 27,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [
+            "D",
+            "S",
+            "T",
+            "numIters"
+          ],
+          "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean"
+        },
+        {
+          "python_function": "matrixOptimized",
+          "lean_definition": "matrixOptimized",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "typed_per_call_specialization",
+          "call_bindings": {
+            "tau": "tau"
+          },
+          "statements": 27,
+          "runtime_parameters": {
+            "tau": "fp32"
+          },
+          "constexpr_parameters": [
+            "D",
+            "S",
+            "T",
+            "numIters"
+          ],
+          "python": "bench/examples/HyperConnectionsWidth/native_kernels.py",
+          "lean": "bench/examples/HyperConnectionsWidth/Kernels.lean"
+        }
+      ],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "no_independent_python_reference",
+      "status": "spec_derived_body_copy_checked",
       "source_sha256": {
-        "bench/examples/HyperConnectionsWidth/Kernels.lean": "cc8e279c5689f5104e5b8bc3a63a872eba5da5444b96fede6f4b88ecfaf19caa"
+        "bench/examples/HyperConnectionsWidth/Correct.lean": "7e920737469f3c70700802ed7515ef935b8512414c2fd757ce35152cb099ab2f",
+        "bench/examples/HyperConnectionsWidth/Kernels.lean": "a2e1af6eb966a54f33fc6e88464125541f111a399450c39d6f9ec995b55e5e60",
+        "bench/examples/HyperConnectionsWidth/jit-correspondence.json": "b8c787c17c8e9ea22a051f892110dda9c55a1f72d9513c73204453480b6908c2",
+        "bench/examples/HyperConnectionsWidth/native_kernels.py": "f0ce50245dd2d9557f6d4f1fccf6cadb2fa223611d80084bbc3d7b5d6944136b"
+      },
+      "source_note": "New native Python from the independent complete Sinkhorn/matrix specifications, not recovered historical source. Preserve all S/T/D dimensions and every normalization iteration, the scalar specialization and all existing candidates. FP32 buffers and runtime tau (never constexpr); explicit dot input_precision=\"ieee\" and separate arithmetic enable_fp_fusion=False. Complete native mathematical projections, full scalar and matrix Real execution/safety/output/frame and the existing FP rewrites are re-proved, without new numerical assumptions or reduced dimensions. Shared IO layouts and all old numerical domains remain.",
+      "mathematical_spec_sha256": {
+        "bench/examples/HyperConnectionsWidth/Correct.lean": "7e920737469f3c70700802ed7515ef935b8512414c2fd757ce35152cb099ab2f"
       }
     },
     {

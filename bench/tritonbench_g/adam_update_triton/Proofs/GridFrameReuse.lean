@@ -27,6 +27,7 @@ theorem merged_grid_frame (P G M : RegionName)
   change VeriTile.Bench.Examples.AdamUpdateGridLaunch.adamWritesFP
     P M n B (initial.withGridIndex idx) (region, offset) at written
   unfold VeriTile.Bench.Examples.AdamUpdateGridLaunch.adamWritesFP
+    VeriTile.Bench.Examples.AdamUpdateGridLaunch.Mathematical.adamWritesFP
     WriteFootprint.union WriteFootprint.activeTileImage at written
   rcases written with ⟨hr, i, active, address⟩ | ⟨hr, i, active, address⟩
   · rcases outside with other | tail

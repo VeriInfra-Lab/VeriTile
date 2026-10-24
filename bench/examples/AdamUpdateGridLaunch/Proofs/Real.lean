@@ -1,4 +1,5 @@
-import bench.examples.AdamUpdateGridLaunch.Kernels
+import bench.examples.AdamUpdateGridLaunch.Proofs.MathKernels
+import bench.examples.AdamUpdateGridLaunch.IO
 import VeriTile.Examples.Common
 import VeriTile.Triton.Core
 import VeriTile.Triton.Semantics
@@ -13,8 +14,8 @@ import VeriTile.Meta.StatementAudit
 /-! Real execution, arithmetic and memory lemmas for AdamUpdateGridLaunch.
 The public IO contracts and mathematical specifications are in ../Correct.lean. -/
 
-namespace VeriTile.Bench.Examples.AdamUpdateGridLaunch
-open VeriTile.Bench.Examples.AdamUpdateGridLaunch.Kernels
+namespace VeriTile.Bench.Examples.AdamUpdateGridLaunch.Mathematical
+open VeriTile.Bench.Examples.AdamUpdateGridLaunch.MathKernels
 
 attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm?
   VeriTile.Triton.ComputeOp.toAlgorithm? VeriTile.Triton.ComputeDType.eraseDType
@@ -185,7 +186,7 @@ theorem adam_writeWithin
       simp [BlockState.setReg_mem]
 
 /-- 1-D launch grid of `m` programs. -/
-abbrev adamGrid (m : Nat) : Grid := { dims := [m] }
+abbrev adamGrid := IO.adamGrid
 
 /-- The Python launch uses `m = cdiv n_elements BLOCK_SIZE` programs, which is
 exactly enough to cover every in-bounds index: `k < n_elements → k/BLOCK < m`. -/
@@ -643,4 +644,16 @@ theorem optimized_exec (lr wd beta1 beta2 : ℝ) (n B : Nat) (s : BlockState) :
 
 end Optimized
 
+end VeriTile.Bench.Examples.AdamUpdateGridLaunch.Mathematical
+
+/- Compatibility for mathematical grid consumers. Complete native-to-math
+kernel equality is definitional, as recorded in NativeProjection. These are
+execution frames for that same complete algorithm, not a reduced source. -/
+namespace VeriTile.Bench.Examples.AdamUpdateGridLaunch
+abbrev adamGrid := IO.adamGrid
+noncomputable abbrev adamFrame := Mathematical.adamFrame
+noncomputable abbrev adamLaunch := Mathematical.adamLaunch
+noncomputable abbrev adamWritesFP := Mathematical.adamWritesFP
+abbrev update_fn_kernel_grid_correct_unconditional :=
+  Mathematical.update_fn_kernel_grid_correct_unconditional
 end VeriTile.Bench.Examples.AdamUpdateGridLaunch

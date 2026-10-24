@@ -45,6 +45,22 @@
     "provenance": "spec_derived_native_source",
     "python": "bench/examples/FusedSwiglu/native_kernels.py"
   },
+  "HyperConnectionsDepth": {
+    "mathematical_spec_sha256": {
+      "bench/examples/HyperConnectionsDepth/Correct.lean": "c1953d739edd813a53bcf3f6df2a4a60d08415be28d3a53168ce5a364e1d5f3e"
+    },
+    "note": "New native Python from the independent complete Sinkhorn/matrix specifications, not recovered historical source. Preserve all S/T/D dimensions and every normalization iteration, the scalar specialization and all existing candidates. FP32 buffers and runtime tau (never constexpr); explicit dot input_precision=\"ieee\" and separate arithmetic enable_fp_fusion=False. Complete native mathematical projections, full scalar and matrix Real execution/safety/output/frame and the existing FP rewrites are re-proved, without new numerical assumptions or reduced dimensions. Shared IO layouts and all old numerical domains remain.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/HyperConnectionsDepth/native_kernels.py"
+  },
+  "HyperConnectionsWidth": {
+    "mathematical_spec_sha256": {
+      "bench/examples/HyperConnectionsWidth/Correct.lean": "7e920737469f3c70700802ed7515ef935b8512414c2fd757ce35152cb099ab2f"
+    },
+    "note": "New native Python from the independent complete Sinkhorn/matrix specifications, not recovered historical source. Preserve all S/T/D dimensions and every normalization iteration, the scalar specialization and all existing candidates. FP32 buffers and runtime tau (never constexpr); explicit dot input_precision=\"ieee\" and separate arithmetic enable_fp_fusion=False. Complete native mathematical projections, full scalar and matrix Real execution/safety/output/frame and the existing FP rewrites are re-proved, without new numerical assumptions or reduced dimensions. Shared IO layouts and all old numerical domains remain.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/HyperConnectionsWidth/native_kernels.py"
+  },
   "LogExp": {
     "mathematical_spec_sha256": {
       "bench/examples/LogExp/Correct.lean": "9c5fbcf3b42d1f06506a2e9a62aef27564d57bda94c8a697ae01b2c16a3bff7f"

@@ -1,4 +1,4 @@
-import bench.examples.HyperConnectionsWidth.Kernels
+import bench.examples.HyperConnectionsWidth.Proofs.MathKernels
 import VeriTile.Triton.Math.Sinkhorn
 import VeriTile.Triton.Math.MatrixRewrite
 import VeriTile.Triton.Core
@@ -13,8 +13,8 @@ import VeriTile.Triton.Math.SinkhornMemory
 /-! Real execution, arithmetic and memory lemmas for HyperConnectionsWidth.
 The public IO contracts and mathematical specifications are in ../Correct.lean. -/
 
-namespace VeriTile.Bench.Examples.HyperConnectionsWidth.Memory
-open VeriTile Triton TraceProofs Kernels
+namespace VeriTile.Bench.Examples.HyperConnectionsWidth.Mathematical.Memory
+open VeriTile Triton TraceProofs MathKernels
 
 set_option maxHeartbeats 6400000
 
@@ -180,10 +180,10 @@ theorem flattenOk (optimized : Bool) (S T D iters : Nat) (tau : ℝ) :
   cases optimized <;> simp [Kernel.FlattenOk, matrixOriginal, matrixKernel, matrixOptimized, ComputeKernel.toAlgKernel,
     StmtList.FlattenOk, Stmt.FlattenOk, Op.FlattenOk.eq_def]
 
-end VeriTile.Bench.Examples.HyperConnectionsWidth.Memory
+end VeriTile.Bench.Examples.HyperConnectionsWidth.Mathematical.Memory
 
-namespace VeriTile.Bench.Examples.HyperConnectionsWidth
-open VeriTile.Bench.Examples.HyperConnectionsWidth.Kernels
+namespace VeriTile.Bench.Examples.HyperConnectionsWidth.Mathematical
+open VeriTile.Bench.Examples.HyperConnectionsWidth.MathKernels
 
 attribute [local simp] VeriTile.Triton.ComputeExpr.toAlgorithm?
   VeriTile.Triton.ComputeOp.toAlgorithm? VeriTile.Triton.ComputeDType.eraseDType
@@ -404,11 +404,11 @@ theorem optimized_exec (tau : ℝ) (s : BlockState) :
 
 end Optimized
 
-end VeriTile.Bench.Examples.HyperConnectionsWidth
+end VeriTile.Bench.Examples.HyperConnectionsWidth.Mathematical
 
-namespace VeriTile.Bench.Examples.HyperConnectionsWidth.MatrixCorrect
+namespace VeriTile.Bench.Examples.HyperConnectionsWidth.Mathematical.MatrixCorrect
 open VeriTile Triton LogSinkhorn
-open VeriTile.Bench.Examples.HyperConnectionsWidth.Kernels
+open VeriTile.Bench.Examples.HyperConnectionsWidth.MathKernels
 
 set_option maxHeartbeats 6400000
 
@@ -601,4 +601,4 @@ theorem matrix_region_run (optimized : Bool) (S T D iters : Nat) (tau : ℝ)
         · exact Or.inl h
         · exact Or.inr (fun i => by simpa [finProdFinEquiv, Nat.add_assoc, Nat.add_comm, Nat.add_left_comm, Nat.mul_comm] using (h (finProdFinEquiv (i.1, i.2.1))))
 
-end VeriTile.Bench.Examples.HyperConnectionsWidth.MatrixCorrect
+end VeriTile.Bench.Examples.HyperConnectionsWidth.Mathematical.MatrixCorrect

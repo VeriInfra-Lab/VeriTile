@@ -1,3 +1,4 @@
+import VeriTile.Triton.DSL.CallValue
 import VeriTile.Triton.DSL.SourceDType
 
 /-! Call-site store conversion with conservative source dtype tracking.
@@ -14,10 +15,6 @@ inductive ValueInfo where
   | integerLiteral | integerScalar | floatingLiteral
   deriving BEq
 abbrev Values := List (Name × ValueInfo)
-
-/-- Internal provenance marker for a supplied FP32 literal. The call frontend
-checks every occurrence's actual computation precision after elaboration. -/
-@[irreducible] def fp32CallValue (value : ℝ) : ℝ := value
 
 private def name (id : Ident) : Name := id.getId.eraseMacroScopes
 
@@ -88,12 +85,18 @@ private partial def valueType (pointers : Types) (values : Values)
     let left ← valueType pointers values a
     let right ← valueType pointers values b
     match left, right with
+    | .typed .fp64, .integerLiteral | .integerLiteral, .typed .fp64
+    | .typed .fp64, .integerScalar | .integerScalar, .typed .fp64
+    | .typed .fp64, .floatingLiteral | .floatingLiteral, .typed .fp64 => some .fp64
+    | .typed .fp64, .typed other | .typed other, .typed .fp64 =>
+        if [.fp64,.fp32,.fp16,.bf16,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean].contains other
+        then some .fp64 else none
     | .typed .fp32, .typed .fp32
     | .typed .fp32, .integerLiteral | .integerLiteral, .typed .fp32
     | .typed .fp32, .integerScalar | .integerScalar, .typed .fp32
     | .typed .fp32, .floatingLiteral | .floatingLiteral, .typed .fp32 => some .fp32
     | .typed .fp32, .typed integer | .typed integer, .typed .fp32 =>
-        if [.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean].contains integer then some .fp32 else none
+        if [.fp16,.bf16,.i8,.i16,.i32,.i64,.u8,.u16,.u32,.u64,.boolean].contains integer then some .fp32 else none
     | _, _ => none
   if let some dtype := (explicitCastType e).orElse (fun _ => constructorType e) then some (.typed dtype) else
   match e with
@@ -138,6 +141,24 @@ private partial def valueType (pointers : Types) (values : Values)
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
   | `(tritonExpr| -$a:tritonExpr) =>
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
+  | `(tritonExpr| $a:tritonExpr[:, None])
+  | `(tritonExpr| $a:tritonExpr[None, :])
+  | `(tritonExpr| $a:tritonExpr[None])
+  | `(tritonExpr| $a:tritonExpr[:, None, None])
+  | `(tritonExpr| $a:tritonExpr[None, :, None])
+  | `(tritonExpr| $a:tritonExpr[None, None, :])
+  | `(tritonExpr| $a:tritonExpr[:, None, :])
+  | `(tritonExpr| $a:tritonExpr[None, :, :])
+  | `(tritonExpr| $a:tritonExpr[:, :, None]) => valueType pointers values a
+  | `(tritonExpr| tl.dot($a:tritonExpr, $b:tritonExpr $[, $kwargs:tritonReduceKwarg]*)) => do
+      unless valueType pointers values a == some (.typed .fp32) &&
+          valueType pointers values b == some (.typed .fp32) do failure
+      let mut result := Triton.SourceDType.fp32
+      for kw in kwargs do
+        if let `(tritonReduceKwarg| out_dtype=$dtype:tritonDType) := kw then
+          let target ← dtypeToken dtype.raw
+          result ← sourceKinds.find? (fun kind => SourceDType.dtypeName kind == target)
+      return .typed result
   | `(tritonExpr| tl.trans($a:tritonExpr)) => valueType pointers values a
   | _ => none
 

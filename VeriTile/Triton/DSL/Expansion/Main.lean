@@ -1275,6 +1275,10 @@ partial def expandExpr (env : Env) (stx : TSyntax `tritonExpr) : MacroM EOut := 
         else if env.any (fun entry => entry.1 == userName) then userName
         else erasedName
       expandIdentRefByName env name
+  | `(tritonExpr| $((VeriTile.Triton.DSL.TypedStores.fp32CallValue $value:term : ℝ))) => do
+      let some out ← suppliedFP32Literal? stx
+        | Macro.throwError "invalid internal FP32 call literal"
+      return out
   | `(tritonExpr| $(($t:term : ℝ))) =>
       pure ⟨← `(Op.const $t), .real, SInfo.scalar, none, none⟩
   | `(tritonExpr| $(($t:term : Real))) =>
