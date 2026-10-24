@@ -1,0 +1,244 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "18f2f3c2ba7414dbb38af0479a5f0e7c22df070c",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "mean_reduction",
+    "l2_norm_triton2",
+    "softmax_triton1",
+    "softmax_triton2",
+    "var_len_copy"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_example": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_value": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cache_transform_triton": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cosine_compute": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "dequantize_rowwise": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "index_select_bwd": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "kldiv_compute": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_triton1": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "masked_add_cuda": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_reduction": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_transpose": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mul_exponent_compensator": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused_llama": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_implementation": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_triton": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_computation": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_kernel": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "square_matrix": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "swiglu_fwd": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_mul2": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_softmax": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition_custom": "Shared branch dtype joins and direct integer-load cast source regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mean_reduction": "Paste the complete selected original and existing index-commuted Python bodies, including streaming loop, explicit FP32 load cast, accumulation, reduction, division, reshape and masks. M/N remain runtime integers with the old Nat mathematical bindings; only block dimensions are constexpr. Existing complete original/candidate function equalities to the shared FP32 storage family remain rfl. Independent full-row mean, arbitrary full-grid permutations, N=0, empty grid and all dimensions, typed IO/output/safety/frame and optional native/Tensor/host scopes are retained and replayed.",
+    "softmax_triton1": "Paste the original repaired Python with both actual int64 casts, all twelve statements and original operation/reduction order. Materialize only the pre-existing Lean reciprocal candidate as a clearly marked authored Python counterpart, never a historical original reference. Outside-body pointer-view bases and five Int-valued runtime int64 arguments preserve every old Nat base/stride/count scope; only BLOCK_SIZE is constexpr. Re-prove full source/reciprocal Real results, execution, active outputs, safety and exact exterior typed cells. The actual division-site mask uses the current signed comparison on the natural arange register after its original source widening; site_values_iff proves exact active-operand finiteness and denominator finite/nonzero conditions for the full current prefix. No vacuous register lookup, smaller input domain, cast identity premise or new FP rule. DIV-MUL-RCP and all optional native/Tensor/host scopes remain.",
+    "softmax_triton2": "The original body is identical to SoftmaxTriton1 and explicitly shares that actual source; correspondence is also checked against this task Python. Paste the existing guarded reciprocal candidate with both int64 casts, libdevice.finitef, uint32 count, 1.0 literals, all classifiers and complete runtime division fallback. External runtime Int arguments/pointer bases preserve old dimensions and all stride/offset scopes. Fix the frontend to keep a known FP32 result only when both branch exits establish it, removing the fictitious final FP32-to-FP32 store cast; genuine narrowing remains. Re-prove both full source traces, safety, success, every active typed output and full frames. Safety handles every classifier result with exhaustive cases, normalizes exact integer projections and literal arguments and uses only the old IO bounds. No raw word excluded. Existing classifier implementation bindings, DIV-MUL-RCP, count bound and all optional native/Tensor outcomes retain their old domains.",
+    "var_len_copy": "Paste the actual original and commuted repaired Python, retaining all six function-style tl.cast(int64), three signed-int32 metadata reads, the complete runtime range loop, FP32 payload load/store and both tail masks. Preserve old typed-region public call interface via a thin external RegionName adapter and retain all read/write ports. Actual function-style casts produce signed integer offset registers; update full initialization, loop invariant, step and safety proofs to describe those registers. Do not claim the old natural-register AST is identical. Re-prove actual full Real execution and independent copy formula, arbitrary-backend complete candidate equivalence, every typed output/frame, loop safety and all existing signed word bounds, schedules/interleavings, host admission/failure and Tensor scopes. Direct integer load casts reuse existing compiler and word rules; arbitrary nested floating loads still fail closed. No new numerical law, whole-kernel premise or domain restriction.",
+    "l2_norm_triton2": "Forward source/candidate functions exactly share the already pasted L2NormTriton1 body; this task independently checks both against its own Python. Paste both complete backward functions, retaining signed casts, all pointer updates, both reductions and all masks. N is a runtime integer, epsilon a real FP32 ABI input and only BLOCK_N constexpr. Remove the old epsilon.to(fp32) absent from Python and the corresponding fictitious arbitrary-algebra cast callback from the auxiliary graph, then re-prove the actual complete graph/execution, every output/frame and safety with no cast-identity premise. Keep all old independent mathematics, IO, host setup/failure/allocation outcomes, dimensions, all raw epsilon words and optional native/Tensor scopes. Existing signed word/index rules are reused without new numerical laws."
+  },
+  "example_regression_scope": "All 19 examples and their complete imported helpers replay locally, jointly and independently from Git. Their sources, formulas, numerical contracts and scopes are unchanged.",
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 964,
+      "jobs": 9828
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 964,
+      "jobs": 9828,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 964 roots",
+    "task_directories": "Every Lean file in all five newly migrated task directories, including optional native/host/Tensor readers and all complete semantic/source-binding proofs.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 40
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 285,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: five actual frozen-source invocations report missing setup; actual setup attempt reports Go 1.24+ unavailable.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numeric laws, axioms or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 119,
+    "pasted_body": 114,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/source-closure.json",
+    "sha256": "39998874ed344db795caeabf84d4f0eca82ee1a2622fa3b425bbbe144eead142"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 30,
+      "uncovered_jit_functions": 150
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 278,
+    "primary_files_with_int64_screen_warning": 40,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 120,
+        "antiquotes": 132,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/all-python.log.gz",
+      "sha256": "bfbf7adf294f8850db8689a405232e1dededd8f54fba0bde7b49252378990d38"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/clean-build.log.gz",
+      "sha256": "50194aefd50ea9b708208a80316346f0ee107dc653ccf453b9b86c271e3ecd15"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/clean-setup.log",
+      "sha256": "da86cf453e15644b7e0a71b4b0076edf7174445c72da245d0d7c04550a97d6a6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/comparator-setup.log",
+      "sha256": "966444dfba517a8f7a02a7a9c8eec7b69510e8f37fd1c14be40e7ddab6031c77"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/comparator.log",
+      "sha256": "bbd2df54161dfdae034d410852f78bf95123ea64310c82910dabb8fba2bd3d8b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/contract.log",
+      "sha256": "8241e26e258266fe37fd572c6a91f983c055774b583d2e0dd443cb27c479a5da"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/corpus-guard.log",
+      "sha256": "43ce1f832a992315b50e877e27bfde84c68d7e563e2b69d0978df5213ca510b2"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/integration.log.gz",
+      "sha256": "fa7a7b830010aedede4a00454fc19697a93b4e674c707de40adf5f51dfbecd0a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/joint.lean",
+      "sha256": "88eecb74d4d101eb2d7a39133e875f3395066ef171cec416ced96ca74eea8d5d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/l2_norm_triton2-comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/l2_norm_triton2-contract.log",
+      "sha256": "7ad4049897d5284be4974ff1e505928fd3fcd6a8fcfd8af64948ed88bc709772"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/mean_reduction-comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/mean_reduction-contract.log",
+      "sha256": "a2841c80c813268059ae03b1967a7133ed590772ab2bb2e310afe1be38047563"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/modules.json",
+      "sha256": "a4086150de3cd04df94be337b1d4f6cf7662f751cc42e83c58a3ce6bfef72301"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/pairs.json",
+      "sha256": "45051e92e8964db2faef6076f9fa6fce61429eee4210a75b7a0b4afc2ba44f92"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/previous-selected-reviews.json.gz",
+      "sha256": "bc670d45bf508ba55700e0e75bf9d0125699faff4747a748b6528223f28fa296"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/python-tests.log",
+      "sha256": "c7bc8c25a1c4042cd33e300a1a0fc2eb1f6e6cb67f863e4bed4bbfea97efbd31"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/softmax_triton1-comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/softmax_triton1-contract.log",
+      "sha256": "a99c2943feb28737cc9e6bf94bf80b2c4167715d15f933a66b07c9325f6775f6"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/softmax_triton2-comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/softmax_triton2-contract.log",
+      "sha256": "efff40073b7fe0798e5cc963cae6697b9a26902605b39dcc98e29ea0a5171363"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/source-closure.json",
+      "sha256": "39998874ed344db795caeabf84d4f0eca82ee1a2622fa3b425bbbe144eead142"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/var_len_copy-comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-five-task-bodies/var_len_copy-contract.log",
+      "sha256": "772405eeeff16c71fb599cd4256ad5f7bc55067606f41b12f1b46821a08e1ebb"
+    }
+  ]
+}

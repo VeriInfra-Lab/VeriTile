@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/veritile-native-five-clean/bench/repairs/tritonbench_g/mean_reduction/check_contract.py", line 7, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

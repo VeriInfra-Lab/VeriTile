@@ -1,0 +1,31 @@
+Frozen source18f2f3c2ba7414dbb38af0479a5f0e7c22df070c; actual invocations in independent checkout.
+
+Task: mean_reduction
+Traceback (most recent call last):
+  File "/tmp/veritile-native-five-clean/bench/repairs/tritonbench_g/mean_reduction/check_contract.py", line 7, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+Task: l2_norm_triton2
+Traceback (most recent call last):
+  File "/tmp/veritile-native-five-clean/bench/repairs/tritonbench_g/l2_norm_triton2/check_contract.py", line 9, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+Task: softmax_triton1
+Traceback (most recent call last):
+  File "/tmp/veritile-native-five-clean/bench/repairs/tritonbench_g/softmax_triton1/check_contract.py", line 6, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+Task: softmax_triton2
+Traceback (most recent call last):
+  File "/tmp/veritile-native-five-clean/bench/repairs/tritonbench_g/softmax_triton2/check_contract.py", line 6, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+
+Task: var_len_copy
+Traceback (most recent call last):
+  File "/tmp/veritile-native-five-clean/bench/repairs/tritonbench_g/var_len_copy/check_contract.py", line 8, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'

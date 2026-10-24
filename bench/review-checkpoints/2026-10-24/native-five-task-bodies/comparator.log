@@ -1,0 +1,16 @@
+Frozen source18f2f3c2ba7414dbb38af0479a5f0e7c22df070c; actual invocations in independent checkout.
+
+Task: mean_reduction
+[FAIL] Official comparator is required; run scripts/setup-comparator.sh and add its bin directory to PATH.
+
+Task: l2_norm_triton2
+[FAIL] Official comparator is required; run scripts/setup-comparator.sh and add its bin directory to PATH.
+
+Task: softmax_triton1
+[FAIL] Official comparator is required; run scripts/setup-comparator.sh and add its bin directory to PATH.
+
+Task: softmax_triton2
+[FAIL] Official comparator is required; run scripts/setup-comparator.sh and add its bin directory to PATH.
+
+Task: var_len_copy
+[FAIL] Official comparator is required; run scripts/setup-comparator.sh and add its bin directory to PATH.
