@@ -34,3 +34,11 @@ class Restore(ast.NodeTransformer):
 b = Restore().visit(b)
 assert dump(a) == dump(b), "unexpected whole-module source delta"
 print("PASS: exact complete-module AST restoration; global1024 and dimension128 guarded shifts with generic fallbacks; all requested casts/formats, NaN flags, reductions, stages, casts, masks, host flow preserved")
+
+# Both Python modules must also match the actual Lean source bodies.
+import sys
+ROOT = D.parents[3]
+sys.path.insert(0, str(ROOT))
+from bench.jit_correspondence import check_manifest
+pairs = check_manifest(ROOT, D / "jit-correspondence.json")
+print(f"PASS: {len(pairs)} complete Python JIT / Lean quotation pairs")

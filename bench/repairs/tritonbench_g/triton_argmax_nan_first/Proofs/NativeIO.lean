@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.triton_argmax_nan_first.IO
+import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.ProjectedIO
 
 /-! Complete typed native schedule, reusing the exact source/codec results
 which also justify BoundSource's physical first/second commits. -/

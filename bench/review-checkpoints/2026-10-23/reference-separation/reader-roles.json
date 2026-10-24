@@ -20544,7 +20544,7 @@
       "readers": [
         {
           "path": "bench/repairs/tritonbench_g/triton_argmax_nan_first/Correct.lean",
-          "sha256": "7d6e71f931de9ce0b22ee8c3d34daf1f8641590b015c7a07f7fe2918b3caa793",
+          "sha256": "f3c4cdc59441041beb57690928a4d70841a6d3afc2ff4300e86d7d3fb2453071",
           "surface": "Correct",
           "declarations": [
             {
@@ -20558,7 +20558,7 @@
             {
               "kind": "abbrev",
               "name": "globalIO",
-              "line": 19,
+              "line": 20,
               "full_name": "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Correct.globalIO",
               "role": "named_io_formula_or_program_view",
               "reason": "Global is the independent global-argmax function implemented by its necessary first grid plus second stage; dimension is a separate source branch. Both main functions must remain, with no new stage target manufactured."
@@ -20566,7 +20566,7 @@
             {
               "kind": "specification",
               "name": "global",
-              "line": 24,
+              "line": 25,
               "full_name": "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Correct.global",
               "role": "independent_real",
               "reason": "Necessary two-stage global argmax functionality; retained by root role clarification."
@@ -20574,7 +20574,7 @@
             {
               "kind": "specification",
               "name": "dimension",
-              "line": 37,
+              "line": 38,
               "full_name": "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Correct.dimension",
               "role": "independent_real",
               "reason": "Actual separate dimension-reduction source branch."
@@ -20584,7 +20584,7 @@
         },
         {
           "path": "bench/repairs/tritonbench_g/triton_argmax_nan_first/FPEquiv.lean",
-          "sha256": "de69f7044a6de531fde7ae24047432fcd9ab191966ba9536f526b8fed94fb149",
+          "sha256": "ca532b09ac7bbc6e8947299e3eca1a25b833a40b157889c5af33fdf37a9779db",
           "surface": "FPEquiv",
           "declarations": [
             {
@@ -20640,11 +20640,11 @@
         }
       ],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_argmax.json",
-        "sha256": "1bcfb418aa8f30620f96ae8c24d474491432a1a1692713e989ec49cc105988da",
+        "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+        "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
         "task": "triton_argmax"
       },
-      "change": null,
+      "change": "Reconnect unchanged mathematical/public pair roles to statement-preserving JIT sources; retain two Real and two actual pair main specifications.",
       "new_misc_entries": [],
       "required_multistage_scope_preserved": true,
       "remaining_issues": [],
@@ -20664,8 +20664,8 @@
         }
       },
       "previous_review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/triton_argmax.json",
-        "sha256": "5bf0c196f3e6d7b17c5ae6000348b3d46849097020a5fcafd27f824ff5124fa6",
+        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_argmax.json",
+        "sha256": "1bcfb418aa8f30620f96ae8c24d474491432a1a1692713e989ec49cc105988da",
         "task": "triton_argmax"
       },
       "logical_reader_review": {
@@ -22318,5 +22318,18 @@
       "sha256": "76f7b1b7e8d65e6d5d76646b52a9064879e14a0e2367024698cbf12d0254dd58"
     },
     "scope": "Reference responsibility cleanup; unchanged mathematical and numerical scope. Other task reviews are reused."
-  }
+  },
+  "focused_source_followups": [
+    {
+      "review": {
+        "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+        "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+        "task": "triton_argmax"
+      },
+      "tasks": [
+        "triton_argmax"
+      ],
+      "scope": "Fresh review of argmax source correspondence and proof connections; unchanged other task review records retain their prior scope."
+    }
+  ]
 }

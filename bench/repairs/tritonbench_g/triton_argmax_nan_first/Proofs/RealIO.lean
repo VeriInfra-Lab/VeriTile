@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.triton_argmax_nan_first.IO
+import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.ProjectedIO
 import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.AccessSafety
 
 namespace VeriTile.Bench.Repairs.TritonArgmaxNanFirst.RealIO

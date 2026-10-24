@@ -1,19 +1,50 @@
 import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.TypedRealGrid
+import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.JITInteger
+import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.JITDimensionStep
 import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.BoundDimension
 import VeriTile.Triton.Float.ProgramIO
 import VeriTile.Triton.Float.LogicalProgramIO
 
 /-! Typed public windows and the actual first/second/dimension source schedule.
-Requested precision is selected by the existing binding, including the whole
-integer conversion macro. Physical codecs and byte transport stay connected in
+Requested precision is selected by the existing binding, including explicit scalar
+integer conversion instructions. Physical codecs and byte transport stay connected in
 BoundSource and the retained physical results, independently of this IO layout.
 -/
-namespace VeriTile.Bench.Repairs.TritonArgmaxNanFirst.IO
+
+namespace VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITBinding
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.Repairs.TritonArgmax Source
 noncomputable section
 
-/-- Real semantics erase the requested integer conversion macro as before. -/
+def dtype {casts kind} : BoundSource.Binding casts kind → SourceDType
+  | .floating k _ _ => JITStage1.floatingType k
+  | .integer k _ => JITInteger.sourceType k
+
+def ops {casts kind} : BoundSource.Binding casts kind → Algebra Word → Algebra Word
+  | .floating _ round _ => TypedScratch.backend round
+  | .integer k _ => JITInteger.backend k (casts.integer k)
+
+def cell {casts kind} : BoundSource.Binding casts kind → MidWord kind.format → Cell Word
+  | .floating k _ codec => fun word => .mk (TypedScratch.channel k).toTileDType
+      (ofFloat (TypedScratch.channel k) (codec.decode word))
+  | .integer k _ => fun word => JITInteger.cell k (word.cast (Formats.format_width k).symm)
+
+def first {casts kind} (binding : BoundSource.Binding casts kind) (c : GlobalConfig) (index64 : Bool) :=
+  JITSource.stage1 BoundSource.X BoundSource.V BoundSource.I (dtype binding) c.block index64
+
+def second {casts kind} (binding : BoundSource.Binding casts kind) (c : GlobalConfig) :=
+  JITSource.stage2 BoundSource.V BoundSource.I BoundSource.O (dtype binding) c.midBlock
+end
+end VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITBinding
+
+namespace VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITIO
+open VeriTile.Triton FP.Structural
+open VeriTile.Bench.Repairs.TritonArgmax Source
+noncomputable section
+
+/-- The Real shadow specializes the idealized conversion projection; it does not
+evaluate finite integer clamps as Real identities. The native refinement is
+proved instruction by instruction in JITIntegerStage1. -/
 def projectedKind : Request.Kind → TypedScratch.Kind
   | .floating k => k
   | .integer _ => .fp32
@@ -43,13 +74,47 @@ def unchanged {α : Type} (backend : Algebra α) (kernel : ComputeKernel) : Invo
     (kernel : ComputeKernel) (s : State α) : (unchanged backend kernel).initial s = s := by
   simp [unchanged, Invocation.initial, bindRegisters]
 
+
+/-- Host scalar bindings are data supplied at the launch boundary. -/
+def firstLaunch {α : Type} (backend : Algebra α) (kernel : ComputeKernel)
+    (size base pid : Nat) : Invocation α :=
+  { atProgram backend kernel pid with arguments :=
+    [⟨"M", .int, [], fun _ => (size : Int)⟩,
+     ⟨"program_base", .int, [], fun _ => (base : Int)⟩] }
+
+def secondLaunch {α : Type} (backend : Algebra α) (kernel : ComputeKernel)
+    (size : Nat) : Invocation α :=
+  { unchanged backend kernel with arguments := [⟨"mid_size", .int, [], fun _ => (size : Int)⟩] }
+
+def dimensionLaunch {α : Type} (backend : Algebra α) (kernel : ComputeKernel)
+    (M N K base pid : Nat) : Invocation α :=
+  { atProgram backend kernel pid with arguments :=
+    [⟨"M", .int, [], fun _ => (M : Int)⟩, ⟨"N", .int, [], fun _ => (N : Int)⟩,
+     ⟨"K", .int, [], fun _ => (K : Int)⟩, ⟨"program_base", .int, [], fun _ => (base : Int)⟩] }
+
+@[simp] theorem firstLaunch_initial {α : Type} (backend : Algebra α) (kernel : ComputeKernel)
+    (size base pid : Nat) (s : State α) :
+    (firstLaunch backend kernel size base pid).initial s =
+      JITStage1.arguments ((atProgram backend kernel pid).initial s) size base := rfl
+
+@[simp] theorem secondLaunch_initial {α : Type} (backend : Algebra α) (kernel : ComputeKernel)
+    (size : Nat) (s : State α) :
+    (secondLaunch backend kernel size).initial s =
+      s.setReg "mid_size" .int [] (fun _ => (size : Int)) := by
+  simp [secondLaunch,unchanged,Invocation.initial,bindRegisters]
+
+@[simp] theorem dimensionLaunch_initial {α : Type} (backend : Algebra α) (kernel : ComputeKernel)
+    (M N K base pid : Nat) (s : State α) :
+    (dimensionLaunch backend kernel M N K base pid).initial s =
+      JITDimension.arguments ((atProgram backend kernel pid).initial s) M N K base := rfl
+
 /-- Complete real first grid, then the actual second quotation. -/
 def realSchedule (kind : TypedScratch.Kind) (rest : Algebra Math.Value)
     (X V : RegionName) (I O : Region .int) (c : GlobalConfig) (index64 : Bool) :
     List (Invocation Math.Value) :=
-  (List.range c.blocks).map (atProgram (TypedReal.backend rest)
-    (TypedScratch.firstKernel kind X V I c.size c.block 0 index64)) ++
-  [unchanged (TypedReal.backend rest) (TypedScratch.secondKernel kind V I O c.blocks c.midBlock)]
+  (List.range c.blocks).map (firstLaunch (TypedReal.backend rest)
+    (JITSource.stage1 X V I (JITStage1.floatingType kind) c.block index64) c.size 0) ++
+  [secondLaunch (TypedReal.backend rest) (JITSource.stage2 V I O (JITStage1.floatingType kind) c.midBlock) c.blocks]
 
 /-- Active input, scalar INT64 output, and both complete first-grid scratch
 windows. Original arbitrary region names and permitted aliases are retained. -/
@@ -73,16 +138,16 @@ windows. Original arbitrary region names and permitted aliases are retained. -/
   observe := fun _ _ _ => 0
 
 /-- All thirteen requested formats use their actual source pair and existing
-scalar model. Integer scratch remains an integer channel. -/
+scalar model. Signed, unsigned and boolean scratch retain their respective channels. -/
 def nativeSchedule (casts : Request.Casts) (kind : Request.Kind)
     (binding : BoundSource.Binding casts kind) (rest : Algebra Word)
     (c : GlobalConfig) (index64 : Bool) : List (Invocation Word) :=
-  (List.range c.blocks).map (atProgram (binding.ops rest) (binding.first c index64)) ++
-  [unchanged (binding.ops rest) (binding.second c)]
+  (List.range c.blocks).map (firstLaunch (JITBinding.ops binding rest) (JITBinding.first binding c index64) c.size 0) ++
+  [secondLaunch (JITBinding.ops binding rest) (JITBinding.second binding c) c.blocks]
 
 def scratchType {casts kind} : BoundSource.Binding casts kind → TileDType
   | .floating k _ _ => (TypedScratch.channel k).toTileDType
-  | .integer _ _ => .int
+  | .integer k _ => JITInteger.channel k
 
 /-- INT64 scratch is an initialized input over the whole gather window. Only
 active first-grid entries are writable scratch; tail cells remain framed. -/
@@ -133,22 +198,22 @@ def logicalGlobal (kind : TypedScratch.Kind) (rest : Algebra Math.Value)
   outputs := globalOutputs kind rest X V I O c index64
 
 end
-end VeriTile.Bench.Repairs.TritonArgmaxNanFirst.IO
+end VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITIO
 
-namespace VeriTile.Bench.Repairs.TritonArgmaxNanFirst.NativeDimensionIO
+namespace VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITNativeDimensionIO
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.Repairs.TritonArgmax Source
 noncomputable section
 
 def launch (rest : Algebra Word) (c : DimConfig) (index64 : Bool) (job : Nat × Nat) : Invocation Word :=
-  IO.atProgram (Typed.backend rest)
-    (TypedSource.dimension BoundSource.X BoundSource.O c.outer c.extent c.inner 128 128 0 index64)
-    (job.1*c.inner+job.2)
+  JITIO.dimensionLaunch (Typed.backend rest)
+    (JITSource.dimension BoundSource.X BoundSource.O 128 128 index64)
+    c.outer c.extent c.inner 0 (job.1*c.inner+job.2)
 
 end
-end VeriTile.Bench.Repairs.TritonArgmaxNanFirst.NativeDimensionIO
+end VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITNativeDimensionIO
 
-namespace VeriTile.Bench.Repairs.TritonArgmaxNanFirst.IO
+namespace VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITIO
 open VeriTile.Triton FP.Structural
 open VeriTile.Bench.Repairs.TritonArgmax Source
 noncomputable section
@@ -167,8 +232,8 @@ over the entire reduced axis; only active output rows are writable. -/
   outputMask := Fin.cases (fun _ j => ((pid+base)/K)*BM+j.1.val<M) (fun i => Fin.elim0 i)
   scratchWrite := fun i => Fin.elim0 i
   scratchMask := fun i => Fin.elim0 i
-  schedule := fun _ => [atProgram (TypedReal.backend rest)
-    (TypedSource.dimension X O M N K BM BN base index64) pid]
+  schedule := fun _ => [dimensionLaunch (TypedReal.backend rest)
+    (JITSource.dimension X O BM BN index64) M N K base pid]
   encode := fun x => (x : Math.Value)
   observe := fun _ _ _ => 0
 
@@ -176,7 +241,7 @@ over the entire reduced axis; only active output rows are writable. -/
 with the same 128-row/128-column tiles and two-dimensional launch enumeration. -/
 def nativeDimensionSchedule (rest : Algebra Word) (c : DimConfig) (index64 : Bool) :
     List (Invocation Word) :=
-  (BoundSource.groups c).map (NativeDimensionIO.launch rest c index64)
+  (BoundSource.groups c).map (JITNativeDimensionIO.launch rest c index64)
 
 @[reducible] def nativeDimension (rest : Algebra Word) (c : DimConfig) (index64 : Bool) :
     ProgramIO Word Word where
@@ -226,4 +291,4 @@ def dimensionRow (M N K BM base pid : Nat) (xs : Fin M → Fin N → Fin K → �
   else 0
 
 end
-end VeriTile.Bench.Repairs.TritonArgmaxNanFirst.IO
+end VeriTile.Bench.Repairs.TritonArgmaxNanFirst.JITIO

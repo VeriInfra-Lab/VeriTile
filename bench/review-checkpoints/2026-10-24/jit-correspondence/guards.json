@@ -1,0 +1,35 @@
+[
+  {
+    "command": [
+      "python3",
+      "bench/check_main_formula_review.py"
+    ],
+    "exit_code": 0,
+    "log": "bench/review-checkpoints/2026-10-24/jit-correspondence/check_main_formula_review.log"
+  },
+  {
+    "command": [
+      "python3",
+      "bench/check_main_entry_roles.py"
+    ],
+    "exit_code": 0,
+    "log": "bench/review-checkpoints/2026-10-24/jit-correspondence/check_main_entry_roles.log"
+  },
+  {
+    "command": [
+      "python3",
+      "bench/check_io_organization.py"
+    ],
+    "exit_code": 0,
+    "log": "bench/review-checkpoints/2026-10-24/jit-correspondence/check_io_organization.log"
+  },
+  {
+    "command": [
+      "python3",
+      "bench/task_progress.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log": "bench/review-checkpoints/2026-10-24/jit-correspondence/task_progress.log"
+  }
+]

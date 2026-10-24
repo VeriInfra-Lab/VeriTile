@@ -7,6 +7,11 @@ import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.TypedIntegerMa
 import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.TypedDimensionBinding
 import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.DefaultBinding
 
+/-! Retained physical/Tensor results for the earlier projected source and its
+byte transport. Current kernel correctness and pair equivalence use JITSource
+in Correct.lean / FPEquiv.lean; this optional module does not establish a new
+compiler or host refinement of those statement-preserving quotations. -/
+
 namespace VeriTile.Bench.Repairs.TritonArgmaxNanFirst.TensorBridge
 open VeriTile.Bench.Repairs.TritonArgmax Source Memory TensorBinding
 noncomputable section

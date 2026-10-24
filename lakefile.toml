@@ -55,6 +55,7 @@ globs = [
   "bench.tests.FPNarrowScope",
   "bench.tests.IntegerDotSource",
   "bench.tests.SignedBitwiseSource",
+  "bench.tests.SourceDType",
   "bench.tests.FPIntegerConversionNeg",
   "bench.tests.FPFmaSource",
   "bench.tests.StaticConditions",
