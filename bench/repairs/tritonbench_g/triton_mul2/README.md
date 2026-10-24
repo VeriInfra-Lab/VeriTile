@@ -156,3 +156,19 @@ The optional native, Tensor, audit and application entries for this selected rev
 - `Misc/TensorBridge.lean`
 
 The primary Contract/Correct/FPEquiv entries and their required IO, source and Proofs dependencies keep their existing statements and scope. This layout change adds no mathematical or numerical claims.
+
+
+## Native body correspondence
+
+`Kernels.lean` contains all four complete original Python function bodies from
+`triton_mul2_repaired.py`: ordinary/in-place source and both existing
+multiplication-order candidates. The in-place functions are pasted directly
+with their original pointer name. Types and runtime int32 element-count call
+bindings remain outside the quotation; only BLOCK_SIZE is constexpr.
+`jit-correspondence.json` checks every complete body and its ABI.
+
+`Proofs/LegacyBody.lean` freezes the earlier presentation;
+`Proofs/SourcePreservation.lean` proves equality of each full typed kernel for
+all regions, counts and block sizes. The selected mathematical formulas,
+original/in-place memory scopes, complete grids, safe executions, all word
+patterns, frames and strict multiplication rule are retained and replayed.

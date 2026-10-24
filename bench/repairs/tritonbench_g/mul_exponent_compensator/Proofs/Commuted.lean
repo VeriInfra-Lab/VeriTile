@@ -21,7 +21,7 @@ theorem execution {α : Type} [Inhabited α] (M : Algebra α)
     (src dst : RegionName) (n B : Nat) (s : State α) :
     exec M (scalarLeftKernel src dst n B) s =
       exec (flipMul M) (candidateKernel src dst n B) s := by
-  simp [scalarLeftKernel,candidateKernel,FP.Structural.exec,ComputeKernel.surfaceBody,
+  simp [scalarLeftKernel,scalarLeftBody,candidateKernel,sourceBody,FP.Structural.exec,ComputeKernel.surfaceBody,
     run,step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     numericLt,natLt,bop,store,Region.cast,ComputeDType.eraseDType,flipMul]
   rfl
@@ -47,14 +47,14 @@ theorem source_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     (input : ∀ i, i<p.n → i<bounds p.x)
     (output : ∀ i, i<p.n → i<bounds p.output) (s : State α) :
     TraceSafe M bounds (scalarLeftKernel p.x p.output p.n p.block) s := by
-  simp [TraceSafe,scalarLeftKernel,ComputeKernel.surfaceBody,
+  simp [TraceSafe,scalarLeftKernel,scalarLeftBody,ComputeKernel.surfaceBody,
     Safety.traceSafeList_unfold,Safety.stepSafe_unfold,Safety.safeExpr_unfold,
     Safety.safeCompute_unfold,Safety.safeOp_unfold,Safety.safeAddress_unfold,
     Safety.safeMask_unfold,Safety.addressSafe_unfold,Safety.maskActive_unfold,
     step,evalExpr,evalComputeOp,evalOp_unfold,Option.bind,
     State.setReg,numericLt,natLt,bop,Region.cast,
     ComputeDType.eraseDType,Broadcast.leftIndex,Broadcast.rightIndex,
-    input,output]
+    input,output,numeric,← Int.natCast_mul,← Int.natCast_add,-Nat.cast_mul,-Nat.cast_add]
   refine ⟨fun i h=>input _ h,fun i h=>output _ h,?_⟩
   split <;> trivial
 

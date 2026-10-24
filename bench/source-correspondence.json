@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 21,
-      "uncovered_jit_functions": 159
+      "selected_body_copy_checked": 23,
+      "uncovered_jit_functions": 157
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 295,
-    "primary_files_with_int64_screen_warning": 44,
+    "uncovered_selected_jit_functions": 289,
+    "primary_files_with_int64_screen_warning": 43,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 128,
-        "antiquotes": 141,
+        "in_body_type_directives": 127,
+        "antiquotes": 139,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -8471,9 +8471,9 @@
       "source_provenance": "selected_revision",
       "lean_screen": {
         "quotations": 2,
-        "in_body_type_directives": 2,
-        "antiquotes": 8,
-        "dsl_assignment": 6,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 15,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -8510,22 +8510,53 @@
           ]
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "mul_kernel_repaired",
+          "lean_definition": "sourceBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n_elements"
+          },
+          "statements": 6,
+          "runtime_parameters": {
+            "n_elements": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator_repaired.py",
-          "function": "mul_kernel_repaired"
+          "lean": "bench/repairs/tritonbench_g/mul_exponent_compensator/Kernels.lean"
         },
         {
+          "python_function": "mul_kernel_scalar_left",
+          "lean_definition": "scalarLeftBody",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n_elements"
+          },
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i64"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator_repaired.py",
-          "function": "mul_kernel_scalar_left"
+          "lean": "bench/repairs/tritonbench_g/mul_exponent_compensator/Kernels.lean"
         }
       ],
-      "int64_screen": "cast_not_visible_in_primary_quotation",
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/mul_exponent_compensator/Kernels.lean": "b4836205b4a7f6eeb936796718e1d59158c3bbf1672c298e58cf0a033079bac6",
+        "bench/repairs/tritonbench_g/mul_exponent_compensator/Kernels.lean": "d22e3323d9d486c0bf22fbc309c1b5599b0aa8bb7dc03f9378238f224ed9bdb0",
+        "bench/repairs/tritonbench_g/mul_exponent_compensator/jit-correspondence.json": "761195d1463ec4e611ae701e4042bdcc665be80bd70978fc816a071c9c4fc4b3",
         "bench/repairs/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator_repaired.py": "8c10c8966ec6bb16ee5701779329c2dd8922d3cae434ee620652d29c1fcaa7b4"
       }
     },
@@ -13152,10 +13183,10 @@
       "lean": "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 2,
+        "quotations": 4,
         "in_body_type_directives": 0,
-        "antiquotes": 6,
-        "dsl_assignment": 9,
+        "antiquotes": 0,
+        "dsl_assignment": 33,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -13186,30 +13217,91 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "mul2_kernel",
+          "lean_definition": "sourceKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n_elements"
+          },
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/triton_mul2/triton_mul2_repaired.py",
-          "function": "mul2_kernel"
+          "lean": "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean"
         },
         {
+          "python_function": "mul2_inplace_kernel",
+          "lean_definition": "inplaceSourceKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n_elements"
+          },
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/triton_mul2/triton_mul2_repaired.py",
-          "function": "mul2_inplace_kernel"
+          "lean": "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean"
         },
         {
+          "python_function": "mul2_commuted_kernel",
+          "lean_definition": "commutedSourceKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n_elements"
+          },
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/triton_mul2/triton_mul2_repaired.py",
-          "function": "mul2_commuted_kernel"
+          "lean": "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean"
         },
         {
+          "python_function": "mul2_inplace_commuted_kernel",
+          "lean_definition": "inplaceCommutedSourceKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "n_elements": "n_elements"
+          },
+          "statements": 7,
+          "runtime_parameters": {
+            "n_elements": "i32"
+          },
+          "constexpr_parameters": [
+            "BLOCK_SIZE"
+          ],
           "python": "bench/repairs/tritonbench_g/triton_mul2/triton_mul2_repaired.py",
-          "function": "mul2_inplace_commuted_kernel"
+          "lean": "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean": "364392c3c4d70dbd0b10494e3974759d3393cbaf924c15246d0a28c9a2835eed",
+        "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean": "46fbe6275b0577376a3c01e7b9194da187ba50feb573b228f4697908df4ef867",
+        "bench/repairs/tritonbench_g/triton_mul2/jit-correspondence.json": "5e8f81a1908cf66f05a64947b41aad1392a080c661aee50133c1b4f3996f6a8b",
         "bench/repairs/tritonbench_g/triton_mul2/triton_mul2_repaired.py": "007f53e85334480f7a4b2b4ff84585638fadd18679e7be59bf312db1f1678cf6"
       }
     },

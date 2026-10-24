@@ -59,6 +59,7 @@ globs = [
   "bench.tests.CallSignature",
   "bench.tests.PythonBody",
   "bench.tests.ConstexprBody",
+  "bench.tests.ConstexprPower",
   "bench.tests.NativeCountLoop",
   "bench.tests.OptimizedRealExamples",
   "bench.tests.FPGuardedExamples",

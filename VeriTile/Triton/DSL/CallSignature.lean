@@ -1,5 +1,6 @@
 import VeriTile.Triton.DSL.TypedStores
 import VeriTile.Triton.DSL.PythonBody
+import VeriTile.Triton.DSL.Constexpr
 import Lean
 
 /-! Call-site typing for a pasted Triton body. The signature describes pointer
@@ -300,6 +301,15 @@ private def elaborateCall (profile : TSyntax `term) (stmts : Array (TSyntax `tri
             (kind matches .fp32 | .fp64) || values.any (fun p => p.1.toString == name)) do
           throwError "every integer runtime scalar needs an explicit call binding"
         for stmt in stmts do rejectArgumentMutation (values.map Prod.fst) stmt.raw
+      -- Static numeric constants remain weak Python values. Reject later
+      -- mutation before lowering the supported exact powers to fixed literals.
+      let mut localConstants : List Name := []
+      for stmt in stmts do
+        rejectArgumentMutation localConstants stmt.raw
+        if let `(tritonStmt| $id:ident : tl.constexpr = $_:tritonExpr) := stmt then
+          localConstants := id.getId.eraseMacroScopes :: localConstants
+      let stmts ← liftMacroM <| Constexpr.lower stmts.toList
+      let stmts := stmts.toArray
       let assigned := stmts.toList.flatMap (fun st => assignedNames st.raw)
       for stmt in stmts do rejectConstexprIteratorShadow constants stmt.raw
       -- A constexpr float is a weak Python scalar, not a runtime FP32
