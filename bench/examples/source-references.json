@@ -29,6 +29,22 @@
     "provenance": "spec_derived_native_source",
     "python": "bench/examples/FusedLayerNorm/native_kernels.py"
   },
+  "FusedSiLU": {
+    "mathematical_spec_sha256": {
+      "bench/examples/FusedSiLU/Correct.lean": "967a86f3a59200a42ee5cb259bdfb56eaab1f4ef27ff7d30b28222864ad9ccb1"
+    },
+    "note": "New Python from the independent residual plus SiLU(x*gate) mathematical specification, not recovered historical source. Complete FP32 fused/three-stage programs, both FP32 scratch tiles and final BF16 stores retained. Full Real formula, execution, safety and frame are re-proved. FP equivalence explicitly uses the existing scalarFP32 word interpretation, for all configurations/all input words, with opaque sigmoid and mixed conversion; no new numerical law or GPU conformance assertion. Separate arithmetic requires enable_fp_fusion=False.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/FusedSiLU/native_kernels.py"
+  },
+  "FusedSwiglu": {
+    "mathematical_spec_sha256": {
+      "bench/examples/FusedSwiglu/Correct.lean": "aff1833d3f97e604f9f0a38213aa8ac3dd61c0fb68a40a0f3720a0582d4f38a3"
+    },
+    "note": "New native Python from independent masked SwiGLU formula, not historical recovered source. FP32 inputs, BF16 intermediate/final casts, stage-B upcast and full fused/two-stage masks retained. Separate arithmetic enable_fp_fusion=False. Both complete Real and actual FP proof scopes must be replayed.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/FusedSwiglu/native_kernels.py"
+  },
   "LogExp": {
     "mathematical_spec_sha256": {
       "bench/examples/LogExp/Correct.lean": "9c5fbcf3b42d1f06506a2e9a62aef27564d57bda94c8a697ae01b2c16a3bff7f"

@@ -1,5 +1,5 @@
 import VeriTile.Triton.Float.Kernel
-import bench.examples.FusedSwiglu.Kernels
+import bench.examples.FusedSwiglu.IO
 import VeriTile.Triton.DSL
 import VeriTile.Triton.Float.StructuralIO
 import VeriTile.Meta.StatementAudit
@@ -20,7 +20,7 @@ def siluValue {α : Type} (M : Algebra α) (x : α) : α :=
 
 def productValue {α : Type} (M : Algebra α) (sil y : α) : α :=
   M.cast none .real .bf16
-    (M.binary none .real .mul (M.cast (some .fp32) .bf16 .real sil) y)
+    (M.binary (some .fp32) .real .mul (M.cast (some .fp32) .bf16 .real sil) y)
 
 theorem silu_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : State α)
     (xs : Fin B → α)
@@ -28,7 +28,7 @@ theorem silu_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : St
       (s.mem "X" (s.pids 0 * B + i.val)).read .real = xs i) :
     ∃ t, FP.Structural.exec M (silu_step "X" "S" n B) s = some t ∧
       (∀ i : Fin B, s.pids 0 * B + i.val < n →
-        t.mem "S" (s.pids 0 * B + i.val) = Cell.mk .bf16 (siluValue M (xs i))) ∧
+        t.mem "S" (s.pids 0 * B + i.val) = Cell.mk .bf16 (siluValue M (M.fp32Load (xs i)))) ∧
       t.pids = s.pids ∧
       (∀ (r : RegionName) o,
         (r ≠ "S" ∨ ∀ i : Fin B, s.pids 0 * B + i.val < n → o ≠ s.pids 0 * B + i.val) →
@@ -37,7 +37,7 @@ theorem silu_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : St
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [silu_step, silu_step_source, siluPrecision, FP.Structural.exec, run, step, evalExpr,
+  simp [silu_step, FP.Structural.exec, run, step, evalExpr, evalComputeOp, ComputeDType.eraseDType,
     evalOp_unfold, numeric, FP.Structural.bop, store, natLt, ofFloat, toFloat,
     Function.comp_def]
   refine ⟨fun i hi => ?_, fun r o hmiss => ?_⟩
@@ -56,7 +56,7 @@ theorem mul_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : Sta
       (s.mem "Y" (s.pids 0 * B + i.val)).read .real = ys i) :
     ∃ t, FP.Structural.exec M (mul_step "S" "Y" "OUT" n B) s = some t ∧
       (∀ i : Fin B, s.pids 0 * B + i.val < n →
-        t.mem "OUT" (s.pids 0 * B + i.val) = Cell.mk .bf16 (productValue M (zs i) (ys i))) ∧
+        t.mem "OUT" (s.pids 0 * B + i.val) = Cell.mk .bf16 (productValue M (zs i) (M.fp32Load (ys i)))) ∧
       t.pids = s.pids ∧
       (∀ (r : RegionName) o,
         (r ≠ "OUT" ∨ ∀ i : Fin B, s.pids 0 * B + i.val < n → o ≠ s.pids 0 * B + i.val) →
@@ -65,7 +65,7 @@ theorem mul_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : Sta
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [mul_step, FP.Structural.exec, run, step, evalExpr,
+  simp [mul_step, FP.Structural.exec, run, step, evalExpr, evalComputeOp, ComputeDType.eraseDType,
     evalOp_unfold, numeric, FP.Structural.bop, store, natLt, ofFloat, toFloat]
   refine ⟨fun i hi => ?_, fun r o hmiss => ?_⟩
   · rw [State.masked_scatter_readback _ _ _ _ _ (i, PUnit.unit) hi hinj]
@@ -84,7 +84,7 @@ theorem fused_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : S
     ∃ t, FP.Structural.exec M (swiglu_fused "X" "Y" "OUT" n B) s = some t ∧
       (∀ i : Fin B, s.pids 0 * B + i.val < n →
         t.mem "OUT" (s.pids 0 * B + i.val) =
-          Cell.mk .bf16 (productValue M (siluValue M (xs i)) (ys i))) ∧
+          Cell.mk .bf16 (productValue M (siluValue M (M.fp32Load (xs i))) (M.fp32Load (ys i)))) ∧
       t.pids = s.pids ∧
       (∀ (r : RegionName) o,
         (r ≠ "OUT" ∨ ∀ i : Fin B, s.pids 0 * B + i.val < n → o ≠ s.pids 0 * B + i.val) →
@@ -93,7 +93,7 @@ theorem fused_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s : S
     rintro ⟨a, _⟩ ⟨b, _⟩ hab
     obtain rfl : a = b := Fin.ext (Nat.add_left_cancel hab)
     rfl
-  simp [swiglu_fused, FP.Structural.exec, run, step, evalExpr,
+  simp [swiglu_fused, FP.Structural.exec, run, step, evalExpr, evalComputeOp, ComputeDType.eraseDType,
     evalOp_unfold, numeric, FP.Structural.bop, store, natLt, ofFloat, toFloat,
     Function.comp_def]
   refine ⟨fun i hi => ?_, fun r o hmiss => ?_⟩
@@ -113,13 +113,13 @@ theorem unfused_run {α : Type} [Inhabited α] (M : Algebra α) (n B : Nat) (s :
     ∃ t, FP.Structural.exec M (swiglu_unfused "X" "Y" "S" "OUT" n B) s = some t ∧
       (∀ i : Fin B, s.pids 0 * B + i.val < n →
         t.mem "OUT" (s.pids 0 * B + i.val) =
-          Cell.mk .bf16 (productValue M (siluValue M (xs i)) (ys i))) ∧
+          Cell.mk .bf16 (productValue M (siluValue M (M.fp32Load (xs i))) (M.fp32Load (ys i)))) ∧
       (∀ (r : RegionName) o,
         (r ≠ "OUT" ∨ ∀ i : Fin B, s.pids 0 * B + i.val < n → o ≠ s.pids 0 * B + i.val) →
         (r ≠ "S" ∨ ∀ i : Fin B, s.pids 0 * B + i.val < n → o ≠ s.pids 0 * B + i.val) →
         t.mem r o = s.mem r o) := by
   obtain ⟨s1, he1, hz, hp1, hf1⟩ := silu_run M n B s xs hxs
-  obtain ⟨s2, he2, hv, _, hf2⟩ := mul_run M n B s1 (fun i => siluValue M (xs i)) ys
+  obtain ⟨s2, he2, hv, _, hf2⟩ := mul_run M n B s1 (fun i => siluValue M (M.fp32Load (xs i))) ys
     (by
       intro i hi
       rw [hp1] at hi ⊢
@@ -142,21 +142,8 @@ open scoped VeriTile.Spec
 The entry's final theorem checks their definitional equality. -/
 namespace Execution
 
-def unfusedIO (n B : Nat) : MaskedKernelIO₂ where
-  kernel := swiglu_unfused "X" "Y" "S" "OUT" n B
-  in1 := "X"
-  in2 := "Y"
-  out := "OUT"
-  B := B
-  read1 := fun pid => pid * B
-  read2 := fun pid => pid * B
-  write := fun pid => pid * B
-  mask := fun pid i => pid * B + i.val < n
-  scratch := [("S", fun pid => pid * B)]
-
-def fusedIO (n B : Nat) : MaskedKernelIO₂ :=
-  { (unfusedIO n B).withKernel (swiglu_fused "X" "Y" "OUT" n B) with scratch := [] }
-
+abbrev unfusedIO := FusedSwiglu.IO.unfusedIO
+abbrev fusedIO := FusedSwiglu.IO.fusedIO
 
 open scoped VeriTile.Spec
 
@@ -164,8 +151,8 @@ open scoped VeriTile.Spec
 theorem equivalent (n B : Nat) :
     MaskedIO₂Equiv (fusedIO n B) (unfusedIO n B) := by
   refine ⟨?_, ?_, ?_⟩
-  · simp [MaskedPrivateScratch, fusedIO]
-  · simp [MaskedPrivateScratch, unfusedIO]
+  · simp [MaskedPrivateScratch, fusedIO, FusedSwiglu.IO.fusedIO]
+  · simp [MaskedPrivateScratch, unfusedIO, FusedSwiglu.IO.unfusedIO]
   · intro α _ M s
     let xs : Fin B → α := fun i => (s.mem "X" (s.pids 0 * B + i.val)).read .real
     let ys : Fin B → α := fun i => (s.mem "Y" (s.pids 0 * B + i.val)).read .real
@@ -176,7 +163,7 @@ theorem equivalent (n B : Nat) :
     · intro r o ho hs
       apply hfb r o ho
       by_cases hr : r = "S"
-      · exact Or.inr (hs ("S", fun pid => pid * B) (by simp [unfusedIO]) hr)
+      · exact Or.inr (hs ("S", fun pid => pid * B) (by simp [unfusedIO, FusedSwiglu.IO.unfusedIO]) hr)
       · exact Or.inl hr
 
 end Execution

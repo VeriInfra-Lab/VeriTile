@@ -1,56 +1,36 @@
-import bench.examples.FusedSiLU.Kernels
 import bench.examples.FusedSiLU.Proofs.FP
-import VeriTile.Triton.DSL
-import VeriTile.Triton.Float.StructuralIO
-import VeriTile.Triton.Float.Kernel
 import VeriTile.Meta.StatementAudit
 
-/-! FP equivalence of the sources in Kernels.lean.
-The IO contracts and required numerical domains are stated below; detailed
-execution and scalar derivations are in Proofs/FP.lean. -/
-
+/-! Complete typed fused/three-stage equivalence for every block width and all
+FP32 input words, including special values, under the existing scalarFP32
+software interpretation for every configuration. Sigmoid and BF16 conversion
+remain the same opaque callbacks in both programs. FP32 stores/reloads preserve
+words in this interpretation. The old untyped arbitrary-algebra statement is
+not asserted for native typed scratch. No numerical rewrite assumption or GPU
+conformance claim is introduced. Shared IO is in IO.lean: three contiguous input
+tiles, one BF16 output tile, and two private FP32 scratch tiles in the candidate. -/
 namespace VeriTile.Bench.Examples.FusedSiLUFPEquiv
-open VeriTile.Bench.Examples.FusedSiLU.Kernels
-open VeriTile Triton
-open FP.Structural
+open VeriTile Triton FP.Structural FP.Software
+attribute [local instance] pipelineWordInhabited
 
-set_option maxHeartbeats 1200000
-
-def unfusedIO (B : Nat) : KernelIO₃ where
-  kernel := unfusedSiLUKernel "x" "gate" "residual" "z" "silu" "out" B
-  in1 := "x"
-  in2 := "gate"
-  in3 := "residual"
-  out := "out"
-  B1 := B
-  B2 := B
-  B3 := B
-  Bout := B
-  read1 := fun pid => pid * B
-  read2 := fun pid => pid * B
-  read3 := fun pid => pid * B
-  write := fun pid => pid * B
-  scratch := [{ buf := "z", win := fun pid => pid * B, len := B },
-    { buf := "silu", win := fun pid => pid * B, len := B }]
-
-def fusedIO (B : Nat) : KernelIO₃ :=
-  { (unfusedIO B).withKernel (fusedSiLUKernel "x" "gate" "residual" "out" B) with
-    scratch := [] }
-
-/-- Fusion preserves the same opaque numerical call tree, so no numerical
-identity is assumed in this example. -/
+def fusedIO (B : Nat) : PipelineIO₃ := ⟨FusedSiLU.IO.fusedIO B⟩
+def unfusedIO (B : Nat) : PipelineIO₃ := ⟨FusedSiLU.IO.unfusedIO B⟩
 def R : Spec.Assumptions ComputeStmt := []
 
-open scoped VeriTile.Spec
+theorem word_equivalent (B : Nat) : PipelineEquivalent₃ (fusedIO B) (unfusedIO B) := by
+  have h := Execution.equivalent B
+  refine ⟨h.1, h.2.1, ?_⟩
+  intro cfg rest s
+  exact h.2.2 _ (scalarFP32 rest cfg) (fun _ => rfl) s
 
+open scoped VeriTile.Spec
 specification silu_equiv (B : Nat) : fusedIO B ≡[R] unfusedIO B := by
   apply Spec.FloatingPoint.ofStructural (lhs := fusedIO B) (rhs := unfusedIO B)
-    (structural := IO₃Equiv) rfl rfl
-  exact Execution.equivalent B
+    (structural := PipelineEquivalent₃) rfl rfl
+  exact word_equivalent B
 
 #print_fp_assumptions silu_equiv
-
+#axiomsClean word_equivalent
 #guard_msgs (drop info) in
 #auditModuleAxioms
-
 end VeriTile.Bench.Examples.FusedSiLUFPEquiv

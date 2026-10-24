@@ -13,9 +13,9 @@
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
-      "no_independent_python_reference": 4,
+      "no_independent_python_reference": 2,
       "selected_body_copy_checked": 1,
-      "spec_derived_body_copy_checked": 11,
+      "spec_derived_body_copy_checked": 13,
       "uncovered_jit_functions": 1
     },
     "selected_jit_functions": 328,
@@ -30,7 +30,7 @@
       },
       "examples": {
         "in_body_type_directives": 0,
-        "antiquotes": 5,
+        "antiquotes": 3,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0
       }
@@ -13836,51 +13836,219 @@
     {
       "name": "FusedSiLU",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/FusedSiLU/native_kernels.py",
       "lean": "bench/examples/FusedSiLU/Kernels.lean",
-      "source_provenance": "no_registered_reference",
+      "source_provenance": "spec_derived_native_source",
       "lean_screen": {
         "quotations": 4,
         "in_body_type_directives": 0,
-        "antiquotes": 20,
-        "dsl_assignment": 27,
+        "antiquotes": 0,
+        "dsl_assignment": 17,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "fusedSiLUKernel",
+          "line": 13,
+          "statements": 9,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "siluStepGate",
+          "line": 25,
+          "statements": 6,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "siluStepSilu",
+          "line": 34,
+          "statements": 5,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "siluStepResidual",
+          "line": 42,
+          "statements": 6,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "fusedSiLUKernel",
+          "lean_definition": "fusedSiLUKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 9,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FusedSiLU/native_kernels.py",
+          "lean": "bench/examples/FusedSiLU/Kernels.lean"
+        },
+        {
+          "python_function": "siluStepGate",
+          "lean_definition": "siluStepGate",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FusedSiLU/native_kernels.py",
+          "lean": "bench/examples/FusedSiLU/Kernels.lean"
+        },
+        {
+          "python_function": "siluStepSilu",
+          "lean_definition": "siluStepSilu",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 5,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FusedSiLU/native_kernels.py",
+          "lean": "bench/examples/FusedSiLU/Kernels.lean"
+        },
+        {
+          "python_function": "siluStepResidual",
+          "lean_definition": "siluStepResidual",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FusedSiLU/native_kernels.py",
+          "lean": "bench/examples/FusedSiLU/Kernels.lean"
+        }
+      ],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "no_independent_python_reference",
+      "status": "spec_derived_body_copy_checked",
       "source_sha256": {
-        "bench/examples/FusedSiLU/Kernels.lean": "7c1da4db9fc0449f5cadcaff538fc897660cafd866880802114f9c8db7b23e03"
+        "bench/examples/FusedSiLU/Correct.lean": "967a86f3a59200a42ee5cb259bdfb56eaab1f4ef27ff7d30b28222864ad9ccb1",
+        "bench/examples/FusedSiLU/Kernels.lean": "d0b2a31fe03c8840247313a810fbbc115a21417b6461828704e98b4fd944b796",
+        "bench/examples/FusedSiLU/jit-correspondence.json": "a3bcb14456bd62aad705b6c6061b7ccd15e31a28820702679ae9ab547dcec710",
+        "bench/examples/FusedSiLU/native_kernels.py": "f73144687808e91e62e8b71ce96746ecc25420cce6d726c866855d0886214826"
+      },
+      "source_note": "New Python from the independent residual plus SiLU(x*gate) mathematical specification, not recovered historical source. Complete FP32 fused/three-stage programs, both FP32 scratch tiles and final BF16 stores retained. Full Real formula, execution, safety and frame are re-proved. FP equivalence explicitly uses the existing scalarFP32 word interpretation, for all configurations/all input words, with opaque sigmoid and mixed conversion; no new numerical law or GPU conformance assertion. Separate arithmetic requires enable_fp_fusion=False.",
+      "mathematical_spec_sha256": {
+        "bench/examples/FusedSiLU/Correct.lean": "967a86f3a59200a42ee5cb259bdfb56eaab1f4ef27ff7d30b28222864ad9ccb1"
       }
     },
     {
       "name": "FusedSwiglu",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/FusedSwiglu/native_kernels.py",
       "lean": "bench/examples/FusedSwiglu/Kernels.lean",
-      "source_provenance": "no_registered_reference",
+      "source_provenance": "spec_derived_native_source",
       "lean_screen": {
         "quotations": 3,
         "in_body_type_directives": 0,
-        "antiquotes": 14,
-        "dsl_assignment": 5,
+        "antiquotes": 0,
+        "dsl_assignment": 13,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "swiglu_fused",
+          "line": 10,
+          "statements": 7,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "silu_step",
+          "line": 20,
+          "statements": 5,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "mul_step",
+          "line": 28,
+          "statements": 6,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "swiglu_fused",
+          "lean_definition": "swiglu_fused",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "ncols"
+          ],
+          "python": "bench/examples/FusedSwiglu/native_kernels.py",
+          "lean": "bench/examples/FusedSwiglu/Kernels.lean"
+        },
+        {
+          "python_function": "silu_step",
+          "lean_definition": "silu_step",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 5,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "ncols"
+          ],
+          "python": "bench/examples/FusedSwiglu/native_kernels.py",
+          "lean": "bench/examples/FusedSwiglu/Kernels.lean"
+        },
+        {
+          "python_function": "mul_step",
+          "lean_definition": "mul_step",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "BLOCK_N",
+            "ncols"
+          ],
+          "python": "bench/examples/FusedSwiglu/native_kernels.py",
+          "lean": "bench/examples/FusedSwiglu/Kernels.lean"
+        }
+      ],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "no_independent_python_reference",
+      "status": "spec_derived_body_copy_checked",
       "source_sha256": {
-        "bench/examples/FusedSwiglu/Kernels.lean": "a956755831801b8907f3aec43ad50e83b11fe77ac3702a4ca5bf8be990e50421"
+        "bench/examples/FusedSwiglu/Correct.lean": "aff1833d3f97e604f9f0a38213aa8ac3dd61c0fb68a40a0f3720a0582d4f38a3",
+        "bench/examples/FusedSwiglu/Kernels.lean": "4750b2d65f2cff6d807ed53e841d9e41cd7fd8b4556d6e97934b5944403b06da",
+        "bench/examples/FusedSwiglu/jit-correspondence.json": "b48d0976f399f1557f4a8fa7966c6401d3b4ed570c9b1860bc511fe9f1dc802f",
+        "bench/examples/FusedSwiglu/native_kernels.py": "bb381b21f410a386cf64585366775874f93fad003dca9e5ba7dac0a7e0baeea1"
+      },
+      "source_note": "New native Python from independent masked SwiGLU formula, not historical recovered source. FP32 inputs, BF16 intermediate/final casts, stage-B upcast and full fused/two-stage masks retained. Separate arithmetic enable_fp_fusion=False. Both complete Real and actual FP proof scopes must be replayed.",
+      "mathematical_spec_sha256": {
+        "bench/examples/FusedSwiglu/Correct.lean": "aff1833d3f97e604f9f0a38213aa8ac3dd61c0fb68a40a0f3720a0582d4f38a3"
       }
     },
     {

@@ -1,4 +1,4 @@
-import bench.examples.FusedSwiglu.Kernels
+import bench.examples.FusedSwiglu.Proofs.LegacyBody
 import VeriTile.Triton
 import VeriTile.Examples.Common
 import VeriTile.Meta.StatementAudit
@@ -83,7 +83,7 @@ is register-closed; this file's headline is about the concatenated kernel.
 -/
 
 namespace VeriTile.Bench.Examples.FusedSwigluEquiv
-open VeriTile.Bench.Examples.FusedSwiglu.Kernels
+open VeriTile.Bench.Examples.FusedSwiglu.LegacyKernels
 open VeriTile.Triton
 open scoped VeriTile.Triton.MaskedKernelIO₂
 open VeriTile.Examples (InputLoadedAt floatCell InputCellsLoadedAt programLaneOffset)
