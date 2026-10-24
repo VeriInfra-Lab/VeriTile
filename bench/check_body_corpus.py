@@ -5,7 +5,8 @@ This is a source gate, not a Lean proof or a compiler-correctness certificate.
 `--check` checks the recorded inventory, including pending entries, for drift.
 `--require-complete` additionally rejects ANY pending entry. A partial manifest
 cannot certify a multi-stage Python file. No variable renaming, cast deletion,
-or generated Python reference is used to manufacture a correspondence pass.
+or generated Python mirror certifies a selected benchmark's original source.
+New native counterparts of Lean-authored examples have a separate provenance.
 """
 from __future__ import annotations
 

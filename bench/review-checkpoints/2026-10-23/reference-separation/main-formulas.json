@@ -9578,7 +9578,8 @@
           }
         },
         "current_io_organization": "bench/review-checkpoints/2026-10-23/io-unification/tasks/cache_transform_triton.json",
-        "statement_scope_unchanged": true
+        "statement_scope_unchanged": true,
+        "pasted_body_preservation": "Pasted body uses the external signature; both complete previous/new programs are definitionally equal, including ports and statements. Actual execution/safety proofs unfold the current body."
       },
       "fp_program_pair": {
         "fp_pair": "Equivalence.original versus Equivalence.quotientRemainder using the same cacheIO and exactCells mode.",
@@ -9599,12 +9600,12 @@
         "bench/repairs/tritonbench_g/cache_transform_triton/IO.lean": "0da5b4f7fd8466e85dd5c9c84ebdf146a4f568667cfd032b42d4c6646d632871",
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/IOResult.lean": "4e6f1b7e83c4c56da434820f128fee2893a41622422c422d394ff961940715a9",
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/LogicalReader.lean": "99d0b88a98f84195dd3893183b8b0617c19a52718a60f2c471fb88435ec55e96",
-        "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean": "f224539a28785d7d69e56d2a112c39ab374425f3ee9f08366360104072cf7d7f",
-        "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/AccessSafety.lean": "49d22cfa23af6c5bb7d56d36f8156f8082c24f65fe24b1220698f27fb7c8761c",
+        "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean": "4d6627aea156ad8a4c0c78d2542de256f79c7aafaada5baba2d67ca02fcc215e",
+        "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/AccessSafety.lean": "98a898fde5ca2c008628e9eea5861338c27ac5547ffd5c84e801d1e269c16cec",
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/AdmissionCore.lean": "9b11fd85723aeed2469e41860564ab1664edbe339415dcbd54ce0f9a20cfa2d0",
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Bounds.lean": "f5dafb28f1af47c811b0e757c8600238b0650642f1a5ea13149699bce966bfa9",
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Contract.lean": "3df9c57a777923643bc5357b23eb025bed6eaee9d0e31766a48a8f14e5b4594d",
-        "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Execution.lean": "b01e81e5ed13bd73ffc3bbc3b5272b5d4c874af0693027c1de85fcd5e4c3415c",
+        "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Execution.lean": "e07aeb96ff239ef239579ff048ee7a038684f5d06fc2950fa28688cc29df884b",
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Grid.lean": "1c2aa02b240afd266476f3036c8fdafe1e2efdb4f3b9123be879bcc28c8b8a31",
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/IO.lean": "eba072c271f411759be8e23daaba19a53f6d00ebe8381bf4ade941eb001f1aff",
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/IOSafety.lean": "71d0916ae0ec190e9e7a4baa53513387b3c0ccef355138e87d53df17c122b0a9",
@@ -9612,14 +9613,20 @@
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/KernelSource.lean": "855688931bad7fc8b82bc82001a4f1a5d3146553489877cf4042f862e230d3bb",
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Math.lean": "ae8baa4bbd27947ab634c490418fc25dba895bc13d61daa5fc379b52c7c0f175",
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Native.lean": "39d8694b272fa41462abec62bc77a5a09ac0ea86d21b6f3af3cf4dec26ff05a3",
-        "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairConnection.lean": "324c25b53f0e605aa18df6c285c0a72048914c1ff4f11263ef93ba536d64aa1d",
+        "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairConnection.lean": "1cc5d3dbd2c23630e2e34f7bf436586525952b72aad91dc795f393af8525811b",
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairIO.lean": "2b925235e9fdae31fa94732549f8397d6a23e120ad5f6bd2cfbf7a279c403c64",
         "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Tensor.lean": "c77339e9e9478e22edd733b0fc7cc9ffa8fb1f01a39b128e850fba9d49176016",
         "bench/tritonbench_g/kcache_copy_triton/KcacheCopyTriton.lean": "fb16f21d28e45b01dff210b98a37029c4d623b8710d6a91b43edea53f967bb74",
         "bench/tritonbench_g/kcache_copy_triton/Proofs/TypedCopy.lean": "727b75143b5d44732b8240aadd0a5e62ab1bd4ba81cd37420d89e02b1a73ca34",
         "VeriTile/Triton/Memory/LogicalIO.lean": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a",
         "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
-        "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+        "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
+        "VeriTile/Triton/DSL/CallSignature.lean": "0b72fc818a3980e212f728654eeb8219de6cd8639df3d20f3e62f266e409ec94",
+        "VeriTile/Triton/DSL/TypedStores.lean": "83526623cc15f060e855037028004854a353715e431960492dd405562fd0b4e4",
+        "VeriTile/Triton/DSL/Expansion/Main.lean": "8b35036541c6e5e70a93a98dce6266a6fda460c609f59fe7fd25ae4307ccf464",
+        "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/SourcePreservation.lean": "6e485677ccff972349ba37a713ca455257779e11d653d605afd573bc3126989b",
+        "bench/repairs/tritonbench_g/cache_transform_triton/jit-correspondence.json": "99c8ce5aa27f24d906584a6965e49690e3d13c0cbdf770b68bc40afd1d6926a6",
+        "bench/repairs/tritonbench_g/cache_transform_triton/cache_transform_triton_candidate.py": "efcf354325199497a4f28c81b6d0ec885bbf7963d4c9e2b80e54269202e151a6"
       },
       "source_pin_provenance": {
         "bench/repairs/tritonbench_g/cache_transform_triton/Contract.lean": {
@@ -9729,43 +9736,27 @@
         }
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/cache_transform_triton.json",
-        "sha256": "21d3be25f6e3e9c53f6e9d3bcd74b4f427f7191a7ed139ad6628c253448c7e24",
+        "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+        "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
         "task": "cache_transform_triton"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "limits": [
-          "The official comparator is unavailable; no comparator PASS is claimed.",
-          "External pinned Lean/Mathlib artifacts are reused.",
-          "No new GPU or numerical experiment. The existing matmul_leakyrelu numerical deferral remains.",
-          "Historical cache/tmp evidence bytes were not recovered. Current build and axiom checks replace the missing proof receipts, not the historical hashes or independent-review claim.",
-          "Seven optional historical KV ABI/raw/host/Tensor/backing modules remain unrecovered and outside the selected main source scope."
-        ],
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/selected-build.json",
-            "sha256": "924f91ab59eb29597e96e7fc7a2c001bce1517ca9b87b27dddf66fd1cd2c843d"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/integration.log.gz",
+            "sha256": "076d20bb4d0bef07e7693c470f988df88acfb76ccce971f1b4a8b84fc92e1922"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/cache_transform_triton.lean",
-            "sha256": "c76389737c1d5057cc8a9537b6caf1545ddc8be0b942efcfe855fe263ece8b6c"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/cache_transform_triton.log.gz",
-            "sha256": "0e66e171104bea145308f3de96f31bcec6be86e4c3731a58b2ffdcb2fcd72ff0"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f"
           }
         ],
-        "joint_import_exit_code": 0,
-        "headline_count": 2,
-        "previous_validation": {
-          "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/superseded-proof-evidence.json.gz",
-          "sha256": "707ace709b2347ce26ab517cb2e4dbbfaa859eedf1634743b30f2da77cfb38e4"
-        }
+        "limits": [
+          "Official comparator unavailable; no comparator PASS is claimed.",
+          "Pinned external Lean/Mathlib artifacts reused; no GPU/compiler refinement or new numerical experiment.",
+          "Existing model boundaries and historical optional-module delivery limits remain unchanged."
+        ]
       },
       "field_provenance": {
         "mathematical_target": [
@@ -23589,13 +23580,13 @@
         "VeriTile/Triton/Core/Types.lean": "6081c35bbf70ce3df78e95f45965e8d0130e71423bdbddf04de05c3795e64a58",
         "VeriTile/Triton/Core.lean": "f2c559b54eff3fbf43926fa5930428ec02a55fba27686bbd58a5b5f3b6c28a2d",
         "VeriTile/Triton/Correctness.lean": "0e5c59fe03bdf99aa94059eb533b44bd5764fa48e844751e9603891b730a03ce",
-        "VeriTile/Triton/DSL/CallSignature.lean": "f2868825f08f2aa7670a162aee199c19f9f337dfd7f1a25787ed861c623f6eb1",
+        "VeriTile/Triton/DSL/CallSignature.lean": "0b72fc818a3980e212f728654eeb8219de6cd8639df3d20f3e62f266e409ec94",
         "VeriTile/Triton/DSL/Expansion/Common.lean": "4b6380326b745c239a07e67224591b75b8532a897a3e7947a29e6b23cc4cc0d7",
         "VeriTile/Triton/DSL/Expansion/Compute.lean": "c92254378aa51c1d72dc16ad1ec904107c424a92e9c0d9d3d031dc40123539d6",
         "VeriTile/Triton/DSL/Expansion/Control.lean": "5a64987af770f0c2ffbf01c23c3069ad9971e03a55e3b117a76c1578f42b8b1d",
         "VeriTile/Triton/DSL/Expansion/DType.lean": "2d61abff958ff6abdd0768a6bcd72c9d1192679b4c30c2d67c83efa774c23b7b",
         "VeriTile/Triton/DSL/Expansion/DirectRandom.lean": "7bd69539f4301bf3de9a42074fd1d90318b682552c0c28e4e39eab20ba7cf6dc",
-        "VeriTile/Triton/DSL/Expansion/Main.lean": "ac8a89d723730ba92cfcc7dabb286eace1e9687b6e3b487d29cc1eb20b8cf02c",
+        "VeriTile/Triton/DSL/Expansion/Main.lean": "8b35036541c6e5e70a93a98dce6266a6fda460c609f59fe7fd25ae4307ccf464",
         "VeriTile/Triton/DSL/Expansion/Memory.lean": "61d9e124c8447fdb07ab4745dd8139ff89466dbf014e94dc6ab84c8614a3d690",
         "VeriTile/Triton/DSL/Expansion.lean": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802",
         "VeriTile/Triton/DSL/FiniteHelperSource.lean": "b16e6ac66af74f85feefa9219e4aa880b46d54277d1d309ca495dbb62cccf0d0",
@@ -23761,7 +23752,8 @@
         "bench/tritonbench_g/dequantize_matmul/Proofs/IntegerIO.lean": "a233748ee317f4b4324a76f8aea38284917a8ccc2e56d6c6973ec9fce8657c1b",
         "bench/tritonbench_g/dequantize_rowwise/Proofs/RealReference.lean": "02950559b1b88418b97b6d54d8eaa67580fc7ea22a4a5f83a71fd67215405444",
         "bench/repairs/tritonbench_g/dequantize_rowwise/dequantize_rowwise_repaired.py": "df232e23aa9660d4f59c530586c8da80ccc9e11fe7a81c48aab31eedc7eda9aa",
-        "bench/repairs/tritonbench_g/dequantize_rowwise/jit-correspondence.json": "8ab455940036b8c7401492e33d853cc24bc25c61eb3b71e579ad17f942b0e295"
+        "bench/repairs/tritonbench_g/dequantize_rowwise/jit-correspondence.json": "8ab455940036b8c7401492e33d853cc24bc25c61eb3b71e579ad17f942b0e295",
+        "VeriTile/Triton/DSL/TypedStores.lean": "83526623cc15f060e855037028004854a353715e431960492dd405562fd0b4e4"
       },
       "source_pin_provenance": {
         "review": {
@@ -23772,31 +23764,26 @@
         "method": "Current source closure and direct body/signature/proof review."
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
-        "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+        "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+        "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
         "task": "dequantize_rowwise"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "limits": [
-          "This first example validates a straight-line body. Existing DSL operation/control-flow spelling limits still apply; arbitrary Python bodies are not all supported.",
-          "Call signatures must be statically known and unsupported pointer/store forms fail closed.",
-          "Existing numerical primitive and mathematical-index model boundaries remain; no compiler/ISA/host refinement is claimed.",
-          "Official comparator and Torch runtime contract check unavailable."
-        ],
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-24/body-signature/clean-final.log.gz",
-            "sha256": "a267e2104ab0ddc66aeda8a7470515579eae2c776bdea416f3d46ec3d37951b1"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/integration.log.gz",
+            "sha256": "076d20bb4d0bef07e7693c470f988df88acfb76ccce971f1b4a8b84fc92e1922"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-24/body-signature/development.log.gz",
-            "sha256": "5f8532b2a17814464bf8ca1b87313d016a1a844afba338f6b987f99712150e3b"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-24/body-signature/joint.log.gz",
-            "sha256": "5d6a6d606478938d4871430c2d923e9c7218a7f35b7cb22391f4608cdced0121"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f"
           }
+        ],
+        "limits": [
+          "Official comparator unavailable; no comparator PASS is claimed.",
+          "Pinned external Lean/Mathlib artifacts reused; no GPU/compiler refinement or new numerical experiment.",
+          "Existing model boundaries and historical optional-module delivery limits remain unchanged."
         ]
       },
       "field_provenance": {
@@ -44650,8 +44637,9 @@
       "task": "kv_cache_filling",
       "status": "fixed",
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/review.json",
-        "sha256": "5357964c1d07b5ee7e193cffb02a645cc26421e9319bd6b47029691d36c90bf3"
+        "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+        "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
+        "task": "kv_cache_filling"
       },
       "remaining_issues": [],
       "superseded_review": {
@@ -44697,7 +44685,7 @@
         "VeriTile/Triton/DSL/Expansion/Control.lean": "5a64987af770f0c2ffbf01c23c3069ad9971e03a55e3b117a76c1578f42b8b1d",
         "VeriTile/Triton/DSL/Expansion/DType.lean": "2d61abff958ff6abdd0768a6bcd72c9d1192679b4c30c2d67c83efa774c23b7b",
         "VeriTile/Triton/DSL/Expansion/DirectRandom.lean": "7bd69539f4301bf3de9a42074fd1d90318b682552c0c28e4e39eab20ba7cf6dc",
-        "VeriTile/Triton/DSL/Expansion/Main.lean": "ac8a89d723730ba92cfcc7dabb286eace1e9687b6e3b487d29cc1eb20b8cf02c",
+        "VeriTile/Triton/DSL/Expansion/Main.lean": "8b35036541c6e5e70a93a98dce6266a6fda460c609f59fe7fd25ae4307ccf464",
         "VeriTile/Triton/DSL/Expansion/Memory.lean": "61d9e124c8447fdb07ab4745dd8139ff89466dbf014e94dc6ab84c8614a3d690",
         "VeriTile/Triton/DSL/Expansion.lean": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802",
         "VeriTile/Triton/DSL/FiniteHelperSource.lean": "b16e6ac66af74f85feefa9219e4aa880b46d54277d1d309ca495dbb62cccf0d0",
@@ -44761,34 +44749,21 @@
       "source_pin_provenance": "Tracked current import closure at 4f67a85e33281c365777cc0d2c7f1784097ef32f",
       "verification": {
         "status": "passed_with_recorded_limit",
-        "limits": [
-          "Official comparator unavailable; Lean kernel and statement/axiom audits were run.",
-          "Pinned external Lean/Mathlib dependencies reuse installed artifacts. No GPU or new numerical experiment.",
-          "Historical optional raw/Tensor/host delivery remains unrecovered and is not certified by this main-kernel reconstruction.",
-          "The 183-task scan checks source availability, not fresh proof validity of every task."
-        ],
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/public-build.log",
-            "sha256": "eabd7c8292dbfa92672657dc488424b4d293f8daa1036c288016c914a1394290"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/integration.log.gz",
+            "sha256": "076d20bb4d0bef07e7693c470f988df88acfb76ccce971f1b4a8b84fc92e1922"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/source-closure.json",
-            "sha256": "657ba8b38a3438e118ded2d02eebf3b0cc5b5c0a18ede28f744e40e3f393ab5b"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/clean-build.log.gz",
-            "sha256": "8f5efe4e3523a65941dc29029828a3c4b70c565ff6ab63d8f34618479ef6f833"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f"
           }
         ],
-        "clean_project_build": {
-          "exit_code": 0,
-          "source_commit": "4f67a85e33281c365777cc0d2c7f1784097ef32f",
-          "raw_log_sha256": "01faab8a82401021abce6bad34a694e6213c51931987e54b65f208c1bef219ab",
-          "command": "lake build VeriTile bench.tests.FPMinimumReduction bench.repairs.tritonbench_g.kv_cache_filling.Proofs.SourcePreservation bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.Correct bench.repairs.tritonbench_g.kv_cache_filling.KernelOnly.FPEquiv bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.Correct bench.repairs.tritonbench_g.llama_ff_triton_scalar_cast.FPEquiv",
-          "initial_project_build_present": false,
-          "initial_veritile_cache_present": false
-        }
+        "limits": [
+          "Official comparator unavailable; no comparator PASS is claimed.",
+          "Pinned external Lean/Mathlib artifacts reused; no GPU/compiler refinement or new numerical experiment.",
+          "Existing model boundaries and historical optional-module delivery limits remain unchanged."
+        ]
       },
       "readers": [
         {
@@ -83429,7 +83404,7 @@
         "VeriTile/Triton/DSL/Expansion/Control.lean": "5a64987af770f0c2ffbf01c23c3069ad9971e03a55e3b117a76c1578f42b8b1d",
         "VeriTile/Triton/DSL/Expansion/DType.lean": "2d61abff958ff6abdd0768a6bcd72c9d1192679b4c30c2d67c83efa774c23b7b",
         "VeriTile/Triton/DSL/Expansion/DirectRandom.lean": "7bd69539f4301bf3de9a42074fd1d90318b682552c0c28e4e39eab20ba7cf6dc",
-        "VeriTile/Triton/DSL/Expansion/Main.lean": "ac8a89d723730ba92cfcc7dabb286eace1e9687b6e3b487d29cc1eb20b8cf02c",
+        "VeriTile/Triton/DSL/Expansion/Main.lean": "8b35036541c6e5e70a93a98dce6266a6fda460c609f59fe7fd25ae4307ccf464",
         "VeriTile/Triton/DSL/Expansion/Memory.lean": "61d9e124c8447fdb07ab4745dd8139ff89466dbf014e94dc6ab84c8614a3d690",
         "VeriTile/Triton/DSL/Expansion.lean": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802",
         "VeriTile/Triton/DSL/FiniteHelperSource.lean": "b16e6ac66af74f85feefa9219e4aa880b46d54277d1d309ca495dbb62cccf0d0",
@@ -83682,37 +83657,27 @@
         "method": "Direct review and clean replay of current source closure."
       },
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
-        "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+        "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+        "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
         "task": "triton_argmax"
       },
       "verification": {
         "status": "passed_with_recorded_limit",
-        "limits": [
-          "Official comparator unavailable.",
-          "Real integer/bool conversion remains the explicitly documented idealized macro projection.",
-          "Signed indices retain the existing mathematical no-wrap model.",
-          "Optional historical Tensor/byte results retain their projected source scope.",
-          "No GPU/host/compiler refinement claim."
-        ],
         "evidence_files": [
           {
-            "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/clean-build.log.gz",
-            "sha256": "93ae22774262fd2c12308826061ed66ca175585d8fbed5aa178d69658aa590c5"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/integration.log.gz",
+            "sha256": "076d20bb4d0bef07e7693c470f988df88acfb76ccce971f1b4a8b84fc92e1922"
           },
           {
-            "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/targeted-build.log.gz",
-            "sha256": "1c6bc773b0bde4b33df191b363f56a8acdbdc21967c54a35daf2cb9aee1ded71"
-          },
-          {
-            "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/joint.log.gz",
-            "sha256": "ec7fe9b3bf9714586522a31ca86caf787b9079e7466cd23a7337b745afd784f3"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f"
           }
         ],
-        "source_closure": {
-          "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/source-closure.json",
-          "sha256": "16e8147f129b3927666ad8753ad1de30c43c5be5e572de6e1760afd90f8f74a7"
-        }
+        "limits": [
+          "Official comparator unavailable; no comparator PASS is claimed.",
+          "Pinned external Lean/Mathlib artifacts reused; no GPU/compiler refinement or new numerical experiment.",
+          "Existing model boundaries and historical optional-module delivery limits remain unchanged."
+        ]
       },
       "field_provenance": {
         "mathematical_target": [

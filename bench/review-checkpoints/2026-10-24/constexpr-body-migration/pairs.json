@@ -1,0 +1,108 @@
+{
+  "bench/repairs/tritonbench_g/cache_transform_triton": [
+    {
+      "python_function": "gather_cache_bytes",
+      "lean_definition": "body",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "statements": 7,
+      "runtime_parameters": {},
+      "constexpr_parameters": [
+        "BLOCK",
+        "COUNT",
+        "ROW_BYTES",
+        "START"
+      ]
+    },
+    {
+      "python_function": "gather_cache_bytes_quotient_remainder",
+      "lean_definition": "quotientRemainderBody",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "statements": 7,
+      "runtime_parameters": {},
+      "constexpr_parameters": [
+        "BLOCK",
+        "COUNT",
+        "ROW_BYTES",
+        "START"
+      ]
+    }
+  ],
+  "bench/examples/VectorAdd": [
+    {
+      "python_function": "addKernel",
+      "lean_definition": "addKernel",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "statements": 6,
+      "runtime_parameters": {},
+      "constexpr_parameters": [
+        "blockSize"
+      ]
+    },
+    {
+      "python_function": "optimizedKernel",
+      "lean_definition": "optimizedKernel",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "statements": 6,
+      "runtime_parameters": {},
+      "constexpr_parameters": [
+        "blockSize"
+      ]
+    }
+  ],
+  "bench/examples/FlatVectorAdd": [
+    {
+      "python_function": "addKernelMasked",
+      "lean_definition": "addKernelMasked",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "statements": 7,
+      "runtime_parameters": {},
+      "constexpr_parameters": [
+        "blockSize",
+        "nElements"
+      ]
+    },
+    {
+      "python_function": "optimizedKernel",
+      "lean_definition": "optimizedKernel",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "statements": 7,
+      "runtime_parameters": {},
+      "constexpr_parameters": [
+        "blockSize",
+        "nElements"
+      ]
+    }
+  ],
+  "bench/examples/TritonBenchVectorAddition": [
+    {
+      "python_function": "originalKernel",
+      "lean_definition": "originalKernel",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "statements": 8,
+      "runtime_parameters": {},
+      "constexpr_parameters": [
+        "blockSize",
+        "nElements"
+      ]
+    },
+    {
+      "python_function": "optimizedKernel",
+      "lean_definition": "optimizedKernel",
+      "status": "PASS",
+      "mode": "pasted_body",
+      "statements": 8,
+      "runtime_parameters": {},
+      "constexpr_parameters": [
+        "blockSize",
+        "nElements"
+      ]
+    }
+  ]
+}

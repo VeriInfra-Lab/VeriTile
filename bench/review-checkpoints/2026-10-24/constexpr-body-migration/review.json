@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "status": "verified_batch_corpus_migration_incomplete",
+  "code_commit": "004573068575aebefef66bc6c889574c2f0a3791",
+  "merge_policy": "Do not merge before the user has reviewed and approved this repair.",
+  "migrated_task": "cache_transform_triton",
+  "migrated_examples": [
+    "VectorAdd",
+    "FlatVectorAdd",
+    "TritonBenchVectorAddition"
+  ],
+  "source_provenance": {
+    "task_original": "Unchanged selected Python JIT in cache_transform_triton_repaired.py.",
+    "task_candidate": "New native counterpart of the existing quotient/remainder Lean candidate; production wrapper unchanged.",
+    "examples": "Newly authored native counterparts of Lean-first examples, not independent historical benchmark originals. Existing constexpr size specialization retained."
+  },
+  "canonical_connection": "Current Kernels.lean quotations are authoritative. Eight source/candidate full ComputeKernel equalities, including ports and complete statements, are proved by rfl in Proofs/SourcePreservation. Actual public execution proofs still import current Kernels.lean; three cache simp proofs now unfold the new body declarations.",
+  "mathematical_scope": "Public independent Real formulas, IO domains, execution/safety/output/frame requirements and FP comparison statements are unchanged.",
+  "source_interface": "No body metadata or Lean antiquotes. Dtypes, constexpr names and argument/port bindings are external. Integer where literals use the integer carrier; same-source-dtype load/copy stores retain identity conversion, FP32 arithmetic is tracked, cross-dtype/unknown stores retain destination conversion. Combined load/cast input ports remain visible.",
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "jobs": 8647,
+      "scope": "Migrated eight public entries, four full-program preservation modules, two optional cache bridges, dequantize and argmax public regressions, KV cache selected public entries, three frontend test modules."
+    },
+    "clean_checkout": {
+      "status": "PASS",
+      "jobs": 3520,
+      "scope": "Eight migrated public entries, four preservation modules and two frontend tests; no project artifacts or .veritile-cache initially; pinned external dependencies reused."
+    },
+    "python": {
+      "status": "PASS",
+      "tests": 25
+    },
+    "source_pairs": {
+      "status": "PASS",
+      "pairs": 8
+    },
+    "joint_import": "PASS; cache FP assumptions printed none",
+    "axioms": "Every rebuilt audit reports only standard-base axioms; no sorry or new axioms introduced.",
+    "official_comparator": "UNAVAILABLE; scripts/check_comparator.py returned required comparator setup failure. No PASS claimed.",
+    "gpu_or_native_python_run": "Not run; no new GPU or numerical experiment."
+  },
+  "shared_frontend_regressions": [
+    "dequantize_rowwise",
+    "triton_argmax",
+    "kv_cache_filling"
+  ],
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/source-closure.json",
+    "sha256": "601df010dffab1214e1a1a2bcd8c44944be1aafe46d6d8b6f558d8b803db410e",
+    "tracked_modules": 230
+  },
+  "evidence": {
+    "bench/review-checkpoints/2026-10-24/constexpr-body-migration/integration.log.gz": "076d20bb4d0bef07e7693c470f988df88acfb76ccce971f1b4a8b84fc92e1922",
+    "bench/review-checkpoints/2026-10-24/constexpr-body-migration/clean-build.log.gz": "54f19d50c5daf2bd1c0633c9dd7796e872cd19d94eb394fb7fd5225c51e2cc4d",
+    "bench/review-checkpoints/2026-10-24/constexpr-body-migration/preservation.log.gz": "ca9596778d744c6a894fa62f402f0eb2285306f840c2f4f34c5091b151e77fc9",
+    "bench/review-checkpoints/2026-10-24/constexpr-body-migration/python-tests.log": "15edd4243eb14bb97734dc5d47e22015a09473fec542ab51497c228016abb2c6",
+    "bench/review-checkpoints/2026-10-24/constexpr-body-migration/joint.log": "9ea784a8d4fe3addaab127126379ed1ad08b94e36e96e2c7fbd60a07c4aab19d",
+    "bench/review-checkpoints/2026-10-24/constexpr-body-migration/comparator.log": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+  },
+  "corpus_complete": false,
+  "guard_receipts": "guards.json"
+}

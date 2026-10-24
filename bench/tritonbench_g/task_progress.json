@@ -17474,10 +17474,10 @@
           "bench/repairs/tritonbench_g/cache_transform_triton/Contract.lean": "34f75f253f9affb86bda44900bc061b14a65748a753bf14331785bb585cfef08",
           "bench/repairs/tritonbench_g/cache_transform_triton/Correct.lean": "637faea7986c25ed40756bc0fb8dd3358934162e72eacbc4d5d8a1e40c35f48b",
           "bench/repairs/tritonbench_g/cache_transform_triton/FPEquiv.lean": "1c9b93b51366cfd6bc5e85921a4c962c3e1db40aa3c694d9669eb918c0ce404c",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean": "e2410cb0b6b8b897d1ccd7e58967aa770fbe8b09bab3094698de70df121a8ccc",
+          "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean": "4d6627aea156ad8a4c0c78d2542de256f79c7aafaada5baba2d67ca02fcc215e",
           "bench/repairs/tritonbench_g/cache_transform_triton/Misc/NativeCorrect.lean": "030291f749873637179bbd451a32199578ab5895e2389122bbe835f86aad963d",
           "bench/repairs/tritonbench_g/cache_transform_triton/Misc/TensorBridge.lean": "6b881e5c230a91310b0d833f5ea230c762cd2cef00ad62de7b3495d473b8c7c0",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairConnection.lean": "324c25b53f0e605aa18df6c285c0a72048914c1ff4f11263ef93ba536d64aa1d",
+          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairConnection.lean": "1cc5d3dbd2c23630e2e34f7bf436586525952b72aad91dc795f393af8525811b",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairIO.lean": "0b6733db4c2d7e889435ed990f502cde15e4e543ef3d99c019911dcf57324c26",
           "bench/repairs/tritonbench_g/cache_transform_triton/cache_transform_triton_repaired.py": "e48153e24889ca841307f5a1ad075827992a38eece518e870f19a08144a4ff82"
         },
@@ -17847,12 +17847,12 @@
           "bench/repairs/tritonbench_g/cache_transform_triton/Misc/NativeCorrect.lean": "030291f749873637179bbd451a32199578ab5895e2389122bbe835f86aad963d",
           "bench/repairs/tritonbench_g/cache_transform_triton/Correct.lean": "835c1248387d5b708e7a87e14d17cb3d343c222d924462d215273f7d9e16608b",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/IOResult.lean": "4e6f1b7e83c4c56da434820f128fee2893a41622422c422d394ff961940715a9",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean": "f224539a28785d7d69e56d2a112c39ab374425f3ee9f08366360104072cf7d7f",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/AccessSafety.lean": "49d22cfa23af6c5bb7d56d36f8156f8082c24f65fe24b1220698f27fb7c8761c",
+          "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean": "4d6627aea156ad8a4c0c78d2542de256f79c7aafaada5baba2d67ca02fcc215e",
+          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/AccessSafety.lean": "98a898fde5ca2c008628e9eea5861338c27ac5547ffd5c84e801d1e269c16cec",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/AdmissionCore.lean": "9b11fd85723aeed2469e41860564ab1664edbe339415dcbd54ce0f9a20cfa2d0",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Bounds.lean": "f5dafb28f1af47c811b0e757c8600238b0650642f1a5ea13149699bce966bfa9",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Contract.lean": "3df9c57a777923643bc5357b23eb025bed6eaee9d0e31766a48a8f14e5b4594d",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Execution.lean": "b01e81e5ed13bd73ffc3bbc3b5272b5d4c874af0693027c1de85fcd5e4c3415c",
+          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Execution.lean": "e07aeb96ff239ef239579ff048ee7a038684f5d06fc2950fa28688cc29df884b",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Grid.lean": "1c2aa02b240afd266476f3036c8fdafe1e2efdb4f3b9123be879bcc28c8b8a31",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/IO.lean": "eba072c271f411759be8e23daaba19a53f6d00ebe8381bf4ade941eb001f1aff",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/IOSafety.lean": "71d0916ae0ec190e9e7a4baa53513387b3c0ccef355138e87d53df17c122b0a9",
@@ -17860,7 +17860,7 @@
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/KernelSource.lean": "855688931bad7fc8b82bc82001a4f1a5d3146553489877cf4042f862e230d3bb",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Math.lean": "ae8baa4bbd27947ab634c490418fc25dba895bc13d61daa5fc379b52c7c0f175",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Native.lean": "39d8694b272fa41462abec62bc77a5a09ac0ea86d21b6f3af3cf4dec26ff05a3",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairConnection.lean": "324c25b53f0e605aa18df6c285c0a72048914c1ff4f11263ef93ba536d64aa1d",
+          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairConnection.lean": "1cc5d3dbd2c23630e2e34f7bf436586525952b72aad91dc795f393af8525811b",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/PairIO.lean": "2b925235e9fdae31fa94732549f8397d6a23e120ad5f6bd2cfbf7a279c403c64",
           "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/Tensor.lean": "c77339e9e9478e22edd733b0fc7cc9ffa8fb1f01a39b128e850fba9d49176016",
           "bench/tritonbench_g/kcache_copy_triton/KcacheCopyTriton.lean": "fb16f21d28e45b01dff210b98a37029c4d623b8710d6a91b43edea53f967bb74",
@@ -17869,7 +17869,10 @@
           "VeriTile/Triton/Float/LogicalProgramIO.lean": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358",
           "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8",
           "bench/repairs/tritonbench_g/cache_transform_triton/IO.lean": "0da5b4f7fd8466e85dd5c9c84ebdf146a4f568667cfd032b42d4c6646d632871",
-          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/LogicalReader.lean": "99d0b88a98f84195dd3893183b8b0617c19a52718a60f2c471fb88435ec55e96"
+          "bench/repairs/tritonbench_g/cache_transform_triton/Proofs/LogicalReader.lean": "99d0b88a98f84195dd3893183b8b0617c19a52718a60f2c471fb88435ec55e96",
+          "VeriTile/Triton/DSL/CallSignature.lean": "0b72fc818a3980e212f728654eeb8219de6cd8639df3d20f3e62f266e409ec94",
+          "VeriTile/Triton/DSL/TypedStores.lean": "83526623cc15f060e855037028004854a353715e431960492dd405562fd0b4e4",
+          "VeriTile/Triton/DSL/Expansion/Main.lean": "8b35036541c6e5e70a93a98dce6266a6fda460c609f59fe7fd25ae4307ccf464"
         },
         "cross_review": {
           "report": "bench/review-checkpoints/2026-10-21/cross-review/README.md",
@@ -18024,8 +18027,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/cache_transform_triton.json",
-            "sha256": "21d3be25f6e3e9c53f6e9d3bcd74b4f427f7191a7ed139ad6628c253448c7e24",
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
             "task": "cache_transform_triton"
           },
           "main_declarations": [
@@ -18085,22 +18088,25 @@
         },
         "current_source_replay": {
           "review": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
-          },
-          "check": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/cache_transform_triton.lean",
-            "sha256": "c76389737c1d5057cc8a9537b6caf1545ddc8be0b942efcfe855fe263ece8b6c"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f"
           },
           "log": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/cache_transform_triton.log.gz",
-            "sha256": "0e66e171104bea145308f3de96f31bcec6be86e4c3731a58b2ffdcb2fcd72ff0"
-          }
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/integration.log.gz",
+            "sha256": "076d20bb4d0bef07e7693c470f988df88acfb76ccce971f1b4a8b84fc92e1922"
+          },
+          "scope": "Current selected public Real/FP entries rebuilt after shared frontend changes; see review for exact targets and limits."
         },
         "jit_correspondence": {
-          "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
-          "scope": "Statement correspondence is separate from prior model proof acceptance."
+          "status": "selected_body_copy_checked",
+          "inventory": "bench/source-correspondence.json",
+          "manifest": "bench/repairs/tritonbench_g/cache_transform_triton/jit-correspondence.json",
+          "scope": "Selected original Python and explicit native counterpart of existing candidate; source check plus complete old/new program equalities and public proof replay."
+        },
+        "pasted_body_review": {
+          "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+          "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
+          "task": "cache_transform_triton"
         }
       }
     },
@@ -38863,7 +38869,10 @@
           "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/InputBinding.lean": "005efca0f3f6418a36dc557e6694ddfd827b3b1352f35f20a091ac6ab3982d26",
           "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/NativeAddress.lean": "67d408da0d329e4de7ec419be3a7697fc7b7e07afe7d9f21936549b7e81b9f1c",
           "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/NativeIndex.lean": "a8e7eb223e264b3493eb696f076259bcd39afd1c79aee57c7b44046fdd2ebc99",
-          "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/ReadableSource.lean": "fc4c3a3ad097b7146e0ab13ed89864f021872debca80b1ecaf5a8e4057478a5f"
+          "bench/repairs/tritonbench_g/dequantize_rowwise/Proofs/ReadableSource.lean": "fc4c3a3ad097b7146e0ab13ed89864f021872debca80b1ecaf5a8e4057478a5f",
+          "VeriTile/Triton/DSL/CallSignature.lean": "0b72fc818a3980e212f728654eeb8219de6cd8639df3d20f3e62f266e409ec94",
+          "VeriTile/Triton/DSL/TypedStores.lean": "83526623cc15f060e855037028004854a353715e431960492dd405562fd0b4e4",
+          "VeriTile/Triton/DSL/Expansion/Main.lean": "8b35036541c6e5e70a93a98dce6266a6fda460c609f59fe7fd25ae4307ccf464"
         },
         "cross_review": {
           "report": "bench/review-checkpoints/2026-10-21/cross-review/README.md",
@@ -39069,8 +39078,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
-            "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
             "task": "dequantize_rowwise"
           },
           "main_declarations": [
@@ -39119,17 +39128,14 @@
         },
         "current_source_replay": {
           "review": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
-          },
-          "check": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/dequantize_rowwise.lean",
-            "sha256": "f2ff20d0700e2dddba6c165a96b8102bfcfd13cf9e322ab44967e81feff00d75"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f"
           },
           "log": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/dequantize_rowwise.log.gz",
-            "sha256": "42fca4004adbcbef94067ef0738e8015abd4bbdd479c28f31b768baefb8a37ed"
-          }
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/integration.log.gz",
+            "sha256": "076d20bb4d0bef07e7693c470f988df88acfb76ccce971f1b4a8b84fc92e1922"
+          },
+          "scope": "Current selected public Real/FP entries rebuilt after shared frontend changes; see review for exact targets and limits."
         },
         "jit_correspondence": {
           "status": "exact_ast_correspondence",
@@ -39137,8 +39143,8 @@
           "scope": "Statement correspondence is separate from prior model proof acceptance."
         },
         "pasted_body_review": {
-          "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
-          "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+          "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+          "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
           "task": "dequantize_rowwise"
         }
       }
@@ -70657,7 +70663,7 @@
           "VeriTile/Triton/DSL/Expansion/Control.lean": "5a64987af770f0c2ffbf01c23c3069ad9971e03a55e3b117a76c1578f42b8b1d",
           "VeriTile/Triton/DSL/Expansion/DType.lean": "2d61abff958ff6abdd0768a6bcd72c9d1192679b4c30c2d67c83efa774c23b7b",
           "VeriTile/Triton/DSL/Expansion/DirectRandom.lean": "7bd69539f4301bf3de9a42074fd1d90318b682552c0c28e4e39eab20ba7cf6dc",
-          "VeriTile/Triton/DSL/Expansion/Main.lean": "8e16206792c45d0f92b0dc5581f09d043e242a1805fc58d1086d06aaf6d3d464",
+          "VeriTile/Triton/DSL/Expansion/Main.lean": "8b35036541c6e5e70a93a98dce6266a6fda460c609f59fe7fd25ae4307ccf464",
           "VeriTile/Triton/DSL/Expansion/Memory.lean": "61d9e124c8447fdb07ab4745dd8139ff89466dbf014e94dc6ab84c8614a3d690",
           "VeriTile/Triton/DSL/Expansion.lean": "abf572865569f8411e47bca680bf6f7a2ff1cfd2f0d4cac2a581d8212ba19802",
           "VeriTile/Triton/DSL/FiniteHelperSource.lean": "b16e6ac66af74f85feefa9219e4aa880b46d54277d1d309ca495dbb62cccf0d0",
@@ -70907,8 +70913,9 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/kv-reconstruction/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/kv-reconstruction/review.json",
-            "sha256": "5357964c1d07b5ee7e193cffb02a645cc26421e9319bd6b47029691d36c90bf3"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
+            "task": "kv_cache_filling"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.KvCacheFilling.Correct.whole_shared_real",
@@ -70974,17 +70981,14 @@
         },
         "current_source_replay": {
           "review": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
-          },
-          "check": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/kv_cache_filling.lean",
-            "sha256": "e1386f9ff3bed391c262cd412b37d11214a67c830dfbb3674311ff549e8333c3"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f"
           },
           "log": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/kv_cache_filling.log.gz",
-            "sha256": "0d2b4be34eb9b4b79862138daeacc98c0105572e23761404e64554070aa09d35"
-          }
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/integration.log.gz",
+            "sha256": "076d20bb4d0bef07e7693c470f988df88acfb76ccce971f1b4a8b84fc92e1922"
+          },
+          "scope": "Current selected public Real/FP entries rebuilt after shared frontend changes; see review for exact targets and limits."
         },
         "jit_correspondence": {
           "status": "not_certified_by_this_screen",
@@ -136684,8 +136688,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
-            "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
             "task": "triton_argmax"
           },
           "main_declarations": [
@@ -136737,17 +136741,14 @@
         },
         "current_source_replay": {
           "review": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/review.json",
-            "sha256": "ee91221d2a053fc635b53f67a17c35b9789058bfe5967a3f354f339fe4f0ef9d"
-          },
-          "check": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/triton_argmax.lean",
-            "sha256": "e85d94db22482cda31ae1b31eeb7e6c6872c17de71a6bda231b6e40f5be973ef"
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
+            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f"
           },
           "log": {
-            "path": "bench/review-checkpoints/2026-10-23/selected-source-replay/checks/triton_argmax.log.gz",
-            "sha256": "e7049570d6692172eab425ea120071312b96344e66b78e1623b0f0184ff4b7bf"
-          }
+            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/integration.log.gz",
+            "sha256": "076d20bb4d0bef07e7693c470f988df88acfb76ccce971f1b4a8b84fc92e1922"
+          },
+          "scope": "Current selected public Real/FP entries rebuilt after shared frontend changes; see review for exact targets and limits."
         },
         "jit_source_proof_review": {
           "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",

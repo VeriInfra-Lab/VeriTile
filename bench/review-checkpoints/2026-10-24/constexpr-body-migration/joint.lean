@@ -1,0 +1,15 @@
+import bench.repairs.tritonbench_g.cache_transform_triton.Correct
+import bench.repairs.tritonbench_g.cache_transform_triton.FPEquiv
+import bench.repairs.tritonbench_g.cache_transform_triton.Proofs.SourcePreservation
+import bench.examples.VectorAdd.Correct
+import bench.examples.VectorAdd.FPEquiv
+import bench.examples.VectorAdd.Proofs.SourcePreservation
+import bench.examples.FlatVectorAdd.Correct
+import bench.examples.FlatVectorAdd.FPEquiv
+import bench.examples.FlatVectorAdd.Proofs.SourcePreservation
+import bench.examples.TritonBenchVectorAddition.Correct
+import bench.examples.TritonBenchVectorAddition.FPEquiv
+import bench.examples.TritonBenchVectorAddition.Proofs.SourcePreservation
+import bench.tests.TypedStores
+
+#print_fp_assumptions VeriTile.Bench.Repairs.CacheTransform.Equivalence.quotient_remainder_equiv
