@@ -1,5 +1,5 @@
-import bench.repairs.tritonbench_g.triton_argmax_nan_first.PairIO
-import bench.repairs.tritonbench_g.triton_argmax_nan_first.CandidateKernels
+import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.ProjectedPairIO
+import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.ProjectedCandidateKernels
 import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.NativePublicIO
 import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.NativeDimensionIO
 import VeriTile.Triton.Float.ProgramEquivalenceSyntax

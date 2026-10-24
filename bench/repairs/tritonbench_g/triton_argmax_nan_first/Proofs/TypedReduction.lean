@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.triton_argmax_nan_first.Kernels
+import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.ProjectedKernels
 import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.NanReduce
 
 namespace VeriTile.Bench.Repairs.TritonArgmaxNanFirst.TypedReduction

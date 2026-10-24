@@ -1,4 +1,4 @@
-import bench.repairs.tritonbench_g.triton_argmax_nan_first.IO
+import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.ProjectedIO
 import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.RealPublicIO
 import bench.repairs.tritonbench_g.triton_argmax_nan_first.Proofs.RealDimensionIO
 
