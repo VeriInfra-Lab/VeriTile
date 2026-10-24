@@ -1,0 +1,132 @@
+{
+  "task": "matrix_reduction",
+  "status": "no_issue_identified",
+  "selected_public_entries": [
+    "bench/tritonbench_g/matrix_reduction/Contract.lean",
+    "bench/tritonbench_g/matrix_reduction/Correct.lean",
+    "bench/tritonbench_g/matrix_reduction/FPEquiv.lean"
+  ],
+  "assessment": {
+    "organization": "The main logical tensor equivalences/views already live in the selected task IO.lean, with complete judgment and execution connections in Proofs/. No separate same-task logical-view definition remains to migrate; distinct candidate/native thin views are retained.",
+    "preservation": {
+      "all_recorded_source_bytes_unchanged": true,
+      "full_public_judgment_types": "All selected Correct/FPEquiv and IO source bytes match saved before and the pinned prior owner report; their previous successful full-scope/source/joint checks are reused, with no fresh Lean replay claimed.",
+      "audit": {
+        "path": ".veritile-cache/io-unification-20261023/queue10/audit.json",
+        "sha256": "b916c524819e4d2aeb54d8b0da86ac8fa5acadac06522b6a90fc19ada2136a5b"
+      }
+    },
+    "different_stage_or_encoding_exceptions": [],
+    "previous_assessment": {
+      "manifest": "bench/review-checkpoints/2026-10-22/logical-readers/io-audit.json",
+      "task": "matrix_reduction"
+    }
+  },
+  "distinct_views": [
+    "Real uses dtype erasure and a full [M,N] MaskedTileKernelIO1 with column-zero write mask. Native uses storage-tagged FP16/FP32 ProgramIO, separate [M,N] and [M] channels and an ordered native observation. These complete records have different IO APIs/precision/channel types."
+  ],
+  "readers": [
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/Correct.lean",
+      "sha256": "f79f7fd851abfada1b73ebced375f2eae22774d9ecefd604ec0a6aeb7586e777"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/FPEquiv.lean",
+      "sha256": "cb449b2f09e74e5f41113074ae1e5a64584b68dde657eda2df72c71b2ef55f34"
+    }
+  ],
+  "io_sources": [
+    {
+      "path": "VeriTile/Triton/Float/LogicalProgramIO.lean",
+      "sha256": "60746b73aee5a7d372b1798fc9b3380b9af049bb17ae2898affe61c3744d8358"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalDomainRelationIO.lean",
+      "sha256": "69c0b61a129a0ba3c95837051dd1975c505fd4b48fba69c8ad7f7c0f654071c8"
+    },
+    {
+      "path": "VeriTile/Triton/Memory/LogicalIO.lean",
+      "sha256": "e08a4e3b544670776a545252dbfca4fc7b7288b65167301f5101e99f9b5fd45a"
+    },
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/IO.lean",
+      "sha256": "6a0e4c05c7802692bf11402b5ff1811a6738074148004c42e29c71e99df9df6b"
+    }
+  ],
+  "changed_paths": [],
+  "review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_reduction.json",
+    "sha256": "c5aa0405b47a17333ad610d92884cb272472181140ae733a7f4ab9454e966bb2",
+    "task": "matrix_reduction"
+  },
+  "preservation_and_build_passed": true,
+  "validation_limits": {
+    "excluded_historical_helper": {
+      "path": "bench/tritonbench_g/matrix_reduction/Proofs/Real.lean",
+      "declaration": "VeriTile.Bench.TritonBenchG.MatrixReduction.matrixReduceIO",
+      "reason": "Historical generic load_reduce_kernel interface with arbitrary region/stride arguments. Not the selected current reader IO; BRIEF explicitly excludes historical nonselected helpers from new reconstruction. Fully read and hashed, unchanged. This report does not claim all historical IO declarations have moved."
+    }
+  },
+  "remaining_issues": [],
+  "main_formula_review": {
+    "audit": "bench/review-checkpoints/2026-10-22/main-formulas/audit.json",
+    "review_evidence": {
+      "path": ".veritile-cache/headline-formulas-20261022/queue10/result.json",
+      "sha256": "3f00836bb1feb1dcc1ce6a390d99babb1d281bc7f97e57c4171efea2483ce93a",
+      "task_index": 5,
+      "task": "matrix_reduction"
+    },
+    "io_data_unchanged": true
+  },
+  "previous_io_sources": [
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/IO.lean",
+      "sha256": "5bc0184f87742905bb887a9f39b0fde7d22407bc9c523fcd28c5a70e17990278"
+    }
+  ],
+  "previous_review_evidence": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/matrix_reduction.json",
+    "sha256": "afda053efcd3c3f5e5ac578b5d1e08086daf8892c8112f9c21c07a640ce07938",
+    "task": "matrix_reduction"
+  },
+  "unchanged_prior_io_source_origins": {
+    "bench/tritonbench_g/matrix_reduction/IO.lean": [
+      {
+        "path": "bench/tritonbench_g/matrix_reduction/IO.lean",
+        "sha256": "5bc0184f87742905bb887a9f39b0fde7d22407bc9c523fcd28c5a70e17990278"
+      }
+    ]
+  },
+  "logical_reader_review": {
+    "path": "bench/review-checkpoints/2026-10-22/logical-readers/tasks/matrix_reduction.json",
+    "sha256": "afda053efcd3c3f5e5ac578b5d1e08086daf8892c8112f9c21c07a640ce07938",
+    "task": "matrix_reduction"
+  },
+  "previous_assessment": {
+    "findings": [],
+    "changes": [],
+    "reader_role": "Current readers reuse canonical mathematical/native IO and their ordinary source-pair wrappers.",
+    "responsibility": "No duplicate complete current-reader record. Historical generic Proofs.Real.matrixReduceIO is recorded separately as out of this selected-generation reconstruction scope.",
+    "distinct_views": [
+      "Real uses dtype erasure and a full [M,N] MaskedTileKernelIO1 with column-zero write mask. Native uses storage-tagged FP16/FP32 ProgramIO, separate [M,N] and [M] channels and an ordered native observation. These complete records have different IO APIs/precision/channel types."
+    ]
+  },
+  "previous_changed_paths": [],
+  "previous_canonical_io_declarations": [
+    {
+      "path": "bench/tritonbench_g/matrix_reduction/IO.lean",
+      "definitions": [
+        "VeriTile.Bench.TritonBenchG.MatrixReduction.matrixReductionIO",
+        "VeriTile.Bench.TritonBenchG.MatrixReduction.FPCorrect.matrixReductionNativeIO",
+        "VeriTile.Bench.TritonBenchG.MatrixReduction.FPCorrect.matrixReductionCandidate"
+      ],
+      "after_sha256": "5bc0184f87742905bb887a9f39b0fde7d22407bc9c523fcd28c5a70e17990278",
+      "sha256": "5bc0184f87742905bb887a9f39b0fde7d22407bc9c523fcd28c5a70e17990278"
+    }
+  ],
+  "io_unification_review": {
+    "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_reduction.json",
+    "sha256": "c5aa0405b47a17333ad610d92884cb272472181140ae733a7f4ab9454e966bb2",
+    "task": "matrix_reduction"
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "matrix_reduction"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_example": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_value": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cache_transform_triton": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cosine_compute": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "dequantize_rowwise": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "index_select_bwd": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "kldiv_compute": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_triton1": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "masked_add_cuda": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_transpose": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mul_exponent_compensator": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused_llama": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_implementation": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_triton": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_computation": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_kernel": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "square_matrix": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "swiglu_fwd": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_mul2": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition_custom": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_reduction": "Paste the actual original block-pointer and existing affine-address Python bodies for FP16 and FP32, with external runtime stride bindings (including unused stride_y) and only BLOCK_M/N constexpr. Preserve source pointer rebinding, full tile construction, loads, max and store with no source cast. Fix block-pointer/advance base dtype tracking; the selected Triton3.8 maximum promotes FP16 to FP32 before reduction and narrows only on the real FP16 store. Remove the old fictitious final FP32-to-FP32 cast from the arbitrary-backend source graph, then re-prove both actual kernels, all typed memory/output/frame judgments and safety for arbitrary primitives and all payloads. No cast-identity premise is added. Full mathematical algorithm equality links the actual source32 Real projection to the frozen independent companion; all previous Real helper names/judgments and pure IO layouts remain. Public independent maximum formula, M=0, necessary N>0, both storage branches and all original dimension/stride scopes remain; optional strict bit/native/Tensor/host results are replayed with unchanged numerical primitives and address bounds. Earlier opaque FP32 graph had an extra callback absent from Python; the auxiliary graph formula now reflects direct FP32 store. New frontend tests cover full block-pointer self-rebinding, advance aliases and correct FP16/32/64 stores. Historical numerical/source receipts remain unrepinned.",
+    "triton_argmax": "Shared frontend dependency regression only: source/candidate bodies and all mathematical/numerical scopes are unchanged at this code checkpoint. Exact public/deep roots are recorded in modules.json. No body migration is counted for this task unless the source inventory independently records it."
+  },
+  "example_regression_scope": "All 19 examples and their complete imported helpers are included in the full local/cold replay and joint import; sources, formulas, numerical contracts and scopes are unchanged by this static constexpr pass.",
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 787,
+      "jobs": 9621
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 787,
+      "jobs": 9621,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 787 roots",
+    "task_directories": "Every Lean file in the matrix directory, including optional native/host readers and semantic preservation proofs.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 36
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 281,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual invocation reports missing setup.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numeric laws, axioms or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 105,
+    "pasted_body": 100,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/source-closure.json",
+    "sha256": "ba70733c289c7f44d5cd981394ed4cb053ffc62862d966edd007ac2487628c47"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 24,
+      "uncovered_jit_functions": 156
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 288,
+    "primary_files_with_int64_screen_warning": 43,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 126,
+        "antiquotes": 138,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/all-python.log.gz",
+      "sha256": "b779dbee90d9767964e481b308d59e12bda76be97c3bb4fe5c3db04c30f50462"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
+      "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-setup.log",
+      "sha256": "c670f57086889bfcca8d2b15a36c3070fec9923911b51b769baf54fecd565be8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/contract.log",
+      "sha256": "73208400b03705537df7c73a4fc25d235a860ad59f0fb71737bf45cddb42f742"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/corpus-guard.log",
+      "sha256": "4a176eca583a7f9796f6e66d5ccb3b2e7a307dfec4cc261261301e27cdec6373"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
+      "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/joint.lean",
+      "sha256": "67152b89f1ec49fb8d536818d6091e673ddb0eae9ceea4103e338e7a9e16bf00"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/modules.json",
+      "sha256": "0a158de8ea4dedc5279b83c4e0c6e347951d4aca775ed2ca33e54447a2116b74"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/pairs.json",
+      "sha256": "9edc3138ec87009faf1f54dd3e55654bf9fb4efc453c171318c21dfaf82d343e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/previous-io-review.json",
+      "sha256": "35ec58e934f804e4710a89ed92fe19cbccc414d52dd4f6d195fa8e945b929f1e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/previous-selected-reviews.json.gz",
+      "sha256": "a85e7d861114ea5ab1562969d54c5eeba904a10a568a731caf2512be556978ae"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/python-tests.log",
+      "sha256": "546229700e3b72ca67c03a1ecd7ecbfbbd40dcf43a09b3d0b0b6221a4f04f30d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/source-closure.json",
+      "sha256": "ba70733c289c7f44d5cd981394ed4cb053ffc62862d966edd007ac2487628c47"
+    }
+  ]
+}

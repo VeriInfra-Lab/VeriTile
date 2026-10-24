@@ -24872,14 +24872,13 @@
         },
         {
           "path": "bench/tritonbench_g/matrix_reduction/IO.lean",
-          "sha256": "6a0e4c05c7802692bf11402b5ff1811a6738074148004c42e29c71e99df9df6b"
+          "sha256": "8913dd89a78e22b6f74135fa469e49065a85a68c14541f2680f0510b2ec63042"
         }
       ],
       "changed_paths": [],
       "review_evidence": {
-        "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_reduction.json",
-        "sha256": "c5aa0405b47a17333ad610d92884cb272472181140ae733a7f4ab9454e966bb2",
-        "task": "matrix_reduction"
+        "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
+        "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
       },
       "preservation_and_build_passed": true,
       "validation_limits": {
@@ -24950,7 +24949,8 @@
         "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_reduction.json",
         "sha256": "c5aa0405b47a17333ad610d92884cb272472181140ae733a7f4ab9454e966bb2",
         "task": "matrix_reduction"
-      }
+      },
+      "current_body_source_review": "Keep all shared full native/Real IO layouts, both storage encodings, logical coordinates and source/candidate schedules. Update only explicit projection proof and the comment clarifying externally supplied runtime strides. Both actual kernels now reference exact raw Python bodies, with true FP16 maximum widening/narrowing and corrected direct FP32 store. Complete math/opaque-FP execution, safety, every output/frame, bit/native/Tensor/host scopes and full cold replay are recorded; no duplicated IO or extra input premise."
     },
     {
       "task": "matrix_transpose",

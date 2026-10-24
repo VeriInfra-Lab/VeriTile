@@ -1,0 +1,4 @@
+Cloning into '/tmp/veritile-matrix-body-clean'...
+done.
+HEAD is now at 9cd8f1cbe Paste full block-pointer reduction bodies and retain source dtype through pointer views
+No project build or .veritile-cache at start; only fixed external dependencies reused.
