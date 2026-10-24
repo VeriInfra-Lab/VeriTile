@@ -1,0 +1,205 @@
+{
+  "schema": 1,
+  "status": "verified_examples_task_corpus_migration_incomplete",
+  "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+  "merge_policy": "Do not merge before explicit user review and approval.",
+  "new_task_migrations": [],
+  "new_historical_example_migrations": [
+    "AdamUpdateGridLaunch"
+  ],
+  "new_spec_derived_examples": [
+    "HyperConnectionsDepth",
+    "HyperConnectionsWidth"
+  ],
+  "semantic_review": {
+    "add_example": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "add_value": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "cache_transform_triton": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "cosine_compute": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "dequantize_rowwise": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "index_select_bwd": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "kldiv_compute": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "kv_cache_filling": "Shared frontend dependency regression only: selected public source/schedule/safety/frame and FP entries replayed, with unchanged formulas, numerical rules and public domains. Python-body migration remains pending and is not counted complete.",
+    "l2_norm_triton1": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "matrix_transpose": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "rmsnorm_fused": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "rmsnorm_fused_llama": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "rmsnorm_implementation": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "rmsnorm_triton": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "sin_computation": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "sin_kernel": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "square_matrix": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "swiglu_fwd": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "triton_argmax": "Shared frontend dependency regression only: selected public source/schedule/safety/frame and FP entries replayed, with unchanged formulas, numerical rules and public domains. Python-body migration remains pending and is not counted complete.",
+    "vector_addition": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "vector_addition_custom": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed.",
+    "adam_update_triton": "Complete grid-helper API compatibility regression: retain the same shared ordinary-grid layout, constructed frames and both in-place outputs. Full native-example-to-mathematical-kernel equality is definitional. Re-open compatibility aliases to those complete algorithm frames and adapt one explicit unfolding in the benchmark frame proof. All selected-config grid, host and native word scopes are replayed. This task still awaits its own Python-body migration and is not counted complete."
+  },
+  "example_semantic_review": {
+    "AdamUpdateGridLaunch": "Copy the actual historical update_fn_kernel body from the benchmark, including runtime scalar roles, every mask, boolean multiplication and both in-place stores. Candidate changes only the final momentum addition order. The supplied runtime FP32 values retain their own precision through where and later mixed-format uses, rather than behaving as weak Python constexpr floats. Complete algorithm projections equal the mathematical proof counterparts; public independent Real formulas, dimensions, successful execution, safety, full frames and the complete constructed grid launch remain. The actual typed source/candidate FP pair is re-proved with the existing finite-operand contract and strict FP32 addition certificate. Scalar parameters retain the existing Real-carrier invocation scope; no broader scalar-bit claim or GPU conformance is added.",
+    "HyperConnectionsDepth": "New spec-derived Python, not historical recovery. Preserve the scalar dispatch and complete matrix source, every S/T/D dimension, every normalization iteration, runtime FP32 tau, explicit IEEE dot option and existing final-addition candidate. Full native mathematical projections connect complete kernels definitionally; retain all independent formulas, scalar/matrix executions, safety, full output windows and frames through shared IO layouts. Re-prove actual FP source pairs with the existing strict finite-addition contract and no new numerical assumptions.",
+    "HyperConnectionsWidth": "New spec-derived Python, not historical recovery. Retain both full normalized maps, both complete Sinkhorn loops, every S/T/D/iteration parameter, both matrix products, both output arrays and scalar specialization. Runtime FP32 tau prevents Python double precomputation of the candidate reciprocal. Complete native mathematical projections and full independent Real execution/safety/output/frame are re-proved. The actual FP32 division/reciprocal sites use the same existing admitted primitive rule and finite/nonzero domains; a shared contextual proof extends that rule to the explicit FP32 source representation, introducing no numerical assumption."
+  },
+  "frontend_review": [
+    "Preserve a supplied FP32 scalar as a strong source operand while keeping it outside the pasted body; normalizing its existing precision scopes preserves its first FP32 interpretation before FP64 arithmetic or FP16 storage. Keep weak constexpr floats distinct. The internal provenance definition retains its qualified name in a cycle-free shared module.",
+    "Track dtype through broadcasts and known FP32 dot results without a redundant store conversion. Keep mixed loop-state rejection. Whole-program and actual execution regressions cover these risks.",
+    "Reuse the existing reciprocal primitive in a contextual explicit-FP32 scalar-division proof. No new numerical law, experiment or axiom."
+  ],
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 618,
+      "jobs": 9455
+    },
+    "clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 618,
+      "jobs": 9455,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_external_packages_reused": true
+    },
+    "joint_import": "PASS: all 618 roots",
+    "new_directories": "Every Lean file in all three newly migrated example directories, plus both grid-reuse and actual guarded-execution regressions included.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 33
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 278,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean remains rejected by an old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual invocation reports missing comparator setup.",
+    "gpu_or_native_experiment": "Not run. No new numerical laws or axioms.",
+    "metadata_guards": "PASS: main formula, task ledger, reader/IO organization and corpus drift; complete corpus remains pending."
+  },
+  "source_pairs": {
+    "total": 89,
+    "pasted_body": 84,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/source-closure.json",
+    "sha256": "9ec783372cc749016c7bf79a9c05855c5a799d781be7ac28db446c918e19c70a"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 19,
+      "uncovered_jit_functions": 161
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 297,
+    "primary_files_with_int64_screen_warning": 44,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 130,
+        "antiquotes": 143,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "previously_authored_counterpart": 2,
+    "explicitly_spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/all-python-tests.log.gz",
+      "sha256": "4f0162dd613cfd8ce7f3e8a7b568a6db6f5333ad86bf087bb95244f4be78678e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
+      "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-setup.log",
+      "sha256": "b27a12c3f1cfeff881745f6f3b958693c75030828594a23509eeb28baf88d4e5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/corpus-guard.log",
+      "sha256": "a8f038c3d9331b709807a805a4351820cbd47f0edab3e1959ec65b39f82c7a90"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
+      "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/io-final-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/joint.lean",
+      "sha256": "b036bd6bea948ee9d7d11fd109e748ab42a4dd5b9eaa28d60789c419fcd3b33f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/modules.json",
+      "sha256": "c116864dd09db394ed6994ed398d11343297e9b3fce8556dee2ad1909f7eca95"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/pairs.json",
+      "sha256": "76c2c99d5a7499a37b709364fc75776ab34068e282b444c431e4bd17ce079d1b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/previous-selected-reviews.json.gz",
+      "sha256": "8204f0b49c424fa911418c63d9b782d23a5247592375e993e064eb1516e2c99f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/python-tests.log",
+      "sha256": "1fe28554553ee43b4f865f8fd8acfd2ed92070b9a4c035fac400d1ec9b2219af"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/reader-final-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/source-closure.json",
+      "sha256": "9ec783372cc749016c7bf79a9c05855c5a799d781be7ac28db446c918e19c70a"
+    }
+  ]
+}
