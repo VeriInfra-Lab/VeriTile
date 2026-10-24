@@ -87,6 +87,18 @@ class BodyCorpusTests(unittest.TestCase):
         self.write("bench/examples/Sample/jit-correspondence.json", json.dumps([record]))
         self.assertTrue(scan(self.root)["complete"])
 
+    def test_authored_counterpart_does_not_claim_historical_source_correspondence(self):
+        self.write("bench/examples/Sample/Kernels.lean", LEAN)
+        self.write("bench/examples/source-references.json", json.dumps({"Sample": {
+            "python": "bench/repairs/sample/source.py", "provenance": "authored_native_counterpart",
+            "note": "New native counterpart; not an independent historical source."}}))
+        record = {**self.record, "lean": "bench/examples/Sample/Kernels.lean"}
+        self.write("bench/examples/Sample/jit-correspondence.json", json.dumps([record]))
+        result = scan(self.root)
+        self.assertTrue(result["complete"])
+        self.assertEqual(result["examples"][0]["status"], "authored_counterpart_body_copy_checked")
+        self.assertEqual(result["examples"][0]["source_provenance"], "authored_native_counterpart")
+
     def test_missing_source_fails_closed(self):
         (self.directory / "source.py").unlink()
         with self.assertRaisesRegex(ValueError, "missing selected Python"):

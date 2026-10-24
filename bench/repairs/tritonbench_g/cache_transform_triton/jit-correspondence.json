@@ -1,0 +1,62 @@
+[
+  {
+    "python": "bench/repairs/tritonbench_g/cache_transform_triton/cache_transform_triton_repaired.py",
+    "lean": "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean",
+    "python_function": "gather_cache_bytes",
+    "lean_definition": "body",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Cache",
+          "u8"
+        ],
+        [
+          "Rows",
+          "i64"
+        ],
+        [
+          "Output",
+          "u8"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "COUNT",
+        "ROW_BYTES",
+        "START",
+        "BLOCK"
+      ]
+    }
+  },
+  {
+    "python": "bench/repairs/tritonbench_g/cache_transform_triton/cache_transform_triton_candidate.py",
+    "lean": "bench/repairs/tritonbench_g/cache_transform_triton/Kernels.lean",
+    "python_function": "gather_cache_bytes_quotient_remainder",
+    "lean_definition": "quotientRemainderBody",
+    "signature_definition": "callSignature",
+    "expected_signature": {
+      "pointers": [
+        [
+          "Cache",
+          "u8"
+        ],
+        [
+          "Rows",
+          "i64"
+        ],
+        [
+          "Output",
+          "u8"
+        ]
+      ],
+      "scalars": [],
+      "constexpr": [
+        "COUNT",
+        "ROW_BYTES",
+        "START",
+        "BLOCK"
+      ]
+    }
+  }
+]

@@ -1,10 +1,13 @@
 # Worked examples
 
-These Lean-authored sources have **not yet been migrated or certified for
-verbatim Python function-body copying**. All 19 groups remain pending in the
-[body-source inventory](../BodySourceCorrespondence.md). Their existing Real
-and FP proofs establish the stated properties of the Lean sources; they do
-not by themselves certify correspondence with a Python `@triton.jit` body.
+`VectorAdd`, `FlatVectorAdd` and `TritonBenchVectorAddition` now accept the bodies
+of their accompanying `native_kernels.py` without Lean antiquotes or in-body
+type directives. These Python files are newly authored native counterparts of
+the Lean-first examples, not independent historical benchmark originals. Full
+program equalities in `Proofs/SourcePreservation.lean` preserve the previous
+ports and instructions. The remaining 16 groups are pending in the
+[body-source inventory](../BodySourceCorrespondence.md). Existing Real/FP proof
+completion alone does not certify Python source correspondence.
 
 There are **19 example groups and 21 public FP specifications**. Ten groups use
 empirical rules and nine use only strict-model or structural proofs; at

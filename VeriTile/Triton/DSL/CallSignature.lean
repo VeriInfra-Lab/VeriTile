@@ -1,4 +1,4 @@
-import VeriTile.Triton.DSL.SourceDType
+import VeriTile.Triton.DSL.TypedStores
 import Lean
 
 /-! Call-site typing for a pasted Triton body. The signature describes pointer
@@ -67,13 +67,44 @@ private partial def rejectBodyMetadata (raw : Syntax) : TermElabM Unit := do
     throwErrorAt raw "pointer types belong in the call signature, outside the pasted body"
   if let `(tritonStmt| tl.param $_:ident : $_:tritonDType) := raw then
     throwErrorAt raw "runtime scalar types belong in the call signature, outside the pasted body"
+  if let `(tritonStmt| $_:ident := $_:tritonExpr) := raw then
+    throwErrorAt raw "use Python assignment syntax in the pasted body"
+  if let `(tritonExpr| $($_:term)) := raw then
+    throwErrorAt raw "Lean antiquotes do not belong in the pasted body"
   for arg in raw.getArgs do rejectBodyMetadata arg
 
-private partial def storeValues (raw : Syntax) : List Syntax :=
-  match raw with
-  | `(tritonStmt| tl.store($_:tritonExpr, $value:tritonExpr)) => [value.raw]
-  | `(tritonStmt| tl.store($_:tritonExpr, $value:tritonExpr, $_:tritonMemKwarg $[, $_:tritonMemKwarg]*)) => [value.raw]
-  | _ => raw.getArgs.toList.flatMap storeValues
+/-- Metadata-only view: every source method-cast spelling exposes its receiver
+to the legacy region collector. The placeholder cast target is irrelevant to
+region discovery. This syntax is never elaborated as the executable program. -/
+private partial def sourcePortView (raw : Syntax) : MacroM Syntax := do
+  let args ← raw.getArgs.mapM sourcePortView
+  let rebuilt := match raw with
+    | .node info kind _ => Syntax.node info kind args
+    | _ => raw
+  let e : TSyntax `tritonExpr := ⟨rebuilt⟩
+  -- The parser has dedicated load+cast productions whose load is not a child
+  -- expression. Expose that memory operation explicitly to the collector.
+  match e with
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:tritonDType)) =>
+      return (← `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*))).raw
+  | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:tritonDType)) =>
+      return (← `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*))).raw
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:ident)) =>
+      return (← `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*))).raw
+  | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:ident)) =>
+      return (← `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*))).raw
+  | `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:ident.$_:ident)) =>
+      return (← `(tritonExpr| tl.load($p:tritonExpr $[, $kwargs:tritonMemKwarg]*))).raw
+  | `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*).to($_:ident.$_:ident)) =>
+      return (← `(tritonExpr| tl.load($p:tritonExpr, $mask:tritonExpr $[, $kwargs:tritonMemKwarg]*))).raw
+  | _ => pure ()
+  let k := raw.getKind
+  if [``tritonMethodCast, ``tritonMethodCastDTypeIdent,
+      ``tritonMethodCastElementTy, ``tritonMethodCastElementTyIdent,
+      ``tritonMethodRoundCast].contains k && !args.isEmpty then
+    let receiver : TSyntax `tritonExpr := ⟨args[0]!⟩
+    return (← `(tritonExpr| tl.cast($receiver, tl.int64))).raw
+  return rebuilt
 
 elab_rules : term
   | `(with_triton_signature $profile:term in triton { $stmts:tritonStmt* }) => do
@@ -84,7 +115,9 @@ elab_rules : term
       let names := pointers.map Prod.fst ++ scalars.map Prod.fst ++ constants
       unless names.eraseDups.length == names.length do throwError "duplicate name in call signature"
       for stmt in stmts do rejectBodyMetadata stmt.raw
-      let (reads, writes) := Metadata.blockRegions stmts.toList
+      let metadata ← liftMacroM <| stmts.toList.mapM fun st => do
+        return (⟨← sourcePortView st.raw⟩ : TSyntax `tritonStmt)
+      let (reads, writes) := Metadata.blockRegions metadata
       for region in reads ++ writes do
         let `(term| $id:ident) := region
           | throwErrorAt region "call signature requires named external pointer parameters"
@@ -92,6 +125,18 @@ elab_rules : term
           throwErrorAt region "pointer parameter {id} is missing from the call signature"
       let term ← liftMacroM do
         let mut declarations : Array (TSyntax `tritonStmt) := #[]
+        -- Invocation ports follow the declared Python parameter order even
+        -- when the first load happens to read a later argument.
+        let orderedPorts (regions : List (TSyntax `term)) : MacroM (Array (TSyntax `term)) := do
+          let mut result := #[]
+          for (name, _) in pointers do
+            for region in regions do
+              if let `(term| $id:ident) := region then
+                if id.getId.eraseMacroScopes.toString == name then result := result.push region
+          return result
+        let inputs ← orderedPorts reads
+        let outputs ← orderedPorts writes
+        declarations := declarations.push (← `(tritonStmt| tl.ports inputs=[$inputs,*], outputs=[$outputs,*]))
         for (name, kind) in pointers do
           let id := mkIdent (Name.mkSimple name)
           let some dt ← dtypeSyntaxOfName? (SourceDType.dtypeName kind)
@@ -104,16 +149,7 @@ elab_rules : term
           let some dt ← dtypeSyntaxOfName? dtName
             | Macro.throwError "unsupported scalar dtype"
           declarations := declarations.push (← `(tritonStmt| tl.param $id:ident : $dt:tritonDType))
-        let mut body := stmts.toList
-        for (name, kind) in pointers do
-          body ← SourceDType.lowerStores kind [Name.mkSimple name] body
-        let originalStores := stmts.toList.flatMap (fun st => storeValues st.raw)
-        let convertedStores := body.flatMap (fun st => storeValues st.raw)
-        unless originalStores.length == convertedStores.length do
-          Macro.throwError "implicit store conversion changed the source store count"
-        for (original, converted) in originalStores.zip convertedStores do
-          if original == converted then
-            Macro.throwErrorAt original "cannot determine tl.store destination dtype from the call signature"
+        let body ← TypedStores.lower (pointers.map (fun (name, kind) => (Name.mkSimple name, kind))) [] stmts.toList
         let emitted := declarations ++ body.toArray
         `(triton { $emitted* })
       elabTerm term none

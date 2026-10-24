@@ -26,10 +26,13 @@
 
 - [ ] **将所有选定 task 和 worked example 迁到原样 Python 函数体入口。**
   当前 183 个 task、19 组 examples 尚未全量一致。328 个选定文件中的 JIT 函数，
-  仅 4 个有逐句对应记录，其中 dequantize 使用新入口，argmax 的三个阶段仍是旧 AST
-  模式；另有两个间接加载 Python 源码的 task 尚未解析。44 个主源码文件触发显式
-  int64 cast 筛查警告，不能把其余未触发项记为通过。examples 的 Python 来源均未
-  登记。逐项清单及迁移要求见[函数体对应检查](BodySourceCorrespondence.md)。
+  仅 5 个有逐句对应记录，其中 dequantize、cache_transform 使用新入口，argmax 的
+  三个阶段仍是旧 AST 模式；另有两个间接加载 Python 源码的 task 尚未解析。44 个
+  主源码文件触发显式 int64 cast 筛查警告，不能把其余未触发项记为通过。
+  VectorAdd、FlatVectorAdd、TritonBenchVectorAddition 的两版程序已迁移，并保留
+  新旧完整程序相等证明；配套 Python 明确登记为新编写的 native counterpart，
+  不冒充历史 benchmark 原版。其余 16 组尚未迁移。逐项清单及要求见
+  [函数体对应检查](BodySourceCorrespondence.md)。
   `python3 -m bench.check_body_corpus --check` 防止记录漂移；完整验收另加
   `--require-complete`，当前应失败。每题迁移保留精度、转换、分支、mask、语句顺序，
   并证明新旧完整程序相等或明确的执行连接，重放相关 Real/FP 公开证明后再更新状态。

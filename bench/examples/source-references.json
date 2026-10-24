@@ -1,0 +1,17 @@
+{
+  "FlatVectorAdd": {
+    "python": "bench/examples/FlatVectorAdd/native_kernels.py",
+    "provenance": "authored_native_counterpart",
+    "note": "New native counterpart of the existing Lean-first worked example; does not certify correspondence to an independent historical benchmark source."
+  },
+  "TritonBenchVectorAddition": {
+    "python": "bench/examples/TritonBenchVectorAddition/native_kernels.py",
+    "provenance": "authored_native_counterpart",
+    "note": "New native counterpart of the existing Lean-first worked example; does not certify correspondence to an independent historical benchmark source."
+  },
+  "VectorAdd": {
+    "python": "bench/examples/VectorAdd/native_kernels.py",
+    "provenance": "authored_native_counterpart",
+    "note": "New native counterpart of the existing Lean-first worked example; does not certify correspondence to an independent historical benchmark source."
+  }
+}

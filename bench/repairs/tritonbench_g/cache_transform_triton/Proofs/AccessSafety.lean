@@ -18,7 +18,7 @@ theorem access_safe {α : Type} [Inhabited α] (M : Algebra α) (p : Parameters)
     TraceSafe M bounds (source p) s := by
   simp [TraceSafe,Safety.traceSafeList,Safety.stepSafe,Safety.safeAlg,Safety.safeExpr,
     Safety.safeCompute,Safety.safeOp_unfold,Safety.safeMask,Safety.safeAddress,Safety.addressSafe,
-    Safety.maskActive,source,ComputeKernel.surfaceBody,
+    Safety.maskActive,source,body,ComputeKernel.surfaceBody,
     FP.Structural.run,FP.Structural.step,FP.Structural.evalExpr,
     FP.Structural.evalComputeOp,FP.Structural.evalOp_unfold,
     FP.Structural.evalOffsets,FP.Structural.store,FP.Structural.numeric,

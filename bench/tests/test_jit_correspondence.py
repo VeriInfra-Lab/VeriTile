@@ -108,5 +108,35 @@ class PastedBodyTests(unittest.TestCase):
             check(self.python, self.lean, self.record["python_function"], "body", "callSignature")
 
 
+class BodyMigrationBatchTests(unittest.TestCase):
+    def test_all_original_and_candidate_pairs(self):
+        directories = [ROOT / "bench/examples" / name for name in
+                       ("VectorAdd", "FlatVectorAdd", "TritonBenchVectorAddition")]
+        directories.append(ROOT / "bench/repairs/tritonbench_g/cache_transform_triton")
+        for directory in directories:
+            with self.subTest(directory=directory.name):
+                pairs = check_manifest(ROOT, directory / "jit-correspondence.json")
+                self.assertEqual(len(pairs), 2)
+                self.assertTrue(all(pair["mode"] == "pasted_body" for pair in pairs))
+
+    def test_byte_indices_casts_and_mask_stay_in_the_body(self):
+        directory = ROOT / "bench/repairs/tritonbench_g/cache_transform_triton"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        python = (ROOT / record["python"]).read_text()
+        lean = (ROOT / record["lean"]).read_text()
+        for before, after in ((".to(tl.uint64)", ""), ("mask=active", "mask=True")):
+            with self.subTest(before=before), self.assertRaises(ValueError):
+                check(python, lean.replace(before, after, 1), record["python_function"], "body",
+                      "callSignature", record["expected_signature"])
+
+    def test_authored_example_does_not_silently_change_its_constexpr_abi(self):
+        directory = ROOT / "bench/examples/TritonBenchVectorAddition"
+        record = json.loads((directory / "jit-correspondence.json").read_text())[0]
+        python = (ROOT / record["python"]).read_text().replace("nElements: tl.constexpr", "nElements: tl.int32", 1)
+        with self.assertRaisesRegex(ValueError, "parameters and call signature"):
+            check(python, (ROOT / record["lean"]).read_text(), record["python_function"],
+                  record["lean_definition"], "callSignature", record["expected_signature"])
+
+
 if __name__ == "__main__":
     unittest.main()

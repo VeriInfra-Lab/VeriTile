@@ -11,19 +11,22 @@ selected revision in `tritonbench_g/task_progress.json` and every
 `examples/*/Kernels.lean`, including entries without a source correspondence
 manifest. Each task lists every literal `@triton.jit` function found in its
 selected Python file, uncovered functions, checked pairs and source hashes.
+Authored example counterparts are explicitly distinguished from selected task
+revisions by `source_provenance` and a separate status.
 Files loaded indirectly remain unresolved until explicitly anchored; this is
 visible for `cross_entropy_ops` and `fast_ce_loss`.
 
 At this snapshot there are 183 tasks, 19 worked-example groups and 328 literal
-JIT functions in the selected Python files. Four of those functions have
-checked pairs: three argmax stages in legacy AST mode and the dequantize body
-in body-copy mode. Argmax also checks two candidate functions in a separate
-file. The other 324 selected functions are uncovered by pair manifests.
+JIT functions in the selected Python files. Five of those functions have
+checked pairs: three argmax stages in legacy AST mode, dequantize and cache
+transform in body-copy mode. Argmax also checks two candidate functions in a
+separate file, and cache transform checks its quotient/remainder candidate.
+The other 323 selected functions are uncovered by pair manifests.
 These numbers describe source-check coverage, not the number of incorrect
 algorithms or invalid Lean theorems.
 
-The file-level screen finds type directives in 141 task files and antiquotes
-in 161 task files and all 19 example groups. In 44 primary files, Python has
+The file-level screen finds type directives in 140 task files and antiquotes
+in 160 task files and 16 example groups. In 44 primary files, Python has
 explicit int64 casts that are not visible in a direct Lean quotation. This
 last count is a warning screen: imported source, specialization and semantic
 connections require review. Unflagged files are not certified.
@@ -59,6 +62,10 @@ promotion correctness, or hardware behavior.
 1. Anchor the actual selected Python source, including each stage. Do not
    substitute a comment, a simplified kernel, a generated Python mirror, or
    a function with only the same mathematical formula.
+   Lean-authored examples may publish a native counterpart with explicit
+   provenance; that establishes usability of the new example interface, not
+   correspondence to an independent historical Python original. Such a
+   counterpart cannot certify a selected benchmark task's original source.
 2. Keep the Python function body in `triton { ... }`. Keep variable names,
    assignments, casts, calls, branches, masks and operation order. Supply
    pointer storage, runtime scalar types and constexpr names outside the body
@@ -82,18 +89,22 @@ Any broken registered pair is a hard error even when that task is pending.
 
 ## Worked examples
 
-All 19 worked-example groups currently have Lean-authored sources and no
-independent Python reference registered for this scope. Their existing proof
-results remain scoped to those sources. None is marked Python body-copy
-complete. Several also use Lean-specific `:=`, `tl.for`, `tl.toReal`,
+All 19 groups began with Lean-authored sources. `VectorAdd`, `FlatVectorAdd`
+and `TritonBenchVectorAddition` now have newly authored native counterparts,
+checked body-copy entry points and full old/new program equalities. They have
+status `authored_counterpart_body_copy_checked`, not an independent historical
+source certificate. Their sizes remain constexpr as in the existing examples;
+this does not change a selected task's runtime ABI. The other 16 groups remain
+pending. Several still use Lean-specific `:=`, `tl.for`, `tl.toReal`,
 `dtype=` load extensions or `.round_to`; these must be reviewed as language
 and semantic differences, not removed by a blind text substitution.
 
 When a real source is identified, register the path in the optional
 `examples/source-references.json` mapping, for example
 `{"ExampleName": "path/to/actual_source.py"}`, and add the example's pair
-manifest. A source newly authored for an example should disclose its
-provenance; it must not be presented as an independent historical original.
+manifest. A newly authored counterpart uses an object with `python`,
+`provenance: "authored_native_counterpart"` and a nonempty `note`; it must
+not be presented as an independent historical original.
 Unknown example names and missing source files fail the gate.
 
 The current frontend supports the demonstrated straight-line body. Unsupported

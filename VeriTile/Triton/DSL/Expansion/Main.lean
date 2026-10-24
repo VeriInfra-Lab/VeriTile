@@ -721,6 +721,23 @@ partial def expandWhereFromCond (env : Env) (c' : EOut)
     (a b : TSyntax `tritonExpr) : MacroM EOut := do
   let a' ← expandExpr env a
   let b' ← expandExpr env b
+  -- Python integer scalars acquire the integer tensor branch's carrier.
+  -- Do not reinterpret floating literals, explicit casts or runtime values.
+  let rec integerLiteral (dtype : DInfo) (e : TSyntax `tritonExpr) : MacroM (Option EOut) := do
+    match e with
+    | `(tritonExpr| ($inner:tritonExpr)) => integerLiteral dtype inner
+    | `(tritonExpr| $n:num) =>
+        if dtype == .nat then return some ⟨← `(Op.constNat $n), .nat, .scalar, none, none⟩
+        if dtype == .int || dtype == .int8 || dtype == .int32 then
+          return some ⟨← `(Op.constInt $n), .int, .scalar, none, none⟩
+        return none
+    | `(tritonExpr| -$n:num) =>
+        if dtype == .int || dtype == .int8 || dtype == .int32 then
+          return some ⟨← `(Op.constInt (-($n : Int))), .int, .scalar, none, none⟩
+        return none
+    | _ => return none
+  let a' := (← integerLiteral b'.dtype a).getD a'
+  let b' := (← integerLiteral a'.dtype b).getD b'
   let (a', b') := if a'.dtype == b'.dtype then (a', b')
     else (a'.forgetStorageWidth, b'.forgetStorageWidth)
   -- Triton 3.5.1 casts integer conditions to int1 with `value != 0`.
