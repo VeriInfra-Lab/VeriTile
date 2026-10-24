@@ -1,0 +1,191 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "triton_softmax"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_example": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "add_value": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cache_transform_triton": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "cosine_compute": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "dequantize_rowwise": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "index_select_bwd": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "kldiv_compute": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "l2_norm_triton1": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "masked_add_cuda": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_reduction": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "matrix_transpose": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "mul_exponent_compensator": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_fused_llama": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_implementation": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "rmsnorm_triton": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_computation": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "sin_kernel": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "square_matrix": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "swiglu_fwd": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_mul2": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "vector_addition_custom": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout.",
+    "triton_softmax": "Paste both complete selected Python functions: original row-max softmax and existing input-index-commuted candidate. Preserve all ten statements, both original int64 casts, runtime signed-int64 stride/count roles and only BLOCK_SIZE constexpr. The old public Nat-index parameter scope is retained via explicitly Int-valued external call arguments. Tensor view-base offsets are externally supplied pointer argument values, never extra body statements or constexpr scalars. Re-prove actual source execution, all typed memory/output/frame and access safety for the full old dimension/base/stride scopes; retain complete independent softmax formula and required column/tile coverage. Existing SoftmaxTriton1 mathematical/native results remain connected by complete successful-execution and memory equality, not AST identity or scalar-only assertions. Actual signed-index candidate rewrite uses proved exact integer multiplication and cast congruence; it adds no FP or machine-word numerical rule. Every task Lean file, including optional native/Tensor/host results and input-binding/word bounds, is replayed. New full-program call tests check externally offset pointers and reject wrong role, duplicate offsets, invalid carriers and pointer mutation; checker negative tests reject unreviewed, missing or changed offset mappings. Original Python files, full IO descriptors, contracts, reduction/exp/div order and numerical dependencies remain unchanged."
+  },
+  "example_regression_scope": "All 19 examples and their complete imported helpers replay locally, jointly and independently from Git. Their sources, formulas, numerical contracts and scopes are unchanged.",
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 817,
+      "jobs": 9670
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 817,
+      "jobs": 9670,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 817 roots",
+    "task_directories": "Every Lean file in the triton_softmax directory, including optional native/host readers and all semantic/source-binding proofs.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 40
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 285,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual invocation reports missing setup.",
+    "optional_cpu_contract": "UNAVAILABLE: current environment lacks torch; actual failure retained.",
+    "gpu_or_numerical_experiment": "Not run. No new numeric laws, axioms or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen final code plus this exact receipt: main formula, IO/reader organization, task progress and body corpus drift. Complete-corpus acceptance remains pending."
+  },
+  "source_pairs": {
+    "total": 107,
+    "pasted_body": 102,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/source-closure.json",
+    "sha256": "e57371ffc8699274db6d697bd91f021fd818ae6b43f3299372b26b519fc4b0f8"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 25,
+      "uncovered_jit_functions": 155
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 287,
+    "primary_files_with_int64_screen_warning": 42,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 125,
+        "antiquotes": 137,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/all-python.log.gz",
+      "sha256": "ad6b6ee26cb8e40c75c6d2be71657f95a9a10c55d2e57922bdfa29f14cacd045"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+      "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-setup.log",
+      "sha256": "cc1062503e99c74c7d03341d53ccf72f4006830635973c02916a79862cd0c7eb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/contract.log",
+      "sha256": "7dc07a928f0d81da6300e187c779d590ed11610d8b155189cb46c06a1817b2ed"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/corpus-guard.log",
+      "sha256": "cda9be92a1de9dc5225057b070d895f49af2660386f34b27375182738697f900"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+      "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/joint.lean",
+      "sha256": "9438e999ef45a5c725c88bb03f5afd0cc828e9e23d1f06134aea77c3e1d4cb18"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/modules.json",
+      "sha256": "77729469a6ad024c83c6770390f421ecbe997da1ed9094b839de97200dcf7477"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/pairs.json",
+      "sha256": "2ef50c649a5e7ecda1068204f389d28293cf3352d5c4f9d1b4bee69ba47862c9"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/previous-selected-reviews.json.gz",
+      "sha256": "b38991ae0d4a1b6a0f374034ceef069cea79757db23d7d893751258c201e9d0a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/python-tests.log",
+      "sha256": "0f642480d3be0d43656d23004b1b8426c5e07645fd566e8c00c1dc8be0254c23"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/source-closure.json",
+      "sha256": "e57371ffc8699274db6d697bd91f021fd818ae6b43f3299372b26b519fc4b0f8"
+    }
+  ]
+}

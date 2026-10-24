@@ -271,20 +271,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -764,8 +764,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.AdamUpdateTriton.Correct.lion_kernel_correctness",
@@ -1009,20 +1009,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [
@@ -1400,8 +1400,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.AddExample.Contiguous.Correct.add_kernel_correctness",
@@ -2299,20 +2299,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [
@@ -2678,8 +2678,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.AddValue.Contiguous.Correct.puzzle1_kernel_correctness",
@@ -17625,20 +17625,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -18096,8 +18096,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.CacheTransform.Correct.kernel_real",
@@ -33822,20 +33822,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -34196,8 +34196,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.CosineCompute.Correct.cosine_kernel_correctness",
@@ -38700,20 +38700,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -39179,8 +39179,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.DequantizeRowwise.dequantize_rowwise_correct",
@@ -58243,20 +58243,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -58662,8 +58662,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.IndexSelectBwd.Correct.index_select_bwd_kernel_correctness",
@@ -66749,20 +66749,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -67175,8 +67175,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.KldivCompute.Kernel.Correct.correctness",
@@ -72105,20 +72105,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -72590,8 +72590,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.L2NormTriton1.Correct.grid_correct",
@@ -82515,20 +82515,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -82968,8 +82968,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.MaskedAddCuda.Correct.masked_add_kernel_correctness",
@@ -92806,20 +92806,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Paste the actual original block-pointer and existing affine-address Python bodies for FP16 and FP32, with external runtime stride bindings (including unused stride_y) and only BLOCK_M/N constexpr. Preserve source pointer rebinding, full tile construction, loads, max and store with no source cast. Fix block-pointer/advance base dtype tracking; the selected Triton3.8 maximum promotes FP16 to FP32 before reduction and narrows only on the real FP16 store. Remove the old fictitious final FP32-to-FP32 cast from the arbitrary-backend source graph, then re-prove both actual kernels, all typed memory/output/frame judgments and safety for arbitrary primitives and all payloads. No cast-identity premise is added. Full mathematical algorithm equality links the actual source32 Real projection to the frozen independent companion; all previous Real helper names/judgments and pure IO layouts remain. Public independent maximum formula, M=0, necessary N>0, both storage branches and all original dimension/stride scopes remain; optional strict bit/native/Tensor/host results are replayed with unchanged numerical primitives and address bounds. Earlier opaque FP32 graph had an extra callback absent from Python; the auxiliary graph formula now reflects direct FP32 store. New frontend tests cover full block-pointer self-rebinding, advance aliases and correct FP16/32/64 stores. Historical numerical/source receipts remain unrepinned."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -93305,8 +93305,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.TritonBenchG.MatrixReduction.matrix_reduction_kernel_correct",
@@ -93547,20 +93547,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -93986,8 +93986,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.MatrixTranspose.Correct.transpose_kernel_correctness",
@@ -97314,20 +97314,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -97740,8 +97740,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous.Correct.kernel_real",
@@ -111862,20 +111862,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -112369,8 +112369,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormFused.Correct.kernel_real",
@@ -112638,20 +112638,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -113125,8 +113125,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormFusedLlama.Correct.rmsnorm_kernel_real",
@@ -113385,20 +113385,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -113898,8 +113898,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormImplementation.Correct.rmsnorm_kernel_correctness",
@@ -114148,20 +114148,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -114630,8 +114630,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormTriton.Correct.kernel_correct",
@@ -122418,20 +122418,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -122804,8 +122804,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SinComputation.Contiguous.Correct.sin_kernel_correctness",
@@ -123051,20 +123051,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -123423,8 +123423,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SinKernel.Correct.sin_kernel_correctness",
@@ -129147,20 +129147,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -129606,8 +129606,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SquareMatrix.Correct.square_kernel_correctness",
@@ -131362,20 +131362,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [],
@@ -131835,8 +131835,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SwigluFwd.swiglu_kernel_correct",
@@ -140418,20 +140418,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [
@@ -140848,8 +140848,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.TritonMul2.Correct.mul2_kernel_correctness",
@@ -141016,7 +141016,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/triton_softmax/triton_softmax_repaired.py": "107c3ab99da5dbf9517346c0c4ed4b98e9887718fdf604bdd327f8568b84745e",
-          "bench/repairs/tritonbench_g/triton_softmax/Kernels.lean": "993b1d3bded475a4bbed6b376caf17c8241d055a092402b57afbd2da2b847b73",
+          "bench/repairs/tritonbench_g/triton_softmax/Kernels.lean": "9aa948e943d6aa2b373be84b8ca91b0a32822c4ab21b9471c3b38008c09b94b5",
           "bench/repairs/tritonbench_g/triton_softmax/Contract.lean": "d8552fac8148e2d0ebe9f7e5d228abdb66760f744d4413fa87bde85930e37bd5",
           "bench/repairs/tritonbench_g/triton_softmax/Correct.lean": "0c567343e84b098fe3663ac0e790248abd32a3e4931b756b5dbe0e69d9527970",
           "bench/repairs/tritonbench_g/triton_softmax/FPEquiv.lean": "ec8384cd80265860deb7b559b3b1efed2e09ddae88d7dc65b6d60de82e6daab3",
@@ -141105,6 +141105,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
+            },
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
+            },
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Paste both complete selected Python functions: original row-max softmax and existing input-index-commuted candidate. Preserve all ten statements, both original int64 casts, runtime signed-int64 stride/count roles and only BLOCK_SIZE constexpr. The old public Nat-index parameter scope is retained via explicitly Int-valued external call arguments. Tensor view-base offsets are externally supplied pointer argument values, never extra body statements or constexpr scalars. Re-prove actual source execution, all typed memory/output/frame and access safety for the full old dimension/base/stride scopes; retain complete independent softmax formula and required column/tile coverage. Existing SoftmaxTriton1 mathematical/native results remain connected by complete successful-execution and memory equality, not AST identity or scalar-only assertions. Actual signed-index candidate rewrite uses proved exact integer multiplication and cast congruence; it adds no FP or machine-word numerical rule. Every task Lean file, including optional native/Tensor/host results and input-binding/word bounds, is replayed. New full-program call tests check externally offset pointers and reject wrong role, duplicate offsets, invalid carriers and pointer mutation; checker negative tests reject unreviewed, missing or changed offset mappings. Original Python files, full IO descriptors, contracts, reduction/exp/div order and numerical dependencies remain unchanged."
           }
         },
         "transformation_rules": [],
@@ -141485,9 +141502,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_softmax.json",
-            "sha256": "1a03aacfce7d956172464089ad260a603028b59adadbda67c8910205b5a85ba7",
-            "task": "triton_softmax"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.TritonSoftmax.Correct.kernel_real",
@@ -141549,9 +141565,13 @@
           }
         },
         "jit_correspondence": {
-          "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
-          "scope": "Statement correspondence is separate from prior model proof acceptance."
+          "status": "selected_body_copy_checked",
+          "inventory": "bench/source-correspondence.json",
+          "review_evidence": {
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
+          },
+          "scope": "Both actual selected original and candidate bodies, independent source ABI and complete proof replay."
         }
       }
     },
@@ -143381,20 +143401,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [
@@ -143779,8 +143799,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.VectorAddition.Contiguous.Correct.add_kernel_correctness",
@@ -144019,20 +144039,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-              "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+              "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
             },
-            "code_commit": "9cd8f1cbef66c04b67964e36c04b3304b6f86201",
+            "code_commit": "44ef50cb07cc6c0d3afb013005b3cfe814e8efca",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/integration.log.gz",
-              "sha256": "c34d9d4f491f1f1f9f900c4230ac659d0c11978a5ff3dfcb7e54a970db8b427e"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/integration.log.gz",
+              "sha256": "53ad68864478b9d71c2d66852b27aee473595a8c56c1649c5beaaf8447e3bfa0"
             },
             "independent_clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/clean-build.log.gz",
-              "sha256": "69e132cdc5550063657e9d51c32b2cf69051424e1f70ef460fada5118efd84ac"
+              "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/clean-build.log.gz",
+              "sha256": "ace8e8adf440a14a85ff64651da512473f6237797ae8d9bea422b97d398fd8a1"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared block-pointer dtype propagation and maximum-result dtype regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
+            "notes": "Shared external pointer-call specialization and exact integer-expression rewrite regression. These previously migrated raw source/candidate bodies, numerical rules, independent formulas, public dimensions/input domains, complete IO/output/safety/frame scopes and schedules remain unchanged. The full retained combined roots replay locally, jointly and in an initially empty independent project checkout."
           }
         },
         "transformation_rules": [
@@ -144417,8 +144437,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-            "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+            "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+            "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous.Correct.add_kernel_correctness",
@@ -145437,7 +145457,7 @@
     "remaining_substantive_gaps": 0,
     "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
     "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
-    "audit_sha256": "bdf5bed466fb03b3256a03ab38e4d8d712e68872c3f0a105eec04e95b5b5040a",
+    "audit_sha256": "a96f7341ac555fb763125d5ad9d32728333af13531495f043cd9f8272efe75bd",
     "guard": "bench/check_main_formula_review.py",
     "validation": "bench/review-checkpoints/2026-10-23/reference-separation/validation.json",
     "proof_completion_changed": false,
@@ -145603,12 +145623,12 @@
   "jit_correspondence_review": {
     "date": "2026-10-24",
     "review": {
-      "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
-      "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
+      "path": "bench/review-checkpoints/2026-10-24/native-softmax-pointer-arguments/review.json",
+      "sha256": "4e54c8fb61e6096e0e488c5ee1528122b06fe0cdc27f1f4d4822eb383f0abac1"
     },
     "inventory": {
       "path": "bench/source-correspondence.json",
-      "sha256": "e60e31d67793a55346bee617f045bbf1e1d69321db37f56cbd402b8a96235e38"
+      "sha256": "e05d4c44fea3650cfcb10a19de12193216aec7f417658023771c3f651655fef7"
     },
     "pasted_body_entry_tasks": [
       "adam_update_triton",
@@ -145633,18 +145653,19 @@
       "square_matrix",
       "swiglu_fwd",
       "triton_mul2",
+      "triton_softmax",
       "vector_addition",
       "vector_addition_custom"
     ],
-    "scope": "19/19 examples, 24/183 selected tasks migrated. Remaining 156 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+    "scope": "19/19 examples, 25/183 selected tasks migrated. Remaining 155 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
     "counts": {
       "tasks": 183,
       "examples": 19,
       "task_status": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 2,
-        "selected_body_copy_checked": 24,
-        "uncovered_jit_functions": 156
+        "selected_body_copy_checked": 25,
+        "uncovered_jit_functions": 155
       },
       "example_status": {
         "authored_counterpart_body_copy_checked": 2,
@@ -145652,12 +145673,12 @@
         "spec_derived_body_copy_checked": 15
       },
       "selected_jit_functions": 328,
-      "uncovered_selected_jit_functions": 288,
-      "primary_files_with_int64_screen_warning": 43,
+      "uncovered_selected_jit_functions": 287,
+      "primary_files_with_int64_screen_warning": 42,
       "primary_lean_file_features": {
         "tasks": {
-          "in_body_type_directives": 126,
-          "antiquotes": 138,
+          "in_body_type_directives": 125,
+          "antiquotes": 137,
           "dsl_loop": 1,
           "dsl_numeric_helpers": 8
         },
@@ -145672,12 +145693,12 @@
     "previous_review": {
       "date": "2026-10-24",
       "review": {
-        "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
-        "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
+        "path": "bench/review-checkpoints/2026-10-24/native-block-pointer-reduction/review.json",
+        "sha256": "d22080a2424a977479d73d5ba0f1f93052cbd4d10e24cd9dc3b99c87c961479d"
       },
       "inventory": {
         "path": "bench/source-correspondence.json",
-        "sha256": "9b727c3676e9826ca7a941c95e7e592cb271db2ddffb059984935d29e812abef"
+        "sha256": "e60e31d67793a55346bee617f045bbf1e1d69321db37f56cbd402b8a96235e38"
       },
       "pasted_body_entry_tasks": [
         "adam_update_triton",
@@ -145690,6 +145711,7 @@
         "kldiv_compute",
         "l2_norm_triton1",
         "masked_add_cuda",
+        "matrix_reduction",
         "matrix_transpose",
         "mul_exponent_compensator",
         "rmsnorm_fused",
@@ -145704,15 +145726,15 @@
         "vector_addition",
         "vector_addition_custom"
       ],
-      "scope": "19/19 examples, 23/183 selected tasks migrated. Remaining 157 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+      "scope": "19/19 examples, 24/183 selected tasks migrated. Remaining 156 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
       "counts": {
         "tasks": 183,
         "examples": 19,
         "task_status": {
           "legacy_ast_only": 1,
           "no_selected_jit_resolved": 2,
-          "selected_body_copy_checked": 23,
-          "uncovered_jit_functions": 157
+          "selected_body_copy_checked": 24,
+          "uncovered_jit_functions": 156
         },
         "example_status": {
           "authored_counterpart_body_copy_checked": 2,
@@ -145720,12 +145742,12 @@
           "spec_derived_body_copy_checked": 15
         },
         "selected_jit_functions": 328,
-        "uncovered_selected_jit_functions": 289,
+        "uncovered_selected_jit_functions": 288,
         "primary_files_with_int64_screen_warning": 43,
         "primary_lean_file_features": {
           "tasks": {
-            "in_body_type_directives": 127,
-            "antiquotes": 139,
+            "in_body_type_directives": 126,
+            "antiquotes": 138,
             "dsl_loop": 1,
             "dsl_numeric_helpers": 8
           },
@@ -145740,12 +145762,12 @@
       "previous_review": {
         "date": "2026-10-24",
         "review": {
-          "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/review.json",
-          "sha256": "111c71c3db622951f0bc6d00567fc6bd9bbfc418f883ecc02bd08184df82a430"
+          "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+          "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
         },
         "inventory": {
           "path": "bench/source-correspondence.json",
-          "sha256": "64efdd0717c399b411a42503de2eabb31d3aa0b1f1beadfadf4f72339a7fde25"
+          "sha256": "9b727c3676e9826ca7a941c95e7e592cb271db2ddffb059984935d29e812abef"
         },
         "pasted_body_entry_tasks": [
           "adam_update_triton",
@@ -145759,6 +145781,7 @@
           "l2_norm_triton1",
           "masked_add_cuda",
           "matrix_transpose",
+          "mul_exponent_compensator",
           "rmsnorm_fused",
           "rmsnorm_fused_llama",
           "rmsnorm_implementation",
@@ -145767,18 +145790,19 @@
           "sin_kernel",
           "square_matrix",
           "swiglu_fwd",
+          "triton_mul2",
           "vector_addition",
           "vector_addition_custom"
         ],
-        "scope": "All 19 examples and 21 selected tasks have native body correspondence. Remaining 159 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+        "scope": "19/19 examples, 23/183 selected tasks migrated. Remaining 157 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
         "counts": {
           "tasks": 183,
           "examples": 19,
           "task_status": {
             "legacy_ast_only": 1,
             "no_selected_jit_resolved": 2,
-            "selected_body_copy_checked": 21,
-            "uncovered_jit_functions": 159
+            "selected_body_copy_checked": 23,
+            "uncovered_jit_functions": 157
           },
           "example_status": {
             "authored_counterpart_body_copy_checked": 2,
@@ -145786,12 +145810,12 @@
             "spec_derived_body_copy_checked": 15
           },
           "selected_jit_functions": 328,
-          "uncovered_selected_jit_functions": 295,
-          "primary_files_with_int64_screen_warning": 44,
+          "uncovered_selected_jit_functions": 289,
+          "primary_files_with_int64_screen_warning": 43,
           "primary_lean_file_features": {
             "tasks": {
-              "in_body_type_directives": 128,
-              "antiquotes": 141,
+              "in_body_type_directives": 127,
+              "antiquotes": 139,
               "dsl_loop": 1,
               "dsl_numeric_helpers": 8
             },
@@ -145806,14 +145830,15 @@
         "previous_review": {
           "date": "2026-10-24",
           "review": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/review.json",
+            "sha256": "111c71c3db622951f0bc6d00567fc6bd9bbfc418f883ecc02bd08184df82a430"
           },
           "inventory": {
             "path": "bench/source-correspondence.json",
-            "sha256": "ceea4a8db31fd372e98189adf6b6a4c7c7e5fd4231c690cef1698343187c6a37"
+            "sha256": "64efdd0717c399b411a42503de2eabb31d3aa0b1f1beadfadf4f72339a7fde25"
           },
           "pasted_body_entry_tasks": [
+            "adam_update_triton",
             "add_example",
             "add_value",
             "cache_transform_triton",
@@ -145822,6 +145847,7 @@
             "index_select_bwd",
             "kldiv_compute",
             "l2_norm_triton1",
+            "masked_add_cuda",
             "matrix_transpose",
             "rmsnorm_fused",
             "rmsnorm_fused_llama",
@@ -145834,15 +145860,15 @@
             "vector_addition",
             "vector_addition_custom"
           ],
-          "scope": "All 19 worked examples now have raw native body sources with explicit provenance and complete proof replay, including the full selected-config grid connections. Task migrations continue; pending entries remain pending.",
+          "scope": "All 19 examples and 21 selected tasks have native body correspondence. Remaining 159 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
           "counts": {
             "tasks": 183,
             "examples": 19,
             "task_status": {
               "legacy_ast_only": 1,
               "no_selected_jit_resolved": 2,
-              "selected_body_copy_checked": 19,
-              "uncovered_jit_functions": 161
+              "selected_body_copy_checked": 21,
+              "uncovered_jit_functions": 159
             },
             "example_status": {
               "authored_counterpart_body_copy_checked": 2,
@@ -145850,12 +145876,12 @@
               "spec_derived_body_copy_checked": 15
             },
             "selected_jit_functions": 328,
-            "uncovered_selected_jit_functions": 297,
+            "uncovered_selected_jit_functions": 295,
             "primary_files_with_int64_screen_warning": 44,
             "primary_lean_file_features": {
               "tasks": {
-                "in_body_type_directives": 130,
-                "antiquotes": 143,
+                "in_body_type_directives": 128,
+                "antiquotes": 141,
                 "dsl_loop": 1,
                 "dsl_numeric_helpers": 8
               },
@@ -145870,12 +145896,12 @@
           "previous_review": {
             "date": "2026-10-24",
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/review.json",
-              "sha256": "5aa92bba55c68455972543a93f51085be5cc769c65718339d4122b58820adf31"
+              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
+              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
             },
             "inventory": {
               "path": "bench/source-correspondence.json",
-              "sha256": "1b1b5dd4fa34ebc4baf9189e5650b2df617cc34fce377a6fe1fc4636f0398e77"
+              "sha256": "ceea4a8db31fd372e98189adf6b6a4c7c7e5fd4231c690cef1698343187c6a37"
             },
             "pasted_body_entry_tasks": [
               "add_example",
@@ -145898,7 +145924,7 @@
               "vector_addition",
               "vector_addition_custom"
             ],
-            "scope": "Committed native fused pipeline batch with complete source, mathematical and typed FP proofs plus full combined and cold replay. Pending corpus entries remain pending.",
+            "scope": "All 19 worked examples now have raw native body sources with explicit provenance and complete proof replay, including the full selected-config grid connections. Task migrations continue; pending entries remain pending.",
             "counts": {
               "tasks": 183,
               "examples": 19,
@@ -145910,10 +145936,8 @@
               },
               "example_status": {
                 "authored_counterpart_body_copy_checked": 2,
-                "no_independent_python_reference": 2,
-                "selected_body_copy_checked": 1,
-                "spec_derived_body_copy_checked": 13,
-                "uncovered_jit_functions": 1
+                "selected_body_copy_checked": 2,
+                "spec_derived_body_copy_checked": 15
               },
               "selected_jit_functions": 328,
               "uncovered_selected_jit_functions": 297,
@@ -145927,7 +145951,7 @@
                 },
                 "examples": {
                   "in_body_type_directives": 0,
-                  "antiquotes": 3,
+                  "antiquotes": 0,
                   "dsl_loop": 0,
                   "dsl_numeric_helpers": 0
                 }
@@ -145936,12 +145960,12 @@
             "previous_review": {
               "date": "2026-10-24",
               "review": {
-                "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/review.json",
-                "sha256": "af788332b44388d044268d597802192241738655fbde343c95948b051ac381b5"
+                "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/review.json",
+                "sha256": "5aa92bba55c68455972543a93f51085be5cc769c65718339d4122b58820adf31"
               },
               "inventory": {
                 "path": "bench/source-correspondence.json",
-                "sha256": "8d36495c2807782fe1aafaf7d0cbd15aed776dcfedf3aeec6e14232c99d884b5"
+                "sha256": "1b1b5dd4fa34ebc4baf9189e5650b2df617cc34fce377a6fe1fc4636f0398e77"
               },
               "pasted_body_entry_tasks": [
                 "add_example",
@@ -145964,7 +145988,7 @@
                 "vector_addition",
                 "vector_addition_custom"
               ],
-              "scope": "Literal selected-source AST/signature checks with full public/deep and cold proof replay for the committed batch; all other pending entries remain pending.",
+              "scope": "Committed native fused pipeline batch with complete source, mathematical and typed FP proofs plus full combined and cold replay. Pending corpus entries remain pending.",
               "counts": {
                 "tasks": 183,
                 "examples": 19,
@@ -145976,9 +146000,9 @@
                 },
                 "example_status": {
                   "authored_counterpart_body_copy_checked": 2,
-                  "no_independent_python_reference": 4,
+                  "no_independent_python_reference": 2,
                   "selected_body_copy_checked": 1,
-                  "spec_derived_body_copy_checked": 11,
+                  "spec_derived_body_copy_checked": 13,
                   "uncovered_jit_functions": 1
                 },
                 "selected_jit_functions": 328,
@@ -145993,7 +146017,7 @@
                   },
                   "examples": {
                     "in_body_type_directives": 0,
-                    "antiquotes": 5,
+                    "antiquotes": 3,
                     "dsl_loop": 0,
                     "dsl_numeric_helpers": 0
                   }
@@ -146002,12 +146026,12 @@
               "previous_review": {
                 "date": "2026-10-24",
                 "review": {
-                  "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/review.json",
-                  "sha256": "fa31d27c5e5701ab02f884e62b411e771915c9fe4ee0db67c62055ef84804e38"
+                  "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/review.json",
+                  "sha256": "af788332b44388d044268d597802192241738655fbde343c95948b051ac381b5"
                 },
                 "inventory": {
                   "path": "bench/source-correspondence.json",
-                  "sha256": "af5de3da18d03b89786abc77e9461bc27f87783b51486ab9f47035d12a4eb8f1"
+                  "sha256": "8d36495c2807782fe1aafaf7d0cbd15aed776dcfedf3aeec6e14232c99d884b5"
                 },
                 "pasted_body_entry_tasks": [
                   "add_example",
@@ -146042,9 +146066,9 @@
                   },
                   "example_status": {
                     "authored_counterpart_body_copy_checked": 2,
-                    "no_independent_python_reference": 5,
+                    "no_independent_python_reference": 4,
                     "selected_body_copy_checked": 1,
-                    "spec_derived_body_copy_checked": 10,
+                    "spec_derived_body_copy_checked": 11,
                     "uncovered_jit_functions": 1
                   },
                   "selected_jit_functions": 328,
@@ -146059,8 +146083,8 @@
                     },
                     "examples": {
                       "in_body_type_directives": 0,
-                      "antiquotes": 6,
-                      "dsl_loop": 1,
+                      "antiquotes": 5,
+                      "dsl_loop": 0,
                       "dsl_numeric_helpers": 0
                     }
                   }
@@ -146068,12 +146092,12 @@
                 "previous_review": {
                   "date": "2026-10-24",
                   "review": {
-                    "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
-                    "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
+                    "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/review.json",
+                    "sha256": "fa31d27c5e5701ab02f884e62b411e771915c9fe4ee0db67c62055ef84804e38"
                   },
                   "inventory": {
                     "path": "bench/source-correspondence.json",
-                    "sha256": "fd2d3f2822102d4558999ac06a204902583e454ea65d4067c985c6f2b7bd00f6"
+                    "sha256": "af5de3da18d03b89786abc77e9461bc27f87783b51486ab9f47035d12a4eb8f1"
                   },
                   "pasted_body_entry_tasks": [
                     "add_example",
@@ -146108,9 +146132,9 @@
                     },
                     "example_status": {
                       "authored_counterpart_body_copy_checked": 2,
-                      "no_independent_python_reference": 7,
+                      "no_independent_python_reference": 5,
                       "selected_body_copy_checked": 1,
-                      "spec_derived_body_copy_checked": 8,
+                      "spec_derived_body_copy_checked": 10,
                       "uncovered_jit_functions": 1
                     },
                     "selected_jit_functions": 328,
@@ -146125,21 +146149,21 @@
                       },
                       "examples": {
                         "in_body_type_directives": 0,
-                        "antiquotes": 8,
-                        "dsl_loop": 3,
-                        "dsl_numeric_helpers": 2
+                        "antiquotes": 6,
+                        "dsl_loop": 1,
+                        "dsl_numeric_helpers": 0
                       }
                     }
                   },
                   "previous_review": {
                     "date": "2026-10-24",
                     "review": {
-                      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-                      "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+                      "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+                      "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
                     },
                     "inventory": {
                       "path": "bench/source-correspondence.json",
-                      "sha256": "24c53e490a0ff7568c59f8e7878f107806db6239a29ef52b817d5e058a62e8f4"
+                      "sha256": "fd2d3f2822102d4558999ac06a204902583e454ea65d4067c985c6f2b7bd00f6"
                     },
                     "pasted_body_entry_tasks": [
                       "add_example",
@@ -146153,6 +146177,8 @@
                       "matrix_transpose",
                       "rmsnorm_fused",
                       "rmsnorm_fused_llama",
+                      "rmsnorm_implementation",
+                      "rmsnorm_triton",
                       "sin_computation",
                       "sin_kernel",
                       "square_matrix",
@@ -146160,15 +146186,15 @@
                       "vector_addition",
                       "vector_addition_custom"
                     ],
-                    "scope": "Full selected-source inventory with explicit new-example provenance, exact AST/signature/call binding checks and combined deep/cold proof replay. Pending tasks/examples remain pending.",
+                    "scope": "Literal selected-source AST/signature checks with full public/deep and cold proof replay for the committed batch; all other pending entries remain pending.",
                     "counts": {
                       "tasks": 183,
                       "examples": 19,
                       "task_status": {
                         "legacy_ast_only": 1,
                         "no_selected_jit_resolved": 2,
-                        "selected_body_copy_checked": 17,
-                        "uncovered_jit_functions": 163
+                        "selected_body_copy_checked": 19,
+                        "uncovered_jit_functions": 161
                       },
                       "example_status": {
                         "authored_counterpart_body_copy_checked": 2,
@@ -146178,12 +146204,12 @@
                         "uncovered_jit_functions": 1
                       },
                       "selected_jit_functions": 328,
-                      "uncovered_selected_jit_functions": 299,
+                      "uncovered_selected_jit_functions": 297,
                       "primary_files_with_int64_screen_warning": 44,
                       "primary_lean_file_features": {
                         "tasks": {
-                          "in_body_type_directives": 132,
-                          "antiquotes": 145,
+                          "in_body_type_directives": 130,
+                          "antiquotes": 143,
                           "dsl_loop": 1,
                           "dsl_numeric_helpers": 8
                         },
@@ -146198,12 +146224,12 @@
                     "previous_review": {
                       "date": "2026-10-24",
                       "review": {
-                        "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
-                        "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+                        "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
+                        "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
                       },
                       "inventory": {
                         "path": "bench/source-correspondence.json",
-                        "sha256": "5c80ef7b09379b23632d01541fb7ed1b78f553da9c311a889eba292b0c17b3d7"
+                        "sha256": "24c53e490a0ff7568c59f8e7878f107806db6239a29ef52b817d5e058a62e8f4"
                       },
                       "pasted_body_entry_tasks": [
                         "add_example",
@@ -146215,6 +146241,8 @@
                         "kldiv_compute",
                         "l2_norm_triton1",
                         "matrix_transpose",
+                        "rmsnorm_fused",
+                        "rmsnorm_fused_llama",
                         "sin_computation",
                         "sin_kernel",
                         "square_matrix",
@@ -146222,76 +146250,139 @@
                         "vector_addition",
                         "vector_addition_custom"
                       ],
-                      "scope": "Full selected-source inventory, exact body AST/signature/call binding checks and this batch proof replay. Pending tasks/examples remain pending.",
+                      "scope": "Full selected-source inventory with explicit new-example provenance, exact AST/signature/call binding checks and combined deep/cold proof replay. Pending tasks/examples remain pending.",
                       "counts": {
                         "tasks": 183,
                         "examples": 19,
                         "task_status": {
                           "legacy_ast_only": 1,
                           "no_selected_jit_resolved": 2,
-                          "selected_body_copy_checked": 15,
-                          "uncovered_jit_functions": 165
+                          "selected_body_copy_checked": 17,
+                          "uncovered_jit_functions": 163
                         },
                         "example_status": {
                           "authored_counterpart_body_copy_checked": 2,
-                          "no_independent_python_reference": 16,
-                          "selected_body_copy_checked": 1
+                          "no_independent_python_reference": 7,
+                          "selected_body_copy_checked": 1,
+                          "spec_derived_body_copy_checked": 8,
+                          "uncovered_jit_functions": 1
                         },
                         "selected_jit_functions": 328,
-                        "uncovered_selected_jit_functions": 301,
+                        "uncovered_selected_jit_functions": 299,
                         "primary_files_with_int64_screen_warning": 44,
                         "primary_lean_file_features": {
                           "tasks": {
-                            "in_body_type_directives": 134,
-                            "antiquotes": 147,
+                            "in_body_type_directives": 132,
+                            "antiquotes": 145,
                             "dsl_loop": 1,
                             "dsl_numeric_helpers": 8
                           },
                           "examples": {
                             "in_body_type_directives": 0,
-                            "antiquotes": 16,
+                            "antiquotes": 8,
                             "dsl_loop": 3,
-                            "dsl_numeric_helpers": 3
+                            "dsl_numeric_helpers": 2
                           }
                         }
                       },
                       "previous_review": {
                         "date": "2026-10-24",
                         "review": {
-                          "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
-                          "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
-                          "task": "dequantize_rowwise"
+                          "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+                          "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
                         },
                         "inventory": {
-                          "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
-                          "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
+                          "path": "bench/source-correspondence.json",
+                          "sha256": "5c80ef7b09379b23632d01541fb7ed1b78f553da9c311a889eba292b0c17b3d7"
                         },
-                        "counts": {
-                          "not_certified_by_this_screen": 137,
-                          "missing_explicit_int64_cast": 44,
-                          "exact_ast_correspondence": 2
-                        },
-                        "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast.",
                         "pasted_body_entry_tasks": [
-                          "dequantize_rowwise"
+                          "add_example",
+                          "add_value",
+                          "cache_transform_triton",
+                          "cosine_compute",
+                          "dequantize_rowwise",
+                          "index_select_bwd",
+                          "kldiv_compute",
+                          "l2_norm_triton1",
+                          "matrix_transpose",
+                          "sin_computation",
+                          "sin_kernel",
+                          "square_matrix",
+                          "swiglu_fwd",
+                          "vector_addition",
+                          "vector_addition_custom"
                         ],
+                        "scope": "Full selected-source inventory, exact body AST/signature/call binding checks and this batch proof replay. Pending tasks/examples remain pending.",
+                        "counts": {
+                          "tasks": 183,
+                          "examples": 19,
+                          "task_status": {
+                            "legacy_ast_only": 1,
+                            "no_selected_jit_resolved": 2,
+                            "selected_body_copy_checked": 15,
+                            "uncovered_jit_functions": 165
+                          },
+                          "example_status": {
+                            "authored_counterpart_body_copy_checked": 2,
+                            "no_independent_python_reference": 16,
+                            "selected_body_copy_checked": 1
+                          },
+                          "selected_jit_functions": 328,
+                          "uncovered_selected_jit_functions": 301,
+                          "primary_files_with_int64_screen_warning": 44,
+                          "primary_lean_file_features": {
+                            "tasks": {
+                              "in_body_type_directives": 134,
+                              "antiquotes": 147,
+                              "dsl_loop": 1,
+                              "dsl_numeric_helpers": 8
+                            },
+                            "examples": {
+                              "in_body_type_directives": 0,
+                              "antiquotes": 16,
+                              "dsl_loop": 3,
+                              "dsl_numeric_helpers": 3
+                            }
+                          }
+                        },
                         "previous_review": {
                           "date": "2026-10-24",
                           "review": {
-                            "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
-                            "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
-                            "task": "triton_argmax"
+                            "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+                            "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+                            "task": "dequantize_rowwise"
                           },
                           "inventory": {
-                            "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
-                            "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+                            "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
+                            "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
                           },
                           "counts": {
                             "not_certified_by_this_screen": 137,
-                            "missing_explicit_int64_cast": 45,
-                            "exact_ast_correspondence": 1
+                            "missing_explicit_int64_cast": 44,
+                            "exact_ast_correspondence": 2
                           },
-                          "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+                          "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast.",
+                          "pasted_body_entry_tasks": [
+                            "dequantize_rowwise"
+                          ],
+                          "previous_review": {
+                            "date": "2026-10-24",
+                            "review": {
+                              "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+                              "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+                              "task": "triton_argmax"
+                            },
+                            "inventory": {
+                              "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+                              "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+                            },
+                            "counts": {
+                              "not_certified_by_this_screen": 137,
+                              "missing_explicit_int64_cast": 45,
+                              "exact_ast_correspondence": 1
+                            },
+                            "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+                          }
                         }
                       }
                     }
