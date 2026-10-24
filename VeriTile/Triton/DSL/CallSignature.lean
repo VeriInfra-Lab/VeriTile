@@ -69,6 +69,12 @@ private partial def rejectBodyMetadata (raw : Syntax) : TermElabM Unit := do
     throwErrorAt raw "runtime scalar types belong in the call signature, outside the pasted body"
   for arg in raw.getArgs do rejectBodyMetadata arg
 
+private partial def storeValues (raw : Syntax) : List Syntax :=
+  match raw with
+  | `(tritonStmt| tl.store($_:tritonExpr, $value:tritonExpr)) => [value.raw]
+  | `(tritonStmt| tl.store($_:tritonExpr, $value:tritonExpr, $_:tritonMemKwarg $[, $_:tritonMemKwarg]*)) => [value.raw]
+  | _ => raw.getArgs.toList.flatMap storeValues
+
 elab_rules : term
   | `(with_triton_signature $profile:term in triton { $stmts:tritonStmt* }) => do
       let profile ← elabTermEnsuringType profile (mkConst ``Triton.CallSignature)
@@ -101,6 +107,13 @@ elab_rules : term
         let mut body := stmts.toList
         for (name, kind) in pointers do
           body ← SourceDType.lowerStores kind [Name.mkSimple name] body
+        let originalStores := stmts.toList.flatMap (fun st => storeValues st.raw)
+        let convertedStores := body.flatMap (fun st => storeValues st.raw)
+        unless originalStores.length == convertedStores.length do
+          Macro.throwError "implicit store conversion changed the source store count"
+        for (original, converted) in originalStores.zip convertedStores do
+          if original == converted then
+            Macro.throwErrorAt original "cannot determine tl.store destination dtype from the call signature"
         let emitted := declarations ++ body.toArray
         `(triton { $emitted* })
       elabTerm term none

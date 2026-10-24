@@ -89,6 +89,14 @@ def escapedLoopAlias (Y : RegionName) : ComputeKernel :=
     tl.store(p, gain)
   }
 
+/-- error: cannot determine tl.store destination dtype from the call signature -/
+#guard_msgs in
+def unsupportedPointerSelection (Y : RegionName) : ComputeKernel :=
+  with_triton_signature gainSignature in
+  triton {
+    tl.store(tl.where(gain > 0, Y, Y), gain)
+  }
+
 #axiomsClean implicit_store_and_runtime_input
 #axiomsClean actual_argument
 end
