@@ -8,8 +8,8 @@
     "task_status": {
       "legacy_ast_only": 1,
       "no_selected_jit_resolved": 2,
-      "selected_body_copy_checked": 23,
-      "uncovered_jit_functions": 157
+      "selected_body_copy_checked": 24,
+      "uncovered_jit_functions": 156
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
@@ -17,12 +17,12 @@
       "spec_derived_body_copy_checked": 15
     },
     "selected_jit_functions": 328,
-    "uncovered_selected_jit_functions": 289,
+    "uncovered_selected_jit_functions": 288,
     "primary_files_with_int64_screen_warning": 43,
     "primary_lean_file_features": {
       "tasks": {
-        "in_body_type_directives": 127,
-        "antiquotes": 139,
+        "in_body_type_directives": 126,
+        "antiquotes": 138,
         "dsl_loop": 1,
         "dsl_numeric_helpers": 8
       },
@@ -8090,10 +8090,10 @@
       "lean": "bench/tritonbench_g/matrix_reduction/Kernels.lean",
       "source_provenance": "selected_revision",
       "lean_screen": {
-        "quotations": 5,
-        "in_body_type_directives": 4,
-        "antiquotes": 37,
-        "dsl_assignment": 3,
+        "quotations": 4,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 29,
         "dsl_loop": 0,
         "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
@@ -8106,19 +8106,117 @@
           "explicit_int64_casts": []
         }
       ],
-      "checked_pairs": [],
-      "uncovered_selected_jits": [
+      "checked_pairs": [
         {
+          "python_function": "load_reduce_kernel",
+          "lean_definition": "source16",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_xm": "stride_xm",
+            "stride_xn": "stride_xn",
+            "stride_y": "stride_y"
+          },
+          "statements": 4,
+          "runtime_parameters": {
+            "stride_xm": "integer",
+            "stride_xn": "integer",
+            "stride_y": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
+          "profile_variant": "fp16",
           "python": "bench/tritonbench_g/matrix_reduction/matrix_reduction.py",
-          "function": "load_reduce_kernel"
+          "lean": "bench/tritonbench_g/matrix_reduction/Kernels.lean"
+        },
+        {
+          "python_function": "load_reduce_kernel",
+          "lean_definition": "candidate16",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_xm": "stride_xm",
+            "stride_xn": "stride_xn",
+            "stride_y": "stride_y"
+          },
+          "statements": 6,
+          "runtime_parameters": {
+            "stride_xm": "integer",
+            "stride_xn": "integer",
+            "stride_y": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
+          "profile_variant": "fp16",
+          "python": "bench/tritonbench_g/matrix_reduction/matrix_reduction_optimized.py",
+          "lean": "bench/tritonbench_g/matrix_reduction/Kernels.lean"
+        },
+        {
+          "python_function": "load_reduce_kernel",
+          "lean_definition": "source32",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_xm": "stride_xm",
+            "stride_xn": "stride_xn",
+            "stride_y": "stride_y"
+          },
+          "statements": 4,
+          "runtime_parameters": {
+            "stride_xm": "integer",
+            "stride_xn": "integer",
+            "stride_y": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
+          "profile_variant": "fp32",
+          "python": "bench/tritonbench_g/matrix_reduction/matrix_reduction.py",
+          "lean": "bench/tritonbench_g/matrix_reduction/Kernels.lean"
+        },
+        {
+          "python_function": "load_reduce_kernel",
+          "lean_definition": "candidate32",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "stride_xm": "stride_xm",
+            "stride_xn": "stride_xn",
+            "stride_y": "stride_y"
+          },
+          "statements": 6,
+          "runtime_parameters": {
+            "stride_xm": "integer",
+            "stride_xn": "integer",
+            "stride_y": "integer"
+          },
+          "constexpr_parameters": [
+            "BLOCK_M",
+            "BLOCK_N"
+          ],
+          "profile_variant": "fp32",
+          "python": "bench/tritonbench_g/matrix_reduction/matrix_reduction_optimized.py",
+          "lean": "bench/tritonbench_g/matrix_reduction/Kernels.lean"
         }
       ],
+      "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "uncovered_jit_functions",
+      "status": "selected_body_copy_checked",
       "source_sha256": {
-        "bench/tritonbench_g/matrix_reduction/Kernels.lean": "8ab14651dee2a8dde16b59446c136f0bd9ff5303874b7eff0f76d0b9e374aad8",
-        "bench/tritonbench_g/matrix_reduction/matrix_reduction.py": "892dbf360e3cfa530ca8f0b3d1532d4308b991299466dbd8fea3bac107300770"
+        "bench/tritonbench_g/matrix_reduction/Kernels.lean": "f08dae9ec0a1711178e8e41f1d8e98ffb47b61732a0cdfc942f1d4cc12141744",
+        "bench/tritonbench_g/matrix_reduction/jit-correspondence.json": "ed722f33cf5e08b830881db823c8cc88bb89a31f1d6e43d4fd39dd046151c27f",
+        "bench/tritonbench_g/matrix_reduction/matrix_reduction.py": "892dbf360e3cfa530ca8f0b3d1532d4308b991299466dbd8fea3bac107300770",
+        "bench/tritonbench_g/matrix_reduction/matrix_reduction_optimized.py": "370ebcb75f0f4d4c872f3d6185320b8eb2aa1d4630f6719288ebbe581470e614"
       }
     },
     {

@@ -15,14 +15,14 @@ theorem trace {α : Type} [Inhabited α] (A : Algebra α) (d : Storage)
     (output : ∀ i : Fin M, i.val < bounds "out") :
     FP.Structural.TraceSafe A bounds (kernel d "x" "out" N 1 1 M N) s := by
   cases d <;>
-    simp [FP.Structural.TraceSafe, kernel, ComputeKernel.surfaceBody,
+    simp [FP.Structural.TraceSafe, kernel, source16, source32, ComputeKernel.surfaceBody,
       Safety.traceSafeList_unfold, Safety.stepSafe_unfold, Safety.safeExpr_unfold,
       Safety.safeCompute_unfold, Safety.safeOp_unfold, Safety.safeAddress_unfold,
       Safety.safeMask_unfold, Safety.addressSafe_unfold, Safety.maskActive_unfold,
       step, evalExpr, evalComputeOp, evalOp_unfold, State.setReg, store, Option.bind,
       BlockPtr.inBounds, BlockPtr.address, TileShape.indexToList,
       TileShape.axisDim, TileShape.eraseAxis, TileShape.insertAxisIndex,
-      Region.cast, ofFloat, toFloat, positive]
+      Region.cast, ofFloat, toFloat, positive, ComputeDType.eraseDType]
   all_goals
     refine ⟨?_, fun i => output i⟩
     intro i j

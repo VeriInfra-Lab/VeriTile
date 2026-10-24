@@ -60,6 +60,7 @@ globs = [
   "bench.tests.PythonBody",
   "bench.tests.ConstexprBody",
   "bench.tests.ConstexprPower",
+  "bench.tests.BlockPointerDType",
   "bench.tests.NativeCountLoop",
   "bench.tests.OptimizedRealExamples",
   "bench.tests.FPGuardedExamples",

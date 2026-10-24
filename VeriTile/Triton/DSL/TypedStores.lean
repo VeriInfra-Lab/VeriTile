@@ -21,6 +21,20 @@ private def name (id : Ident) : Name := id.getId.eraseMacroScopes
 private def lookup (types : Types) (id : Ident) : Option Triton.SourceDType :=
   (types.find? (fun entry => entry.1 == name id)).map Prod.snd
 
+/-- Block-pointer construction and advance preserve their base element type.
+The expression compiler separately validates every shape/stride/order field. -/
+private def blockPointerBase (e : TSyntax `tritonExpr) : Option (TSyntax `tritonExpr) := do
+  let args := e.raw.getArgs
+  let first ← args[0]?
+  unless first.isAtom do failure
+  if first.getAtomVal == "tl.make_block_ptr(" then
+    if args[1]?.any Syntax.isIdent && args[2]?.any (fun a => a.isAtom && a.getAtomVal == "=") then
+      unless args[1]!.getId.eraseMacroScopes == `base do failure
+      return ⟨← args[3]?⟩
+    return ⟨← args[1]?⟩
+  if first.getAtomVal == "tl.advance(" then return ⟨← args[1]?⟩
+  failure
+
 private partial def pointerType (types : Types) (e : TSyntax `tritonExpr) : Option Triton.SourceDType :=
   match e with
   | `(tritonExpr| $id:ident) => lookup types id
@@ -31,7 +45,9 @@ private partial def pointerType (types : Types) (e : TSyntax `tritonExpr) : Opti
       | _, _ => none
   | `(tritonExpr| $a:tritonExpr - $b:tritonExpr) =>
       if (pointerType types b).isSome then none else pointerType types a
-  | _ => none
+  | _ => do
+      let base ← blockPointerBase e
+      pointerType types base
 
 private partial def dtypeOverride (raw : Syntax) : Bool :=
   (raw.isAtom && raw.getAtomVal == "dtype") ||
@@ -136,9 +152,13 @@ private partial def valueType (pointers : Types) (values : Values)
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
   | `(tritonExpr| tl.extra.cuda.libdevice.pow($a:tritonExpr, $_:num)) =>
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
-  | `(tritonExpr| tl.sum($a:tritonExpr $[, $_:tritonReduceKwarg]*))
-  | `(tritonExpr| tl.max($a:tritonExpr $[, $_:tritonReduceKwarg]*)) =>
+  | `(tritonExpr| tl.sum($a:tritonExpr $[, $_:tritonReduceKwarg]*)) =>
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
+  | `(tritonExpr| tl.max($a:tritonExpr $[, $_:tritonReduceKwarg]*)) =>
+      match valueType pointers values a with
+      | some (.typed .fp16) | some (.typed .bf16) | some (.typed .fp32) => some (.typed .fp32)
+      | some (.typed .fp64) => some (.typed .fp64)
+      | _ => none
   | `(tritonExpr| -$a:tritonExpr) =>
       if valueType pointers values a == some (.typed .fp32) then some (.typed .fp32) else none
   | `(tritonExpr| $a:tritonExpr[:, None])
