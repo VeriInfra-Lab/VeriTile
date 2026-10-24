@@ -21,6 +21,14 @@
     "provenance": "spec_derived_native_source",
     "python": "bench/examples/FloatDTypeSoftmax/native_kernels.py"
   },
+  "FusedLayerNorm": {
+    "mathematical_spec_sha256": {
+      "bench/examples/FusedLayerNorm/Correct.lean": "5023cfb2e095414d9d43f3d4936937f2362f272b49c0463124ee4fd20734075d"
+    },
+    "note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/FusedLayerNorm/native_kernels.py"
+  },
   "LogExp": {
     "mathematical_spec_sha256": {
       "bench/examples/LogExp/Correct.lean": "9c5fbcf3b42d1f06506a2e9a62aef27564d57bda94c8a697ae01b2c16a3bff7f"
@@ -74,5 +82,13 @@
     "note": "New native counterpart of the existing Lean-first worked example; does not certify correspondence to an independent historical benchmark source.",
     "provenance": "authored_native_counterpart",
     "python": "bench/examples/VectorAdd/native_kernels.py"
+  },
+  "Welford": {
+    "mathematical_spec_sha256": {
+      "bench/examples/Welford/Correct.lean": "b67dec22b919918295b2799afc232b5c168e2eb9a5d8d1a18502f40dce645500"
+    },
+    "note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False.",
+    "provenance": "spec_derived_native_source",
+    "python": "bench/examples/Welford/native_kernels.py"
   }
 }

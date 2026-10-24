@@ -13,9 +13,9 @@
     },
     "example_status": {
       "authored_counterpart_body_copy_checked": 2,
-      "no_independent_python_reference": 7,
+      "no_independent_python_reference": 5,
       "selected_body_copy_checked": 1,
-      "spec_derived_body_copy_checked": 8,
+      "spec_derived_body_copy_checked": 10,
       "uncovered_jit_functions": 1
     },
     "selected_jit_functions": 328,
@@ -30,9 +30,9 @@
       },
       "examples": {
         "in_body_type_directives": 0,
-        "antiquotes": 8,
-        "dsl_loop": 3,
-        "dsl_numeric_helpers": 2
+        "antiquotes": 6,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 0
       }
     }
   },
@@ -13750,26 +13750,87 @@
     {
       "name": "FusedLayerNorm",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/FusedLayerNorm/native_kernels.py",
       "lean": "bench/examples/FusedLayerNorm/Kernels.lean",
-      "source_provenance": "no_registered_reference",
+      "source_provenance": "spec_derived_native_source",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 24,
-        "dsl_assignment": 30,
-        "dsl_loop": 1,
-        "dsl_numeric_helpers": 4,
+        "antiquotes": 0,
+        "dsl_assignment": 9,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "twoPassLayerNormKernel",
+          "line": 14,
+          "statements": 14,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "fusedLayerNormKernel",
+          "line": 32,
+          "statements": 14,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "twoPassLayerNormKernel",
+          "lean_definition": "twoPassLayerNormKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "rowStride": "rowStride"
+          },
+          "statements": 14,
+          "runtime_parameters": {
+            "rowStride": "integer"
+          },
+          "constexpr_parameters": [
+            "N",
+            "ε"
+          ],
+          "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+          "lean": "bench/examples/FusedLayerNorm/Kernels.lean"
+        },
+        {
+          "python_function": "fusedLayerNormKernel",
+          "lean_definition": "fusedLayerNormKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "rowStride": "rowStride"
+          },
+          "statements": 14,
+          "runtime_parameters": {
+            "rowStride": "integer"
+          },
+          "constexpr_parameters": [
+            "N",
+            "ε"
+          ],
+          "python": "bench/examples/FusedLayerNorm/native_kernels.py",
+          "lean": "bench/examples/FusedLayerNorm/Kernels.lean"
+        }
+      ],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "no_independent_python_reference",
+      "status": "spec_derived_body_copy_checked",
       "source_sha256": {
-        "bench/examples/FusedLayerNorm/Kernels.lean": "535c103f95b1085c12ca0eb8e9e1cd7082c4637c816ccb63252a0ae788f82ada"
+        "bench/examples/FusedLayerNorm/Correct.lean": "5023cfb2e095414d9d43f3d4936937f2362f272b49c0463124ee4fd20734075d",
+        "bench/examples/FusedLayerNorm/Kernels.lean": "b4f1e07e399684ad3718fbd093d57578e48d94e5e77a0f333a05fb1bf5a954db",
+        "bench/examples/FusedLayerNorm/jit-correspondence.json": "7b89da85e4ee66c57f89d4d5dcc07fad154c2d8e994b12133af404d592a591ff",
+        "bench/examples/FusedLayerNorm/native_kernels.py": "f1ac489a38d4d0f10a9d1388b87be02cc1d0b5d0d2cdd39796e573a197d8ebcd"
+      },
+      "source_note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False.",
+      "mathematical_spec_sha256": {
+        "bench/examples/FusedLayerNorm/Correct.lean": "5023cfb2e095414d9d43f3d4936937f2362f272b49c0463124ee4fd20734075d"
       }
     },
     {
@@ -14539,26 +14600,85 @@
     {
       "name": "Welford",
       "kind": "example",
-      "python": null,
+      "python": "bench/examples/Welford/native_kernels.py",
       "lean": "bench/examples/Welford/Kernels.lean",
-      "source_provenance": "no_registered_reference",
+      "source_provenance": "spec_derived_native_source",
       "lean_screen": {
         "quotations": 2,
         "in_body_type_directives": 0,
-        "antiquotes": 13,
-        "dsl_assignment": 18,
-        "dsl_loop": 1,
-        "dsl_numeric_helpers": 4,
+        "antiquotes": 0,
+        "dsl_assignment": 7,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
         "load_dtype_extension": 0
       },
-      "python_jits": [],
-      "checked_pairs": [],
+      "python_jits": [
+        {
+          "function": "twopassWelfordKernel",
+          "line": 15,
+          "statements": 11,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "onlineWelfordKernel",
+          "line": 30,
+          "statements": 7,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "twopassWelfordKernel",
+          "lean_definition": "twopassWelfordKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "rowStride": "rowStride"
+          },
+          "statements": 11,
+          "runtime_parameters": {
+            "rowStride": "integer"
+          },
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/Welford/native_kernels.py",
+          "lean": "bench/examples/Welford/Kernels.lean"
+        },
+        {
+          "python_function": "onlineWelfordKernel",
+          "lean_definition": "onlineWelfordKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "rowStride": "rowStride"
+          },
+          "statements": 7,
+          "runtime_parameters": {
+            "rowStride": "integer"
+          },
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/Welford/native_kernels.py",
+          "lean": "bench/examples/Welford/Kernels.lean"
+        }
+      ],
       "uncovered_selected_jits": [],
       "int64_screen": "inconclusive",
       "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
-      "status": "no_independent_python_reference",
+      "status": "spec_derived_body_copy_checked",
       "source_sha256": {
-        "bench/examples/Welford/Kernels.lean": "29af773376970b1a335c275d85a57914dacb3ee702d6db1e56463a95cadcaef7"
+        "bench/examples/Welford/Correct.lean": "b67dec22b919918295b2799afc232b5c168e2eb9a5d8d1a18502f40dce645500",
+        "bench/examples/Welford/Kernels.lean": "7c3d0bdf6cd4780457d7884c6f266c2d3a0b1e57285818d0702cd1ea499102a9",
+        "bench/examples/Welford/jit-correspondence.json": "ead1d8431df104b8bfc5e68e1e5c87f4d1fa462a1aacb3d4ccdeabc3134c4a7a",
+        "bench/examples/Welford/native_kernels.py": "5b021702042d4df0bf7213b5dabec155956f757dc489268d057273fbc9f51601"
+      },
+      "source_note": "New Python derived from the independent public population-statistics/affine specifications, not recovered historical source. Preserve FP32 inputs, BF16 outputs and full original IO scope; explicit uint64-to-FP32 counts and native loop casts replace Lean-only toReal. Source execution and numerical domains are re-proved for the actual typed reads. Welford writes both scalar outputs at zero; LayerNorm retains its second input read and empty-row case. Separate arithmetic uses enable_fp_fusion=False.",
+      "mathematical_spec_sha256": {
+        "bench/examples/Welford/Correct.lean": "b67dec22b919918295b2799afc232b5c168e2eb9a5d8d1a18502f40dce645500"
       }
     }
   ]

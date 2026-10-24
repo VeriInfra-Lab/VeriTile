@@ -96,6 +96,18 @@ partial def normalizePrecisionScopes (precision : Option DInfo) (raw : Syntax) :
 source expression's independent context. Narrow destinations use fp32 profile;
 the destination FloatDType still determines their rounding format. -/
 def explicitFloatCast (dst : DInfo) (e : EOut) : MacroM EOut := do
+  if [.nat, .int, .int8, .int32].contains e.dtype then
+    unless dst == .fp32 || dst == .real do
+      Macro.throwError "integer-to-float cast requires an explicit FP32 or FP64 destination"
+    if let some compute := e.computeTerm then
+      unless (match compute with | `(ComputeExpr.alg $_) => Bool.true | _ => Bool.false) do
+        Macro.throwError "materialize a compute-only integer before converting it to float"
+    let alg ← if e.dtype == .nat then `(Op.natToReal $e.term)
+      else `(Op.intToReal $e.term)
+    let compute ← if dst == .fp32 then
+        `(ComputeExpr.compute (ComputeOp.alg ComputeDType.fp32 $alg))
+      else `(ComputeExpr.compute (ComputeOp.alg ComputeDType.fp64 $alg))
+    return ⟨alg, .real, e.shape, some compute, some dst⟩
   let srcProof ← e.dtype.floatProof
   let dstAlg := if dst == .fp32 then DInfo.real else dst
   let dstProof ← dstAlg.floatProof

@@ -157,7 +157,8 @@ class IntegerCallBodyTests(unittest.TestCase):
     def test_spec_derived_example_bodies_remain_exact(self):
         references = json.loads((ROOT / "bench/examples/source-references.json").read_text())
         for name in ("LogExp", "SoftmaxReciprocal", "FloatDTypeSoftmax", "RowWiseSum",
-                     "RowWiseMax", "FloatDTypeAdd", "SoftmaxStable", "StableLogSumExp"):
+                     "RowWiseMax", "FloatDTypeAdd", "SoftmaxStable", "StableLogSumExp",
+                     "Welford", "FusedLayerNorm"):
             with self.subTest(example=name):
                 self.assertEqual(references[name]["provenance"], "spec_derived_native_source")
                 records = check_manifest(ROOT, ROOT / "bench/examples" / name / "jit-correspondence.json")

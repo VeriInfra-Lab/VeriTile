@@ -208,12 +208,14 @@ private partial def staticNatBound (constants assigned : List Name)
   | _ => return none
 
 /-- A per-call size has already been supplied before executing the body.
-Select the existing constant-bound range constructor only when all three Nat
-bounds are known from that call or immutable constexpr values. Runtime local
-bounds and all explicit signed casts retain the dynamic/signed range path. -/
+Select the existing constant-bound range constructor only for known immutable
+Nat bounds. Runtime locals and signed casts retain their dynamic range path. -/
 private partial def specializeRanges (constants assigned : List Name) (raw : Syntax) : TermElabM Syntax := do
   let args ← raw.getArgs.mapM (specializeRanges constants assigned)
   let next := match raw with | .node info kind _ => Syntax.node info kind args | _ => raw
+  if let `(tritonStmt| for $i:ident in range($n:tritonExpr) { $body:tritonStmt* }) := next then
+    if let some n ← staticNatBound constants assigned n then
+      return (← liftMacroM `(tritonStmt| tl.for $i in $($n) { $body* })).raw
   if let `(tritonStmt| for $i:ident in range($a:tritonExpr, $b:tritonExpr, $c:tritonExpr) { $body:tritonStmt* }) := next then
     if let some a ← staticNatBound constants assigned a then
       if let some b ← staticNatBound constants assigned b then
