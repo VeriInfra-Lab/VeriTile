@@ -911,7 +911,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/add_example/add_example_repaired.py": "08307d73b804cc8afa2762981d55954f70034b8c49882c078d8058b56dd23c9b",
-          "bench/repairs/tritonbench_g/add_example/Kernels.lean": "f42099c0f3caacedf74f235d0aa083beaa5a02a2daded788333c209a41d180b1",
+          "bench/repairs/tritonbench_g/add_example/Kernels.lean": "a84a458bccd5f799e812703ab91b79c4a1ccc0fd79ecfeacbfa3663d6d116c40",
           "bench/repairs/tritonbench_g/add_example/Contract.lean": "bd4c9d1cf819570bc48508142d7b7ae92ab88db2b5e16c81bc9074d3a2548518",
           "bench/repairs/tritonbench_g/add_example/Correct.lean": "bb73923ea50cab6a9fbe0c09820fd6a16aaeb5dc14b6f2ab4da0cb6436dca6d1",
           "bench/repairs/tritonbench_g/add_example/FPEquiv.lean": "8d76af84d6d31ecfde6acc666c90d4d90c1e8fd862e1a190f8a610e41ff1f5dd",
@@ -986,6 +986,27 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "Both original Python bodies retained. FP32 input loads, addition/store and candidate operand ordering agree with the previous complete programs.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [
@@ -1363,9 +1384,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/add_example.json",
-            "sha256": "395a41f618ed564d30811da48969c8774260362acb6419d59b8fe1cdcc0ffc28",
-            "task": "add_example"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.AddExample.Contiguous.Correct.add_kernel_correctness",
@@ -2192,7 +2212,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/add_value/add_value_repaired.py": "439dbbf37b927a5d48615b8e5f29941aa48a8ac668f97768f504dc36f0b12ea8",
-          "bench/repairs/tritonbench_g/add_value/Kernels.lean": "9914c49b3b6da81b5ebf3a58a39fb5f25d5e3df4158676ddb5fd1d11a4cf3e92",
+          "bench/repairs/tritonbench_g/add_value/Kernels.lean": "719df098d87b99a74dc9fa65c0e0a330f6684cd73dd1041730f43c3894845e6b",
           "bench/repairs/tritonbench_g/add_value/Contract.lean": "36b1fa88811be14136a351e003ca10634dd4be8192c12a6cfe3423f781ad92cd",
           "bench/repairs/tritonbench_g/add_value/Correct.lean": "7e7b322a93ad53cb3278c8b05c1385671a04e68a2e995513a38a0b13949dde92",
           "bench/repairs/tritonbench_g/add_value/FPEquiv.lean": "2499aa49ee538e90cce970ae7aa9484943e1deb24d6d50b9e0d78c503b9d82c8",
@@ -2260,6 +2280,27 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "Both original Python bodies retain the literal ten, addition order and masks. N remains an int32 runtime scalar, separately bound for each call.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [
@@ -2625,9 +2666,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/add_value.json",
-            "sha256": "785376d3d30f2b2ef18f60d01d020b34d6572a6e32787ca07a7352508cc90c84",
-            "task": "add_value"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.AddValue.Contiguous.Correct.puzzle1_kernel_correctness",
@@ -17570,6 +17610,27 @@
               "generation": "fresh root joint; applicable internal objects reused"
             },
             "report": "bench/review-checkpoints/2026-10-21/finish-pending-105/README.md"
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "Existing body-copy source/candidate replayed against the raw Python frontend and new typed-store tracking. Byte loads/stores, uint64 casts, masks, complete grid and quotient/remainder pair remain unchanged.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [],
@@ -18027,9 +18088,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
-            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
-            "task": "cache_transform_triton"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.CacheTransform.Correct.kernel_real",
@@ -33681,7 +33741,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/cosine_compute/cosine_compute_repaired.py": "cea2cd128dd3af27896c2dc0b7a4eb32769fd99859cef5c3b9b1e69b73c8b3e3",
-          "bench/repairs/tritonbench_g/cosine_compute/Kernels.lean": "1ace69a50e42f5cf602b49d02c984a7a84df68356d58338a4fdfa573e6724c50",
+          "bench/repairs/tritonbench_g/cosine_compute/Kernels.lean": "bc4609c1580fe1cda16e0c7e59abb3b812bf540e7bef814b769fef25ed5c097c",
           "bench/repairs/tritonbench_g/cosine_compute/Contract.lean": "b287dbd4cd7d719d4b575c1ac1dbe782b64fd4db9091016ffac63f21d6374bab",
           "bench/repairs/tritonbench_g/cosine_compute/Correct.lean": "e77984ddb5872798cb224a97e3d80a8b804ecd8125ba8181d7bef11af5fbed3e",
           "bench/repairs/tritonbench_g/cosine_compute/FPEquiv.lean": "c7154bc446c91d51e60bb4b3070452b0162550478045219448036c3cb5275f23",
@@ -33751,6 +33811,27 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "The explicit input float32 cast and tl.cos remain in both actual Python bodies. int32 n_elements is supplied by the invocation.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [],
@@ -34111,9 +34192,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/cosine_compute.json",
-            "sha256": "c5722de39a3b3d8fc41da64170b8fb18e925cdc6bfef028958865c948cf3d0b8",
-            "task": "cosine_compute"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.CosineCompute.Correct.cosine_kernel_correctness",
@@ -38500,7 +38580,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/dequantize_rowwise/dequantize_rowwise_repaired.py": "df232e23aa9660d4f59c530586c8da80ccc9e11fe7a81c48aab31eedc7eda9aa",
-          "bench/repairs/tritonbench_g/dequantize_rowwise/Kernels.lean": "8b22621311e504630944cf0ec06a54643ccf0ad80c0c6a235070f4a528c5fb8e",
+          "bench/repairs/tritonbench_g/dequantize_rowwise/Kernels.lean": "c36fbd1ef5bc8398b40b18751a3c7ead5b22f8c4882c56205302a83047f6c8cd",
           "bench/repairs/tritonbench_g/dequantize_rowwise/Contract.lean": "adc62099b4b0484fcac2422dab9a637567658689b95200156e39d94a5d6f7732",
           "bench/repairs/tritonbench_g/dequantize_rowwise/Correct.lean": "880e5dbc2edbef9774646ad80a837db9e64dd1602cf6ff8311005d12b33a92ca",
           "bench/repairs/tritonbench_g/dequantize_rowwise/FPEquiv.lean": "5fb0d090450b58c1ccbaf3a677efa0321241d77c749ae83098efbdf8e6c8a014",
@@ -38613,6 +38693,27 @@
             "source_preservation_and_checks": ".veritile-cache/finish-pending-105-20261021/source-only/dequantize_rowwise/delivery.json",
             "source_sha256": "46447d8748548f091c82541525b7632dd773ab247dc2f50a6ce3e94bec5333f8",
             "scope": "Source readability only; existing domain, precision, candidates, theorem scopes and proof status retained."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "Original and candidate quotations retain all Python statements and native formatting. Runtime inv_127 and n_elements remain external typed scalar registers. Source int64 casts, signed int8 loads, FP32 computation and FP16 output conversion remain, with all public proofs replayed.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [],
@@ -39078,9 +39179,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
-            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
-            "task": "dequantize_rowwise"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.DequantizeRowwise.dequantize_rowwise_correct",
@@ -57966,7 +58066,7 @@
           "bench/repairs/tritonbench_g/index_select_bwd/Contract.lean": "0509d22fe38af484d08dd2dcc7d2627eaa3be9c73d243cdf090e3f2009088d19",
           "bench/repairs/tritonbench_g/index_select_bwd/Correct.lean": "d944771d4311db6e5691c951c3b1098584c8513bc905562ed1270f9287a2b1fc",
           "bench/repairs/tritonbench_g/index_select_bwd/FPEquiv.lean": "e06b9944c1a5f214e890d358ad1aa181b1c141c8dbc1641b40b9781af54df261",
-          "bench/repairs/tritonbench_g/index_select_bwd/Kernels.lean": "5cbadaa85645ab34dfa1735f93504019ebf3644b8897ccb6aef47c4737da1e9b",
+          "bench/repairs/tritonbench_g/index_select_bwd/Kernels.lean": "19ab4894ef756abf68a26cc2326ffb62076894bfa8af9f8aef49c0cc36d88879",
           "bench/repairs/tritonbench_g/index_select_bwd/Misc/NativeCorrect.lean": "0c2c8db93bbbf0efb453da050b06be0899a9269bed4e512e3c7dd75ae5804158",
           "bench/repairs/tritonbench_g/index_select_bwd/Misc/TensorBridge.lean": "60c7fbaff5a49af60f525829c4b7290a4a95100d7e5e93edd238219b0017156f",
           "bench/repairs/tritonbench_g/index_select_bwd/Proofs/Adaptive.lean": "35153c9f025adc57730fd02316b73bf6f281a2c8869c3dbafb71aa7cde13c481",
@@ -58140,6 +58240,27 @@
               "generation": "fresh root joint; applicable internal objects reused"
             },
             "report": "bench/review-checkpoints/2026-10-21/finish-pending-105/README.md"
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "Every executable statement is unchanged. The old metadata collector missed the two casted input loads; the new signature exposes both real read ports. Full surface-body and structural-execution equalities are proved, then successful execution, output/frame, adaptive-tail and safety results are replayed.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [],
@@ -58545,9 +58666,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/index_select_bwd.json",
-            "sha256": "bf5706728b640aab129f2ceec1f33960355fca828affae07a601fa1824665ad5",
-            "task": "index_select_bwd"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.IndexSelectBwd.Correct.index_select_bwd_kernel_correctness",
@@ -66546,7 +66666,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/kldiv_compute/kldiv_compute_repaired.py": "1565e81f560319d9f8ab63338920c17270468f248fed28ebd2b7edca3dc7eded",
-          "bench/repairs/tritonbench_g/kldiv_compute/Kernels.lean": "56d6a3f5e51034dd949d7aa6b7b73b8598ac3a543a2b729ce1a4f5b41b45d6ff",
+          "bench/repairs/tritonbench_g/kldiv_compute/Kernels.lean": "2426ed70a95e72cc2f0b185e054208f7e9051573767fafd1cc8d016c5769a27c",
           "bench/repairs/tritonbench_g/kldiv_compute/Contract.lean": "d65ac1b15e1d3c3678f15cbba64f52d0cb7c5bb293085c04e0866d9380c71185",
           "bench/repairs/tritonbench_g/kldiv_compute/Correct.lean": "596d4a5019ab84daf768454a733d0213b81bd14348034a0a09b7c9e1e0d36687",
           "bench/repairs/tritonbench_g/kldiv_compute/FPEquiv.lean": "a518b47a3d15436cc6b6b8c9fc9745b39d802704b0a63428f46749618bb63800",
@@ -66630,6 +66750,27 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "The selected source still computes x * tl.log(x / y), with unspecified inactive loads, the same mask and source order. The actual source no longer hides behind a Proofs/HistoricalKernels reverse import. Both complete programs remain equal to their previous versions.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [],
@@ -67042,9 +67183,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/kldiv_compute.json",
-            "sha256": "fa0fc45dc503b987878f462cb1a735311b8d1b377f33d773f80d8e52c1dcd576",
-            "task": "kldiv_compute"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.KldivCompute.Kernel.Correct.correctness",
@@ -71870,7 +72010,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/l2_norm_triton1/l2_norm_triton1_repaired.py": "9800aebfe7402fb481670b03614f5fda6935991b5480a41d32726f76bc7973c5",
-          "bench/repairs/tritonbench_g/l2_norm_triton1/Kernels.lean": "07cec892b1a45c5bdd2033058d0903f9215b02b6b58dbfb130724365e07d1a7c",
+          "bench/repairs/tritonbench_g/l2_norm_triton1/Kernels.lean": "d00a558f44d00ac59eed217298acfe26621bc238d434afd63e18450e7b12fcb6",
           "bench/repairs/tritonbench_g/l2_norm_triton1/Contract.lean": "9bd73481215eb7b67cdb604fbd6c0e7677764f8fb10967f97934315edfed8fd3",
           "bench/repairs/tritonbench_g/l2_norm_triton1/Correct.lean": "33a9b9feecf036c369959450208d493cdbeda1508e7ba1fd20376fb237949deb",
           "bench/repairs/tritonbench_g/l2_norm_triton1/FPEquiv.lean": "5d5a045ba71a16afd63fe46b84ee352d5b36b5bf3d96016e72970d1b70f1b85a",
@@ -71954,6 +72094,27 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "The old Lean body inserted eps.to(tl.float32), absent from the selected Python. Remove that extra cast from both source/candidate and from Tile.scalar; epsilon_site now reads the actual runtime FP32 register. Reprove complete tile execution, readback/frame, access safety, independent Real formula, full grid and actual program-pair equivalence. No false equality with the old extra-cast program is claimed.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [],
@@ -72425,9 +72586,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/l2_norm_triton1.json",
-            "sha256": "437f69c999389a17eb09fb052191bb30a3ede53f63249e1a24a990090cf7d0ff",
-            "task": "l2_norm_triton1"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.L2NormTriton1.Correct.grid_correct",
@@ -93245,7 +93405,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/matrix_transpose/matrix_transpose_repaired.py": "84131a4342debea02e9ae3620e7e4a19177ef04bd7d377857ea767d8549bbc94",
-          "bench/repairs/tritonbench_g/matrix_transpose/Kernels.lean": "4506b23c5eae6dc45ef2537616b1b9886361395f902e42ed244cf7bea4e6d3f9",
+          "bench/repairs/tritonbench_g/matrix_transpose/Kernels.lean": "8f58302ff527feb7c7480d2df784fade97b324979a354c303d32652e3b6be76c",
           "bench/repairs/tritonbench_g/matrix_transpose/Contract.lean": "cf867792b3a5950402e11295619ce35841bbf051a8f3bd1afdfc248dfb9c663b",
           "bench/repairs/tritonbench_g/matrix_transpose/Correct.lean": "7de15b875b1b5c9b71332132d7ac6e7b47957c8e292b8052cfbaefc68a05c2cc",
           "bench/repairs/tritonbench_g/matrix_transpose/FPEquiv.lean": "85c5ebb92b499f69ae2f7d8e4f469ca28c6ee110bef040bbe248d9ae3cf8da2d",
@@ -93332,6 +93492,27 @@
             "source_preservation_exit_code": 0,
             "source_checks_exit_code": 0,
             "scope": "Direct triton source organization and pointer-region metadata only; no new mathematical or numerical proof obligations."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "Both actual FP16 bodies retain tl.trans, the exact pointer expressions, original variable names and runtime int32 stride arguments. Invocation binds the same dense strides. Both complete ComputeKernel equalities hold.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [],
@@ -93757,9 +93938,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/matrix_transpose.json",
-            "sha256": "495cc6f6970be61584da2e084797df9163b5380c75fa1fbe35b8c1cfde144d3c",
-            "task": "matrix_transpose"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.MatrixTranspose.Correct.transpose_kernel_correctness",
@@ -122033,7 +122213,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/sin_computation/sin_computation_repaired.py": "e20580824a971eabe300273dc2767c10b929de6a81ceb637ff569c62171e6b6d",
-          "bench/repairs/tritonbench_g/sin_computation/Kernels.lean": "621005af76669b80e4f4c729112d83c2ef3d3ab542ea00b5c8289268fdfc78cd",
+          "bench/repairs/tritonbench_g/sin_computation/Kernels.lean": "3c3f1ac40cabd98ae2e63ccbdb4f1eaf57dd5565bfe22d81d2091bd44ab209fa",
           "bench/repairs/tritonbench_g/sin_computation/Contract.lean": "705b7dbf51bf245db705dda52305dc137a3984ad47e843329cdf0acf23e8c013",
           "bench/repairs/tritonbench_g/sin_computation/Correct.lean": "0e6c813806d796f15507f8705b3d71c24d42d9c9cce785b2d35d240bec198263",
           "bench/repairs/tritonbench_g/sin_computation/FPEquiv.lean": "81a5bd8b96d3cdff0ba7f51664b34683b3c05bd3f7bee78a8b418a7a1ffce0cf",
@@ -122103,6 +122283,27 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "Both Python bodies retain tl.sin and the exact masked FP32 operations. int32 n_elements remains a runtime argument. Complete program equality holds for both versions.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [],
@@ -122475,9 +122676,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/sin_computation.json",
-            "sha256": "bc4280eedaf94a94cfbdb9ae7371b21d9d2ea07d9963651d5eecf6bd88e4e719",
-            "task": "sin_computation"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SinComputation.Contiguous.Correct.sin_kernel_correctness",
@@ -122645,7 +122845,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/sin_kernel/sin_kernel_repaired.py": "23cd97dd626a6be2989748d4d69a43a1dd8f855e47101f4c398b88495bd12fe1",
-          "bench/repairs/tritonbench_g/sin_kernel/Kernels.lean": "3e9358435a3f6ee643307222e2a777bb27bd71f13d8dd8d2e8d8fd7ccc206b23",
+          "bench/repairs/tritonbench_g/sin_kernel/Kernels.lean": "8672bc4dd4c4590dc4fb07296446125549e8cb7c34a5e0e6ff18fe6535f15ee5",
           "bench/repairs/tritonbench_g/sin_kernel/Contract.lean": "2c56eeb0a33a43f8f97405ccae26997c0548fd26df6f7cd8f3aa4cbb82fcb299",
           "bench/repairs/tritonbench_g/sin_kernel/Correct.lean": "4ec226181378ec4dbf29a1ab91a707eb8a39c433e19a867784fb1c6586fcfdbb",
           "bench/repairs/tritonbench_g/sin_kernel/FPEquiv.lean": "15cf3941725b5d6da615de6b966d7fa08a68195d4bd5bf104a952d7dfbee7ca8",
@@ -122720,6 +122920,27 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "Both actual bodies retain tl.math.sin, without changing it to a different intrinsic. int32 n_elements, address order and masks are retained, with complete program equality.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [],
@@ -123078,9 +123299,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/sin_kernel.json",
-            "sha256": "552128dfb463393109c9599628fc9ad1f49e11cca485e121c1e6256847abfe05",
-            "task": "sin_kernel"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SinKernel.Correct.sin_kernel_correctness",
@@ -128683,7 +128903,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/square_matrix/square_matrix_repaired.py": "79d2283c8d83fc8da965ebbee07a26695e05ff999ac82ac430f75ed15418d3fd",
-          "bench/repairs/tritonbench_g/square_matrix/Kernels.lean": "6fdfba926a68dcfa247d9e3e5da49802eb2b367729c042e18010d61f919fcc66",
+          "bench/repairs/tritonbench_g/square_matrix/Kernels.lean": "3f1e811883b68faab8cc737564372100d9a09f0c47a632ccbec1153c10338d4c",
           "bench/repairs/tritonbench_g/square_matrix/Contract.lean": "9cca13470613930986342b1079aa411fbce7272ad107a5891ef7fb584204eac3",
           "bench/repairs/tritonbench_g/square_matrix/Correct.lean": "cf5268fb1824bcb6efc4a4553c4d743d4ae00708adb566b6bd13ab7fecaf74b6",
           "bench/repairs/tritonbench_g/square_matrix/FPEquiv.lean": "a3d7d40883c36a849a99d2f25abdef8c826f982d18eeaf37a2f14c703b5db528",
@@ -128800,6 +129020,27 @@
             "source_preservation_and_checks": ".veritile-cache/finish-pending-105-20261021/source-only/square_matrix/delivery.json",
             "source_sha256": "099d269810d1a7b8c2201ed2c6930610bec43dfaa04d0f19dc9558ec4fdf4c00",
             "scope": "Source readability only; existing domain, precision, candidates, theorem scopes and proof status retained."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "Both source bodies retain the runtime int32 input/output row strides and n_cols, FP32 square, masks and row addressing. Call bindings retain the selected dense layout. Complete program equality holds for both.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [],
@@ -129245,9 +129486,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/square_matrix.json",
-            "sha256": "95bf713b0e407720fedc973bdbbc4012b3687b8189d0f4f4b5e59373ff2d8741",
-            "task": "square_matrix"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SquareMatrix.Correct.square_kernel_correctness",
@@ -130895,7 +131135,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/swiglu_fwd/swiglu_fwd_checked.py": "11024396d179cadb06f086db70b89eb9faea74454a15b72004cce31e5c9f80e1",
-          "bench/repairs/tritonbench_g/swiglu_fwd/Kernels.lean": "c26d00e0c1a1d2bb7180b29e0ab37a5998fcd398cb449aaafff420b8d9810a18",
+          "bench/repairs/tritonbench_g/swiglu_fwd/Kernels.lean": "0c6fccf84a5622b62ce4a6f9d19c7a05a7d5f02da33297063951510bcf056594",
           "bench/repairs/tritonbench_g/swiglu_fwd/Contract.lean": "631718428f53fa6fb3395e97dfd257c8fbed604d1e39629b00111a550e176658",
           "bench/repairs/tritonbench_g/swiglu_fwd/Correct.lean": "771aff27f9c8a8f264deb4fd5c8e0369d63087ca9252b7aaa13912c5ddef4d86",
           "bench/repairs/tritonbench_g/swiglu_fwd/FPEquiv.lean": "b272431f8a4c0a6d6bc9fccd82d1398db492d51d7abe40b065d81721f6bd2bd2",
@@ -130999,6 +131239,27 @@
             "source_preservation_and_checks": ".veritile-cache/finish-pending-105-20261021/source-only/swiglu_fwd/delivery.json",
             "source_sha256": "c29e1b1f30e572da48ff09d7578185b2ef4582d68ae37fc963f3cca3391f9066",
             "scope": "Source readability only; existing domain, precision, candidates, theorem scopes and proof status retained."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "The source includes its original casts, tl.sigmoid, left-associated products, pointer updates, comments and 0. literal spelling. Existing candidate commutes only row-stride products. Full program equality uses the exact real-literal identity 0. = 0.0, with no FP arithmetic rewrite; public proofs explicitly transport along that equality.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [],
@@ -131458,9 +131719,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/swiglu_fwd.json",
-            "sha256": "194f45471fedbe2f13d82f94e48998363b7b5dc19a567b67235688d8164bc78d",
-            "task": "swiglu_fwd"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SwigluFwd.swiglu_kernel_correct",
@@ -136117,6 +136377,27 @@
               "generation": "fresh root joint; applicable internal objects reused"
             },
             "report": "bench/review-checkpoints/2026-10-21/finish-pending-105/README.md"
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "regression_only_legacy_ast",
+            "notes": "Regression replay only: the selected argmax is still legacy AST correspondence, not a completed body-copy migration. Its dependency closure includes the migrated square_matrix source; the selected full Real/FP entries and axiom/FP-assumption audits are rebuilt.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [],
@@ -136688,9 +136969,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/constexpr-body-migration/review.json",
-            "sha256": "35af8fc6765216eebc4080b5beb4823da64ec5b897cb886f25aa6e6431dab41f",
-            "task": "triton_argmax"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.TritonArgmaxNanFirst.Correct.global",
@@ -142893,7 +143173,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/vector_addition/vector_addition_repaired.py": "5ac4607fd65339cc5e3d3477a2bfb1b00872499423de2863921c29a5223b7a85",
-          "bench/repairs/tritonbench_g/vector_addition/Kernels.lean": "0812e45c0ec4f4288f37cbfce8fad4c763fbbabbb1c3fb19a7899412e1b7f4e0",
+          "bench/repairs/tritonbench_g/vector_addition/Kernels.lean": "8c97d31482e55f34b5f050c1b8297dbb10886fec3dfbc1bf4a482b4577d3724e",
           "bench/repairs/tritonbench_g/vector_addition/Contract.lean": "04ddc65cfda87252cf887d4d429506ba90de554be68cf2264fd984c5fc361de7",
           "bench/repairs/tritonbench_g/vector_addition/Correct.lean": "7e74d9ec36e6eade47b4d01454b426a6fc878c573153e96bf5108aa2ffe676cb",
           "bench/repairs/tritonbench_g/vector_addition/FPEquiv.lean": "b59b0b0e8a5752c8a5a16ec08adeab6f436085baf1135f6f57573fea01a1f598",
@@ -142966,6 +143246,27 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "Both actual selected Python bodies are pasted, preserving variable names and original int32 runtime n_elements ABI. This is independent of the separately authored VectorAdd/FlatVectorAdd examples. Complete program equality holds.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [
@@ -143350,9 +143651,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/vector_addition.json",
-            "sha256": "55283d24ddb7db1325042c6c466b4b65037a9c7d7ccee2deda21189d1127faf9",
-            "task": "vector_addition"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.VectorAddition.Contiguous.Correct.add_kernel_correctness",
@@ -143512,7 +143812,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/vector_addition_custom/vector_addition_custom_repaired.py": "b1c06db039e42a32c579e71acb33cd69fceaf818d0bba73edcde71244c53a34e",
-          "bench/repairs/tritonbench_g/vector_addition_custom/Kernels.lean": "44c6e9d3541cb118d4e4fea66c15ef378b2ec1963cfcdee0c61ac024edee42d2",
+          "bench/repairs/tritonbench_g/vector_addition_custom/Kernels.lean": "1184a7460e9d4a9e0cda394e4e016a47380e547cd7542efb002f525c395521bc",
           "bench/repairs/tritonbench_g/vector_addition_custom/Contract.lean": "9b88eed72cfc9f301759056cf1ffb49c11389408562e4ae58094d5bb2d75b825",
           "bench/repairs/tritonbench_g/vector_addition_custom/Correct.lean": "9d6baa99751d493fbdde51646abf2677b98ad6f464e97a3a23a37120af37c625",
           "bench/repairs/tritonbench_g/vector_addition_custom/FPEquiv.lean": "9afe8a3237294ace8530baf19036461d8305bb5598acaac7074e50958a0e1b25",
@@ -143588,6 +143888,27 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+              "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+            },
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+              "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+            },
+            "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+            "source_body_mode": "pasted_body",
+            "notes": "Both actual selected Python bodies, including the leading docstring, are pasted. size stays runtime int32, BLOCK stays constexpr; complete program equality holds.",
+            "clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+              "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+            },
+            "auxiliary": {
+              "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+              "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+            }
           }
         },
         "transformation_rules": [
@@ -143972,9 +144293,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/vector_addition_custom.json",
-            "sha256": "11a765a7fec671dccdd2904110447cd6ce04087db3a77fc985856f53d1739020",
-            "task": "vector_addition_custom"
+            "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+            "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous.Correct.add_kernel_correctness",
@@ -144985,7 +145305,7 @@
     "remaining_substantive_gaps": 0,
     "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
     "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
-    "audit_sha256": "0ff7900bda71eebc705afc59869b05a4123821ea8c762ed959bdf2d80671e3c0",
+    "audit_sha256": "0f29e71ae40624c18b7bd85839ec88e16d2157ce1c6b6850e9033435212ffc61",
     "guard": "bench/check_main_formula_review.py",
     "validation": "bench/review-checkpoints/2026-10-23/reference-separation/validation.json",
     "proof_completion_changed": false,
@@ -145151,40 +145471,101 @@
   "jit_correspondence_review": {
     "date": "2026-10-24",
     "review": {
-      "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
-      "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
-      "task": "dequantize_rowwise"
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+      "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
     },
     "inventory": {
-      "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
-      "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
+      "path": "bench/source-correspondence.json",
+      "sha256": "5c80ef7b09379b23632d01541fb7ed1b78f553da9c311a889eba292b0c17b3d7"
     },
-    "counts": {
-      "not_certified_by_this_screen": 137,
-      "missing_explicit_int64_cast": 44,
-      "exact_ast_correspondence": 2
-    },
-    "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast.",
     "pasted_body_entry_tasks": [
-      "dequantize_rowwise"
+      "add_example",
+      "add_value",
+      "cache_transform_triton",
+      "cosine_compute",
+      "dequantize_rowwise",
+      "index_select_bwd",
+      "kldiv_compute",
+      "l2_norm_triton1",
+      "matrix_transpose",
+      "sin_computation",
+      "sin_kernel",
+      "square_matrix",
+      "swiglu_fwd",
+      "vector_addition",
+      "vector_addition_custom"
     ],
+    "scope": "Full selected-source inventory, exact body AST/signature/call binding checks and this batch proof replay. Pending tasks/examples remain pending.",
+    "counts": {
+      "tasks": 183,
+      "examples": 19,
+      "task_status": {
+        "legacy_ast_only": 1,
+        "no_selected_jit_resolved": 2,
+        "selected_body_copy_checked": 15,
+        "uncovered_jit_functions": 165
+      },
+      "example_status": {
+        "authored_counterpart_body_copy_checked": 2,
+        "no_independent_python_reference": 16,
+        "selected_body_copy_checked": 1
+      },
+      "selected_jit_functions": 328,
+      "uncovered_selected_jit_functions": 301,
+      "primary_files_with_int64_screen_warning": 44,
+      "primary_lean_file_features": {
+        "tasks": {
+          "in_body_type_directives": 134,
+          "antiquotes": 147,
+          "dsl_loop": 1,
+          "dsl_numeric_helpers": 8
+        },
+        "examples": {
+          "in_body_type_directives": 0,
+          "antiquotes": 16,
+          "dsl_loop": 3,
+          "dsl_numeric_helpers": 3
+        }
+      }
+    },
     "previous_review": {
       "date": "2026-10-24",
       "review": {
-        "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
-        "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
-        "task": "triton_argmax"
+        "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+        "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+        "task": "dequantize_rowwise"
       },
       "inventory": {
-        "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
-        "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+        "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
+        "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
       },
       "counts": {
         "not_certified_by_this_screen": 137,
-        "missing_explicit_int64_cast": 45,
-        "exact_ast_correspondence": 1
+        "missing_explicit_int64_cast": 44,
+        "exact_ast_correspondence": 2
       },
-      "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+      "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast.",
+      "pasted_body_entry_tasks": [
+        "dequantize_rowwise"
+      ],
+      "previous_review": {
+        "date": "2026-10-24",
+        "review": {
+          "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+          "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+          "task": "triton_argmax"
+        },
+        "inventory": {
+          "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+          "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+        },
+        "counts": {
+          "not_certified_by_this_screen": 137,
+          "missing_explicit_int64_cast": 45,
+          "exact_ast_correspondence": 1
+        },
+        "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+      }
     }
   }
 }

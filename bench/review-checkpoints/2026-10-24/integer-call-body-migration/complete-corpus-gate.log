@@ -1,0 +1,34 @@
+Body-copy acceptance FAILED: pending entries remain. An unchanged inventory is not a completion certificate.
+{
+  "complete": false,
+  "tasks": 183,
+  "examples": 19,
+  "task_status": {
+    "legacy_ast_only": 1,
+    "no_selected_jit_resolved": 2,
+    "selected_body_copy_checked": 15,
+    "uncovered_jit_functions": 165
+  },
+  "example_status": {
+    "authored_counterpart_body_copy_checked": 2,
+    "no_independent_python_reference": 16,
+    "selected_body_copy_checked": 1
+  },
+  "selected_jit_functions": 328,
+  "uncovered_selected_jit_functions": 301,
+  "primary_files_with_int64_screen_warning": 44,
+  "primary_lean_file_features": {
+    "tasks": {
+      "in_body_type_directives": 134,
+      "antiquotes": 147,
+      "dsl_loop": 1,
+      "dsl_numeric_helpers": 8
+    },
+    "examples": {
+      "in_body_type_directives": 0,
+      "antiquotes": 16,
+      "dsl_loop": 3,
+      "dsl_numeric_helpers": 3
+    }
+  }
+}

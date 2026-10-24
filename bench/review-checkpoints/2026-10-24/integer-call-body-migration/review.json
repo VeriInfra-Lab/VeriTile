@@ -1,0 +1,242 @@
+{
+  "schema": 1,
+  "status": "verified_batch_corpus_migration_incomplete",
+  "code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+  "merge_policy": "Do not merge until the user reviews and explicitly approves.",
+  "migrated_tasks": [
+    "add_example",
+    "add_value",
+    "cosine_compute",
+    "index_select_bwd",
+    "kldiv_compute",
+    "l2_norm_triton1",
+    "matrix_transpose",
+    "sin_computation",
+    "sin_kernel",
+    "square_matrix",
+    "swiglu_fwd",
+    "vector_addition",
+    "vector_addition_custom"
+  ],
+  "regression_tasks": [
+    "cache_transform_triton",
+    "dequantize_rowwise",
+    "triton_argmax"
+  ],
+  "example_change": "TritonBenchVectorAddition now copies the actual benchmark vector_addition.py plus the selected existing native candidate; obsolete newly authored mirror removed. VectorAdd and FlatVectorAdd remain explicitly authored counterparts.",
+  "semantic_review": {
+    "add_example": "Both original Python bodies retained. FP32 input loads, addition/store and candidate operand ordering agree with the previous complete programs.",
+    "add_value": "Both original Python bodies retain the literal ten, addition order and masks. N remains an int32 runtime scalar, separately bound for each call.",
+    "cosine_compute": "The explicit input float32 cast and tl.cos remain in both actual Python bodies. int32 n_elements is supplied by the invocation.",
+    "index_select_bwd": "Every executable statement is unchanged. The old metadata collector missed the two casted input loads; the new signature exposes both real read ports. Full surface-body and structural-execution equalities are proved, then successful execution, output/frame, adaptive-tail and safety results are replayed.",
+    "kldiv_compute": "The selected source still computes x * tl.log(x / y), with unspecified inactive loads, the same mask and source order. The actual source no longer hides behind a Proofs/HistoricalKernels reverse import. Both complete programs remain equal to their previous versions.",
+    "l2_norm_triton1": "The old Lean body inserted eps.to(tl.float32), absent from the selected Python. Remove that extra cast from both source/candidate and from Tile.scalar; epsilon_site now reads the actual runtime FP32 register. Reprove complete tile execution, readback/frame, access safety, independent Real formula, full grid and actual program-pair equivalence. No false equality with the old extra-cast program is claimed.",
+    "matrix_transpose": "Both actual FP16 bodies retain tl.trans, the exact pointer expressions, original variable names and runtime int32 stride arguments. Invocation binds the same dense strides. Both complete ComputeKernel equalities hold.",
+    "sin_computation": "Both Python bodies retain tl.sin and the exact masked FP32 operations. int32 n_elements remains a runtime argument. Complete program equality holds for both versions.",
+    "sin_kernel": "Both actual bodies retain tl.math.sin, without changing it to a different intrinsic. int32 n_elements, address order and masks are retained, with complete program equality.",
+    "square_matrix": "Both source bodies retain the runtime int32 input/output row strides and n_cols, FP32 square, masks and row addressing. Call bindings retain the selected dense layout. Complete program equality holds for both.",
+    "swiglu_fwd": "The source includes its original casts, tl.sigmoid, left-associated products, pointer updates, comments and 0. literal spelling. Existing candidate commutes only row-stride products. Full program equality uses the exact real-literal identity 0. = 0.0, with no FP arithmetic rewrite; public proofs explicitly transport along that equality.",
+    "vector_addition": "Both actual selected Python bodies are pasted, preserving variable names and original int32 runtime n_elements ABI. This is independent of the separately authored VectorAdd/FlatVectorAdd examples. Complete program equality holds.",
+    "vector_addition_custom": "Both actual selected Python bodies, including the leading docstring, are pasted. size stays runtime int32, BLOCK stays constexpr; complete program equality holds.",
+    "cache_transform_triton": "Existing body-copy source/candidate replayed against the raw Python frontend and new typed-store tracking. Byte loads/stores, uint64 casts, masks, complete grid and quotient/remainder pair remain unchanged.",
+    "dequantize_rowwise": "Original and candidate quotations retain all Python statements and native formatting. Runtime inv_127 and n_elements remain external typed scalar registers. Source int64 casts, signed int8 loads, FP32 computation and FP16 output conversion remain, with all public proofs replayed.",
+    "triton_argmax": "Regression replay only: the selected argmax is still legacy AST correspondence, not a completed body-copy migration. Its dependency closure includes the migrated square_matrix source; the selected full Real/FP entries and axiom/FP-assumption audits are rebuilt."
+  },
+  "public_scope": "Independent Real goals, allowed input/domain conditions, complete execution/safety/output/frame and actual FP program-pair statements are preserved. l2_norm_triton1 executes the corrected original epsilon expression.",
+  "integer_calls": "Runtime ABI tags remain in scalars. Per-call Nat/Int values instantiate the existing mathematical index projection; they are not relabelled constexpr and do not provide new native overflow/range proofs.",
+  "float_calls": "Unbound fp32/fp64 scalar parameters remain typed runtime registers supplied by IO invocation.",
+  "source_pairs": {
+    "status": "PASS",
+    "pairs": 39,
+    "pasted_pairs": 34
+  },
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "jobs": 8800,
+      "modules": [
+        "bench.repairs.tritonbench_g.add_example.Correct",
+        "bench.repairs.tritonbench_g.add_example.FPEquiv",
+        "bench.repairs.tritonbench_g.add_example.Proofs.SourcePreservation",
+        "bench.repairs.tritonbench_g.add_value.Correct",
+        "bench.repairs.tritonbench_g.add_value.FPEquiv",
+        "bench.repairs.tritonbench_g.add_value.Proofs.SourcePreservation",
+        "bench.repairs.tritonbench_g.cache_transform_triton.Correct",
+        "bench.repairs.tritonbench_g.cache_transform_triton.FPEquiv",
+        "bench.repairs.tritonbench_g.cache_transform_triton.Proofs.SourcePreservation",
+        "bench.repairs.tritonbench_g.cosine_compute.Correct",
+        "bench.repairs.tritonbench_g.cosine_compute.FPEquiv",
+        "bench.repairs.tritonbench_g.cosine_compute.Proofs.SourcePreservation",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.Correct",
+        "bench.repairs.tritonbench_g.dequantize_rowwise.FPEquiv",
+        "bench.repairs.tritonbench_g.index_select_bwd.Correct",
+        "bench.repairs.tritonbench_g.index_select_bwd.FPEquiv",
+        "bench.repairs.tritonbench_g.index_select_bwd.Proofs.SourcePreservation",
+        "bench.repairs.tritonbench_g.kldiv_compute.Correct",
+        "bench.repairs.tritonbench_g.kldiv_compute.FPEquiv",
+        "bench.repairs.tritonbench_g.kldiv_compute.Proofs.SourcePreservation",
+        "bench.repairs.tritonbench_g.l2_norm_triton1.Correct",
+        "bench.repairs.tritonbench_g.l2_norm_triton1.FPEquiv",
+        "bench.repairs.tritonbench_g.matrix_transpose.Correct",
+        "bench.repairs.tritonbench_g.matrix_transpose.FPEquiv",
+        "bench.repairs.tritonbench_g.matrix_transpose.Proofs.SourcePreservation",
+        "bench.repairs.tritonbench_g.sin_computation.Correct",
+        "bench.repairs.tritonbench_g.sin_computation.FPEquiv",
+        "bench.repairs.tritonbench_g.sin_computation.Proofs.SourcePreservation",
+        "bench.repairs.tritonbench_g.sin_kernel.Correct",
+        "bench.repairs.tritonbench_g.sin_kernel.FPEquiv",
+        "bench.repairs.tritonbench_g.sin_kernel.Proofs.SourcePreservation",
+        "bench.repairs.tritonbench_g.square_matrix.Correct",
+        "bench.repairs.tritonbench_g.square_matrix.FPEquiv",
+        "bench.repairs.tritonbench_g.square_matrix.Proofs.SourcePreservation",
+        "bench.repairs.tritonbench_g.swiglu_fwd.Correct",
+        "bench.repairs.tritonbench_g.swiglu_fwd.FPEquiv",
+        "bench.repairs.tritonbench_g.swiglu_fwd.Proofs.SourcePreservation",
+        "bench.repairs.tritonbench_g.vector_addition.Correct",
+        "bench.repairs.tritonbench_g.vector_addition.FPEquiv",
+        "bench.repairs.tritonbench_g.vector_addition.Proofs.SourcePreservation",
+        "bench.repairs.tritonbench_g.vector_addition_custom.Correct",
+        "bench.repairs.tritonbench_g.vector_addition_custom.FPEquiv",
+        "bench.repairs.tritonbench_g.vector_addition_custom.Proofs.SourcePreservation",
+        "bench.examples.VectorAdd.Correct",
+        "bench.examples.VectorAdd.FPEquiv",
+        "bench.examples.VectorAdd.Proofs.SourcePreservation",
+        "bench.examples.FlatVectorAdd.Correct",
+        "bench.examples.FlatVectorAdd.FPEquiv",
+        "bench.examples.FlatVectorAdd.Proofs.SourcePreservation",
+        "bench.examples.TritonBenchVectorAddition.Correct",
+        "bench.examples.TritonBenchVectorAddition.FPEquiv",
+        "bench.examples.TritonBenchVectorAddition.Proofs.SourcePreservation",
+        "bench.tests.PythonBody",
+        "bench.tests.CallSignature",
+        "bench.tests.TypedStores",
+        "bench.repairs.tritonbench_g.triton_argmax.Correct",
+        "bench.repairs.tritonbench_g.triton_argmax.FPEquiv"
+      ]
+    },
+    "python": {
+      "status": "PASS",
+      "tests": 29
+    },
+    "clean_checkout": {
+      "status": "PASS",
+      "jobs": 9029,
+      "initial_primary_commit": "7d4028d58e28fa344b0af87454f655ca41150d82",
+      "final_code_commit": "f6bed6cc425e31197f56eafb00203306df3529b3",
+      "project_artifacts_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "external_packages": "Only pinned external Lean/Mathlib packages reused; no project build directory shared.",
+      "scope": "Initial cold project replay of public entries, then four auxiliary-proof fixes checked out and the complete combined module list rebuilt."
+    },
+    "official_comparator": "UNAVAILABLE; actual invocation reports required setup failure. No PASS.",
+    "gpu_or_native_experiment": "Not run; no new numerical rules or laws introduced.",
+    "all_python_tests": {
+      "status": "FAILED_PREEXISTING_BASELINE",
+      "tests": 274,
+      "errors": 1,
+      "detail": "test_exact_numerical_bindings import rejects a pre-existing Structural.lean evidence hash. Same failure reproduced in the previous clean baseline; this change does not modify Structural.lean. Targeted body tests pass separately."
+    },
+    "auxiliary": {
+      "status": "PASS",
+      "modules": 329,
+      "jobs": 8944,
+      "scope": "Every Lean file in the thirteen newly migrated task directories and three previously migrated example directories, including Misc and legacy auxiliaries. Four proof scripts repaired without changing their statements."
+    },
+    "joint_import": "PASS"
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/source-closure.json",
+    "sha256": "9799e5a625cb9ef72351dc699ad10408b64ee5e608d66b1b47e9fb3c88c729a7"
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/integration.log.gz",
+      "sha256": "531b448c2f7d813381fc933990a579f6d93de708c7cd0e200a4476904248ff57"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/python-tests.log",
+      "sha256": "049705320fcc09486bf6cb4fb5d5cbce67fcccdf4e3b8d5476c82b46cfc0e9a8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/pairs.json",
+      "sha256": "175c5e13302e88a0256064528710907a7e92aa6e913c22f8c099b5baa8eb9dc5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/modules.json",
+      "sha256": "56c1eed79fa487c8378a7b7a168a6532dc2d94859a45993811fc49649773dea1"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/auxiliary.log.gz",
+      "sha256": "77b780143e087dddcd32ce30cc187f2f97c408798ccd5f5811db6b2d9d720b97"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-primary.log.gz",
+      "sha256": "f65724b27c1430ee7115b116598aa67c7bc36119d1c05c46dee3c1dc5fd603fd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-auxiliary.log.gz",
+      "sha256": "bfdcb4c69d0fe65e8e13d2f17199bd6bd3ae55061284b4e810a75adec303694b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/clean-final.log.gz",
+      "sha256": "07828ff929a452d563f892c28bf5fe00dbe97f63f857d13e06cebc05fa8d9c93"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/all-modules.json",
+      "sha256": "8b7113d655277d9f87389e34293dcaf3983e11e14fdb179c82f7000c607190b8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/all-python-tests.log.gz",
+      "sha256": "d4dd0a9eb520a0e9941d5a9d7b9a5c0236dd5c61c68cb519ac0955765f6bf018"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/baseline-numerical-test.log",
+      "sha256": "0caaccadc433b698c721f6b138279b717c27061c2ccac93025d27a6bd6d1116f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/joint.lean",
+      "sha256": "5f3e6736ede4cc34e530c51fc730d474ee4060d813b4f1c1baed25cba3438d95"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 15,
+      "uncovered_jit_functions": 165
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "no_independent_python_reference": 16,
+      "selected_body_copy_checked": 1
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 301,
+    "primary_files_with_int64_screen_warning": 44,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 134,
+        "antiquotes": 147,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 16,
+        "dsl_loop": 3,
+        "dsl_numeric_helpers": 3
+      }
+    }
+  }
+}
