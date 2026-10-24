@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "status": "verified_batch_corpus_migration_incomplete",
+  "code_commit": "225f12ef124d587883c1e55a84d516f096c638dc",
+  "merge_policy": "Do not merge before explicit user review and approval.",
+  "new_task_migrations": [],
+  "new_spec_derived_examples": [
+    "OnlineSoftmax"
+  ],
+  "semantic_review": {
+    "add_example": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "add_value": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "cache_transform_triton": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "cosine_compute": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "dequantize_rowwise": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "index_select_bwd": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "kldiv_compute": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "l2_norm_triton1": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "matrix_transpose": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "rmsnorm_fused": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "rmsnorm_fused_llama": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "rmsnorm_implementation": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "rmsnorm_triton": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "sin_computation": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "sin_kernel": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "square_matrix": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "swiglu_fwd": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "vector_addition": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged.",
+    "vector_addition_custom": "Dependency regression: existing pasted source/candidate and full public/deep proof scopes replayed against FP32 type propagation for native min/max and libdevice.exp. The source bodies, numerical assumptions and public domains are unchanged."
+  },
+  "frontend_review": [
+    "Preserve known FP32 result types through native tl.minimum/tl.maximum and libdevice.exp. Stable loop state and the final store keep their original precision, without inventing a same-format cast. A full-program frontend equality and a mixed-precision rejection regression check this path."
+  ],
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 573,
+      "jobs": 9409
+    },
+    "clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 573,
+      "jobs": 9409,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_external_packages_reused": true
+    },
+    "joint_import": "PASS: all 573 modules",
+    "new_directories": {
+      "status": "PASS within joint scope",
+      "modules": 7,
+      "scope": "Every Lean file in OnlineSoftmax, including complete mathematical projection equalities and the actual typed read-only prefixes"
+    },
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 33
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 278,
+      "errors": 1,
+      "reason": "Old numerical receipt still rejects the unchanged Float/Structural.lean hash; earlier clean-baseline reproduction retained. No receipt has been falsely re-pinned."
+    },
+    "official_comparator": "UNAVAILABLE: actual invocation reports missing comparator setup.",
+    "gpu_or_native_experiment": "Not run. No new numerical rules or axioms."
+  },
+  "source_pairs": {
+    "total": 70,
+    "pasted_body": 65,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/source-closure.json",
+    "sha256": "09788f87ee37977c24b56f00d5d3633bb25fd519f760f90b830d20ffaa7d6639"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 19,
+      "uncovered_jit_functions": 161
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "no_independent_python_reference": 4,
+      "selected_body_copy_checked": 1,
+      "spec_derived_body_copy_checked": 11,
+      "uncovered_jit_functions": 1
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 297,
+    "primary_files_with_int64_screen_warning": 44,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 130,
+        "antiquotes": 143,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 5,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/modules.json",
+      "sha256": "3b0b546076139e551d5cb3f29bcd4db5f1a25aba39db186c1be52c085b168bcf"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/pairs.json",
+      "sha256": "343aaab9869180df58550d1123fc7a5c29e11da1b84f8a7deb106b37918288eb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/integration.log.gz",
+      "sha256": "a82ce81808cec39560440ba6a72bd95e47238d60278aea57f5a73cb833915f92"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/clean-build.log.gz",
+      "sha256": "a9b7fb1a304ef0e0962877201e19e27bc51e881e8c92c09bfa99f08997cf4698"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/python-tests.log",
+      "sha256": "69856df398e7e8d7c44824f2b7a7d30bfb6f0d43f13de2dcca91d0544a78ff66"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/all-python-tests.log.gz",
+      "sha256": "bf369de4bbc16a2c775fec92f3a8c08d4f686cf448ecf6cfbb371359a59e7598"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/preexisting-numerical-baseline.log",
+      "sha256": "0caaccadc433b698c721f6b138279b717c27061c2ccac93025d27a6bd6d1116f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/clean-setup.log",
+      "sha256": "83e240c555f3a705cf0c6cf7446377fe2f93d0fac335a88723a076e3aecce526"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/joint.lean",
+      "sha256": "b471a0043f819a315261469d68e87f1c466d016130a45c2028266746016171c3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "example_semantic_review": {
+    "OnlineSoftmax": "New native Python from the independent softmax specification, not recovered historical source. Both complete FP32 algorithms retain max/sub/libdevice.exp/sum/div and the online source keeps both input passes and every store. Scalar full initializers keep loop state FP32; native maximum keeps its typed primitive. Both complete source erasures equal the explicit mathematical proof counterparts, preserving all original Real targets, bounds, execution, safety, output windows and frames. Re-prove the actual FP32 source pair under exactly the existing primitive rules and schedules; numerical requirements use actual FP32-loaded inputs. The recurrence-only and loaded-row prefixes are proof decompositions of the complete source, linked by complete-body equalities; they are not claimed as standalone native JITs. The optional read-only observation remains a successful full-row observation with a complete frame and uses the actual source prefix through its second typed input read. It observes that loaded row register instead of silently reading untyped backing values. No numerical laws or input restrictions are added."
+  },
+  "example_sources": {
+    "OnlineSoftmax": {
+      "name": "OnlineSoftmax",
+      "kind": "example",
+      "python": "bench/examples/OnlineSoftmax/native_kernels.py",
+      "lean": "bench/examples/OnlineSoftmax/Kernels.lean",
+      "source_provenance": "spec_derived_native_source",
+      "lean_screen": {
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 13,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 0
+      },
+      "python_jits": [
+        {
+          "function": "stableSoftmaxKernel",
+          "line": 15,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "onlineSoftmaxKernel",
+          "line": 27,
+          "statements": 10,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "stableSoftmaxKernel",
+          "lean_definition": "stableSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/OnlineSoftmax/native_kernels.py",
+          "lean": "bench/examples/OnlineSoftmax/Kernels.lean"
+        },
+        {
+          "python_function": "onlineSoftmaxKernel",
+          "lean_definition": "onlineSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 10,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "N"
+          ],
+          "python": "bench/examples/OnlineSoftmax/native_kernels.py",
+          "lean": "bench/examples/OnlineSoftmax/Kernels.lean"
+        }
+      ],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
+      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
+      "status": "spec_derived_body_copy_checked",
+      "source_sha256": {
+        "bench/examples/OnlineSoftmax/Correct.lean": "1629f48d1207891cbc85d41aeda096d7becc6415587536315eb078b30831dc5c",
+        "bench/examples/OnlineSoftmax/Kernels.lean": "36819fcbc46fad1f1eacfd8eb7c8f256c5d65928f486e7d145cf0c7f648548a1",
+        "bench/examples/OnlineSoftmax/jit-correspondence.json": "0e99a6a9270fbe763784487734f03604578e2fc59d833a2673ce8137457f3aa3",
+        "bench/examples/OnlineSoftmax/native_kernels.py": "dc40b50e23c94cb33a07fd4f9a6c8142ba9f2ad02d6446d9fffaca1d5e2f4bf2"
+      },
+      "source_note": "New native Python from the independent softmax formula; no historical Python origin is asserted. FP32 inputs/outputs, both complete algorithms, both online input passes, libdevice.exp and separate arithmetic are explicit. Re-prove the unchanged mathematical targets via complete ComputeKernel erasure equalities, and re-prove the actual typed FP pair and all cell frames. Numerical requirements concern actual FP32-loaded values; the read-only observation uses a proved prefix of the full source, including its actual second input read.",
+      "mathematical_spec_sha256": {
+        "bench/examples/OnlineSoftmax/Correct.lean": "1629f48d1207891cbc85d41aeda096d7becc6415587536315eb078b30831dc5c"
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "complete": false,
+  "tasks": 183,
+  "examples": 19,
+  "task_status": {
+    "legacy_ast_only": 1,
+    "no_selected_jit_resolved": 2,
+    "selected_body_copy_checked": 19,
+    "uncovered_jit_functions": 161
+  },
+  "example_status": {
+    "authored_counterpart_body_copy_checked": 2,
+    "no_independent_python_reference": 4,
+    "selected_body_copy_checked": 1,
+    "spec_derived_body_copy_checked": 11,
+    "uncovered_jit_functions": 1
+  },
+  "selected_jit_functions": 328,
+  "uncovered_selected_jit_functions": 297,
+  "primary_files_with_int64_screen_warning": 44,
+  "primary_lean_file_features": {
+    "tasks": {
+      "in_body_type_directives": 130,
+      "antiquotes": 143,
+      "dsl_loop": 1,
+      "dsl_numeric_helpers": 8
+    },
+    "examples": {
+      "in_body_type_directives": 0,
+      "antiquotes": 5,
+      "dsl_loop": 0,
+      "dsl_numeric_helpers": 0
+    }
+  }
+}
