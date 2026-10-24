@@ -1,0 +1,4 @@
+Cloning into '/tmp/veritile-static-power-clean'...
+done.
+HEAD is now at 539663d9a Keep static constexpr powers and all doubling bodies in their native Python spelling
+No project build or .veritile-cache at start; only fixed external dependencies reused.

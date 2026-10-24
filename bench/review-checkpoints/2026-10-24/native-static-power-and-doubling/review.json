@@ -1,0 +1,189 @@
+{
+  "schema": 1,
+  "status": "verified_task_batch_corpus_migration_incomplete",
+  "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
+  "merge_policy": "Do not merge before explicit human review and approval.",
+  "new_task_migrations": [
+    "mul_exponent_compensator",
+    "triton_mul2"
+  ],
+  "semantic_review": {
+    "adam_update_triton": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "add_example": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "add_value": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "cache_transform_triton": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "cosine_compute": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "dequantize_rowwise": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "index_select_bwd": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "kldiv_compute": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "l2_norm_triton1": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "masked_add_cuda": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "matrix_transpose": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "rmsnorm_fused": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "rmsnorm_fused_llama": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "rmsnorm_implementation": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "rmsnorm_triton": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "sin_computation": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "sin_kernel": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "square_matrix": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "swiglu_fwd": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "vector_addition": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "vector_addition_custom": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout.",
+    "mul_exponent_compensator": "Paste both complete selected repaired Python functions, including constexpr exponent_compensator = 2.0 ** (127 - 15), both signed-int64 index casts, runtime length, masks and all memory operations. The generic static frontend accepts only bounded exact binary64 power-of-two constants, retains a weak literal and rejects unsupported powers/runtime exponents/mutation. Actual signed mathematical registers are transported to the original nonnegative address formula; arbitrary-algebra whole executions and complete memory results for both sources are constructed and related to the frozen old presentation. Keep all original dimensions, source success/safety, complete arbitrary-permuted schedules, independent Real formula, all word patterns and strict software multiplication theorem. Existing native width/sign-extension/byte-address/grid lemmas are reused unchanged; a shared structural decoder preserves actual signed-cast syntax in the same finite index graph. No new word arithmetic or numerical assumption.",
+    "triton_mul2": "Paste all four actual Python original/candidate ordinary/in-place function bodies. Runtime n_elements retains its explicitly declared int32 role, with the existing Nat index call projection and native bounds; only BLOCK_SIZE is constexpr. Keep the in-place pointer name and separate raw body. Full typed ComputeKernel equality to the frozen previous implementation holds by rfl for every function, all regions/counts/blocks. Public Real/FP and every selected task helper, complete grids, safety, successful execution, all word patterns and full frames replay with the unchanged strict multiplication rule. No input or schedule restriction is added."
+  },
+  "example_regression_scope": "All 19 examples and their complete imported helpers are included in the full local/cold replay and joint import; sources, formulas, numerical contracts and scopes are unchanged by this static constexpr pass.",
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 743,
+      "jobs": 9583
+    },
+    "independent_clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 743,
+      "jobs": 9583,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_fixed_external_dependencies_reused": true
+    },
+    "joint_import": "PASS: all 743 roots",
+    "task_directories": "Every Lean file in both newly migrated directories, including optional native/host readers and semantic preservation proofs.",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 36
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 281,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean rejected by the old numerical receipt; prior baseline preserved, no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: both actual invocations report missing setup.",
+    "gpu_or_numerical_experiment": "Not run. No new numeric laws, axioms or hardware-conformance claim.",
+    "metadata_guards": "PASS on frozen code539663d9a plus this exact receipt: main formula, IO/reader organization, task progress and body inventory drift. Full corpus acceptance still pending."
+  },
+  "source_pairs": {
+    "total": 101,
+    "pasted_body": 96,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/source-closure.json",
+    "sha256": "6cff1adc477a5236daae9cc94e17f10e33b58255419637e83018ead8482f4f18"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 23,
+      "uncovered_jit_functions": 157
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "selected_body_copy_checked": 2,
+      "spec_derived_body_copy_checked": 15
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 289,
+    "primary_files_with_int64_screen_warning": 43,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 127,
+        "antiquotes": 139,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "example_coverage": {
+    "total": 19,
+    "covered": 19,
+    "historical": 2,
+    "authored_counterpart": 2,
+    "spec_derived": 15
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/all-python.log.gz",
+      "sha256": "6f606db435dd5cb12d9d93e12ac9298edc85de5754852841c8de346584723c4b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+      "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-setup.log",
+      "sha256": "c6857fbb18e8895f9e6c0ddd7f66eb9842d657329a6601ed75e6aa77c18674f8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/corpus-guard.log",
+      "sha256": "9b3d36e25b3922eebb852afa62dbb2bf9439474d2ad0f81b009eb7aa87d99835"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+      "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/joint.lean",
+      "sha256": "1e098e35cb17ebfd8395e9a0dbbc16207768bd9b1acdca54a33fc9a79bd0219a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/modules.json",
+      "sha256": "682546caf2aff80936baea5b8ef837776b4f1311c229ab3c3f2757e252b5f13e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/mul-exponent-comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/mul2-comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/pairs.json",
+      "sha256": "2cb228ac078787321b9b801c8733e546e6f1fdaf54ad904db56d2b517a972b32"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/previous-selected-reviews.json.gz",
+      "sha256": "9ce7b3d8db91a74d3643bd968ed7b1bc6787761b26fabdc4497c5afbfd54b08e"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/progress-guard.log",
+      "sha256": "9f86eb6cef0ea771b0e8684f78cb8f9c69f778fb0c9db3e4743a7b5d5b3835e8"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/python-tests.log",
+      "sha256": "75517c4270c0f12fe126022cfe1130db37c0565d9b8d32f17212a1a352cf61b3"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/source-closure.json",
+      "sha256": "6cff1adc477a5236daae9cc94e17f10e33b58255419637e83018ead8482f4f18"
+    }
+  ]
+}

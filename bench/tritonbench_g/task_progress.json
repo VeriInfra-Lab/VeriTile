@@ -271,42 +271,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/review.json",
-              "sha256": "111c71c3db622951f0bc6d00567fc6bd9bbfc418f883ecc02bd08184df82a430"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "8c70a2f5a789ddac89de41f1660e10c74272201b",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/integration.log.gz",
-              "sha256": "595c50ce77c3a28034ee1f97ae42c413d0765d2708de7aede83f6dedc34f338f"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "independent_clean_partitions": [
-              {
-                "partition": "adam-task",
-                "code_commit": "12ffdd6bac3d4ed9e75d560931517c7c79c90fc6",
-                "roots": 659,
-                "jobs": 9479,
-                "local_lean_files": 1232,
-                "status": "PASS",
-                "project_build_initially_present": false,
-                "veritile_cache_initially_present": false,
-                "only_external_packages_reused": true,
-                "all_sources_match_final_code_commit": true
-              },
-              {
-                "partition": "masked-body",
-                "code_commit": "8c70a2f5a789ddac89de41f1660e10c74272201b",
-                "roots": 29,
-                "jobs": 3534,
-                "local_lean_files": 244,
-                "status": "PASS",
-                "project_build_initially_present": false,
-                "veritile_cache_initially_present": false,
-                "only_external_packages_reused": true,
-                "all_sources_match_final_code_commit": true
-              }
-            ],
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
+            },
             "source_body_mode": "pasted_body",
-            "notes": "Paste both complete selected repaired Python bodies. Preserve unused total runtime count as the autotune key, runtime chunk count, all four FP32 scalar registers, every bool multiply, mask, address and both in-place stores. Only BLOCK_SIZE is constexpr. Generic tile execution now carries actual fp32Load callbacks for all three loaded operands; the existing native-word graph already makes those loads identity, with no new assumption. Re-prove Real formula, both source/safe executions, all original selected configurations, full arbitrary-order grid and both complete output/frame judgments, including host/native optional results. Keep the observed ordered FMA graph and all scalar/payload bit patterns. Raise only the owning proof library stack allowance after default-stack replay failed; larger-stack proof replay passes with no statement weakening."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -786,8 +764,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/review.json",
-            "sha256": "111c71c3db622951f0bc6d00567fc6bd9bbfc418f883ecc02bd08184df82a430"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.AdamUpdateTriton.Correct.lion_kernel_correctness",
@@ -1031,20 +1009,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [
@@ -1422,8 +1400,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.AddExample.Contiguous.Correct.add_kernel_correctness",
@@ -2321,20 +2299,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [
@@ -2700,8 +2678,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.AddValue.Contiguous.Correct.puzzle1_kernel_correctness",
@@ -17647,20 +17625,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -18118,8 +18096,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.CacheTransform.Correct.kernel_real",
@@ -33844,20 +33822,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -34218,8 +34196,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.CosineCompute.Correct.cosine_kernel_correctness",
@@ -38722,20 +38700,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -39201,8 +39179,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.DequantizeRowwise.dequantize_rowwise_correct",
@@ -58265,20 +58243,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -58684,8 +58662,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.IndexSelectBwd.Correct.index_select_bwd_kernel_correctness",
@@ -66771,20 +66749,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -67197,8 +67175,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.KldivCompute.Kernel.Correct.correctness",
@@ -72127,20 +72105,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -72612,8 +72590,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.L2NormTriton1.Correct.grid_correct",
@@ -82537,42 +82515,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/review.json",
-              "sha256": "111c71c3db622951f0bc6d00567fc6bd9bbfc418f883ecc02bd08184df82a430"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "8c70a2f5a789ddac89de41f1660e10c74272201b",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/integration.log.gz",
-              "sha256": "595c50ce77c3a28034ee1f97ae42c413d0765d2708de7aede83f6dedc34f338f"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "independent_clean_partitions": [
-              {
-                "partition": "adam-task",
-                "code_commit": "12ffdd6bac3d4ed9e75d560931517c7c79c90fc6",
-                "roots": 659,
-                "jobs": 9479,
-                "local_lean_files": 1232,
-                "status": "PASS",
-                "project_build_initially_present": false,
-                "veritile_cache_initially_present": false,
-                "only_external_packages_reused": true,
-                "all_sources_match_final_code_commit": true
-              },
-              {
-                "partition": "masked-body",
-                "code_commit": "8c70a2f5a789ddac89de41f1660e10c74272201b",
-                "roots": 29,
-                "jobs": 3534,
-                "local_lean_files": 244,
-                "status": "PASS",
-                "project_build_initially_present": false,
-                "veritile_cache_initially_present": false,
-                "only_external_packages_reused": true,
-                "all_sources_match_final_code_commit": true
-              }
-            ],
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
+            },
             "source_body_mode": "pasted_body",
-            "notes": "Paste both actual original/candidate bodies for each signed int32/int64 mask ABI. Runtime n_elements and FP32 alpha remain external call bindings; only BLOCK_SIZE is constexpr. Remove the old extra alpha.to(float32), absent from Python. The new signature includes all three real input ports; the old inferred metadata omitted the integer mask. Complete mathematical algorithm projections preserve body/output and explicitly correct that port list; full Real execution is reconnected to the existing independent masked-add formula. Re-prove actual arbitrary-algebra typed execution with the true literal/load callbacks, both native graph executions, complete memory equality, safety and full frames, all dimensions and both mask branches. The old cast is identity in the fixed native FMA graph; complete selected-graph and Real preservation to the frozen old presentation are proved, not asserted AST-identical. Keep the original active-grad leaf domain, arbitrary data graphs, all words, native scalar conversion and FMA operand order. No new numerical law or additional source cast."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -83012,8 +82968,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/review.json",
-            "sha256": "111c71c3db622951f0bc6d00567fc6bd9bbfc418f883ecc02bd08184df82a430"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.MaskedAddCuda.Correct.masked_add_kernel_correctness",
@@ -93567,20 +93523,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -94006,8 +93962,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.MatrixTranspose.Correct.transpose_kernel_correctness",
@@ -97232,11 +97188,11 @@
           "bench/repairs/tritonbench_g/mul_exponent_compensator/Correct.lean": "ac853da7e26652e9cd2719d9718f2d7f6e7d01cb10c1911957b31430092bcc99",
           "bench/repairs/tritonbench_g/mul_exponent_compensator/FPEquiv.lean": "72536335c415fcf74d7a400e2d2f313bd40385b41f2c7cb38c56d6e42343975b",
           "bench/repairs/tritonbench_g/mul_exponent_compensator/IO.lean": "2f8a9b2accfafd37db65276016c30ce9006a106f86d1a62954cd0342a116feea",
-          "bench/repairs/tritonbench_g/mul_exponent_compensator/Kernels.lean": "b4836205b4a7f6eeb936796718e1d59158c3bbf1672c298e58cf0a033079bac6",
+          "bench/repairs/tritonbench_g/mul_exponent_compensator/Kernels.lean": "d22e3323d9d486c0bf22fbc309c1b5599b0aa8bb7dc03f9378238f224ed9bdb0",
           "bench/repairs/tritonbench_g/mul_exponent_compensator/Misc/NativeCorrect.lean": "2ecef1a2c47cf789cb4b022d63dcb7b24bd7c778f4374c012036031eb5983d21",
           "bench/repairs/tritonbench_g/mul_exponent_compensator/Misc/TensorBridge.lean": "087e9e9f73a321802dfa294c4911cb38c0890e69f01ecfd0a02488fc5e4e9038",
-          "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/Commuted.lean": "5d710261446a234c94fce40c95a2d98f48af1aa75b782c0a1810a9a79a23ea25",
-          "bench/repairs/tritonbench_g/mul_exponent_compensator/README.md": "3022c48f2dc8f1894aa288a3f3d99b50d58a191e1233d23f07674541f5565d8c",
+          "bench/repairs/tritonbench_g/mul_exponent_compensator/Proofs/Commuted.lean": "8ba9db8871445fc306cac631e8435a7b5d97ca6c183b43685837ec872310f627",
+          "bench/repairs/tritonbench_g/mul_exponent_compensator/README.md": "e0d53d9151cfe4fdd21cac484a25e5fde7851d34790aab584bb442b3bb461fd7",
           "bench/repairs/tritonbench_g/mul_exponent_compensator/mul_exponent_compensator_repaired.py": "8c10c8966ec6bb16ee5701779329c2dd8922d3cae434ee620652d29c1fcaa7b4"
         },
         "proof_scope": "Independent Real output x[i]*2^112; actual readable masked FP32 original versus scalar-left candidate over arbitrary complete grid permutations, B>0, all FP32 words and explicit FP.Config, arbitrary src/dst including in-place. Both successful safe executions, active typed output cells and whole exterior frames. Source machine-index projection and prior physical/Tensor scopes retained.",
@@ -97331,6 +97287,23 @@
               "generation": "fresh root joint; applicable internal objects reused"
             },
             "report": "bench/review-checkpoints/2026-10-21/finish-pending-105/README.md"
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
+            },
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
+            },
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Paste both complete selected repaired Python functions, including constexpr exponent_compensator = 2.0 ** (127 - 15), both signed-int64 index casts, runtime length, masks and all memory operations. The bounded generic static frontend proves this is an exact binary64 constant by construction, retains a weak literal and rejects unsupported powers/runtime exponents/mutation. Actual signed mathematical registers are transported to the original nonnegative address formula; arbitrary-algebra whole executions and complete memory results for both sources are constructed and related to the frozen old presentation. Keep all original dimensions, source success/safety, complete arbitrary-permuted schedules, independent Real formula, all word patterns and strict software multiplication theorem. Existing native width/sign-extension/byte-address/grid lemmas are reused unchanged; a shared structural decoder preserves actual signed-cast syntax in the same finite index graph. No new word arithmetic or numerical assumption."
           }
         },
         "transformation_rules": [],
@@ -97743,9 +97716,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/mul_exponent_compensator.json",
-            "sha256": "b5a9a80da683c4f1717482eb9b695ad008949674c7cad2396df709130c4bc44b",
-            "task": "mul_exponent_compensator"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.MulExponentCompensator.Contiguous.Correct.kernel_real",
@@ -97815,9 +97787,13 @@
           }
         },
         "jit_correspondence": {
-          "status": "missing_explicit_int64_cast",
-          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
-          "scope": "Statement correspondence is separate from prior model proof acceptance."
+          "status": "selected_body_copy_checked",
+          "inventory": "bench/source-correspondence.json",
+          "review_evidence": {
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
+          },
+          "scope": "All actual selected original and candidate bodies, independent source ABI and complete proof replay."
         }
       }
     },
@@ -111862,20 +111838,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -112369,8 +112345,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormFused.Correct.kernel_real",
@@ -112638,20 +112614,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -113125,8 +113101,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormFusedLlama.Correct.rmsnorm_kernel_real",
@@ -113385,20 +113361,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -113898,8 +113874,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormImplementation.Correct.rmsnorm_kernel_correctness",
@@ -114148,20 +114124,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -114630,8 +114606,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.RmsnormTriton.Correct.kernel_correct",
@@ -122418,20 +122394,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -122804,8 +122780,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SinComputation.Contiguous.Correct.sin_kernel_correctness",
@@ -123051,20 +123027,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -123423,8 +123399,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SinKernel.Correct.sin_kernel_correctness",
@@ -129147,20 +129123,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -129606,8 +129582,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SquareMatrix.Correct.square_kernel_correctness",
@@ -131362,20 +131338,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [],
@@ -131835,8 +131811,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.SwigluFwd.swiglu_kernel_correct",
@@ -140346,7 +140322,7 @@
         ],
         "accepted_sha256": {
           "bench/repairs/tritonbench_g/triton_mul2/triton_mul2_repaired.py": "007f53e85334480f7a4b2b4ff84585638fadd18679e7be59bf312db1f1678cf6",
-          "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean": "364392c3c4d70dbd0b10494e3974759d3393cbaf924c15246d0a28c9a2835eed",
+          "bench/repairs/tritonbench_g/triton_mul2/Kernels.lean": "46fbe6275b0577376a3c01e7b9194da187ba50feb573b228f4697908df4ef867",
           "bench/repairs/tritonbench_g/triton_mul2/Contract.lean": "e974374850380605cac8bcfd33609cfc80ad633b6bcfc47f14f0a1f505102271",
           "bench/repairs/tritonbench_g/triton_mul2/Correct.lean": "83a2010be3966270e814c6212908585001b1935a97b34becb112c7c049440fe4",
           "bench/repairs/tritonbench_g/triton_mul2/FPEquiv.lean": "f14dc602e475dc2e9b1680d86078d96c70b684b1141712a8829f153213f7c254",
@@ -140415,6 +140391,23 @@
               "generation": "live"
             },
             "scope": "End-to-end semantic source/contract/Real/pair/rule review; changed task builds and fresh per-task entry/axiom checks, reusing existing internal proof objects. No independent full-source replay or GPU experiment."
+          },
+          "current_source_replay": {
+            "review": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
+            },
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
+            "integration": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
+            },
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
+            },
+            "source_body_mode": "pasted_body",
+            "notes": "Paste all four actual Python original/candidate ordinary/in-place function bodies. Runtime n_elements retains its explicitly declared int32 role, with the existing Nat index call projection and native bounds; only BLOCK_SIZE is constexpr. Keep the in-place pointer name and separate raw body. Full typed ComputeKernel equality to the frozen previous implementation holds by rfl for every function, all regions/counts/blocks. Public Real/FP and every selected task helper, complete grids, safety, successful execution, all word patterns and full frames replay with the unchanged strict multiplication rule. No input or schedule restriction is added."
           }
         },
         "transformation_rules": [
@@ -140831,9 +140824,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-23/io-unification/tasks/triton_mul2.json",
-            "sha256": "98e2acdb8e7377986bf274e7501ca3511d227a585c18743dbca33be36d83fc50",
-            "task": "triton_mul2"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.TritonMul2.Correct.mul2_kernel_correctness",
@@ -140898,9 +140890,13 @@
           }
         },
         "jit_correspondence": {
-          "status": "not_certified_by_this_screen",
-          "inventory": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
-          "scope": "Statement correspondence is separate from prior model proof acceptance."
+          "status": "selected_body_copy_checked",
+          "inventory": "bench/source-correspondence.json",
+          "review_evidence": {
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
+          },
+          "scope": "All actual selected original and candidate bodies, independent source ABI and complete proof replay."
         }
       }
     },
@@ -143361,20 +143357,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [
@@ -143759,8 +143755,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.VectorAddition.Contiguous.Correct.add_kernel_correctness",
@@ -143999,20 +143995,20 @@
           },
           "current_source_replay": {
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-              "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+              "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
             },
-            "code_commit": "3e2b29afd85fecada8945e088a3df873bc23be68",
+            "code_commit": "539663d9a5ffc31f7f434ba679ab95b0cb5f1154",
             "integration": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/integration.log.gz",
-              "sha256": "8670b158f8263d533a7d23b31e83a12d51fe495124839fcf976aa947ab982fb0"
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/integration.log.gz",
+              "sha256": "8a49b8c4d3dbc3cd97efb399a30ef317cc1341ef3103c60411ae265e4345e5d8"
             },
-            "clean_checkout": {
-              "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/clean-build.log.gz",
-              "sha256": "6fde053cc607e5efd96f60a1afd2974478b357c820975008e576f2165ee686a5"
+            "independent_clean_checkout": {
+              "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/clean-build.log.gz",
+              "sha256": "008df8e82bb13af1b9e1e9f5d4422f7751185b582738f8ad7c3973292d2b17e8"
             },
             "source_body_mode": "pasted_body",
-            "notes": "Shared frontend dependency regression: preserve source FP32 scalar provenance through where, FP64 computation and FP16 storage, plus broadcast and known FP32 dot type propagation. Existing task source/candidate bodies, mathematical formulas, numerical rules, public bounds and full execution/safety/output/frame scopes are unchanged and replayed."
+            "notes": "Shared native-call frontend regression: the new bounded exact-static-power pass is inactive for these previously migrated bodies; actual original/candidate executions, independent Real formulas, full IO/safety/output/frame scopes and existing FP rules are unchanged. The complete previous roots plus actual typed-execution regressions replay locally and in a cold source-matching checkout."
           }
         },
         "transformation_rules": [
@@ -144397,8 +144393,8 @@
           "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
           "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
           "review_evidence": {
-            "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-            "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+            "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+            "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
           },
           "main_declarations": [
             "VeriTile.Bench.Repairs.VectorAdditionCustom.Contiguous.Correct.add_kernel_correctness",
@@ -145417,7 +145413,7 @@
     "remaining_substantive_gaps": 0,
     "report": "bench/review-checkpoints/2026-10-23/reference-separation/README.md",
     "audit": "bench/review-checkpoints/2026-10-23/reference-separation/main-formulas.json",
-    "audit_sha256": "42e240f2d64407e0a04aaf9d660ced9b279916271716f8548a833e36b9d9c1d9",
+    "audit_sha256": "7ab08a685642e7c3f9498cd2c2a5f5d1a65dce57df37addb25ac9a94e400c000",
     "guard": "bench/check_main_formula_review.py",
     "validation": "bench/review-checkpoints/2026-10-23/reference-separation/validation.json",
     "proof_completion_changed": false,
@@ -145583,12 +145579,12 @@
   "jit_correspondence_review": {
     "date": "2026-10-24",
     "review": {
-      "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/review.json",
-      "sha256": "111c71c3db622951f0bc6d00567fc6bd9bbfc418f883ecc02bd08184df82a430"
+      "path": "bench/review-checkpoints/2026-10-24/native-static-power-and-doubling/review.json",
+      "sha256": "435f1be2ec9aeb0f58b67d766506610eda345d8885a9ee010f21a3ed42599db1"
     },
     "inventory": {
       "path": "bench/source-correspondence.json",
-      "sha256": "64efdd0717c399b411a42503de2eabb31d3aa0b1f1beadfadf4f72339a7fde25"
+      "sha256": "9b727c3676e9826ca7a941c95e7e592cb271db2ddffb059984935d29e812abef"
     },
     "pasted_body_entry_tasks": [
       "adam_update_triton",
@@ -145602,6 +145598,7 @@
       "l2_norm_triton1",
       "masked_add_cuda",
       "matrix_transpose",
+      "mul_exponent_compensator",
       "rmsnorm_fused",
       "rmsnorm_fused_llama",
       "rmsnorm_implementation",
@@ -145610,18 +145607,19 @@
       "sin_kernel",
       "square_matrix",
       "swiglu_fwd",
+      "triton_mul2",
       "vector_addition",
       "vector_addition_custom"
     ],
-    "scope": "All 19 examples and 21 selected tasks have native body correspondence. Remaining 159 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
+    "scope": "19/19 examples, 23/183 selected tasks migrated. Remaining 157 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
     "counts": {
       "tasks": 183,
       "examples": 19,
       "task_status": {
         "legacy_ast_only": 1,
         "no_selected_jit_resolved": 2,
-        "selected_body_copy_checked": 21,
-        "uncovered_jit_functions": 159
+        "selected_body_copy_checked": 23,
+        "uncovered_jit_functions": 157
       },
       "example_status": {
         "authored_counterpart_body_copy_checked": 2,
@@ -145629,12 +145627,12 @@
         "spec_derived_body_copy_checked": 15
       },
       "selected_jit_functions": 328,
-      "uncovered_selected_jit_functions": 295,
-      "primary_files_with_int64_screen_warning": 44,
+      "uncovered_selected_jit_functions": 289,
+      "primary_files_with_int64_screen_warning": 43,
       "primary_lean_file_features": {
         "tasks": {
-          "in_body_type_directives": 128,
-          "antiquotes": 141,
+          "in_body_type_directives": 127,
+          "antiquotes": 139,
           "dsl_loop": 1,
           "dsl_numeric_helpers": 8
         },
@@ -145649,14 +145647,15 @@
     "previous_review": {
       "date": "2026-10-24",
       "review": {
-        "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
-        "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
+        "path": "bench/review-checkpoints/2026-10-24/native-adam-and-masked-add/review.json",
+        "sha256": "111c71c3db622951f0bc6d00567fc6bd9bbfc418f883ecc02bd08184df82a430"
       },
       "inventory": {
         "path": "bench/source-correspondence.json",
-        "sha256": "ceea4a8db31fd372e98189adf6b6a4c7c7e5fd4231c690cef1698343187c6a37"
+        "sha256": "64efdd0717c399b411a42503de2eabb31d3aa0b1f1beadfadf4f72339a7fde25"
       },
       "pasted_body_entry_tasks": [
+        "adam_update_triton",
         "add_example",
         "add_value",
         "cache_transform_triton",
@@ -145665,6 +145664,7 @@
         "index_select_bwd",
         "kldiv_compute",
         "l2_norm_triton1",
+        "masked_add_cuda",
         "matrix_transpose",
         "rmsnorm_fused",
         "rmsnorm_fused_llama",
@@ -145677,15 +145677,15 @@
         "vector_addition",
         "vector_addition_custom"
       ],
-      "scope": "All 19 worked examples now have raw native body sources with explicit provenance and complete proof replay, including the full selected-config grid connections. Task migrations continue; pending entries remain pending.",
+      "scope": "All 19 examples and 21 selected tasks have native body correspondence. Remaining 159 uncovered tasks, one old AST mapping and two unresolved/indirect entries remain pending.",
       "counts": {
         "tasks": 183,
         "examples": 19,
         "task_status": {
           "legacy_ast_only": 1,
           "no_selected_jit_resolved": 2,
-          "selected_body_copy_checked": 19,
-          "uncovered_jit_functions": 161
+          "selected_body_copy_checked": 21,
+          "uncovered_jit_functions": 159
         },
         "example_status": {
           "authored_counterpart_body_copy_checked": 2,
@@ -145693,12 +145693,12 @@
           "spec_derived_body_copy_checked": 15
         },
         "selected_jit_functions": 328,
-        "uncovered_selected_jit_functions": 297,
+        "uncovered_selected_jit_functions": 295,
         "primary_files_with_int64_screen_warning": 44,
         "primary_lean_file_features": {
           "tasks": {
-            "in_body_type_directives": 130,
-            "antiquotes": 143,
+            "in_body_type_directives": 128,
+            "antiquotes": 141,
             "dsl_loop": 1,
             "dsl_numeric_helpers": 8
           },
@@ -145713,12 +145713,12 @@
       "previous_review": {
         "date": "2026-10-24",
         "review": {
-          "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/review.json",
-          "sha256": "5aa92bba55c68455972543a93f51085be5cc769c65718339d4122b58820adf31"
+          "path": "bench/review-checkpoints/2026-10-24/all-examples-native-bodies/review.json",
+          "sha256": "4b15d23fd6ceb27300536e1f88c559ca4c18cc15ae6bfb6fabaf4097a2db49ff"
         },
         "inventory": {
           "path": "bench/source-correspondence.json",
-          "sha256": "1b1b5dd4fa34ebc4baf9189e5650b2df617cc34fce377a6fe1fc4636f0398e77"
+          "sha256": "ceea4a8db31fd372e98189adf6b6a4c7c7e5fd4231c690cef1698343187c6a37"
         },
         "pasted_body_entry_tasks": [
           "add_example",
@@ -145741,7 +145741,7 @@
           "vector_addition",
           "vector_addition_custom"
         ],
-        "scope": "Committed native fused pipeline batch with complete source, mathematical and typed FP proofs plus full combined and cold replay. Pending corpus entries remain pending.",
+        "scope": "All 19 worked examples now have raw native body sources with explicit provenance and complete proof replay, including the full selected-config grid connections. Task migrations continue; pending entries remain pending.",
         "counts": {
           "tasks": 183,
           "examples": 19,
@@ -145753,10 +145753,8 @@
           },
           "example_status": {
             "authored_counterpart_body_copy_checked": 2,
-            "no_independent_python_reference": 2,
-            "selected_body_copy_checked": 1,
-            "spec_derived_body_copy_checked": 13,
-            "uncovered_jit_functions": 1
+            "selected_body_copy_checked": 2,
+            "spec_derived_body_copy_checked": 15
           },
           "selected_jit_functions": 328,
           "uncovered_selected_jit_functions": 297,
@@ -145770,7 +145768,7 @@
             },
             "examples": {
               "in_body_type_directives": 0,
-              "antiquotes": 3,
+              "antiquotes": 0,
               "dsl_loop": 0,
               "dsl_numeric_helpers": 0
             }
@@ -145779,12 +145777,12 @@
         "previous_review": {
           "date": "2026-10-24",
           "review": {
-            "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/review.json",
-            "sha256": "af788332b44388d044268d597802192241738655fbde343c95948b051ac381b5"
+            "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/review.json",
+            "sha256": "5aa92bba55c68455972543a93f51085be5cc769c65718339d4122b58820adf31"
           },
           "inventory": {
             "path": "bench/source-correspondence.json",
-            "sha256": "8d36495c2807782fe1aafaf7d0cbd15aed776dcfedf3aeec6e14232c99d884b5"
+            "sha256": "1b1b5dd4fa34ebc4baf9189e5650b2df617cc34fce377a6fe1fc4636f0398e77"
           },
           "pasted_body_entry_tasks": [
             "add_example",
@@ -145807,7 +145805,7 @@
             "vector_addition",
             "vector_addition_custom"
           ],
-          "scope": "Literal selected-source AST/signature checks with full public/deep and cold proof replay for the committed batch; all other pending entries remain pending.",
+          "scope": "Committed native fused pipeline batch with complete source, mathematical and typed FP proofs plus full combined and cold replay. Pending corpus entries remain pending.",
           "counts": {
             "tasks": 183,
             "examples": 19,
@@ -145819,9 +145817,9 @@
             },
             "example_status": {
               "authored_counterpart_body_copy_checked": 2,
-              "no_independent_python_reference": 4,
+              "no_independent_python_reference": 2,
               "selected_body_copy_checked": 1,
-              "spec_derived_body_copy_checked": 11,
+              "spec_derived_body_copy_checked": 13,
               "uncovered_jit_functions": 1
             },
             "selected_jit_functions": 328,
@@ -145836,7 +145834,7 @@
               },
               "examples": {
                 "in_body_type_directives": 0,
-                "antiquotes": 5,
+                "antiquotes": 3,
                 "dsl_loop": 0,
                 "dsl_numeric_helpers": 0
               }
@@ -145845,12 +145843,12 @@
           "previous_review": {
             "date": "2026-10-24",
             "review": {
-              "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/review.json",
-              "sha256": "fa31d27c5e5701ab02f884e62b411e771915c9fe4ee0db67c62055ef84804e38"
+              "path": "bench/review-checkpoints/2026-10-24/native-online-softmax/review.json",
+              "sha256": "af788332b44388d044268d597802192241738655fbde343c95948b051ac381b5"
             },
             "inventory": {
               "path": "bench/source-correspondence.json",
-              "sha256": "af5de3da18d03b89786abc77e9461bc27f87783b51486ab9f47035d12a4eb8f1"
+              "sha256": "8d36495c2807782fe1aafaf7d0cbd15aed776dcfedf3aeec6e14232c99d884b5"
             },
             "pasted_body_entry_tasks": [
               "add_example",
@@ -145885,9 +145883,9 @@
               },
               "example_status": {
                 "authored_counterpart_body_copy_checked": 2,
-                "no_independent_python_reference": 5,
+                "no_independent_python_reference": 4,
                 "selected_body_copy_checked": 1,
-                "spec_derived_body_copy_checked": 10,
+                "spec_derived_body_copy_checked": 11,
                 "uncovered_jit_functions": 1
               },
               "selected_jit_functions": 328,
@@ -145902,8 +145900,8 @@
                 },
                 "examples": {
                   "in_body_type_directives": 0,
-                  "antiquotes": 6,
-                  "dsl_loop": 1,
+                  "antiquotes": 5,
+                  "dsl_loop": 0,
                   "dsl_numeric_helpers": 0
                 }
               }
@@ -145911,12 +145909,12 @@
             "previous_review": {
               "date": "2026-10-24",
               "review": {
-                "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
-                "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
+                "path": "bench/review-checkpoints/2026-10-24/native-statistics-loops/review.json",
+                "sha256": "fa31d27c5e5701ab02f884e62b411e771915c9fe4ee0db67c62055ef84804e38"
               },
               "inventory": {
                 "path": "bench/source-correspondence.json",
-                "sha256": "fd2d3f2822102d4558999ac06a204902583e454ea65d4067c985c6f2b7bd00f6"
+                "sha256": "af5de3da18d03b89786abc77e9461bc27f87783b51486ab9f47035d12a4eb8f1"
               },
               "pasted_body_entry_tasks": [
                 "add_example",
@@ -145951,9 +145949,9 @@
                 },
                 "example_status": {
                   "authored_counterpart_body_copy_checked": 2,
-                  "no_independent_python_reference": 7,
+                  "no_independent_python_reference": 5,
                   "selected_body_copy_checked": 1,
-                  "spec_derived_body_copy_checked": 8,
+                  "spec_derived_body_copy_checked": 10,
                   "uncovered_jit_functions": 1
                 },
                 "selected_jit_functions": 328,
@@ -145968,21 +145966,21 @@
                   },
                   "examples": {
                     "in_body_type_directives": 0,
-                    "antiquotes": 8,
-                    "dsl_loop": 3,
-                    "dsl_numeric_helpers": 2
+                    "antiquotes": 6,
+                    "dsl_loop": 1,
+                    "dsl_numeric_helpers": 0
                   }
                 }
               },
               "previous_review": {
                 "date": "2026-10-24",
                 "review": {
-                  "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
-                  "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
+                  "path": "bench/review-checkpoints/2026-10-24/rms-native-tuples/review.json",
+                  "sha256": "830a15b2352abf9a9022b92f54e5f283c3d5b0b016b78312d6f7b1cb79c75eda"
                 },
                 "inventory": {
                   "path": "bench/source-correspondence.json",
-                  "sha256": "24c53e490a0ff7568c59f8e7878f107806db6239a29ef52b817d5e058a62e8f4"
+                  "sha256": "fd2d3f2822102d4558999ac06a204902583e454ea65d4067c985c6f2b7bd00f6"
                 },
                 "pasted_body_entry_tasks": [
                   "add_example",
@@ -145996,6 +145994,8 @@
                   "matrix_transpose",
                   "rmsnorm_fused",
                   "rmsnorm_fused_llama",
+                  "rmsnorm_implementation",
+                  "rmsnorm_triton",
                   "sin_computation",
                   "sin_kernel",
                   "square_matrix",
@@ -146003,15 +146003,15 @@
                   "vector_addition",
                   "vector_addition_custom"
                 ],
-                "scope": "Full selected-source inventory with explicit new-example provenance, exact AST/signature/call binding checks and combined deep/cold proof replay. Pending tasks/examples remain pending.",
+                "scope": "Literal selected-source AST/signature checks with full public/deep and cold proof replay for the committed batch; all other pending entries remain pending.",
                 "counts": {
                   "tasks": 183,
                   "examples": 19,
                   "task_status": {
                     "legacy_ast_only": 1,
                     "no_selected_jit_resolved": 2,
-                    "selected_body_copy_checked": 17,
-                    "uncovered_jit_functions": 163
+                    "selected_body_copy_checked": 19,
+                    "uncovered_jit_functions": 161
                   },
                   "example_status": {
                     "authored_counterpart_body_copy_checked": 2,
@@ -146021,12 +146021,12 @@
                     "uncovered_jit_functions": 1
                   },
                   "selected_jit_functions": 328,
-                  "uncovered_selected_jit_functions": 299,
+                  "uncovered_selected_jit_functions": 297,
                   "primary_files_with_int64_screen_warning": 44,
                   "primary_lean_file_features": {
                     "tasks": {
-                      "in_body_type_directives": 132,
-                      "antiquotes": 145,
+                      "in_body_type_directives": 130,
+                      "antiquotes": 143,
                       "dsl_loop": 1,
                       "dsl_numeric_helpers": 8
                     },
@@ -146041,12 +146041,12 @@
                 "previous_review": {
                   "date": "2026-10-24",
                   "review": {
-                    "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
-                    "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
+                    "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/review.json",
+                    "sha256": "298d6e3b178efd98b858d22c28c62f19cd2f16ed5a2d52fb751f4eab9f27cc03"
                   },
                   "inventory": {
                     "path": "bench/source-correspondence.json",
-                    "sha256": "5c80ef7b09379b23632d01541fb7ed1b78f553da9c311a889eba292b0c17b3d7"
+                    "sha256": "24c53e490a0ff7568c59f8e7878f107806db6239a29ef52b817d5e058a62e8f4"
                   },
                   "pasted_body_entry_tasks": [
                     "add_example",
@@ -146058,6 +146058,8 @@
                     "kldiv_compute",
                     "l2_norm_triton1",
                     "matrix_transpose",
+                    "rmsnorm_fused",
+                    "rmsnorm_fused_llama",
                     "sin_computation",
                     "sin_kernel",
                     "square_matrix",
@@ -146065,76 +146067,139 @@
                     "vector_addition",
                     "vector_addition_custom"
                   ],
-                  "scope": "Full selected-source inventory, exact body AST/signature/call binding checks and this batch proof replay. Pending tasks/examples remain pending.",
+                  "scope": "Full selected-source inventory with explicit new-example provenance, exact AST/signature/call binding checks and combined deep/cold proof replay. Pending tasks/examples remain pending.",
                   "counts": {
                     "tasks": 183,
                     "examples": 19,
                     "task_status": {
                       "legacy_ast_only": 1,
                       "no_selected_jit_resolved": 2,
-                      "selected_body_copy_checked": 15,
-                      "uncovered_jit_functions": 165
+                      "selected_body_copy_checked": 17,
+                      "uncovered_jit_functions": 163
                     },
                     "example_status": {
                       "authored_counterpart_body_copy_checked": 2,
-                      "no_independent_python_reference": 16,
-                      "selected_body_copy_checked": 1
+                      "no_independent_python_reference": 7,
+                      "selected_body_copy_checked": 1,
+                      "spec_derived_body_copy_checked": 8,
+                      "uncovered_jit_functions": 1
                     },
                     "selected_jit_functions": 328,
-                    "uncovered_selected_jit_functions": 301,
+                    "uncovered_selected_jit_functions": 299,
                     "primary_files_with_int64_screen_warning": 44,
                     "primary_lean_file_features": {
                       "tasks": {
-                        "in_body_type_directives": 134,
-                        "antiquotes": 147,
+                        "in_body_type_directives": 132,
+                        "antiquotes": 145,
                         "dsl_loop": 1,
                         "dsl_numeric_helpers": 8
                       },
                       "examples": {
                         "in_body_type_directives": 0,
-                        "antiquotes": 16,
+                        "antiquotes": 8,
                         "dsl_loop": 3,
-                        "dsl_numeric_helpers": 3
+                        "dsl_numeric_helpers": 2
                       }
                     }
                   },
                   "previous_review": {
                     "date": "2026-10-24",
                     "review": {
-                      "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
-                      "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
-                      "task": "dequantize_rowwise"
+                      "path": "bench/review-checkpoints/2026-10-24/integer-call-body-migration/review.json",
+                      "sha256": "c6713d2f7d682731fb478ff034627b60a13827dbd10f9646c25dda8b931f2052"
                     },
                     "inventory": {
-                      "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
-                      "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
+                      "path": "bench/source-correspondence.json",
+                      "sha256": "5c80ef7b09379b23632d01541fb7ed1b78f553da9c311a889eba292b0c17b3d7"
                     },
-                    "counts": {
-                      "not_certified_by_this_screen": 137,
-                      "missing_explicit_int64_cast": 44,
-                      "exact_ast_correspondence": 2
-                    },
-                    "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast.",
                     "pasted_body_entry_tasks": [
-                      "dequantize_rowwise"
+                      "add_example",
+                      "add_value",
+                      "cache_transform_triton",
+                      "cosine_compute",
+                      "dequantize_rowwise",
+                      "index_select_bwd",
+                      "kldiv_compute",
+                      "l2_norm_triton1",
+                      "matrix_transpose",
+                      "sin_computation",
+                      "sin_kernel",
+                      "square_matrix",
+                      "swiglu_fwd",
+                      "vector_addition",
+                      "vector_addition_custom"
                     ],
+                    "scope": "Full selected-source inventory, exact body AST/signature/call binding checks and this batch proof replay. Pending tasks/examples remain pending.",
+                    "counts": {
+                      "tasks": 183,
+                      "examples": 19,
+                      "task_status": {
+                        "legacy_ast_only": 1,
+                        "no_selected_jit_resolved": 2,
+                        "selected_body_copy_checked": 15,
+                        "uncovered_jit_functions": 165
+                      },
+                      "example_status": {
+                        "authored_counterpart_body_copy_checked": 2,
+                        "no_independent_python_reference": 16,
+                        "selected_body_copy_checked": 1
+                      },
+                      "selected_jit_functions": 328,
+                      "uncovered_selected_jit_functions": 301,
+                      "primary_files_with_int64_screen_warning": 44,
+                      "primary_lean_file_features": {
+                        "tasks": {
+                          "in_body_type_directives": 134,
+                          "antiquotes": 147,
+                          "dsl_loop": 1,
+                          "dsl_numeric_helpers": 8
+                        },
+                        "examples": {
+                          "in_body_type_directives": 0,
+                          "antiquotes": 16,
+                          "dsl_loop": 3,
+                          "dsl_numeric_helpers": 3
+                        }
+                      }
+                    },
                     "previous_review": {
                       "date": "2026-10-24",
                       "review": {
-                        "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
-                        "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
-                        "task": "triton_argmax"
+                        "path": "bench/review-checkpoints/2026-10-24/body-signature/review.json",
+                        "sha256": "ef34d2e2961519e1e1e633df9bdee8f87c6aca88b2c26ddfe6732e46f67e4153",
+                        "task": "dequantize_rowwise"
                       },
                       "inventory": {
-                        "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
-                        "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+                        "path": "bench/review-checkpoints/2026-10-24/body-signature/inventory.json",
+                        "sha256": "30a7ad90bbaa69eb96a79280ca9061b0aafce73d1dec3bc02ce8eb89f4098c75"
                       },
                       "counts": {
                         "not_certified_by_this_screen": 137,
-                        "missing_explicit_int64_cast": 45,
-                        "exact_ast_correspondence": 1
+                        "missing_explicit_int64_cast": 44,
+                        "exact_ast_correspondence": 2
                       },
-                      "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+                      "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast.",
+                      "pasted_body_entry_tasks": [
+                        "dequantize_rowwise"
+                      ],
+                      "previous_review": {
+                        "date": "2026-10-24",
+                        "review": {
+                          "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/review.json",
+                          "sha256": "0b8760be924064ef707a370aab9ca343d75d1c23dc8c7c497960c4b963074fcd",
+                          "task": "triton_argmax"
+                        },
+                        "inventory": {
+                          "path": "bench/review-checkpoints/2026-10-24/jit-correspondence/inventory.json",
+                          "sha256": "1edf14f56bdbd3e7a011d9febab64e26ba35f6d2d07c2269f9dd0c4733c9155f"
+                        },
+                        "counts": {
+                          "not_certified_by_this_screen": 137,
+                          "missing_explicit_int64_cast": 45,
+                          "exact_ast_correspondence": 1
+                        },
+                        "scope": "Selected source inventory and explicit int64-cast screen; unflagged tasks are NOT full correspondence passes. No semantic counterexample is inferred from an omitted cast."
+                      }
                     }
                   }
                 }
