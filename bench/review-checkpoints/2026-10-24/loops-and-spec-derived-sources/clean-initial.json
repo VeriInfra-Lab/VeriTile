@@ -1,0 +1,7 @@
+{
+  "project_build_initially_present": false,
+  "veritile_cache_initially_present": false,
+  "only_external_packages_reused": true,
+  "observed_in": "initial independent-checkout command assertions and captured stdout before lake build",
+  "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60"
+}

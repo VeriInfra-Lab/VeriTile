@@ -1,0 +1,840 @@
+{
+  "schema": 1,
+  "status": "verified_batch_corpus_migration_incomplete",
+  "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+  "merge_policy": "Do not merge before explicit user review and approval.",
+  "new_task_migrations": [
+    "rmsnorm_fused",
+    "rmsnorm_fused_llama"
+  ],
+  "semantic_review": {
+    "add_example": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "add_value": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "cache_transform_triton": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "cosine_compute": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "dequantize_rowwise": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "index_select_bwd": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "kldiv_compute": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "l2_norm_triton1": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "matrix_transpose": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "rmsnorm_fused": "Paste both actual complete Python bodies, preserving both loops, int64 row cast, masks, runtime FP32 epsilon and FP32 output. Stride and N remain runtime integer ABI values with explicit invocation bindings. Both complete ComputeKernel preservation equalities hold; full Real/FP/grid/safety and auxiliary proofs replayed.",
+    "rmsnorm_fused_llama": "Paste the actual original and existing index-order candidate into both literal and runtime APIs. Original 0. spelling, source casts, both loops and FP16-then-FP32 output roundtrip retained. eps_arg is replaced by original eps in invocation bindings and all dependent proofs. Literal FP32 specialization is accepted only in verified FP32 contexts; runtime FP32 register ABI remains. Public Real/FP, full grids, runtime candidates, safety, axiom audits and all auxiliary files replayed.",
+    "sin_computation": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "sin_kernel": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "square_matrix": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "swiglu_fwd": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "vector_addition": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "vector_addition_custom": "Existing pasted original/candidate and full public/deep proof scopes replayed against the revised shared frontend. No body text, public theorem scope, or numerical assumption changed in this regression.",
+    "kv_cache_filling": "Shared-frontend dependency regression only, not a body-copy migration. Replay the selected KernelOnly Real/FP entries and their complete policy/schedule/source-frame connections on local and independent checkouts; the original/candidate sources and public conditions are unchanged. The older legacy Real/FP entries are replayed separately as extra regression evidence.",
+    "triton_argmax": "Dependency regression only; its legacy AST source check is not a completed body-copy migration.",
+    "adam_update_triton": "Regression only, not a body-copy migration. Correct generic bool-to-floating multiplication lowering to retain the floating multiply and 0/1 conversion; the canonical runtime task already spells out that multiplication. Repair old mathematical-adapter sign-case proofs, preserving the independent Lion formula and all public scopes; replay actual Real and FP entries. Its original Python source is registered for the worked example, whose body migration is still pending."
+  },
+  "spec_derived_examples": {
+    "FloatDTypeAdd": {
+      "name": "FloatDTypeAdd",
+      "kind": "example",
+      "python": "bench/examples/FloatDTypeAdd/native_kernels.py",
+      "lean": "bench/examples/FloatDTypeAdd/Kernels.lean",
+      "source_provenance": "spec_derived_native_source",
+      "lean_screen": {
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 12,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 0
+      },
+      "python_jits": [
+        {
+          "function": "floatAddKernel",
+          "line": 12,
+          "statements": 6,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "optimizedKernel",
+          "line": 22,
+          "statements": 6,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "floatAddKernel",
+          "lean_definition": "floatAddKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FloatDTypeAdd/native_kernels.py",
+          "lean": "bench/examples/FloatDTypeAdd/Kernels.lean"
+        },
+        {
+          "python_function": "optimizedKernel",
+          "lean_definition": "optimizedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 6,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FloatDTypeAdd/native_kernels.py",
+          "lean": "bench/examples/FloatDTypeAdd/Kernels.lean"
+        }
+      ],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
+      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
+      "status": "spec_derived_body_copy_checked",
+      "source_sha256": {
+        "bench/examples/FloatDTypeAdd/Correct.lean": "36034944754829ccdc5e7039bc48016b5d1ebd472f223c106277557667320a41",
+        "bench/examples/FloatDTypeAdd/Kernels.lean": "b38247468fb7a9864ceddb4d1c499f1390518efc99c0e9eee8191b8355332d0b",
+        "bench/examples/FloatDTypeAdd/jit-correspondence.json": "62ac0ed07eafc4dc8a2d372722f530f5f7e641fe853739f1d90f15c7840ef481",
+        "bench/examples/FloatDTypeAdd/native_kernels.py": "125ea13f793124d27651d7121817d78d06cd9fb9785f9bad7850b469e2740b02"
+      },
+      "source_note": "New Python from independent public mathematical specifications, not recovered historical Python. Native dtype/cast semantics are explicit and the actual programs are re-proved with the existing IO scopes and numerical domains.",
+      "mathematical_spec_sha256": {
+        "bench/examples/FloatDTypeAdd/Correct.lean": "36034944754829ccdc5e7039bc48016b5d1ebd472f223c106277557667320a41"
+      }
+    },
+    "FloatDTypeSoftmax": {
+      "name": "FloatDTypeSoftmax",
+      "kind": "example",
+      "python": "bench/examples/FloatDTypeSoftmax/native_kernels.py",
+      "lean": "bench/examples/FloatDTypeSoftmax/Kernels.lean",
+      "source_provenance": "spec_derived_native_source",
+      "lean_screen": {
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 7,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 0
+      },
+      "python_jits": [
+        {
+          "function": "floatStableSoftmaxKernel",
+          "line": 14,
+          "statements": 9,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "floatSoftmaxRecipKernel",
+          "line": 27,
+          "statements": 10,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "floatStableSoftmaxKernel",
+          "lean_definition": "floatStableSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 9,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FloatDTypeSoftmax/native_kernels.py",
+          "lean": "bench/examples/FloatDTypeSoftmax/Kernels.lean"
+        },
+        {
+          "python_function": "floatSoftmaxRecipKernel",
+          "lean_definition": "floatSoftmaxRecipKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 10,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/FloatDTypeSoftmax/native_kernels.py",
+          "lean": "bench/examples/FloatDTypeSoftmax/Kernels.lean"
+        }
+      ],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
+      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
+      "status": "spec_derived_body_copy_checked",
+      "source_sha256": {
+        "bench/examples/FloatDTypeSoftmax/Correct.lean": "50a4b0a5c43bd4fb1588eeb360fdd242777467fa96d18cd9e37fc80b15a82bf0",
+        "bench/examples/FloatDTypeSoftmax/Kernels.lean": "ababb0523223ba10a4a24a97911ddba08be0d81e75eee05bc521cb58757eaa0f",
+        "bench/examples/FloatDTypeSoftmax/jit-correspondence.json": "8a93a24e4e1e5ee8750908662b60d42b7dce03abd00dc59c735e7126b1f865a8",
+        "bench/examples/FloatDTypeSoftmax/native_kernels.py": "00e00942f75b0f5bb1dae45ff13276b4f62fca960176bd961ceb78ca26995256"
+      },
+      "source_note": "New native source from the independent softmax formula, not historical Python. Exact precision boundaries and existing candidate retained; complete source preservation and both public proofs are replayed.",
+      "mathematical_spec_sha256": {
+        "bench/examples/FloatDTypeSoftmax/Correct.lean": "50a4b0a5c43bd4fb1588eeb360fdd242777467fa96d18cd9e37fc80b15a82bf0"
+      }
+    },
+    "LogExp": {
+      "name": "LogExp",
+      "kind": "example",
+      "python": "bench/examples/LogExp/native_kernels.py",
+      "lean": "bench/examples/LogExp/Kernels.lean",
+      "source_provenance": "spec_derived_native_source",
+      "lean_screen": {
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 5,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 0
+      },
+      "python_jits": [
+        {
+          "function": "originalKernel",
+          "line": 15,
+          "statements": 5,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "optimizedKernel",
+          "line": 24,
+          "statements": 8,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "originalKernel",
+          "lean_definition": "originalKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 5,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/LogExp/native_kernels.py",
+          "lean": "bench/examples/LogExp/Kernels.lean"
+        },
+        {
+          "python_function": "optimizedKernel",
+          "lean_definition": "optimizedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/LogExp/native_kernels.py",
+          "lean": "bench/examples/LogExp/Kernels.lean"
+        }
+      ],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
+      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
+      "status": "spec_derived_body_copy_checked",
+      "source_sha256": {
+        "bench/examples/LogExp/Correct.lean": "9c5fbcf3b42d1f06506a2e9a62aef27564d57bda94c8a697ae01b2c16a3bff7f",
+        "bench/examples/LogExp/Kernels.lean": "6b9041b30b4f255737faf5814a2dbe0762ef061c97b3856e2849d730e5aad5c3",
+        "bench/examples/LogExp/jit-correspondence.json": "2c7abd33e6e6d95767757d3f97393b9879662a7030898a65c64e719fa6c76976",
+        "bench/examples/LogExp/native_kernels.py": "7fd72294913687e7e512ef5aaa98538d5d4f3afa8dda3e1771ea05fdb68a9f31"
+      },
+      "source_note": "New native Python authored from the independent mathematical specifications; not recovered historical source. Existing candidate transformation and FP numerical conditions retained. See native_kernels.py and full-program SourcePreservation proofs.",
+      "mathematical_spec_sha256": {
+        "bench/examples/LogExp/Correct.lean": "9c5fbcf3b42d1f06506a2e9a62aef27564d57bda94c8a697ae01b2c16a3bff7f"
+      }
+    },
+    "RowWiseMax": {
+      "name": "RowWiseMax",
+      "kind": "example",
+      "python": "bench/examples/RowWiseMax/native_kernels.py",
+      "lean": "bench/examples/RowWiseMax/Kernels.lean",
+      "source_provenance": "spec_derived_native_source",
+      "lean_screen": {
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 7,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 0
+      },
+      "python_jits": [
+        {
+          "function": "rowWiseMaxKernel",
+          "line": 12,
+          "statements": 5,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "inlinedKernel",
+          "line": 21,
+          "statements": 4,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "rowWiseMaxKernel",
+          "lean_definition": "rowWiseMaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "nCol": "nCol"
+          },
+          "statements": 5,
+          "runtime_parameters": {
+            "nCol": "i64"
+          },
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/RowWiseMax/native_kernels.py",
+          "lean": "bench/examples/RowWiseMax/Kernels.lean"
+        },
+        {
+          "python_function": "inlinedKernel",
+          "lean_definition": "inlinedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "nCol": "nCol"
+          },
+          "statements": 4,
+          "runtime_parameters": {
+            "nCol": "i64"
+          },
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/RowWiseMax/native_kernels.py",
+          "lean": "bench/examples/RowWiseMax/Kernels.lean"
+        }
+      ],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
+      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
+      "status": "spec_derived_body_copy_checked",
+      "source_sha256": {
+        "bench/examples/RowWiseMax/Correct.lean": "22a19971808eb920ade151e7258f9893053674200417f75c6bd9208a7f4162b3",
+        "bench/examples/RowWiseMax/Kernels.lean": "54962fb320e3f799892891ceea7bab25820727512b7c32d7ffcc7f129b787f13",
+        "bench/examples/RowWiseMax/jit-correspondence.json": "1a0505ae62c635fd26bbaa44d753828a2d33ce4429c2c49a0ff0616bb349cbdf",
+        "bench/examples/RowWiseMax/native_kernels.py": "f60fafbfed766e4dffc12010b085cf9bb6363998c58bb7df38a3d315bab88f1a"
+      },
+      "source_note": "New Python from independent public mathematical specifications, not recovered historical Python. Native dtype/cast semantics are explicit and the actual programs are re-proved with the existing IO scopes and numerical domains. Candidate inlines the reduction result into the store, retaining the separate typed load; the old untyped full load-inlining form is not claimed to be preserved.",
+      "mathematical_spec_sha256": {
+        "bench/examples/RowWiseMax/Correct.lean": "22a19971808eb920ade151e7258f9893053674200417f75c6bd9208a7f4162b3"
+      }
+    },
+    "RowWiseSum": {
+      "name": "RowWiseSum",
+      "kind": "example",
+      "python": "bench/examples/RowWiseSum/native_kernels.py",
+      "lean": "bench/examples/RowWiseSum/Kernels.lean",
+      "source_provenance": "spec_derived_native_source",
+      "lean_screen": {
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 7,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 0
+      },
+      "python_jits": [
+        {
+          "function": "rowWiseSumKernel",
+          "line": 14,
+          "statements": 5,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "reversedKernel",
+          "line": 23,
+          "statements": 5,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "rowWiseSumKernel",
+          "lean_definition": "rowWiseSumKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "nCol": "nCol"
+          },
+          "statements": 5,
+          "runtime_parameters": {
+            "nCol": "i64"
+          },
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/RowWiseSum/native_kernels.py",
+          "lean": "bench/examples/RowWiseSum/Kernels.lean"
+        },
+        {
+          "python_function": "reversedKernel",
+          "lean_definition": "reversedKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "integer_per_call_specialization",
+          "call_bindings": {
+            "nCol": "nCol"
+          },
+          "statements": 5,
+          "runtime_parameters": {
+            "nCol": "i64"
+          },
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/RowWiseSum/native_kernels.py",
+          "lean": "bench/examples/RowWiseSum/Kernels.lean"
+        }
+      ],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
+      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
+      "status": "spec_derived_body_copy_checked",
+      "source_sha256": {
+        "bench/examples/RowWiseSum/Correct.lean": "3adf6b0c7d85e0169eafd435ffbf960c1f0c7a6255ed3ba63f82b1e40a671067",
+        "bench/examples/RowWiseSum/Kernels.lean": "ee5e07d3a8649eb4a312466407046061929c18237f5a5f0b157c43388d18c78d",
+        "bench/examples/RowWiseSum/jit-correspondence.json": "e9800ab53baa31767a082186c201190e2fc0c8cb5202194eda836be55a555447",
+        "bench/examples/RowWiseSum/native_kernels.py": "a049174ebfaacd39e214c512a6134bcc2cfea04419dd0eedef4cfb174152e9c4"
+      },
+      "source_note": "New Python from independent public mathematical specifications, not recovered historical Python. Native dtype/cast semantics are explicit and the actual programs are re-proved with the existing IO scopes and numerical domains.",
+      "mathematical_spec_sha256": {
+        "bench/examples/RowWiseSum/Correct.lean": "3adf6b0c7d85e0169eafd435ffbf960c1f0c7a6255ed3ba63f82b1e40a671067"
+      }
+    },
+    "SoftmaxReciprocal": {
+      "name": "SoftmaxReciprocal",
+      "kind": "example",
+      "python": "bench/examples/SoftmaxReciprocal/native_kernels.py",
+      "lean": "bench/examples/SoftmaxReciprocal/Kernels.lean",
+      "source_provenance": "spec_derived_native_source",
+      "lean_screen": {
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 7,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 0
+      },
+      "python_jits": [
+        {
+          "function": "stableSoftmaxKernel",
+          "line": 14,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "softmaxRecipKernel",
+          "line": 26,
+          "statements": 9,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "stableSoftmaxKernel",
+          "lean_definition": "stableSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/SoftmaxReciprocal/native_kernels.py",
+          "lean": "bench/examples/SoftmaxReciprocal/Kernels.lean"
+        },
+        {
+          "python_function": "softmaxRecipKernel",
+          "lean_definition": "softmaxRecipKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 9,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/SoftmaxReciprocal/native_kernels.py",
+          "lean": "bench/examples/SoftmaxReciprocal/Kernels.lean"
+        }
+      ],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
+      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
+      "status": "spec_derived_body_copy_checked",
+      "source_sha256": {
+        "bench/examples/SoftmaxReciprocal/Correct.lean": "ee93d198daa4ff1f8737d963d49a6a053cd8d76ed2cc465cd5920e71df98923c",
+        "bench/examples/SoftmaxReciprocal/Kernels.lean": "9c55edfcb63c9bd5d927f0ca19358929f1be6df0d285ff75a56b9564173feac6",
+        "bench/examples/SoftmaxReciprocal/jit-correspondence.json": "89c87694eaf0c39301052f35ae00303bbc00e9246c3bd76dd627dd46738b0e9a",
+        "bench/examples/SoftmaxReciprocal/native_kernels.py": "9d7c5324e4275758a3af7c8ec03bd011e1e1a7adc5f18d0d53fe814535526cc6"
+      },
+      "source_note": "New native Python authored from the independent mathematical specifications; not recovered historical source. Existing candidate transformation and FP numerical conditions retained. See native_kernels.py and full-program SourcePreservation proofs.",
+      "mathematical_spec_sha256": {
+        "bench/examples/SoftmaxReciprocal/Correct.lean": "ee93d198daa4ff1f8737d963d49a6a053cd8d76ed2cc465cd5920e71df98923c"
+      }
+    },
+    "SoftmaxStable": {
+      "name": "SoftmaxStable",
+      "kind": "example",
+      "python": "bench/examples/SoftmaxStable/native_kernels.py",
+      "lean": "bench/examples/SoftmaxStable/Kernels.lean",
+      "source_provenance": "spec_derived_native_source",
+      "lean_screen": {
+        "quotations": 2,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 5,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 0
+      },
+      "python_jits": [
+        {
+          "function": "naiveSoftmaxKernel",
+          "line": 13,
+          "statements": 7,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "stableSoftmaxKernel",
+          "line": 24,
+          "statements": 8,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "naiveSoftmaxKernel",
+          "lean_definition": "naiveSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "B"
+          ],
+          "python": "bench/examples/SoftmaxStable/native_kernels.py",
+          "lean": "bench/examples/SoftmaxStable/Kernels.lean"
+        },
+        {
+          "python_function": "stableSoftmaxKernel",
+          "lean_definition": "stableSoftmaxKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "B"
+          ],
+          "python": "bench/examples/SoftmaxStable/native_kernels.py",
+          "lean": "bench/examples/SoftmaxStable/Kernels.lean"
+        }
+      ],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
+      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
+      "status": "spec_derived_body_copy_checked",
+      "source_sha256": {
+        "bench/examples/SoftmaxStable/Correct.lean": "cdcec2bfc841c1ed9649d9c9f899d86947479cc48aab447a9dd7304cc9a4b22d",
+        "bench/examples/SoftmaxStable/Kernels.lean": "dd97ee75a7f8714a16f4a8adf7c4bab701ff6b20ce556e4d8e5a70f3948c4c44",
+        "bench/examples/SoftmaxStable/jit-correspondence.json": "237a00a06da6e7bd0ee39e5dadc16da0f52c03f4d2fa72dabf9143e11115b045",
+        "bench/examples/SoftmaxStable/native_kernels.py": "5953fe655ca8c08898f65a9d38e567cac54ab7c6eb8482d5ddc28ee0d547c3c2"
+      },
+      "source_note": "New native Python from the independent mathematical specifications. No historical source is claimed. The existing transforms and numerical-rule domains are retained and rebound to the FP32 reads in actual source execution.",
+      "mathematical_spec_sha256": {
+        "bench/examples/SoftmaxStable/Correct.lean": "cdcec2bfc841c1ed9649d9c9f899d86947479cc48aab447a9dd7304cc9a4b22d"
+      }
+    },
+    "StableLogSumExp": {
+      "name": "StableLogSumExp",
+      "kind": "example",
+      "python": "bench/examples/StableLogSumExp/native_kernels.py",
+      "lean": "bench/examples/StableLogSumExp/Kernels.lean",
+      "source_provenance": "spec_derived_native_source",
+      "lean_screen": {
+        "quotations": 3,
+        "in_body_type_directives": 0,
+        "antiquotes": 0,
+        "dsl_assignment": 6,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0,
+        "load_dtype_extension": 0
+      },
+      "python_jits": [
+        {
+          "function": "directLSEKernel",
+          "line": 15,
+          "statements": 7,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "stableLSEKernel",
+          "line": 26,
+          "statements": 8,
+          "explicit_int64_casts": []
+        },
+        {
+          "function": "optimizedLSEKernel",
+          "line": 38,
+          "statements": 16,
+          "explicit_int64_casts": []
+        }
+      ],
+      "checked_pairs": [
+        {
+          "python_function": "directLSEKernel",
+          "lean_definition": "directLSEKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 7,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/StableLogSumExp/native_kernels.py",
+          "lean": "bench/examples/StableLogSumExp/Kernels.lean"
+        },
+        {
+          "python_function": "stableLSEKernel",
+          "lean_definition": "stableLSEKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 8,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/StableLogSumExp/native_kernels.py",
+          "lean": "bench/examples/StableLogSumExp/Kernels.lean"
+        },
+        {
+          "python_function": "optimizedLSEKernel",
+          "lean_definition": "optimizedLSEKernel",
+          "status": "PASS",
+          "mode": "pasted_body",
+          "argument_mode": "runtime_registers",
+          "call_bindings": null,
+          "statements": 16,
+          "runtime_parameters": {},
+          "constexpr_parameters": [
+            "blockSize"
+          ],
+          "python": "bench/examples/StableLogSumExp/native_kernels.py",
+          "lean": "bench/examples/StableLogSumExp/Kernels.lean"
+        }
+      ],
+      "uncovered_selected_jits": [],
+      "int64_screen": "inconclusive",
+      "body_copy_scope": "selected Python file and every explicitly declared correspondence pair",
+      "status": "spec_derived_body_copy_checked",
+      "source_sha256": {
+        "bench/examples/StableLogSumExp/Correct.lean": "907cf6eb1aa044d3802fb42cb6934f198099169bd778319d4bd2684b3822e637",
+        "bench/examples/StableLogSumExp/Kernels.lean": "87ba0d66fe2b96272b9153c62646a511148906c1d89ecf8d2f096b6985c5b88d",
+        "bench/examples/StableLogSumExp/jit-correspondence.json": "b4eab220c771a071f04aefbd633376d24d29af340e94144f7db3e3651ea056ac",
+        "bench/examples/StableLogSumExp/native_kernels.py": "ea294807d691f0ca5de4d5d12b7ed2d85d233a21d231c0ba1c5173ad0cb970c7"
+      },
+      "source_note": "New native Python from the independent mathematical specifications. No historical source is claimed. The existing transforms and numerical-rule domains are retained and rebound to the FP32 reads in actual source execution.",
+      "mathematical_spec_sha256": {
+        "bench/examples/StableLogSumExp/Correct.lean": "907cf6eb1aa044d3802fb42cb6934f198099169bd778319d4bd2684b3822e637"
+      }
+    }
+  },
+  "new_source_authorization": "User explicitly approved creating Python from independent mathematical specifications where no historical original is traceable, migrating the bodies, re-proving them and clearly identifying the new origin.",
+  "example_scope_notes": {
+    "RowWiseMax": "Make the new FP32 source explicit and inline the reduction result into the store while retaining a separate typed load. The old untyped load-inlining candidate is not claimed preserved. Reprove both complete programs and their original independent max target/IO scope.",
+    "FloatDTypeAdd": "Replace the Lean-only round_to helper with native to(float32). Reprove the Real projection and contextual strict addition equivalence; do not claim old round channel equals cast channel.",
+    "SoftmaxStable_and_StableLogSumExp": "Bind actual FP32 reads and explicit arithmetic tags. Rebind all finite/nonzero/intermediate schedule conditions to FP32-loaded values. Preserve libdevice.exp, tl.log, fallback branches, BF16 outputs, numerical rules and independent Real goals. Preserve and replay the countermodel refuting unconditional LSE shift.",
+    "LogExp_SoftmaxReciprocal_FloatDTypeSoftmax": "Complete old/new kernel equalities hold. Proof-only prefixes moved to Proofs and connected to full authoritative sources. FP64 tl.exp remains the original intrinsic (Triton v3.5.1 primary language source accepts fp64)."
+  },
+  "source_pairs": {
+    "status": "PASS",
+    "total": 60,
+    "pasted": 55,
+    "legacy": 5
+  },
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 486,
+      "jobs": 9261
+    },
+    "new_directories": {
+      "status": "PASS",
+      "modules": 140,
+      "jobs": 3710
+    },
+    "clean_checkout": {
+      "status": "PASS",
+      "code_commit": "478603ecc01546f8d6eb46f85191f2a6d466ae60",
+      "explicit_modules": 486,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_external_packages_reused": true,
+      "jobs": 9261
+    },
+    "additional_shared_frontend_regression": {
+      "status": "PASS",
+      "selected_modules": 2,
+      "scope": "kv_cache_filling selected KernelOnly Real/FP plus additional legacy entry replay; separate local and cold-checkout logs"
+    },
+    "joint_import": "PASS: initial 486 modules imported together",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 32
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 277,
+      "errors": 1,
+      "reason": "test_exact_numerical_bindings import rejects an older receipt hash for unchanged VeriTile/Triton/Float/Structural.lean; prior clean baseline reproduction retained. No receipt was falsely re-pinned."
+    },
+    "official_comparator": "UNAVAILABLE: actual invocation reports required comparator setup failure; no PASS.",
+    "gpu_or_native_experiment": "Not run. No new numerical rules or axioms."
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/source-closure.json",
+    "sha256": "02835353dcef2d7db3b8ebee7264f0ca7e0b83646467053656910c32dc26413a"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 17,
+      "uncovered_jit_functions": 163
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "no_independent_python_reference": 7,
+      "selected_body_copy_checked": 1,
+      "spec_derived_body_copy_checked": 8,
+      "uncovered_jit_functions": 1
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 299,
+    "primary_files_with_int64_screen_warning": 44,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 132,
+        "antiquotes": 145,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 8,
+        "dsl_loop": 3,
+        "dsl_numeric_helpers": 2
+      }
+    }
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/modules.json",
+      "sha256": "ed7242ea515cc79c8cd1fdcd4ce8bb61259c07c367eefd0855d5590d70756d50"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/pairs.json",
+      "sha256": "42c19fea8d5bec477b2117603a6381aa57cc0c94059be2fac175f9bb5c004386"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/integration.log.gz",
+      "sha256": "87116c962394f91b460b586999a2a68160e853c5214fd199d27454e3f81eccf4"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-build.log.gz",
+      "sha256": "330a5f1ee3842cf8c3982a91f2ad3d19d1f824ebe53f702c11230e4c080a36ec"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/new-directories.log.gz",
+      "sha256": "0a5f067a0ee7af5558d56c0af1ebfd980d499c504a6d7446bc4b3e1092f8bb21"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/lion-regression.log.gz",
+      "sha256": "00d924d1a2219b471f525a8ec7696ada4f353af52b2ccd5215b1378258e6f235"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/python-tests.log",
+      "sha256": "a228424ffb938ce9774bb927b4b632daa130b8179f00d70aa86d85f41a69bbbb"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/all-python-tests.log.gz",
+      "sha256": "6cb99cad3b03c2967f21d12429119f74df74b766824003f7ebacd66f27bcfce0"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/preexisting-numerical-baseline.log",
+      "sha256": "0caaccadc433b698c721f6b138279b717c27061c2ccac93025d27a6bd6d1116f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/clean-setup.log",
+      "sha256": "c4cf3891f9846ac16a61e1270d1053f132915cefc33d691a8b7ab596b1885604"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/joint.lean",
+      "sha256": "e20e6291a413a2ee3f466e8506cd47f755932ceb4f3aa1d7854edebb97a29fdd"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/kv-selected.log.gz",
+      "sha256": "baa7422d2340fcd7044c33a317b9b6e615cb8e984c266a00b29e1e992886f052"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/kv-selected-clean.log.gz",
+      "sha256": "70b2290b28b1676456f69f5a5c19ede83754cfc060d4a798ad8df72ff8551b7f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/kv-legacy.log.gz",
+      "sha256": "67c8bbcb8cf350f153400a455464f81d84d0ad9c8751605a0254422d2d6615c5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/loops-and-spec-derived-sources/kv-legacy-clean.log.gz",
+      "sha256": "847b8030091c8e734866ec85d984ae7131d1d47ce2c8d39ba91f9ba8601c90db"
+    }
+  ]
+}
