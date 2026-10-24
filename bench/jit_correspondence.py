@@ -13,6 +13,7 @@ import difflib
 import json
 from pathlib import Path
 import re
+import textwrap
 
 from bench.audit_source import lean_code_mask, strip_lean_comments
 
@@ -166,13 +167,22 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
     if len(functions) != 1 or not any(ast.unparse(d) == "triton.jit" for d in functions[0].decorator_list):
         raise ValueError("expected one explicitly selected @triton.jit function")
     function = functions[0]
-    constants = {a.arg for a in function.args.args
-                 if a.annotation is not None and ast.unparse(a.annotation) == "tl.constexpr"}
+    def annotation(argument):
+        value = argument.annotation
+        if isinstance(value, ast.Constant) and isinstance(value.value, str):
+            return value.value
+        return ast.unparse(value) if value is not None else None
+
+    if function.args.posonlyargs or function.args.kwonlyargs or function.args.vararg or function.args.kwarg:
+        raise ValueError("unsupported Python call signature")
+    constants = {a.arg for a in function.args.args if annotation(a) == "tl.constexpr"}
     runtime = {a.arg: ast.unparse(a.annotation) for a in function.args.args
                if a.annotation is not None and a.arg not in constants}
     signature, body = quotation(lean_text, lean_definition)
     profile = None
     if signature_definition is not None:
+        if expected_signature is None:
+            raise ValueError("pasted body requires an independently reviewed call signature")
         if re.search(r"\btl\.(region|param)\b|\$", body):
             raise ValueError("pasted body must not contain metadata directives or Lean antiquotes")
         if not re.search(r"\bwith_triton_signature\s+" + re.escape(signature_definition) + r"\s+in\b", signature):
@@ -183,24 +193,43 @@ def check(python_text: str, lean_text: str, python_function: str, lean_definitio
         names = {n for n, _ in profile["pointers"] + profile["scalars"]} | set(profile["constexpr"])
         if names != {a.arg for a in function.args.args} or set(profile["constexpr"]) != constants:
             raise ValueError("Python parameters and call signature differ")
-        scalar_types = {"fp32": "tl.float32", "fp64": "tl.float64", "integer": "tl.int64"}
-        supplied = {n: scalar_types[t] for n, t in profile["scalars"]}
-        if any(supplied.get(n) != t for n, t in runtime.items()):
-            raise ValueError("runtime scalar annotation differs from call signature")
-    statements, parameters = source_statements(body, constants)
-    if parameters != runtime:
+        # `integer` is intentionally unbounded; it cannot certify an explicit
+        # int32/int64 ABI annotation. Pointer annotations are not scalar args.
+        scalar_types = {"fp32": "tl.float32", "fp64": "tl.float64"}
+        supplied = {n: scalar_types.get(t) for n, t in profile["scalars"]}
+        pointer_names = {n for n, _ in profile["pointers"]}
+        for arg in function.args.args:
+            t = annotation(arg)
+            if t is None or arg.arg in constants:
+                continue
+            if arg.arg in pointer_names and t == "tl.tensor":
+                continue
+            if supplied.get(arg.arg) != t:
+                raise ValueError("runtime scalar annotation differs from call signature")
+    if profile is not None:
+        # Parse the pasted body as Python directly: braces, Lean assignment
+        # syntax and other legacy spelling changes cannot become a copy pass.
+        statements, parameters = ast.parse(textwrap.dedent(body)).body, {}
+    else:
+        statements, parameters = source_statements(body, constants)
+    if profile is None and parameters != runtime:
         raise ValueError(f"runtime signature mismatch: Python {runtime}; Lean {parameters}")
     for name in constants:
         if not re.search(r"\b" + re.escape(name) + r"\b", signature):
             raise ValueError(f"missing constexpr binder: {name}")
-    left = ShapeSpelling().visit(ast.Module(copy.deepcopy(function.body), []))
-    right = ShapeSpelling().visit(ast.Module(statements, []))
+    left = ast.Module(copy.deepcopy(function.body), [])
+    right = ast.Module(statements, [])
+    # The legacy mode permits the documented shape spelling adaptations.
+    # Body-copy mode preserves the actual Python expressions unchanged.
+    if profile is None:
+        left, right = ShapeSpelling().visit(left), ShapeSpelling().visit(right)
     if ast.dump(left) != ast.dump(right):
         diff = "\n".join(difflib.unified_diff(ast.unparse(left).splitlines(),
                         ast.unparse(right).splitlines(), fromfile="Python JIT", tofile="Lean JIT", lineterm=""))
         raise ValueError("statement correspondence mismatch:\n" + diff)
     return {"python_function": python_function, "lean_definition": lean_definition,
-            "status": "PASS", "statements": len(function.body),
+            "status": "PASS", "mode": "pasted_body" if profile is not None else "legacy_ast",
+            "statements": len(function.body),
             "runtime_parameters": dict(profile["scalars"]) if profile is not None else runtime, "constexpr_parameters": sorted(constants)}
 
 

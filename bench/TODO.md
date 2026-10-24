@@ -24,6 +24,16 @@
 
 ## Kernel 源码入口整理
 
+- [ ] **将所有选定 task 和 worked example 迁到原样 Python 函数体入口。**
+  当前 183 个 task、19 组 examples 尚未全量一致。328 个选定文件中的 JIT 函数，
+  仅 4 个有逐句对应记录，其中 dequantize 使用新入口，argmax 的三个阶段仍是旧 AST
+  模式；另有两个间接加载 Python 源码的 task 尚未解析。44 个主源码文件触发显式
+  int64 cast 筛查警告，不能把其余未触发项记为通过。examples 的 Python 来源均未
+  登记。逐项清单及迁移要求见[函数体对应检查](BodySourceCorrespondence.md)。
+  `python3 -m bench.check_body_corpus --check` 防止记录漂移；完整验收另加
+  `--require-complete`，当前应失败。每题迁移保留精度、转换、分支、mask、语句顺序，
+  并证明新旧完整程序相等或明确的执行连接，重放相关 Real/FP 公开证明后再更新状态。
+
 - [x] **处理 2026-10-22 复查确认的 92 题源码组织项。**
   已移除单 kernel 外层重建，将实际源码移出 `Proofs/`、将程序分解助手归入 `Proofs/`；保留透明共享入口与真实多阶段组合。共享 DSL 必要时用 `tl.ports inputs=[...], outputs=[...]` 保留完整有序端口，不改变计算或安全前提。92 题完整选定程序保持性与针对性源码构建通过，92 个源码入口联合导入通过；218 个选定及共享源码文件复扫，本轮所查模式剩余 0。修复前位置保留在[历史扫描](review-checkpoints/2026-10-22/direct-triton-scan/README.md)，最终证据见[修复报告](review-checkpoints/2026-10-22/direct-triton-fix/README.md)，状态只维护在 `tritonbench_g/task_progress.json`。
   90 题当前 `Correct`／`FPEquiv` 整文件 fresh 检查通过；`chunk_gla_fwd` 五个主声明逐字源码检查通过，附带审计主动停止、未宣称完成；`int_scaled_matmul` 的 fresh `FPEquiv` 保留既有 `Algebra.minimum` ABI 限制，完整源码保持和既有适用主证明证据分别记录。整题正确性验收及数值范围不变，没有新增 host、硬件或数值实验要求。
