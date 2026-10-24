@@ -1,0 +1,145 @@
+{
+  "schema": 1,
+  "status": "verified_batch_corpus_migration_incomplete",
+  "code_commit": "0f2288407f8e3073d2ec37dcdd7dc9333bd7fc8c",
+  "merge_policy": "Do not merge before explicit user review and approval.",
+  "new_task_migrations": [],
+  "new_spec_derived_examples": [
+    "FusedSiLU",
+    "FusedSwiglu"
+  ],
+  "example_semantic_review": {
+    "FusedSiLU": "New native Python from the independent residual plus SiLU(x*gate) formula, not historical recovery. Four raw JIT bodies retain every FP32 read, separate operation, both scratch tiles and BF16 final conversions. The fused source and full three-stage candidate have complete mathematical projection equalities and the unchanged independent Real formulas, successful execution, safety, output and exact frame. Native FP32 scratch rereads require an explicit word interpretation: the public FP view fixes the existing scalarFP32 software model, all configurations, all FP32 words and arbitrary identical remaining sigmoid/mixed-format callbacks. A generic identity-load lemma is discharged by definition in this public model; it is not a new public numerical assumption. A Lean theorem proves the remaining-callback model space inhabited. No finite-subset restriction, new numerical rewrite rule or hardware claim. The historical untyped all-algebra FP conclusion is not claimed for typed scratch. Historical boundary-rounding Real proofs explicitly reference a frozen legacy body.",
+    "FusedSwiglu": "New native Python from the independent masked SwiGLU formula, not historical recovery. Three complete raw JIT bodies retain FP32 inputs, BF16 intermediate and final conversions, BF16 scratch read followed by explicit FP32 promotion, and every active-lane mask. The whole fused/two-stage pair is re-proved structurally for arbitrary numerical algebras, all n/B including zero and partial tiles, entire active output cells and exact memory frames. Every X/Y input has its actual fp32Load callback, while the BF16 intermediate read introduces no extra FP32 reload. Both Real mathematical projection equalities and all independent mathematical/safety/execution/frame conclusions re-proved. No cast-idempotence premise or numerical rule introduced. Historical boundary-rounding proofs explicitly use frozen legacy source."
+  },
+  "verification": {
+    "integration": {
+      "status": "PASS",
+      "explicit_modules": 590,
+      "jobs": 9426
+    },
+    "clean_checkout": {
+      "status": "PASS",
+      "explicit_modules": 590,
+      "jobs": 9426,
+      "project_build_initially_present": false,
+      "veritile_cache_initially_present": false,
+      "only_external_packages_reused": true
+    },
+    "joint_import": "PASS: all 590 modules",
+    "targeted_python": {
+      "status": "PASS",
+      "tests": 33
+    },
+    "all_python": {
+      "status": "KNOWN_PREEXISTING_FAILURE",
+      "tests": 278,
+      "errors": 1,
+      "reason": "Unchanged Structural.lean remains rejected by an old numerical receipt; no false repin."
+    },
+    "official_comparator": "UNAVAILABLE: actual invocation reports missing setup.",
+    "gpu_or_native_experiment": "Not run. No new numerical laws or axioms."
+  },
+  "source_pairs": {
+    "total": 77,
+    "pasted_body": 72,
+    "legacy_ast": 5
+  },
+  "source_closure": {
+    "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/source-closure.json",
+    "sha256": "ee603f4a7dc334fd9ecbf3f262e05d077cbc39e8822bee36a899c7b7c4020a21"
+  },
+  "corpus_complete": false,
+  "corpus_counts": {
+    "tasks": 183,
+    "examples": 19,
+    "task_status": {
+      "legacy_ast_only": 1,
+      "no_selected_jit_resolved": 2,
+      "selected_body_copy_checked": 19,
+      "uncovered_jit_functions": 161
+    },
+    "example_status": {
+      "authored_counterpart_body_copy_checked": 2,
+      "no_independent_python_reference": 2,
+      "selected_body_copy_checked": 1,
+      "spec_derived_body_copy_checked": 13,
+      "uncovered_jit_functions": 1
+    },
+    "selected_jit_functions": 328,
+    "uncovered_selected_jit_functions": 297,
+    "primary_files_with_int64_screen_warning": 44,
+    "primary_lean_file_features": {
+      "tasks": {
+        "in_body_type_directives": 130,
+        "antiquotes": 143,
+        "dsl_loop": 1,
+        "dsl_numeric_helpers": 8
+      },
+      "examples": {
+        "in_body_type_directives": 0,
+        "antiquotes": 3,
+        "dsl_loop": 0,
+        "dsl_numeric_helpers": 0
+      }
+    }
+  },
+  "evidence": [
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/all-python-tests.log.gz",
+      "sha256": "52dafb9935a267336c119ac0a47660567bc00b96da9925c2ebb87e7fd75b1d0a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/clean-build.log.gz",
+      "sha256": "1c663a2f3fee7468a91df452cb0d3b1f464a767580e493b59eabb46482837b8f"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/clean-setup.log",
+      "sha256": "bbd2223f56ff245dc650ab3d87ca4ffee5223a9b08557ab57efcd38787379731"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/comparator.log",
+      "sha256": "94a6025973e0bd886d30f7e9f18db058772dad30b0f984e11ae9e70f7e54536b"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/formula-guard.log",
+      "sha256": "57fa42b3413cd5cb3cd021d5e279e741867547d631b69dedac365809c07669de"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/integration.log.gz",
+      "sha256": "0ccc056191cac37a89a5445287727f3f972febfdbcb81ffdbe77e180dd722f62"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/io-guard.log",
+      "sha256": "7a0a74c4333a1d20918fa16537a3fc8aadb39229163012626513cfce097d328a"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/joint.lean",
+      "sha256": "10da996cb91c64b30186ac4ce47ee9d4b42b4bccb0bfc568985b7f2bd6bbce0c"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/joint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/modules.json",
+      "sha256": "69003137ae2ef6db743712fc9647625101f50a4c6e9c1126e27f93b655d1c49d"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/pairs.json",
+      "sha256": "7136d68f08ed86572764fc9cd2856387e89318899cee222f46a8ae2d71e6e7c5"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/python-tests.log",
+      "sha256": "1fe28554553ee43b4f865f8fd8acfd2ed92070b9a4c035fac400d1ec9b2219af"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/reader-guard.log",
+      "sha256": "2797bee0cd8001d9a892f4987335e73347d1c35d5013ae85d74d44fae8991689"
+    },
+    {
+      "path": "bench/review-checkpoints/2026-10-24/native-fused-pipelines/source-closure.json",
+      "sha256": "ee603f4a7dc334fd9ecbf3f262e05d077cbc39e8822bee36a899c7b7c4020a21"
+    }
+  ]
+}
