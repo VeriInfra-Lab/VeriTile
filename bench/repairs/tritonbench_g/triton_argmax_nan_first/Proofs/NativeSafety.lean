@@ -52,7 +52,7 @@ theorem integer_first (kind : Formats.IntegerKind) (primitives : ScalarBinding.I
     TraceSafe (TypedIntegerMacro.backend kind primitives rest) bounds
       (TypedIntegerMacro.kernel X V I size block base index64) s := by
   cases index64 <;>
-    simp [TraceSafe, TypedIntegerMacro.kernel,
+    simp [TraceSafe, TypedIntegerMacro.kernel, TypedSource.stage1Integer,
       ComputeKernel.surfaceBody, Safety.traceSafeList_unfold,
       Safety.stepSafe_unfold, Safety.safeExpr_unfold, Safety.safeCompute_unfold,
       Safety.safeOp_unfold, Safety.safeAddress_unfold, Safety.safeMask_unfold,
@@ -112,7 +112,7 @@ theorem integer_second (rest : Algebra Word) (s : State Word) (V I O : Region .i
     (selected : TypedInteger.selected s V size block padding < bounds (Region.cast I))
     (output : 0 < bounds (Region.cast O)) :
     TraceSafe rest bounds (TypedInteger.stage2 V I O size block padding) s := by
-  simp [TraceSafe, TypedInteger.stage2,
+  simp [TraceSafe, TypedInteger.stage2, TypedSource.stage2Integer,
     ComputeKernel.surfaceBody, Safety.traceSafeList_unfold,
     Safety.stepSafe_unfold, Safety.safeExpr_unfold, Safety.safeCompute_unfold,
     Safety.safeOp_unfold, Safety.safeAddress_unfold, Safety.safeMask_unfold,
